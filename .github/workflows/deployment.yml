@@ -100,7 +100,12 @@ jobs:
           fi
 
       - name: build APK
-        run: flutter build apk
+        # Only build arm ABIs: the universal APK otherwise ships an x86_64
+        # toolchain (49.8 MB, 36% of the file) that no phone can run.
+        # Emulator users can use the arm64 APK on arm-translating images.
+        run: >
+          flutter build apk
+          --target-platform android-arm,android-arm64
 
       - name: build AAB
         run: flutter build appbundle
