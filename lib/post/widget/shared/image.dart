@@ -293,17 +293,18 @@ class _ImageProgressWrapperState extends State<ImageProgressWrapper> {
 Widget defaultErrorBuilder(BuildContext context, String url, dynamic error) =>
     const Center(child: Icon(Icons.warning_amber_outlined));
 
-/// The cache size of images shown in fullscreen views on android.
+/// The cache size of images shown in fullscreen views on mobile.
 ///
 /// Fullscreen images are e621 originals, which can exceed 4000px. Decoding
 /// them at full size fills the image cache of low end devices within a
 /// few posts, so their decoded size is capped. 2048px covers the physical
 /// resolution of the 1080p screens such devices usually have. Other
 /// platforms keep the uncapped fullscreen originals.
-int? get fullscreenImageCacheSize => Platform.isAndroid ? 2048 : null;
+int? get fullscreenImageCacheSize =>
+    Platform.isAndroid || Platform.isIOS ? 2048 : null;
 
 /// The maximum number of pixels a decoded fullscreen image may occupy on
-/// android.
+/// mobile.
 ///
 /// The one dimensional [fullscreenImageCacheSize] limit alone lets extreme
 /// aspect ratios decode to 25-30 MB, more than a 32 bit device's image
@@ -311,7 +312,8 @@ int? get fullscreenImageCacheSize => Platform.isAndroid ? 2048 : null;
 /// redecoded whenever they scroll back into view. A pixel budget caps
 /// every fullscreen image equally. Other platforms keep the uncapped
 /// fullscreen originals.
-int? get fullscreenImageMaxPixels => Platform.isAndroid ? 2048 * 2048 : null;
+int? get fullscreenImageMaxPixels =>
+    Platform.isAndroid || Platform.isIOS ? 2048 * 2048 : null;
 
 class ImageCacheSize {
   /// Configures the cache size for images.

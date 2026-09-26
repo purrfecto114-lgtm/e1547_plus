@@ -13,9 +13,10 @@ void main() {
 // megabytes each. On Android 7 devices, especially those running 32 bit
 // builds, the default cache of 1000 images and 100 MB grows past what the
 // OS low memory killer tolerates, which silently discards the process
-// without any Dart-level error to show for it.
-// Only Android is capped: its old, low end devices are the ones dying,
-// other platforms are left at Flutter's defaults.
+// without any Dart-level error to show for it. iOS kills equally greedy
+// apps through Jetsam, so its 64 bit devices get the same cap as Android's.
+// Desktop platforms have swap space and no such killer, they keep
+// Flutter's defaults.
 void _limitImageCache() {
   ImageCache cache = PaintingBinding.instance.imageCache;
   switch (Abi.current()) {
@@ -29,6 +30,7 @@ void _limitImageCache() {
     case Abi.androidArm64:
     case Abi.androidX64:
     case Abi.androidRiscv64:
+    case Abi.iosArm64:
       cache.maximumSize = 500;
       cache.maximumSizeBytes = 64 << 20;
     default:
