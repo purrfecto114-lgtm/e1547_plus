@@ -27,6 +27,14 @@ class Settings extends NotifiedSettings {
     values: AppTheme.values,
   );
 
+  /// The app language, stored as a locale string.
+  ///
+  /// A null value follows the system language.
+  late final ValueNotifier<String?> language = createSetting<String?>(
+    key: 'language',
+    initialValue: null,
+  );
+
   late final ValueNotifier<int> tileSize = createSetting(
     key: 'tileSize',
     initialValue: 200,

@@ -1,0 +1,8 @@
+{
+  "@@locale": "zh_Hant",
+  "appName": "e1547",
+  "@appName": {
+    "description": "The app name.",
+    "placeholders": {}
+  }
+}

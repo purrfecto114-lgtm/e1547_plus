@@ -164,6 +164,52 @@ class SettingsPage extends StatelessWidget {
                   },
                 ),
               ),
+              ValueListenableBuilder<String?>(
+                valueListenable: settings.language,
+                builder: (context, value, child) => ListTile(
+                  title: const Text('Language'),
+                  subtitle: Text(
+                    value == null
+                        ? 'System default'
+                        : appLanguages
+                              .firstWhere((e) => e.value == value)
+                              .label,
+                  ),
+                  leading: const Icon(Icons.translate),
+                  onTap: () {
+                    showDialog(
+                      context: context,
+                      builder: (context) => SimpleDialog(
+                        title: const Text('Language'),
+                        children: [
+                          ListTile(
+                            title: const Text('System default'),
+                            trailing: value == null
+                                ? const Icon(Icons.check)
+                                : null,
+                            onTap: () {
+                              settings.language.value = null;
+                              Navigator.of(context).maybePop();
+                            },
+                          ),
+                          ...appLanguages.map(
+                            (language) => ListTile(
+                              title: Text(language.label),
+                              trailing: value == language.value
+                                  ? const Icon(Icons.check)
+                                  : null,
+                              onTap: () {
+                                settings.language.value = language.value;
+                                Navigator.of(context).maybePop();
+                              },
+                            ),
+                          ),
+                        ],
+                      ),
+                    );
+                  },
+                ),
+              ),
               Column(
                 children: [
                   ValueListenableBuilder<int>(

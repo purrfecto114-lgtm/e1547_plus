@@ -2,6 +2,7 @@ import 'package:e1547/account/account.dart';
 import 'package:e1547/app/app.dart';
 import 'package:e1547/app/widget/initialize.dart';
 import 'package:e1547/follow/follow.dart';
+import 'package:e1547/l10n/app_localizations.dart';
 import 'package:e1547/logs/logs.dart';
 import 'package:e1547/onboarding/onboarding.dart';
 import 'package:e1547/settings/settings.dart';
@@ -47,49 +48,92 @@ class App extends StatelessWidget {
                         const SystemUiOverlayStyle(),
                     child: SubValue<GlobalKey<NavigatorState>>(
                       create: () => GlobalKey<NavigatorState>(),
-                      builder: (context, navigatorKey) => MaterialApp(
-                        title: AppInfo.instance.appName,
-                        theme: themeData,
-                        scrollBehavior: AndroidStretchScrollBehaviour(),
-                        localizationsDelegates: const [
-                          GlobalWidgetsLocalizations.delegate,
-                          GlobalMaterialLocalizations.delegate,
-                          GlobalCupertinoLocalizations.delegate,
-                          RelativeTimeLocalizations.delegate,
-                        ],
-                        navigatorKey: navigatorKey,
-                        navigatorObservers: [
-                          context.watch<AnyRouteObserver>(),
-                          RouteLoggerObserver(),
-                          MaterialApp.createMaterialHeroController(),
-                        ],
-                        routes: context.watch<RouterDrawerController>().routes,
-                        builder: (context, child) => WindowFrame(
-                          child: WindowShortcuts(
-                            navigatorKey: navigatorKey,
-                            child: SecureDisplay(
-                              child: LockScreen(
-                                child: LoadingShell(
-                                  child: MultiProvider(
-                                    providers: [
-                                      IdentityClientProvider(),
-                                      TraitsClientProvider(),
-                                      ClientProvider(),
-                                      FileCacheProvider(),
-                                      TasksControllerProvider(),
-                                    ],
-                                    child: LoadingCore(
-                                      child: OnboardingGate(
-                                        child: AccountConnector(
-                                          navigatorKey: navigatorKey,
-                                          child: FollowConnector(
-                                            child: AppLinkHandler(
-                                              navigatorKey: navigatorKey,
-                                              child: NotificationHandler(
+                      builder: (context, navigatorKey) =>
+                          ValueListenableBuilder<String?>(
+                            valueListenable: context.watch<Settings>().language,
+                            builder: (context, language, child) => MaterialApp(
+                              title: AppInfo.instance.appName,
+                              theme: themeData,
+                              scrollBehavior: AndroidStretchScrollBehaviour(),
+                              locale: parseLanguage(language),
+                              supportedLocales:
+                                  AppLocalizations.supportedLocales,
+                              localizationsDelegates: const [
+                                ...AppLocalizations.localizationsDelegates,
+                                GlobalCupertinoLocalizations.delegate,
+                                RelativeTimeLocalizations.delegate,
+                              ],
+                              localeListResolutionCallback:
+                                  (locales, supported) {
+                                    Locale? resolved =
+                                        basicLocaleListResolution(
+                                          locales ?? const <Locale>[],
+                                          supported,
+                                        );
+                                    // Prefer the traditional script for regions
+                                    // that use it, the default resolution only
+                                    // matches the language code.
+                                    for (final locale
+                                        in locales ?? const <Locale>[]) {
+                                      if (locale.languageCode != 'zh') continue;
+                                      if (![
+                                        'TW',
+                                        'HK',
+                                        'MO',
+                                      ].contains(locale.countryCode)) {
+                                        continue;
+                                      }
+                                      const Locale traditional =
+                                          Locale.fromSubtags(
+                                            languageCode: 'zh',
+                                            scriptCode: 'Hant',
+                                          );
+                                      if (supported.contains(traditional)) {
+                                        return traditional;
+                                      }
+                                    }
+                                    return resolved;
+                                  },
+                              navigatorKey: navigatorKey,
+                              navigatorObservers: [
+                                context.watch<AnyRouteObserver>(),
+                                RouteLoggerObserver(),
+                                MaterialApp.createMaterialHeroController(),
+                              ],
+                              routes: context
+                                  .watch<RouterDrawerController>()
+                                  .routes,
+                              builder: (context, child) => WindowFrame(
+                                child: WindowShortcuts(
+                                  navigatorKey: navigatorKey,
+                                  child: SecureDisplay(
+                                    child: LockScreen(
+                                      child: LoadingShell(
+                                        child: MultiProvider(
+                                          providers: [
+                                            IdentityClientProvider(),
+                                            TraitsClientProvider(),
+                                            ClientProvider(),
+                                            FileCacheProvider(),
+                                            TasksControllerProvider(),
+                                          ],
+                                          child: LoadingCore(
+                                            child: OnboardingGate(
+                                              child: AccountConnector(
                                                 navigatorKey: navigatorKey,
-                                                child: AppBubbleOverlay(
-                                                  navigatorKey: navigatorKey,
-                                                  child: child!,
+                                                child: FollowConnector(
+                                                  child: AppLinkHandler(
+                                                    navigatorKey: navigatorKey,
+                                                    child: NotificationHandler(
+                                                      navigatorKey:
+                                                          navigatorKey,
+                                                      child: AppBubbleOverlay(
+                                                        navigatorKey:
+                                                            navigatorKey,
+                                                        child: child!,
+                                                      ),
+                                                    ),
+                                                  ),
                                                 ),
                                               ),
                                             ),
@@ -102,8 +146,6 @@ class App extends StatelessWidget {
                               ),
                             ),
                           ),
-                        ),
-                      ),
                     ),
                   ),
                 );
