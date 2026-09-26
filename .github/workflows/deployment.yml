@@ -285,10 +285,13 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: write
+    env:
+      # Secrets cannot be referenced directly in step if-conditions.
+      HAS_PUBLISHER: ${{ secrets.PUBLISHER_APP_ID != '' && secrets.PUBLISHER_PRIVATE_KEY != '' }}
     steps:
       - name: mint publisher token
         id: publisher
-        if: ${{ secrets.PUBLISHER_APP_ID != '' && secrets.PUBLISHER_PRIVATE_KEY != '' }}
+        if: ${{ env.HAS_PUBLISHER == 'true' }}
         uses: actions/create-github-app-token@v3
         with:
           app-id: ${{ secrets.PUBLISHER_APP_ID }}
@@ -442,6 +445,8 @@ jobs:
     runs-on: ubuntu-latest
     env:
       DMARK_VERSION: '2.0.0'
+      # Secrets cannot be referenced directly in step if-conditions.
+      HAS_FORUM_SECRETS: ${{ secrets.E621_FORUM_USER != '' && secrets.E621_FORUM_API_KEY != '' }}
     steps:
       - name: setup actions
         uses: actions/checkout@v7
@@ -534,7 +539,7 @@ jobs:
           } > body.dtext
 
       - name: post to e621 forum
-        if: ${{ secrets.E621_FORUM_USER != '' && secrets.E621_FORUM_API_KEY != '' }}
+        if: ${{ env.HAS_FORUM_SECRETS == 'true' }}
         env:
           E621_FORUM_USER: ${{ secrets.E621_FORUM_USER }}
           E621_FORUM_API_KEY: ${{ secrets.E621_FORUM_API_KEY }}
