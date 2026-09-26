@@ -120,7 +120,7 @@ class _ThemeSwatch extends StatelessWidget {
                   : null,
             ),
             const SizedBox(height: 8),
-            Text(theme.name),
+            Text(localizedThemeName(context, theme)),
           ],
         ),
       ),

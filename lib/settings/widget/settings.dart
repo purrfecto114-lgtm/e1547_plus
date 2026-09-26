@@ -1,10 +1,10 @@
 import 'dart:async';
 import 'dart:io';
-
 import 'package:e1547/app/app.dart';
 import 'package:e1547/client/client.dart';
 import 'package:e1547/follow/follow.dart';
 import 'package:e1547/identity/identity.dart';
+import 'package:e1547/l10n/app_localizations.dart';
 import 'package:e1547/logs/logs.dart';
 import 'package:e1547/settings/settings.dart';
 import 'package:e1547/shared/shared.dart';
@@ -19,7 +19,9 @@ class SettingsPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Consumer<Settings>(
       builder: (context, settings, child) => Scaffold(
-        appBar: const DefaultAppBar(title: Text('Settings')),
+        appBar: DefaultAppBar(
+          title: Text(AppLocalizations.of(context).settingsTitle),
+        ),
         body: LimitedWidthLayout.builder(
           builder: (context) => ListView(
             primary: true,
@@ -27,9 +29,9 @@ class SettingsPage extends StatelessWidget {
               LimitedWidthLayout.of(context).padding,
             ),
             children: [
-              const SectionHeader(
+              SectionHeader(
                 indent: SectionHeader.listTileIndent,
-                title: 'Account',
+                title: AppLocalizations.of(context).sectionAccount,
               ),
               Consumer<IdentityClient>(
                 builder: (context, client, child) => IdentityTile(
@@ -44,19 +46,26 @@ class SettingsPage extends StatelessWidget {
                 ),
               ),
               const Divider(),
-              const SectionHeader(
+              SectionHeader(
                 indent: SectionHeader.listTileIndent,
-                title: 'User',
+                title: AppLocalizations.of(context).sectionUser,
               ),
               Consumer<Client>(
                 builder: (context, client, child) => ValueListenableBuilder(
                   valueListenable: client.traits,
                   builder: (context, traits, child) => ListTile(
-                    title: const Text('Blacklist'),
+                    title: Text(AppLocalizations.of(context).settingsBlacklist),
                     leading: const Icon(Icons.block),
                     subtitle: traits.denylist.isNotEmpty
                         ? Text(
-                            '${traits.denylist.join(' ').split(' ').trim().where((e) => e[0] != '-').length} tags blocked',
+                            AppLocalizations.of(context).tagsBlocked(
+                              traits.denylist
+                                  .join(' ')
+                                  .split(' ')
+                                  .trim()
+                                  .where((e) => e[0] != '-')
+                                  .length,
+                            ),
                           )
                         : null,
                     onTap: () => Navigator.pushNamed(context, '/blacklist'),
@@ -68,9 +77,13 @@ class SettingsPage extends StatelessWidget {
                   create: () => client.follows.count().streamed,
                   keys: [client],
                   builder: (context, snapshot) => ListTile(
-                    title: const Text('Follows'),
+                    title: Text(AppLocalizations.of(context).settingsFollows),
                     subtitle: snapshot.data != null && snapshot.data != 0
-                        ? Text('${snapshot.data} searches followed')
+                        ? Text(
+                            AppLocalizations.of(
+                              context,
+                            ).searchesFollowed(snapshot.data!),
+                          )
                         : null,
                     leading: const Icon(Icons.person_add),
                     onTap: () => Navigator.push(
@@ -93,9 +106,15 @@ class SettingsPage extends StatelessWidget {
                       builder: (context, traits, child) {
                         bool enabled = traits.writeHistory ?? true;
                         return DividerListTile(
-                          title: const Text('History'),
+                          title: Text(
+                            AppLocalizations.of(context).settingsHistory,
+                          ),
                           subtitle: enabled && count != null
-                              ? Text('$count pages visited')
+                              ? Text(
+                                  AppLocalizations.of(
+                                    context,
+                                  ).pagesVisited(count),
+                                )
                               : null,
                           leading: const Icon(Icons.history),
                           onTap: () => Navigator.pushNamed(context, '/history'),
@@ -117,28 +136,30 @@ class SettingsPage extends StatelessWidget {
                 ),
               ),
               const Divider(),
-              const SectionHeader(
+              SectionHeader(
                 indent: SectionHeader.listTileIndent,
-                title: 'Appearance',
+                title: AppLocalizations.of(context).sectionAppearance,
               ),
               ValueListenableBuilder<AppTheme>(
                 valueListenable: settings.theme,
                 builder: (context, value, child) => ListTile(
-                  title: const Text('Theme'),
-                  subtitle: Text(value.name),
+                  title: Text(AppLocalizations.of(context).settingsTheme),
+                  subtitle: Text(localizedThemeName(context, value)),
                   leading: const Icon(Icons.brightness_6),
                   onTap: () {
                     showDialog(
                       context: context,
                       builder: (context) => SimpleDialog(
-                        title: const Text('Theme'),
+                        title: Text(AppLocalizations.of(context).settingsTheme),
                         children: [
                           Column(
                             mainAxisSize: MainAxisSize.min,
                             children: AppTheme.values
                                 .map(
                                   (theme) => ListTile(
-                                    title: Text(theme.name),
+                                    title: Text(
+                                      localizedThemeName(context, theme),
+                                    ),
                                     trailing: Container(
                                       height: 28,
                                       width: 28,
@@ -167,10 +188,10 @@ class SettingsPage extends StatelessWidget {
               ValueListenableBuilder<String?>(
                 valueListenable: settings.language,
                 builder: (context, value, child) => ListTile(
-                  title: const Text('Language'),
+                  title: Text(AppLocalizations.of(context).settingsLanguage),
                   subtitle: Text(
                     value == null
-                        ? 'System default'
+                        ? AppLocalizations.of(context).languageSystemDefault
                         : appLanguages
                               .firstWhere((e) => e.value == value)
                               .label,
@@ -180,10 +201,16 @@ class SettingsPage extends StatelessWidget {
                     showDialog(
                       context: context,
                       builder: (context) => SimpleDialog(
-                        title: const Text('Language'),
+                        title: Text(
+                          AppLocalizations.of(context).settingsLanguage,
+                        ),
                         children: [
                           ListTile(
-                            title: const Text('System default'),
+                            title: Text(
+                              AppLocalizations.of(
+                                context,
+                              ).languageSystemDefault,
+                            ),
                             trailing: value == null
                                 ? const Icon(Icons.check)
                                 : null,
@@ -215,13 +242,17 @@ class SettingsPage extends StatelessWidget {
                   ValueListenableBuilder<int>(
                     valueListenable: settings.tileSize,
                     builder: (context, value, child) => ListTile(
-                      title: const Text('Tile size'),
+                      title: Text(
+                        AppLocalizations.of(context).settingsTileSize,
+                      ),
                       subtitle: Text(value.toString()),
                       leading: const Icon(Icons.crop),
                       onTap: () => showDialog(
                         context: context,
                         builder: (context) => RangeDialog(
-                          title: const Text('Tile size'),
+                          title: Text(
+                            AppLocalizations.of(context).settingsTileSize,
+                          ),
                           value: NumberRange(value),
                           initialMode: RangeDialogMode.exact,
                           enforceMax: false,
@@ -251,9 +282,11 @@ class SettingsPage extends StatelessWidget {
               ValueListenableBuilder<bool>(
                 valueListenable: settings.showPostInfo,
                 builder: (context, value, child) => SwitchListTile(
-                  title: const Text('Post info'),
+                  title: Text(AppLocalizations.of(context).settingsPostInfo),
                   subtitle: Text(
-                    value ? 'info on post tiles' : 'image tiles only',
+                    value
+                        ? AppLocalizations.of(context).postInfoShown
+                        : AppLocalizations.of(context).postInfoHidden,
                   ),
                   secondary: const Icon(Icons.subtitles),
                   value: value,
@@ -261,15 +294,17 @@ class SettingsPage extends StatelessWidget {
                 ),
               ),
               const Divider(),
-              const SectionHeader(
+              SectionHeader(
                 indent: SectionHeader.listTileIndent,
-                title: 'Interactions',
+                title: AppLocalizations.of(context).sectionInteractions,
               ),
               if (!Platform.isIOS)
                 ValueListenableBuilder<String?>(
                   valueListenable: settings.downloadPath,
                   builder: (context, value, child) => ListTile(
-                    title: const Text('Download location'),
+                    title: Text(
+                      AppLocalizations.of(context).settingsDownloadLocation,
+                    ),
                     subtitle: value != null
                         ? Text(Uri.decodeComponent(Uri.parse(value).path))
                         : null,
@@ -288,9 +323,13 @@ class SettingsPage extends StatelessWidget {
               ValueListenableBuilder<bool>(
                 valueListenable: settings.upvoteFavs,
                 builder: (context, value, child) => SwitchListTile(
-                  title: const Text('Upvote favorites'),
+                  title: Text(
+                    AppLocalizations.of(context).settingsUpvoteFavorites,
+                  ),
                   subtitle: Text(
-                    value ? 'upvote and favorite' : 'favorite only',
+                    value
+                        ? AppLocalizations.of(context).upvoteFavoritesOn
+                        : AppLocalizations.of(context).upvoteFavoritesOff,
                   ),
                   secondary: const Icon(Icons.arrow_upward),
                   value: value,
@@ -300,8 +339,12 @@ class SettingsPage extends StatelessWidget {
               ValueListenableBuilder<bool>(
                 valueListenable: settings.muteVideos,
                 builder: (context, value, child) => SwitchListTile(
-                  title: const Text('Video volume'),
-                  subtitle: Text(value ? 'muted' : 'with sound'),
+                  title: Text(AppLocalizations.of(context).settingsVideoVolume),
+                  subtitle: Text(
+                    value
+                        ? AppLocalizations.of(context).videoMuted
+                        : AppLocalizations.of(context).videoWithSound,
+                  ),
                   secondary: Icon(value ? Icons.volume_off : Icons.volume_up),
                   value: value,
                   onChanged: (value) => settings.muteVideos.value = value,
@@ -310,17 +353,21 @@ class SettingsPage extends StatelessWidget {
               ValueListenableBuilder<VideoResolution>(
                 valueListenable: settings.videoResolution,
                 builder: (context, value, child) => ListTile(
-                  title: const Text('Video resolution'),
-                  subtitle: Text(value.title),
+                  title: Text(
+                    AppLocalizations.of(context).settingsVideoResolution,
+                  ),
+                  subtitle: Text(value.localizedTitle(context)),
                   leading: const Icon(Icons.video_settings),
                   onTap: () => showDialog(
                     context: context,
                     builder: (context) => SimpleDialog(
-                      title: const Text('Video resolution'),
+                      title: Text(
+                        AppLocalizations.of(context).settingsVideoResolution,
+                      ),
                       children: VideoResolution.values
                           .map(
                             (resolution) => ListTile(
-                              title: Text(resolution.title),
+                              title: Text(resolution.localizedTitle(context)),
                               onTap: () {
                                 settings.videoResolution.value = resolution;
                                 Navigator.of(context).maybePop();
@@ -333,17 +380,21 @@ class SettingsPage extends StatelessWidget {
                 ),
               ),
               const Divider(),
-              const SectionHeader(
+              SectionHeader(
                 indent: SectionHeader.listTileIndent,
-                title: 'Security',
+                title: AppLocalizations.of(context).sectionSecurity,
               ),
               if (PlatformCapabilities.hasSecureDisplay)
                 ValueListenableBuilder<bool>(
                   valueListenable: settings.secureDisplay,
                   builder: (context, value, child) => SwitchListTile(
-                    title: const Text('Secure display'),
+                    title: Text(
+                      AppLocalizations.of(context).settingsSecureDisplay,
+                    ),
                     subtitle: Text(
-                      value ? 'screen protected' : 'screen visible',
+                      value
+                          ? AppLocalizations.of(context).secureDisplayOn
+                          : AppLocalizations.of(context).secureDisplayOff,
                     ),
                     secondary: const Icon(Icons.stop_screen_share_outlined),
                     value: value,
@@ -354,8 +405,14 @@ class SettingsPage extends StatelessWidget {
                 ValueListenableBuilder<bool>(
                   valueListenable: settings.incognitoKeyboard,
                   builder: (context, value, child) => SwitchListTile(
-                    title: const Text('Incognito keyboard'),
-                    subtitle: Text(value ? 'enabled' : 'disabled'),
+                    title: Text(
+                      AppLocalizations.of(context).settingsIncognitoKeyboard,
+                    ),
+                    subtitle: Text(
+                      value
+                          ? AppLocalizations.of(context).enabled
+                          : AppLocalizations.of(context).disabled,
+                    ),
                     secondary: const Icon(Icons.keyboard),
                     value: value,
                     onChanged: (value) =>
@@ -365,9 +422,11 @@ class SettingsPage extends StatelessWidget {
               ValueListenableBuilder<String?>(
                 valueListenable: settings.appPin,
                 builder: (context, value, child) => SwitchListTile(
-                  title: const Text('PIN lock'),
+                  title: Text(AppLocalizations.of(context).settingsPinLock),
                   subtitle: Text(
-                    value != null ? 'PIN enabled' : 'PIN disabled',
+                    value != null
+                        ? AppLocalizations.of(context).pinEnabled
+                        : AppLocalizations.of(context).pinDisabled,
                   ),
                   secondary: const Icon(Icons.pin),
                   value: value != null,
@@ -390,9 +449,13 @@ class SettingsPage extends StatelessWidget {
                 builder: (context, snapshot) => ValueListenableBuilder<bool>(
                   valueListenable: settings.biometricAuth,
                   builder: (context, value, child) => SwitchListTile(
-                    title: const Text('Biometric lock'),
+                    title: Text(
+                      AppLocalizations.of(context).settingsBiometricLock,
+                    ),
                     subtitle: Text(
-                      value ? 'biometrics enabled' : 'biometrics disabled',
+                      value
+                          ? AppLocalizations.of(context).biometricsEnabled
+                          : AppLocalizations.of(context).biometricsDisabled,
                     ),
                     secondary: const Icon(Icons.fingerprint),
                     value: value,
@@ -403,17 +466,23 @@ class SettingsPage extends StatelessWidget {
                 ),
               ),
               const Divider(),
-              const SectionHeader(
+              SectionHeader(
                 indent: SectionHeader.listTileIndent,
-                title: 'Development',
+                title: AppLocalizations.of(context).sectionDevelopment,
               ),
               ValueListenableBuilder<bool>(
                 valueListenable: settings.showDev,
                 builder: (context, value, child) {
                   if (!value) return const SizedBox();
                   return SwitchListTile(
-                    title: const Text('Developer mode'),
-                    subtitle: Text(value ? 'options shown' : 'options hidden'),
+                    title: Text(
+                      AppLocalizations.of(context).settingsDeveloperMode,
+                    ),
+                    subtitle: Text(
+                      value
+                          ? AppLocalizations.of(context).devOptionsShown
+                          : AppLocalizations.of(context).devOptionsHidden,
+                    ),
                     secondary: const Icon(Icons.bug_report),
                     value: value,
                     onChanged: (value) => settings.showDev.value = value,
@@ -424,10 +493,14 @@ class SettingsPage extends StatelessWidget {
                 Consumer<LogErrors>(
                   builder: (context, errors, child) => ListTile(
                     leading: const Icon(Icons.format_list_numbered),
-                    title: const Text('Logs'),
+                    title: Text(AppLocalizations.of(context).settingsLogs),
                     subtitle: errors.isEmpty
                         ? null
-                        : Text('${errors.length} errors logged'),
+                        : Text(
+                            AppLocalizations.of(
+                              context,
+                            ).errorsLogged(errors.length),
+                          ),
                     onTap: () => Navigator.of(context).push(
                       MaterialPageRoute(builder: (context) => const LogsPage()),
                     ),
@@ -435,7 +508,7 @@ class SettingsPage extends StatelessWidget {
                 ),
                 ListTile(
                   leading: const Icon(Icons.storage),
-                  title: const Text('Database'),
+                  title: Text(AppLocalizations.of(context).settingsDatabase),
                   onTap: () => Navigator.of(context).push(
                     MaterialPageRoute(
                       builder: (context) => const DatabaseManagementPage(),

@@ -1,3 +1,4 @@
+import 'package:e1547/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -194,3 +195,13 @@ class AndroidStretchScrollBehaviour extends ScrollBehavior {
     return super.buildOverscrollIndicator(context, child, details);
   }
 }
+
+/// Localized display names for theme pickers.
+String localizedThemeName(BuildContext context, AppTheme theme) =>
+    switch (theme) {
+      AppTheme.dark => AppLocalizations.of(context).themeDark,
+      AppTheme.amoled => AppLocalizations.of(context).themeAmoled,
+      AppTheme.light => AppLocalizations.of(context).themeLight,
+      AppTheme.blue => AppLocalizations.of(context).themeBlue,
+      AppTheme.system => AppLocalizations.of(context).themeSystem,
+    };

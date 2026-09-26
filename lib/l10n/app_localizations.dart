@@ -141,6 +141,24 @@ abstract class AppLocalizations {
   /// **'Try again'**
   String get actionTryAgain;
 
+  /// No description provided for @actionDownload.
+  ///
+  /// In en, this message translates to:
+  /// **'DOWNLOAD'**
+  String get actionDownload;
+
+  /// No description provided for @actionImport.
+  ///
+  /// In en, this message translates to:
+  /// **'IMPORT'**
+  String get actionImport;
+
+  /// No description provided for @actionRestartNow.
+  ///
+  /// In en, this message translates to:
+  /// **'RESTART NOW'**
+  String get actionRestartNow;
+
   /// No description provided for @failedToLoadSuggestions.
   ///
   /// In en, this message translates to:
@@ -212,6 +230,738 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Done'**
   String get taskDone;
+
+  /// No description provided for @failedToInitialize.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to initialize'**
+  String get failedToInitialize;
+
+  /// No description provided for @navHome.
+  ///
+  /// In en, this message translates to:
+  /// **'Home'**
+  String get navHome;
+
+  /// No description provided for @navHot.
+  ///
+  /// In en, this message translates to:
+  /// **'Hot'**
+  String get navHot;
+
+  /// No description provided for @navSearch.
+  ///
+  /// In en, this message translates to:
+  /// **'Search'**
+  String get navSearch;
+
+  /// No description provided for @navFavorites.
+  ///
+  /// In en, this message translates to:
+  /// **'Favorites'**
+  String get navFavorites;
+
+  /// No description provided for @navTimeline.
+  ///
+  /// In en, this message translates to:
+  /// **'Timeline'**
+  String get navTimeline;
+
+  /// No description provided for @navSubscriptions.
+  ///
+  /// In en, this message translates to:
+  /// **'Subscriptions'**
+  String get navSubscriptions;
+
+  /// No description provided for @navBookmarks.
+  ///
+  /// In en, this message translates to:
+  /// **'Bookmarks'**
+  String get navBookmarks;
+
+  /// No description provided for @navPools.
+  ///
+  /// In en, this message translates to:
+  /// **'Pools'**
+  String get navPools;
+
+  /// No description provided for @navForum.
+  ///
+  /// In en, this message translates to:
+  /// **'Forum'**
+  String get navForum;
+
+  /// No description provided for @navHistory.
+  ///
+  /// In en, this message translates to:
+  /// **'History'**
+  String get navHistory;
+
+  /// No description provided for @navTasks.
+  ///
+  /// In en, this message translates to:
+  /// **'Tasks'**
+  String get navTasks;
+
+  /// No description provided for @navSettings.
+  ///
+  /// In en, this message translates to:
+  /// **'Settings'**
+  String get navSettings;
+
+  /// No description provided for @navAbout.
+  ///
+  /// In en, this message translates to:
+  /// **'About'**
+  String get navAbout;
+
+  /// No description provided for @settingsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Settings'**
+  String get settingsTitle;
+
+  /// No description provided for @sectionAccount.
+  ///
+  /// In en, this message translates to:
+  /// **'Account'**
+  String get sectionAccount;
+
+  /// No description provided for @sectionUser.
+  ///
+  /// In en, this message translates to:
+  /// **'User'**
+  String get sectionUser;
+
+  /// No description provided for @sectionAppearance.
+  ///
+  /// In en, this message translates to:
+  /// **'Appearance'**
+  String get sectionAppearance;
+
+  /// No description provided for @sectionInteractions.
+  ///
+  /// In en, this message translates to:
+  /// **'Interactions'**
+  String get sectionInteractions;
+
+  /// No description provided for @sectionSecurity.
+  ///
+  /// In en, this message translates to:
+  /// **'Security'**
+  String get sectionSecurity;
+
+  /// No description provided for @sectionDevelopment.
+  ///
+  /// In en, this message translates to:
+  /// **'Development'**
+  String get sectionDevelopment;
+
+  /// No description provided for @settingsBlacklist.
+  ///
+  /// In en, this message translates to:
+  /// **'Blacklist'**
+  String get settingsBlacklist;
+
+  /// No description provided for @tagsBlocked.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{1 tag blocked} other{{count} tags blocked}}'**
+  String tagsBlocked(num count);
+
+  /// No description provided for @settingsFollows.
+  ///
+  /// In en, this message translates to:
+  /// **'Follows'**
+  String get settingsFollows;
+
+  /// No description provided for @searchesFollowed.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{1 search followed} other{{count} searches followed}}'**
+  String searchesFollowed(num count);
+
+  /// No description provided for @settingsHistory.
+  ///
+  /// In en, this message translates to:
+  /// **'History'**
+  String get settingsHistory;
+
+  /// No description provided for @pagesVisited.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{1 page visited} other{{count} pages visited}}'**
+  String pagesVisited(num count);
+
+  /// No description provided for @settingsTheme.
+  ///
+  /// In en, this message translates to:
+  /// **'Theme'**
+  String get settingsTheme;
+
+  /// No description provided for @themeDark.
+  ///
+  /// In en, this message translates to:
+  /// **'dark'**
+  String get themeDark;
+
+  /// No description provided for @themeAmoled.
+  ///
+  /// In en, this message translates to:
+  /// **'amoled'**
+  String get themeAmoled;
+
+  /// No description provided for @themeLight.
+  ///
+  /// In en, this message translates to:
+  /// **'light'**
+  String get themeLight;
+
+  /// No description provided for @themeBlue.
+  ///
+  /// In en, this message translates to:
+  /// **'blue'**
+  String get themeBlue;
+
+  /// No description provided for @themeSystem.
+  ///
+  /// In en, this message translates to:
+  /// **'system'**
+  String get themeSystem;
+
+  /// No description provided for @settingsLanguage.
+  ///
+  /// In en, this message translates to:
+  /// **'Language'**
+  String get settingsLanguage;
+
+  /// No description provided for @languageSystemDefault.
+  ///
+  /// In en, this message translates to:
+  /// **'System default'**
+  String get languageSystemDefault;
+
+  /// No description provided for @settingsTileSize.
+  ///
+  /// In en, this message translates to:
+  /// **'Tile size'**
+  String get settingsTileSize;
+
+  /// No description provided for @settingsQuilt.
+  ///
+  /// In en, this message translates to:
+  /// **'Quilt'**
+  String get settingsQuilt;
+
+  /// No description provided for @gridTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Grid'**
+  String get gridTitle;
+
+  /// No description provided for @quiltSquare.
+  ///
+  /// In en, this message translates to:
+  /// **'tiles are quadratic'**
+  String get quiltSquare;
+
+  /// No description provided for @quiltVertical.
+  ///
+  /// In en, this message translates to:
+  /// **'tiles expand vertically'**
+  String get quiltVertical;
+
+  /// No description provided for @settingsPostInfo.
+  ///
+  /// In en, this message translates to:
+  /// **'Post info'**
+  String get settingsPostInfo;
+
+  /// No description provided for @postInfoShown.
+  ///
+  /// In en, this message translates to:
+  /// **'info on post tiles'**
+  String get postInfoShown;
+
+  /// No description provided for @postInfoHidden.
+  ///
+  /// In en, this message translates to:
+  /// **'image tiles only'**
+  String get postInfoHidden;
+
+  /// No description provided for @settingsDownloadLocation.
+  ///
+  /// In en, this message translates to:
+  /// **'Download location'**
+  String get settingsDownloadLocation;
+
+  /// No description provided for @settingsUpvoteFavorites.
+  ///
+  /// In en, this message translates to:
+  /// **'Upvote favorites'**
+  String get settingsUpvoteFavorites;
+
+  /// No description provided for @upvoteFavoritesOn.
+  ///
+  /// In en, this message translates to:
+  /// **'upvote and favorite'**
+  String get upvoteFavoritesOn;
+
+  /// No description provided for @upvoteFavoritesOff.
+  ///
+  /// In en, this message translates to:
+  /// **'favorite only'**
+  String get upvoteFavoritesOff;
+
+  /// No description provided for @settingsVideoVolume.
+  ///
+  /// In en, this message translates to:
+  /// **'Video volume'**
+  String get settingsVideoVolume;
+
+  /// No description provided for @videoMuted.
+  ///
+  /// In en, this message translates to:
+  /// **'muted'**
+  String get videoMuted;
+
+  /// No description provided for @videoWithSound.
+  ///
+  /// In en, this message translates to:
+  /// **'with sound'**
+  String get videoWithSound;
+
+  /// No description provided for @settingsVideoResolution.
+  ///
+  /// In en, this message translates to:
+  /// **'Video resolution'**
+  String get settingsVideoResolution;
+
+  /// No description provided for @videoResStandard.
+  ///
+  /// In en, this message translates to:
+  /// **'Standard (480p)'**
+  String get videoResStandard;
+
+  /// No description provided for @videoResHigh.
+  ///
+  /// In en, this message translates to:
+  /// **'High (720p)'**
+  String get videoResHigh;
+
+  /// No description provided for @videoResFull.
+  ///
+  /// In en, this message translates to:
+  /// **'Full (1080p)'**
+  String get videoResFull;
+
+  /// No description provided for @videoResUltra.
+  ///
+  /// In en, this message translates to:
+  /// **'Ultra (4K)'**
+  String get videoResUltra;
+
+  /// No description provided for @videoResSource.
+  ///
+  /// In en, this message translates to:
+  /// **'Source'**
+  String get videoResSource;
+
+  /// No description provided for @settingsSecureDisplay.
+  ///
+  /// In en, this message translates to:
+  /// **'Secure display'**
+  String get settingsSecureDisplay;
+
+  /// No description provided for @secureDisplayOn.
+  ///
+  /// In en, this message translates to:
+  /// **'screen protected'**
+  String get secureDisplayOn;
+
+  /// No description provided for @secureDisplayOff.
+  ///
+  /// In en, this message translates to:
+  /// **'screen visible'**
+  String get secureDisplayOff;
+
+  /// No description provided for @settingsIncognitoKeyboard.
+  ///
+  /// In en, this message translates to:
+  /// **'Incognito keyboard'**
+  String get settingsIncognitoKeyboard;
+
+  /// No description provided for @enabled.
+  ///
+  /// In en, this message translates to:
+  /// **'enabled'**
+  String get enabled;
+
+  /// No description provided for @disabled.
+  ///
+  /// In en, this message translates to:
+  /// **'disabled'**
+  String get disabled;
+
+  /// No description provided for @settingsPinLock.
+  ///
+  /// In en, this message translates to:
+  /// **'PIN lock'**
+  String get settingsPinLock;
+
+  /// No description provided for @pinEnabled.
+  ///
+  /// In en, this message translates to:
+  /// **'PIN enabled'**
+  String get pinEnabled;
+
+  /// No description provided for @pinDisabled.
+  ///
+  /// In en, this message translates to:
+  /// **'PIN disabled'**
+  String get pinDisabled;
+
+  /// No description provided for @settingsBiometricLock.
+  ///
+  /// In en, this message translates to:
+  /// **'Biometric lock'**
+  String get settingsBiometricLock;
+
+  /// No description provided for @biometricsEnabled.
+  ///
+  /// In en, this message translates to:
+  /// **'biometrics enabled'**
+  String get biometricsEnabled;
+
+  /// No description provided for @biometricsDisabled.
+  ///
+  /// In en, this message translates to:
+  /// **'biometrics disabled'**
+  String get biometricsDisabled;
+
+  /// No description provided for @settingsDeveloperMode.
+  ///
+  /// In en, this message translates to:
+  /// **'Developer mode'**
+  String get settingsDeveloperMode;
+
+  /// No description provided for @devOptionsShown.
+  ///
+  /// In en, this message translates to:
+  /// **'options shown'**
+  String get devOptionsShown;
+
+  /// No description provided for @devOptionsHidden.
+  ///
+  /// In en, this message translates to:
+  /// **'options hidden'**
+  String get devOptionsHidden;
+
+  /// No description provided for @settingsLogs.
+  ///
+  /// In en, this message translates to:
+  /// **'Logs'**
+  String get settingsLogs;
+
+  /// No description provided for @errorsLogged.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{1 error logged} other{{count} errors logged}}'**
+  String errorsLogged(num count);
+
+  /// No description provided for @settingsDatabase.
+  ///
+  /// In en, this message translates to:
+  /// **'Database'**
+  String get settingsDatabase;
+
+  /// No description provided for @databaseExporting.
+  ///
+  /// In en, this message translates to:
+  /// **'Exporting database...'**
+  String get databaseExporting;
+
+  /// No description provided for @databaseExported.
+  ///
+  /// In en, this message translates to:
+  /// **'Database exported successfully'**
+  String get databaseExported;
+
+  /// No description provided for @databaseExportFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Export failed'**
+  String get databaseExportFailed;
+
+  /// No description provided for @databaseExport.
+  ///
+  /// In en, this message translates to:
+  /// **'Export'**
+  String get databaseExport;
+
+  /// No description provided for @databaseImporting.
+  ///
+  /// In en, this message translates to:
+  /// **'Importing database...'**
+  String get databaseImporting;
+
+  /// No description provided for @databaseInvalidFile.
+  ///
+  /// In en, this message translates to:
+  /// **'Invalid database file: {error}'**
+  String databaseInvalidFile(String error);
+
+  /// No description provided for @databaseImportFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Import failed: {error}'**
+  String databaseImportFailed(String error);
+
+  /// No description provided for @databaseImportTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Import Database'**
+  String get databaseImportTitle;
+
+  /// No description provided for @databaseRestartTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Restart Required'**
+  String get databaseRestartTitle;
+
+  /// No description provided for @databaseRestartBody.
+  ///
+  /// In en, this message translates to:
+  /// **'The app needs to restart to apply changes.'**
+  String get databaseRestartBody;
+
+  /// No description provided for @databaseImport.
+  ///
+  /// In en, this message translates to:
+  /// **'Import'**
+  String get databaseImport;
+
+  /// No description provided for @lockEnterPin.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter PIN'**
+  String get lockEnterPin;
+
+  /// No description provided for @lockEnterNewPin.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter new PIN'**
+  String get lockEnterNewPin;
+
+  /// No description provided for @lockConfirmNewPin.
+  ///
+  /// In en, this message translates to:
+  /// **'Confirm new PIN'**
+  String get lockConfirmNewPin;
+
+  /// No description provided for @lockFailedAuth.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to authenticate'**
+  String get lockFailedAuth;
+
+  /// No description provided for @lockPleaseAuth.
+  ///
+  /// In en, this message translates to:
+  /// **'Please authenticate'**
+  String get lockPleaseAuth;
+
+  /// No description provided for @lockRetry.
+  ///
+  /// In en, this message translates to:
+  /// **'Retry'**
+  String get lockRetry;
+
+  /// No description provided for @lockBiometricReason.
+  ///
+  /// In en, this message translates to:
+  /// **'Authenticate to unlock.'**
+  String get lockBiometricReason;
+
+  /// No description provided for @lockBiometricFailure.
+  ///
+  /// In en, this message translates to:
+  /// **'Severe failure in biometric authentication'**
+  String get lockBiometricFailure;
+
+  /// No description provided for @aboutVersion.
+  ///
+  /// In en, this message translates to:
+  /// **'Version'**
+  String get aboutVersion;
+
+  /// No description provided for @updaterFetching.
+  ///
+  /// In en, this message translates to:
+  /// **'Fetching updates...'**
+  String get updaterFetching;
+
+  /// No description provided for @updaterCheckFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to check for updates'**
+  String get updaterCheckFailed;
+
+  /// No description provided for @updaterNewest.
+  ///
+  /// In en, this message translates to:
+  /// **'You have the newest version'**
+  String get updaterNewest;
+
+  /// No description provided for @updaterNewer.
+  ///
+  /// In en, this message translates to:
+  /// **'A newer version is available: {version}'**
+  String updaterNewer(String version);
+
+  /// No description provided for @updaterNewerHeader.
+  ///
+  /// In en, this message translates to:
+  /// **'A newer version is available: '**
+  String get updaterNewerHeader;
+
+  /// No description provided for @aboutExperimentalPlatform.
+  ///
+  /// In en, this message translates to:
+  /// **'Experimental platform'**
+  String get aboutExperimentalPlatform;
+
+  /// No description provided for @aboutExperimentalBody.
+  ///
+  /// In en, this message translates to:
+  /// **'This platform is not supported. Expect bugs and missing features.'**
+  String get aboutExperimentalBody;
+
+  /// No description provided for @aboutGitHub.
+  ///
+  /// In en, this message translates to:
+  /// **'GitHub'**
+  String get aboutGitHub;
+
+  /// No description provided for @aboutUpstream.
+  ///
+  /// In en, this message translates to:
+  /// **'Upstream'**
+  String get aboutUpstream;
+
+  /// No description provided for @aboutUpstreamBody.
+  ///
+  /// In en, this message translates to:
+  /// **'This app is a fork of clragon/e1547'**
+  String get aboutUpstreamBody;
+
+  /// No description provided for @aboutDiscord.
+  ///
+  /// In en, this message translates to:
+  /// **'Discord'**
+  String get aboutDiscord;
+
+  /// No description provided for @aboutForum.
+  ///
+  /// In en, this message translates to:
+  /// **'Forum'**
+  String get aboutForum;
+
+  /// No description provided for @aboutForumTopic.
+  ///
+  /// In en, this message translates to:
+  /// **'e621 thread #{id}'**
+  String aboutForumTopic(num id);
+
+  /// No description provided for @aboutWebsite.
+  ///
+  /// In en, this message translates to:
+  /// **'Website'**
+  String get aboutWebsite;
+
+  /// No description provided for @aboutKofi.
+  ///
+  /// In en, this message translates to:
+  /// **'Ko-fi'**
+  String get aboutKofi;
+
+  /// No description provided for @aboutEmail.
+  ///
+  /// In en, this message translates to:
+  /// **'Email'**
+  String get aboutEmail;
+
+  /// No description provided for @aboutPlaystore.
+  ///
+  /// In en, this message translates to:
+  /// **'Playstore'**
+  String get aboutPlaystore;
+
+  /// No description provided for @aboutDonors.
+  ///
+  /// In en, this message translates to:
+  /// **'Donors'**
+  String get aboutDonors;
+
+  /// No description provided for @aboutDonorsThanks.
+  ///
+  /// In en, this message translates to:
+  /// **'Thanks for helping me keep up development!'**
+  String get aboutDonorsThanks;
+
+  /// No description provided for @aboutNoDonors.
+  ///
+  /// In en, this message translates to:
+  /// **'No donors yet'**
+  String get aboutNoDonors;
+
+  /// No description provided for @aboutDonorsFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to fetch donors'**
+  String get aboutDonorsFailed;
+
+  /// No description provided for @developerUnlocked.
+  ///
+  /// In en, this message translates to:
+  /// **'You are now a developer!'**
+  String get developerUnlocked;
+
+  /// No description provided for @databaseErrorLoading.
+  ///
+  /// In en, this message translates to:
+  /// **'Error loading database'**
+  String get databaseErrorLoading;
+
+  /// No description provided for @databaseUnknownSize.
+  ///
+  /// In en, this message translates to:
+  /// **'Unknown'**
+  String get databaseUnknownSize;
+
+  /// No description provided for @databaseExportTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Export Database'**
+  String get databaseExportTitle;
+
+  /// No description provided for @databaseExportSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Save a backup copy of your database'**
+  String get databaseExportSubtitle;
+
+  /// No description provided for @databaseImportSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Replace current database with imported one'**
+  String get databaseImportSubtitle;
+
+  /// No description provided for @databaseImportWarning.
+  ///
+  /// In en, this message translates to:
+  /// **'This will replace your current database. \nAll data will be lost. This cannot be undone!'**
+  String get databaseImportWarning;
 }
 
 class _AppLocalizationsDelegate

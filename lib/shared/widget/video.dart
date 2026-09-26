@@ -1,5 +1,5 @@
 import 'dart:async';
-
+import 'package:e1547/l10n/app_localizations.dart';
 import 'package:e1547/logs/logs.dart';
 import 'package:e1547/settings/settings.dart';
 import 'package:e1547/shared/shared.dart';
@@ -224,6 +224,15 @@ enum VideoResolution {
     VideoResolution.full => 'Full (1080p)',
     VideoResolution.ultra => 'Ultra (4K)',
     VideoResolution.source => 'Source',
+  };
+
+  /// Localized display name for pickers.
+  String localizedTitle(BuildContext context) => switch (this) {
+    VideoResolution.standard => AppLocalizations.of(context).videoResStandard,
+    VideoResolution.high => AppLocalizations.of(context).videoResHigh,
+    VideoResolution.full => AppLocalizations.of(context).videoResFull,
+    VideoResolution.ultra => AppLocalizations.of(context).videoResUltra,
+    VideoResolution.source => AppLocalizations.of(context).videoResSource,
   };
 
   int get pixels => switch (this) {

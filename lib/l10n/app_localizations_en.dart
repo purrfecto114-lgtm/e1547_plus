@@ -30,6 +30,15 @@ class AppLocalizationsEn extends AppLocalizations {
   String get actionTryAgain => 'Try again';
 
   @override
+  String get actionDownload => 'DOWNLOAD';
+
+  @override
+  String get actionImport => 'IMPORT';
+
+  @override
+  String get actionRestartNow => 'RESTART NOW';
+
+  @override
   String get failedToLoadSuggestions => 'Failed to load suggestions';
 
   @override
@@ -78,4 +87,415 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get taskDone => 'Done';
+
+  @override
+  String get failedToInitialize => 'Failed to initialize';
+
+  @override
+  String get navHome => 'Home';
+
+  @override
+  String get navHot => 'Hot';
+
+  @override
+  String get navSearch => 'Search';
+
+  @override
+  String get navFavorites => 'Favorites';
+
+  @override
+  String get navTimeline => 'Timeline';
+
+  @override
+  String get navSubscriptions => 'Subscriptions';
+
+  @override
+  String get navBookmarks => 'Bookmarks';
+
+  @override
+  String get navPools => 'Pools';
+
+  @override
+  String get navForum => 'Forum';
+
+  @override
+  String get navHistory => 'History';
+
+  @override
+  String get navTasks => 'Tasks';
+
+  @override
+  String get navSettings => 'Settings';
+
+  @override
+  String get navAbout => 'About';
+
+  @override
+  String get settingsTitle => 'Settings';
+
+  @override
+  String get sectionAccount => 'Account';
+
+  @override
+  String get sectionUser => 'User';
+
+  @override
+  String get sectionAppearance => 'Appearance';
+
+  @override
+  String get sectionInteractions => 'Interactions';
+
+  @override
+  String get sectionSecurity => 'Security';
+
+  @override
+  String get sectionDevelopment => 'Development';
+
+  @override
+  String get settingsBlacklist => 'Blacklist';
+
+  @override
+  String tagsBlocked(num count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count tags blocked',
+      one: '1 tag blocked',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get settingsFollows => 'Follows';
+
+  @override
+  String searchesFollowed(num count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count searches followed',
+      one: '1 search followed',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get settingsHistory => 'History';
+
+  @override
+  String pagesVisited(num count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count pages visited',
+      one: '1 page visited',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get settingsTheme => 'Theme';
+
+  @override
+  String get themeDark => 'dark';
+
+  @override
+  String get themeAmoled => 'amoled';
+
+  @override
+  String get themeLight => 'light';
+
+  @override
+  String get themeBlue => 'blue';
+
+  @override
+  String get themeSystem => 'system';
+
+  @override
+  String get settingsLanguage => 'Language';
+
+  @override
+  String get languageSystemDefault => 'System default';
+
+  @override
+  String get settingsTileSize => 'Tile size';
+
+  @override
+  String get settingsQuilt => 'Quilt';
+
+  @override
+  String get gridTitle => 'Grid';
+
+  @override
+  String get quiltSquare => 'tiles are quadratic';
+
+  @override
+  String get quiltVertical => 'tiles expand vertically';
+
+  @override
+  String get settingsPostInfo => 'Post info';
+
+  @override
+  String get postInfoShown => 'info on post tiles';
+
+  @override
+  String get postInfoHidden => 'image tiles only';
+
+  @override
+  String get settingsDownloadLocation => 'Download location';
+
+  @override
+  String get settingsUpvoteFavorites => 'Upvote favorites';
+
+  @override
+  String get upvoteFavoritesOn => 'upvote and favorite';
+
+  @override
+  String get upvoteFavoritesOff => 'favorite only';
+
+  @override
+  String get settingsVideoVolume => 'Video volume';
+
+  @override
+  String get videoMuted => 'muted';
+
+  @override
+  String get videoWithSound => 'with sound';
+
+  @override
+  String get settingsVideoResolution => 'Video resolution';
+
+  @override
+  String get videoResStandard => 'Standard (480p)';
+
+  @override
+  String get videoResHigh => 'High (720p)';
+
+  @override
+  String get videoResFull => 'Full (1080p)';
+
+  @override
+  String get videoResUltra => 'Ultra (4K)';
+
+  @override
+  String get videoResSource => 'Source';
+
+  @override
+  String get settingsSecureDisplay => 'Secure display';
+
+  @override
+  String get secureDisplayOn => 'screen protected';
+
+  @override
+  String get secureDisplayOff => 'screen visible';
+
+  @override
+  String get settingsIncognitoKeyboard => 'Incognito keyboard';
+
+  @override
+  String get enabled => 'enabled';
+
+  @override
+  String get disabled => 'disabled';
+
+  @override
+  String get settingsPinLock => 'PIN lock';
+
+  @override
+  String get pinEnabled => 'PIN enabled';
+
+  @override
+  String get pinDisabled => 'PIN disabled';
+
+  @override
+  String get settingsBiometricLock => 'Biometric lock';
+
+  @override
+  String get biometricsEnabled => 'biometrics enabled';
+
+  @override
+  String get biometricsDisabled => 'biometrics disabled';
+
+  @override
+  String get settingsDeveloperMode => 'Developer mode';
+
+  @override
+  String get devOptionsShown => 'options shown';
+
+  @override
+  String get devOptionsHidden => 'options hidden';
+
+  @override
+  String get settingsLogs => 'Logs';
+
+  @override
+  String errorsLogged(num count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count errors logged',
+      one: '1 error logged',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get settingsDatabase => 'Database';
+
+  @override
+  String get databaseExporting => 'Exporting database...';
+
+  @override
+  String get databaseExported => 'Database exported successfully';
+
+  @override
+  String get databaseExportFailed => 'Export failed';
+
+  @override
+  String get databaseExport => 'Export';
+
+  @override
+  String get databaseImporting => 'Importing database...';
+
+  @override
+  String databaseInvalidFile(String error) {
+    return 'Invalid database file: $error';
+  }
+
+  @override
+  String databaseImportFailed(String error) {
+    return 'Import failed: $error';
+  }
+
+  @override
+  String get databaseImportTitle => 'Import Database';
+
+  @override
+  String get databaseRestartTitle => 'Restart Required';
+
+  @override
+  String get databaseRestartBody =>
+      'The app needs to restart to apply changes.';
+
+  @override
+  String get databaseImport => 'Import';
+
+  @override
+  String get lockEnterPin => 'Enter PIN';
+
+  @override
+  String get lockEnterNewPin => 'Enter new PIN';
+
+  @override
+  String get lockConfirmNewPin => 'Confirm new PIN';
+
+  @override
+  String get lockFailedAuth => 'Failed to authenticate';
+
+  @override
+  String get lockPleaseAuth => 'Please authenticate';
+
+  @override
+  String get lockRetry => 'Retry';
+
+  @override
+  String get lockBiometricReason => 'Authenticate to unlock.';
+
+  @override
+  String get lockBiometricFailure =>
+      'Severe failure in biometric authentication';
+
+  @override
+  String get aboutVersion => 'Version';
+
+  @override
+  String get updaterFetching => 'Fetching updates...';
+
+  @override
+  String get updaterCheckFailed => 'Failed to check for updates';
+
+  @override
+  String get updaterNewest => 'You have the newest version';
+
+  @override
+  String updaterNewer(String version) {
+    return 'A newer version is available: $version';
+  }
+
+  @override
+  String get updaterNewerHeader => 'A newer version is available: ';
+
+  @override
+  String get aboutExperimentalPlatform => 'Experimental platform';
+
+  @override
+  String get aboutExperimentalBody =>
+      'This platform is not supported. Expect bugs and missing features.';
+
+  @override
+  String get aboutGitHub => 'GitHub';
+
+  @override
+  String get aboutUpstream => 'Upstream';
+
+  @override
+  String get aboutUpstreamBody => 'This app is a fork of clragon/e1547';
+
+  @override
+  String get aboutDiscord => 'Discord';
+
+  @override
+  String get aboutForum => 'Forum';
+
+  @override
+  String aboutForumTopic(num id) {
+    return 'e621 thread #$id';
+  }
+
+  @override
+  String get aboutWebsite => 'Website';
+
+  @override
+  String get aboutKofi => 'Ko-fi';
+
+  @override
+  String get aboutEmail => 'Email';
+
+  @override
+  String get aboutPlaystore => 'Playstore';
+
+  @override
+  String get aboutDonors => 'Donors';
+
+  @override
+  String get aboutDonorsThanks => 'Thanks for helping me keep up development!';
+
+  @override
+  String get aboutNoDonors => 'No donors yet';
+
+  @override
+  String get aboutDonorsFailed => 'Failed to fetch donors';
+
+  @override
+  String get developerUnlocked => 'You are now a developer!';
+
+  @override
+  String get databaseErrorLoading => 'Error loading database';
+
+  @override
+  String get databaseUnknownSize => 'Unknown';
+
+  @override
+  String get databaseExportTitle => 'Export Database';
+
+  @override
+  String get databaseExportSubtitle => 'Save a backup copy of your database';
+
+  @override
+  String get databaseImportSubtitle =>
+      'Replace current database with imported one';
+
+  @override
+  String get databaseImportWarning =>
+      'This will replace your current database. \nAll data will be lost. This cannot be undone!';
 }

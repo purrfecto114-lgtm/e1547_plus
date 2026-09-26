@@ -11,6 +11,9 @@
   "actionCancel": "CANCEL",
   "actionOk": "OK",
   "actionTryAgain": "Try again",
+  "actionDownload": "DOWNLOAD",
+  "actionImport": "IMPORT",
+  "actionRestartNow": "RESTART NOW",
   "failedToLoadSuggestions": "Failed to load suggestions",
   "selectionItemCount": "{count, plural, =1{1 item} other{{count} items}}",
   "@selectionItemCount": {
@@ -57,5 +60,183 @@
       }
     }
   },
-  "taskDone": "Done"
+  "taskDone": "Done",
+  "failedToInitialize": "Failed to initialize",
+  "navHome": "Home",
+  "navHot": "Hot",
+  "navSearch": "Search",
+  "navFavorites": "Favorites",
+  "navTimeline": "Timeline",
+  "navSubscriptions": "Subscriptions",
+  "navBookmarks": "Bookmarks",
+  "navPools": "Pools",
+  "navForum": "Forum",
+  "navHistory": "History",
+  "navTasks": "Tasks",
+  "navSettings": "Settings",
+  "navAbout": "About",
+  "settingsTitle": "Settings",
+  "sectionAccount": "Account",
+  "sectionUser": "User",
+  "sectionAppearance": "Appearance",
+  "sectionInteractions": "Interactions",
+  "sectionSecurity": "Security",
+  "sectionDevelopment": "Development",
+  "settingsBlacklist": "Blacklist",
+  "tagsBlocked": "{count, plural, =1{1 tag blocked} other{{count} tags blocked}}",
+  "@tagsBlocked": {
+    "placeholders": {
+      "count": {
+        "type": "num"
+      }
+    }
+  },
+  "settingsFollows": "Follows",
+  "searchesFollowed": "{count, plural, =1{1 search followed} other{{count} searches followed}}",
+  "@searchesFollowed": {
+    "placeholders": {
+      "count": {
+        "type": "num"
+      }
+    }
+  },
+  "settingsHistory": "History",
+  "pagesVisited": "{count, plural, =1{1 page visited} other{{count} pages visited}}",
+  "@pagesVisited": {
+    "placeholders": {
+      "count": {
+        "type": "num"
+      }
+    }
+  },
+  "settingsTheme": "Theme",
+  "themeDark": "dark",
+  "themeAmoled": "amoled",
+  "themeLight": "light",
+  "themeBlue": "blue",
+  "themeSystem": "system",
+  "settingsLanguage": "Language",
+  "languageSystemDefault": "System default",
+  "settingsTileSize": "Tile size",
+  "settingsQuilt": "Quilt",
+  "gridTitle": "Grid",
+  "quiltSquare": "tiles are quadratic",
+  "quiltVertical": "tiles expand vertically",
+  "settingsPostInfo": "Post info",
+  "postInfoShown": "info on post tiles",
+  "postInfoHidden": "image tiles only",
+  "settingsDownloadLocation": "Download location",
+  "settingsUpvoteFavorites": "Upvote favorites",
+  "upvoteFavoritesOn": "upvote and favorite",
+  "upvoteFavoritesOff": "favorite only",
+  "settingsVideoVolume": "Video volume",
+  "videoMuted": "muted",
+  "videoWithSound": "with sound",
+  "settingsVideoResolution": "Video resolution",
+  "videoResStandard": "Standard (480p)",
+  "videoResHigh": "High (720p)",
+  "videoResFull": "Full (1080p)",
+  "videoResUltra": "Ultra (4K)",
+  "videoResSource": "Source",
+  "settingsSecureDisplay": "Secure display",
+  "secureDisplayOn": "screen protected",
+  "secureDisplayOff": "screen visible",
+  "settingsIncognitoKeyboard": "Incognito keyboard",
+  "enabled": "enabled",
+  "disabled": "disabled",
+  "settingsPinLock": "PIN lock",
+  "pinEnabled": "PIN enabled",
+  "pinDisabled": "PIN disabled",
+  "settingsBiometricLock": "Biometric lock",
+  "biometricsEnabled": "biometrics enabled",
+  "biometricsDisabled": "biometrics disabled",
+  "settingsDeveloperMode": "Developer mode",
+  "devOptionsShown": "options shown",
+  "devOptionsHidden": "options hidden",
+  "settingsLogs": "Logs",
+  "errorsLogged": "{count, plural, =1{1 error logged} other{{count} errors logged}}",
+  "@errorsLogged": {
+    "placeholders": {
+      "count": {
+        "type": "num"
+      }
+    }
+  },
+  "settingsDatabase": "Database",
+  "databaseExporting": "Exporting database...",
+  "databaseExported": "Database exported successfully",
+  "databaseExportFailed": "Export failed",
+  "databaseExport": "Export",
+  "databaseImporting": "Importing database...",
+  "databaseInvalidFile": "Invalid database file: {error}",
+  "@databaseInvalidFile": {
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
+  "databaseImportFailed": "Import failed: {error}",
+  "@databaseImportFailed": {
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
+  "databaseImportTitle": "Import Database",
+  "databaseRestartTitle": "Restart Required",
+  "databaseRestartBody": "The app needs to restart to apply changes.",
+  "databaseImport": "Import",
+  "lockEnterPin": "Enter PIN",
+  "lockEnterNewPin": "Enter new PIN",
+  "lockConfirmNewPin": "Confirm new PIN",
+  "lockFailedAuth": "Failed to authenticate",
+  "lockPleaseAuth": "Please authenticate",
+  "lockRetry": "Retry",
+  "lockBiometricReason": "Authenticate to unlock.",
+  "lockBiometricFailure": "Severe failure in biometric authentication",
+  "aboutVersion": "Version",
+  "updaterFetching": "Fetching updates...",
+  "updaterCheckFailed": "Failed to check for updates",
+  "updaterNewest": "You have the newest version",
+  "updaterNewer": "A newer version is available: {version}",
+  "@updaterNewer": {
+    "placeholders": {
+      "version": {
+        "type": "String"
+      }
+    }
+  },
+  "updaterNewerHeader": "A newer version is available: ",
+  "aboutExperimentalPlatform": "Experimental platform",
+  "aboutExperimentalBody": "This platform is not supported. Expect bugs and missing features.",
+  "aboutGitHub": "GitHub",
+  "aboutUpstream": "Upstream",
+  "aboutUpstreamBody": "This app is a fork of clragon/e1547",
+  "aboutDiscord": "Discord",
+  "aboutForum": "Forum",
+  "aboutForumTopic": "e621 thread #{id}",
+  "@aboutForumTopic": {
+    "placeholders": {
+      "id": {
+        "type": "num"
+      }
+    }
+  },
+  "aboutWebsite": "Website",
+  "aboutKofi": "Ko-fi",
+  "aboutEmail": "Email",
+  "aboutPlaystore": "Playstore",
+  "aboutDonors": "Donors",
+  "aboutDonorsThanks": "Thanks for helping me keep up development!",
+  "aboutNoDonors": "No donors yet",
+  "aboutDonorsFailed": "Failed to fetch donors",
+  "developerUnlocked": "You are now a developer!",
+  "databaseErrorLoading": "Error loading database",
+  "databaseUnknownSize": "Unknown",
+  "databaseExportTitle": "Export Database",
+  "databaseExportSubtitle": "Save a backup copy of your database",
+  "databaseImportSubtitle": "Replace current database with imported one",
+  "databaseImportWarning": "This will replace your current database. \nAll data will be lost. This cannot be undone!"
 }
