@@ -21,10 +21,11 @@ void _limitImageCache() {
   switch (Abi.current()) {
     case Abi.androidArm:
     case Abi.androidIA32:
-      // 32 bit processes have a small address space,
-      // keep the decoded image cache small.
+      // 32 bit processes have a small address space, keep the decoded
+      // image cache small. 48 MB still fits two pixel capped fullscreen
+      // images (~17 MB each) alongside the grid thumbnails.
       cache.maximumSize = 300;
-      cache.maximumSizeBytes = 32 << 20;
+      cache.maximumSizeBytes = 48 << 20;
     case Abi.androidArm64:
     case Abi.androidX64:
     case Abi.androidRiscv64:

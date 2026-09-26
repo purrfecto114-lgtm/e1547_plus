@@ -35,6 +35,7 @@ class PostFullscreen extends StatelessWidget {
                             size: PostImageSize.file,
                             cacheSize: cacheSize,
                             lowResCacheSize: cacheSize,
+                            maxPixels: fullscreenImageMaxPixels,
                           ),
                         ),
                       ),
@@ -60,6 +61,7 @@ class PostFullscreen extends StatelessWidget {
                           size: PostImageSize.file,
                           cacheSize: cacheSize,
                           lowResCacheSize: cacheSize,
+                          maxPixels: fullscreenImageMaxPixels,
                         ),
                       ),
                     );
