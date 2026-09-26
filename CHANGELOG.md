@@ -4,6 +4,18 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and this project
 adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [21.1.0-rc.2+105] - 2026-09-26
+### Added
+- a system theme that follows the platform dark mode
+- a language setting with simplified and traditional chinese translations of the main interface
+- filtering of blacklisted posts out of follow previews
+
+### Changed
+- pointed update checks and repository links at this fork
+- tiered the in-memory image cache on ios, limiting it to 500 images and 64 MB
+- capped fullscreen image decoding to 2048 pixels and about 4 megapixels on ios
+- excluded x86\_64 from the universal apk, shrinking it from 137 MB to about 87 MB
+
 ## [21.1.0-rc.1+104] - 2026-09-26
 ### Changed
 - Capped fullscreen image decoding to about 4 megapixels on Android
@@ -984,6 +996,7 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 ### Fixed
 - API client bindings
 
+[21.1.0-rc.2+105]: https://github.com/purrfecto114-lgtm/e1547_plus/compare/21.1.0-rc.1+104...21.1.0-rc.2+105
 [21.1.0-rc.1+104]: https://github.com/clragon/e1547/compare/21.0.1+103...21.1.0-rc.1+104
 [21.0.1+103]: https://github.com/clragon/e1547/compare/21.0.0+102...21.0.1+103
 [21.0.0+102]: https://github.com/clragon/e1547/compare/20.5.0+101...21.0.0+102
