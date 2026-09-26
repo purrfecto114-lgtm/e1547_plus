@@ -4,6 +4,18 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and this project
 adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [21.1.0-rc.1+104] - 2026-09-26
+### Changed
+- Capped fullscreen image decoding to about 4 megapixels on Android
+- Tiered the in-memory image cache on Android, limiting it to 300 images and 48 MB on 32 bit and 500 images and 64 MB on 64 bit devices
+- Lowered the default video resolution to 480p on 32 bit and 720p on 64 bit Android devices, it can be raised again in the settings
+- Reduced the file cache from 2000 to 500 files, removing the oldest files once after updating
+- Recommended 64 bit builds in the readme
+
+### Fixed
+- Videos creating endless players when swiping through many of them
+- Cache crashes on devices with low storage
+
 ## [21.0.1+103] - 2026-09-02
 ### Fixed
 - Videos playing on after swiping away from them
@@ -972,6 +984,7 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 ### Fixed
 - API client bindings
 
+[21.1.0-rc.1+104]: https://github.com/clragon/e1547/compare/21.0.1+103...21.1.0-rc.1+104
 [21.0.1+103]: https://github.com/clragon/e1547/compare/21.0.0+102...21.0.1+103
 [21.0.0+102]: https://github.com/clragon/e1547/compare/20.5.0+101...21.0.0+102
 [20.5.0+101]: https://github.com/clragon/e1547/compare/20.4.0+100...20.5.0+101

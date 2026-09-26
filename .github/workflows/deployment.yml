@@ -283,9 +283,12 @@ jobs:
     needs: [android-build, ios-build, windows-build, linux-build]
     if: ${{ github.ref == 'refs/heads/master' }}
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
     steps:
       - name: mint publisher token
         id: publisher
+        if: ${{ secrets.PUBLISHER_APP_ID != '' && secrets.PUBLISHER_PRIVATE_KEY != '' }}
         uses: actions/create-github-app-token@v3
         with:
           app-id: ${{ secrets.PUBLISHER_APP_ID }}
@@ -294,7 +297,7 @@ jobs:
       - name: setup actions
         uses: actions/checkout@v7
         with:
-          token: ${{ steps.publisher.outputs.token }}
+          token: ${{ steps.publisher.outputs.token || secrets.GITHUB_TOKEN }}
 
       - name: setup ruby
         uses: ruby/setup-ruby@v1
@@ -348,7 +351,7 @@ jobs:
         with:
           message: increased version
           default_author: github_actions
-          github_token: ${{ steps.publisher.outputs.token }}
+          github_token: ${{ steps.publisher.outputs.token || secrets.GITHUB_TOKEN }}
           add: |
             pubspec.yaml
             CHANGELOG.md
@@ -418,10 +421,12 @@ jobs:
         if: ${{ github.event.inputs.dry_run != 'true' && github.event.inputs.skip_github_release != 'true' }}
         uses: softprops/action-gh-release@v3
         with:
-          token: ${{ steps.publisher.outputs.token }}
+          token: ${{ steps.publisher.outputs.token || secrets.GITHUB_TOKEN }}
           tag_name: ${{ env.VERSION }}
           name: ${{ env.RELEASE_TITLE }}
           body_path: ./fastlane/metadata/android/en-US/changelogs/${{ env.BUILD_NUMBER }}.txt
+          prerelease: ${{ contains(env.VERSION, '-') }}
+          make_latest: ${{ !contains(env.VERSION, '-') }}
           files: |
             e1547-universal.apk
             e1547-arm64.apk
@@ -529,6 +534,7 @@ jobs:
           } > body.dtext
 
       - name: post to e621 forum
+        if: ${{ secrets.E621_FORUM_USER != '' && secrets.E621_FORUM_API_KEY != '' }}
         env:
           E621_FORUM_USER: ${{ secrets.E621_FORUM_USER }}
           E621_FORUM_API_KEY: ${{ secrets.E621_FORUM_API_KEY }}
