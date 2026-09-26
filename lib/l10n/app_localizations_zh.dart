@@ -214,7 +214,7 @@ class AppLocalizationsZh extends AppLocalizations {
   String get languageSystemDefault => '跟随系统';
 
   @override
-  String get settingsTileSize => '磁贴大小';
+  String get settingsTileSize => '格子大小';
 
   @override
   String get settingsQuilt => '布局';
@@ -223,16 +223,16 @@ class AppLocalizationsZh extends AppLocalizations {
   String get gridTitle => '网格';
 
   @override
-  String get quiltSquare => '正方形磁贴';
+  String get quiltSquare => '方形格子';
 
   @override
-  String get quiltVertical => '纵向拉伸磁贴';
+  String get quiltVertical => '纵向扩展的格子';
 
   @override
   String get settingsPostInfo => '帖子信息';
 
   @override
-  String get postInfoShown => '磁贴显示信息';
+  String get postInfoShown => '在格子上显示信息';
 
   @override
   String get postInfoHidden => '仅显示图片';
@@ -271,19 +271,19 @@ class AppLocalizationsZh extends AppLocalizations {
   String get videoResFull => '全高清 (1080p)';
 
   @override
-  String get videoResUltra => '超清 (4K)';
+  String get videoResUltra => '超高清 (4K)';
 
   @override
-  String get videoResSource => '原始';
+  String get videoResSource => '原始画质';
 
   @override
-  String get settingsSecureDisplay => '屏幕保护';
+  String get settingsSecureDisplay => '屏幕内容保护';
 
   @override
-  String get secureDisplayOn => '屏幕受保护';
+  String get secureDisplayOn => '隐藏屏幕内容';
 
   @override
-  String get secureDisplayOff => '屏幕可见';
+  String get secureDisplayOff => '不隐藏屏幕内容';
 
   @override
   String get settingsIncognitoKeyboard => '无痕键盘';
@@ -369,7 +369,7 @@ class AppLocalizationsZh extends AppLocalizations {
   String get databaseRestartTitle => '需要重启';
 
   @override
-  String get databaseRestartBody => '应用需要重启以应用更改。';
+  String get databaseRestartBody => '需要重启应用以使更改生效。';
 
   @override
   String get databaseImport => '导入';
@@ -441,7 +441,7 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String aboutForumTopic(num id) {
-    return 'e621 帖子 #$id';
+    return 'e621 讨论帖 #$id';
   }
 
   @override
@@ -573,7 +573,7 @@ class AppLocalizationsZh extends AppLocalizations {
   String get actionAdd => '添加';
 
   @override
-  String get actionSubtract => '减少';
+  String get actionSubtract => '排除';
 
   @override
   String selectionPost(num id) {
@@ -833,7 +833,7 @@ class AppLocalizationsZhHant extends AppLocalizationsZh {
   String get languageSystemDefault => '跟隨系統';
 
   @override
-  String get settingsTileSize => '磚塊大小';
+  String get settingsTileSize => '格子大小';
 
   @override
   String get settingsQuilt => '版面';
@@ -842,16 +842,16 @@ class AppLocalizationsZhHant extends AppLocalizationsZh {
   String get gridTitle => '網格';
 
   @override
-  String get quiltSquare => '正方形磚塊';
+  String get quiltSquare => '方形格子';
 
   @override
-  String get quiltVertical => '縱向延伸磚塊';
+  String get quiltVertical => '縱向延伸的格子';
 
   @override
   String get settingsPostInfo => '貼文資訊';
 
   @override
-  String get postInfoShown => '磚塊顯示資訊';
+  String get postInfoShown => '在格子上顯示資訊';
 
   @override
   String get postInfoHidden => '僅顯示圖片';
@@ -860,10 +860,10 @@ class AppLocalizationsZhHant extends AppLocalizationsZh {
   String get settingsDownloadLocation => '下載位置';
 
   @override
-  String get settingsUpvoteFavorites => '收藏時投票';
+  String get settingsUpvoteFavorites => '收藏時按讚';
 
   @override
-  String get upvoteFavoritesOn => '投票並收藏';
+  String get upvoteFavoritesOn => '按讚並收藏';
 
   @override
   String get upvoteFavoritesOff => '僅收藏';
@@ -887,22 +887,22 @@ class AppLocalizationsZhHant extends AppLocalizationsZh {
   String get videoResHigh => '高 (720p)';
 
   @override
-  String get videoResFull => '全高清 (1080p)';
+  String get videoResFull => '全高畫質 (1080p)';
 
   @override
-  String get videoResUltra => '超高 (4K)';
+  String get videoResUltra => '超高畫質 (4K)';
 
   @override
-  String get videoResSource => '原始';
+  String get videoResSource => '原始畫質';
 
   @override
-  String get settingsSecureDisplay => '螢幕保護';
+  String get settingsSecureDisplay => '螢幕內容保護';
 
   @override
-  String get secureDisplayOn => '螢幕受保護';
+  String get secureDisplayOn => '隱藏螢幕內容';
 
   @override
-  String get secureDisplayOff => '螢幕可見';
+  String get secureDisplayOff => '不隱藏螢幕內容';
 
   @override
   String get settingsIncognitoKeyboard => '無痕鍵盤';
@@ -1192,7 +1192,7 @@ class AppLocalizationsZhHant extends AppLocalizationsZh {
   String get actionAdd => '新增';
 
   @override
-  String get actionSubtract => '減少';
+  String get actionSubtract => '排除';
 
   @override
   String selectionPost(num id) {

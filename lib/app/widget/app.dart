@@ -65,14 +65,19 @@ class App extends StatelessWidget {
                               ],
                               localeListResolutionCallback:
                                   (locales, supported) {
-                                    Locale? resolved =
-                                        basicLocaleListResolution(
-                                          locales ?? const <Locale>[],
-                                          supported,
-                                        );
-                                    // Prefer the traditional script for regions
-                                    // that use it, the default resolution only
-                                    // matches the language code.
+                                    Locale resolved = basicLocaleListResolution(
+                                      locales ?? const <Locale>[],
+                                      supported,
+                                    );
+                                    // Prefer the traditional script for
+                                    // regions that use it, the default
+                                    // resolution only matches the language
+                                    // code. Only upgrade a generic zh result,
+                                    // never override another language.
+                                    if (resolved.languageCode != 'zh' ||
+                                        resolved.scriptCode != null) {
+                                      return resolved;
+                                    }
                                     for (final locale
                                         in locales ?? const <Locale>[]) {
                                       if (locale.languageCode != 'zh') continue;

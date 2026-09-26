@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:io';
+import 'package:collection/collection.dart';
 import 'package:e1547/app/app.dart';
 import 'package:e1547/client/client.dart';
 import 'package:e1547/follow/follow.dart';
@@ -193,8 +194,9 @@ class SettingsPage extends StatelessWidget {
                     value == null
                         ? AppLocalizations.of(context).languageSystemDefault
                         : appLanguages
-                              .firstWhere((e) => e.value == value)
-                              .label,
+                                  .firstWhereOrNull((e) => e.value == value)
+                                  ?.label ??
+                              value,
                   ),
                   leading: const Icon(Icons.translate),
                   onTap: () {

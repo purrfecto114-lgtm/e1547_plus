@@ -162,5 +162,5 @@ flutter_native_splash:
 
 cider:
   link_template:
-    tag: https://github.com/clragon/e1547/releases/tag/%tag%
-    diff: https://github.com/clragon/e1547/compare/%from%...%to%
+    tag: https://github.com/purrfecto114-lgtm/e1547_plus/releases/tag/%tag%
+    diff: https://github.com/purrfecto114-lgtm/e1547_plus/compare/%from%...%to%
