@@ -142,9 +142,7 @@ class SettingsPage extends StatelessWidget {
                                     trailing: Container(
                                       height: 28,
                                       width: 28,
-                                      decoration: BoxDecoration(
-                                        shape: BoxShape.circle,
-                                        color: theme.data.cardColor,
+                                      decoration: theme.swatch.copyWith(
                                         border: Border.all(
                                           color: Theme.of(
                                             context,

@@ -109,9 +109,7 @@ class _ThemeSwatch extends StatelessWidget {
             Container(
               height: 56,
               width: 56,
-              decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                color: theme.data.cardColor,
+              decoration: theme.swatch.copyWith(
                 border: Border.all(color: border, width: selected ? 3 : 1),
               ),
               child: selected

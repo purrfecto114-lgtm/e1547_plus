@@ -35,58 +35,63 @@ class App extends StatelessWidget {
           ),
         ],
         builder: (context, child) => LogLevelScope(
-          child: ValueListenableBuilder<AppTheme>(
-            valueListenable: context.watch<Settings>().theme,
-            builder: (context, value, child) => ExcludeSemantics(
-              child: AnnotatedRegion<SystemUiOverlayStyle>(
-                value:
-                    value.data.appBarTheme.systemOverlayStyle ??
-                    const SystemUiOverlayStyle(),
-                child: SubValue<GlobalKey<NavigatorState>>(
-                  create: () => GlobalKey<NavigatorState>(),
-                  builder: (context, navigatorKey) => MaterialApp(
-                    title: AppInfo.instance.appName,
-                    theme: value.data,
-                    scrollBehavior: AndroidStretchScrollBehaviour(),
-                    localizationsDelegates: const [
-                      GlobalWidgetsLocalizations.delegate,
-                      GlobalMaterialLocalizations.delegate,
-                      GlobalCupertinoLocalizations.delegate,
-                      RelativeTimeLocalizations.delegate,
-                    ],
-                    navigatorKey: navigatorKey,
-                    navigatorObservers: [
-                      context.watch<AnyRouteObserver>(),
-                      RouteLoggerObserver(),
-                      MaterialApp.createMaterialHeroController(),
-                    ],
-                    routes: context.watch<RouterDrawerController>().routes,
-                    builder: (context, child) => WindowFrame(
-                      child: WindowShortcuts(
+          child: _PlatformBrightnessBuilder(
+            builder: (context, brightness) => ValueListenableBuilder<AppTheme>(
+              valueListenable: context.watch<Settings>().theme,
+              builder: (context, value, child) {
+                final ThemeData themeData = value.resolve(brightness).data;
+                return ExcludeSemantics(
+                  child: AnnotatedRegion<SystemUiOverlayStyle>(
+                    value:
+                        themeData.appBarTheme.systemOverlayStyle ??
+                        const SystemUiOverlayStyle(),
+                    child: SubValue<GlobalKey<NavigatorState>>(
+                      create: () => GlobalKey<NavigatorState>(),
+                      builder: (context, navigatorKey) => MaterialApp(
+                        title: AppInfo.instance.appName,
+                        theme: themeData,
+                        scrollBehavior: AndroidStretchScrollBehaviour(),
+                        localizationsDelegates: const [
+                          GlobalWidgetsLocalizations.delegate,
+                          GlobalMaterialLocalizations.delegate,
+                          GlobalCupertinoLocalizations.delegate,
+                          RelativeTimeLocalizations.delegate,
+                        ],
                         navigatorKey: navigatorKey,
-                        child: SecureDisplay(
-                          child: LockScreen(
-                            child: LoadingShell(
-                              child: MultiProvider(
-                                providers: [
-                                  IdentityClientProvider(),
-                                  TraitsClientProvider(),
-                                  ClientProvider(),
-                                  FileCacheProvider(),
-                                  TasksControllerProvider(),
-                                ],
-                                child: LoadingCore(
-                                  child: OnboardingGate(
-                                    child: AccountConnector(
-                                      navigatorKey: navigatorKey,
-                                      child: FollowConnector(
-                                        child: AppLinkHandler(
+                        navigatorObservers: [
+                          context.watch<AnyRouteObserver>(),
+                          RouteLoggerObserver(),
+                          MaterialApp.createMaterialHeroController(),
+                        ],
+                        routes: context.watch<RouterDrawerController>().routes,
+                        builder: (context, child) => WindowFrame(
+                          child: WindowShortcuts(
+                            navigatorKey: navigatorKey,
+                            child: SecureDisplay(
+                              child: LockScreen(
+                                child: LoadingShell(
+                                  child: MultiProvider(
+                                    providers: [
+                                      IdentityClientProvider(),
+                                      TraitsClientProvider(),
+                                      ClientProvider(),
+                                      FileCacheProvider(),
+                                      TasksControllerProvider(),
+                                    ],
+                                    child: LoadingCore(
+                                      child: OnboardingGate(
+                                        child: AccountConnector(
                                           navigatorKey: navigatorKey,
-                                          child: NotificationHandler(
-                                            navigatorKey: navigatorKey,
-                                            child: AppBubbleOverlay(
+                                          child: FollowConnector(
+                                            child: AppLinkHandler(
                                               navigatorKey: navigatorKey,
-                                              child: child!,
+                                              child: NotificationHandler(
+                                                navigatorKey: navigatorKey,
+                                                child: AppBubbleOverlay(
+                                                  navigatorKey: navigatorKey,
+                                                  child: child!,
+                                                ),
+                                              ),
                                             ),
                                           ),
                                         ),
@@ -101,12 +106,51 @@ class App extends StatelessWidget {
                       ),
                     ),
                   ),
-                ),
-              ),
+                );
+              },
             ),
           ),
         ),
       ),
     );
   }
+}
+
+/// Rebuilds its subtree when the platform brightness changes.
+///
+/// Used to resolve [AppTheme.system] against the system dark mode setting.
+class _PlatformBrightnessBuilder extends StatefulWidget {
+  const _PlatformBrightnessBuilder({required this.builder});
+
+  final Widget Function(BuildContext context, Brightness brightness) builder;
+
+  @override
+  State<_PlatformBrightnessBuilder> createState() =>
+      _PlatformBrightnessBuilderState();
+}
+
+class _PlatformBrightnessBuilderState extends State<_PlatformBrightnessBuilder>
+    with WidgetsBindingObserver {
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addObserver(this);
+  }
+
+  @override
+  void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
+    super.dispose();
+  }
+
+  @override
+  void didChangePlatformBrightness() {
+    setState(() {});
+  }
+
+  @override
+  Widget build(BuildContext context) => widget.builder(
+    context,
+    View.of(context).platformDispatcher.platformBrightness,
+  );
 }
