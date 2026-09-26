@@ -117,7 +117,7 @@ class VideoService extends ChangeNotifier {
     _logger.debug('Videos muted: {muted}', {'muted': _muteVideos});
   }
 
-  VideoPlayer getVideo(String key) {
+  VideoPlayer? getVideo(String key) {
     // Re-inserting moves the key to the back of the map,
     // so that eviction walks from least to most recently used.
     VideoPlayer? player = _videos.remove(key);
@@ -129,18 +129,25 @@ class VideoService extends ChangeNotifier {
         spare = key;
         break;
       }
-      if (spare == null) {
-        _logger.debug('Loading {loaded} videos, all others in use', {
-          'loaded': _videos.length + 1,
-        });
-        break;
-      }
+      if (spare == null) break;
       _logger.debug('Evicting {spare}, {loaded} of {max} videos loaded', {
         'spare': spare,
         'loaded': _videos.length,
         'max': maxLoaded,
       });
       unloadVideo(spare);
+    }
+    if (_videos.length >= maxLoaded && _idle.isEmpty) {
+      // Every player is leased and none can be evicted. Creating
+      // another one would grow the pool past maxLoaded forever,
+      // since players are never disposed (see above). Return no
+      // player instead; callers show a placeholder and retry once
+      // VideoService notifies them of a released lease.
+      _logger.debug('Refusing {video}, all {max} videos in use', {
+        'video': key,
+        'max': maxLoaded,
+      });
+      return null;
     }
     player = _idle.isNotEmpty ? _idle.removeAt(0) : _createPlayer();
     _videos[key] = player;
@@ -158,6 +165,11 @@ class VideoService extends ChangeNotifier {
   void release(VideoPlayer player) {
     if (player._leases == 0) return;
     player._leases--;
+    // Lets widgets that were refused a player in getVideo retry once
+    // this build is over, now that this player can be evicted for them.
+    // Deferred: notifyListeners here could mark a widget that is
+    // currently building as needing rebuild, which asserts.
+    scheduleMicrotask(notifyListeners);
   }
 
   void unloadVideo(String key) {

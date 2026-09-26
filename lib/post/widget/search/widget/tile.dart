@@ -270,8 +270,6 @@ class PostFeedTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    int? cacheSize = context.read<ImageCacheSize>().size;
-
     Widget actions() {
       return Dimmed(
         child: Row(
@@ -392,7 +390,7 @@ class PostFeedTile extends StatelessWidget {
             onTap: () => Navigator.of(context).push(
               MaterialPageRoute(
                 builder: (context) => ImageCacheSizeProvider(
-                  size: cacheSize,
+                  size: fullscreenImageCacheSize,
                   child: PostRouteScope(
                     params: params,
                     filter: filter,

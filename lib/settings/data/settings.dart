@@ -1,3 +1,5 @@
+import 'dart:ffi';
+
 import 'package:e1547/app/app.dart';
 import 'package:e1547/shared/shared.dart';
 import 'package:flutter/foundation.dart';
@@ -57,7 +59,7 @@ class Settings extends NotifiedSettings {
   );
   late final ValueNotifier<VideoResolution> videoResolution = createEnumSetting(
     key: 'videoResolution',
-    initialValue: VideoResolution.source,
+    initialValue: _defaultVideoResolution(),
     values: VideoResolution.values,
   );
 
@@ -91,4 +93,21 @@ class Settings extends NotifiedSettings {
     key: 'showDev',
     initialValue: false,
   );
+}
+
+// Decoding source quality videos can push low end Android devices,
+// especially 32 bit ones, over their memory limits. Such devices get a
+// lower default; users can still raise it in the settings.
+VideoResolution _defaultVideoResolution() {
+  switch (Abi.current()) {
+    case Abi.androidArm:
+    case Abi.androidIA32:
+      return VideoResolution.standard;
+    case Abi.androidArm64:
+    case Abi.androidX64:
+    case Abi.androidRiscv64:
+      return VideoResolution.high;
+    default:
+      return VideoResolution.source;
+  }
 }

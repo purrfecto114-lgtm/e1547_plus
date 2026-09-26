@@ -85,9 +85,13 @@ or
 
 #### Which APK should I download?
 
-- New phone (2019+) -> `e1547-arm64.apk`
-- Old phone -> `e1547-armv7.apk`
+- Phone with 64 bit support (almost all phones from 2016 onwards) -> `e1547-arm64.apk`
+- 32 bit only phone -> `e1547-armv7.apk`
 - Doesn't work? -> `e1547-universal.apk`
+
+Prefer the arm64 build whenever your device supports it: 32 bit processes
+have a much smaller memory limit, which makes the app far more likely to
+be killed by the OS on old, low memory devices.
 
 ### Installing on iOS
 

@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:io' show Platform;
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:e1547/post/post.dart';
@@ -258,6 +259,15 @@ class _ImageProgressWrapperState extends State<ImageProgressWrapper> {
 /// Shows a centered icon.
 Widget defaultErrorBuilder(BuildContext context, String url, dynamic error) =>
     const Center(child: Icon(Icons.warning_amber_outlined));
+
+/// The cache size of images shown in fullscreen views on android.
+///
+/// Fullscreen images are e621 originals, which can exceed 4000px. Decoding
+/// them at full size fills the image cache of low end devices within a
+/// few posts, so their decoded size is capped. 2048px covers the physical
+/// resolution of the 1080p screens such devices usually have. Other
+/// platforms keep the uncapped fullscreen originals.
+int? get fullscreenImageCacheSize => Platform.isAndroid ? 2048 : null;
 
 class ImageCacheSize {
   /// Configures the cache size for images.

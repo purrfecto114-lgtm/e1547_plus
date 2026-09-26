@@ -20,6 +20,7 @@ class PostFullscreen extends StatelessWidget {
           child: PostImageOverlay(
             post: post,
             builder: (context) {
+              int? cacheSize = context.watch<ImageCacheSize?>()?.size;
               switch (post.type) {
                 case PostType.image:
                   if (Theme.of(context).isDesktop) {
@@ -32,9 +33,8 @@ class PostFullscreen extends StatelessWidget {
                             post: post,
                             fit: BoxFit.cover,
                             size: PostImageSize.file,
-                            lowResCacheSize: context
-                                .watch<ImageCacheSize?>()
-                                ?.size,
+                            cacheSize: cacheSize,
+                            lowResCacheSize: cacheSize,
                           ),
                         ),
                       ),
@@ -58,9 +58,8 @@ class PostFullscreen extends StatelessWidget {
                           fit: BoxFit.cover,
                           post: post,
                           size: PostImageSize.file,
-                          lowResCacheSize: context
-                              .watch<ImageCacheSize?>()
-                              ?.size,
+                          cacheSize: cacheSize,
+                          lowResCacheSize: cacheSize,
                         ),
                       ),
                     );

@@ -169,7 +169,10 @@ class _PostEditPageState extends State<PostEditPage> {
             PostVideoRoute.of(context).keepPlaying();
             Navigator.of(context).push(
               MaterialPageRoute(
-                builder: (context) => PostFullscreen(post: widget.post),
+                builder: (context) => ImageCacheSizeProvider(
+                  size: fullscreenImageCacheSize,
+                  child: PostFullscreen(post: widget.post),
+                ),
               ),
             );
           },

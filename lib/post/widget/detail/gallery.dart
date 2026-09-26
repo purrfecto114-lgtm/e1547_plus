@@ -131,12 +131,15 @@ class _PostDetailGalleryState extends State<PostDetailGallery>
     final filter = context.read<PostFilter?>();
     Navigator.of(context).push(
       MaterialPageRoute(
-        builder: (context) => PostRouteScope(
-          params: params,
-          filter: filter,
-          child: PostFullscreenGallery(
-            initialPostId: post.id,
-            onPageChanged: pageController.jumpToPage,
+        builder: (context) => ImageCacheSizeProvider(
+          size: fullscreenImageCacheSize,
+          child: PostRouteScope(
+            params: params,
+            filter: filter,
+            child: PostFullscreenGallery(
+              initialPostId: post.id,
+              onPageChanged: pageController.jumpToPage,
+            ),
           ),
         ),
       ),
