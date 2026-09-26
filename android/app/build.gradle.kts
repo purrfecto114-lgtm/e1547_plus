@@ -55,6 +55,13 @@ android {
     buildTypes {
         release {
             signingConfig = signingConfigs.getByName("release")
+            // AAR-provided native libraries (libmpv, cronet, sqlite) ignore
+            // flutter's --target-platform flag, this filter drops their
+            // x86_64 copies from the release universal APK. No phone runs
+            // x86_64; debug builds stay unfiltered for emulator developers.
+            ndk {
+                abiFilters += listOf("armeabi-v7a", "arm64-v8a")
+            }
         }
         debug {
             applicationIdSuffix = ".debug"
