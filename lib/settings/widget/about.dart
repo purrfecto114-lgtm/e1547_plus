@@ -291,11 +291,12 @@ class AboutLinks extends StatelessWidget {
       required Widget title,
       required String link,
       String? extra,
+      Widget? subtitle,
     }) {
       return ListTile(
         leading: leading,
         title: title,
-        subtitle: Text(extra ?? link),
+        subtitle: subtitle ?? Text(extra ?? link),
         onTap: () => launch(link + (extra ?? '')),
       );
     }
@@ -307,6 +308,13 @@ class AboutLinks extends StatelessWidget {
           title: const Text('GitHub'),
           link: 'https://github.com/',
           extra: appInfo.github,
+        ),
+        linkListTile(
+          leading: const FaIcon(FontAwesomeIcons.codeFork),
+          title: const Text('Upstream'),
+          subtitle: const Text('This app is a fork of clragon/e1547'),
+          link: 'https://github.com/',
+          extra: 'clragon/e1547',
         ),
         linkListTile(
           leading: const FaIcon(FontAwesomeIcons.discord),

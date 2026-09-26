@@ -20,7 +20,7 @@ export 'package:window_manager/window_manager.dart' show WindowManager;
 /// Initializes an AppInfo with default production values.
 Future<void> initializeAppInfo() => AppInfo.initializePlatform(
   developer: 'binaryfloof',
-  github: 'clragon/e1547',
+  github: 'purrfecto114-lgtm/e1547_plus',
   discord: 'MRwKGqfmUz',
   website: 'e1547.clynamic.net',
   kofi: 'binaryfloof',
