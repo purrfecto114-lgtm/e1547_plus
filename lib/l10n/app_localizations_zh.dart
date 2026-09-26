@@ -488,6 +488,139 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get databaseImportWarning => '这将替换你当前的数据库。\n所有数据都会丢失，且无法撤销！';
+
+  @override
+  String get postsTitle => '帖子';
+
+  @override
+  String favoritesOf(String user) {
+    return '$user 的收藏';
+  }
+
+  @override
+  String get favoritesUnavailable => '未登录用户无法使用收藏';
+
+  @override
+  String get favoriteOrder => '收藏排序';
+
+  @override
+  String get orderAdded => '添加顺序';
+
+  @override
+  String get orderId => 'ID 顺序';
+
+  @override
+  String get postStateDeleted => '已删除';
+
+  @override
+  String get postStateUnsupported => '不支持的类型';
+
+  @override
+  String get postStateUnavailable => '不可用';
+
+  @override
+  String get menuShare => '分享';
+
+  @override
+  String get menuDownload => '下载';
+
+  @override
+  String get menuBrowse => '在浏览器中打开';
+
+  @override
+  String get menuEdit => '编辑';
+
+  @override
+  String get menuComment => '评论';
+
+  @override
+  String get menuReport => '举报';
+
+  @override
+  String get menuFlag => '标记';
+
+  @override
+  String get actionOpen => '打开';
+
+  @override
+  String get actionFollow => '关注';
+
+  @override
+  String get actionUnfollow => '取消关注';
+
+  @override
+  String get actionMute => '静音';
+
+  @override
+  String get actionNotify => '通知';
+
+  @override
+  String get actionBookmark => '加书签';
+
+  @override
+  String get actionUnbookmark => '移除书签';
+
+  @override
+  String get actionBlock => '屏蔽';
+
+  @override
+  String get actionUnblock => '取消屏蔽';
+
+  @override
+  String get actionRemove => '移除';
+
+  @override
+  String get actionAdd => '添加';
+
+  @override
+  String get actionSubtract => '减少';
+
+  @override
+  String selectionPost(num id) {
+    return '帖子 #$id';
+  }
+
+  @override
+  String selectionPostsCount(num count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count 个帖子',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get noPosts => '没有帖子';
+
+  @override
+  String get failedToLoadPosts => '帖子加载失败';
+
+  @override
+  String get postDeletedOverlay => '帖子已被删除';
+
+  @override
+  String get postUnavailableOverlay => '帖子不可用';
+
+  @override
+  String get postBlacklistedOverlay => '帖子已被屏蔽';
+
+  @override
+  String unsupportedFileType(String ext) {
+    return '不支持 $ext 文件';
+  }
+
+  @override
+  String get loginRequiredEdit => '必须登录才能编辑帖子！';
+
+  @override
+  String get loginRequiredComment => '必须登录才能评论！';
+
+  @override
+  String get loginRequiredReport => '必须登录才能举报帖子！';
+
+  @override
+  String get loginRequiredFlag => '必须登录才能标记帖子！';
 }
 
 /// The translations for Chinese, using the Han script (`zh_Hant`).
@@ -974,4 +1107,137 @@ class AppLocalizationsZhHant extends AppLocalizationsZh {
 
   @override
   String get databaseImportWarning => '這將取代你目前的資料庫。\n所有資料都會遺失，且無法復原！';
+
+  @override
+  String get postsTitle => '貼文';
+
+  @override
+  String favoritesOf(String user) {
+    return '$user 的收藏';
+  }
+
+  @override
+  String get favoritesUnavailable => '未登入使用者無法使用收藏';
+
+  @override
+  String get favoriteOrder => '收藏排序';
+
+  @override
+  String get orderAdded => '新增順序';
+
+  @override
+  String get orderId => 'ID 順序';
+
+  @override
+  String get postStateDeleted => '已刪除';
+
+  @override
+  String get postStateUnsupported => '不支援的類型';
+
+  @override
+  String get postStateUnavailable => '無法使用';
+
+  @override
+  String get menuShare => '分享';
+
+  @override
+  String get menuDownload => '下載';
+
+  @override
+  String get menuBrowse => '在瀏覽器中開啟';
+
+  @override
+  String get menuEdit => '編輯';
+
+  @override
+  String get menuComment => '評論';
+
+  @override
+  String get menuReport => '檢舉';
+
+  @override
+  String get menuFlag => '標記';
+
+  @override
+  String get actionOpen => '開啟';
+
+  @override
+  String get actionFollow => '追蹤';
+
+  @override
+  String get actionUnfollow => '取消追蹤';
+
+  @override
+  String get actionMute => '靜音';
+
+  @override
+  String get actionNotify => '通知';
+
+  @override
+  String get actionBookmark => '加入書籤';
+
+  @override
+  String get actionUnbookmark => '移除書籤';
+
+  @override
+  String get actionBlock => '封鎖';
+
+  @override
+  String get actionUnblock => '取消封鎖';
+
+  @override
+  String get actionRemove => '移除';
+
+  @override
+  String get actionAdd => '新增';
+
+  @override
+  String get actionSubtract => '減少';
+
+  @override
+  String selectionPost(num id) {
+    return '貼文 #$id';
+  }
+
+  @override
+  String selectionPostsCount(num count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count 則貼文',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get noPosts => '沒有貼文';
+
+  @override
+  String get failedToLoadPosts => '貼文載入失敗';
+
+  @override
+  String get postDeletedOverlay => '貼文已被刪除';
+
+  @override
+  String get postUnavailableOverlay => '貼文無法使用';
+
+  @override
+  String get postBlacklistedOverlay => '貼文已被封鎖';
+
+  @override
+  String unsupportedFileType(String ext) {
+    return '不支援 $ext 檔案';
+  }
+
+  @override
+  String get loginRequiredEdit => '必須登入才能編輯貼文！';
+
+  @override
+  String get loginRequiredComment => '必須登入才能評論！';
+
+  @override
+  String get loginRequiredReport => '必須登入才能檢舉貼文！';
+
+  @override
+  String get loginRequiredFlag => '必須登入才能標記貼文！';
 }

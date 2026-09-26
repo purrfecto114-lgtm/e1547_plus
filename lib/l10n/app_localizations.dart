@@ -962,6 +962,246 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'This will replace your current database. \nAll data will be lost. This cannot be undone!'**
   String get databaseImportWarning;
+
+  /// No description provided for @postsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Posts'**
+  String get postsTitle;
+
+  /// No description provided for @favoritesOf.
+  ///
+  /// In en, this message translates to:
+  /// **'{user}\'s Favorites'**
+  String favoritesOf(String user);
+
+  /// No description provided for @favoritesUnavailable.
+  ///
+  /// In en, this message translates to:
+  /// **'Favorites are unavailable for anonymous users'**
+  String get favoritesUnavailable;
+
+  /// No description provided for @favoriteOrder.
+  ///
+  /// In en, this message translates to:
+  /// **'Favorite order'**
+  String get favoriteOrder;
+
+  /// No description provided for @orderAdded.
+  ///
+  /// In en, this message translates to:
+  /// **'added order'**
+  String get orderAdded;
+
+  /// No description provided for @orderId.
+  ///
+  /// In en, this message translates to:
+  /// **'id order'**
+  String get orderId;
+
+  /// No description provided for @postStateDeleted.
+  ///
+  /// In en, this message translates to:
+  /// **'deleted'**
+  String get postStateDeleted;
+
+  /// No description provided for @postStateUnsupported.
+  ///
+  /// In en, this message translates to:
+  /// **'unsupported'**
+  String get postStateUnsupported;
+
+  /// No description provided for @postStateUnavailable.
+  ///
+  /// In en, this message translates to:
+  /// **'unavailable'**
+  String get postStateUnavailable;
+
+  /// No description provided for @menuShare.
+  ///
+  /// In en, this message translates to:
+  /// **'Share'**
+  String get menuShare;
+
+  /// No description provided for @menuDownload.
+  ///
+  /// In en, this message translates to:
+  /// **'Download'**
+  String get menuDownload;
+
+  /// No description provided for @menuBrowse.
+  ///
+  /// In en, this message translates to:
+  /// **'Browse'**
+  String get menuBrowse;
+
+  /// No description provided for @menuEdit.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit'**
+  String get menuEdit;
+
+  /// No description provided for @menuComment.
+  ///
+  /// In en, this message translates to:
+  /// **'Comment'**
+  String get menuComment;
+
+  /// No description provided for @menuReport.
+  ///
+  /// In en, this message translates to:
+  /// **'Report'**
+  String get menuReport;
+
+  /// No description provided for @menuFlag.
+  ///
+  /// In en, this message translates to:
+  /// **'Flag'**
+  String get menuFlag;
+
+  /// No description provided for @actionOpen.
+  ///
+  /// In en, this message translates to:
+  /// **'Open'**
+  String get actionOpen;
+
+  /// No description provided for @actionFollow.
+  ///
+  /// In en, this message translates to:
+  /// **'Follow'**
+  String get actionFollow;
+
+  /// No description provided for @actionUnfollow.
+  ///
+  /// In en, this message translates to:
+  /// **'Unfollow'**
+  String get actionUnfollow;
+
+  /// No description provided for @actionMute.
+  ///
+  /// In en, this message translates to:
+  /// **'Mute'**
+  String get actionMute;
+
+  /// No description provided for @actionNotify.
+  ///
+  /// In en, this message translates to:
+  /// **'Notify'**
+  String get actionNotify;
+
+  /// No description provided for @actionBookmark.
+  ///
+  /// In en, this message translates to:
+  /// **'Bookmark'**
+  String get actionBookmark;
+
+  /// No description provided for @actionUnbookmark.
+  ///
+  /// In en, this message translates to:
+  /// **'Unbookmark'**
+  String get actionUnbookmark;
+
+  /// No description provided for @actionBlock.
+  ///
+  /// In en, this message translates to:
+  /// **'Block'**
+  String get actionBlock;
+
+  /// No description provided for @actionUnblock.
+  ///
+  /// In en, this message translates to:
+  /// **'Unblock'**
+  String get actionUnblock;
+
+  /// No description provided for @actionRemove.
+  ///
+  /// In en, this message translates to:
+  /// **'Remove'**
+  String get actionRemove;
+
+  /// No description provided for @actionAdd.
+  ///
+  /// In en, this message translates to:
+  /// **'Add'**
+  String get actionAdd;
+
+  /// No description provided for @actionSubtract.
+  ///
+  /// In en, this message translates to:
+  /// **'Subtract'**
+  String get actionSubtract;
+
+  /// No description provided for @selectionPost.
+  ///
+  /// In en, this message translates to:
+  /// **'post #{id}'**
+  String selectionPost(num id);
+
+  /// No description provided for @selectionPostsCount.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, other{{count} posts}}'**
+  String selectionPostsCount(num count);
+
+  /// No description provided for @noPosts.
+  ///
+  /// In en, this message translates to:
+  /// **'No posts'**
+  String get noPosts;
+
+  /// No description provided for @failedToLoadPosts.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to load posts'**
+  String get failedToLoadPosts;
+
+  /// No description provided for @postDeletedOverlay.
+  ///
+  /// In en, this message translates to:
+  /// **'Post was deleted'**
+  String get postDeletedOverlay;
+
+  /// No description provided for @postUnavailableOverlay.
+  ///
+  /// In en, this message translates to:
+  /// **'Post is unavailable'**
+  String get postUnavailableOverlay;
+
+  /// No description provided for @postBlacklistedOverlay.
+  ///
+  /// In en, this message translates to:
+  /// **'Post is blacklisted'**
+  String get postBlacklistedOverlay;
+
+  /// No description provided for @unsupportedFileType.
+  ///
+  /// In en, this message translates to:
+  /// **'{ext} files are not supported'**
+  String unsupportedFileType(String ext);
+
+  /// No description provided for @loginRequiredEdit.
+  ///
+  /// In en, this message translates to:
+  /// **'You must be logged in to edit posts!'**
+  String get loginRequiredEdit;
+
+  /// No description provided for @loginRequiredComment.
+  ///
+  /// In en, this message translates to:
+  /// **'You must be logged in to comment!'**
+  String get loginRequiredComment;
+
+  /// No description provided for @loginRequiredReport.
+  ///
+  /// In en, this message translates to:
+  /// **'You must be logged in to report posts!'**
+  String get loginRequiredReport;
+
+  /// No description provided for @loginRequiredFlag.
+  ///
+  /// In en, this message translates to:
+  /// **'You must be logged in to flag posts!'**
+  String get loginRequiredFlag;
 }
 
 class _AppLocalizationsDelegate

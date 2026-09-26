@@ -1,6 +1,7 @@
 import 'package:collection/collection.dart';
 import 'package:e1547/client/client.dart';
 import 'package:e1547/follow/follow.dart';
+import 'package:e1547/l10n/app_localizations.dart';
 import 'package:e1547/post/post.dart';
 import 'package:e1547/query/query.dart';
 import 'package:e1547/shared/shared.dart';
@@ -81,8 +82,12 @@ class TagListActions extends StatelessWidget {
                                 ? const Icon(Icons.person_remove_alt_1)
                                 : const Icon(Icons.person_add_alt_1),
                             label: following
-                                ? const Text('Unfollow')
-                                : const Text('Follow'),
+                                ? Text(
+                                    AppLocalizations.of(context).actionUnfollow,
+                                  )
+                                : Text(
+                                    AppLocalizations.of(context).actionFollow,
+                                  ),
                             onTap: () => applyFollowMutation(FollowType.update),
                           ),
                           CrossFade(
@@ -92,8 +97,12 @@ class TagListActions extends StatelessWidget {
                                   ? const Icon(Icons.notifications_active)
                                   : const Icon(Icons.notifications_none),
                               label: notifying
-                                  ? const Text('Mute')
-                                  : const Text('Notify'),
+                                  ? Text(
+                                      AppLocalizations.of(context).actionMute,
+                                    )
+                                  : Text(
+                                      AppLocalizations.of(context).actionNotify,
+                                    ),
                               onTap: () async {
                                 if (!hasFollow) return;
                                 await client.follows.update(
@@ -111,8 +120,14 @@ class TagListActions extends StatelessWidget {
                                 ? const Icon(Icons.turned_in)
                                 : const Icon(Icons.turned_in_not),
                             label: bookmarked
-                                ? const Text('Unbookmark')
-                                : const Text('Bookmark'),
+                                ? Text(
+                                    AppLocalizations.of(
+                                      context,
+                                    ).actionUnbookmark,
+                                  )
+                                : Text(
+                                    AppLocalizations.of(context).actionBookmark,
+                                  ),
                             onTap: () =>
                                 applyFollowMutation(FollowType.bookmark),
                           ),
@@ -128,8 +143,8 @@ class TagListActions extends StatelessWidget {
                           child: const Icon(Icons.check),
                         ),
                         label: denied
-                            ? const Text('Unblock')
-                            : const Text('Block'),
+                            ? Text(AppLocalizations.of(context).actionUnblock)
+                            : Text(AppLocalizations.of(context).actionBlock),
                         onTap: () async {
                           if (denied) {
                             await client.accounts.push(
@@ -175,7 +190,7 @@ class RemoveTagAction extends StatelessWidget {
 
     return ActionButton(
       icon: const Icon(Icons.search_off),
-      label: const Text('Remove'),
+      label: Text(AppLocalizations.of(context).actionRemove),
       onTap: () {
         Navigator.of(context).maybePop();
         controller.removeTag(tag);
@@ -195,7 +210,7 @@ class AddTagAction extends StatelessWidget {
 
     return ActionButton(
       icon: const Icon(Icons.zoom_in),
-      label: const Text('Add'),
+      label: Text(AppLocalizations.of(context).actionAdd),
       onTap: () {
         Navigator.of(context).maybePop();
         controller.addTag(tag);
@@ -215,7 +230,7 @@ class SubtractTagAction extends StatelessWidget {
 
     return ActionButton(
       icon: const Icon(Icons.zoom_out),
-      label: const Text('Subtract'),
+      label: Text(AppLocalizations.of(context).actionSubtract),
       onTap: () {
         Navigator.of(context).maybePop();
         controller.subtractTag(tag);

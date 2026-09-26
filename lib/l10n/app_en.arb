@@ -238,5 +238,73 @@
   "databaseExportTitle": "Export Database",
   "databaseExportSubtitle": "Save a backup copy of your database",
   "databaseImportSubtitle": "Replace current database with imported one",
-  "databaseImportWarning": "This will replace your current database. \nAll data will be lost. This cannot be undone!"
+  "databaseImportWarning": "This will replace your current database. \nAll data will be lost. This cannot be undone!",
+  "postsTitle": "Posts",
+  "favoritesOf": "{user}'s Favorites",
+  "@favoritesOf": {
+    "placeholders": {
+      "user": {
+        "type": "String"
+      }
+    }
+  },
+  "favoritesUnavailable": "Favorites are unavailable for anonymous users",
+  "favoriteOrder": "Favorite order",
+  "orderAdded": "added order",
+  "orderId": "id order",
+  "postStateDeleted": "deleted",
+  "postStateUnsupported": "unsupported",
+  "postStateUnavailable": "unavailable",
+  "menuShare": "Share",
+  "menuDownload": "Download",
+  "menuBrowse": "Browse",
+  "menuEdit": "Edit",
+  "menuComment": "Comment",
+  "menuReport": "Report",
+  "menuFlag": "Flag",
+  "actionOpen": "Open",
+  "actionFollow": "Follow",
+  "actionUnfollow": "Unfollow",
+  "actionMute": "Mute",
+  "actionNotify": "Notify",
+  "actionBookmark": "Bookmark",
+  "actionUnbookmark": "Unbookmark",
+  "actionBlock": "Block",
+  "actionUnblock": "Unblock",
+  "actionRemove": "Remove",
+  "actionAdd": "Add",
+  "actionSubtract": "Subtract",
+  "selectionPost": "post #{id}",
+  "@selectionPost": {
+    "placeholders": {
+      "id": {
+        "type": "num"
+      }
+    }
+  },
+  "selectionPostsCount": "{count, plural, other{{count} posts}}",
+  "@selectionPostsCount": {
+    "placeholders": {
+      "count": {
+        "type": "num"
+      }
+    }
+  },
+  "noPosts": "No posts",
+  "failedToLoadPosts": "Failed to load posts",
+  "postDeletedOverlay": "Post was deleted",
+  "postUnavailableOverlay": "Post is unavailable",
+  "postBlacklistedOverlay": "Post is blacklisted",
+  "unsupportedFileType": "{ext} files are not supported",
+  "@unsupportedFileType": {
+    "placeholders": {
+      "ext": {
+        "type": "String"
+      }
+    }
+  },
+  "loginRequiredEdit": "You must be logged in to edit posts!",
+  "loginRequiredComment": "You must be logged in to comment!",
+  "loginRequiredReport": "You must be logged in to report posts!",
+  "loginRequiredFlag": "You must be logged in to flag posts!"
 }

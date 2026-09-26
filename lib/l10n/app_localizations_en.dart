@@ -498,4 +498,138 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get databaseImportWarning =>
       'This will replace your current database. \nAll data will be lost. This cannot be undone!';
+
+  @override
+  String get postsTitle => 'Posts';
+
+  @override
+  String favoritesOf(String user) {
+    return '$user\'s Favorites';
+  }
+
+  @override
+  String get favoritesUnavailable =>
+      'Favorites are unavailable for anonymous users';
+
+  @override
+  String get favoriteOrder => 'Favorite order';
+
+  @override
+  String get orderAdded => 'added order';
+
+  @override
+  String get orderId => 'id order';
+
+  @override
+  String get postStateDeleted => 'deleted';
+
+  @override
+  String get postStateUnsupported => 'unsupported';
+
+  @override
+  String get postStateUnavailable => 'unavailable';
+
+  @override
+  String get menuShare => 'Share';
+
+  @override
+  String get menuDownload => 'Download';
+
+  @override
+  String get menuBrowse => 'Browse';
+
+  @override
+  String get menuEdit => 'Edit';
+
+  @override
+  String get menuComment => 'Comment';
+
+  @override
+  String get menuReport => 'Report';
+
+  @override
+  String get menuFlag => 'Flag';
+
+  @override
+  String get actionOpen => 'Open';
+
+  @override
+  String get actionFollow => 'Follow';
+
+  @override
+  String get actionUnfollow => 'Unfollow';
+
+  @override
+  String get actionMute => 'Mute';
+
+  @override
+  String get actionNotify => 'Notify';
+
+  @override
+  String get actionBookmark => 'Bookmark';
+
+  @override
+  String get actionUnbookmark => 'Unbookmark';
+
+  @override
+  String get actionBlock => 'Block';
+
+  @override
+  String get actionUnblock => 'Unblock';
+
+  @override
+  String get actionRemove => 'Remove';
+
+  @override
+  String get actionAdd => 'Add';
+
+  @override
+  String get actionSubtract => 'Subtract';
+
+  @override
+  String selectionPost(num id) {
+    return 'post #$id';
+  }
+
+  @override
+  String selectionPostsCount(num count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count posts',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get noPosts => 'No posts';
+
+  @override
+  String get failedToLoadPosts => 'Failed to load posts';
+
+  @override
+  String get postDeletedOverlay => 'Post was deleted';
+
+  @override
+  String get postUnavailableOverlay => 'Post is unavailable';
+
+  @override
+  String get postBlacklistedOverlay => 'Post is blacklisted';
+
+  @override
+  String unsupportedFileType(String ext) {
+    return '$ext files are not supported';
+  }
+
+  @override
+  String get loginRequiredEdit => 'You must be logged in to edit posts!';
+
+  @override
+  String get loginRequiredComment => 'You must be logged in to comment!';
+
+  @override
+  String get loginRequiredReport => 'You must be logged in to report posts!';
+
+  @override
+  String get loginRequiredFlag => 'You must be logged in to flag posts!';
 }

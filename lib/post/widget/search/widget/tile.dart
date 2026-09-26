@@ -1,8 +1,8 @@
 import 'dart:math';
-
 import 'package:e1547/app/app.dart';
 import 'package:e1547/client/client.dart';
 import 'package:e1547/comment/comment.dart';
+import 'package:e1547/l10n/app_localizations.dart';
 import 'package:e1547/markup/markup.dart';
 import 'package:e1547/post/post.dart';
 import 'package:e1547/query/query.dart';
@@ -107,13 +107,17 @@ class PostTileOverlay extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     if (post.isDeleted) {
-      return const Center(child: Text('deleted'));
+      return Center(child: Text(AppLocalizations.of(context).postStateDeleted));
     }
     if (post.type == PostType.unsupported) {
-      return const Center(child: Text('unsupported'));
+      return Center(
+        child: Text(AppLocalizations.of(context).postStateUnsupported),
+      );
     }
     if (post.file == null) {
-      return const Center(child: Text('unavailable'));
+      return Center(
+        child: Text(AppLocalizations.of(context).postStateUnavailable),
+      );
     }
     return child;
   }
@@ -366,12 +370,12 @@ class PostFeedTile extends StatelessWidget {
           if (post.file != null)
             PopupMenuTile(
               value: () => postDownloadingNotification(context, {post}),
-              title: 'Download',
+              title: AppLocalizations.of(context).menuDownload,
               icon: Icons.file_download,
             ),
           PopupMenuTile(
             value: () => launch(context.read<Client>().withHost(post.link)),
-            title: 'Browse',
+            title: AppLocalizations.of(context).menuBrowse,
             icon: Icons.open_in_browser,
           ),
         ],

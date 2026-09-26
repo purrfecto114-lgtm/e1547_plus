@@ -1,5 +1,6 @@
 import 'package:e1547/client/client.dart';
 import 'package:e1547/follow/follow.dart';
+import 'package:e1547/l10n/app_localizations.dart';
 import 'package:e1547/pool/pool.dart';
 import 'package:e1547/post/post.dart';
 import 'package:e1547/query/query.dart';
@@ -68,12 +69,18 @@ class _PostPageTitle extends StatelessWidget {
     final tags = params.tags ?? '';
     final map = TagMap(tags);
 
-    if (map.isEmpty) return const Text('Search');
-    if (map['order'] == 'rank') return const Text('Hot');
+    if (map.isEmpty) {
+      return Text(AppLocalizations.of(context).navSearch);
+    }
+    if (map['order'] == 'rank') {
+      return Text(AppLocalizations.of(context).navHot);
+    }
     final fav = map['fav'];
     if (fav != null) {
       return Text(
-        fav == client.identity.username ? 'Favorites' : "$fav's Favorites",
+        fav == client.identity.username
+            ? AppLocalizations.of(context).navFavorites
+            : AppLocalizations.of(context).favoritesOf(fav),
       );
     }
 

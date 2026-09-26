@@ -1,4 +1,5 @@
 import 'package:e1547/client/client.dart';
+import 'package:e1547/l10n/app_localizations.dart';
 import 'package:e1547/post/post.dart';
 import 'package:e1547/query/query.dart';
 import 'package:e1547/settings/settings.dart';
@@ -42,7 +43,7 @@ class HomePage extends StatelessWidget {
                     floatingActionButton: const PostsPageFab(),
                     drawer: const RouterDrawer(),
                     endDrawer: ContextDrawer(
-                      title: const Text('Posts'),
+                      title: Text(AppLocalizations.of(context).postsTitle),
                       children: [
                         const DrawerDenySwitch(),
                         DrawerTagCounter(
