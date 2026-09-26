@@ -1,8 +1,22 @@
 {
   "@@locale": "zh_Hant",
   "appName": "e1547",
-  "@appName": {
-    "description": "The app name.",
-    "placeholders": {}
-  }
+  "failedToLoad": "載入失敗",
+  "nothingToSeeHere": "這裡什麼都沒有",
+  "loading": "載入中…",
+  "actionCancel": "取消",
+  "actionOk": "確定",
+  "actionTryAgain": "重試",
+  "failedToLoadSuggestions": "建議載入失敗",
+  "selectionItemCount": "{count, plural, other{{count} 項}}",
+  "actionAbort": "中止",
+  "actionSelectAll": "全選",
+  "fileSavedAs": "檔案已儲存為 {name}",
+  "copiedToClipboard": "已複製到剪貼簿",
+  "saveFile": "儲存檔案",
+  "filterTooltip": "篩選",
+  "itemProgress": "第 {current}/{total} 項",
+  "taskCancelled": "已取消任務",
+  "taskFailedAt": "第 {index} 項失敗",
+  "taskDone": "完成"
 }

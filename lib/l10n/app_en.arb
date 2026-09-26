@@ -4,5 +4,58 @@
   "@appName": {
     "description": "The app name.",
     "placeholders": {}
-  }
+  },
+  "failedToLoad": "Failed to load",
+  "nothingToSeeHere": "Nothing to see here",
+  "loading": "Loading...",
+  "actionCancel": "CANCEL",
+  "actionOk": "OK",
+  "actionTryAgain": "Try again",
+  "failedToLoadSuggestions": "Failed to load suggestions",
+  "selectionItemCount": "{count, plural, =1{1 item} other{{count} items}}",
+  "@selectionItemCount": {
+    "description": "Number of selected items.",
+    "placeholders": {
+      "count": {
+        "type": "num"
+      }
+    }
+  },
+  "actionAbort": "Abort",
+  "actionSelectAll": "Select all",
+  "fileSavedAs": "File saved as {name}",
+  "@fileSavedAs": {
+    "description": "Confirmation after saving a file.",
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "copiedToClipboard": "Copied to clipboard",
+  "saveFile": "Save file",
+  "filterTooltip": "Filter",
+  "itemProgress": "Item {current}/{total}",
+  "@itemProgress": {
+    "description": "Progress of processing items.",
+    "placeholders": {
+      "current": {
+        "type": "num"
+      },
+      "total": {
+        "type": "num"
+      }
+    }
+  },
+  "taskCancelled": "Cancelled task",
+  "taskFailedAt": "Failed at item {index}",
+  "@taskFailedAt": {
+    "description": "Item processing failure.",
+    "placeholders": {
+      "index": {
+        "type": "num"
+      }
+    }
+  },
+  "taskDone": "Done"
 }

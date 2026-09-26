@@ -64,9 +64,7 @@ class FollowServer with Disposable {
     // used to write them straight into the follow preview, leaking
     // blacklisted thumbnails into the subscription list (issue #189).
     List<Post> allowed =
-        posts
-            ?.where((e) => !e.isDeniedBy(traits.value.denylist))
-            .toList() ??
+        posts?.where((e) => !e.isDeniedBy(traits.value.denylist)).toList() ??
         <Post>[];
     final latest = allowed.isEmpty
         ? null

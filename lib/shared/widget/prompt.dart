@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:e1547/l10n/app_localizations.dart';
 import 'package:e1547/shared/shared.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_sub/flutter_sub.dart';
@@ -132,7 +133,7 @@ class LoadingDialogActionController extends PromptActionController {
         child: Builder(
           builder: (context) {
             if (isLoading) {
-              return const Text('Loading...');
+              return Text(AppLocalizations.of(context).loading);
             } else if (isError) {
               return Text(error!.message);
             } else {

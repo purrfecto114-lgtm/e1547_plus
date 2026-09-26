@@ -1,5 +1,6 @@
 import 'dart:math';
 
+import 'package:e1547/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -495,10 +496,10 @@ class _RangeDialogState extends State<RangeDialog> {
       actions: [
         TextButton(
           onPressed: Navigator.of(context).maybePop,
-          child: const Text('CANCEL'),
+          child: Text(AppLocalizations.of(context).actionCancel),
         ),
         TextButton(
-          child: const Text('OK'),
+          child: Text(AppLocalizations.of(context).actionOk),
           onPressed: () => submit(controller.text),
         ),
       ],

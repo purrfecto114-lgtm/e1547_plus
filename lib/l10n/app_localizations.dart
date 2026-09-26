@@ -6,6 +6,7 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:intl/intl.dart' as intl;
 
 import 'app_localizations_en.dart';
+import 'app_localizations_zh.dart';
 
 // ignore_for_file: type=lint
 
@@ -92,13 +93,125 @@ abstract class AppLocalizations {
       ];
 
   /// A list of this localizations delegate's supported locales.
-  static const List<Locale> supportedLocales = <Locale>[Locale('en')];
+  static const List<Locale> supportedLocales = <Locale>[
+    Locale('en'),
+    Locale('zh'),
+    Locale.fromSubtags(languageCode: 'zh', scriptCode: 'Hant'),
+  ];
 
   /// The app name.
   ///
   /// In en, this message translates to:
   /// **'e1547'**
   String get appName;
+
+  /// No description provided for @failedToLoad.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to load'**
+  String get failedToLoad;
+
+  /// No description provided for @nothingToSeeHere.
+  ///
+  /// In en, this message translates to:
+  /// **'Nothing to see here'**
+  String get nothingToSeeHere;
+
+  /// No description provided for @loading.
+  ///
+  /// In en, this message translates to:
+  /// **'Loading...'**
+  String get loading;
+
+  /// No description provided for @actionCancel.
+  ///
+  /// In en, this message translates to:
+  /// **'CANCEL'**
+  String get actionCancel;
+
+  /// No description provided for @actionOk.
+  ///
+  /// In en, this message translates to:
+  /// **'OK'**
+  String get actionOk;
+
+  /// No description provided for @actionTryAgain.
+  ///
+  /// In en, this message translates to:
+  /// **'Try again'**
+  String get actionTryAgain;
+
+  /// No description provided for @failedToLoadSuggestions.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to load suggestions'**
+  String get failedToLoadSuggestions;
+
+  /// Number of selected items.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{1 item} other{{count} items}}'**
+  String selectionItemCount(num count);
+
+  /// No description provided for @actionAbort.
+  ///
+  /// In en, this message translates to:
+  /// **'Abort'**
+  String get actionAbort;
+
+  /// No description provided for @actionSelectAll.
+  ///
+  /// In en, this message translates to:
+  /// **'Select all'**
+  String get actionSelectAll;
+
+  /// Confirmation after saving a file.
+  ///
+  /// In en, this message translates to:
+  /// **'File saved as {name}'**
+  String fileSavedAs(String name);
+
+  /// No description provided for @copiedToClipboard.
+  ///
+  /// In en, this message translates to:
+  /// **'Copied to clipboard'**
+  String get copiedToClipboard;
+
+  /// No description provided for @saveFile.
+  ///
+  /// In en, this message translates to:
+  /// **'Save file'**
+  String get saveFile;
+
+  /// No description provided for @filterTooltip.
+  ///
+  /// In en, this message translates to:
+  /// **'Filter'**
+  String get filterTooltip;
+
+  /// Progress of processing items.
+  ///
+  /// In en, this message translates to:
+  /// **'Item {current}/{total}'**
+  String itemProgress(num current, num total);
+
+  /// No description provided for @taskCancelled.
+  ///
+  /// In en, this message translates to:
+  /// **'Cancelled task'**
+  String get taskCancelled;
+
+  /// Item processing failure.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed at item {index}'**
+  String taskFailedAt(num index);
+
+  /// No description provided for @taskDone.
+  ///
+  /// In en, this message translates to:
+  /// **'Done'**
+  String get taskDone;
 }
 
 class _AppLocalizationsDelegate
@@ -112,17 +225,31 @@ class _AppLocalizationsDelegate
 
   @override
   bool isSupported(Locale locale) =>
-      <String>['en'].contains(locale.languageCode);
+      <String>['en', 'zh'].contains(locale.languageCode);
 
   @override
   bool shouldReload(_AppLocalizationsDelegate old) => false;
 }
 
 AppLocalizations lookupAppLocalizations(Locale locale) {
+  // Lookup logic when language+script codes are specified.
+  switch (locale.languageCode) {
+    case 'zh':
+      {
+        switch (locale.scriptCode) {
+          case 'Hant':
+            return AppLocalizationsZhHant();
+        }
+        break;
+      }
+  }
+
   // Lookup logic when only language code is specified.
   switch (locale.languageCode) {
     case 'en':
       return AppLocalizationsEn();
+    case 'zh':
+      return AppLocalizationsZh();
   }
 
   throw FlutterError(

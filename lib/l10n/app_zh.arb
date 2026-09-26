@@ -1,8 +1,22 @@
 {
   "@@locale": "zh",
   "appName": "e1547",
-  "@appName": {
-    "description": "The app name.",
-    "placeholders": {}
-  }
+  "failedToLoad": "加载失败",
+  "nothingToSeeHere": "这里什么都没有",
+  "loading": "加载中…",
+  "actionCancel": "取消",
+  "actionOk": "确定",
+  "actionTryAgain": "重试",
+  "failedToLoadSuggestions": "建议加载失败",
+  "selectionItemCount": "{count, plural, other{{count} 项}}",
+  "actionAbort": "中止",
+  "actionSelectAll": "全选",
+  "fileSavedAs": "文件已保存为 {name}",
+  "copiedToClipboard": "已复制到剪贴板",
+  "saveFile": "保存文件",
+  "filterTooltip": "筛选",
+  "itemProgress": "第 {current}/{total} 项",
+  "taskCancelled": "已取消任务",
+  "taskFailedAt": "第 {index} 项失败",
+  "taskDone": "完成"
 }

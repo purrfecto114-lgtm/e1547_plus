@@ -1,3 +1,4 @@
+import 'package:e1547/l10n/app_localizations.dart';
 import 'package:e1547/logs/logs.dart';
 import 'package:e1547/settings/settings.dart';
 import 'package:flutter/material.dart';
@@ -26,7 +27,11 @@ class FakeLogSource extends LogSource {
   }
 }
 
-Widget wrap(Widget child) => MaterialApp(home: child);
+Widget wrap(Widget child) => MaterialApp(
+  localizationsDelegates: AppLocalizations.localizationsDelegates,
+  supportedLocales: AppLocalizations.supportedLocales,
+  home: child,
+);
 
 Finder scrollView() => find.descendant(
   of: find.byType(CustomScrollView),
