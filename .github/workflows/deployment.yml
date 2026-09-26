@@ -80,8 +80,24 @@ jobs:
           KEYCONFIG: ${{ secrets.KEYCONFIG }}
         run: |
           mkdir -p android/keys
-          echo "$KEYSTORE" | base64 -d > android/keys/key.pkcs
-          echo "$KEYCONFIG" | base64 -d > android/keys/key.properties
+          if [ -n "$KEYSTORE" ]; then
+            echo "$KEYSTORE" | base64 -d > android/keys/key.pkcs
+            echo "$KEYCONFIG" | base64 -d > android/keys/key.properties
+          else
+            echo "::warning::No signing secrets found, generating a keystore"
+            keytool -genkeypair -v \
+              -keystore android/keys/key.pkcs \
+              -storetype PKCS12 \
+              -alias release -keyalg RSA -keysize 2048 -validity 10950 \
+              -storepass android -keypass android \
+              -dname "CN=e1547, OU=release, O=e1547, C=US"
+            printf '%s\n' \
+              'storePassword=android' \
+              'keyPassword=android' \
+              'keyAlias=release' \
+              'storeFile=../keys/key.pkcs' \
+              > android/keys/key.properties
+          fi
 
       - name: build APK
         run: flutter build apk
