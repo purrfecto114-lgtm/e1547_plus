@@ -162,7 +162,6 @@ class AboutExperimental extends StatelessWidget {
 }
 
 class AboutVersion extends StatelessWidget {
-  // ignore: unused_element
   const AboutVersion({super.key, required this.newVersions});
 
   final Query<List<AppVersion>>? newVersions;

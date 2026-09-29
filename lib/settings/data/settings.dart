@@ -104,8 +104,11 @@ class Settings extends NotifiedSettings {
 }
 
 // Decoding source quality videos can push low end Android devices,
-// especially 32 bit ones, over their memory limits. Such devices get a
-// lower default; users can still raise it in the settings.
+// especially 32 bit ones, over their memory limits. iOS kills equally
+// greedy apps through Jetsam, so its 64 bit devices get the same tier as
+// Android's. Such devices get a lower default; users can still raise it in
+// the settings. Intel iOS simulators (iosX64) are a development-only
+// scenario on desktop-class hardware and keep the source default.
 VideoResolution _defaultVideoResolution() {
   switch (Abi.current()) {
     case Abi.androidArm:
@@ -114,6 +117,7 @@ VideoResolution _defaultVideoResolution() {
     case Abi.androidArm64:
     case Abi.androidX64:
     case Abi.androidRiscv64:
+    case Abi.iosArm64:
       return VideoResolution.high;
     default:
       return VideoResolution.source;
