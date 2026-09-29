@@ -577,5 +577,622 @@
   "postNotFound": "Post not found",
   "@postNotFound": {
     "description": "Message shown when a post does not exist."
+  },
+  "commentsTitle": "Comments",
+  "@commentsTitle": {
+    "description": "Title of the comment list drawer."
+  },
+  "commentsOfPost": "#{postId} comments",
+  "@commentsOfPost": {
+    "description": "Title of a post's comment page.",
+    "placeholders": {
+      "postId": {
+        "type": "num"
+      }
+    }
+  },
+  "commentOrder": "Comment order",
+  "@commentOrder": {
+    "description": "Label of the comment sorting switch."
+  },
+  "noComments": "No comments",
+  "@noComments": {
+    "description": "Message shown when there are no comments."
+  },
+  "failedToLoadComments": "Failed to load comments",
+  "@failedToLoadComments": {
+    "description": "Error shown when comments failed to load."
+  },
+  "commentTitle": "Comment #{id}",
+  "@commentTitle": {
+    "description": "Title of the comment loading page.",
+    "placeholders": {
+      "id": {
+        "type": "num"
+      }
+    }
+  },
+  "failedToLoadComment": "Failed to load comment",
+  "@failedToLoadComment": {
+    "description": "Error shown when a comment failed to load."
+  },
+  "commentNotFound": "Comment not found",
+  "@commentNotFound": {
+    "description": "Message shown when a comment does not exist."
+  },
+  "commentEditorTitle": "#{postId} comment",
+  "@commentEditorTitle": {
+    "description": "Title of the comment editor.",
+    "placeholders": {
+      "postId": {
+        "type": "num"
+      }
+    }
+  },
+  "commentSendFailed": "Failed to send comment!",
+  "@commentSendFailed": {
+    "description": "Error shown when sending a comment failed."
+  },
+  "commentSent": "Comment sent!",
+  "@commentSent": {
+    "description": "Confirmation shown after sending a comment."
+  },
+  "commentHidden": "This comment is hidden",
+  "@commentHidden": {
+    "description": "Tooltip of the hidden comment indicator."
+  },
+  "commentUpvoteFailed": "Failed to upvote comment #{id}",
+  "@commentUpvoteFailed": {
+    "description": "Error shown when upvoting a comment failed.",
+    "placeholders": {
+      "id": {
+        "type": "num"
+      }
+    }
+  },
+  "commentDownvoteFailed": "Failed to downvote comment #{id}",
+  "@commentDownvoteFailed": {
+    "description": "Error shown when downvoting a comment failed.",
+    "placeholders": {
+      "id": {
+        "type": "num"
+      }
+    }
+  },
+  "commentLoginRequiredEdit": "You must be logged in to edit comments!",
+  "@commentLoginRequiredEdit": {
+    "description": "Error shown when editing a comment requires a login."
+  },
+  "commentLoginRequiredReply": "You must be logged in to reply to comments!",
+  "@commentLoginRequiredReply": {
+    "description": "Error shown when replying to a comment requires a login."
+  },
+  "commentLoginRequiredReport": "You must be logged in to report comments!",
+  "@commentLoginRequiredReport": {
+    "description": "Error shown when reporting a comment requires a login."
+  },
+  "commentCopiedId": "Copied comment id #{id}",
+  "@commentCopiedId": {
+    "description": "Confirmation shown after copying a comment id.",
+    "placeholders": {
+      "id": {
+        "type": "num"
+      }
+    }
+  },
+  "warningUserWarned": "User received a warning for this message",
+  "@warningUserWarned": {
+    "description": "Warning attached to a comment or reply whose author was warned."
+  },
+  "warningUserRecorded": "User received a record for this message",
+  "@warningUserRecorded": {
+    "description": "Warning attached to a comment or reply whose author received a record."
+  },
+  "warningUserBanned": "User was banned for this message",
+  "@warningUserBanned": {
+    "description": "Warning attached to a comment or reply whose author was banned."
+  },
+  "repliesTitle": "Replies",
+  "@repliesTitle": {
+    "description": "Title of the reply list drawer."
+  },
+  "replyOrder": "Reply order",
+  "@replyOrder": {
+    "description": "Label of the reply sorting switch."
+  },
+  "noReplies": "No replies",
+  "@noReplies": {
+    "description": "Message shown when there are no replies."
+  },
+  "failedToLoadReplies": "Failed to load replies",
+  "@failedToLoadReplies": {
+    "description": "Error shown when replies failed to load."
+  },
+  "replyTitle": "Reply #{id}",
+  "@replyTitle": {
+    "description": "Title of the reply loading page.",
+    "placeholders": {
+      "id": {
+        "type": "num"
+      }
+    }
+  },
+  "failedToLoadReply": "Failed to load reply",
+  "@failedToLoadReply": {
+    "description": "Error shown when a reply failed to load."
+  },
+  "replyNotFound": "Reply not found",
+  "@replyNotFound": {
+    "description": "Message shown when a reply does not exist."
+  },
+  "replyEditorTitle": "#{topicId} reply",
+  "@replyEditorTitle": {
+    "description": "Title of the reply editor.",
+    "placeholders": {
+      "topicId": {
+        "type": "num"
+      }
+    }
+  },
+  "replySendFailed": "Failed to send reply!",
+  "@replySendFailed": {
+    "description": "Error shown when sending a reply failed."
+  },
+  "replySent": "Reply sent!",
+  "@replySent": {
+    "description": "Confirmation shown after sending a reply."
+  },
+  "replyHidden": "This reply is hidden",
+  "@replyHidden": {
+    "description": "Tooltip of the hidden reply indicator."
+  },
+  "replyLoginRequiredEdit": "You must be logged in to edit replies!",
+  "@replyLoginRequiredEdit": {
+    "description": "Error shown when editing a reply requires a login."
+  },
+  "replyLoginRequiredReply": "You must be logged in to reply!",
+  "@replyLoginRequiredReply": {
+    "description": "Error shown when replying requires a login."
+  },
+  "replyLoginRequiredReport": "You must be logged in to report replies!",
+  "@replyLoginRequiredReport": {
+    "description": "Error shown when reporting a reply requires a login."
+  },
+  "replyCopiedId": "Copied reply id #{id}",
+  "@replyCopiedId": {
+    "description": "Confirmation shown after copying a reply id.",
+    "placeholders": {
+      "id": {
+        "type": "num"
+      }
+    }
+  },
+  "menuReply": "Reply",
+  "@menuReply": {
+    "description": "Menu item that replies to an item."
+  },
+  "menuCopyId": "Copy ID",
+  "@menuCopyId": {
+    "description": "Menu item that copies an id to the clipboard."
+  },
+  "menuRefresh": "Refresh",
+  "@menuRefresh": {
+    "description": "Menu item that refreshes a list."
+  },
+  "actionCopy": "Copy",
+  "@actionCopy": {
+    "description": "Tooltip of copy buttons."
+  },
+  "actionSave": "Save",
+  "@actionSave": {
+    "description": "Button that saves changes."
+  },
+  "actionShow": "Show",
+  "@actionShow": {
+    "description": "Tooltip to reveal a hidden value."
+  },
+  "actionHide": "Hide",
+  "@actionHide": {
+    "description": "Tooltip to hide a visible value."
+  },
+  "actionCannotBeUndone": "This action cannot be undone.",
+  "@actionCannotBeUndone": {
+    "description": "Warning that a destructive action is permanent."
+  },
+  "info": "Info",
+  "@info": {
+    "description": "Label of info buttons and sections."
+  },
+  "wikiTitle": "Wiki {idOrTitle}",
+  "@wikiTitle": {
+    "description": "Title of the wiki loading page. The placeholder is an id reference like '#123' or a wiki title.",
+    "placeholders": {
+      "idOrTitle": {
+        "type": "String"
+      }
+    }
+  },
+  "failedToLoadWiki": "Failed to load wiki",
+  "@failedToLoadWiki": {
+    "description": "Error shown when a wiki page failed to load."
+  },
+  "wikiNotFound": "Wiki not found",
+  "@wikiNotFound": {
+    "description": "Message shown when a wiki page does not exist."
+  },
+  "wikiCopiedId": "Copied wiki id #{id}",
+  "@wikiCopiedId": {
+    "description": "Confirmation shown after copying a wiki id.",
+    "placeholders": {
+      "id": {
+        "type": "num"
+      }
+    }
+  },
+  "wikiInfoId": "id",
+  "@wikiInfoId": {
+    "description": "Label of the wiki id info row."
+  },
+  "wikiInfoAlias": "alias",
+  "@wikiInfoAlias": {
+    "description": "Label of the wiki alias info row."
+  },
+  "wikiInfoCreated": "created",
+  "@wikiInfoCreated": {
+    "description": "Label of the wiki creation date info row."
+  },
+  "wikiInfoUpdated": "updated",
+  "@wikiInfoUpdated": {
+    "description": "Label of the wiki update date info row."
+  },
+  "wikiInfoLocked": "locked",
+  "@wikiInfoLocked": {
+    "description": "Label of the wiki lock info row."
+  },
+  "wikiInfoYes": "yes",
+  "@wikiInfoYes": {
+    "description": "Positive value of info rows."
+  },
+  "wikiInfoNo": "no",
+  "@wikiInfoNo": {
+    "description": "Negative value of info rows."
+  },
+  "userTitle": "User {idOrName}",
+  "@userTitle": {
+    "description": "Title of the user loading page. The placeholder is an id reference like '#123' or a username.",
+    "placeholders": {
+      "idOrName": {
+        "type": "String"
+      }
+    }
+  },
+  "failedToLoadUser": "Failed to load user",
+  "@failedToLoadUser": {
+    "description": "Error shown when a user failed to load."
+  },
+  "userNotFound": "User not found",
+  "@userNotFound": {
+    "description": "Message shown when a user does not exist."
+  },
+  "userUploads": "Uploads",
+  "@userUploads": {
+    "description": "Label of the uploads tab on the user page."
+  },
+  "userLoginRequiredReport": "You must be logged in to report users!",
+  "@userLoginRequiredReport": {
+    "description": "Error shown when reporting a user requires a login."
+  },
+  "userComission": "Commission",
+  "@userComission": {
+    "description": "Header of the commission info section on the user page."
+  },
+  "userId": "id",
+  "@userId": {
+    "description": "Label of the user id info row."
+  },
+  "userJoined": "joined",
+  "@userJoined": {
+    "description": "Label of the join date info row."
+  },
+  "userRank": "rank",
+  "@userRank": {
+    "description": "Label of the user rank info row."
+  },
+  "userPosts": "posts",
+  "@userPosts": {
+    "description": "Label of the user post count info row."
+  },
+  "userEdits": "edits",
+  "@userEdits": {
+    "description": "Label of the user post edit count info row."
+  },
+  "userFavorites": "favorites",
+  "@userFavorites": {
+    "description": "Label of the user favorite count info row."
+  },
+  "userComments": "comments",
+  "@userComments": {
+    "description": "Label of the user comment count info row."
+  },
+  "userForum": "forum",
+  "@userForum": {
+    "description": "Label of the user forum post count info row."
+  },
+  "userCopiedId": "Copied user id #{id}",
+  "@userCopiedId": {
+    "description": "Confirmation shown after copying a user id.",
+    "placeholders": {
+      "id": {
+        "type": "num"
+      }
+    }
+  },
+  "logsTitle": "Logs",
+  "@logsTitle": {
+    "description": "Title of the logs page."
+  },
+  "logsTitleDate": "Logs - {date}",
+  "@logsTitleDate": {
+    "description": "Title of the logs page for a specific date.",
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "selectionLogsCount": "{count, plural, other{{count} logs}}",
+  "@selectionLogsCount": {
+    "description": "Number of selected log entries.",
+    "placeholders": {
+      "count": {
+        "type": "num"
+      }
+    }
+  },
+  "selectionLogsFilesCount": "{count, plural, other{{count} log files}}",
+  "@selectionLogsFilesCount": {
+    "description": "Number of selected log files.",
+    "placeholders": {
+      "count": {
+        "type": "num"
+      }
+    }
+  },
+  "logsLevels": "Levels",
+  "@logsLevels": {
+    "description": "Header of the log level filter section."
+  },
+  "logsRecording": "Recording",
+  "@logsRecording": {
+    "description": "Header of the log recording settings section."
+  },
+  "logsVerbose": "Verbose",
+  "@logsVerbose": {
+    "description": "Switch that records verbose logs."
+  },
+  "logsVerboseAll": "all levels recorded",
+  "@logsVerboseAll": {
+    "description": "Subtitle of the verbose switch when all levels are recorded."
+  },
+  "logsVerboseMinimum": "{level} and above",
+  "@logsVerboseMinimum": {
+    "description": "Subtitle of the verbose switch naming the minimum recorded level.",
+    "placeholders": {
+      "level": {
+        "type": "String"
+      }
+    }
+  },
+  "logFilesTitle": "Log Files",
+  "@logFilesTitle": {
+    "description": "Title of the log file list page."
+  },
+  "failedToLoadLogFiles": "Failed to load log files!",
+  "@failedToLoadLogFiles": {
+    "description": "Error shown when log files failed to load."
+  },
+  "noLogFiles": "No log files available!",
+  "@noLogFiles": {
+    "description": "Message shown when there are no log files."
+  },
+  "logsLive": "Live\n",
+  "@logsLive": {
+    "description": "Label of the live log source tile in the log file list."
+  },
+  "noLogs": "No logs",
+  "@noLogs": {
+    "description": "Message shown when there are no log entries."
+  },
+  "failedToReadLog": "Failed to read the log",
+  "@failedToReadLog": {
+    "description": "Error shown when a log file failed to read."
+  },
+  "noErrorsLogged": "No errors logged",
+  "@noErrorsLogged": {
+    "description": "Message shown when no errors have been logged."
+  },
+  "logsErrorsCount": "{count, plural, =1{1 error} other{{count} errors}}",
+  "@logsErrorsCount": {
+    "description": "Number of errors logged in the current session.",
+    "placeholders": {
+      "count": {
+        "type": "num"
+      }
+    }
+  },
+  "logsAll": "All logs",
+  "@logsAll": {
+    "description": "Button that opens the full logs page."
+  },
+  "logsDismissAll": "Dismiss all",
+  "@logsDismissAll": {
+    "description": "Button that dismisses all logged errors."
+  },
+  "logsDeleteTitle": "Delete {count} log files?",
+  "@logsDeleteTitle": {
+    "description": "Title of the log file deletion dialog.",
+    "placeholders": {
+      "count": {
+        "type": "num"
+      }
+    }
+  },
+  "identityAccounts": "Accounts",
+  "@identityAccounts": {
+    "description": "Header of the account list in the identity picker."
+  },
+  "identityAdd": "Add account",
+  "@identityAdd": {
+    "description": "Title of the page that adds an account."
+  },
+  "identityEdit": "Edit account",
+  "@identityEdit": {
+    "description": "Title of the page that edits an account."
+  },
+  "identityRemoveTitle": "Remove account?",
+  "@identityRemoveTitle": {
+    "description": "Title of the account removal dialog."
+  },
+  "identityRemoveBody": "All its data will be permanently removed, including history and follows.",
+  "@identityRemoveBody": {
+    "description": "Body of the account removal dialog."
+  },
+  "identityAnonymous": "Anonymous",
+  "@identityAnonymous": {
+    "description": "Name shown for identities without a username."
+  },
+  "identityDuplicate": "You already have an identity under this host and username.",
+  "@identityDuplicate": {
+    "description": "Error shown when adding a duplicate identity."
+  },
+  "identityLoginFailed": "Failed to log in. \n{reason}",
+  "@identityLoginFailed": {
+    "description": "Error shown when logging in failed.",
+    "placeholders": {
+      "reason": {
+        "type": "String"
+      }
+    }
+  },
+  "identityLoginCheckDetails": "Check your network connection and login details",
+  "@identityLoginCheckDetails": {
+    "description": "Fallback reason shown when logging in failed without details."
+  },
+  "identitySite": "Site",
+  "@identitySite": {
+    "description": "Label of the account host input field."
+  },
+  "identityHostRequired": "You must provide a host URL.",
+  "@identityHostRequired": {
+    "description": "Error shown when the host field is empty."
+  },
+  "identityHostInvalid": "Invalid host URL",
+  "@identityHostInvalid": {
+    "description": "Error shown when the host URL is invalid."
+  },
+  "identityHostReadOnly": "Site can't be changed. Add a new account to use a different one.",
+  "@identityHostReadOnly": {
+    "description": "Tooltip of the read-only host field."
+  },
+  "identityUsernameLabel": "Username",
+  "@identityUsernameLabel": {
+    "description": "Label of the account username input field."
+  },
+  "identityUsernameRequired": "You must provide a username.",
+  "@identityUsernameRequired": {
+    "description": "Error shown when the username field is empty."
+  },
+  "identityApikeyLabel": "API key",
+  "@identityApikeyLabel": {
+    "description": "Label of the account api key input field."
+  },
+  "identityApikeyHelp": "Where do I find my API key?",
+  "@identityApikeyHelp": {
+    "description": "Link that opens the api key page of the current site."
+  },
+  "identityApikeyRequired": "You must provide an API key.\ne.g. 1ca1d165e973d7f8d35b7deb7a2ae54c",
+  "@identityApikeyRequired": {
+    "description": "Error shown when the api key field is empty."
+  },
+  "identityApikeyInvalid": "API key is a 24 or 32-character sequence of A-z and 0-9\ne.g. 1ca1d165e973d7f8d35b7deb7a2ae54c",
+  "@identityApikeyInvalid": {
+    "description": "Error shown when the api key is malformed."
+  },
+  "identitySignupPrompt": "Don't have an account? Sign up here",
+  "@identitySignupPrompt": {
+    "description": "Link that opens the registration page of the current site."
+  },
+  "identityHostHint": "The site is where your posts and account live.",
+  "@identityHostHint": {
+    "description": "Hint below the account host input field."
+  },
+  "identitySignIn": "Sign in",
+  "@identitySignIn": {
+    "description": "Segment that selects the sign-in mode of the account form."
+  },
+  "identityGuest": "Guest",
+  "@identityGuest": {
+    "description": "Segment that selects the guest mode of the account form."
+  },
+  "identityLogin": "Log in",
+  "@identityLogin": {
+    "description": "Button that logs in with the entered credentials."
+  },
+  "identityBrowseAnonymously": "Browse anonymously",
+  "@identityBrowseAnonymously": {
+    "description": "Button that continues without an account."
+  },
+  "identityConnecting": "Connecting to {host} as {username}...",
+  "@identityConnecting": {
+    "description": "Message of the login loading dialog.",
+    "placeholders": {
+      "host": {
+        "type": "String"
+      },
+      "username": {
+        "type": "String"
+      }
+    }
+  },
+  "failedToLoadIdentities": "Failed to load identities",
+  "@failedToLoadIdentities": {
+    "description": "Error shown when identities failed to load."
+  },
+  "onboardingSkip": "Skip",
+  "@onboardingSkip": {
+    "description": "Button that skips the onboarding."
+  },
+  "onboardingBack": "Back",
+  "@onboardingBack": {
+    "description": "Button that returns to the previous onboarding step."
+  },
+  "onboardingNext": "Next",
+  "@onboardingNext": {
+    "description": "Button that advances to the next onboarding step."
+  },
+  "onboardingWelcomeTitle": "Welcome to {app}",
+  "@onboardingWelcomeTitle": {
+    "description": "Title of the welcome onboarding step.",
+    "placeholders": {
+      "app": {
+        "type": "String"
+      }
+    }
+  },
+  "onboardingWelcomeBody": "A sophisticated booru browser.",
+  "@onboardingWelcomeBody": {
+    "description": "Body of the welcome onboarding step."
+  },
+  "onboardingThemeTitle": "Pick a look",
+  "@onboardingThemeTitle": {
+    "description": "Title of the theme onboarding step."
+  },
+  "onboardingThemeBody": "Try one on. You can always change your mind later.",
+  "@onboardingThemeBody": {
+    "description": "Body of the theme onboarding step."
+  },
+  "onboardingLoginTitle": "Connect an account",
+  "@onboardingLoginTitle": {
+    "description": "Title of the login onboarding step."
   }
 }

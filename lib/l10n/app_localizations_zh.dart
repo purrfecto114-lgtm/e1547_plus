@@ -824,6 +824,445 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get postNotFound => '找不到帖子';
+
+  @override
+  String get commentsTitle => '评论';
+
+  @override
+  String commentsOfPost(num postId) {
+    return '帖子 #$postId 的评论';
+  }
+
+  @override
+  String get commentOrder => '评论排序';
+
+  @override
+  String get noComments => '没有评论';
+
+  @override
+  String get failedToLoadComments => '评论加载失败';
+
+  @override
+  String commentTitle(num id) {
+    return '评论 #$id';
+  }
+
+  @override
+  String get failedToLoadComment => '评论加载失败';
+
+  @override
+  String get commentNotFound => '找不到评论';
+
+  @override
+  String commentEditorTitle(num postId) {
+    return '帖子 #$postId 评论';
+  }
+
+  @override
+  String get commentSendFailed => '评论发送失败！';
+
+  @override
+  String get commentSent => '评论已发送！';
+
+  @override
+  String get commentHidden => '此评论已隐藏';
+
+  @override
+  String commentUpvoteFailed(num id) {
+    return '评论 #$id 点赞失败';
+  }
+
+  @override
+  String commentDownvoteFailed(num id) {
+    return '评论 #$id 点踩失败';
+  }
+
+  @override
+  String get commentLoginRequiredEdit => '必须登录才能编辑评论！';
+
+  @override
+  String get commentLoginRequiredReply => '必须登录才能回复评论！';
+
+  @override
+  String get commentLoginRequiredReport => '必须登录才能举报评论！';
+
+  @override
+  String commentCopiedId(num id) {
+    return '已复制评论 ID #$id';
+  }
+
+  @override
+  String get warningUserWarned => '用户因这条消息收到警告';
+
+  @override
+  String get warningUserRecorded => '用户因这条消息被记过';
+
+  @override
+  String get warningUserBanned => '用户因这条消息被封禁';
+
+  @override
+  String get repliesTitle => '回复';
+
+  @override
+  String get replyOrder => '回复排序';
+
+  @override
+  String get noReplies => '没有回复';
+
+  @override
+  String get failedToLoadReplies => '回复加载失败';
+
+  @override
+  String replyTitle(num id) {
+    return '回复 #$id';
+  }
+
+  @override
+  String get failedToLoadReply => '回复加载失败';
+
+  @override
+  String get replyNotFound => '找不到回复';
+
+  @override
+  String replyEditorTitle(num topicId) {
+    return '讨论帖 #$topicId 回复';
+  }
+
+  @override
+  String get replySendFailed => '回复发送失败！';
+
+  @override
+  String get replySent => '回复已发送！';
+
+  @override
+  String get replyHidden => '此回复已隐藏';
+
+  @override
+  String get replyLoginRequiredEdit => '必须登录才能编辑回复！';
+
+  @override
+  String get replyLoginRequiredReply => '必须登录才能回复！';
+
+  @override
+  String get replyLoginRequiredReport => '必须登录才能举报回复！';
+
+  @override
+  String replyCopiedId(num id) {
+    return '已复制回复 ID #$id';
+  }
+
+  @override
+  String get menuReply => '回复';
+
+  @override
+  String get menuCopyId => '复制 ID';
+
+  @override
+  String get menuRefresh => '刷新';
+
+  @override
+  String get actionCopy => '复制';
+
+  @override
+  String get actionSave => '保存';
+
+  @override
+  String get actionShow => '显示';
+
+  @override
+  String get actionHide => '隐藏';
+
+  @override
+  String get actionCannotBeUndone => '此操作无法撤销。';
+
+  @override
+  String get info => '信息';
+
+  @override
+  String wikiTitle(String idOrTitle) {
+    return '维基 $idOrTitle';
+  }
+
+  @override
+  String get failedToLoadWiki => '维基加载失败';
+
+  @override
+  String get wikiNotFound => '找不到维基';
+
+  @override
+  String wikiCopiedId(num id) {
+    return '已复制维基 ID #$id';
+  }
+
+  @override
+  String get wikiInfoId => 'ID';
+
+  @override
+  String get wikiInfoAlias => '别名';
+
+  @override
+  String get wikiInfoCreated => '创建时间';
+
+  @override
+  String get wikiInfoUpdated => '更新时间';
+
+  @override
+  String get wikiInfoLocked => '锁定';
+
+  @override
+  String get wikiInfoYes => '是';
+
+  @override
+  String get wikiInfoNo => '否';
+
+  @override
+  String userTitle(String idOrName) {
+    return '用户 $idOrName';
+  }
+
+  @override
+  String get failedToLoadUser => '用户加载失败';
+
+  @override
+  String get userNotFound => '找不到用户';
+
+  @override
+  String get userUploads => '上传';
+
+  @override
+  String get userLoginRequiredReport => '必须登录才能举报用户！';
+
+  @override
+  String get userComission => '约稿';
+
+  @override
+  String get userId => 'ID';
+
+  @override
+  String get userJoined => '加入时间';
+
+  @override
+  String get userRank => '等级';
+
+  @override
+  String get userPosts => '帖子';
+
+  @override
+  String get userEdits => '编辑';
+
+  @override
+  String get userFavorites => '收藏';
+
+  @override
+  String get userComments => '评论';
+
+  @override
+  String get userForum => '论坛';
+
+  @override
+  String userCopiedId(num id) {
+    return '已复制用户 ID #$id';
+  }
+
+  @override
+  String get logsTitle => '日志';
+
+  @override
+  String logsTitleDate(String date) {
+    return '日志 - $date';
+  }
+
+  @override
+  String selectionLogsCount(num count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count 条日志',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String selectionLogsFilesCount(num count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count 个日志文件',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get logsLevels => '级别';
+
+  @override
+  String get logsRecording => '记录';
+
+  @override
+  String get logsVerbose => '详细日志';
+
+  @override
+  String get logsVerboseAll => '记录所有级别';
+
+  @override
+  String logsVerboseMinimum(String level) {
+    return '$level 及以上';
+  }
+
+  @override
+  String get logFilesTitle => '日志文件';
+
+  @override
+  String get failedToLoadLogFiles => '日志文件加载失败！';
+
+  @override
+  String get noLogFiles => '没有可用的日志文件！';
+
+  @override
+  String get logsLive => '实时\n';
+
+  @override
+  String get noLogs => '没有日志';
+
+  @override
+  String get failedToReadLog => '日志读取失败';
+
+  @override
+  String get noErrorsLogged => '没有已记录的错误';
+
+  @override
+  String logsErrorsCount(num count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count 个错误',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get logsAll => '所有日志';
+
+  @override
+  String get logsDismissAll => '全部清除';
+
+  @override
+  String logsDeleteTitle(num count) {
+    return '删除 $count 个日志文件？';
+  }
+
+  @override
+  String get identityAccounts => '账户';
+
+  @override
+  String get identityAdd => '添加账户';
+
+  @override
+  String get identityEdit => '编辑账户';
+
+  @override
+  String get identityRemoveTitle => '移除账户？';
+
+  @override
+  String get identityRemoveBody => '其所有数据将被永久移除，包括历史和关注。';
+
+  @override
+  String get identityAnonymous => '匿名';
+
+  @override
+  String get identityDuplicate => '此站点和用户名下已存在账户。';
+
+  @override
+  String identityLoginFailed(String reason) {
+    return '登录失败。\n$reason';
+  }
+
+  @override
+  String get identityLoginCheckDetails => '请检查网络连接和登录信息';
+
+  @override
+  String get identitySite => '站点';
+
+  @override
+  String get identityHostRequired => '请输入站点地址。';
+
+  @override
+  String get identityHostInvalid => '站点地址无效';
+
+  @override
+  String get identityHostReadOnly => '无法更改站点。如需使用其他站点，请添加新账户。';
+
+  @override
+  String get identityUsernameLabel => '用户名';
+
+  @override
+  String get identityUsernameRequired => '请输入用户名。';
+
+  @override
+  String get identityApikeyLabel => 'API 密钥';
+
+  @override
+  String get identityApikeyHelp => '在哪里能找到我的 API 密钥？';
+
+  @override
+  String get identityApikeyRequired =>
+      '必须提供 API 密钥。\n例如 1ca1d165e973d7f8d35b7deb7a2ae54c';
+
+  @override
+  String get identityApikeyInvalid =>
+      'API 密钥是由 A-z 和 0-9 组成的 24 或 32 位字符序列\n例如 1ca1d165e973d7f8d35b7deb7a2ae54c';
+
+  @override
+  String get identitySignupPrompt => '还没有账户？在这里注册';
+
+  @override
+  String get identityHostHint => '站点是你的帖子和账户所在的地方。';
+
+  @override
+  String get identitySignIn => '登录';
+
+  @override
+  String get identityGuest => '访客';
+
+  @override
+  String get identityLogin => '登录';
+
+  @override
+  String get identityBrowseAnonymously => '匿名浏览';
+
+  @override
+  String identityConnecting(String host, String username) {
+    return '正在以 $username 身份连接 $host...';
+  }
+
+  @override
+  String get failedToLoadIdentities => '账户加载失败';
+
+  @override
+  String get onboardingSkip => '跳过';
+
+  @override
+  String get onboardingBack => '上一步';
+
+  @override
+  String get onboardingNext => '下一步';
+
+  @override
+  String onboardingWelcomeTitle(String app) {
+    return '欢迎使用 $app';
+  }
+
+  @override
+  String get onboardingWelcomeBody => '一款精致的 booru 浏览器。';
+
+  @override
+  String get onboardingThemeTitle => '选个外观';
+
+  @override
+  String get onboardingThemeBody => '先试试看。以后随时可以更换。';
+
+  @override
+  String get onboardingLoginTitle => '连接账户';
 }
 
 /// The translations for Chinese, using the Han script (`zh_Hant`).
@@ -1646,4 +2085,443 @@ class AppLocalizationsZhHant extends AppLocalizationsZh {
 
   @override
   String get postNotFound => '找不到貼文';
+
+  @override
+  String get commentsTitle => '評論';
+
+  @override
+  String commentsOfPost(num postId) {
+    return '貼文 #$postId 的評論';
+  }
+
+  @override
+  String get commentOrder => '評論排序';
+
+  @override
+  String get noComments => '沒有評論';
+
+  @override
+  String get failedToLoadComments => '評論載入失敗';
+
+  @override
+  String commentTitle(num id) {
+    return '評論 #$id';
+  }
+
+  @override
+  String get failedToLoadComment => '評論載入失敗';
+
+  @override
+  String get commentNotFound => '找不到評論';
+
+  @override
+  String commentEditorTitle(num postId) {
+    return '貼文 #$postId 評論';
+  }
+
+  @override
+  String get commentSendFailed => '評論傳送失敗！';
+
+  @override
+  String get commentSent => '評論已傳送！';
+
+  @override
+  String get commentHidden => '此評論已隱藏';
+
+  @override
+  String commentUpvoteFailed(num id) {
+    return '評論 #$id 按讚失敗';
+  }
+
+  @override
+  String commentDownvoteFailed(num id) {
+    return '評論 #$id 倒讚失敗';
+  }
+
+  @override
+  String get commentLoginRequiredEdit => '必須登入才能編輯評論！';
+
+  @override
+  String get commentLoginRequiredReply => '必須登入才能回覆評論！';
+
+  @override
+  String get commentLoginRequiredReport => '必須登入才能檢舉評論！';
+
+  @override
+  String commentCopiedId(num id) {
+    return '已複製評論 ID #$id';
+  }
+
+  @override
+  String get warningUserWarned => '使用者因這則訊息收到警告';
+
+  @override
+  String get warningUserRecorded => '使用者因這則訊息被記過';
+
+  @override
+  String get warningUserBanned => '使用者因這則訊息被停權';
+
+  @override
+  String get repliesTitle => '回覆';
+
+  @override
+  String get replyOrder => '回覆排序';
+
+  @override
+  String get noReplies => '沒有回覆';
+
+  @override
+  String get failedToLoadReplies => '回覆載入失敗';
+
+  @override
+  String replyTitle(num id) {
+    return '回覆 #$id';
+  }
+
+  @override
+  String get failedToLoadReply => '回覆載入失敗';
+
+  @override
+  String get replyNotFound => '找不到回覆';
+
+  @override
+  String replyEditorTitle(num topicId) {
+    return '討論串 #$topicId 回覆';
+  }
+
+  @override
+  String get replySendFailed => '回覆傳送失敗！';
+
+  @override
+  String get replySent => '回覆已傳送！';
+
+  @override
+  String get replyHidden => '此回覆已隱藏';
+
+  @override
+  String get replyLoginRequiredEdit => '必須登入才能編輯回覆！';
+
+  @override
+  String get replyLoginRequiredReply => '必須登入才能回覆！';
+
+  @override
+  String get replyLoginRequiredReport => '必須登入才能檢舉回覆！';
+
+  @override
+  String replyCopiedId(num id) {
+    return '已複製回覆 ID #$id';
+  }
+
+  @override
+  String get menuReply => '回覆';
+
+  @override
+  String get menuCopyId => '複製 ID';
+
+  @override
+  String get menuRefresh => '重新整理';
+
+  @override
+  String get actionCopy => '複製';
+
+  @override
+  String get actionSave => '儲存';
+
+  @override
+  String get actionShow => '顯示';
+
+  @override
+  String get actionHide => '隱藏';
+
+  @override
+  String get actionCannotBeUndone => '此操作無法復原。';
+
+  @override
+  String get info => '資訊';
+
+  @override
+  String wikiTitle(String idOrTitle) {
+    return '維基 $idOrTitle';
+  }
+
+  @override
+  String get failedToLoadWiki => '維基載入失敗';
+
+  @override
+  String get wikiNotFound => '找不到維基';
+
+  @override
+  String wikiCopiedId(num id) {
+    return '已複製維基 ID #$id';
+  }
+
+  @override
+  String get wikiInfoId => 'ID';
+
+  @override
+  String get wikiInfoAlias => '別名';
+
+  @override
+  String get wikiInfoCreated => '建立時間';
+
+  @override
+  String get wikiInfoUpdated => '更新時間';
+
+  @override
+  String get wikiInfoLocked => '鎖定';
+
+  @override
+  String get wikiInfoYes => '是';
+
+  @override
+  String get wikiInfoNo => '否';
+
+  @override
+  String userTitle(String idOrName) {
+    return '使用者 $idOrName';
+  }
+
+  @override
+  String get failedToLoadUser => '使用者載入失敗';
+
+  @override
+  String get userNotFound => '找不到使用者';
+
+  @override
+  String get userUploads => '上傳';
+
+  @override
+  String get userLoginRequiredReport => '必須登入才能檢舉使用者！';
+
+  @override
+  String get userComission => '約稿';
+
+  @override
+  String get userId => 'ID';
+
+  @override
+  String get userJoined => '加入時間';
+
+  @override
+  String get userRank => '等級';
+
+  @override
+  String get userPosts => '貼文';
+
+  @override
+  String get userEdits => '編輯';
+
+  @override
+  String get userFavorites => '收藏';
+
+  @override
+  String get userComments => '評論';
+
+  @override
+  String get userForum => '論壇';
+
+  @override
+  String userCopiedId(num id) {
+    return '已複製使用者 ID #$id';
+  }
+
+  @override
+  String get logsTitle => '記錄檔';
+
+  @override
+  String logsTitleDate(String date) {
+    return '記錄檔 - $date';
+  }
+
+  @override
+  String selectionLogsCount(num count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count 筆記錄',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String selectionLogsFilesCount(num count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count 個記錄檔案',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get logsLevels => '層級';
+
+  @override
+  String get logsRecording => '記錄';
+
+  @override
+  String get logsVerbose => '詳細記錄';
+
+  @override
+  String get logsVerboseAll => '記錄所有層級';
+
+  @override
+  String logsVerboseMinimum(String level) {
+    return '$level 及以上';
+  }
+
+  @override
+  String get logFilesTitle => '記錄檔案';
+
+  @override
+  String get failedToLoadLogFiles => '記錄檔案載入失敗！';
+
+  @override
+  String get noLogFiles => '沒有可用的記錄檔案！';
+
+  @override
+  String get logsLive => '即時\n';
+
+  @override
+  String get noLogs => '沒有記錄';
+
+  @override
+  String get failedToReadLog => '記錄檔讀取失敗';
+
+  @override
+  String get noErrorsLogged => '沒有已記錄的錯誤';
+
+  @override
+  String logsErrorsCount(num count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count 個錯誤',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get logsAll => '所有記錄檔';
+
+  @override
+  String get logsDismissAll => '全部清除';
+
+  @override
+  String logsDeleteTitle(num count) {
+    return '刪除 $count 個記錄檔案？';
+  }
+
+  @override
+  String get identityAccounts => '帳戶';
+
+  @override
+  String get identityAdd => '新增帳戶';
+
+  @override
+  String get identityEdit => '編輯帳戶';
+
+  @override
+  String get identityRemoveTitle => '移除帳戶？';
+
+  @override
+  String get identityRemoveBody => '其所有資料將被永久移除，包括歷史和追蹤。';
+
+  @override
+  String get identityAnonymous => '匿名';
+
+  @override
+  String get identityDuplicate => '此網站和使用者名稱下已存在帳戶。';
+
+  @override
+  String identityLoginFailed(String reason) {
+    return '登入失敗。\n$reason';
+  }
+
+  @override
+  String get identityLoginCheckDetails => '請檢查網路連線和登入資訊';
+
+  @override
+  String get identitySite => '網站';
+
+  @override
+  String get identityHostRequired => '請輸入網站地址。';
+
+  @override
+  String get identityHostInvalid => '網站地址無效';
+
+  @override
+  String get identityHostReadOnly => '無法變更網站。如需使用其他網站，請新增帳戶。';
+
+  @override
+  String get identityUsernameLabel => '使用者名稱';
+
+  @override
+  String get identityUsernameRequired => '請輸入使用者名稱。';
+
+  @override
+  String get identityApikeyLabel => 'API 金鑰';
+
+  @override
+  String get identityApikeyHelp => '在哪裡能找到我的 API 金鑰？';
+
+  @override
+  String get identityApikeyRequired =>
+      '必須提供 API 金鑰。\n例如 1ca1d165e973d7f8d35b7deb7a2ae54c';
+
+  @override
+  String get identityApikeyInvalid =>
+      'API 金鑰是由 A-z 和 0-9 組成的 24 或 32 位字元序列\n例如 1ca1d165e973d7f8d35b7deb7a2ae54c';
+
+  @override
+  String get identitySignupPrompt => '還沒有帳戶？在這裡註冊';
+
+  @override
+  String get identityHostHint => '網站是你的貼文和帳戶所在的地方。';
+
+  @override
+  String get identitySignIn => '登入';
+
+  @override
+  String get identityGuest => '訪客';
+
+  @override
+  String get identityLogin => '登入';
+
+  @override
+  String get identityBrowseAnonymously => '匿名瀏覽';
+
+  @override
+  String identityConnecting(String host, String username) {
+    return '正在以 $username 身分連線 $host...';
+  }
+
+  @override
+  String get failedToLoadIdentities => '帳戶載入失敗';
+
+  @override
+  String get onboardingSkip => '略過';
+
+  @override
+  String get onboardingBack => '上一步';
+
+  @override
+  String get onboardingNext => '下一步';
+
+  @override
+  String onboardingWelcomeTitle(String app) {
+    return '歡迎使用 $app';
+  }
+
+  @override
+  String get onboardingWelcomeBody => '一款精緻的 booru 瀏覽器。';
+
+  @override
+  String get onboardingThemeTitle => '挑個外觀';
+
+  @override
+  String get onboardingThemeBody => '先試試看。之後隨時可以更換。';
+
+  @override
+  String get onboardingLoginTitle => '連結帳戶';
 }

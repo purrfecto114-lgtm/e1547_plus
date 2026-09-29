@@ -837,4 +837,455 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get postNotFound => 'Post not found';
+
+  @override
+  String get commentsTitle => 'Comments';
+
+  @override
+  String commentsOfPost(num postId) {
+    return '#$postId comments';
+  }
+
+  @override
+  String get commentOrder => 'Comment order';
+
+  @override
+  String get noComments => 'No comments';
+
+  @override
+  String get failedToLoadComments => 'Failed to load comments';
+
+  @override
+  String commentTitle(num id) {
+    return 'Comment #$id';
+  }
+
+  @override
+  String get failedToLoadComment => 'Failed to load comment';
+
+  @override
+  String get commentNotFound => 'Comment not found';
+
+  @override
+  String commentEditorTitle(num postId) {
+    return '#$postId comment';
+  }
+
+  @override
+  String get commentSendFailed => 'Failed to send comment!';
+
+  @override
+  String get commentSent => 'Comment sent!';
+
+  @override
+  String get commentHidden => 'This comment is hidden';
+
+  @override
+  String commentUpvoteFailed(num id) {
+    return 'Failed to upvote comment #$id';
+  }
+
+  @override
+  String commentDownvoteFailed(num id) {
+    return 'Failed to downvote comment #$id';
+  }
+
+  @override
+  String get commentLoginRequiredEdit =>
+      'You must be logged in to edit comments!';
+
+  @override
+  String get commentLoginRequiredReply =>
+      'You must be logged in to reply to comments!';
+
+  @override
+  String get commentLoginRequiredReport =>
+      'You must be logged in to report comments!';
+
+  @override
+  String commentCopiedId(num id) {
+    return 'Copied comment id #$id';
+  }
+
+  @override
+  String get warningUserWarned => 'User received a warning for this message';
+
+  @override
+  String get warningUserRecorded => 'User received a record for this message';
+
+  @override
+  String get warningUserBanned => 'User was banned for this message';
+
+  @override
+  String get repliesTitle => 'Replies';
+
+  @override
+  String get replyOrder => 'Reply order';
+
+  @override
+  String get noReplies => 'No replies';
+
+  @override
+  String get failedToLoadReplies => 'Failed to load replies';
+
+  @override
+  String replyTitle(num id) {
+    return 'Reply #$id';
+  }
+
+  @override
+  String get failedToLoadReply => 'Failed to load reply';
+
+  @override
+  String get replyNotFound => 'Reply not found';
+
+  @override
+  String replyEditorTitle(num topicId) {
+    return '#$topicId reply';
+  }
+
+  @override
+  String get replySendFailed => 'Failed to send reply!';
+
+  @override
+  String get replySent => 'Reply sent!';
+
+  @override
+  String get replyHidden => 'This reply is hidden';
+
+  @override
+  String get replyLoginRequiredEdit => 'You must be logged in to edit replies!';
+
+  @override
+  String get replyLoginRequiredReply => 'You must be logged in to reply!';
+
+  @override
+  String get replyLoginRequiredReport =>
+      'You must be logged in to report replies!';
+
+  @override
+  String replyCopiedId(num id) {
+    return 'Copied reply id #$id';
+  }
+
+  @override
+  String get menuReply => 'Reply';
+
+  @override
+  String get menuCopyId => 'Copy ID';
+
+  @override
+  String get menuRefresh => 'Refresh';
+
+  @override
+  String get actionCopy => 'Copy';
+
+  @override
+  String get actionSave => 'Save';
+
+  @override
+  String get actionShow => 'Show';
+
+  @override
+  String get actionHide => 'Hide';
+
+  @override
+  String get actionCannotBeUndone => 'This action cannot be undone.';
+
+  @override
+  String get info => 'Info';
+
+  @override
+  String wikiTitle(String idOrTitle) {
+    return 'Wiki $idOrTitle';
+  }
+
+  @override
+  String get failedToLoadWiki => 'Failed to load wiki';
+
+  @override
+  String get wikiNotFound => 'Wiki not found';
+
+  @override
+  String wikiCopiedId(num id) {
+    return 'Copied wiki id #$id';
+  }
+
+  @override
+  String get wikiInfoId => 'id';
+
+  @override
+  String get wikiInfoAlias => 'alias';
+
+  @override
+  String get wikiInfoCreated => 'created';
+
+  @override
+  String get wikiInfoUpdated => 'updated';
+
+  @override
+  String get wikiInfoLocked => 'locked';
+
+  @override
+  String get wikiInfoYes => 'yes';
+
+  @override
+  String get wikiInfoNo => 'no';
+
+  @override
+  String userTitle(String idOrName) {
+    return 'User $idOrName';
+  }
+
+  @override
+  String get failedToLoadUser => 'Failed to load user';
+
+  @override
+  String get userNotFound => 'User not found';
+
+  @override
+  String get userUploads => 'Uploads';
+
+  @override
+  String get userLoginRequiredReport =>
+      'You must be logged in to report users!';
+
+  @override
+  String get userComission => 'Commission';
+
+  @override
+  String get userId => 'id';
+
+  @override
+  String get userJoined => 'joined';
+
+  @override
+  String get userRank => 'rank';
+
+  @override
+  String get userPosts => 'posts';
+
+  @override
+  String get userEdits => 'edits';
+
+  @override
+  String get userFavorites => 'favorites';
+
+  @override
+  String get userComments => 'comments';
+
+  @override
+  String get userForum => 'forum';
+
+  @override
+  String userCopiedId(num id) {
+    return 'Copied user id #$id';
+  }
+
+  @override
+  String get logsTitle => 'Logs';
+
+  @override
+  String logsTitleDate(String date) {
+    return 'Logs - $date';
+  }
+
+  @override
+  String selectionLogsCount(num count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count logs',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String selectionLogsFilesCount(num count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count log files',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get logsLevels => 'Levels';
+
+  @override
+  String get logsRecording => 'Recording';
+
+  @override
+  String get logsVerbose => 'Verbose';
+
+  @override
+  String get logsVerboseAll => 'all levels recorded';
+
+  @override
+  String logsVerboseMinimum(String level) {
+    return '$level and above';
+  }
+
+  @override
+  String get logFilesTitle => 'Log Files';
+
+  @override
+  String get failedToLoadLogFiles => 'Failed to load log files!';
+
+  @override
+  String get noLogFiles => 'No log files available!';
+
+  @override
+  String get logsLive => 'Live\n';
+
+  @override
+  String get noLogs => 'No logs';
+
+  @override
+  String get failedToReadLog => 'Failed to read the log';
+
+  @override
+  String get noErrorsLogged => 'No errors logged';
+
+  @override
+  String logsErrorsCount(num count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count errors',
+      one: '1 error',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get logsAll => 'All logs';
+
+  @override
+  String get logsDismissAll => 'Dismiss all';
+
+  @override
+  String logsDeleteTitle(num count) {
+    return 'Delete $count log files?';
+  }
+
+  @override
+  String get identityAccounts => 'Accounts';
+
+  @override
+  String get identityAdd => 'Add account';
+
+  @override
+  String get identityEdit => 'Edit account';
+
+  @override
+  String get identityRemoveTitle => 'Remove account?';
+
+  @override
+  String get identityRemoveBody =>
+      'All its data will be permanently removed, including history and follows.';
+
+  @override
+  String get identityAnonymous => 'Anonymous';
+
+  @override
+  String get identityDuplicate =>
+      'You already have an identity under this host and username.';
+
+  @override
+  String identityLoginFailed(String reason) {
+    return 'Failed to log in. \n$reason';
+  }
+
+  @override
+  String get identityLoginCheckDetails =>
+      'Check your network connection and login details';
+
+  @override
+  String get identitySite => 'Site';
+
+  @override
+  String get identityHostRequired => 'You must provide a host URL.';
+
+  @override
+  String get identityHostInvalid => 'Invalid host URL';
+
+  @override
+  String get identityHostReadOnly =>
+      'Site can\'t be changed. Add a new account to use a different one.';
+
+  @override
+  String get identityUsernameLabel => 'Username';
+
+  @override
+  String get identityUsernameRequired => 'You must provide a username.';
+
+  @override
+  String get identityApikeyLabel => 'API key';
+
+  @override
+  String get identityApikeyHelp => 'Where do I find my API key?';
+
+  @override
+  String get identityApikeyRequired =>
+      'You must provide an API key.\ne.g. 1ca1d165e973d7f8d35b7deb7a2ae54c';
+
+  @override
+  String get identityApikeyInvalid =>
+      'API key is a 24 or 32-character sequence of A-z and 0-9\ne.g. 1ca1d165e973d7f8d35b7deb7a2ae54c';
+
+  @override
+  String get identitySignupPrompt => 'Don\'t have an account? Sign up here';
+
+  @override
+  String get identityHostHint =>
+      'The site is where your posts and account live.';
+
+  @override
+  String get identitySignIn => 'Sign in';
+
+  @override
+  String get identityGuest => 'Guest';
+
+  @override
+  String get identityLogin => 'Log in';
+
+  @override
+  String get identityBrowseAnonymously => 'Browse anonymously';
+
+  @override
+  String identityConnecting(String host, String username) {
+    return 'Connecting to $host as $username...';
+  }
+
+  @override
+  String get failedToLoadIdentities => 'Failed to load identities';
+
+  @override
+  String get onboardingSkip => 'Skip';
+
+  @override
+  String get onboardingBack => 'Back';
+
+  @override
+  String get onboardingNext => 'Next';
+
+  @override
+  String onboardingWelcomeTitle(String app) {
+    return 'Welcome to $app';
+  }
+
+  @override
+  String get onboardingWelcomeBody => 'A sophisticated booru browser.';
+
+  @override
+  String get onboardingThemeTitle => 'Pick a look';
+
+  @override
+  String get onboardingThemeBody =>
+      'Try one on. You can always change your mind later.';
+
+  @override
+  String get onboardingLoginTitle => 'Connect an account';
 }

@@ -3,6 +3,7 @@ import 'dart:io';
 
 import 'package:collection/collection.dart';
 import 'package:e1547/app/app.dart';
+import 'package:e1547/l10n/app_localizations.dart';
 import 'package:e1547/logs/logs.dart';
 import 'package:e1547/settings/settings.dart';
 import 'package:e1547/shared/shared.dart';
@@ -84,6 +85,7 @@ class _LogFileListState extends State<LogFileList> {
   @override
   Widget build(BuildContext context) {
     final String path = context.read<AppStorage>().temporaryFiles;
+    final l10n = AppLocalizations.of(context);
     return TileLayout(
       tileSize: 160,
       child: SubFuture<List<LogFileInfo>>(
@@ -97,7 +99,7 @@ class _LogFileListState extends State<LogFileList> {
             items: files,
             child: Scaffold(
               appBar: LogFileSelectionAppBar(
-                child: const DefaultAppBar(title: Text('Log Files')),
+                child: DefaultAppBar(title: Text(l10n.logFilesTitle)),
                 onDelete: (files) async {
                   await Future.wait(files.map((e) => File(e.path).delete()));
                   if (!context.mounted) return;
@@ -107,18 +109,18 @@ class _LogFileListState extends State<LogFileList> {
               body: Builder(
                 builder: (context) {
                   if (snapshot.hasError) {
-                    return const IconMessage(
-                      icon: Icon(Icons.warning_amber),
-                      title: Text('Failed to load log files!'),
+                    return IconMessage(
+                      icon: const Icon(Icons.warning_amber),
+                      title: Text(l10n.failedToLoadLogFiles),
                     );
                   }
                   if (files == null) {
                     return const Center(child: CircularProgressIndicator());
                   }
                   if (files.isEmpty) {
-                    return const IconMessage(
-                      icon: Icon(Icons.close),
-                      title: Text('No log files available!'),
+                    return IconMessage(
+                      icon: const Icon(Icons.close),
+                      title: Text(l10n.noLogFiles),
                     );
                   }
                   return GridView.custom(
@@ -147,7 +149,7 @@ class _LogFileListState extends State<LogFileList> {
                                 Padding(
                                   padding: const EdgeInsets.all(16),
                                   child: Text(
-                                    'Live\n',
+                                    l10n.logsLive,
                                     maxLines: 2,
                                     overflow: TextOverflow.ellipsis,
                                     style: Theme.of(
@@ -321,7 +323,11 @@ class _LogPageState extends State<LogPage> {
             appBar: LogSelectionAppBar(
               child: DefaultAppBar(
                 title: Text(
-                  'Logs${date != null ? ' - ${DateFormatting.date(date)}' : ''}',
+                  date != null
+                      ? AppLocalizations.of(
+                          context,
+                        ).logsTitleDate(DateFormatting.date(date))
+                      : AppLocalizations.of(context).logsTitle,
                 ),
                 actions: [
                   if (widget.onShowAll != null)
@@ -361,8 +367,10 @@ class _LogPageState extends State<LogPage> {
                                   item: item,
                                   child: LogEntryTile(item: item),
                                 ),
-                            onEmpty: const Text('No logs'),
-                            onError: const Text('Failed to read the log'),
+                            onEmpty: Text(AppLocalizations.of(context).noLogs),
+                            onError: Text(
+                              AppLocalizations.of(context).failedToReadLog,
+                            ),
                           ),
                     ),
                   ),

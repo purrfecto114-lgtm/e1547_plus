@@ -1,3 +1,4 @@
+import 'package:e1547/l10n/app_localizations.dart';
 import 'package:e1547/logs/logs.dart';
 import 'package:e1547/shared/shared.dart';
 import 'package:flutter/material.dart';
@@ -25,10 +26,10 @@ class LogErrorsSliver extends StatelessWidget {
     builder: (context, _) {
       final List<LogEntry> items = errors.errors;
       if (items.isEmpty) {
-        return const SliverToBoxAdapter(
+        return SliverToBoxAdapter(
           child: IconMessage(
-            icon: Icon(Icons.check),
-            title: Text('No errors logged'),
+            icon: const Icon(Icons.check),
+            title: Text(AppLocalizations.of(context).noErrorsLogged),
           ),
         );
       }
@@ -51,6 +52,7 @@ class LogErrorsHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
     return ListenableBuilder(
       listenable: errors,
       builder: (context, _) => SizedBox(
@@ -62,7 +64,7 @@ class LogErrorsHeader extends StatelessWidget {
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 12),
                 child: Text(
-                  logErrorsTitle(errors.length),
+                  l10n.logsErrorsCount(errors.length),
                   style: Theme.of(context).textTheme.titleMedium,
                 ),
               ),
@@ -70,7 +72,7 @@ class LogErrorsHeader extends StatelessWidget {
               if (onOpenLogs != null)
                 ActionButton(
                   icon: const Icon(Icons.format_list_numbered),
-                  label: const Text('All logs'),
+                  label: Text(l10n.logsAll),
                   onTap: () {
                     Navigator.of(context).pop();
                     onOpenLogs!();
@@ -79,7 +81,7 @@ class LogErrorsHeader extends StatelessWidget {
               if (!errors.isEmpty)
                 ActionButton(
                   icon: const Icon(Icons.delete_sweep),
-                  label: const Text('Dismiss all'),
+                  label: Text(l10n.logsDismissAll),
                   onTap: () {
                     errors.clear();
                     Navigator.of(context).pop();
@@ -92,5 +94,3 @@ class LogErrorsHeader extends StatelessWidget {
     );
   }
 }
-
-String logErrorsTitle(int count) => count == 1 ? '1 error' : '$count errors';

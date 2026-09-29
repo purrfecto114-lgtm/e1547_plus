@@ -1586,6 +1586,762 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Post not found'**
   String get postNotFound;
+
+  /// Title of the comment list drawer.
+  ///
+  /// In en, this message translates to:
+  /// **'Comments'**
+  String get commentsTitle;
+
+  /// Title of a post's comment page.
+  ///
+  /// In en, this message translates to:
+  /// **'#{postId} comments'**
+  String commentsOfPost(num postId);
+
+  /// Label of the comment sorting switch.
+  ///
+  /// In en, this message translates to:
+  /// **'Comment order'**
+  String get commentOrder;
+
+  /// Message shown when there are no comments.
+  ///
+  /// In en, this message translates to:
+  /// **'No comments'**
+  String get noComments;
+
+  /// Error shown when comments failed to load.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to load comments'**
+  String get failedToLoadComments;
+
+  /// Title of the comment loading page.
+  ///
+  /// In en, this message translates to:
+  /// **'Comment #{id}'**
+  String commentTitle(num id);
+
+  /// Error shown when a comment failed to load.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to load comment'**
+  String get failedToLoadComment;
+
+  /// Message shown when a comment does not exist.
+  ///
+  /// In en, this message translates to:
+  /// **'Comment not found'**
+  String get commentNotFound;
+
+  /// Title of the comment editor.
+  ///
+  /// In en, this message translates to:
+  /// **'#{postId} comment'**
+  String commentEditorTitle(num postId);
+
+  /// Error shown when sending a comment failed.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to send comment!'**
+  String get commentSendFailed;
+
+  /// Confirmation shown after sending a comment.
+  ///
+  /// In en, this message translates to:
+  /// **'Comment sent!'**
+  String get commentSent;
+
+  /// Tooltip of the hidden comment indicator.
+  ///
+  /// In en, this message translates to:
+  /// **'This comment is hidden'**
+  String get commentHidden;
+
+  /// Error shown when upvoting a comment failed.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to upvote comment #{id}'**
+  String commentUpvoteFailed(num id);
+
+  /// Error shown when downvoting a comment failed.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to downvote comment #{id}'**
+  String commentDownvoteFailed(num id);
+
+  /// Error shown when editing a comment requires a login.
+  ///
+  /// In en, this message translates to:
+  /// **'You must be logged in to edit comments!'**
+  String get commentLoginRequiredEdit;
+
+  /// Error shown when replying to a comment requires a login.
+  ///
+  /// In en, this message translates to:
+  /// **'You must be logged in to reply to comments!'**
+  String get commentLoginRequiredReply;
+
+  /// Error shown when reporting a comment requires a login.
+  ///
+  /// In en, this message translates to:
+  /// **'You must be logged in to report comments!'**
+  String get commentLoginRequiredReport;
+
+  /// Confirmation shown after copying a comment id.
+  ///
+  /// In en, this message translates to:
+  /// **'Copied comment id #{id}'**
+  String commentCopiedId(num id);
+
+  /// Warning attached to a comment or reply whose author was warned.
+  ///
+  /// In en, this message translates to:
+  /// **'User received a warning for this message'**
+  String get warningUserWarned;
+
+  /// Warning attached to a comment or reply whose author received a record.
+  ///
+  /// In en, this message translates to:
+  /// **'User received a record for this message'**
+  String get warningUserRecorded;
+
+  /// Warning attached to a comment or reply whose author was banned.
+  ///
+  /// In en, this message translates to:
+  /// **'User was banned for this message'**
+  String get warningUserBanned;
+
+  /// Title of the reply list drawer.
+  ///
+  /// In en, this message translates to:
+  /// **'Replies'**
+  String get repliesTitle;
+
+  /// Label of the reply sorting switch.
+  ///
+  /// In en, this message translates to:
+  /// **'Reply order'**
+  String get replyOrder;
+
+  /// Message shown when there are no replies.
+  ///
+  /// In en, this message translates to:
+  /// **'No replies'**
+  String get noReplies;
+
+  /// Error shown when replies failed to load.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to load replies'**
+  String get failedToLoadReplies;
+
+  /// Title of the reply loading page.
+  ///
+  /// In en, this message translates to:
+  /// **'Reply #{id}'**
+  String replyTitle(num id);
+
+  /// Error shown when a reply failed to load.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to load reply'**
+  String get failedToLoadReply;
+
+  /// Message shown when a reply does not exist.
+  ///
+  /// In en, this message translates to:
+  /// **'Reply not found'**
+  String get replyNotFound;
+
+  /// Title of the reply editor.
+  ///
+  /// In en, this message translates to:
+  /// **'#{topicId} reply'**
+  String replyEditorTitle(num topicId);
+
+  /// Error shown when sending a reply failed.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to send reply!'**
+  String get replySendFailed;
+
+  /// Confirmation shown after sending a reply.
+  ///
+  /// In en, this message translates to:
+  /// **'Reply sent!'**
+  String get replySent;
+
+  /// Tooltip of the hidden reply indicator.
+  ///
+  /// In en, this message translates to:
+  /// **'This reply is hidden'**
+  String get replyHidden;
+
+  /// Error shown when editing a reply requires a login.
+  ///
+  /// In en, this message translates to:
+  /// **'You must be logged in to edit replies!'**
+  String get replyLoginRequiredEdit;
+
+  /// Error shown when replying requires a login.
+  ///
+  /// In en, this message translates to:
+  /// **'You must be logged in to reply!'**
+  String get replyLoginRequiredReply;
+
+  /// Error shown when reporting a reply requires a login.
+  ///
+  /// In en, this message translates to:
+  /// **'You must be logged in to report replies!'**
+  String get replyLoginRequiredReport;
+
+  /// Confirmation shown after copying a reply id.
+  ///
+  /// In en, this message translates to:
+  /// **'Copied reply id #{id}'**
+  String replyCopiedId(num id);
+
+  /// Menu item that replies to an item.
+  ///
+  /// In en, this message translates to:
+  /// **'Reply'**
+  String get menuReply;
+
+  /// Menu item that copies an id to the clipboard.
+  ///
+  /// In en, this message translates to:
+  /// **'Copy ID'**
+  String get menuCopyId;
+
+  /// Menu item that refreshes a list.
+  ///
+  /// In en, this message translates to:
+  /// **'Refresh'**
+  String get menuRefresh;
+
+  /// Tooltip of copy buttons.
+  ///
+  /// In en, this message translates to:
+  /// **'Copy'**
+  String get actionCopy;
+
+  /// Button that saves changes.
+  ///
+  /// In en, this message translates to:
+  /// **'Save'**
+  String get actionSave;
+
+  /// Tooltip to reveal a hidden value.
+  ///
+  /// In en, this message translates to:
+  /// **'Show'**
+  String get actionShow;
+
+  /// Tooltip to hide a visible value.
+  ///
+  /// In en, this message translates to:
+  /// **'Hide'**
+  String get actionHide;
+
+  /// Warning that a destructive action is permanent.
+  ///
+  /// In en, this message translates to:
+  /// **'This action cannot be undone.'**
+  String get actionCannotBeUndone;
+
+  /// Label of info buttons and sections.
+  ///
+  /// In en, this message translates to:
+  /// **'Info'**
+  String get info;
+
+  /// Title of the wiki loading page. The placeholder is an id reference like '#123' or a wiki title.
+  ///
+  /// In en, this message translates to:
+  /// **'Wiki {idOrTitle}'**
+  String wikiTitle(String idOrTitle);
+
+  /// Error shown when a wiki page failed to load.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to load wiki'**
+  String get failedToLoadWiki;
+
+  /// Message shown when a wiki page does not exist.
+  ///
+  /// In en, this message translates to:
+  /// **'Wiki not found'**
+  String get wikiNotFound;
+
+  /// Confirmation shown after copying a wiki id.
+  ///
+  /// In en, this message translates to:
+  /// **'Copied wiki id #{id}'**
+  String wikiCopiedId(num id);
+
+  /// Label of the wiki id info row.
+  ///
+  /// In en, this message translates to:
+  /// **'id'**
+  String get wikiInfoId;
+
+  /// Label of the wiki alias info row.
+  ///
+  /// In en, this message translates to:
+  /// **'alias'**
+  String get wikiInfoAlias;
+
+  /// Label of the wiki creation date info row.
+  ///
+  /// In en, this message translates to:
+  /// **'created'**
+  String get wikiInfoCreated;
+
+  /// Label of the wiki update date info row.
+  ///
+  /// In en, this message translates to:
+  /// **'updated'**
+  String get wikiInfoUpdated;
+
+  /// Label of the wiki lock info row.
+  ///
+  /// In en, this message translates to:
+  /// **'locked'**
+  String get wikiInfoLocked;
+
+  /// Positive value of info rows.
+  ///
+  /// In en, this message translates to:
+  /// **'yes'**
+  String get wikiInfoYes;
+
+  /// Negative value of info rows.
+  ///
+  /// In en, this message translates to:
+  /// **'no'**
+  String get wikiInfoNo;
+
+  /// Title of the user loading page. The placeholder is an id reference like '#123' or a username.
+  ///
+  /// In en, this message translates to:
+  /// **'User {idOrName}'**
+  String userTitle(String idOrName);
+
+  /// Error shown when a user failed to load.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to load user'**
+  String get failedToLoadUser;
+
+  /// Message shown when a user does not exist.
+  ///
+  /// In en, this message translates to:
+  /// **'User not found'**
+  String get userNotFound;
+
+  /// Label of the uploads tab on the user page.
+  ///
+  /// In en, this message translates to:
+  /// **'Uploads'**
+  String get userUploads;
+
+  /// Error shown when reporting a user requires a login.
+  ///
+  /// In en, this message translates to:
+  /// **'You must be logged in to report users!'**
+  String get userLoginRequiredReport;
+
+  /// Header of the commission info section on the user page.
+  ///
+  /// In en, this message translates to:
+  /// **'Commission'**
+  String get userComission;
+
+  /// Label of the user id info row.
+  ///
+  /// In en, this message translates to:
+  /// **'id'**
+  String get userId;
+
+  /// Label of the join date info row.
+  ///
+  /// In en, this message translates to:
+  /// **'joined'**
+  String get userJoined;
+
+  /// Label of the user rank info row.
+  ///
+  /// In en, this message translates to:
+  /// **'rank'**
+  String get userRank;
+
+  /// Label of the user post count info row.
+  ///
+  /// In en, this message translates to:
+  /// **'posts'**
+  String get userPosts;
+
+  /// Label of the user post edit count info row.
+  ///
+  /// In en, this message translates to:
+  /// **'edits'**
+  String get userEdits;
+
+  /// Label of the user favorite count info row.
+  ///
+  /// In en, this message translates to:
+  /// **'favorites'**
+  String get userFavorites;
+
+  /// Label of the user comment count info row.
+  ///
+  /// In en, this message translates to:
+  /// **'comments'**
+  String get userComments;
+
+  /// Label of the user forum post count info row.
+  ///
+  /// In en, this message translates to:
+  /// **'forum'**
+  String get userForum;
+
+  /// Confirmation shown after copying a user id.
+  ///
+  /// In en, this message translates to:
+  /// **'Copied user id #{id}'**
+  String userCopiedId(num id);
+
+  /// Title of the logs page.
+  ///
+  /// In en, this message translates to:
+  /// **'Logs'**
+  String get logsTitle;
+
+  /// Title of the logs page for a specific date.
+  ///
+  /// In en, this message translates to:
+  /// **'Logs - {date}'**
+  String logsTitleDate(String date);
+
+  /// Number of selected log entries.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, other{{count} logs}}'**
+  String selectionLogsCount(num count);
+
+  /// Number of selected log files.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, other{{count} log files}}'**
+  String selectionLogsFilesCount(num count);
+
+  /// Header of the log level filter section.
+  ///
+  /// In en, this message translates to:
+  /// **'Levels'**
+  String get logsLevels;
+
+  /// Header of the log recording settings section.
+  ///
+  /// In en, this message translates to:
+  /// **'Recording'**
+  String get logsRecording;
+
+  /// Switch that records verbose logs.
+  ///
+  /// In en, this message translates to:
+  /// **'Verbose'**
+  String get logsVerbose;
+
+  /// Subtitle of the verbose switch when all levels are recorded.
+  ///
+  /// In en, this message translates to:
+  /// **'all levels recorded'**
+  String get logsVerboseAll;
+
+  /// Subtitle of the verbose switch naming the minimum recorded level.
+  ///
+  /// In en, this message translates to:
+  /// **'{level} and above'**
+  String logsVerboseMinimum(String level);
+
+  /// Title of the log file list page.
+  ///
+  /// In en, this message translates to:
+  /// **'Log Files'**
+  String get logFilesTitle;
+
+  /// Error shown when log files failed to load.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to load log files!'**
+  String get failedToLoadLogFiles;
+
+  /// Message shown when there are no log files.
+  ///
+  /// In en, this message translates to:
+  /// **'No log files available!'**
+  String get noLogFiles;
+
+  /// Label of the live log source tile in the log file list.
+  ///
+  /// In en, this message translates to:
+  /// **'Live\n'**
+  String get logsLive;
+
+  /// Message shown when there are no log entries.
+  ///
+  /// In en, this message translates to:
+  /// **'No logs'**
+  String get noLogs;
+
+  /// Error shown when a log file failed to read.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to read the log'**
+  String get failedToReadLog;
+
+  /// Message shown when no errors have been logged.
+  ///
+  /// In en, this message translates to:
+  /// **'No errors logged'**
+  String get noErrorsLogged;
+
+  /// Number of errors logged in the current session.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{1 error} other{{count} errors}}'**
+  String logsErrorsCount(num count);
+
+  /// Button that opens the full logs page.
+  ///
+  /// In en, this message translates to:
+  /// **'All logs'**
+  String get logsAll;
+
+  /// Button that dismisses all logged errors.
+  ///
+  /// In en, this message translates to:
+  /// **'Dismiss all'**
+  String get logsDismissAll;
+
+  /// Title of the log file deletion dialog.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete {count} log files?'**
+  String logsDeleteTitle(num count);
+
+  /// Header of the account list in the identity picker.
+  ///
+  /// In en, this message translates to:
+  /// **'Accounts'**
+  String get identityAccounts;
+
+  /// Title of the page that adds an account.
+  ///
+  /// In en, this message translates to:
+  /// **'Add account'**
+  String get identityAdd;
+
+  /// Title of the page that edits an account.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit account'**
+  String get identityEdit;
+
+  /// Title of the account removal dialog.
+  ///
+  /// In en, this message translates to:
+  /// **'Remove account?'**
+  String get identityRemoveTitle;
+
+  /// Body of the account removal dialog.
+  ///
+  /// In en, this message translates to:
+  /// **'All its data will be permanently removed, including history and follows.'**
+  String get identityRemoveBody;
+
+  /// Name shown for identities without a username.
+  ///
+  /// In en, this message translates to:
+  /// **'Anonymous'**
+  String get identityAnonymous;
+
+  /// Error shown when adding a duplicate identity.
+  ///
+  /// In en, this message translates to:
+  /// **'You already have an identity under this host and username.'**
+  String get identityDuplicate;
+
+  /// Error shown when logging in failed.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to log in. \n{reason}'**
+  String identityLoginFailed(String reason);
+
+  /// Fallback reason shown when logging in failed without details.
+  ///
+  /// In en, this message translates to:
+  /// **'Check your network connection and login details'**
+  String get identityLoginCheckDetails;
+
+  /// Label of the account host input field.
+  ///
+  /// In en, this message translates to:
+  /// **'Site'**
+  String get identitySite;
+
+  /// Error shown when the host field is empty.
+  ///
+  /// In en, this message translates to:
+  /// **'You must provide a host URL.'**
+  String get identityHostRequired;
+
+  /// Error shown when the host URL is invalid.
+  ///
+  /// In en, this message translates to:
+  /// **'Invalid host URL'**
+  String get identityHostInvalid;
+
+  /// Tooltip of the read-only host field.
+  ///
+  /// In en, this message translates to:
+  /// **'Site can\'t be changed. Add a new account to use a different one.'**
+  String get identityHostReadOnly;
+
+  /// Label of the account username input field.
+  ///
+  /// In en, this message translates to:
+  /// **'Username'**
+  String get identityUsernameLabel;
+
+  /// Error shown when the username field is empty.
+  ///
+  /// In en, this message translates to:
+  /// **'You must provide a username.'**
+  String get identityUsernameRequired;
+
+  /// Label of the account api key input field.
+  ///
+  /// In en, this message translates to:
+  /// **'API key'**
+  String get identityApikeyLabel;
+
+  /// Link that opens the api key page of the current site.
+  ///
+  /// In en, this message translates to:
+  /// **'Where do I find my API key?'**
+  String get identityApikeyHelp;
+
+  /// Error shown when the api key field is empty.
+  ///
+  /// In en, this message translates to:
+  /// **'You must provide an API key.\ne.g. 1ca1d165e973d7f8d35b7deb7a2ae54c'**
+  String get identityApikeyRequired;
+
+  /// Error shown when the api key is malformed.
+  ///
+  /// In en, this message translates to:
+  /// **'API key is a 24 or 32-character sequence of A-z and 0-9\ne.g. 1ca1d165e973d7f8d35b7deb7a2ae54c'**
+  String get identityApikeyInvalid;
+
+  /// Link that opens the registration page of the current site.
+  ///
+  /// In en, this message translates to:
+  /// **'Don\'t have an account? Sign up here'**
+  String get identitySignupPrompt;
+
+  /// Hint below the account host input field.
+  ///
+  /// In en, this message translates to:
+  /// **'The site is where your posts and account live.'**
+  String get identityHostHint;
+
+  /// Segment that selects the sign-in mode of the account form.
+  ///
+  /// In en, this message translates to:
+  /// **'Sign in'**
+  String get identitySignIn;
+
+  /// Segment that selects the guest mode of the account form.
+  ///
+  /// In en, this message translates to:
+  /// **'Guest'**
+  String get identityGuest;
+
+  /// Button that logs in with the entered credentials.
+  ///
+  /// In en, this message translates to:
+  /// **'Log in'**
+  String get identityLogin;
+
+  /// Button that continues without an account.
+  ///
+  /// In en, this message translates to:
+  /// **'Browse anonymously'**
+  String get identityBrowseAnonymously;
+
+  /// Message of the login loading dialog.
+  ///
+  /// In en, this message translates to:
+  /// **'Connecting to {host} as {username}...'**
+  String identityConnecting(String host, String username);
+
+  /// Error shown when identities failed to load.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to load identities'**
+  String get failedToLoadIdentities;
+
+  /// Button that skips the onboarding.
+  ///
+  /// In en, this message translates to:
+  /// **'Skip'**
+  String get onboardingSkip;
+
+  /// Button that returns to the previous onboarding step.
+  ///
+  /// In en, this message translates to:
+  /// **'Back'**
+  String get onboardingBack;
+
+  /// Button that advances to the next onboarding step.
+  ///
+  /// In en, this message translates to:
+  /// **'Next'**
+  String get onboardingNext;
+
+  /// Title of the welcome onboarding step.
+  ///
+  /// In en, this message translates to:
+  /// **'Welcome to {app}'**
+  String onboardingWelcomeTitle(String app);
+
+  /// Body of the welcome onboarding step.
+  ///
+  /// In en, this message translates to:
+  /// **'A sophisticated booru browser.'**
+  String get onboardingWelcomeBody;
+
+  /// Title of the theme onboarding step.
+  ///
+  /// In en, this message translates to:
+  /// **'Pick a look'**
+  String get onboardingThemeTitle;
+
+  /// Body of the theme onboarding step.
+  ///
+  /// In en, this message translates to:
+  /// **'Try one on. You can always change your mind later.'**
+  String get onboardingThemeBody;
+
+  /// Title of the login onboarding step.
+  ///
+  /// In en, this message translates to:
+  /// **'Connect an account'**
+  String get onboardingLoginTitle;
 }
 
 class _AppLocalizationsDelegate

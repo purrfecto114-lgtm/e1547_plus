@@ -1,5 +1,6 @@
 import 'package:e1547/app/app.dart';
 import 'package:e1547/identity/identity.dart';
+import 'package:e1547/l10n/app_localizations.dart';
 import 'package:e1547/settings/settings.dart';
 import 'package:e1547/shared/shared.dart';
 import 'package:flutter/material.dart';
@@ -9,6 +10,7 @@ class WelcomeStep extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
     return Center(
       child: Column(
         mainAxisSize: MainAxisSize.min,
@@ -16,7 +18,7 @@ class WelcomeStep extends StatelessWidget {
           const AppIcon(radius: 64),
           const SizedBox(height: 32),
           Text(
-            'Welcome to ${AppInfo.instance.appName}',
+            l10n.onboardingWelcomeTitle(AppInfo.instance.appName),
             style: Theme.of(context).textTheme.headlineSmall,
             textAlign: TextAlign.center,
           ),
@@ -24,7 +26,7 @@ class WelcomeStep extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 24),
             child: Text(
-              'A sophisticated booru browser.',
+              l10n.onboardingWelcomeBody,
               style: Theme.of(context).textTheme.bodyLarge,
               textAlign: TextAlign.center,
             ),
@@ -41,6 +43,7 @@ class ThemeStep extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Settings settings = context.watch<Settings>();
+    final l10n = AppLocalizations.of(context);
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 24),
       child: Column(
@@ -48,13 +51,13 @@ class ThemeStep extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Text(
-            'Pick a look',
+            l10n.onboardingThemeTitle,
             style: Theme.of(context).textTheme.headlineSmall,
             textAlign: TextAlign.center,
           ),
           const SizedBox(height: 12),
           Text(
-            'Try one on. You can always change your mind later.',
+            l10n.onboardingThemeBody,
             style: Theme.of(context).textTheme.bodyLarge,
             textAlign: TextAlign.center,
           ),
@@ -147,7 +150,7 @@ class LoginStep extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           children: [
             Text(
-              'Connect an account',
+              AppLocalizations.of(context).onboardingLoginTitle,
               style: Theme.of(context).textTheme.headlineSmall,
               textAlign: TextAlign.center,
             ),

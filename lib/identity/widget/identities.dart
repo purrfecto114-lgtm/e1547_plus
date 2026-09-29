@@ -1,5 +1,6 @@
 import 'package:e1547/app/app.dart';
 import 'package:e1547/identity/identity.dart';
+import 'package:e1547/l10n/app_localizations.dart';
 import 'package:e1547/query/query.dart';
 import 'package:e1547/shared/shared.dart';
 import 'package:e1547/user/user.dart';
@@ -11,6 +12,7 @@ class IdentitiesPage extends StatelessWidget {
 
   Widget tile(BuildContext context, Identity identity) {
     bool selected = context.watch<IdentityClient>().identity == identity;
+    final l10n = AppLocalizations.of(context);
     return Row(
       children: [
         Container(
@@ -24,7 +26,7 @@ class IdentitiesPage extends StatelessWidget {
         Expanded(
           child: ListTile(
             leading: IdentityAvatar(identity.id),
-            title: Text(identity.usernameOrAnon),
+            title: Text(identity.username ?? l10n.identityAnonymous),
             onTap: () {
               context.read<IdentityClient>().activate(identity.id);
               Navigator.of(context).maybePop();
@@ -34,7 +36,7 @@ class IdentitiesPage extends StatelessWidget {
               onSelected: (value) => value(),
               itemBuilder: (context) => [
                 PopupMenuTile(
-                  title: 'Edit',
+                  title: l10n.menuEdit,
                   icon: Icons.edit,
                   value: () => Navigator.of(context).push(
                     MaterialPageRoute(
@@ -43,22 +45,20 @@ class IdentitiesPage extends StatelessWidget {
                   ),
                 ),
                 PopupMenuTile(
-                  title: 'Remove',
+                  title: l10n.actionRemove,
                   icon: Icons.delete,
                   value: () => showDialog(
                     context: context,
                     builder: (context) => AlertDialog(
-                      title: const Text('Remove account?'),
-                      content: const Text(
-                        'All its data will be permanently removed, including history and follows.',
-                      ),
+                      title: Text(l10n.identityRemoveTitle),
+                      content: Text(l10n.identityRemoveBody),
                       actions: [
                         TextButton(
                           onPressed: Navigator.of(context).maybePop,
-                          child: const Text('CANCEL'),
+                          child: Text(l10n.actionCancel),
                         ),
                         ElevatedButton(
-                          child: const Text('REMOVE'),
+                          child: Text(l10n.actionRemove),
                           onPressed: () {
                             Navigator.of(context).maybePop();
                             final storage = context.read<AppStorage>();
@@ -94,7 +94,7 @@ class IdentitiesPage extends StatelessWidget {
         Padding(
           padding: const EdgeInsets.fromLTRB(16, 8, 16, 8),
           child: Text(
-            'Accounts',
+            AppLocalizations.of(context).identityAccounts,
             style: Theme.of(context).textTheme.titleLarge,
           ),
         ),
@@ -147,9 +147,11 @@ class IdentitiesPage extends StatelessWidget {
                     if (identities == null)
                       const Center(child: CircularProgressIndicator())
                     else if (snapshot.hasError)
-                      const IconMessage(
-                        icon: Icon(Icons.warning_amber),
-                        title: Text('Failed to load identities'),
+                      IconMessage(
+                        icon: const Icon(Icons.warning_amber),
+                        title: Text(
+                          AppLocalizations.of(context).failedToLoadIdentities,
+                        ),
                       )
                     else
                       form(context, identities),
