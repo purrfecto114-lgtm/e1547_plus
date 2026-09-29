@@ -1202,6 +1202,390 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'You must be logged in to flag posts!'**
   String get loginRequiredFlag;
+
+  /// Number of posts currently blocked by the blacklist.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{blocked 1 post} other{blocked {count} posts}}'**
+  String postsBlocked(num count);
+
+  /// Error shown when saving the blacklist failed.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to update blacklist!'**
+  String get blacklistUpdateFailed;
+
+  /// Title of the prompt that adds a tag to the blacklist.
+  ///
+  /// In en, this message translates to:
+  /// **'Add tag'**
+  String get blacklistAddTag;
+
+  /// Title of the prompt that edits a blacklist entry.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit tag'**
+  String get blacklistEditTag;
+
+  /// Message shown when the blacklist contains no entries.
+  ///
+  /// In en, this message translates to:
+  /// **'Your blacklist is empty'**
+  String get blacklistEmpty;
+
+  /// Menu item that deletes an item.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete'**
+  String get menuDelete;
+
+  /// Name of the score filter.
+  ///
+  /// In en, this message translates to:
+  /// **'Score'**
+  String get filterScore;
+
+  /// Name of the favorite count filter.
+  ///
+  /// In en, this message translates to:
+  /// **'Favorite count'**
+  String get filterFavoriteCount;
+
+  /// Name of the sort order filter.
+  ///
+  /// In en, this message translates to:
+  /// **'Sort by'**
+  String get filterSortBy;
+
+  /// Sort order option that sorts by newest posts.
+  ///
+  /// In en, this message translates to:
+  /// **'New'**
+  String get filterNew;
+
+  /// Sort order option that sorts by favorites.
+  ///
+  /// In en, this message translates to:
+  /// **'Favorites'**
+  String get filterFavorites;
+
+  /// Sort order option that sorts by rank.
+  ///
+  /// In en, this message translates to:
+  /// **'Rank'**
+  String get filterRank;
+
+  /// Sort order option that sorts randomly.
+  ///
+  /// In en, this message translates to:
+  /// **'Random'**
+  String get filterRandom;
+
+  /// Choice that leaves a filter at its default.
+  ///
+  /// In en, this message translates to:
+  /// **'Default'**
+  String get filterDefault;
+
+  /// Name of the rating filter.
+  ///
+  /// In en, this message translates to:
+  /// **'Rating'**
+  String get filterRating;
+
+  /// The safe rating.
+  ///
+  /// In en, this message translates to:
+  /// **'Safe'**
+  String get filterSafe;
+
+  /// The questionable rating.
+  ///
+  /// In en, this message translates to:
+  /// **'Questionable'**
+  String get filterQuestionable;
+
+  /// The explicit rating.
+  ///
+  /// In en, this message translates to:
+  /// **'Explicit'**
+  String get filterExplicit;
+
+  /// Choice that does not restrict a filter.
+  ///
+  /// In en, this message translates to:
+  /// **'All'**
+  String get filterAll;
+
+  /// Name of the pool filter.
+  ///
+  /// In en, this message translates to:
+  /// **'Pool'**
+  String get filterPool;
+
+  /// Description of the pool filter.
+  ///
+  /// In en, this message translates to:
+  /// **'Has pool'**
+  String get filterHasPool;
+
+  /// Name of the child post filter.
+  ///
+  /// In en, this message translates to:
+  /// **'Child'**
+  String get filterChild;
+
+  /// Description of the child post filter.
+  ///
+  /// In en, this message translates to:
+  /// **'Is child post'**
+  String get filterIsChildPost;
+
+  /// Name of the parent post filter.
+  ///
+  /// In en, this message translates to:
+  /// **'Parent'**
+  String get filterParent;
+
+  /// Description of the parent post filter.
+  ///
+  /// In en, this message translates to:
+  /// **'Is parent post'**
+  String get filterIsParentPost;
+
+  /// Name of the upload date filter.
+  ///
+  /// In en, this message translates to:
+  /// **'Upload date'**
+  String get filterUploadDate;
+
+  /// Upload date option for the last day.
+  ///
+  /// In en, this message translates to:
+  /// **'Last day'**
+  String get filterLastDay;
+
+  /// Upload date option for the last week.
+  ///
+  /// In en, this message translates to:
+  /// **'Last week'**
+  String get filterLastWeek;
+
+  /// Upload date option for the last month.
+  ///
+  /// In en, this message translates to:
+  /// **'Last Month'**
+  String get filterLastMonth;
+
+  /// Upload date option for the last year.
+  ///
+  /// In en, this message translates to:
+  /// **'Last Year'**
+  String get filterLastYear;
+
+  /// Name of the post status filter.
+  ///
+  /// In en, this message translates to:
+  /// **'Status'**
+  String get filterStatus;
+
+  /// The active post status.
+  ///
+  /// In en, this message translates to:
+  /// **'Active'**
+  String get filterActive;
+
+  /// The pending post status.
+  ///
+  /// In en, this message translates to:
+  /// **'Pending'**
+  String get filterPending;
+
+  /// The deleted post status.
+  ///
+  /// In en, this message translates to:
+  /// **'Deleted'**
+  String get filterDeleted;
+
+  /// The flagged post status.
+  ///
+  /// In en, this message translates to:
+  /// **'Flagged'**
+  String get filterFlagged;
+
+  /// Post status option that allows any status.
+  ///
+  /// In en, this message translates to:
+  /// **'Any'**
+  String get filterAny;
+
+  /// Name of the topic title filter.
+  ///
+  /// In en, this message translates to:
+  /// **'Title contains'**
+  String get filterTitleContains;
+
+  /// Name of the category filter.
+  ///
+  /// In en, this message translates to:
+  /// **'Category'**
+  String get filterCategory;
+
+  /// The general topic category.
+  ///
+  /// In en, this message translates to:
+  /// **'General'**
+  String get filterGeneral;
+
+  /// A topic category.
+  ///
+  /// In en, this message translates to:
+  /// **'Site Bug Reports & Feature Requests'**
+  String get filterSiteBugReports;
+
+  /// A topic category.
+  ///
+  /// In en, this message translates to:
+  /// **'Tag/Wiki Projects and Questions'**
+  String get filterTagWikiProjects;
+
+  /// A topic category.
+  ///
+  /// In en, this message translates to:
+  /// **'Tag Alias and Implication Suggestions'**
+  String get filterTagAliasSuggestions;
+
+  /// A topic category.
+  ///
+  /// In en, this message translates to:
+  /// **'Art Talk'**
+  String get filterArtTalk;
+
+  /// A topic category.
+  ///
+  /// In en, this message translates to:
+  /// **'Off Topic'**
+  String get filterOffTopic;
+
+  /// A topic category.
+  ///
+  /// In en, this message translates to:
+  /// **'e621 Tools and Applications'**
+  String get filterE621Tools;
+
+  /// Sort order option that sorts by newest topics first.
+  ///
+  /// In en, this message translates to:
+  /// **'Newest first'**
+  String get filterNewestFirst;
+
+  /// Sort order option that sorts by oldest topics first.
+  ///
+  /// In en, this message translates to:
+  /// **'Oldest first'**
+  String get filterOldestFirst;
+
+  /// Name of the sticky filter.
+  ///
+  /// In en, this message translates to:
+  /// **'Sticky'**
+  String get filterSticky;
+
+  /// Description of the sticky filter.
+  ///
+  /// In en, this message translates to:
+  /// **'Is sticky'**
+  String get filterIsSticky;
+
+  /// Name of the locked filter.
+  ///
+  /// In en, this message translates to:
+  /// **'Locked'**
+  String get filterLocked;
+
+  /// Description of the locked filter.
+  ///
+  /// In en, this message translates to:
+  /// **'Is locked'**
+  String get filterIsLocked;
+
+  /// Name of the pool description filter.
+  ///
+  /// In en, this message translates to:
+  /// **'Description'**
+  String get filterDescription;
+
+  /// Name of the pool creator filter.
+  ///
+  /// In en, this message translates to:
+  /// **'Creator'**
+  String get filterCreator;
+
+  /// Description of the active pool filter.
+  ///
+  /// In en, this message translates to:
+  /// **'Is active'**
+  String get filterIsActive;
+
+  /// The series pool category.
+  ///
+  /// In en, this message translates to:
+  /// **'Series'**
+  String get filterSeries;
+
+  /// The collection pool category.
+  ///
+  /// In en, this message translates to:
+  /// **'Collection'**
+  String get filterCollection;
+
+  /// Sort order option that sorts pools by name.
+  ///
+  /// In en, this message translates to:
+  /// **'Name'**
+  String get filterName;
+
+  /// Sort order option that sorts pools by creation date.
+  ///
+  /// In en, this message translates to:
+  /// **'Created'**
+  String get filterCreated;
+
+  /// Sort order option that sorts pools by update date.
+  ///
+  /// In en, this message translates to:
+  /// **'Updated'**
+  String get filterUpdated;
+
+  /// Sort order option that sorts pools by post count.
+  ///
+  /// In en, this message translates to:
+  /// **'Post count'**
+  String get filterPostCount;
+
+  /// Error shown when updating a post failed.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to update post #{id}'**
+  String postUpdateFailed(num id);
+
+  /// Confirmation shown after updating a post.
+  ///
+  /// In en, this message translates to:
+  /// **'Updated post #{id}'**
+  String postUpdated(num id);
+
+  /// Error shown when a single post failed to load.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to load post'**
+  String get failedToLoadPost;
+
+  /// Message shown when a post does not exist.
+  ///
+  /// In en, this message translates to:
+  /// **'Post not found'**
+  String get postNotFound;
 }
 
 class _AppLocalizationsDelegate

@@ -1,3 +1,4 @@
+import 'package:e1547/l10n/app_localizations.dart';
 import 'package:e1547/post/post.dart';
 import 'package:e1547/query/query.dart';
 import 'package:e1547/shared/shared.dart';
@@ -88,8 +89,8 @@ class _PostDetailGalleryState extends State<PostDetailGallery>
                   appBar: const TransparentAppBar(child: DefaultAppBar()),
                   body: child,
                 ),
-                onEmpty: const Text('No posts'),
-                onError: const Text('Failed to load posts'),
+                onEmpty: Text(AppLocalizations.of(context).noPosts),
+                onError: Text(AppLocalizations.of(context).failedToLoadPosts),
                 itemBuilder: (context, item, index) => SubScrollController(
                   builder: (context, scrollController) =>
                       PrimaryScrollController(

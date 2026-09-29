@@ -621,6 +621,209 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get loginRequiredFlag => '必须登录才能标记帖子！';
+
+  @override
+  String postsBlocked(num count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '已屏蔽 $count 个帖子',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get blacklistUpdateFailed => '黑名单更新失败！';
+
+  @override
+  String get blacklistAddTag => '添加标签';
+
+  @override
+  String get blacklistEditTag => '编辑标签';
+
+  @override
+  String get blacklistEmpty => '你的黑名单为空';
+
+  @override
+  String get menuDelete => '删除';
+
+  @override
+  String get filterScore => '评分';
+
+  @override
+  String get filterFavoriteCount => '收藏数';
+
+  @override
+  String get filterSortBy => '排序方式';
+
+  @override
+  String get filterNew => '最新';
+
+  @override
+  String get filterFavorites => '收藏';
+
+  @override
+  String get filterRank => '排名';
+
+  @override
+  String get filterRandom => '随机';
+
+  @override
+  String get filterDefault => '默认';
+
+  @override
+  String get filterRating => '分级';
+
+  @override
+  String get filterSafe => '安全';
+
+  @override
+  String get filterQuestionable => '存疑';
+
+  @override
+  String get filterExplicit => '露骨';
+
+  @override
+  String get filterAll => '全部';
+
+  @override
+  String get filterPool => '图集';
+
+  @override
+  String get filterHasPool => '含图集';
+
+  @override
+  String get filterChild => '子帖';
+
+  @override
+  String get filterIsChildPost => '是子帖';
+
+  @override
+  String get filterParent => '父帖';
+
+  @override
+  String get filterIsParentPost => '是父帖';
+
+  @override
+  String get filterUploadDate => '上传日期';
+
+  @override
+  String get filterLastDay => '最近一天';
+
+  @override
+  String get filterLastWeek => '最近一周';
+
+  @override
+  String get filterLastMonth => '最近一个月';
+
+  @override
+  String get filterLastYear => '最近一年';
+
+  @override
+  String get filterStatus => '状态';
+
+  @override
+  String get filterActive => '活跃';
+
+  @override
+  String get filterPending => '待处理';
+
+  @override
+  String get filterDeleted => '已删除';
+
+  @override
+  String get filterFlagged => '已标记';
+
+  @override
+  String get filterAny => '任意';
+
+  @override
+  String get filterTitleContains => '标题包含';
+
+  @override
+  String get filterCategory => '分类';
+
+  @override
+  String get filterGeneral => '综合';
+
+  @override
+  String get filterSiteBugReports => '站点问题与功能请求';
+
+  @override
+  String get filterTagWikiProjects => '标签/维基项目与提问';
+
+  @override
+  String get filterTagAliasSuggestions => '标签别名与关联建议';
+
+  @override
+  String get filterArtTalk => '艺术交流';
+
+  @override
+  String get filterOffTopic => '跑题';
+
+  @override
+  String get filterE621Tools => 'e621 工具与应用';
+
+  @override
+  String get filterNewestFirst => '最新优先';
+
+  @override
+  String get filterOldestFirst => '最旧优先';
+
+  @override
+  String get filterSticky => '置顶';
+
+  @override
+  String get filterIsSticky => '已置顶';
+
+  @override
+  String get filterLocked => '已锁定';
+
+  @override
+  String get filterIsLocked => '已锁定';
+
+  @override
+  String get filterDescription => '描述';
+
+  @override
+  String get filterCreator => '创建者';
+
+  @override
+  String get filterIsActive => '活跃中';
+
+  @override
+  String get filterSeries => '系列';
+
+  @override
+  String get filterCollection => '合集';
+
+  @override
+  String get filterName => '名称';
+
+  @override
+  String get filterCreated => '创建时间';
+
+  @override
+  String get filterUpdated => '更新时间';
+
+  @override
+  String get filterPostCount => '帖子数';
+
+  @override
+  String postUpdateFailed(num id) {
+    return '更新帖子 #$id 失败';
+  }
+
+  @override
+  String postUpdated(num id) {
+    return '已更新帖子 #$id';
+  }
+
+  @override
+  String get failedToLoadPost => '帖子加载失败';
+
+  @override
+  String get postNotFound => '找不到帖子';
 }
 
 /// The translations for Chinese, using the Han script (`zh_Hant`).
@@ -1240,4 +1443,207 @@ class AppLocalizationsZhHant extends AppLocalizationsZh {
 
   @override
   String get loginRequiredFlag => '必須登入才能標記貼文！';
+
+  @override
+  String postsBlocked(num count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '已封鎖 $count 則貼文',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get blacklistUpdateFailed => '黑名單更新失敗！';
+
+  @override
+  String get blacklistAddTag => '新增標籤';
+
+  @override
+  String get blacklistEditTag => '編輯標籤';
+
+  @override
+  String get blacklistEmpty => '你的黑名單是空的';
+
+  @override
+  String get menuDelete => '刪除';
+
+  @override
+  String get filterScore => '評分';
+
+  @override
+  String get filterFavoriteCount => '收藏數';
+
+  @override
+  String get filterSortBy => '排序方式';
+
+  @override
+  String get filterNew => '最新';
+
+  @override
+  String get filterFavorites => '收藏';
+
+  @override
+  String get filterRank => '排名';
+
+  @override
+  String get filterRandom => '隨機';
+
+  @override
+  String get filterDefault => '預設';
+
+  @override
+  String get filterRating => '分級';
+
+  @override
+  String get filterSafe => '安全';
+
+  @override
+  String get filterQuestionable => '存疑';
+
+  @override
+  String get filterExplicit => '露骨';
+
+  @override
+  String get filterAll => '全部';
+
+  @override
+  String get filterPool => '圖集';
+
+  @override
+  String get filterHasPool => '含圖集';
+
+  @override
+  String get filterChild => '子貼文';
+
+  @override
+  String get filterIsChildPost => '是子貼文';
+
+  @override
+  String get filterParent => '父貼文';
+
+  @override
+  String get filterIsParentPost => '是父貼文';
+
+  @override
+  String get filterUploadDate => '上傳日期';
+
+  @override
+  String get filterLastDay => '最近一天';
+
+  @override
+  String get filterLastWeek => '最近一週';
+
+  @override
+  String get filterLastMonth => '最近一個月';
+
+  @override
+  String get filterLastYear => '最近一年';
+
+  @override
+  String get filterStatus => '狀態';
+
+  @override
+  String get filterActive => '活躍';
+
+  @override
+  String get filterPending => '待處理';
+
+  @override
+  String get filterDeleted => '已刪除';
+
+  @override
+  String get filterFlagged => '已標記';
+
+  @override
+  String get filterAny => '任意';
+
+  @override
+  String get filterTitleContains => '標題包含';
+
+  @override
+  String get filterCategory => '分類';
+
+  @override
+  String get filterGeneral => '一般';
+
+  @override
+  String get filterSiteBugReports => '網站問題與功能請求';
+
+  @override
+  String get filterTagWikiProjects => '標籤/維基專案與提問';
+
+  @override
+  String get filterTagAliasSuggestions => '標籤別名與關聯建議';
+
+  @override
+  String get filterArtTalk => '藝術交流';
+
+  @override
+  String get filterOffTopic => '離題';
+
+  @override
+  String get filterE621Tools => 'e621 工具與應用程式';
+
+  @override
+  String get filterNewestFirst => '最新優先';
+
+  @override
+  String get filterOldestFirst => '最舊優先';
+
+  @override
+  String get filterSticky => '置頂';
+
+  @override
+  String get filterIsSticky => '已置頂';
+
+  @override
+  String get filterLocked => '已鎖定';
+
+  @override
+  String get filterIsLocked => '已鎖定';
+
+  @override
+  String get filterDescription => '描述';
+
+  @override
+  String get filterCreator => '建立者';
+
+  @override
+  String get filterIsActive => '活躍中';
+
+  @override
+  String get filterSeries => '系列';
+
+  @override
+  String get filterCollection => '合輯';
+
+  @override
+  String get filterName => '名稱';
+
+  @override
+  String get filterCreated => '建立時間';
+
+  @override
+  String get filterUpdated => '更新時間';
+
+  @override
+  String get filterPostCount => '貼文數';
+
+  @override
+  String postUpdateFailed(num id) {
+    return '更新貼文 #$id 失敗';
+  }
+
+  @override
+  String postUpdated(num id) {
+    return '已更新貼文 #$id';
+  }
+
+  @override
+  String get failedToLoadPost => '貼文載入失敗';
+
+  @override
+  String get postNotFound => '找不到貼文';
 }

@@ -632,4 +632,209 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get loginRequiredFlag => 'You must be logged in to flag posts!';
+
+  @override
+  String postsBlocked(num count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'blocked $count posts',
+      one: 'blocked 1 post',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get blacklistUpdateFailed => 'Failed to update blacklist!';
+
+  @override
+  String get blacklistAddTag => 'Add tag';
+
+  @override
+  String get blacklistEditTag => 'Edit tag';
+
+  @override
+  String get blacklistEmpty => 'Your blacklist is empty';
+
+  @override
+  String get menuDelete => 'Delete';
+
+  @override
+  String get filterScore => 'Score';
+
+  @override
+  String get filterFavoriteCount => 'Favorite count';
+
+  @override
+  String get filterSortBy => 'Sort by';
+
+  @override
+  String get filterNew => 'New';
+
+  @override
+  String get filterFavorites => 'Favorites';
+
+  @override
+  String get filterRank => 'Rank';
+
+  @override
+  String get filterRandom => 'Random';
+
+  @override
+  String get filterDefault => 'Default';
+
+  @override
+  String get filterRating => 'Rating';
+
+  @override
+  String get filterSafe => 'Safe';
+
+  @override
+  String get filterQuestionable => 'Questionable';
+
+  @override
+  String get filterExplicit => 'Explicit';
+
+  @override
+  String get filterAll => 'All';
+
+  @override
+  String get filterPool => 'Pool';
+
+  @override
+  String get filterHasPool => 'Has pool';
+
+  @override
+  String get filterChild => 'Child';
+
+  @override
+  String get filterIsChildPost => 'Is child post';
+
+  @override
+  String get filterParent => 'Parent';
+
+  @override
+  String get filterIsParentPost => 'Is parent post';
+
+  @override
+  String get filterUploadDate => 'Upload date';
+
+  @override
+  String get filterLastDay => 'Last day';
+
+  @override
+  String get filterLastWeek => 'Last week';
+
+  @override
+  String get filterLastMonth => 'Last Month';
+
+  @override
+  String get filterLastYear => 'Last Year';
+
+  @override
+  String get filterStatus => 'Status';
+
+  @override
+  String get filterActive => 'Active';
+
+  @override
+  String get filterPending => 'Pending';
+
+  @override
+  String get filterDeleted => 'Deleted';
+
+  @override
+  String get filterFlagged => 'Flagged';
+
+  @override
+  String get filterAny => 'Any';
+
+  @override
+  String get filterTitleContains => 'Title contains';
+
+  @override
+  String get filterCategory => 'Category';
+
+  @override
+  String get filterGeneral => 'General';
+
+  @override
+  String get filterSiteBugReports => 'Site Bug Reports & Feature Requests';
+
+  @override
+  String get filterTagWikiProjects => 'Tag/Wiki Projects and Questions';
+
+  @override
+  String get filterTagAliasSuggestions =>
+      'Tag Alias and Implication Suggestions';
+
+  @override
+  String get filterArtTalk => 'Art Talk';
+
+  @override
+  String get filterOffTopic => 'Off Topic';
+
+  @override
+  String get filterE621Tools => 'e621 Tools and Applications';
+
+  @override
+  String get filterNewestFirst => 'Newest first';
+
+  @override
+  String get filterOldestFirst => 'Oldest first';
+
+  @override
+  String get filterSticky => 'Sticky';
+
+  @override
+  String get filterIsSticky => 'Is sticky';
+
+  @override
+  String get filterLocked => 'Locked';
+
+  @override
+  String get filterIsLocked => 'Is locked';
+
+  @override
+  String get filterDescription => 'Description';
+
+  @override
+  String get filterCreator => 'Creator';
+
+  @override
+  String get filterIsActive => 'Is active';
+
+  @override
+  String get filterSeries => 'Series';
+
+  @override
+  String get filterCollection => 'Collection';
+
+  @override
+  String get filterName => 'Name';
+
+  @override
+  String get filterCreated => 'Created';
+
+  @override
+  String get filterUpdated => 'Updated';
+
+  @override
+  String get filterPostCount => 'Post count';
+
+  @override
+  String postUpdateFailed(num id) {
+    return 'Failed to update post #$id';
+  }
+
+  @override
+  String postUpdated(num id) {
+    return 'Updated post #$id';
+  }
+
+  @override
+  String get failedToLoadPost => 'Failed to load post';
+
+  @override
+  String get postNotFound => 'Post not found';
 }

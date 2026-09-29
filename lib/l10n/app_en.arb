@@ -306,5 +306,276 @@
   "loginRequiredEdit": "You must be logged in to edit posts!",
   "loginRequiredComment": "You must be logged in to comment!",
   "loginRequiredReport": "You must be logged in to report posts!",
-  "loginRequiredFlag": "You must be logged in to flag posts!"
+  "loginRequiredFlag": "You must be logged in to flag posts!",
+  "postsBlocked": "{count, plural, =1{blocked 1 post} other{blocked {count} posts}}",
+  "@postsBlocked": {
+    "description": "Number of posts currently blocked by the blacklist.",
+    "placeholders": {
+      "count": {
+        "type": "num"
+      }
+    }
+  },
+  "blacklistUpdateFailed": "Failed to update blacklist!",
+  "@blacklistUpdateFailed": {
+    "description": "Error shown when saving the blacklist failed."
+  },
+  "blacklistAddTag": "Add tag",
+  "@blacklistAddTag": {
+    "description": "Title of the prompt that adds a tag to the blacklist."
+  },
+  "blacklistEditTag": "Edit tag",
+  "@blacklistEditTag": {
+    "description": "Title of the prompt that edits a blacklist entry."
+  },
+  "blacklistEmpty": "Your blacklist is empty",
+  "@blacklistEmpty": {
+    "description": "Message shown when the blacklist contains no entries."
+  },
+  "menuDelete": "Delete",
+  "@menuDelete": {
+    "description": "Menu item that deletes an item."
+  },
+  "filterScore": "Score",
+  "@filterScore": {
+    "description": "Name of the score filter."
+  },
+  "filterFavoriteCount": "Favorite count",
+  "@filterFavoriteCount": {
+    "description": "Name of the favorite count filter."
+  },
+  "filterSortBy": "Sort by",
+  "@filterSortBy": {
+    "description": "Name of the sort order filter."
+  },
+  "filterNew": "New",
+  "@filterNew": {
+    "description": "Sort order option that sorts by newest posts."
+  },
+  "filterFavorites": "Favorites",
+  "@filterFavorites": {
+    "description": "Sort order option that sorts by favorites."
+  },
+  "filterRank": "Rank",
+  "@filterRank": {
+    "description": "Sort order option that sorts by rank."
+  },
+  "filterRandom": "Random",
+  "@filterRandom": {
+    "description": "Sort order option that sorts randomly."
+  },
+  "filterDefault": "Default",
+  "@filterDefault": {
+    "description": "Choice that leaves a filter at its default."
+  },
+  "filterRating": "Rating",
+  "@filterRating": {
+    "description": "Name of the rating filter."
+  },
+  "filterSafe": "Safe",
+  "@filterSafe": {
+    "description": "The safe rating."
+  },
+  "filterQuestionable": "Questionable",
+  "@filterQuestionable": {
+    "description": "The questionable rating."
+  },
+  "filterExplicit": "Explicit",
+  "@filterExplicit": {
+    "description": "The explicit rating."
+  },
+  "filterAll": "All",
+  "@filterAll": {
+    "description": "Choice that does not restrict a filter."
+  },
+  "filterPool": "Pool",
+  "@filterPool": {
+    "description": "Name of the pool filter."
+  },
+  "filterHasPool": "Has pool",
+  "@filterHasPool": {
+    "description": "Description of the pool filter."
+  },
+  "filterChild": "Child",
+  "@filterChild": {
+    "description": "Name of the child post filter."
+  },
+  "filterIsChildPost": "Is child post",
+  "@filterIsChildPost": {
+    "description": "Description of the child post filter."
+  },
+  "filterParent": "Parent",
+  "@filterParent": {
+    "description": "Name of the parent post filter."
+  },
+  "filterIsParentPost": "Is parent post",
+  "@filterIsParentPost": {
+    "description": "Description of the parent post filter."
+  },
+  "filterUploadDate": "Upload date",
+  "@filterUploadDate": {
+    "description": "Name of the upload date filter."
+  },
+  "filterLastDay": "Last day",
+  "@filterLastDay": {
+    "description": "Upload date option for the last day."
+  },
+  "filterLastWeek": "Last week",
+  "@filterLastWeek": {
+    "description": "Upload date option for the last week."
+  },
+  "filterLastMonth": "Last Month",
+  "@filterLastMonth": {
+    "description": "Upload date option for the last month."
+  },
+  "filterLastYear": "Last Year",
+  "@filterLastYear": {
+    "description": "Upload date option for the last year."
+  },
+  "filterStatus": "Status",
+  "@filterStatus": {
+    "description": "Name of the post status filter."
+  },
+  "filterActive": "Active",
+  "@filterActive": {
+    "description": "The active post status."
+  },
+  "filterPending": "Pending",
+  "@filterPending": {
+    "description": "The pending post status."
+  },
+  "filterDeleted": "Deleted",
+  "@filterDeleted": {
+    "description": "The deleted post status."
+  },
+  "filterFlagged": "Flagged",
+  "@filterFlagged": {
+    "description": "The flagged post status."
+  },
+  "filterAny": "Any",
+  "@filterAny": {
+    "description": "Post status option that allows any status."
+  },
+  "filterTitleContains": "Title contains",
+  "@filterTitleContains": {
+    "description": "Name of the topic title filter."
+  },
+  "filterCategory": "Category",
+  "@filterCategory": {
+    "description": "Name of the category filter."
+  },
+  "filterGeneral": "General",
+  "@filterGeneral": {
+    "description": "The general topic category."
+  },
+  "filterSiteBugReports": "Site Bug Reports & Feature Requests",
+  "@filterSiteBugReports": {
+    "description": "A topic category."
+  },
+  "filterTagWikiProjects": "Tag/Wiki Projects and Questions",
+  "@filterTagWikiProjects": {
+    "description": "A topic category."
+  },
+  "filterTagAliasSuggestions": "Tag Alias and Implication Suggestions",
+  "@filterTagAliasSuggestions": {
+    "description": "A topic category."
+  },
+  "filterArtTalk": "Art Talk",
+  "@filterArtTalk": {
+    "description": "A topic category."
+  },
+  "filterOffTopic": "Off Topic",
+  "@filterOffTopic": {
+    "description": "A topic category."
+  },
+  "filterE621Tools": "e621 Tools and Applications",
+  "@filterE621Tools": {
+    "description": "A topic category."
+  },
+  "filterNewestFirst": "Newest first",
+  "@filterNewestFirst": {
+    "description": "Sort order option that sorts by newest topics first."
+  },
+  "filterOldestFirst": "Oldest first",
+  "@filterOldestFirst": {
+    "description": "Sort order option that sorts by oldest topics first."
+  },
+  "filterSticky": "Sticky",
+  "@filterSticky": {
+    "description": "Name of the sticky filter."
+  },
+  "filterIsSticky": "Is sticky",
+  "@filterIsSticky": {
+    "description": "Description of the sticky filter."
+  },
+  "filterLocked": "Locked",
+  "@filterLocked": {
+    "description": "Name of the locked filter."
+  },
+  "filterIsLocked": "Is locked",
+  "@filterIsLocked": {
+    "description": "Description of the locked filter."
+  },
+  "filterDescription": "Description",
+  "@filterDescription": {
+    "description": "Name of the pool description filter."
+  },
+  "filterCreator": "Creator",
+  "@filterCreator": {
+    "description": "Name of the pool creator filter."
+  },
+  "filterIsActive": "Is active",
+  "@filterIsActive": {
+    "description": "Description of the active pool filter."
+  },
+  "filterSeries": "Series",
+  "@filterSeries": {
+    "description": "The series pool category."
+  },
+  "filterCollection": "Collection",
+  "@filterCollection": {
+    "description": "The collection pool category."
+  },
+  "filterName": "Name",
+  "@filterName": {
+    "description": "Sort order option that sorts pools by name."
+  },
+  "filterCreated": "Created",
+  "@filterCreated": {
+    "description": "Sort order option that sorts pools by creation date."
+  },
+  "filterUpdated": "Updated",
+  "@filterUpdated": {
+    "description": "Sort order option that sorts pools by update date."
+  },
+  "filterPostCount": "Post count",
+  "@filterPostCount": {
+    "description": "Sort order option that sorts pools by post count."
+  },
+  "postUpdateFailed": "Failed to update post #{id}",
+  "@postUpdateFailed": {
+    "description": "Error shown when updating a post failed.",
+    "placeholders": {
+      "id": {
+        "type": "num"
+      }
+    }
+  },
+  "postUpdated": "Updated post #{id}",
+  "@postUpdated": {
+    "description": "Confirmation shown after updating a post.",
+    "placeholders": {
+      "id": {
+        "type": "num"
+      }
+    }
+  },
+  "failedToLoadPost": "Failed to load post",
+  "@failedToLoadPost": {
+    "description": "Error shown when a single post failed to load."
+  },
+  "postNotFound": "Post not found",
+  "@postNotFound": {
+    "description": "Message shown when a post does not exist."
+  }
 }
