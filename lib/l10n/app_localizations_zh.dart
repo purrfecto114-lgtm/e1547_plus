@@ -1263,6 +1263,352 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get onboardingLoginTitle => '连接账户';
+
+  @override
+  String get followAddToSubscriptions => '添加到订阅';
+
+  @override
+  String get followNoSubscriptions => '没有订阅';
+
+  @override
+  String get followFailedToLoadSubscriptions => '订阅加载失败';
+
+  @override
+  String get followAddToBookmarks => '添加到书签';
+
+  @override
+  String get followNoBookmarks => '没有书签';
+
+  @override
+  String get followFailedToLoadBookmarks => '书签加载失败';
+
+  @override
+  String get followUnseenPosts => '未读帖子';
+
+  @override
+  String followMarkPostsSeen(num count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '将 $count 个帖子标记为已读',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get followNoUnseenPosts => '没有未读帖子';
+
+  @override
+  String get followShowUnseenFirst => '优先显示未读';
+
+  @override
+  String get followFilteringUnseen => '正在筛选未读';
+
+  @override
+  String get followAllPostsShown => '显示全部帖子';
+
+  @override
+  String get followForceSync => '强制同步';
+
+  @override
+  String get followSyncAllFollows => '同步全部关注';
+
+  @override
+  String followSyncingFollows(String progress) {
+    return '正在同步关注… $progress';
+  }
+
+  @override
+  String get followEditorTitle => '编辑关注';
+
+  @override
+  String get followSubscribe => '订阅';
+
+  @override
+  String get followEditPrompt => '编辑关注';
+
+  @override
+  String get followTitlePrompt => '关注标题';
+
+  @override
+  String get followMarkAsRead => '标记为已读';
+
+  @override
+  String get followDisableNotifications => '关闭通知';
+
+  @override
+  String get followEnableNotifications => '开启通知';
+
+  @override
+  String get followRename => '重命名';
+
+  @override
+  String followNewPosts(num count, String label) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$label 条新帖子',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String followSelectionCount(num count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count 个关注',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String followAlias(String? alias) {
+    return '别名 $alias';
+  }
+
+  @override
+  String historySelectionCount(num count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count 个条目',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get historyClear => '清空历史';
+
+  @override
+  String get historyClearSubtitle => '删除所有条目';
+
+  @override
+  String get historyClearConfirm => '清空历史？';
+
+  @override
+  String get historyClearConfirmBody => '所有历史条目将被永久删除，此操作无法撤销。';
+
+  @override
+  String get historyClearAction => '清空';
+
+  @override
+  String get historyLimit => '历史上限';
+
+  @override
+  String historyLimitEnableBody(String amount, num months) {
+    return '启用历史上限后，超过 $amount 条或早于 $months 个月的条目将被自动删除。';
+  }
+
+  @override
+  String get historyLimitTitle => '限制历史';
+
+  @override
+  String historyLimitOn(String amount, num months) {
+    return '仅保留最近 $months 个月内且不超过 $amount 条的记录。';
+  }
+
+  @override
+  String get historyLimitOff => '历史无上限';
+
+  @override
+  String get historyEntries => '条目';
+
+  @override
+  String get historyType => '类型';
+
+  @override
+  String get historyItems => '项目';
+
+  @override
+  String get historySearches => '搜索';
+
+  @override
+  String get historyWikis => 'Wiki';
+
+  @override
+  String get historyUsers => '用户';
+
+  @override
+  String get historyReplies => '回复';
+
+  @override
+  String get historyEmpty => '历史记录为空';
+
+  @override
+  String get historyFailedToLoad => '历史加载失败';
+
+  @override
+  String get historyDescription => '描述';
+
+  @override
+  String get historyNoDescription => '暂无描述';
+
+  @override
+  String get historyHotPosts => '热门帖子';
+
+  @override
+  String historyLinkPost(num id) {
+    return '帖子 #$id';
+  }
+
+  @override
+  String historyLinkUser(num id) {
+    return '用户 #$id';
+  }
+
+  @override
+  String historyLinkWiki(num id) {
+    return 'Wiki #$id';
+  }
+
+  @override
+  String historyLinkReply(num id) {
+    return '回复 #$id';
+  }
+
+  @override
+  String historyLinkUserByName(String id) {
+    return '$id - 用户';
+  }
+
+  @override
+  String historyLinkWikiByName(String id) {
+    return '$id - Wiki';
+  }
+
+  @override
+  String historySearchQuery(String type, String query) {
+    return '$type - $query';
+  }
+
+  @override
+  String get historyWiki => 'Wiki';
+
+  @override
+  String get poolEmpty => '没有图集';
+
+  @override
+  String get poolFailedToLoadPools => '图集加载失败';
+
+  @override
+  String get poolTitle => '图集标题';
+
+  @override
+  String get poolInfoPosts => '帖子';
+
+  @override
+  String get poolInfoId => 'ID';
+
+  @override
+  String get poolInfoActivity => '活跃状态';
+
+  @override
+  String get poolInfoActive => '活跃';
+
+  @override
+  String get poolInfoInactive => '不活跃';
+
+  @override
+  String get poolInfoCreated => '创建时间';
+
+  @override
+  String get poolInfoUpdated => '更新时间';
+
+  @override
+  String poolCopiedId(num id) {
+    return '已复制图集 ID #$id';
+  }
+
+  @override
+  String poolLink(num id) {
+    return '图集 #$id';
+  }
+
+  @override
+  String get poolFailedToLoadPool => '图集加载失败';
+
+  @override
+  String get poolNotFound => '找不到图集';
+
+  @override
+  String get poolInfo => '信息';
+
+  @override
+  String get poolOrder => '图集排序';
+
+  @override
+  String get poolOldestFirst => '从旧到新';
+
+  @override
+  String get poolNewestFirst => '从新到旧';
+
+  @override
+  String get poolReaderMode => '图集阅读模式';
+
+  @override
+  String get poolReaderLargeImages => '大图';
+
+  @override
+  String get poolReaderNormalGrid => '普通网格';
+
+  @override
+  String get topicsTitle => '讨论';
+
+  @override
+  String get topicHideTagEdits => '隐藏标签编辑帖';
+
+  @override
+  String get topicTagEditsHidden => '已隐藏';
+
+  @override
+  String get topicTagEditsVisible => '显示中';
+
+  @override
+  String topicLink(num id) {
+    return '讨论帖 #$id';
+  }
+
+  @override
+  String get topicFailedToLoadTopic => '讨论帖加载失败';
+
+  @override
+  String get topicNotFound => '找不到讨论帖';
+
+  @override
+  String get topicEmpty => '没有讨论帖';
+
+  @override
+  String get topicFailedToLoadTopics => '讨论帖加载失败';
+
+  @override
+  String get topicInfoReplies => '回复';
+
+  @override
+  String get topicInfoId => 'ID';
+
+  @override
+  String topicCopiedId(num id) {
+    return '已复制讨论帖 ID #$id';
+  }
+
+  @override
+  String get topicInfoLocked => '已锁定';
+
+  @override
+  String get topicInfoYes => '是';
+
+  @override
+  String get topicInfoNo => '否';
+
+  @override
+  String get topicInfoCreated => '创建时间';
+
+  @override
+  String get topicInfoUpdated => '更新时间';
+
+  @override
+  String get filterTags => '标签';
 }
 
 /// The translations for Chinese, using the Han script (`zh_Hant`).
@@ -2524,4 +2870,350 @@ class AppLocalizationsZhHant extends AppLocalizationsZh {
 
   @override
   String get onboardingLoginTitle => '連結帳戶';
+
+  @override
+  String get followAddToSubscriptions => '加入訂閱';
+
+  @override
+  String get followNoSubscriptions => '沒有訂閱';
+
+  @override
+  String get followFailedToLoadSubscriptions => '訂閱載入失敗';
+
+  @override
+  String get followAddToBookmarks => '加入書籤';
+
+  @override
+  String get followNoBookmarks => '沒有書籤';
+
+  @override
+  String get followFailedToLoadBookmarks => '書籤載入失敗';
+
+  @override
+  String get followUnseenPosts => '未讀貼文';
+
+  @override
+  String followMarkPostsSeen(num count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '將 $count 個貼文標記為已讀',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get followNoUnseenPosts => '沒有未讀貼文';
+
+  @override
+  String get followShowUnseenFirst => '優先顯示未讀';
+
+  @override
+  String get followFilteringUnseen => '正在篩選未讀';
+
+  @override
+  String get followAllPostsShown => '顯示全部貼文';
+
+  @override
+  String get followForceSync => '強制同步';
+
+  @override
+  String get followSyncAllFollows => '同步全部追蹤';
+
+  @override
+  String followSyncingFollows(String progress) {
+    return '正在同步追蹤… $progress';
+  }
+
+  @override
+  String get followEditorTitle => '編輯追蹤';
+
+  @override
+  String get followSubscribe => '訂閱';
+
+  @override
+  String get followEditPrompt => '編輯追蹤';
+
+  @override
+  String get followTitlePrompt => '追蹤標題';
+
+  @override
+  String get followMarkAsRead => '標記為已讀';
+
+  @override
+  String get followDisableNotifications => '關閉通知';
+
+  @override
+  String get followEnableNotifications => '開啟通知';
+
+  @override
+  String get followRename => '重新命名';
+
+  @override
+  String followNewPosts(num count, String label) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$label 則新貼文',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String followSelectionCount(num count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count 個追蹤',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String followAlias(String? alias) {
+    return '別名 $alias';
+  }
+
+  @override
+  String historySelectionCount(num count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count 個條目',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get historyClear => '清空歷史';
+
+  @override
+  String get historyClearSubtitle => '刪除所有條目';
+
+  @override
+  String get historyClearConfirm => '清空歷史？';
+
+  @override
+  String get historyClearConfirmBody => '所有歷史條目將被永久刪除，此操作無法復原。';
+
+  @override
+  String get historyClearAction => '清空';
+
+  @override
+  String get historyLimit => '歷史上限';
+
+  @override
+  String historyLimitEnableBody(String amount, num months) {
+    return '啟用歷史上限後，超過 $amount 條或早於 $months 個月的條目將被自動刪除。';
+  }
+
+  @override
+  String get historyLimitTitle => '限制歷史';
+
+  @override
+  String historyLimitOn(String amount, num months) {
+    return '僅保留最近 $months 個月內且不超過 $amount 條的記錄。';
+  }
+
+  @override
+  String get historyLimitOff => '歷史無上限';
+
+  @override
+  String get historyEntries => '條目';
+
+  @override
+  String get historyType => '類型';
+
+  @override
+  String get historyItems => '項目';
+
+  @override
+  String get historySearches => '搜尋';
+
+  @override
+  String get historyWikis => 'Wiki';
+
+  @override
+  String get historyUsers => '使用者';
+
+  @override
+  String get historyReplies => '回覆';
+
+  @override
+  String get historyEmpty => '歷史記錄為空';
+
+  @override
+  String get historyFailedToLoad => '歷史載入失敗';
+
+  @override
+  String get historyDescription => '描述';
+
+  @override
+  String get historyNoDescription => '暫無描述';
+
+  @override
+  String get historyHotPosts => '熱門貼文';
+
+  @override
+  String historyLinkPost(num id) {
+    return '貼文 #$id';
+  }
+
+  @override
+  String historyLinkUser(num id) {
+    return '使用者 #$id';
+  }
+
+  @override
+  String historyLinkWiki(num id) {
+    return 'Wiki #$id';
+  }
+
+  @override
+  String historyLinkReply(num id) {
+    return '回覆 #$id';
+  }
+
+  @override
+  String historyLinkUserByName(String id) {
+    return '$id - 使用者';
+  }
+
+  @override
+  String historyLinkWikiByName(String id) {
+    return '$id - Wiki';
+  }
+
+  @override
+  String historySearchQuery(String type, String query) {
+    return '$type - $query';
+  }
+
+  @override
+  String get historyWiki => 'Wiki';
+
+  @override
+  String get poolEmpty => '沒有圖集';
+
+  @override
+  String get poolFailedToLoadPools => '圖集載入失敗';
+
+  @override
+  String get poolTitle => '圖集標題';
+
+  @override
+  String get poolInfoPosts => '貼文';
+
+  @override
+  String get poolInfoId => 'ID';
+
+  @override
+  String get poolInfoActivity => '活躍狀態';
+
+  @override
+  String get poolInfoActive => '活躍';
+
+  @override
+  String get poolInfoInactive => '不活躍';
+
+  @override
+  String get poolInfoCreated => '建立時間';
+
+  @override
+  String get poolInfoUpdated => '更新時間';
+
+  @override
+  String poolCopiedId(num id) {
+    return '已複製圖集 ID #$id';
+  }
+
+  @override
+  String poolLink(num id) {
+    return '圖集 #$id';
+  }
+
+  @override
+  String get poolFailedToLoadPool => '圖集載入失敗';
+
+  @override
+  String get poolNotFound => '找不到圖集';
+
+  @override
+  String get poolInfo => '資訊';
+
+  @override
+  String get poolOrder => '圖集排序';
+
+  @override
+  String get poolOldestFirst => '從舊到新';
+
+  @override
+  String get poolNewestFirst => '從新到舊';
+
+  @override
+  String get poolReaderMode => '圖集閱讀模式';
+
+  @override
+  String get poolReaderLargeImages => '大圖';
+
+  @override
+  String get poolReaderNormalGrid => '普通網格';
+
+  @override
+  String get topicsTitle => '討論';
+
+  @override
+  String get topicHideTagEdits => '隱藏標籤編輯討論串';
+
+  @override
+  String get topicTagEditsHidden => '已隱藏';
+
+  @override
+  String get topicTagEditsVisible => '顯示中';
+
+  @override
+  String topicLink(num id) {
+    return '討論串 #$id';
+  }
+
+  @override
+  String get topicFailedToLoadTopic => '討論串載入失敗';
+
+  @override
+  String get topicNotFound => '找不到討論串';
+
+  @override
+  String get topicEmpty => '沒有討論串';
+
+  @override
+  String get topicFailedToLoadTopics => '討論串載入失敗';
+
+  @override
+  String get topicInfoReplies => '回覆';
+
+  @override
+  String get topicInfoId => 'ID';
+
+  @override
+  String topicCopiedId(num id) {
+    return '已複製討論串 ID #$id';
+  }
+
+  @override
+  String get topicInfoLocked => '已鎖定';
+
+  @override
+  String get topicInfoYes => '是';
+
+  @override
+  String get topicInfoNo => '否';
+
+  @override
+  String get topicInfoCreated => '建立時間';
+
+  @override
+  String get topicInfoUpdated => '更新時間';
+
+  @override
+  String get filterTags => '標籤';
 }

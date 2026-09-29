@@ -1,4 +1,5 @@
 import 'package:e1547/client/client.dart';
+import 'package:e1547/l10n/app_localizations.dart';
 import 'package:e1547/shared/shared.dart';
 import 'package:e1547/tag/tag.dart';
 import 'package:e1547/topic/topic.dart';
@@ -26,7 +27,7 @@ Future<void> showTopicPrompt({
           icon: const Icon(Icons.share),
           onTap: () async =>
               Share.text(context, context.read<Client>().withHost(topic.link)),
-          label: const Text('Share'),
+          label: Text(AppLocalizations.of(context).menuShare),
         ),
       ],
     ),
@@ -64,36 +65,45 @@ class TopicInfo extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisSize: MainAxisSize.min,
         children: [
-          textInfoRow('replies', topic.responseCount.toString()),
+          textInfoRow(
+            AppLocalizations.of(context).topicInfoReplies,
+            topic.responseCount.toString(),
+          ),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              const Text('id'),
+              Text(AppLocalizations.of(context).topicInfoId),
               InkWell(
                 child: Text('#${topic.id}'),
                 onLongPress: () async {
                   ScaffoldMessengerState messenger = ScaffoldMessenger.of(
                     context,
                   );
+                  final l10n = AppLocalizations.of(context);
                   Clipboard.setData(ClipboardData(text: topic.id.toString()));
                   await Navigator.of(context).maybePop();
                   messenger.showSnackBar(
                     SnackBar(
                       duration: const Duration(seconds: 1),
-                      content: Text('Copied topic id #${topic.id}'),
+                      content: Text(l10n.topicCopiedId(topic.id)),
                     ),
                   );
                 },
               ),
             ],
           ),
-          textInfoRow('locked', topic.locked ? 'yes' : 'no'),
           textInfoRow(
-            'created',
+            AppLocalizations.of(context).topicInfoLocked,
+            topic.locked
+                ? AppLocalizations.of(context).topicInfoYes
+                : AppLocalizations.of(context).topicInfoNo,
+          ),
+          textInfoRow(
+            AppLocalizations.of(context).topicInfoCreated,
             DateFormatting.dateTime(topic.createdAt.toLocal()),
           ),
           textInfoRow(
-            'updated',
+            AppLocalizations.of(context).topicInfoUpdated,
             DateFormatting.dateTime(topic.updatedAt.toLocal()),
           ),
         ],

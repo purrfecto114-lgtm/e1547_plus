@@ -1194,5 +1194,496 @@
   "onboardingLoginTitle": "Connect an account",
   "@onboardingLoginTitle": {
     "description": "Title of the login onboarding step."
+  },
+  "followAddToSubscriptions": "Add to subscriptions",
+  "@followAddToSubscriptions": {
+    "description": "Prompt title for adding a tag to the subscriptions page."
+  },
+  "followNoSubscriptions": "No subscriptions",
+  "@followNoSubscriptions": {
+    "description": "Empty state of the subscriptions page."
+  },
+  "followFailedToLoadSubscriptions": "Failed to load subscriptions",
+  "@followFailedToLoadSubscriptions": {
+    "description": "Error state of the subscriptions page."
+  },
+  "followAddToBookmarks": "Add to bookmarks",
+  "@followAddToBookmarks": {
+    "description": "Prompt title for adding a tag to the bookmarks page."
+  },
+  "followNoBookmarks": "No bookmarks",
+  "@followNoBookmarks": {
+    "description": "Empty state of the bookmarks page."
+  },
+  "followFailedToLoadBookmarks": "Failed to load bookmarks",
+  "@followFailedToLoadBookmarks": {
+    "description": "Error state of the bookmarks page."
+  },
+  "followUnseenPosts": "unseen posts",
+  "@followUnseenPosts": {
+    "description": "Title of the unseen posts tile in the subscriptions drawer."
+  },
+  "followMarkPostsSeen": "{count, plural, =1{mark 1 post as seen} other{mark {count} posts as seen}}",
+  "@followMarkPostsSeen": {
+    "description": "Subtitle of the unseen posts tile, marking posts as seen.",
+    "placeholders": {
+      "count": {
+        "type": "num"
+      }
+    }
+  },
+  "followNoUnseenPosts": "no unseen posts",
+  "@followNoUnseenPosts": {
+    "description": "Subtitle of the unseen posts tile when nothing is unseen."
+  },
+  "followShowUnseenFirst": "show unseen first",
+  "@followShowUnseenFirst": {
+    "description": "Title of the unseen filter switch in the subscriptions drawer."
+  },
+  "followFilteringUnseen": "filtering for unseen",
+  "@followFilteringUnseen": {
+    "description": "Subtitle of the unseen filter switch when filtering."
+  },
+  "followAllPostsShown": "all posts shown",
+  "@followAllPostsShown": {
+    "description": "Subtitle of the unseen filter switch when not filtering."
+  },
+  "followForceSync": "Force sync",
+  "@followForceSync": {
+    "description": "Title of the force sync tile in the subscriptions drawer."
+  },
+  "followSyncAllFollows": "sync all follows",
+  "@followSyncAllFollows": {
+    "description": "Subtitle of the force sync tile when idle."
+  },
+  "followSyncingFollows": "syncing follows... {progress}",
+  "@followSyncingFollows": {
+    "description": "Subtitle of the force sync tile while syncing, with a progress value.",
+    "placeholders": {
+      "progress": {
+        "type": "String"
+      }
+    }
+  },
+  "followEditorTitle": "Edit follows",
+  "@followEditorTitle": {
+    "description": "Title of the follow editor page."
+  },
+  "followSubscribe": "Subscribe",
+  "@followSubscribe": {
+    "description": "Section title of the subscription list in the follow editor."
+  },
+  "followEditPrompt": "Edit follow",
+  "@followEditPrompt": {
+    "description": "Prompt title for editing a follow's tags."
+  },
+  "followTitlePrompt": "Follow title",
+  "@followTitlePrompt": {
+    "description": "Label of the text field renaming a follow."
+  },
+  "followMarkAsRead": "Mark as read",
+  "@followMarkAsRead": {
+    "description": "Menu action marking a follow as read."
+  },
+  "followDisableNotifications": "Disable notifications",
+  "@followDisableNotifications": {
+    "description": "Menu action disabling notifications of a follow."
+  },
+  "followEnableNotifications": "Enable notifications",
+  "@followEnableNotifications": {
+    "description": "Menu action enabling notifications of a follow."
+  },
+  "followRename": "Rename",
+  "@followRename": {
+    "description": "Menu action renaming a follow."
+  },
+  "followNewPosts": "{count, plural, =1{1 new post} other{{label} new posts}}",
+  "@followNewPosts": {
+    "description": "Unseen counter label on a follow tile.",
+    "placeholders": {
+      "count": {
+        "type": "num"
+      },
+      "label": {
+        "type": "String"
+      }
+    }
+  },
+  "followSelectionCount": "{count, plural, =1{1 follow} other{{count} follows}}",
+  "@followSelectionCount": {
+    "description": "Title of the follow selection app bar.",
+    "placeholders": {
+      "count": {
+        "type": "num"
+      }
+    }
+  },
+  "followAlias": "alias {alias}",
+  "@followAlias": {
+    "description": "Alias label on a follow tile.",
+    "placeholders": {
+      "alias": {
+        "type": "String?"
+      }
+    }
+  },
+  "historySelectionCount": "{count, plural, =1{1 entry} other{{count} entries}}",
+  "@historySelectionCount": {
+    "description": "Title of the history selection app bar.",
+    "placeholders": {
+      "count": {
+        "type": "num"
+      }
+    }
+  },
+  "historyClear": "Clear history",
+  "@historyClear": {
+    "description": "Title of the clear history tile in the history drawer."
+  },
+  "historyClearSubtitle": "Delete all entries",
+  "@historyClearSubtitle": {
+    "description": "Subtitle of the clear history tile."
+  },
+  "historyClearConfirm": "Clear history?",
+  "@historyClearConfirm": {
+    "description": "Title of the clear history confirmation dialog."
+  },
+  "historyClearConfirmBody": "All history entries will be permanently deleted. This action cannot be undone.",
+  "@historyClearConfirmBody": {
+    "description": "Body of the clear history confirmation dialog."
+  },
+  "historyClearAction": "Clear",
+  "@historyClearAction": {
+    "description": "Confirmation button of the clear history dialog."
+  },
+  "historyLimit": "History limit",
+  "@historyLimit": {
+    "description": "Title of the history limit dialog."
+  },
+  "historyLimitEnableBody": "Enabling history limit means all history entries beyond {amount} and all entries older than {months} months are automatically deleted.",
+  "@historyLimitEnableBody": {
+    "description": "Body of the history limit dialog explaining its effects.",
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      },
+      "months": {
+        "type": "num"
+      }
+    }
+  },
+  "historyLimitTitle": "Limit history",
+  "@historyLimitTitle": {
+    "description": "Title of the history limit switch in the history drawer."
+  },
+  "historyLimitOn": "Limited to newer than {months} months or less than {amount} entries.",
+  "@historyLimitOn": {
+    "description": "Subtitle of the history limit switch when enabled.",
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      },
+      "months": {
+        "type": "num"
+      }
+    }
+  },
+  "historyLimitOff": "history is infinite",
+  "@historyLimitOff": {
+    "description": "Subtitle of the history limit switch when disabled."
+  },
+  "historyEntries": "Entries",
+  "@historyEntries": {
+    "description": "Section header of the history category filters."
+  },
+  "historyType": "Type",
+  "@historyType": {
+    "description": "Section header of the history type filters."
+  },
+  "historyItems": "Items",
+  "@historyItems": {
+    "description": "Category filter showing visited items."
+  },
+  "historySearches": "Searches",
+  "@historySearches": {
+    "description": "Category filter showing visited searches."
+  },
+  "historyWikis": "Wikis",
+  "@historyWikis": {
+    "description": "Type filter showing wiki history entries."
+  },
+  "historyUsers": "Users",
+  "@historyUsers": {
+    "description": "Type filter showing user history entries."
+  },
+  "historyReplies": "Replies",
+  "@historyReplies": {
+    "description": "Type filter showing reply history entries."
+  },
+  "historyEmpty": "Your history is empty",
+  "@historyEmpty": {
+    "description": "Empty state of the history page."
+  },
+  "historyFailedToLoad": "Failed to load history",
+  "@historyFailedToLoad": {
+    "description": "Error state of the history page."
+  },
+  "historyDescription": "Description",
+  "@historyDescription": {
+    "description": "Menu action showing the description of a history entry."
+  },
+  "historyNoDescription": "no description",
+  "@historyNoDescription": {
+    "description": "Placeholder shown when a history entry has no description."
+  },
+  "historyHotPosts": "Hot posts",
+  "@historyHotPosts": {
+    "description": "Name of the hot posts search in the history."
+  },
+  "historyLinkPost": "Post #{id}",
+  "@historyLinkPost": {
+    "description": "Name of a visited post in the history.",
+    "placeholders": {
+      "id": {
+        "type": "num"
+      }
+    }
+  },
+  "historyLinkUser": "User #{id}",
+  "@historyLinkUser": {
+    "description": "Name of a visited user in the history.",
+    "placeholders": {
+      "id": {
+        "type": "num"
+      }
+    }
+  },
+  "historyLinkWiki": "Wiki #{id}",
+  "@historyLinkWiki": {
+    "description": "Name of a visited wiki page in the history.",
+    "placeholders": {
+      "id": {
+        "type": "num"
+      }
+    }
+  },
+  "historyLinkReply": "Reply #{id}",
+  "@historyLinkReply": {
+    "description": "Name of a visited reply in the history.",
+    "placeholders": {
+      "id": {
+        "type": "num"
+      }
+    }
+  },
+  "historyLinkUserByName": "{id} - User",
+  "@historyLinkUserByName": {
+    "description": "Name of a visited user page in the history, looked up by name.",
+    "placeholders": {
+      "id": {
+        "type": "String"
+      }
+    }
+  },
+  "historyLinkWikiByName": "{id} - Wiki",
+  "@historyLinkWikiByName": {
+    "description": "Name of a visited wiki page in the history, looked up by title.",
+    "placeholders": {
+      "id": {
+        "type": "String"
+      }
+    }
+  },
+  "historySearchQuery": "{type} - {query}",
+  "@historySearchQuery": {
+    "description": "Name of a visited search in the history, combining its type and query.",
+    "placeholders": {
+      "type": {
+        "type": "String"
+      },
+      "query": {
+        "type": "String"
+      }
+    }
+  },
+  "historyWiki": "Wiki",
+  "@historyWiki": {
+    "description": "Menu action opening the wiki of a searched tag."
+  },
+  "poolEmpty": "No pools",
+  "@poolEmpty": {
+    "description": "Empty state of the pools page."
+  },
+  "poolFailedToLoadPools": "Failed to load pools",
+  "@poolFailedToLoadPools": {
+    "description": "Error state of the pools page."
+  },
+  "poolTitle": "Pool title",
+  "@poolTitle": {
+    "description": "Label of the pool title search filter."
+  },
+  "poolInfoPosts": "posts",
+  "@poolInfoPosts": {
+    "description": "Info row label of the post count of a pool."
+  },
+  "poolInfoId": "id",
+  "@poolInfoId": {
+    "description": "Info row label of the id of a pool."
+  },
+  "poolInfoActivity": "activity",
+  "@poolInfoActivity": {
+    "description": "Info row label of the activity state of a pool."
+  },
+  "poolInfoActive": "active",
+  "@poolInfoActive": {
+    "description": "Info row value of an active pool."
+  },
+  "poolInfoInactive": "inactive",
+  "@poolInfoInactive": {
+    "description": "Info row value of an inactive pool."
+  },
+  "poolInfoCreated": "created",
+  "@poolInfoCreated": {
+    "description": "Info row label of the creation date of a pool."
+  },
+  "poolInfoUpdated": "updated",
+  "@poolInfoUpdated": {
+    "description": "Info row label of the last update of a pool."
+  },
+  "poolCopiedId": "Copied pool id #{id}",
+  "@poolCopiedId": {
+    "description": "Snackbar shown after copying the id of a pool.",
+    "placeholders": {
+      "id": {
+        "type": "num"
+      }
+    }
+  },
+  "poolLink": "Pool #{id}",
+  "@poolLink": {
+    "description": "Title of the pool loading page.",
+    "placeholders": {
+      "id": {
+        "type": "num"
+      }
+    }
+  },
+  "poolFailedToLoadPool": "Failed to load pool",
+  "@poolFailedToLoadPool": {
+    "description": "Error state of the pool loading page."
+  },
+  "poolNotFound": "Pool not found",
+  "@poolNotFound": {
+    "description": "Empty state of the pool loading page."
+  },
+  "poolInfo": "Info",
+  "@poolInfo": {
+    "description": "Tooltip of the pool info button."
+  },
+  "poolOrder": "Pool order",
+  "@poolOrder": {
+    "description": "Title of the pool order switch in the pool drawer."
+  },
+  "poolOldestFirst": "oldest first",
+  "@poolOldestFirst": {
+    "description": "Subtitle of the pool order switch when sorting oldest first."
+  },
+  "poolNewestFirst": "newest first",
+  "@poolNewestFirst": {
+    "description": "Subtitle of the pool order switch when sorting newest first."
+  },
+  "poolReaderMode": "Pool reader mode",
+  "@poolReaderMode": {
+    "description": "Title of the pool reader mode switch in the pool drawer."
+  },
+  "poolReaderLargeImages": "large images",
+  "@poolReaderLargeImages": {
+    "description": "Subtitle of the pool reader mode switch when enabled."
+  },
+  "poolReaderNormalGrid": "normal grid",
+  "@poolReaderNormalGrid": {
+    "description": "Subtitle of the pool reader mode switch when disabled."
+  },
+  "topicsTitle": "Topics",
+  "@topicsTitle": {
+    "description": "Title of the topics page."
+  },
+  "topicHideTagEdits": "Hide tags edits",
+  "@topicHideTagEdits": {
+    "description": "Title of the tag edit switch in the topics drawer."
+  },
+  "topicTagEditsHidden": "hidden",
+  "@topicTagEditsHidden": {
+    "description": "Subtitle of the tag edit switch when hidden."
+  },
+  "topicTagEditsVisible": "visible",
+  "@topicTagEditsVisible": {
+    "description": "Subtitle of the tag edit switch when visible."
+  },
+  "topicLink": "Topic #{id}",
+  "@topicLink": {
+    "description": "Title of the topic loading page.",
+    "placeholders": {
+      "id": {
+        "type": "num"
+      }
+    }
+  },
+  "topicFailedToLoadTopic": "Failed to load topic",
+  "@topicFailedToLoadTopic": {
+    "description": "Error state of the topic loading page."
+  },
+  "topicNotFound": "Topic not found",
+  "@topicNotFound": {
+    "description": "Empty state of the topic loading page."
+  },
+  "topicEmpty": "No topics",
+  "@topicEmpty": {
+    "description": "Empty state of the topics page."
+  },
+  "topicFailedToLoadTopics": "Failed to load topics",
+  "@topicFailedToLoadTopics": {
+    "description": "Error state of the topics page."
+  },
+  "topicInfoReplies": "replies",
+  "@topicInfoReplies": {
+    "description": "Info row label of the reply count of a topic."
+  },
+  "topicInfoId": "id",
+  "@topicInfoId": {
+    "description": "Info row label of the id of a topic."
+  },
+  "topicCopiedId": "Copied topic id #{id}",
+  "@topicCopiedId": {
+    "description": "Snackbar shown after copying the id of a topic.",
+    "placeholders": {
+      "id": {
+        "type": "num"
+      }
+    }
+  },
+  "topicInfoLocked": "locked",
+  "@topicInfoLocked": {
+    "description": "Info row label of the locked state of a topic."
+  },
+  "topicInfoYes": "yes",
+  "@topicInfoYes": {
+    "description": "Info row value confirming a topic state."
+  },
+  "topicInfoNo": "no",
+  "@topicInfoNo": {
+    "description": "Info row value denying a topic state."
+  },
+  "topicInfoCreated": "created",
+  "@topicInfoCreated": {
+    "description": "Info row label of the creation date of a topic."
+  },
+  "topicInfoUpdated": "updated",
+  "@topicInfoUpdated": {
+    "description": "Info row label of the last update of a topic."
+  },
+  "filterTags": "Tags",
+  "@filterTags": {
+    "description": "Name of the tags filter used by the tag prompt."
   }
 }
