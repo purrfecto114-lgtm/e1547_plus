@@ -47,7 +47,8 @@ platform :android do
 
   desc "Writes playstore changelogs from CHANGELOG.md"
   lane :changelog do
-    sh("dart pub global activate cider")
+    # keep in sync with the cider version pinned in .github/workflows/deployment.yml
+    sh("dart pub global activate cider 0.2.10")
     versions = fetch_versions
     versions.each do |version|
       if version == 'Unreleased'
