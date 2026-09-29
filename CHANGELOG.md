@@ -4,6 +4,18 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and this project
 adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [21.1.0-rc.3+106] - 2026-09-29
+### Added
+- simplified and traditional chinese translations of the blacklist editor, search filters and most remaining interface pages
+- regression tests for the follow sync blacklist filtering
+
+### Changed
+- extended the memory friendly default video resolution tier to ios devices
+
+### Fixed
+- history and user date headers not following the app language
+- the wrong subject in the comment report failure message
+
 ## [21.1.0-rc.2+105] - 2026-09-26
 ### Added
 - a system theme that follows the platform dark mode
@@ -996,6 +1008,7 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 ### Fixed
 - API client bindings
 
+[21.1.0-rc.3+106]: https://github.com/purrfecto114-lgtm/e1547_plus/compare/21.1.0-rc.2+105...21.1.0-rc.3+106
 [21.1.0-rc.2+105]: https://github.com/purrfecto114-lgtm/e1547_plus/compare/21.1.0-rc.1+104...21.1.0-rc.2+105
 [21.1.0-rc.1+104]: https://github.com/clragon/e1547/compare/21.0.1+103...21.1.0-rc.1+104
 [21.0.1+103]: https://github.com/clragon/e1547/compare/21.0.0+102...21.0.1+103
