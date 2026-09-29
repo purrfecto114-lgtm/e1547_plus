@@ -1,5 +1,6 @@
 import 'package:e1547/client/client.dart';
 import 'package:e1547/history/history.dart';
+import 'package:e1547/l10n/app_localizations.dart';
 import 'package:e1547/shared/shared.dart';
 import 'package:flutter/material.dart';
 
@@ -16,7 +17,7 @@ class HistoryAppBar extends StatelessWidget implements PreferredSizeWidget {
         title: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const Text('History'),
+            Text(AppLocalizations.of(context).navHistory),
             CrossFade.builder(
               showChild: date != null,
               builder: (context) => Text(
@@ -49,7 +50,11 @@ class HistorySelectionAppBar extends StatelessWidget with AppBarBuilderWidget {
       child: child,
       titleBuilder: (context, data) => data.selections.length == 1
           ? Text(data.selections.first.getName(context))
-          : Text('${data.selections.length} entries'),
+          : Text(
+              AppLocalizations.of(
+                context,
+              ).historySelectionCount(data.selections.length),
+            ),
       actionBuilder: (context, data) => [
         IconButton(
           icon: const Icon(Icons.delete_outline),

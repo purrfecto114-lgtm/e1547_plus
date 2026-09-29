@@ -837,4 +837,355 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get postNotFound => 'Post not found';
+
+  @override
+  String get followAddToSubscriptions => 'Add to subscriptions';
+
+  @override
+  String get followNoSubscriptions => 'No subscriptions';
+
+  @override
+  String get followFailedToLoadSubscriptions => 'Failed to load subscriptions';
+
+  @override
+  String get followAddToBookmarks => 'Add to bookmarks';
+
+  @override
+  String get followNoBookmarks => 'No bookmarks';
+
+  @override
+  String get followFailedToLoadBookmarks => 'Failed to load bookmarks';
+
+  @override
+  String get followUnseenPosts => 'unseen posts';
+
+  @override
+  String followMarkPostsSeen(num count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'mark $count posts as seen',
+      one: 'mark 1 post as seen',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get followNoUnseenPosts => 'no unseen posts';
+
+  @override
+  String get followShowUnseenFirst => 'show unseen first';
+
+  @override
+  String get followFilteringUnseen => 'filtering for unseen';
+
+  @override
+  String get followAllPostsShown => 'all posts shown';
+
+  @override
+  String get followForceSync => 'Force sync';
+
+  @override
+  String get followSyncAllFollows => 'sync all follows';
+
+  @override
+  String followSyncingFollows(String progress) {
+    return 'syncing follows... $progress';
+  }
+
+  @override
+  String get followEditorTitle => 'Edit follows';
+
+  @override
+  String get followSubscribe => 'Subscribe';
+
+  @override
+  String get followEditPrompt => 'Edit follow';
+
+  @override
+  String get followTitlePrompt => 'Follow title';
+
+  @override
+  String get followMarkAsRead => 'Mark as read';
+
+  @override
+  String get followDisableNotifications => 'Disable notifications';
+
+  @override
+  String get followEnableNotifications => 'Enable notifications';
+
+  @override
+  String get followRename => 'Rename';
+
+  @override
+  String followNewPosts(num count, String label) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$label new posts',
+      one: '1 new post',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String followSelectionCount(num count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count follows',
+      one: '1 follow',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String followAlias(String? alias) {
+    return 'alias $alias';
+  }
+
+  @override
+  String historySelectionCount(num count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count entries',
+      one: '1 entry',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get historyClear => 'Clear history';
+
+  @override
+  String get historyClearSubtitle => 'Delete all entries';
+
+  @override
+  String get historyClearConfirm => 'Clear history?';
+
+  @override
+  String get historyClearConfirmBody =>
+      'All history entries will be permanently deleted. This action cannot be undone.';
+
+  @override
+  String get historyClearAction => 'Clear';
+
+  @override
+  String get historyLimit => 'History limit';
+
+  @override
+  String historyLimitEnableBody(String amount, num months) {
+    return 'Enabling history limit means all history entries beyond $amount and all entries older than $months months are automatically deleted.';
+  }
+
+  @override
+  String get historyLimitTitle => 'Limit history';
+
+  @override
+  String historyLimitOn(String amount, num months) {
+    return 'Limited to newer than $months months or less than $amount entries.';
+  }
+
+  @override
+  String get historyLimitOff => 'history is infinite';
+
+  @override
+  String get historyEntries => 'Entries';
+
+  @override
+  String get historyType => 'Type';
+
+  @override
+  String get historyItems => 'Items';
+
+  @override
+  String get historySearches => 'Searches';
+
+  @override
+  String get historyWikis => 'Wikis';
+
+  @override
+  String get historyUsers => 'Users';
+
+  @override
+  String get historyReplies => 'Replies';
+
+  @override
+  String get historyEmpty => 'Your history is empty';
+
+  @override
+  String get historyFailedToLoad => 'Failed to load history';
+
+  @override
+  String get historyDescription => 'Description';
+
+  @override
+  String get historyNoDescription => 'no description';
+
+  @override
+  String get historyHotPosts => 'Hot posts';
+
+  @override
+  String historyLinkPost(num id) {
+    return 'Post #$id';
+  }
+
+  @override
+  String historyLinkUser(num id) {
+    return 'User #$id';
+  }
+
+  @override
+  String historyLinkWiki(num id) {
+    return 'Wiki #$id';
+  }
+
+  @override
+  String historyLinkReply(num id) {
+    return 'Reply #$id';
+  }
+
+  @override
+  String historyLinkUserByName(String id) {
+    return '$id - User';
+  }
+
+  @override
+  String historyLinkWikiByName(String id) {
+    return '$id - Wiki';
+  }
+
+  @override
+  String historySearchQuery(String type, String query) {
+    return '$type - $query';
+  }
+
+  @override
+  String get historyWiki => 'Wiki';
+
+  @override
+  String get poolEmpty => 'No pools';
+
+  @override
+  String get poolFailedToLoadPools => 'Failed to load pools';
+
+  @override
+  String get poolTitle => 'Pool title';
+
+  @override
+  String get poolInfoPosts => 'posts';
+
+  @override
+  String get poolInfoId => 'id';
+
+  @override
+  String get poolInfoActivity => 'activity';
+
+  @override
+  String get poolInfoActive => 'active';
+
+  @override
+  String get poolInfoInactive => 'inactive';
+
+  @override
+  String get poolInfoCreated => 'created';
+
+  @override
+  String get poolInfoUpdated => 'updated';
+
+  @override
+  String poolCopiedId(num id) {
+    return 'Copied pool id #$id';
+  }
+
+  @override
+  String poolLink(num id) {
+    return 'Pool #$id';
+  }
+
+  @override
+  String get poolFailedToLoadPool => 'Failed to load pool';
+
+  @override
+  String get poolNotFound => 'Pool not found';
+
+  @override
+  String get poolInfo => 'Info';
+
+  @override
+  String get poolOrder => 'Pool order';
+
+  @override
+  String get poolOldestFirst => 'oldest first';
+
+  @override
+  String get poolNewestFirst => 'newest first';
+
+  @override
+  String get poolReaderMode => 'Pool reader mode';
+
+  @override
+  String get poolReaderLargeImages => 'large images';
+
+  @override
+  String get poolReaderNormalGrid => 'normal grid';
+
+  @override
+  String get topicsTitle => 'Topics';
+
+  @override
+  String get topicHideTagEdits => 'Hide tags edits';
+
+  @override
+  String get topicTagEditsHidden => 'hidden';
+
+  @override
+  String get topicTagEditsVisible => 'visible';
+
+  @override
+  String topicLink(num id) {
+    return 'Topic #$id';
+  }
+
+  @override
+  String get topicFailedToLoadTopic => 'Failed to load topic';
+
+  @override
+  String get topicNotFound => 'Topic not found';
+
+  @override
+  String get topicEmpty => 'No topics';
+
+  @override
+  String get topicFailedToLoadTopics => 'Failed to load topics';
+
+  @override
+  String get topicInfoReplies => 'replies';
+
+  @override
+  String get topicInfoId => 'id';
+
+  @override
+  String topicCopiedId(num id) {
+    return 'Copied topic id #$id';
+  }
+
+  @override
+  String get topicInfoLocked => 'locked';
+
+  @override
+  String get topicInfoYes => 'yes';
+
+  @override
+  String get topicInfoNo => 'no';
+
+  @override
+  String get topicInfoCreated => 'created';
+
+  @override
+  String get topicInfoUpdated => 'updated';
+
+  @override
+  String get filterTags => 'Tags';
 }

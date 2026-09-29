@@ -23,7 +23,9 @@ class TagSearchFilter extends StatelessWidget {
       builder: (context, controller) => TagInput(
         textInputAction: TextInputAction.search,
         direction: VerticalDirection.up,
-        labelText: state.filter.name,
+        labelText: state.filter.name != null
+            ? localizedFilterName(context, state.filter.name!)
+            : null,
         decoration: theme.decoration,
         focusNode: theme.focusNode,
         autofocus: theme.primary,

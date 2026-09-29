@@ -1,5 +1,6 @@
 import 'package:e1547/app/app.dart';
 import 'package:e1547/history/history.dart';
+import 'package:e1547/l10n/app_localizations.dart';
 import 'package:e1547/markup/markup.dart';
 import 'package:e1547/shared/shared.dart';
 import 'package:flutter/material.dart';
@@ -37,7 +38,7 @@ Future<void> showHistoryPrompt({
         ? DText(entry.subtitle!)
         : Center(
             child: Text(
-              'no description',
+              AppLocalizations.of(context).historyNoDescription,
               style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                 color: dimTextColor(context),
                 fontStyle: FontStyle.italic,

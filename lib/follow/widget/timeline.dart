@@ -1,5 +1,6 @@
 import 'package:e1547/client/client.dart';
 import 'package:e1547/follow/follow.dart';
+import 'package:e1547/l10n/app_localizations.dart';
 import 'package:e1547/post/post.dart';
 import 'package:e1547/query/query.dart';
 import 'package:e1547/settings/settings.dart';
@@ -22,12 +23,12 @@ class FollowsTimelinePage extends StatelessWidget {
           builder: (context, tagsState) {
             final tags = tagsState.data;
             if (tags == null) {
-              return const Scaffold(
+              return Scaffold(
                 appBar: DefaultAppBar(
-                  title: Text('Timeline'),
-                  actions: [ContextDrawerButton()],
+                  title: Text(AppLocalizations.of(context).navTimeline),
+                  actions: const [ContextDrawerButton()],
                 ),
-                body: Center(child: CircularProgressIndicator()),
+                body: const Center(child: CircularProgressIndicator()),
               );
             }
             final followedTags = [
@@ -35,14 +36,18 @@ class FollowsTimelinePage extends StatelessWidget {
               ...tags[FollowType.notify] ?? const <String>[],
             ];
             return AdaptiveScaffold(
-              appBar: const DefaultAppBar(
-                title: Text('Timeline'),
-                actions: [ContextDrawerButton()],
+              appBar: DefaultAppBar(
+                title: Text(AppLocalizations.of(context).navTimeline),
+                actions: const [ContextDrawerButton()],
               ),
               drawer: const RouterDrawer(),
-              endDrawer: const ContextDrawer(
-                title: Text('Timeline'),
-                children: [FollowEditingTile(), Divider(), DrawerDenySwitch()],
+              endDrawer: ContextDrawer(
+                title: Text(AppLocalizations.of(context).navTimeline),
+                children: const [
+                  FollowEditingTile(),
+                  Divider(),
+                  DrawerDenySwitch(),
+                ],
               ),
               body: LimitedWidthLayout(
                 child: ListenableBuilder(

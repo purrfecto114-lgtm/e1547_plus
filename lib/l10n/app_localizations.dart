@@ -1586,6 +1586,582 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Post not found'**
   String get postNotFound;
+
+  /// Prompt title for adding a tag to the subscriptions page.
+  ///
+  /// In en, this message translates to:
+  /// **'Add to subscriptions'**
+  String get followAddToSubscriptions;
+
+  /// Empty state of the subscriptions page.
+  ///
+  /// In en, this message translates to:
+  /// **'No subscriptions'**
+  String get followNoSubscriptions;
+
+  /// Error state of the subscriptions page.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to load subscriptions'**
+  String get followFailedToLoadSubscriptions;
+
+  /// Prompt title for adding a tag to the bookmarks page.
+  ///
+  /// In en, this message translates to:
+  /// **'Add to bookmarks'**
+  String get followAddToBookmarks;
+
+  /// Empty state of the bookmarks page.
+  ///
+  /// In en, this message translates to:
+  /// **'No bookmarks'**
+  String get followNoBookmarks;
+
+  /// Error state of the bookmarks page.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to load bookmarks'**
+  String get followFailedToLoadBookmarks;
+
+  /// Title of the unseen posts tile in the subscriptions drawer.
+  ///
+  /// In en, this message translates to:
+  /// **'unseen posts'**
+  String get followUnseenPosts;
+
+  /// Subtitle of the unseen posts tile, marking posts as seen.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{mark 1 post as seen} other{mark {count} posts as seen}}'**
+  String followMarkPostsSeen(num count);
+
+  /// Subtitle of the unseen posts tile when nothing is unseen.
+  ///
+  /// In en, this message translates to:
+  /// **'no unseen posts'**
+  String get followNoUnseenPosts;
+
+  /// Title of the unseen filter switch in the subscriptions drawer.
+  ///
+  /// In en, this message translates to:
+  /// **'show unseen first'**
+  String get followShowUnseenFirst;
+
+  /// Subtitle of the unseen filter switch when filtering.
+  ///
+  /// In en, this message translates to:
+  /// **'filtering for unseen'**
+  String get followFilteringUnseen;
+
+  /// Subtitle of the unseen filter switch when not filtering.
+  ///
+  /// In en, this message translates to:
+  /// **'all posts shown'**
+  String get followAllPostsShown;
+
+  /// Title of the force sync tile in the subscriptions drawer.
+  ///
+  /// In en, this message translates to:
+  /// **'Force sync'**
+  String get followForceSync;
+
+  /// Subtitle of the force sync tile when idle.
+  ///
+  /// In en, this message translates to:
+  /// **'sync all follows'**
+  String get followSyncAllFollows;
+
+  /// Subtitle of the force sync tile while syncing, with a progress value.
+  ///
+  /// In en, this message translates to:
+  /// **'syncing follows... {progress}'**
+  String followSyncingFollows(String progress);
+
+  /// Title of the follow editor page.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit follows'**
+  String get followEditorTitle;
+
+  /// Section title of the subscription list in the follow editor.
+  ///
+  /// In en, this message translates to:
+  /// **'Subscribe'**
+  String get followSubscribe;
+
+  /// Prompt title for editing a follow's tags.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit follow'**
+  String get followEditPrompt;
+
+  /// Label of the text field renaming a follow.
+  ///
+  /// In en, this message translates to:
+  /// **'Follow title'**
+  String get followTitlePrompt;
+
+  /// Menu action marking a follow as read.
+  ///
+  /// In en, this message translates to:
+  /// **'Mark as read'**
+  String get followMarkAsRead;
+
+  /// Menu action disabling notifications of a follow.
+  ///
+  /// In en, this message translates to:
+  /// **'Disable notifications'**
+  String get followDisableNotifications;
+
+  /// Menu action enabling notifications of a follow.
+  ///
+  /// In en, this message translates to:
+  /// **'Enable notifications'**
+  String get followEnableNotifications;
+
+  /// Menu action renaming a follow.
+  ///
+  /// In en, this message translates to:
+  /// **'Rename'**
+  String get followRename;
+
+  /// Unseen counter label on a follow tile.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{1 new post} other{{label} new posts}}'**
+  String followNewPosts(num count, String label);
+
+  /// Title of the follow selection app bar.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{1 follow} other{{count} follows}}'**
+  String followSelectionCount(num count);
+
+  /// Alias label on a follow tile.
+  ///
+  /// In en, this message translates to:
+  /// **'alias {alias}'**
+  String followAlias(String? alias);
+
+  /// Title of the history selection app bar.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{1 entry} other{{count} entries}}'**
+  String historySelectionCount(num count);
+
+  /// Title of the clear history tile in the history drawer.
+  ///
+  /// In en, this message translates to:
+  /// **'Clear history'**
+  String get historyClear;
+
+  /// Subtitle of the clear history tile.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete all entries'**
+  String get historyClearSubtitle;
+
+  /// Title of the clear history confirmation dialog.
+  ///
+  /// In en, this message translates to:
+  /// **'Clear history?'**
+  String get historyClearConfirm;
+
+  /// Body of the clear history confirmation dialog.
+  ///
+  /// In en, this message translates to:
+  /// **'All history entries will be permanently deleted. This action cannot be undone.'**
+  String get historyClearConfirmBody;
+
+  /// Confirmation button of the clear history dialog.
+  ///
+  /// In en, this message translates to:
+  /// **'Clear'**
+  String get historyClearAction;
+
+  /// Title of the history limit dialog.
+  ///
+  /// In en, this message translates to:
+  /// **'History limit'**
+  String get historyLimit;
+
+  /// Body of the history limit dialog explaining its effects.
+  ///
+  /// In en, this message translates to:
+  /// **'Enabling history limit means all history entries beyond {amount} and all entries older than {months} months are automatically deleted.'**
+  String historyLimitEnableBody(String amount, num months);
+
+  /// Title of the history limit switch in the history drawer.
+  ///
+  /// In en, this message translates to:
+  /// **'Limit history'**
+  String get historyLimitTitle;
+
+  /// Subtitle of the history limit switch when enabled.
+  ///
+  /// In en, this message translates to:
+  /// **'Limited to newer than {months} months or less than {amount} entries.'**
+  String historyLimitOn(String amount, num months);
+
+  /// Subtitle of the history limit switch when disabled.
+  ///
+  /// In en, this message translates to:
+  /// **'history is infinite'**
+  String get historyLimitOff;
+
+  /// Section header of the history category filters.
+  ///
+  /// In en, this message translates to:
+  /// **'Entries'**
+  String get historyEntries;
+
+  /// Section header of the history type filters.
+  ///
+  /// In en, this message translates to:
+  /// **'Type'**
+  String get historyType;
+
+  /// Category filter showing visited items.
+  ///
+  /// In en, this message translates to:
+  /// **'Items'**
+  String get historyItems;
+
+  /// Category filter showing visited searches.
+  ///
+  /// In en, this message translates to:
+  /// **'Searches'**
+  String get historySearches;
+
+  /// Type filter showing wiki history entries.
+  ///
+  /// In en, this message translates to:
+  /// **'Wikis'**
+  String get historyWikis;
+
+  /// Type filter showing user history entries.
+  ///
+  /// In en, this message translates to:
+  /// **'Users'**
+  String get historyUsers;
+
+  /// Type filter showing reply history entries.
+  ///
+  /// In en, this message translates to:
+  /// **'Replies'**
+  String get historyReplies;
+
+  /// Empty state of the history page.
+  ///
+  /// In en, this message translates to:
+  /// **'Your history is empty'**
+  String get historyEmpty;
+
+  /// Error state of the history page.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to load history'**
+  String get historyFailedToLoad;
+
+  /// Menu action showing the description of a history entry.
+  ///
+  /// In en, this message translates to:
+  /// **'Description'**
+  String get historyDescription;
+
+  /// Placeholder shown when a history entry has no description.
+  ///
+  /// In en, this message translates to:
+  /// **'no description'**
+  String get historyNoDescription;
+
+  /// Name of the hot posts search in the history.
+  ///
+  /// In en, this message translates to:
+  /// **'Hot posts'**
+  String get historyHotPosts;
+
+  /// Name of a visited post in the history.
+  ///
+  /// In en, this message translates to:
+  /// **'Post #{id}'**
+  String historyLinkPost(num id);
+
+  /// Name of a visited user in the history.
+  ///
+  /// In en, this message translates to:
+  /// **'User #{id}'**
+  String historyLinkUser(num id);
+
+  /// Name of a visited wiki page in the history.
+  ///
+  /// In en, this message translates to:
+  /// **'Wiki #{id}'**
+  String historyLinkWiki(num id);
+
+  /// Name of a visited reply in the history.
+  ///
+  /// In en, this message translates to:
+  /// **'Reply #{id}'**
+  String historyLinkReply(num id);
+
+  /// Name of a visited user page in the history, looked up by name.
+  ///
+  /// In en, this message translates to:
+  /// **'{id} - User'**
+  String historyLinkUserByName(String id);
+
+  /// Name of a visited wiki page in the history, looked up by title.
+  ///
+  /// In en, this message translates to:
+  /// **'{id} - Wiki'**
+  String historyLinkWikiByName(String id);
+
+  /// Name of a visited search in the history, combining its type and query.
+  ///
+  /// In en, this message translates to:
+  /// **'{type} - {query}'**
+  String historySearchQuery(String type, String query);
+
+  /// Menu action opening the wiki of a searched tag.
+  ///
+  /// In en, this message translates to:
+  /// **'Wiki'**
+  String get historyWiki;
+
+  /// Empty state of the pools page.
+  ///
+  /// In en, this message translates to:
+  /// **'No pools'**
+  String get poolEmpty;
+
+  /// Error state of the pools page.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to load pools'**
+  String get poolFailedToLoadPools;
+
+  /// Label of the pool title search filter.
+  ///
+  /// In en, this message translates to:
+  /// **'Pool title'**
+  String get poolTitle;
+
+  /// Info row label of the post count of a pool.
+  ///
+  /// In en, this message translates to:
+  /// **'posts'**
+  String get poolInfoPosts;
+
+  /// Info row label of the id of a pool.
+  ///
+  /// In en, this message translates to:
+  /// **'id'**
+  String get poolInfoId;
+
+  /// Info row label of the activity state of a pool.
+  ///
+  /// In en, this message translates to:
+  /// **'activity'**
+  String get poolInfoActivity;
+
+  /// Info row value of an active pool.
+  ///
+  /// In en, this message translates to:
+  /// **'active'**
+  String get poolInfoActive;
+
+  /// Info row value of an inactive pool.
+  ///
+  /// In en, this message translates to:
+  /// **'inactive'**
+  String get poolInfoInactive;
+
+  /// Info row label of the creation date of a pool.
+  ///
+  /// In en, this message translates to:
+  /// **'created'**
+  String get poolInfoCreated;
+
+  /// Info row label of the last update of a pool.
+  ///
+  /// In en, this message translates to:
+  /// **'updated'**
+  String get poolInfoUpdated;
+
+  /// Snackbar shown after copying the id of a pool.
+  ///
+  /// In en, this message translates to:
+  /// **'Copied pool id #{id}'**
+  String poolCopiedId(num id);
+
+  /// Title of the pool loading page.
+  ///
+  /// In en, this message translates to:
+  /// **'Pool #{id}'**
+  String poolLink(num id);
+
+  /// Error state of the pool loading page.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to load pool'**
+  String get poolFailedToLoadPool;
+
+  /// Empty state of the pool loading page.
+  ///
+  /// In en, this message translates to:
+  /// **'Pool not found'**
+  String get poolNotFound;
+
+  /// Tooltip of the pool info button.
+  ///
+  /// In en, this message translates to:
+  /// **'Info'**
+  String get poolInfo;
+
+  /// Title of the pool order switch in the pool drawer.
+  ///
+  /// In en, this message translates to:
+  /// **'Pool order'**
+  String get poolOrder;
+
+  /// Subtitle of the pool order switch when sorting oldest first.
+  ///
+  /// In en, this message translates to:
+  /// **'oldest first'**
+  String get poolOldestFirst;
+
+  /// Subtitle of the pool order switch when sorting newest first.
+  ///
+  /// In en, this message translates to:
+  /// **'newest first'**
+  String get poolNewestFirst;
+
+  /// Title of the pool reader mode switch in the pool drawer.
+  ///
+  /// In en, this message translates to:
+  /// **'Pool reader mode'**
+  String get poolReaderMode;
+
+  /// Subtitle of the pool reader mode switch when enabled.
+  ///
+  /// In en, this message translates to:
+  /// **'large images'**
+  String get poolReaderLargeImages;
+
+  /// Subtitle of the pool reader mode switch when disabled.
+  ///
+  /// In en, this message translates to:
+  /// **'normal grid'**
+  String get poolReaderNormalGrid;
+
+  /// Title of the topics page.
+  ///
+  /// In en, this message translates to:
+  /// **'Topics'**
+  String get topicsTitle;
+
+  /// Title of the tag edit switch in the topics drawer.
+  ///
+  /// In en, this message translates to:
+  /// **'Hide tags edits'**
+  String get topicHideTagEdits;
+
+  /// Subtitle of the tag edit switch when hidden.
+  ///
+  /// In en, this message translates to:
+  /// **'hidden'**
+  String get topicTagEditsHidden;
+
+  /// Subtitle of the tag edit switch when visible.
+  ///
+  /// In en, this message translates to:
+  /// **'visible'**
+  String get topicTagEditsVisible;
+
+  /// Title of the topic loading page.
+  ///
+  /// In en, this message translates to:
+  /// **'Topic #{id}'**
+  String topicLink(num id);
+
+  /// Error state of the topic loading page.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to load topic'**
+  String get topicFailedToLoadTopic;
+
+  /// Empty state of the topic loading page.
+  ///
+  /// In en, this message translates to:
+  /// **'Topic not found'**
+  String get topicNotFound;
+
+  /// Empty state of the topics page.
+  ///
+  /// In en, this message translates to:
+  /// **'No topics'**
+  String get topicEmpty;
+
+  /// Error state of the topics page.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to load topics'**
+  String get topicFailedToLoadTopics;
+
+  /// Info row label of the reply count of a topic.
+  ///
+  /// In en, this message translates to:
+  /// **'replies'**
+  String get topicInfoReplies;
+
+  /// Info row label of the id of a topic.
+  ///
+  /// In en, this message translates to:
+  /// **'id'**
+  String get topicInfoId;
+
+  /// Snackbar shown after copying the id of a topic.
+  ///
+  /// In en, this message translates to:
+  /// **'Copied topic id #{id}'**
+  String topicCopiedId(num id);
+
+  /// Info row label of the locked state of a topic.
+  ///
+  /// In en, this message translates to:
+  /// **'locked'**
+  String get topicInfoLocked;
+
+  /// Info row value confirming a topic state.
+  ///
+  /// In en, this message translates to:
+  /// **'yes'**
+  String get topicInfoYes;
+
+  /// Info row value denying a topic state.
+  ///
+  /// In en, this message translates to:
+  /// **'no'**
+  String get topicInfoNo;
+
+  /// Info row label of the creation date of a topic.
+  ///
+  /// In en, this message translates to:
+  /// **'created'**
+  String get topicInfoCreated;
+
+  /// Info row label of the last update of a topic.
+  ///
+  /// In en, this message translates to:
+  /// **'updated'**
+  String get topicInfoUpdated;
+
+  /// Name of the tags filter used by the tag prompt.
+  ///
+  /// In en, this message translates to:
+  /// **'Tags'**
+  String get filterTags;
 }
 
 class _AppLocalizationsDelegate

@@ -1,4 +1,5 @@
 import 'package:e1547/history/history.dart';
+import 'package:e1547/l10n/app_localizations.dart';
 import 'package:e1547/query/query.dart';
 import 'package:e1547/shared/shared.dart';
 import 'package:flutter/material.dart';
@@ -45,8 +46,8 @@ class SliverHistoryList extends StatelessWidget {
         itemComparator: (a, b) => a.visitedAt.compareTo(b.visitedAt),
         builderDelegate: defaultPagedChildBuilderDelegate<History>(
           onRetry: query.getNextPage,
-          onEmpty: const Text('Your history is empty'),
-          onError: const Text('Failed to load history'),
+          onEmpty: Text(AppLocalizations.of(context).historyEmpty),
+          onError: Text(AppLocalizations.of(context).historyFailedToLoad),
           itemBuilder: (context, item, index) => HistoryTile(entry: item),
         ),
       ),

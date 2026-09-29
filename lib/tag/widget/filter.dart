@@ -607,5 +607,6 @@ String localizedFilterName(BuildContext context, String name) => switch (name) {
   'Created' => AppLocalizations.of(context).filterCreated,
   'Updated' => AppLocalizations.of(context).filterUpdated,
   'Post count' => AppLocalizations.of(context).filterPostCount,
+  'Tags' => AppLocalizations.of(context).filterTags,
   _ => name,
 };
