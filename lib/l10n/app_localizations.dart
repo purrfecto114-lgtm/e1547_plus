@@ -2918,6 +2918,30 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Tags'**
   String get filterTags;
+
+  /// No description provided for @loginRequired.
+  ///
+  /// In en, this message translates to:
+  /// **'You must be logged in to perform this action.'**
+  String get loginRequired;
+
+  /// No description provided for @actionChooseIdentity.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose identity'**
+  String get actionChooseIdentity;
+
+  /// No description provided for @dateToday.
+  ///
+  /// In en, this message translates to:
+  /// **'Today'**
+  String get dateToday;
+
+  /// No description provided for @dateYesterday.
+  ///
+  /// In en, this message translates to:
+  /// **'Yesterday'**
+  String get dateYesterday;
 }
 
 class _AppLocalizationsDelegate

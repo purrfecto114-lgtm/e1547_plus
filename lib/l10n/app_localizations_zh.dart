@@ -855,7 +855,7 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String commentEditorTitle(num postId) {
-    return '帖子 #$postId 评论';
+    return '帖子 #$postId 的评论';
   }
 
   @override
@@ -925,7 +925,7 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String replyEditorTitle(num topicId) {
-    return '讨论帖 #$topicId 回复';
+    return '讨论帖 #$topicId 的回复';
   }
 
   @override
@@ -1418,13 +1418,13 @@ class AppLocalizationsZh extends AppLocalizations {
   String get historyType => '类型';
 
   @override
-  String get historyItems => '项目';
+  String get historyItems => '浏览';
 
   @override
   String get historySearches => '搜索';
 
   @override
-  String get historyWikis => 'Wiki';
+  String get historyWikis => '维基';
 
   @override
   String get historyUsers => '用户';
@@ -1459,7 +1459,7 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String historyLinkWiki(num id) {
-    return 'Wiki #$id';
+    return '维基 #$id';
   }
 
   @override
@@ -1469,12 +1469,12 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String historyLinkUserByName(String id) {
-    return '$id - 用户';
+    return '用户 $id';
   }
 
   @override
   String historyLinkWikiByName(String id) {
-    return '$id - Wiki';
+    return '维基 $id';
   }
 
   @override
@@ -1483,7 +1483,7 @@ class AppLocalizationsZh extends AppLocalizations {
   }
 
   @override
-  String get historyWiki => 'Wiki';
+  String get historyWiki => '维基';
 
   @override
   String get poolEmpty => '没有图集';
@@ -1609,6 +1609,18 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get filterTags => '标签';
+
+  @override
+  String get loginRequired => '必须登录才能执行此操作！';
+
+  @override
+  String get actionChooseIdentity => '选择账户';
+
+  @override
+  String get dateToday => '今天';
+
+  @override
+  String get dateYesterday => '昨天';
 }
 
 /// The translations for Chinese, using the Han script (`zh_Hant`).
@@ -2462,7 +2474,7 @@ class AppLocalizationsZhHant extends AppLocalizationsZh {
 
   @override
   String commentEditorTitle(num postId) {
-    return '貼文 #$postId 評論';
+    return '貼文 #$postId 的評論';
   }
 
   @override
@@ -2532,7 +2544,7 @@ class AppLocalizationsZhHant extends AppLocalizationsZh {
 
   @override
   String replyEditorTitle(num topicId) {
-    return '討論串 #$topicId 回覆';
+    return '討論串 #$topicId 的回覆';
   }
 
   @override
@@ -2640,7 +2652,7 @@ class AppLocalizationsZhHant extends AppLocalizationsZh {
   String get userLoginRequiredReport => '必須登入才能檢舉使用者！';
 
   @override
-  String get userComission => '約稿';
+  String get userComission => '委託';
 
   @override
   String get userId => 'ID';
@@ -3025,13 +3037,13 @@ class AppLocalizationsZhHant extends AppLocalizationsZh {
   String get historyType => '類型';
 
   @override
-  String get historyItems => '項目';
+  String get historyItems => '瀏覽';
 
   @override
   String get historySearches => '搜尋';
 
   @override
-  String get historyWikis => 'Wiki';
+  String get historyWikis => '維基';
 
   @override
   String get historyUsers => '使用者';
@@ -3066,7 +3078,7 @@ class AppLocalizationsZhHant extends AppLocalizationsZh {
 
   @override
   String historyLinkWiki(num id) {
-    return 'Wiki #$id';
+    return '維基 #$id';
   }
 
   @override
@@ -3076,12 +3088,12 @@ class AppLocalizationsZhHant extends AppLocalizationsZh {
 
   @override
   String historyLinkUserByName(String id) {
-    return '$id - 使用者';
+    return '使用者 $id';
   }
 
   @override
   String historyLinkWikiByName(String id) {
-    return '$id - Wiki';
+    return '維基 $id';
   }
 
   @override
@@ -3090,7 +3102,7 @@ class AppLocalizationsZhHant extends AppLocalizationsZh {
   }
 
   @override
-  String get historyWiki => 'Wiki';
+  String get historyWiki => '維基';
 
   @override
   String get poolEmpty => '沒有圖集';
@@ -3216,4 +3228,16 @@ class AppLocalizationsZhHant extends AppLocalizationsZh {
 
   @override
   String get filterTags => '標籤';
+
+  @override
+  String get loginRequired => '必須登入才能執行此操作！';
+
+  @override
+  String get actionChooseIdentity => '選擇帳戶';
+
+  @override
+  String get dateToday => '今天';
+
+  @override
+  String get dateYesterday => '昨天';
 }

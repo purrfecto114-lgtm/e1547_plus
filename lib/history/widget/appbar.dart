@@ -21,7 +21,7 @@ class HistoryAppBar extends StatelessWidget implements PreferredSizeWidget {
             CrossFade.builder(
               showChild: date != null,
               builder: (context) => Text(
-                DateFormatting.named(date!),
+                localizedDateName(context, date!),
                 style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                   color: Theme.of(context).textTheme.bodySmall!.color,
                 ),

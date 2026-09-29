@@ -1685,5 +1685,9 @@
   "filterTags": "Tags",
   "@filterTags": {
     "description": "Name of the tags filter used by the tag prompt."
-  }
+  },
+  "loginRequired": "You must be logged in to perform this action.",
+  "actionChooseIdentity": "Choose identity",
+  "dateToday": "Today",
+  "dateYesterday": "Yesterday"
 }

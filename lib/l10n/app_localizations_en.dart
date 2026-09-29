@@ -1639,4 +1639,16 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get filterTags => 'Tags';
+
+  @override
+  String get loginRequired => 'You must be logged in to perform this action.';
+
+  @override
+  String get actionChooseIdentity => 'Choose identity';
+
+  @override
+  String get dateToday => 'Today';
+
+  @override
+  String get dateYesterday => 'Yesterday';
 }

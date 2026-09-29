@@ -441,7 +441,7 @@ class UserInfo extends StatelessWidget {
                           Icons.calendar_today,
                           l10n.userJoined,
                           stats.createdAt != null
-                              ? DateFormatting.named(stats.createdAt!)
+                              ? localizedDateName(context, stats.createdAt!)
                               : null,
                         ),
                         info(

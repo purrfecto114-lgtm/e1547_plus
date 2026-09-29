@@ -41,7 +41,7 @@ class SliverHistoryList extends StatelessWidget {
         groupBy: (element) => DateUtils.dateOnly(element.visitedAt),
         groupHeaderBuilder: (element) => SectionHeader(
           indent: SectionHeader.listTileIndent,
-          title: DateFormatting.named(element.visitedAt),
+          title: localizedDateName(context, element.visitedAt),
         ),
         itemComparator: (a, b) => a.visitedAt.compareTo(b.visitedAt),
         builderDelegate: defaultPagedChildBuilderDelegate<History>(
