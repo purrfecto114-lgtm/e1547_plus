@@ -71,7 +71,7 @@ jobs:
       - name: bump version
         if: ${{ github.event.inputs.version != 'none' }}
         run: |
-          dart pub global activate cider
+          dart pub global activate cider 0.2.10
           dart pub global run cider bump ${{ env.VERSION_BUMP }} --bump-build
 
       - name: configure release keys
@@ -164,7 +164,7 @@ jobs:
       - name: bump version
         if: ${{ github.event.inputs.version != 'none' }}
         run: |
-          dart pub global activate cider
+          dart pub global activate cider 0.2.10
           dart pub global run cider bump ${{ env.VERSION_BUMP }} --bump-build
 
       - name: build IPA
@@ -209,7 +209,7 @@ jobs:
         if: ${{ github.event.inputs.version != 'none' }}
         shell: bash
         run: |
-          dart pub global activate cider
+          dart pub global activate cider 0.2.10
           dart pub global run cider bump ${{ env.VERSION_BUMP }} --bump-build
 
       - name: setup ruby
@@ -263,7 +263,7 @@ jobs:
       - name: bump version
         if: ${{ github.event.inputs.version != 'none' }}
         run: |
-          dart pub global activate cider
+          dart pub global activate cider 0.2.10
           dart pub global run cider bump ${{ env.VERSION_BUMP }} --bump-build
 
       - name: setup ruby
@@ -341,7 +341,7 @@ jobs:
           cache: true
 
       - name: setup cider
-        run: dart pub global activate cider
+        run: dart pub global activate cider 0.2.10
 
       - name: bump and release version
         if: ${{ github.event.inputs.version != 'none' }}
@@ -483,7 +483,7 @@ jobs:
         uses: dart-lang/setup-dart@v1
 
       - name: setup cider
-        run: dart pub global activate cider
+        run: dart pub global activate cider 0.2.10
 
       - name: extract release metadata
         id: meta
