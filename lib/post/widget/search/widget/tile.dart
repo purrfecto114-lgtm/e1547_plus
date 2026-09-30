@@ -298,6 +298,7 @@ class PostFeedTile extends StatelessWidget {
               builder: (context, state, mutate) {
                 final client = context.watch<Client>();
                 final messenger = ScaffoldMessenger.of(context);
+                final l10n = AppLocalizations.of(context);
                 final enabled = client.hasLogin && !state.isLoading;
 
                 return VoteDisplay(
@@ -311,9 +312,7 @@ class PostFeedTile extends StatelessWidget {
                             messenger.showSnackBar(
                               SnackBar(
                                 duration: const Duration(seconds: 1),
-                                content: Text(
-                                  'Failed to upvote Post #${post.id}',
-                                ),
+                                content: Text(l10n.postUpvoteFailed(post.id)),
                               ),
                             );
                             return error;
@@ -323,19 +322,18 @@ class PostFeedTile extends StatelessWidget {
                       : null,
                   onDownvote: enabled
                       ? (isLiked) async {
-                          mutate((upvote: false, replace: !isLiked)).catchError(
-                            (error) {
-                              messenger.showSnackBar(
-                                SnackBar(
-                                  duration: const Duration(seconds: 1),
-                                  content: Text(
-                                    'Failed to downvote Post #${post.id}',
-                                  ),
-                                ),
-                              );
-                              return error;
-                            },
-                          );
+                          mutate((
+                            upvote: false,
+                            replace: !isLiked,
+                          )).catchError((error) {
+                            messenger.showSnackBar(
+                              SnackBar(
+                                duration: const Duration(seconds: 1),
+                                content: Text(l10n.postDownvoteFailed(post.id)),
+                              ),
+                            );
+                            return error;
+                          });
                           return !isLiked;
                         }
                       : null,

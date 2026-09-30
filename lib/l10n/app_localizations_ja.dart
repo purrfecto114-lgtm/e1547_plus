@@ -1112,7 +1112,7 @@ class AppLocalizationsJa extends AppLocalizations {
   String get noLogFiles => '利用可能なログファイルがありません！';
 
   @override
-  String get logsLive => 'オンライン';
+  String get logsLive => 'リアルタイム';
 
   @override
   String get noLogs => 'ログがありません';

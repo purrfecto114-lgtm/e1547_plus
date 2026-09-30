@@ -328,7 +328,7 @@
   "logFilesTitle": "ログファイル",
   "failedToLoadLogFiles": "ログファイルを読み込めませんでした！",
   "noLogFiles": "利用可能なログファイルがありません！",
-  "logsLive": "オンライン",
+  "logsLive": "リアルタイム",
   "noLogs": "ログがありません",
   "failedToReadLog": "ログの読み取りに失敗しました",
   "noErrorsLogged": "記録されたエラーはありません",

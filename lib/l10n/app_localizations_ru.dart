@@ -565,7 +565,7 @@ class AppLocalizationsRu extends AppLocalizations {
   String get actionUnfollow => 'Отписаться';
 
   @override
-  String get actionMute => 'Отключить звук';
+  String get actionMute => 'Отключить уведомления';
 
   @override
   String get actionNotify => 'Уведомления';
@@ -1156,7 +1156,7 @@ class AppLocalizationsRu extends AppLocalizations {
   String get noLogFiles => 'Нет доступных файлов логов!';
 
   @override
-  String get logsLive => 'Онлайн';
+  String get logsLive => 'В реальном времени';
 
   @override
   String get noLogs => 'Нет логов';

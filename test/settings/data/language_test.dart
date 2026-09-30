@@ -69,7 +69,7 @@ void main() {
 
       SharedPreferences.setMockInitialValues({'language': 'zh'});
       localizations = await loadPreferenceLocalizations();
-      expect(localizations.followNotificationBody(3), '有 3 条新帖子！');
+      expect(localizations.followNotificationBody(3), '有 3 个新帖子！');
       expect(localizations.followChannelName, '已关注标签');
 
       SharedPreferences.setMockInitialValues({'language': 'zh_Hant'});

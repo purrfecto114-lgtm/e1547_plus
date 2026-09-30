@@ -1341,7 +1341,7 @@ class AppLocalizationsZh extends AppLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '$label 条新帖子',
+      other: '$label 个新帖子',
     );
     return '$_temp0';
   }
@@ -2050,7 +2050,7 @@ class AppLocalizationsZh extends AppLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '有 $count 条新帖子！',
+      other: '有 $count 个新帖子！',
     );
     return '$_temp0';
   }
@@ -3374,7 +3374,7 @@ class AppLocalizationsZhHant extends AppLocalizationsZh {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '將 $count 個貼文標記為已讀',
+      other: '將 $count 則貼文標記為已讀',
     );
     return '$_temp0';
   }

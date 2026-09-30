@@ -379,7 +379,7 @@
   "followNoBookmarks": "沒有書籤",
   "followFailedToLoadBookmarks": "書籤載入失敗",
   "followUnseenPosts": "未讀貼文",
-  "followMarkPostsSeen": "{count, plural, other{將 {count} 個貼文標記為已讀}}",
+  "followMarkPostsSeen": "{count, plural, other{將 {count} 則貼文標記為已讀}}",
   "followNoUnseenPosts": "沒有未讀貼文",
   "followShowUnseenFirst": "優先顯示未讀",
   "followFilteringUnseen": "正在篩選未讀",
