@@ -3206,6 +3206,144 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'One or more tags on this post aren\'t valid or one or more valid tags have been removed from this post.'**
   String get reportTypeTaggingBody;
+
+  /// Success message after flagging a post.
+  ///
+  /// In en, this message translates to:
+  /// **'Flagged post #{id}'**
+  String flagPostSuccess(num id);
+
+  /// Error message after failing to flag a post.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to flag post #{id}'**
+  String flagPostFailed(num id);
+
+  /// Label of the parent id input field of the post flag form.
+  ///
+  /// In en, this message translates to:
+  /// **'Parent ID'**
+  String get flagParentId;
+
+  /// Error text shown when the parent id of a flag is empty.
+  ///
+  /// In en, this message translates to:
+  /// **'Parent ID cannot be empty'**
+  String get flagParentIdRequired;
+
+  /// Error text shown when the parent id of a flag is not a number.
+  ///
+  /// In en, this message translates to:
+  /// **'Parent ID must be a number'**
+  String get flagParentIdInvalid;
+
+  /// Name of the uploading guidelines post flag.
+  ///
+  /// In en, this message translates to:
+  /// **'Does not meet the uploading guidelines'**
+  String get flagTypeUploadingGuidelines;
+
+  /// Name of the young human post flag.
+  ///
+  /// In en, this message translates to:
+  /// **'Young human-like character in an explicit situation'**
+  String get flagTypeYoungHuman;
+
+  /// Name of the do not post artist post flag.
+  ///
+  /// In en, this message translates to:
+  /// **'The artist of this post is on the avoid posting list'**
+  String get flagTypeDnpArtist;
+
+  /// Name of the pay content post flag.
+  ///
+  /// In en, this message translates to:
+  /// **'Paysite, commercial, or subscription content'**
+  String get flagTypePayContent;
+
+  /// Name of the trace post flag.
+  ///
+  /// In en, this message translates to:
+  /// **'Trace of another artist\'s work'**
+  String get flagTypeTrace;
+
+  /// Name of the previously deleted post flag.
+  ///
+  /// In en, this message translates to:
+  /// **'Previously deleted'**
+  String get flagTypePreviouslyDeleted;
+
+  /// Name of the real porn post flag.
+  ///
+  /// In en, this message translates to:
+  /// **'Real-life pornography'**
+  String get flagTypeRealPorn;
+
+  /// Name of the corrupt file post flag.
+  ///
+  /// In en, this message translates to:
+  /// **'File is either corrupted, broken, or otherwise does not work'**
+  String get flagTypeCorrupt;
+
+  /// Name of the inferior post flag.
+  ///
+  /// In en, this message translates to:
+  /// **'Duplicate or inferior version of another post'**
+  String get flagTypeInferior;
+
+  /// Description of the uploading guidelines post flag.
+  ///
+  /// In en, this message translates to:
+  /// **'This post fails to meet the site\'s standards, be it for artistic worth, image quality, relevancy, or something else.\nKeep in mind that your personal preferences have no bearing on this. If you find the content of a post objectionable, simply [[e621:blacklist|blacklist]] it.'**
+  String get flagTypeUploadingGuidelinesBody;
+
+  /// Description of the young human post flag.
+  ///
+  /// In en, this message translates to:
+  /// **'Posts featuring human and human-like characters depicted in a sexual or explicit nude way, are not acceptable on this site.'**
+  String get flagTypeYoungHumanBody;
+
+  /// Description of the do not post artist post flag.
+  ///
+  /// In en, this message translates to:
+  /// **'Certain artists have requested that their work is not to be published on this site, and were granted [[avoid_posting|Do Not Post]] status.\nSometimes, that status comes with conditions; see [[conditional_dnp]] for more information'**
+  String get flagTypeDnpArtistBody;
+
+  /// Description of the pay content post flag.
+  ///
+  /// In en, this message translates to:
+  /// **'We do not host paysite or commercial content of any kind. This includes Patreon leaks, reposts from piracy websites, and so on.'**
+  String get flagTypePayContentBody;
+
+  /// Description of the trace post flag.
+  ///
+  /// In en, this message translates to:
+  /// **'Images traced from other artists\' artwork are not accepted on this site. Referencing from something is fine, but outright copying someone else\'s work is not.\nPlease, leave more information in the comments, or simply add the original artwork as the posts\'s parent if it\'s hosted on this site.'**
+  String get flagTypeTraceBody;
+
+  /// Description of the previously deleted post flag.
+  ///
+  /// In en, this message translates to:
+  /// **'Posts usually get removed for a good reason, and reuploading of deleted content is not acceptable.\nPlease, leave more information in the comments, or simply add the original post as this post\'s parent.'**
+  String get flagTypePreviouslyDeletedBody;
+
+  /// Description of the real porn post flag.
+  ///
+  /// In en, this message translates to:
+  /// **'Posts featuring real-life pornography are not acceptable on this site. No exceptions.\nNote that images featuring non-erotic photographs are acceptable.'**
+  String get flagTypeRealPornBody;
+
+  /// Description of the corrupt file post flag.
+  ///
+  /// In en, this message translates to:
+  /// **'Something about this post does not work quite right. This may be a broken video, or a corrupted image.\nEither way, in order to avoid confusion, please explain the situation in the comments.'**
+  String get flagTypeCorruptBody;
+
+  /// Description of the inferior post flag.
+  ///
+  /// In en, this message translates to:
+  /// **'A superior version of this post already exists on the site.\nThis may include images with better visual quality (larger, less compressed), but may also feature \"fixed\" versions, with visual mistakes accounted for by the artist.\nNote that edits and alternate versions do not fall under this category.'**
+  String get flagTypeInferiorBody;
 }
 
 class _AppLocalizationsDelegate

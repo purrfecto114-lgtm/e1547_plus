@@ -1775,6 +1775,87 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get reportTypeTaggingBody => '该帖子存在一个或多个无效标签，或有一个或多个有效标签被移除。';
+
+  @override
+  String flagPostSuccess(num id) {
+    return '已标记帖子 #$id';
+  }
+
+  @override
+  String flagPostFailed(num id) {
+    return '标记帖子 #$id 失败';
+  }
+
+  @override
+  String get flagParentId => '父帖 ID';
+
+  @override
+  String get flagParentIdRequired => '父帖 ID 不能为空';
+
+  @override
+  String get flagParentIdInvalid => '父帖 ID 必须是数字';
+
+  @override
+  String get flagTypeUploadingGuidelines => '不符合上传准则';
+
+  @override
+  String get flagTypeYoungHuman => '露骨场景中的年轻类人角色';
+
+  @override
+  String get flagTypeDnpArtist => '该帖子的画师在禁止上传列表中';
+
+  @override
+  String get flagTypePayContent => '付费站、商业或订阅内容';
+
+  @override
+  String get flagTypeTrace => '对其他画师作品的描图';
+
+  @override
+  String get flagTypePreviouslyDeleted => '曾被删除';
+
+  @override
+  String get flagTypeRealPorn => '真人色情内容';
+
+  @override
+  String get flagTypeCorrupt => '文件已损坏、损毁或因其他原因无法正常使用';
+
+  @override
+  String get flagTypeInferior => '其他帖子的重复或较差版本';
+
+  @override
+  String get flagTypeUploadingGuidelinesBody =>
+      '该帖子未能达到站点标准，无论是艺术价值、图像质量、相关性还是其他方面。\n请注意，你的个人偏好与此无关。如果你觉得帖子内容令人不适，直接[[e621:blacklist|屏蔽]]即可。';
+
+  @override
+  String get flagTypeYoungHumanBody => '以色情或露骨裸露方式描绘人类及类人角色的帖子，在本站不被接受。';
+
+  @override
+  String get flagTypeDnpArtistBody =>
+      '部分画师已要求不在本站发布其作品，并获得了[[avoid_posting|禁止上传]]状态。\n该状态有时附带条件；详情参见[[conditional_dnp]]';
+
+  @override
+  String get flagTypePayContentBody =>
+      '本站不托管任何付费站或商业内容，包括 Patreon 泄露内容、盗版网站的转载等。';
+
+  @override
+  String get flagTypeTraceBody =>
+      '描图自其他画师作品的图片在本站不被接受。参考其他作品没有问题，但直接照搬他人作品不行。\n请在评论中留下更多信息；如果原作品也托管在本站，也可以直接将其设为该帖子的父帖。';
+
+  @override
+  String get flagTypePreviouslyDeletedBody =>
+      '帖子被移除通常都有充分的理由，重新上传已删除的内容是不被接受的。\n请在评论中留下更多信息，或者直接将原帖设为该帖子的父帖。';
+
+  @override
+  String get flagTypeRealPornBody =>
+      '包含真人色情内容的帖子在本站不被接受，没有例外。\n请注意，非色情性质的真人照片是可以接受的。';
+
+  @override
+  String get flagTypeCorruptBody =>
+      '该帖子存在无法正常工作的问题，可能是视频损坏，也可能是图像损坏。\n无论是哪种情况，为避免混淆，请在评论中说明具体情况。';
+
+  @override
+  String get flagTypeInferiorBody =>
+      '站点上已存在该帖子的更优版本。\n这包括画质更好的图片（尺寸更大、压缩更少），也可能是修正了视觉错误后的“修正版”。\n请注意，编辑版和其他变体版本不属于此类。';
 }
 
 /// The translations for Chinese, using the Han script (`zh_Hant`).
@@ -3548,4 +3629,85 @@ class AppLocalizationsZhHant extends AppLocalizationsZh {
 
   @override
   String get reportTypeTaggingBody => '該貼文存在一個或多個無效標籤，或有一個或多個有效標籤被移除。';
+
+  @override
+  String flagPostSuccess(num id) {
+    return '已標記貼文 #$id';
+  }
+
+  @override
+  String flagPostFailed(num id) {
+    return '標記貼文 #$id 失敗';
+  }
+
+  @override
+  String get flagParentId => '父貼文 ID';
+
+  @override
+  String get flagParentIdRequired => '父貼文 ID 不能為空';
+
+  @override
+  String get flagParentIdInvalid => '父貼文 ID 必須是數字';
+
+  @override
+  String get flagTypeUploadingGuidelines => '不符合上傳準則';
+
+  @override
+  String get flagTypeYoungHuman => '露骨場景中的年輕類人角色';
+
+  @override
+  String get flagTypeDnpArtist => '該貼文的繪師在禁止上傳清單中';
+
+  @override
+  String get flagTypePayContent => '付費站、商業或訂閱內容';
+
+  @override
+  String get flagTypeTrace => '對其他繪師作品的描圖';
+
+  @override
+  String get flagTypePreviouslyDeleted => '曾被刪除';
+
+  @override
+  String get flagTypeRealPorn => '真人色情內容';
+
+  @override
+  String get flagTypeCorrupt => '檔案已損壞、損毀或因其他原因無法正常使用';
+
+  @override
+  String get flagTypeInferior => '其他貼文的重複或較差版本';
+
+  @override
+  String get flagTypeUploadingGuidelinesBody =>
+      '該貼文未能達到網站標準，無論是藝術價值、圖像品質、相關性還是其他方面。\n請注意，你的個人偏好與此無關。如果你覺得貼文內容令人不適，直接[[e621:blacklist|封鎖]]即可。';
+
+  @override
+  String get flagTypeYoungHumanBody => '以色情或露骨裸露方式描繪人類及類人角色的貼文，在本站不被接受。';
+
+  @override
+  String get flagTypeDnpArtistBody =>
+      '部分繪師已要求不在本站發佈其作品，並取得了[[avoid_posting|禁止上傳]]狀態。\n該狀態有時附帶條件；詳情參見[[conditional_dnp]]';
+
+  @override
+  String get flagTypePayContentBody =>
+      '本站不託管任何付費站或商業內容，包括 Patreon 外流內容、盜版網站的轉載等。';
+
+  @override
+  String get flagTypeTraceBody =>
+      '描圖自其他繪師作品的圖片在本站不被接受。參考其他作品沒有問題，但直接照搬他人作品不行。\n請在評論中留下更多資訊；如果原作品也託管在本站，也可以直接將其設為該貼文的父貼文。';
+
+  @override
+  String get flagTypePreviouslyDeletedBody =>
+      '貼文被移除通常都有充分的理由，重新上傳已刪除的內容是不被接受的。\n請在評論中留下更多資訊，或者直接將原貼文設為該貼文的父貼文。';
+
+  @override
+  String get flagTypeRealPornBody =>
+      '包含真人色情內容的貼文在本站不被接受，沒有例外。\n請注意，非色情性質的真人照片是可以接受的。';
+
+  @override
+  String get flagTypeCorruptBody =>
+      '該貼文存在無法正常運作的問題，可能是影片損壞，也可能是圖像損壞。\n無論是哪種情況，為避免混淆，請在評論中說明具體情況。';
+
+  @override
+  String get flagTypeInferiorBody =>
+      '網站上已存在該貼文的更優版本。\n這包括畫質更好的圖片（尺寸更大、壓縮更少），也可能是修正了視覺錯誤後的「修正版」。\n請注意，編輯版和其他變體版本不屬於此類。';
 }

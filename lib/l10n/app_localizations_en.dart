@@ -1811,4 +1811,92 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get reportTypeTaggingBody =>
       'One or more tags on this post aren\'t valid or one or more valid tags have been removed from this post.';
+
+  @override
+  String flagPostSuccess(num id) {
+    return 'Flagged post #$id';
+  }
+
+  @override
+  String flagPostFailed(num id) {
+    return 'Failed to flag post #$id';
+  }
+
+  @override
+  String get flagParentId => 'Parent ID';
+
+  @override
+  String get flagParentIdRequired => 'Parent ID cannot be empty';
+
+  @override
+  String get flagParentIdInvalid => 'Parent ID must be a number';
+
+  @override
+  String get flagTypeUploadingGuidelines =>
+      'Does not meet the uploading guidelines';
+
+  @override
+  String get flagTypeYoungHuman =>
+      'Young human-like character in an explicit situation';
+
+  @override
+  String get flagTypeDnpArtist =>
+      'The artist of this post is on the avoid posting list';
+
+  @override
+  String get flagTypePayContent =>
+      'Paysite, commercial, or subscription content';
+
+  @override
+  String get flagTypeTrace => 'Trace of another artist\'s work';
+
+  @override
+  String get flagTypePreviouslyDeleted => 'Previously deleted';
+
+  @override
+  String get flagTypeRealPorn => 'Real-life pornography';
+
+  @override
+  String get flagTypeCorrupt =>
+      'File is either corrupted, broken, or otherwise does not work';
+
+  @override
+  String get flagTypeInferior =>
+      'Duplicate or inferior version of another post';
+
+  @override
+  String get flagTypeUploadingGuidelinesBody =>
+      'This post fails to meet the site\'s standards, be it for artistic worth, image quality, relevancy, or something else.\nKeep in mind that your personal preferences have no bearing on this. If you find the content of a post objectionable, simply [[e621:blacklist|blacklist]] it.';
+
+  @override
+  String get flagTypeYoungHumanBody =>
+      'Posts featuring human and human-like characters depicted in a sexual or explicit nude way, are not acceptable on this site.';
+
+  @override
+  String get flagTypeDnpArtistBody =>
+      'Certain artists have requested that their work is not to be published on this site, and were granted [[avoid_posting|Do Not Post]] status.\nSometimes, that status comes with conditions; see [[conditional_dnp]] for more information';
+
+  @override
+  String get flagTypePayContentBody =>
+      'We do not host paysite or commercial content of any kind. This includes Patreon leaks, reposts from piracy websites, and so on.';
+
+  @override
+  String get flagTypeTraceBody =>
+      'Images traced from other artists\' artwork are not accepted on this site. Referencing from something is fine, but outright copying someone else\'s work is not.\nPlease, leave more information in the comments, or simply add the original artwork as the posts\'s parent if it\'s hosted on this site.';
+
+  @override
+  String get flagTypePreviouslyDeletedBody =>
+      'Posts usually get removed for a good reason, and reuploading of deleted content is not acceptable.\nPlease, leave more information in the comments, or simply add the original post as this post\'s parent.';
+
+  @override
+  String get flagTypeRealPornBody =>
+      'Posts featuring real-life pornography are not acceptable on this site. No exceptions.\nNote that images featuring non-erotic photographs are acceptable.';
+
+  @override
+  String get flagTypeCorruptBody =>
+      'Something about this post does not work quite right. This may be a broken video, or a corrupted image.\nEither way, in order to avoid confusion, please explain the situation in the comments.';
+
+  @override
+  String get flagTypeInferiorBody =>
+      'A superior version of this post already exists on the site.\nThis may include images with better visual quality (larger, less compressed), but may also feature \"fixed\" versions, with visual mistakes accounted for by the artist.\nNote that edits and alternate versions do not fall under this category.';
 }
