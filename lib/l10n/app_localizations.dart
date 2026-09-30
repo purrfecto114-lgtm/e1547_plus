@@ -2343,6 +2343,12 @@ abstract class AppLocalizations {
   /// **'Connect an account'**
   String get onboardingLoginTitle;
 
+  /// Title of the language onboarding step.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose a language'**
+  String get onboardingLanguageTitle;
+
   /// Prompt title for adding a tag to the subscriptions page.
   ///
   /// In en, this message translates to:

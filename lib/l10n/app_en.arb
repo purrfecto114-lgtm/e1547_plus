@@ -1195,6 +1195,10 @@
   "@onboardingLoginTitle": {
     "description": "Title of the login onboarding step."
   },
+  "onboardingLanguageTitle": "Choose a language",
+  "@onboardingLanguageTitle": {
+    "description": "Title of the language onboarding step."
+  },
   "followAddToSubscriptions": "Add to subscriptions",
   "@followAddToSubscriptions": {
     "description": "Prompt title for adding a tag to the subscriptions page."

@@ -374,6 +374,7 @@
   "onboardingThemeTitle": "选个外观",
   "onboardingThemeBody": "先试试看。以后随时可以更换。",
   "onboardingLoginTitle": "连接账户",
+  "onboardingLanguageTitle": "选择语言",
   "followAddToSubscriptions": "添加到订阅",
   "followNoSubscriptions": "没有订阅",
   "followFailedToLoadSubscriptions": "订阅加载失败",
