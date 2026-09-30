@@ -473,5 +473,19 @@
   "loginRequired": "必須登入才能執行此操作！",
   "actionChooseIdentity": "選擇帳戶",
   "dateToday": "今天",
-  "dateYesterday": "昨天"
+  "dateYesterday": "昨天",
+  "detailCommentsButton": "評論（{count}）",
+  "detailFile": "檔案",
+  "detailSources": "來源",
+  "detailNoSources": "無來源",
+  "detailChildren": "子貼文",
+  "detailDeletion": "刪除原因",
+  "detailBlacklisted": "已封鎖",
+  "detailNoArtist": "無繪師",
+  "detailPoolPosts": "{count, plural, other{{count} 則貼文}}",
+  "postCopiedId": "已複製貼文 ID #{id}",
+  "postUpvoteFailed": "貼文 #{id} 按讚失敗",
+  "postDownvoteFailed": "貼文 #{id} 倒讚失敗",
+  "postAddFavoriteFailed": "貼文 #{id} 收藏失敗",
+  "postRemoveFavoriteFailed": "貼文 #{id} 取消收藏失敗"
 }

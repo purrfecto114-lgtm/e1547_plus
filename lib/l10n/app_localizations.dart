@@ -2942,6 +2942,90 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Yesterday'**
   String get dateYesterday;
+
+  /// Button on the post detail page opening the comment section.
+  ///
+  /// In en, this message translates to:
+  /// **'COMMENTS ({count})'**
+  String detailCommentsButton(num count);
+
+  /// Section header of the file info of a post.
+  ///
+  /// In en, this message translates to:
+  /// **'File'**
+  String get detailFile;
+
+  /// Section header of the sources of a post.
+  ///
+  /// In en, this message translates to:
+  /// **'Sources'**
+  String get detailSources;
+
+  /// Placeholder shown when a post has no sources.
+  ///
+  /// In en, this message translates to:
+  /// **'no sources'**
+  String get detailNoSources;
+
+  /// Section header listing the child posts of a post.
+  ///
+  /// In en, this message translates to:
+  /// **'Children'**
+  String get detailChildren;
+
+  /// Section header of the deletion flag reason of a post.
+  ///
+  /// In en, this message translates to:
+  /// **'Deletion'**
+  String get detailDeletion;
+
+  /// Section header listing the blacklist entries that blocked a post.
+  ///
+  /// In en, this message translates to:
+  /// **'Blacklisted'**
+  String get detailBlacklisted;
+
+  /// Placeholder shown when a post has no artist tags.
+  ///
+  /// In en, this message translates to:
+  /// **'no artist'**
+  String get detailNoArtist;
+
+  /// Post count of a pool shown on a pool relation tile.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{1 post} other{{count} posts}}'**
+  String detailPoolPosts(num count);
+
+  /// Snackbar shown after copying the id of a post.
+  ///
+  /// In en, this message translates to:
+  /// **'Copied post id #{id}'**
+  String postCopiedId(num id);
+
+  /// Error shown when upvoting a post failed.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to upvote post #{id}'**
+  String postUpvoteFailed(num id);
+
+  /// Error shown when downvoting a post failed.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to downvote post #{id}'**
+  String postDownvoteFailed(num id);
+
+  /// Error shown when adding a post to favorites failed.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to add post #{id} to favorites'**
+  String postAddFavoriteFailed(num id);
+
+  /// Error shown when removing a post from favorites failed.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to remove post #{id} from favorites'**
+  String postRemoveFavoriteFailed(num id);
 }
 
 class _AppLocalizationsDelegate

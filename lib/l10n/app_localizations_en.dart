@@ -1651,4 +1651,66 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get dateYesterday => 'Yesterday';
+
+  @override
+  String detailCommentsButton(num count) {
+    return 'COMMENTS ($count)';
+  }
+
+  @override
+  String get detailFile => 'File';
+
+  @override
+  String get detailSources => 'Sources';
+
+  @override
+  String get detailNoSources => 'no sources';
+
+  @override
+  String get detailChildren => 'Children';
+
+  @override
+  String get detailDeletion => 'Deletion';
+
+  @override
+  String get detailBlacklisted => 'Blacklisted';
+
+  @override
+  String get detailNoArtist => 'no artist';
+
+  @override
+  String detailPoolPosts(num count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count posts',
+      one: '1 post',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String postCopiedId(num id) {
+    return 'Copied post id #$id';
+  }
+
+  @override
+  String postUpvoteFailed(num id) {
+    return 'Failed to upvote post #$id';
+  }
+
+  @override
+  String postDownvoteFailed(num id) {
+    return 'Failed to downvote post #$id';
+  }
+
+  @override
+  String postAddFavoriteFailed(num id) {
+    return 'Failed to add post #$id to favorites';
+  }
+
+  @override
+  String postRemoveFavoriteFailed(num id) {
+    return 'Failed to remove post #$id from favorites';
+  }
 }

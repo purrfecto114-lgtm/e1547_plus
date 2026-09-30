@@ -1621,6 +1621,67 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get dateYesterday => '昨天';
+
+  @override
+  String detailCommentsButton(num count) {
+    return '评论（$count）';
+  }
+
+  @override
+  String get detailFile => '文件';
+
+  @override
+  String get detailSources => '来源';
+
+  @override
+  String get detailNoSources => '无来源';
+
+  @override
+  String get detailChildren => '子帖';
+
+  @override
+  String get detailDeletion => '删除原因';
+
+  @override
+  String get detailBlacklisted => '已屏蔽';
+
+  @override
+  String get detailNoArtist => '无画师';
+
+  @override
+  String detailPoolPosts(num count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count 个帖子',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String postCopiedId(num id) {
+    return '已复制帖子 ID #$id';
+  }
+
+  @override
+  String postUpvoteFailed(num id) {
+    return '帖子 #$id 点赞失败';
+  }
+
+  @override
+  String postDownvoteFailed(num id) {
+    return '帖子 #$id 点踩失败';
+  }
+
+  @override
+  String postAddFavoriteFailed(num id) {
+    return '帖子 #$id 收藏失败';
+  }
+
+  @override
+  String postRemoveFavoriteFailed(num id) {
+    return '帖子 #$id 取消收藏失败';
+  }
 }
 
 /// The translations for Chinese, using the Han script (`zh_Hant`).
@@ -3240,4 +3301,65 @@ class AppLocalizationsZhHant extends AppLocalizationsZh {
 
   @override
   String get dateYesterday => '昨天';
+
+  @override
+  String detailCommentsButton(num count) {
+    return '評論（$count）';
+  }
+
+  @override
+  String get detailFile => '檔案';
+
+  @override
+  String get detailSources => '來源';
+
+  @override
+  String get detailNoSources => '無來源';
+
+  @override
+  String get detailChildren => '子貼文';
+
+  @override
+  String get detailDeletion => '刪除原因';
+
+  @override
+  String get detailBlacklisted => '已封鎖';
+
+  @override
+  String get detailNoArtist => '無繪師';
+
+  @override
+  String detailPoolPosts(num count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count 則貼文',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String postCopiedId(num id) {
+    return '已複製貼文 ID #$id';
+  }
+
+  @override
+  String postUpvoteFailed(num id) {
+    return '貼文 #$id 按讚失敗';
+  }
+
+  @override
+  String postDownvoteFailed(num id) {
+    return '貼文 #$id 倒讚失敗';
+  }
+
+  @override
+  String postAddFavoriteFailed(num id) {
+    return '貼文 #$id 收藏失敗';
+  }
+
+  @override
+  String postRemoveFavoriteFailed(num id) {
+    return '貼文 #$id 取消收藏失敗';
+  }
 }
