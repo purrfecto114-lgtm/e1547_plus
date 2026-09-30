@@ -1290,6 +1290,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get onboardingLoginTitle => 'Connect an account';
 
   @override
+  String get onboardingLanguageTitle => 'Choose a language';
+
+  @override
   String get followAddToSubscriptions => 'Add to subscriptions';
 
   @override

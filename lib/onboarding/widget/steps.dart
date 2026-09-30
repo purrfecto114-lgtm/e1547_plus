@@ -5,6 +5,54 @@ import 'package:e1547/settings/settings.dart';
 import 'package:e1547/shared/shared.dart';
 import 'package:flutter/material.dart';
 
+class LanguageStep extends StatelessWidget {
+  const LanguageStep({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    Settings settings = context.watch<Settings>();
+    final l10n = AppLocalizations.of(context);
+    return Center(
+      child: SingleChildScrollView(
+        padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Text(
+              l10n.onboardingLanguageTitle,
+              style: Theme.of(context).textTheme.headlineSmall,
+              textAlign: TextAlign.center,
+            ),
+            const SizedBox(height: 16),
+            ValueListenableBuilder<String?>(
+              valueListenable: settings.language,
+              builder: (context, value, child) => Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  ListTile(
+                    title: Text(l10n.languageSystemDefault),
+                    trailing: value == null ? const Icon(Icons.check) : null,
+                    onTap: () => settings.language.value = null,
+                  ),
+                  ...appLanguages.map(
+                    (language) => ListTile(
+                      title: Text(language.label),
+                      trailing: value == language.value
+                          ? const Icon(Icons.check)
+                          : null,
+                      onTap: () => settings.language.value = language.value,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
 class WelcomeStep extends StatelessWidget {
   const WelcomeStep({super.key});
 

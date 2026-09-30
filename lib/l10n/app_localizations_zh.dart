@@ -1265,6 +1265,9 @@ class AppLocalizationsZh extends AppLocalizations {
   String get onboardingLoginTitle => '连接账户';
 
   @override
+  String get onboardingLanguageTitle => '选择语言';
+
+  @override
   String get followAddToSubscriptions => '添加到订阅';
 
   @override
@@ -3367,6 +3370,9 @@ class AppLocalizationsZhHant extends AppLocalizationsZh {
 
   @override
   String get onboardingLoginTitle => '連結帳戶';
+
+  @override
+  String get onboardingLanguageTitle => '選擇語言';
 
   @override
   String get followAddToSubscriptions => '加入訂閱';

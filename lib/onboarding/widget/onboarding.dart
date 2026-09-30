@@ -28,7 +28,7 @@ class _OnboardingPager extends StatefulWidget {
 class _OnboardingPagerState extends State<_OnboardingPager> {
   final PageController controller = PageController();
   int page = 0;
-  static const int pages = 3;
+  static const int pages = 4;
 
   void complete() => context.read<Settings>().onboardingSeen.value = true;
 
@@ -76,6 +76,7 @@ class _OnboardingPagerState extends State<_OnboardingPager> {
                         controller: controller,
                         onPageChanged: (value) => setState(() => page = value),
                         children: [
+                          const LanguageStep(),
                           const WelcomeStep(),
                           const ThemeStep(),
                           LoginStep(initialHost: host, onComplete: complete),

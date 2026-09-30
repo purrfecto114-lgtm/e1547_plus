@@ -374,6 +374,7 @@
   "onboardingThemeTitle": "挑個外觀",
   "onboardingThemeBody": "先試試看。之後隨時可以更換。",
   "onboardingLoginTitle": "連結帳戶",
+  "onboardingLanguageTitle": "選擇語言",
   "followAddToSubscriptions": "加入訂閱",
   "followNoSubscriptions": "沒有訂閱",
   "followFailedToLoadSubscriptions": "訂閱載入失敗",
