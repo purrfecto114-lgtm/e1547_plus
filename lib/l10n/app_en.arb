@@ -1780,5 +1780,145 @@
   "tagNoTags": "no tags",
   "@tagNoTags": {
     "description": "Placeholder shown when the tag counter drawer found no tags."
+  },
+  "reportCommentSuccess": "Reported comment #{id}",
+  "@reportCommentSuccess": {
+    "description": "Success message after reporting a comment.",
+    "placeholders": {
+      "id": {
+        "type": "num"
+      }
+    }
+  },
+  "reportCommentFailed": "Failed to report comment #{id}",
+  "@reportCommentFailed": {
+    "description": "Error message after failing to report a comment.",
+    "placeholders": {
+      "id": {
+        "type": "num"
+      }
+    }
+  },
+  "reportReplySuccess": "Reported reply #{id}",
+  "@reportReplySuccess": {
+    "description": "Success message after reporting a reply.",
+    "placeholders": {
+      "id": {
+        "type": "num"
+      }
+    }
+  },
+  "reportReplyFailed": "Failed to report reply #{id}",
+  "@reportReplyFailed": {
+    "description": "Error message after failing to report a reply.",
+    "placeholders": {
+      "id": {
+        "type": "num"
+      }
+    }
+  },
+  "reportUserSuccess": "Reported user #{id}",
+  "@reportUserSuccess": {
+    "description": "Success message after reporting a user.",
+    "placeholders": {
+      "id": {
+        "type": "num"
+      }
+    }
+  },
+  "reportUserFailed": "Failed to report user #{id}",
+  "@reportUserFailed": {
+    "description": "Error message after failing to report a user.",
+    "placeholders": {
+      "id": {
+        "type": "num"
+      }
+    }
+  },
+  "reportPostSuccess": "Reported post #{id}",
+  "@reportPostSuccess": {
+    "description": "Success message after reporting a post.",
+    "placeholders": {
+      "id": {
+        "type": "num"
+      }
+    }
+  },
+  "reportPostFailed": "Failed to report post #{id}",
+  "@reportPostFailed": {
+    "description": "Error message after failing to report a post.",
+    "placeholders": {
+      "id": {
+        "type": "num"
+      }
+    }
+  },
+  "reportTypeRequired": "Type cannot be empty",
+  "@reportTypeRequired": {
+    "description": "Error text shown when no report type was selected."
+  },
+  "reportReason": "Reason",
+  "@reportReason": {
+    "description": "Label of the report reason input field."
+  },
+  "reportReasonRequired": "Reason cannot be empty",
+  "@reportReasonRequired": {
+    "description": "Error text shown when the report reason is empty."
+  },
+  "reportSubmitted": "Submitted report",
+  "@reportSubmitted": {
+    "description": "Success message after submitting a report."
+  },
+  "reportSubmitFailed": "Failed to submit report",
+  "@reportSubmitFailed": {
+    "description": "Error message after failing to submit a report."
+  },
+  "reportTypeRating": "Rating Abuse",
+  "@reportTypeRating": {
+    "description": "Name of the rating abuse post report type."
+  },
+  "reportTypeFile": "Malicious File",
+  "@reportTypeFile": {
+    "description": "Name of the malicious file post report type."
+  },
+  "reportTypeSource": "Malicious Source",
+  "@reportTypeSource": {
+    "description": "Name of the malicious source post report type."
+  },
+  "reportTypeDescription": "Description Abuse",
+  "@reportTypeDescription": {
+    "description": "Name of the description abuse post report type."
+  },
+  "reportTypeNote": "Note Abuse",
+  "@reportTypeNote": {
+    "description": "Name of the note abuse post report type."
+  },
+  "reportTypeTagging": "Tagging Abuse",
+  "@reportTypeTagging": {
+    "description": "Name of the tagging abuse post report type."
+  },
+  "reportTypeRatingBody": "The rating of the submission has been set to something incorrect.",
+  "@reportTypeRatingBody": {
+    "description": "Description of the rating abuse post report type."
+  },
+  "reportTypeFileBody": "The file contains either malicious code or contains a hidden file archive. This is not for imagery depicted in the image itself.",
+  "@reportTypeFileBody": {
+    "description": "Description of the malicious file post report type."
+  },
+  "reportTypeSourceBody": "One or more of the listed sources link to malicious pages or pay content.",
+  "@reportTypeSourceBody": {
+    "description": "Description of the malicious source post report type."
+  },
+  "reportTypeDescriptionBody": "The description contains malicious content, or has been edited to contain abusive material.",
+  "@reportTypeDescriptionBody": {
+    "description": "Description of the description abuse post report type."
+  },
+  "reportTypeNoteBody": "The notes on this post are wrong, harassive, or otherwise abusive.",
+  "@reportTypeNoteBody": {
+    "description": "Description of the note abuse post report type."
+  },
+  "reportTypeTaggingBody": "One or more tags on this post aren't valid or one or more valid tags have been removed from this post.",
+  "@reportTypeTaggingBody": {
+    "description": "Description of the tagging abuse post report type."
   }
 }

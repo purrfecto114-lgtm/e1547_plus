@@ -3056,6 +3056,156 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'no tags'**
   String get tagNoTags;
+
+  /// Success message after reporting a comment.
+  ///
+  /// In en, this message translates to:
+  /// **'Reported comment #{id}'**
+  String reportCommentSuccess(num id);
+
+  /// Error message after failing to report a comment.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to report comment #{id}'**
+  String reportCommentFailed(num id);
+
+  /// Success message after reporting a reply.
+  ///
+  /// In en, this message translates to:
+  /// **'Reported reply #{id}'**
+  String reportReplySuccess(num id);
+
+  /// Error message after failing to report a reply.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to report reply #{id}'**
+  String reportReplyFailed(num id);
+
+  /// Success message after reporting a user.
+  ///
+  /// In en, this message translates to:
+  /// **'Reported user #{id}'**
+  String reportUserSuccess(num id);
+
+  /// Error message after failing to report a user.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to report user #{id}'**
+  String reportUserFailed(num id);
+
+  /// Success message after reporting a post.
+  ///
+  /// In en, this message translates to:
+  /// **'Reported post #{id}'**
+  String reportPostSuccess(num id);
+
+  /// Error message after failing to report a post.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to report post #{id}'**
+  String reportPostFailed(num id);
+
+  /// Error text shown when no report type was selected.
+  ///
+  /// In en, this message translates to:
+  /// **'Type cannot be empty'**
+  String get reportTypeRequired;
+
+  /// Label of the report reason input field.
+  ///
+  /// In en, this message translates to:
+  /// **'Reason'**
+  String get reportReason;
+
+  /// Error text shown when the report reason is empty.
+  ///
+  /// In en, this message translates to:
+  /// **'Reason cannot be empty'**
+  String get reportReasonRequired;
+
+  /// Success message after submitting a report.
+  ///
+  /// In en, this message translates to:
+  /// **'Submitted report'**
+  String get reportSubmitted;
+
+  /// Error message after failing to submit a report.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to submit report'**
+  String get reportSubmitFailed;
+
+  /// Name of the rating abuse post report type.
+  ///
+  /// In en, this message translates to:
+  /// **'Rating Abuse'**
+  String get reportTypeRating;
+
+  /// Name of the malicious file post report type.
+  ///
+  /// In en, this message translates to:
+  /// **'Malicious File'**
+  String get reportTypeFile;
+
+  /// Name of the malicious source post report type.
+  ///
+  /// In en, this message translates to:
+  /// **'Malicious Source'**
+  String get reportTypeSource;
+
+  /// Name of the description abuse post report type.
+  ///
+  /// In en, this message translates to:
+  /// **'Description Abuse'**
+  String get reportTypeDescription;
+
+  /// Name of the note abuse post report type.
+  ///
+  /// In en, this message translates to:
+  /// **'Note Abuse'**
+  String get reportTypeNote;
+
+  /// Name of the tagging abuse post report type.
+  ///
+  /// In en, this message translates to:
+  /// **'Tagging Abuse'**
+  String get reportTypeTagging;
+
+  /// Description of the rating abuse post report type.
+  ///
+  /// In en, this message translates to:
+  /// **'The rating of the submission has been set to something incorrect.'**
+  String get reportTypeRatingBody;
+
+  /// Description of the malicious file post report type.
+  ///
+  /// In en, this message translates to:
+  /// **'The file contains either malicious code or contains a hidden file archive. This is not for imagery depicted in the image itself.'**
+  String get reportTypeFileBody;
+
+  /// Description of the malicious source post report type.
+  ///
+  /// In en, this message translates to:
+  /// **'One or more of the listed sources link to malicious pages or pay content.'**
+  String get reportTypeSourceBody;
+
+  /// Description of the description abuse post report type.
+  ///
+  /// In en, this message translates to:
+  /// **'The description contains malicious content, or has been edited to contain abusive material.'**
+  String get reportTypeDescriptionBody;
+
+  /// Description of the note abuse post report type.
+  ///
+  /// In en, this message translates to:
+  /// **'The notes on this post are wrong, harassive, or otherwise abusive.'**
+  String get reportTypeNoteBody;
+
+  /// Description of the tagging abuse post report type.
+  ///
+  /// In en, this message translates to:
+  /// **'One or more tags on this post aren\'t valid or one or more valid tags have been removed from this post.'**
+  String get reportTypeTaggingBody;
 }
 
 class _AppLocalizationsDelegate

@@ -1684,6 +1684,97 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get tagNoTags => '没有标签';
+
+  @override
+  String reportCommentSuccess(num id) {
+    return '已举报评论 #$id';
+  }
+
+  @override
+  String reportCommentFailed(num id) {
+    return '举报评论 #$id 失败';
+  }
+
+  @override
+  String reportReplySuccess(num id) {
+    return '已举报回复 #$id';
+  }
+
+  @override
+  String reportReplyFailed(num id) {
+    return '举报回复 #$id 失败';
+  }
+
+  @override
+  String reportUserSuccess(num id) {
+    return '已举报用户 #$id';
+  }
+
+  @override
+  String reportUserFailed(num id) {
+    return '举报用户 #$id 失败';
+  }
+
+  @override
+  String reportPostSuccess(num id) {
+    return '已举报帖子 #$id';
+  }
+
+  @override
+  String reportPostFailed(num id) {
+    return '举报帖子 #$id 失败';
+  }
+
+  @override
+  String get reportTypeRequired => '类型不能为空';
+
+  @override
+  String get reportReason => '理由';
+
+  @override
+  String get reportReasonRequired => '理由不能为空';
+
+  @override
+  String get reportSubmitted => '已提交举报';
+
+  @override
+  String get reportSubmitFailed => '提交举报失败';
+
+  @override
+  String get reportTypeRating => '分级滥用';
+
+  @override
+  String get reportTypeFile => '恶意文件';
+
+  @override
+  String get reportTypeSource => '恶意来源';
+
+  @override
+  String get reportTypeDescription => '描述滥用';
+
+  @override
+  String get reportTypeNote => '注释滥用';
+
+  @override
+  String get reportTypeTagging => '标签滥用';
+
+  @override
+  String get reportTypeRatingBody => '该作品的分级被设置成了错误的值。';
+
+  @override
+  String get reportTypeFileBody => '文件中包含恶意代码或隐藏的文件压缩包。这与图像本身描绘的内容无关。';
+
+  @override
+  String get reportTypeSourceBody => '所列来源中有一个或多个指向恶意页面或付费内容。';
+
+  @override
+  String get reportTypeDescriptionBody => '描述中包含恶意内容，或被编辑加入了辱骂性内容。';
+
+  @override
+  String get reportTypeNoteBody => '该帖子的注释有误、带有骚扰性或存在其他滥用情况。';
+
+  @override
+  String get reportTypeTaggingBody => '该帖子存在一个或多个无效标签，或有一个或多个有效标签被移除。';
 }
 
 /// The translations for Chinese, using the Han script (`zh_Hant`).
@@ -3366,4 +3457,95 @@ class AppLocalizationsZhHant extends AppLocalizationsZh {
 
   @override
   String get tagNoTags => '沒有標籤';
+
+  @override
+  String reportCommentSuccess(num id) {
+    return '已檢舉評論 #$id';
+  }
+
+  @override
+  String reportCommentFailed(num id) {
+    return '檢舉評論 #$id 失敗';
+  }
+
+  @override
+  String reportReplySuccess(num id) {
+    return '已檢舉回覆 #$id';
+  }
+
+  @override
+  String reportReplyFailed(num id) {
+    return '檢舉回覆 #$id 失敗';
+  }
+
+  @override
+  String reportUserSuccess(num id) {
+    return '已檢舉使用者 #$id';
+  }
+
+  @override
+  String reportUserFailed(num id) {
+    return '檢舉使用者 #$id 失敗';
+  }
+
+  @override
+  String reportPostSuccess(num id) {
+    return '已檢舉貼文 #$id';
+  }
+
+  @override
+  String reportPostFailed(num id) {
+    return '檢舉貼文 #$id 失敗';
+  }
+
+  @override
+  String get reportTypeRequired => '類型不能為空';
+
+  @override
+  String get reportReason => '理由';
+
+  @override
+  String get reportReasonRequired => '理由不能為空';
+
+  @override
+  String get reportSubmitted => '已送出檢舉';
+
+  @override
+  String get reportSubmitFailed => '送出檢舉失敗';
+
+  @override
+  String get reportTypeRating => '分級濫用';
+
+  @override
+  String get reportTypeFile => '惡意檔案';
+
+  @override
+  String get reportTypeSource => '惡意來源';
+
+  @override
+  String get reportTypeDescription => '描述濫用';
+
+  @override
+  String get reportTypeNote => '註釋濫用';
+
+  @override
+  String get reportTypeTagging => '標籤濫用';
+
+  @override
+  String get reportTypeRatingBody => '該作品的分級被設定成了錯誤的值。';
+
+  @override
+  String get reportTypeFileBody => '檔案中包含惡意程式碼或隱藏的檔案壓縮包。這與圖像本身描繪的內容無關。';
+
+  @override
+  String get reportTypeSourceBody => '所列來源中有一個或多個指向惡意頁面或付費內容。';
+
+  @override
+  String get reportTypeDescriptionBody => '描述中包含惡意內容，或被編輯加入了辱罵性內容。';
+
+  @override
+  String get reportTypeNoteBody => '該貼文的註釋有誤、帶有騷擾性或存在其他濫用情況。';
+
+  @override
+  String get reportTypeTaggingBody => '該貼文存在一個或多個無效標籤，或有一個或多個有效標籤被移除。';
 }

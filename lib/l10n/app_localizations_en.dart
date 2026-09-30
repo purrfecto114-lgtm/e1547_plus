@@ -1714,4 +1714,101 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get tagNoTags => 'no tags';
+
+  @override
+  String reportCommentSuccess(num id) {
+    return 'Reported comment #$id';
+  }
+
+  @override
+  String reportCommentFailed(num id) {
+    return 'Failed to report comment #$id';
+  }
+
+  @override
+  String reportReplySuccess(num id) {
+    return 'Reported reply #$id';
+  }
+
+  @override
+  String reportReplyFailed(num id) {
+    return 'Failed to report reply #$id';
+  }
+
+  @override
+  String reportUserSuccess(num id) {
+    return 'Reported user #$id';
+  }
+
+  @override
+  String reportUserFailed(num id) {
+    return 'Failed to report user #$id';
+  }
+
+  @override
+  String reportPostSuccess(num id) {
+    return 'Reported post #$id';
+  }
+
+  @override
+  String reportPostFailed(num id) {
+    return 'Failed to report post #$id';
+  }
+
+  @override
+  String get reportTypeRequired => 'Type cannot be empty';
+
+  @override
+  String get reportReason => 'Reason';
+
+  @override
+  String get reportReasonRequired => 'Reason cannot be empty';
+
+  @override
+  String get reportSubmitted => 'Submitted report';
+
+  @override
+  String get reportSubmitFailed => 'Failed to submit report';
+
+  @override
+  String get reportTypeRating => 'Rating Abuse';
+
+  @override
+  String get reportTypeFile => 'Malicious File';
+
+  @override
+  String get reportTypeSource => 'Malicious Source';
+
+  @override
+  String get reportTypeDescription => 'Description Abuse';
+
+  @override
+  String get reportTypeNote => 'Note Abuse';
+
+  @override
+  String get reportTypeTagging => 'Tagging Abuse';
+
+  @override
+  String get reportTypeRatingBody =>
+      'The rating of the submission has been set to something incorrect.';
+
+  @override
+  String get reportTypeFileBody =>
+      'The file contains either malicious code or contains a hidden file archive. This is not for imagery depicted in the image itself.';
+
+  @override
+  String get reportTypeSourceBody =>
+      'One or more of the listed sources link to malicious pages or pay content.';
+
+  @override
+  String get reportTypeDescriptionBody =>
+      'The description contains malicious content, or has been edited to contain abusive material.';
+
+  @override
+  String get reportTypeNoteBody =>
+      'The notes on this post are wrong, harassive, or otherwise abusive.';
+
+  @override
+  String get reportTypeTaggingBody =>
+      'One or more tags on this post aren\'t valid or one or more valid tags have been removed from this post.';
 }
