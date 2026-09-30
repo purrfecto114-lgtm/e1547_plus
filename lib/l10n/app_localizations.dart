@@ -2601,12 +2601,6 @@ abstract class AppLocalizations {
   /// **'Users'**
   String get historyUsers;
 
-  /// Type filter showing reply history entries.
-  ///
-  /// In en, this message translates to:
-  /// **'Replies'**
-  String get historyReplies;
-
   /// Empty state of the history page.
   ///
   /// In en, this message translates to:
@@ -2654,12 +2648,6 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Wiki #{id}'**
   String historyLinkWiki(num id);
-
-  /// Name of a visited reply in the history.
-  ///
-  /// In en, this message translates to:
-  /// **'Reply #{id}'**
-  String historyLinkReply(num id);
 
   /// Name of a visited user page in the history, looked up by name.
   ///
@@ -2768,12 +2756,6 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Pool not found'**
   String get poolNotFound;
-
-  /// Tooltip of the pool info button.
-  ///
-  /// In en, this message translates to:
-  /// **'Info'**
-  String get poolInfo;
 
   /// Title of the pool order switch in the pool drawer.
   ///

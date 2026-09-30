@@ -1459,9 +1459,6 @@ class AppLocalizationsEn extends AppLocalizations {
   String get historyUsers => 'Users';
 
   @override
-  String get historyReplies => 'Replies';
-
-  @override
   String get historyEmpty => 'Your history is empty';
 
   @override
@@ -1489,11 +1486,6 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String historyLinkWiki(num id) {
     return 'Wiki #$id';
-  }
-
-  @override
-  String historyLinkReply(num id) {
-    return 'Reply #$id';
   }
 
   @override
@@ -1559,9 +1551,6 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get poolNotFound => 'Pool not found';
-
-  @override
-  String get poolInfo => 'Info';
 
   @override
   String get poolOrder => 'Pool order';

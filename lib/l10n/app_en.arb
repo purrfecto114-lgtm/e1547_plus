@@ -1416,10 +1416,6 @@
   "@historyUsers": {
     "description": "Type filter showing user history entries."
   },
-  "historyReplies": "Replies",
-  "@historyReplies": {
-    "description": "Type filter showing reply history entries."
-  },
   "historyEmpty": "Your history is empty",
   "@historyEmpty": {
     "description": "Empty state of the history page."
@@ -1461,15 +1457,6 @@
   "historyLinkWiki": "Wiki #{id}",
   "@historyLinkWiki": {
     "description": "Name of a visited wiki page in the history.",
-    "placeholders": {
-      "id": {
-        "type": "num"
-      }
-    }
-  },
-  "historyLinkReply": "Reply #{id}",
-  "@historyLinkReply": {
-    "description": "Name of a visited reply in the history.",
     "placeholders": {
       "id": {
         "type": "num"
@@ -1575,10 +1562,6 @@
   "poolNotFound": "Pool not found",
   "@poolNotFound": {
     "description": "Empty state of the pool loading page."
-  },
-  "poolInfo": "Info",
-  "@poolInfo": {
-    "description": "Tooltip of the pool info button."
   },
   "poolOrder": "Pool order",
   "@poolOrder": {

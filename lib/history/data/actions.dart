@@ -63,7 +63,7 @@ extension Identification on History {
         case LinkType.topic:
           return l10n.topicLink(id);
         case LinkType.reply:
-          return l10n.historyLinkReply(id);
+          return l10n.replyTitle(id);
       }
     }
 
@@ -105,7 +105,7 @@ extension Identification on History {
           );
         case LinkType.reply:
           return l10n.historySearchQuery(
-            l10n.historyReplies,
+            l10n.repliesTitle,
             search['search[topic_title_matches]'] ?? '',
           );
       }
@@ -123,7 +123,7 @@ extension Identification on History {
       case LinkType.topic:
         return l10n.topicsTitle;
       case LinkType.reply:
-        return l10n.historyReplies;
+        return l10n.repliesTitle;
     }
   }
 }

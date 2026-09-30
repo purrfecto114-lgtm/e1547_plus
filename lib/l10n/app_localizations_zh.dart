@@ -1430,9 +1430,6 @@ class AppLocalizationsZh extends AppLocalizations {
   String get historyUsers => '用户';
 
   @override
-  String get historyReplies => '回复';
-
-  @override
   String get historyEmpty => '历史记录为空';
 
   @override
@@ -1460,11 +1457,6 @@ class AppLocalizationsZh extends AppLocalizations {
   @override
   String historyLinkWiki(num id) {
     return '维基 #$id';
-  }
-
-  @override
-  String historyLinkReply(num id) {
-    return '回复 #$id';
   }
 
   @override
@@ -1530,9 +1522,6 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get poolNotFound => '找不到图集';
-
-  @override
-  String get poolInfo => '信息';
 
   @override
   String get poolOrder => '图集排序';
@@ -3049,9 +3038,6 @@ class AppLocalizationsZhHant extends AppLocalizationsZh {
   String get historyUsers => '使用者';
 
   @override
-  String get historyReplies => '回覆';
-
-  @override
   String get historyEmpty => '歷史記錄為空';
 
   @override
@@ -3079,11 +3065,6 @@ class AppLocalizationsZhHant extends AppLocalizationsZh {
   @override
   String historyLinkWiki(num id) {
     return '維基 #$id';
-  }
-
-  @override
-  String historyLinkReply(num id) {
-    return '回覆 #$id';
   }
 
   @override
@@ -3149,9 +3130,6 @@ class AppLocalizationsZhHant extends AppLocalizationsZh {
 
   @override
   String get poolNotFound => '找不到圖集';
-
-  @override
-  String get poolInfo => '資訊';
 
   @override
   String get poolOrder => '圖集排序';

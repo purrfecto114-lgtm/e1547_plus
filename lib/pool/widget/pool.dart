@@ -47,7 +47,7 @@ class PoolPage extends StatelessWidget {
                         actions: [
                           IconButton(
                             icon: const Icon(Icons.info_outline),
-                            tooltip: AppLocalizations.of(context).poolInfo,
+                            tooltip: AppLocalizations.of(context).info,
                             onPressed: () =>
                                 showPoolPrompt(context: context, pool: pool),
                           ),
