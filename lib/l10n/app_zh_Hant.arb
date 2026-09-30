@@ -473,5 +473,9 @@
   "loginRequired": "必須登入才能執行此操作！",
   "actionChooseIdentity": "選擇帳戶",
   "dateToday": "今天",
-  "dateYesterday": "昨天"
+  "dateYesterday": "昨天",
+  "followNotificationBody": "{count, plural, other{有 {count} 則新貼文！}}",
+  "followNotificationSummary": "新貼文！",
+  "followChannelName": "已追蹤標籤",
+  "followChannelDescription": "你追蹤的標籤的通知"
 }

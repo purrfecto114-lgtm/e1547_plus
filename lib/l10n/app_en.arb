@@ -1689,5 +1689,26 @@
   "loginRequired": "You must be logged in to perform this action.",
   "actionChooseIdentity": "Choose identity",
   "dateToday": "Today",
-  "dateYesterday": "Yesterday"
+  "dateYesterday": "Yesterday",
+  "followNotificationBody": "{count, plural, =1{has a new post!} other{has {count} new posts!}}",
+  "@followNotificationBody": {
+    "description": "Body of a follow notification, shown under the follow's title.",
+    "placeholders": {
+      "count": {
+        "type": "num"
+      }
+    }
+  },
+  "followNotificationSummary": "New posts!",
+  "@followNotificationSummary": {
+    "description": "Title of the summary notification for multiple follows."
+  },
+  "followChannelName": "Followed Tags",
+  "@followChannelName": {
+    "description": "Name of the follow notification channel shown in the system settings."
+  },
+  "followChannelDescription": "Notifications for tags you are following",
+  "@followChannelDescription": {
+    "description": "Description of the follow notification channel shown in the system settings."
+  }
 }

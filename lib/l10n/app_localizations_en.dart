@@ -1651,4 +1651,25 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get dateYesterday => 'Yesterday';
+
+  @override
+  String followNotificationBody(num count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'has $count new posts!',
+      one: 'has a new post!',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get followNotificationSummary => 'New posts!';
+
+  @override
+  String get followChannelName => 'Followed Tags';
+
+  @override
+  String get followChannelDescription =>
+      'Notifications for tags you are following';
 }

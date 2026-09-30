@@ -2942,6 +2942,30 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Yesterday'**
   String get dateYesterday;
+
+  /// Body of a follow notification, shown under the follow's title.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{has a new post!} other{has {count} new posts!}}'**
+  String followNotificationBody(num count);
+
+  /// Title of the summary notification for multiple follows.
+  ///
+  /// In en, this message translates to:
+  /// **'New posts!'**
+  String get followNotificationSummary;
+
+  /// Name of the follow notification channel shown in the system settings.
+  ///
+  /// In en, this message translates to:
+  /// **'Followed Tags'**
+  String get followChannelName;
+
+  /// Description of the follow notification channel shown in the system settings.
+  ///
+  /// In en, this message translates to:
+  /// **'Notifications for tags you are following'**
+  String get followChannelDescription;
 }
 
 class _AppLocalizationsDelegate

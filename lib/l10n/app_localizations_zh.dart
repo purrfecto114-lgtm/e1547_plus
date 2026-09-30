@@ -1621,6 +1621,25 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get dateYesterday => '昨天';
+
+  @override
+  String followNotificationBody(num count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '有 $count 条新帖子！',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get followNotificationSummary => '新帖子！';
+
+  @override
+  String get followChannelName => '已关注标签';
+
+  @override
+  String get followChannelDescription => '你关注的标签的通知';
 }
 
 /// The translations for Chinese, using the Han script (`zh_Hant`).
@@ -3240,4 +3259,23 @@ class AppLocalizationsZhHant extends AppLocalizationsZh {
 
   @override
   String get dateYesterday => '昨天';
+
+  @override
+  String followNotificationBody(num count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '有 $count 則新貼文！',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get followNotificationSummary => '新貼文！';
+
+  @override
+  String get followChannelName => '已追蹤標籤';
+
+  @override
+  String get followChannelDescription => '你追蹤的標籤的通知';
 }
