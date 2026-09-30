@@ -1621,6 +1621,12 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get dateYesterday => '昨天';
+
+  @override
+  String get searchFilterTitle => '筛选';
+
+  @override
+  String get searchFilterQueryLabel => '当前查询：';
 }
 
 /// The translations for Chinese, using the Han script (`zh_Hant`).
@@ -3240,4 +3246,10 @@ class AppLocalizationsZhHant extends AppLocalizationsZh {
 
   @override
   String get dateYesterday => '昨天';
+
+  @override
+  String get searchFilterTitle => '篩選';
+
+  @override
+  String get searchFilterQueryLabel => '當前查詢：';
 }

@@ -16,7 +16,8 @@ class PostPageAppBar extends StatelessWidget implements PreferredSizeWidget {
 
   @override
   Widget build(BuildContext context) {
-    final map = TagMap(context.watch<PostParamsController>().value.tags);
+    final controller = context.watch<PostParamsController>();
+    final map = TagMap(controller.value.tags);
     final showInfo =
         map.isNotEmpty && map['order'] != 'rank' && map['fav'] == null;
 
@@ -24,6 +25,7 @@ class PostPageAppBar extends StatelessWidget implements PreferredSizeWidget {
       title: const _PostPageTitle(),
       actions: [
         if (showInfo) const _PostPageInfoButton(),
+        if (controller.canSearch) const PostsPageFilterButton(),
         ...?actions,
         const ContextDrawerButton(),
       ],

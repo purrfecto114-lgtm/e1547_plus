@@ -473,5 +473,7 @@
   "loginRequired": "必须登录才能执行此操作！",
   "actionChooseIdentity": "选择账户",
   "dateToday": "今天",
-  "dateYesterday": "昨天"
+  "dateYesterday": "昨天",
+  "searchFilterTitle": "筛选",
+  "searchFilterQueryLabel": "当前查询："
 }

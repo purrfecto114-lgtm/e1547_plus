@@ -1651,4 +1651,10 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get dateYesterday => 'Yesterday';
+
+  @override
+  String get searchFilterTitle => 'Filters';
+
+  @override
+  String get searchFilterQueryLabel => 'Current query:';
 }

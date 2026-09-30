@@ -2942,6 +2942,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Yesterday'**
   String get dateYesterday;
+
+  /// Title of the posts search filter prompt.
+  ///
+  /// In en, this message translates to:
+  /// **'Filters'**
+  String get searchFilterTitle;
+
+  /// Label of the query preview of the posts search filter prompt.
+  ///
+  /// In en, this message translates to:
+  /// **'Current query:'**
+  String get searchFilterQueryLabel;
 }
 
 class _AppLocalizationsDelegate

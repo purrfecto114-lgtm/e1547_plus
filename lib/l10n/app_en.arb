@@ -1689,5 +1689,13 @@
   "loginRequired": "You must be logged in to perform this action.",
   "actionChooseIdentity": "Choose identity",
   "dateToday": "Today",
-  "dateYesterday": "Yesterday"
+  "dateYesterday": "Yesterday",
+  "searchFilterTitle": "Filters",
+  "@searchFilterTitle": {
+    "description": "Title of the posts search filter prompt."
+  },
+  "searchFilterQueryLabel": "Current query:",
+  "@searchFilterQueryLabel": {
+    "description": "Label of the query preview of the posts search filter prompt."
+  }
 }
