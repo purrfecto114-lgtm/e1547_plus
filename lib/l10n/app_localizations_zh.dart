@@ -322,9 +322,6 @@ class AppLocalizationsZh extends AppLocalizations {
   String get devOptionsHidden => '隐藏开发者选项';
 
   @override
-  String get settingsLogs => '日志';
-
-  @override
   String errorsLogged(num count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,
@@ -658,9 +655,6 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get filterNew => '最新';
-
-  @override
-  String get filterFavorites => '收藏';
 
   @override
   String get filterRank => '排名';
@@ -1436,9 +1430,6 @@ class AppLocalizationsZh extends AppLocalizations {
   String get historyFailedToLoad => '历史加载失败';
 
   @override
-  String get historyDescription => '描述';
-
-  @override
   String get historyNoDescription => '暂无描述';
 
   @override
@@ -1930,9 +1921,6 @@ class AppLocalizationsZhHant extends AppLocalizationsZh {
   String get devOptionsHidden => '隱藏開發者選項';
 
   @override
-  String get settingsLogs => '記錄檔';
-
-  @override
   String errorsLogged(num count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,
@@ -2266,9 +2254,6 @@ class AppLocalizationsZhHant extends AppLocalizationsZh {
 
   @override
   String get filterNew => '最新';
-
-  @override
-  String get filterFavorites => '收藏';
 
   @override
   String get filterRank => '排名';
@@ -3042,9 +3027,6 @@ class AppLocalizationsZhHant extends AppLocalizationsZh {
 
   @override
   String get historyFailedToLoad => '歷史載入失敗';
-
-  @override
-  String get historyDescription => '描述';
 
   @override
   String get historyNoDescription => '暫無描述';

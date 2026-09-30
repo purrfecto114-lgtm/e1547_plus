@@ -657,12 +657,6 @@ abstract class AppLocalizations {
   /// **'options hidden'**
   String get devOptionsHidden;
 
-  /// No description provided for @settingsLogs.
-  ///
-  /// In en, this message translates to:
-  /// **'Logs'**
-  String get settingsLogs;
-
   /// No description provided for @errorsLogged.
   ///
   /// In en, this message translates to:
@@ -1262,12 +1256,6 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'New'**
   String get filterNew;
-
-  /// Sort order option that sorts by favorites.
-  ///
-  /// In en, this message translates to:
-  /// **'Favorites'**
-  String get filterFavorites;
 
   /// Sort order option that sorts by rank.
   ///
@@ -2612,12 +2600,6 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Failed to load history'**
   String get historyFailedToLoad;
-
-  /// Menu action showing the description of a history entry.
-  ///
-  /// In en, this message translates to:
-  /// **'Description'**
-  String get historyDescription;
 
   /// Placeholder shown when a history entry has no description.
   ///

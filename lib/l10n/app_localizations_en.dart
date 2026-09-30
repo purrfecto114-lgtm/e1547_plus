@@ -326,9 +326,6 @@ class AppLocalizationsEn extends AppLocalizations {
   String get devOptionsHidden => 'options hidden';
 
   @override
-  String get settingsLogs => 'Logs';
-
-  @override
   String errorsLogged(num count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,
@@ -670,9 +667,6 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get filterNew => 'New';
-
-  @override
-  String get filterFavorites => 'Favorites';
 
   @override
   String get filterRank => 'Rank';
@@ -1463,9 +1457,6 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get historyFailedToLoad => 'Failed to load history';
-
-  @override
-  String get historyDescription => 'Description';
 
   @override
   String get historyNoDescription => 'no description';

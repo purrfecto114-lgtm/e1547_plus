@@ -495,7 +495,7 @@ class SettingsPage extends StatelessWidget {
                 Consumer<LogErrors>(
                   builder: (context, errors, child) => ListTile(
                     leading: const Icon(Icons.format_list_numbered),
-                    title: Text(AppLocalizations.of(context).settingsLogs),
+                    title: Text(AppLocalizations.of(context).logsTitle),
                     subtitle: errors.isEmpty
                         ? null
                         : Text(

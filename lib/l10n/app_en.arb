@@ -153,7 +153,6 @@
   "settingsDeveloperMode": "Developer mode",
   "devOptionsShown": "options shown",
   "devOptionsHidden": "options hidden",
-  "settingsLogs": "Logs",
   "errorsLogged": "{count, plural, =1{1 error logged} other{{count} errors logged}}",
   "@errorsLogged": {
     "placeholders": {
@@ -351,10 +350,6 @@
   "filterNew": "New",
   "@filterNew": {
     "description": "Sort order option that sorts by newest posts."
-  },
-  "filterFavorites": "Favorites",
-  "@filterFavorites": {
-    "description": "Sort order option that sorts by favorites."
   },
   "filterRank": "Rank",
   "@filterRank": {
@@ -1423,10 +1418,6 @@
   "historyFailedToLoad": "Failed to load history",
   "@historyFailedToLoad": {
     "description": "Error state of the history page."
-  },
-  "historyDescription": "Description",
-  "@historyDescription": {
-    "description": "Menu action showing the description of a history entry."
   },
   "historyNoDescription": "no description",
   "@historyNoDescription": {
