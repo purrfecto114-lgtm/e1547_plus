@@ -138,7 +138,6 @@
   "aboutDonorsFailed": "取得捐贈者失敗",
   "developerUnlocked": "你已成為開發者！",
   "databaseErrorLoading": "資料庫載入錯誤",
-  "databaseUnknownSize": "未知",
   "databaseExportTitle": "匯出資料庫",
   "databaseExportSubtitle": "儲存資料庫備份副本",
   "databaseImportSubtitle": "以匯入的資料庫取代目前資料庫",

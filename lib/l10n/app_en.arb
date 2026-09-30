@@ -233,7 +233,6 @@
   "aboutDonorsFailed": "Failed to fetch donors",
   "developerUnlocked": "You are now a developer!",
   "databaseErrorLoading": "Error loading database",
-  "databaseUnknownSize": "Unknown",
   "databaseExportTitle": "Export Database",
   "databaseExportSubtitle": "Save a backup copy of your database",
   "databaseImportSubtitle": "Replace current database with imported one",

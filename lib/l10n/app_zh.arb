@@ -138,7 +138,6 @@
   "aboutDonorsFailed": "获取捐赠者失败",
   "developerUnlocked": "你已成为开发者！",
   "databaseErrorLoading": "数据库加载出错",
-  "databaseUnknownSize": "未知",
   "databaseExportTitle": "导出数据库",
   "databaseExportSubtitle": "保存数据库备份副本",
   "databaseImportSubtitle": "用导入的数据库替换当前数据库",

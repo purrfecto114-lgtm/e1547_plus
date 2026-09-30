@@ -927,12 +927,6 @@ abstract class AppLocalizations {
   /// **'Error loading database'**
   String get databaseErrorLoading;
 
-  /// No description provided for @databaseUnknownSize.
-  ///
-  /// In en, this message translates to:
-  /// **'Unknown'**
-  String get databaseUnknownSize;
-
   /// No description provided for @databaseExportTitle.
   ///
   /// In en, this message translates to:

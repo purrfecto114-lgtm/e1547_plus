@@ -472,9 +472,6 @@ class AppLocalizationsZh extends AppLocalizations {
   String get databaseErrorLoading => '数据库加载出错';
 
   @override
-  String get databaseUnknownSize => '未知';
-
-  @override
   String get databaseExportTitle => '导出数据库';
 
   @override
@@ -2069,9 +2066,6 @@ class AppLocalizationsZhHant extends AppLocalizationsZh {
 
   @override
   String get databaseErrorLoading => '資料庫載入錯誤';
-
-  @override
-  String get databaseUnknownSize => '未知';
 
   @override
   String get databaseExportTitle => '匯出資料庫';

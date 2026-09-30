@@ -480,9 +480,6 @@ class AppLocalizationsEn extends AppLocalizations {
   String get databaseErrorLoading => 'Error loading database';
 
   @override
-  String get databaseUnknownSize => 'Unknown';
-
-  @override
   String get databaseExportTitle => 'Export Database';
 
   @override
