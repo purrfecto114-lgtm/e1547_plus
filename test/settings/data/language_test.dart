@@ -42,6 +42,20 @@ void main() {
         );
       },
     );
+
+    test('resolves the japanese and russian languages generically', () {
+      expect(parseLanguage('ja'), const Locale('ja'));
+      expect(parseLanguage('ru'), const Locale('ru'));
+      expect(resolveAppLocale(const [Locale('ja')]), const Locale('ja'));
+      expect(resolveAppLocale(const [Locale('ru')]), const Locale('ru'));
+      expect(resolveAppLocale(const [Locale('ja', 'JP')]), const Locale('ja'));
+      expect(resolveAppLocale(const [Locale('ru', 'RU')]), const Locale('ru'));
+      // an unsupported preferred language falls back to a supported one
+      expect(
+        resolveAppLocale(const [Locale('fi'), Locale('ru')]),
+        const Locale('ru'),
+      );
+    });
   });
 
   group('loadPreferenceLocalizations', () {
@@ -62,6 +76,23 @@ void main() {
       localizations = await loadPreferenceLocalizations();
       expect(localizations.followNotificationBody(1), '有 1 則新貼文！');
       expect(localizations.followChannelName, '已追蹤標籤');
+    });
+
+    test('loads the stored japanese and russian localizations', () async {
+      SharedPreferences.setMockInitialValues({'language': 'ja'});
+      AppLocalizations localizations = await loadPreferenceLocalizations();
+      expect(localizations.followNotificationBody(1), '新しい投稿が 1 件あります！');
+      expect(localizations.followNotificationBody(2), '新しい投稿が 2 件あります！');
+      expect(localizations.followChannelName, 'フォロー中のタグ');
+
+      SharedPreferences.setMockInitialValues({'language': 'ru'});
+      localizations = await loadPreferenceLocalizations();
+      // covers all four russian plural categories
+      expect(localizations.followNotificationBody(1), '1 новый пост!');
+      expect(localizations.followNotificationBody(2), '2 новых поста!');
+      expect(localizations.followNotificationBody(5), '5 новых постов!');
+      expect(localizations.followNotificationBody(21), '21 новый пост!');
+      expect(localizations.followChannelName, 'Подписки на теги');
     });
 
     test('falls back to the platform locales when nothing is stored', () async {

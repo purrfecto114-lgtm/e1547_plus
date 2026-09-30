@@ -87,4 +87,26 @@ void main() {
     expect(settings.language.value, isNull);
     expect(find.byIcon(Icons.check), findsOneWidget);
   });
+
+  testWidgets('offers and selects the japanese and russian languages', (
+    tester,
+  ) async {
+    await tester.pumpWidget(wrap(const OnboardingScreen()));
+    await tester.pumpAndSettle();
+
+    // both the onboarding step and the settings language dialog
+    // iterate appLanguages, so these options appear in both
+    expect(find.text('日本語'), findsOneWidget);
+    expect(find.text('Русский'), findsOneWidget);
+
+    await tester.tap(find.text('日本語'));
+    await tester.pumpAndSettle();
+    expect(settings.language.value, 'ja');
+    expect(find.byIcon(Icons.check), findsOneWidget);
+
+    await tester.tap(find.text('Русский'));
+    await tester.pumpAndSettle();
+    expect(settings.language.value, 'ru');
+    expect(find.byIcon(Icons.check), findsOneWidget);
+  });
 }
