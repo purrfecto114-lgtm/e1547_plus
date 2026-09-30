@@ -14,7 +14,7 @@ class ReplyReportScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
     return ReasonReportScreen(
-      title: Text(l10n.historyLinkReply(reply.id)),
+      title: Text(l10n.replyTitle(reply.id)),
       onReport: (reason) => validateCall(
         () => context.read<Client>().tickets.create(
           type: TicketType.forum,
