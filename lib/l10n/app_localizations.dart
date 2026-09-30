@@ -2942,6 +2942,120 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Yesterday'**
   String get dateYesterday;
+
+  /// Title of the post description editor page.
+  ///
+  /// In en, this message translates to:
+  /// **'#{postId} description'**
+  String editDescriptionTitle(num postId);
+
+  /// Hint text of the post description input field.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter post description...'**
+  String get editDescriptionHint;
+
+  /// Error text shown when the parent id input is not a number.
+  ///
+  /// In en, this message translates to:
+  /// **'Invalid number format'**
+  String get editInvalidNumber;
+
+  /// Error text shown when a parent post does not exist.
+  ///
+  /// In en, this message translates to:
+  /// **'Invalid parent post'**
+  String get editInvalidParent;
+
+  /// Label of the parent id input field of the post edit form.
+  ///
+  /// In en, this message translates to:
+  /// **'Parent ID (optional)'**
+  String get editParentIdLabel;
+
+  /// Hint text of the parent id input field of the post edit form.
+  ///
+  /// In en, this message translates to:
+  /// **'Parent post ID'**
+  String get editParentIdHint;
+
+  /// Label of the edit reason input field of the post edit form.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit reason (optional)'**
+  String get editReasonLabel;
+
+  /// Hint text of the edit reason input field of the post edit form.
+  ///
+  /// In en, this message translates to:
+  /// **'Why are you editing this post?'**
+  String get editReasonHint;
+
+  /// Title of the post sources editor page.
+  ///
+  /// In en, this message translates to:
+  /// **'#{postId} sources'**
+  String editSourcesTitle(num postId);
+
+  /// Hint text of the tags input field of the post edit form.
+  ///
+  /// In en, this message translates to:
+  /// **'space separated tags'**
+  String get editTagsHint;
+
+  /// Error shown when the tag preview failed to load.
+  ///
+  /// In en, this message translates to:
+  /// **'Error loading tag preview: {error}'**
+  String editTagPreviewFailed(String error);
+
+  /// Status label of a tag that does not exist yet.
+  ///
+  /// In en, this message translates to:
+  /// **'new'**
+  String get editTagStatusNew;
+
+  /// Status label of a tag in the invalid category.
+  ///
+  /// In en, this message translates to:
+  /// **'invalid'**
+  String get editTagStatusInvalid;
+
+  /// Status label of a tag without any posts.
+  ///
+  /// In en, this message translates to:
+  /// **'empty'**
+  String get editTagStatusEmpty;
+
+  /// Status label of a rarely used general tag.
+  ///
+  /// In en, this message translates to:
+  /// **'underused'**
+  String get editTagStatusUnderused;
+
+  /// Tab label of the preview pane of the text editor.
+  ///
+  /// In en, this message translates to:
+  /// **'Preview'**
+  String get editorPreview;
+
+  /// Section header of the sources of a post.
+  ///
+  /// In en, this message translates to:
+  /// **'Sources'**
+  String get detailSources;
+
+  /// Placeholder shown when a post has no sources.
+  ///
+  /// In en, this message translates to:
+  /// **'no sources'**
+  String get detailNoSources;
+
+  /// Placeholder shown when the tag counter drawer found no tags.
+  ///
+  /// In en, this message translates to:
+  /// **'no tags'**
+  String get tagNoTags;
 }
 
 class _AppLocalizationsDelegate

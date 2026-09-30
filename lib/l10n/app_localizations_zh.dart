@@ -1621,6 +1621,69 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get dateYesterday => '昨天';
+
+  @override
+  String editDescriptionTitle(num postId) {
+    return '帖子 #$postId 的描述';
+  }
+
+  @override
+  String get editDescriptionHint => '输入帖子描述…';
+
+  @override
+  String get editInvalidNumber => '数字格式无效';
+
+  @override
+  String get editInvalidParent => '父帖无效';
+
+  @override
+  String get editParentIdLabel => '父帖 ID（可选）';
+
+  @override
+  String get editParentIdHint => '父帖 ID';
+
+  @override
+  String get editReasonLabel => '编辑原因（可选）';
+
+  @override
+  String get editReasonHint => '你为什么要编辑这个帖子？';
+
+  @override
+  String editSourcesTitle(num postId) {
+    return '帖子 #$postId 的来源';
+  }
+
+  @override
+  String get editTagsHint => '以空格分隔的标签';
+
+  @override
+  String editTagPreviewFailed(String error) {
+    return '标签预览加载失败：$error';
+  }
+
+  @override
+  String get editTagStatusNew => '新建';
+
+  @override
+  String get editTagStatusInvalid => '无效';
+
+  @override
+  String get editTagStatusEmpty => '空';
+
+  @override
+  String get editTagStatusUnderused => '冷门';
+
+  @override
+  String get editorPreview => '预览';
+
+  @override
+  String get detailSources => '来源';
+
+  @override
+  String get detailNoSources => '无来源';
+
+  @override
+  String get tagNoTags => '没有标签';
 }
 
 /// The translations for Chinese, using the Han script (`zh_Hant`).
@@ -3240,4 +3303,67 @@ class AppLocalizationsZhHant extends AppLocalizationsZh {
 
   @override
   String get dateYesterday => '昨天';
+
+  @override
+  String editDescriptionTitle(num postId) {
+    return '貼文 #$postId 的描述';
+  }
+
+  @override
+  String get editDescriptionHint => '輸入貼文描述…';
+
+  @override
+  String get editInvalidNumber => '數字格式無效';
+
+  @override
+  String get editInvalidParent => '父貼文無效';
+
+  @override
+  String get editParentIdLabel => '父貼文 ID（可選）';
+
+  @override
+  String get editParentIdHint => '父貼文 ID';
+
+  @override
+  String get editReasonLabel => '編輯原因（可選）';
+
+  @override
+  String get editReasonHint => '你為什麼要編輯這個貼文？';
+
+  @override
+  String editSourcesTitle(num postId) {
+    return '貼文 #$postId 的來源';
+  }
+
+  @override
+  String get editTagsHint => '以空格分隔的標籤';
+
+  @override
+  String editTagPreviewFailed(String error) {
+    return '標籤預覽載入失敗：$error';
+  }
+
+  @override
+  String get editTagStatusNew => '新增';
+
+  @override
+  String get editTagStatusInvalid => '無效';
+
+  @override
+  String get editTagStatusEmpty => '空';
+
+  @override
+  String get editTagStatusUnderused => '冷門';
+
+  @override
+  String get editorPreview => '預覽';
+
+  @override
+  String get detailSources => '來源';
+
+  @override
+  String get detailNoSources => '無來源';
+
+  @override
+  String get tagNoTags => '沒有標籤';
 }

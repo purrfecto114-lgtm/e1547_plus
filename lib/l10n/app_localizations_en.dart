@@ -1651,4 +1651,67 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get dateYesterday => 'Yesterday';
+
+  @override
+  String editDescriptionTitle(num postId) {
+    return '#$postId description';
+  }
+
+  @override
+  String get editDescriptionHint => 'Enter post description...';
+
+  @override
+  String get editInvalidNumber => 'Invalid number format';
+
+  @override
+  String get editInvalidParent => 'Invalid parent post';
+
+  @override
+  String get editParentIdLabel => 'Parent ID (optional)';
+
+  @override
+  String get editParentIdHint => 'Parent post ID';
+
+  @override
+  String get editReasonLabel => 'Edit reason (optional)';
+
+  @override
+  String get editReasonHint => 'Why are you editing this post?';
+
+  @override
+  String editSourcesTitle(num postId) {
+    return '#$postId sources';
+  }
+
+  @override
+  String get editTagsHint => 'space separated tags';
+
+  @override
+  String editTagPreviewFailed(String error) {
+    return 'Error loading tag preview: $error';
+  }
+
+  @override
+  String get editTagStatusNew => 'new';
+
+  @override
+  String get editTagStatusInvalid => 'invalid';
+
+  @override
+  String get editTagStatusEmpty => 'empty';
+
+  @override
+  String get editTagStatusUnderused => 'underused';
+
+  @override
+  String get editorPreview => 'Preview';
+
+  @override
+  String get detailSources => 'Sources';
+
+  @override
+  String get detailNoSources => 'no sources';
+
+  @override
+  String get tagNoTags => 'no tags';
 }

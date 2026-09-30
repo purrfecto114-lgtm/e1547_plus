@@ -25,7 +25,7 @@ class FileDisplay extends StatelessWidget {
             children: [
               TagGesture(
                 tag: 'rating:${post.rating.name}',
-                child: Text(post.rating.title),
+                child: Text(localizedRatingName(context, post.rating)),
               ),
               Text('${post.width} x ${post.height}'),
             ],
