@@ -3344,6 +3344,144 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'A superior version of this post already exists on the site.\nThis may include images with better visual quality (larger, less compressed), but may also feature \"fixed\" versions, with visual mistakes accounted for by the artist.\nNote that edits and alternate versions do not fall under this category.'**
   String get flagTypeInferiorBody;
+
+  /// Tooltip of the button which cancels all tasks.
+  ///
+  /// In en, this message translates to:
+  /// **'Cancel all'**
+  String get taskCancelAll;
+
+  /// Tooltip of the button which clears all finished tasks.
+  ///
+  /// In en, this message translates to:
+  /// **'Clear done'**
+  String get taskClearDone;
+
+  /// Tooltip of the button which clears the task selection.
+  ///
+  /// In en, this message translates to:
+  /// **'Clear selection'**
+  String get taskClearSelection;
+
+  /// Tooltip of the button which cancels a task.
+  ///
+  /// In en, this message translates to:
+  /// **'Cancel'**
+  String get taskCancel;
+
+  /// Tooltip of the button which dismisses a task.
+  ///
+  /// In en, this message translates to:
+  /// **'Dismiss'**
+  String get taskDismiss;
+
+  /// Placeholder shown when there are no tasks.
+  ///
+  /// In en, this message translates to:
+  /// **'No tasks'**
+  String get taskNoTasks;
+
+  /// Error message shown when tasks failed to load.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to load tasks'**
+  String get taskFailedToLoadTasks;
+
+  /// Selection counter on the tasks page.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{1 task} other{{count} tasks}}'**
+  String taskSelectionCount(num count);
+
+  /// Header of the active tasks group.
+  ///
+  /// In en, this message translates to:
+  /// **'Active'**
+  String get taskGroupActive;
+
+  /// Header of the failed tasks group.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed'**
+  String get taskGroupFailed;
+
+  /// Name of the download task action.
+  ///
+  /// In en, this message translates to:
+  /// **'download'**
+  String get taskActionDownload;
+
+  /// Name of the favorite task action.
+  ///
+  /// In en, this message translates to:
+  /// **'favorite'**
+  String get taskActionFavorite;
+
+  /// Name of the unfavorite task action.
+  ///
+  /// In en, this message translates to:
+  /// **'unfavorite'**
+  String get taskActionUnfavorite;
+
+  /// Label of a running download task.
+  ///
+  /// In en, this message translates to:
+  /// **'downloading'**
+  String get taskDownloadRunning;
+
+  /// Label of a running favorite task.
+  ///
+  /// In en, this message translates to:
+  /// **'favoriting'**
+  String get taskFavoriteRunning;
+
+  /// Label of a running unfavorite task.
+  ///
+  /// In en, this message translates to:
+  /// **'unfavoriting'**
+  String get taskUnfavoriteRunning;
+
+  /// Label of a completed download task.
+  ///
+  /// In en, this message translates to:
+  /// **'downloaded'**
+  String get taskDownloadCompleted;
+
+  /// Label of a completed favorite task.
+  ///
+  /// In en, this message translates to:
+  /// **'favorited'**
+  String get taskFavoriteCompleted;
+
+  /// Label of a completed unfavorite task.
+  ///
+  /// In en, this message translates to:
+  /// **'unfavorited'**
+  String get taskUnfavoriteCompleted;
+
+  /// Label of a queued task.
+  ///
+  /// In en, this message translates to:
+  /// **'queued to {action}'**
+  String taskQueuedTo(String action);
+
+  /// Label of a failed task.
+  ///
+  /// In en, this message translates to:
+  /// **'failed to {action}'**
+  String taskFailedTo(String action);
+
+  /// Label of a canceled task.
+  ///
+  /// In en, this message translates to:
+  /// **'canceled {action}'**
+  String taskCanceledAction(String action);
+
+  /// Title of a task tile.
+  ///
+  /// In en, this message translates to:
+  /// **'{label} post #{id}'**
+  String taskTileTitle(String label, num id);
 }
 
 class _AppLocalizationsDelegate

@@ -2022,5 +2022,125 @@
   "flagTypeInferiorBody": "A superior version of this post already exists on the site.\nThis may include images with better visual quality (larger, less compressed), but may also feature \"fixed\" versions, with visual mistakes accounted for by the artist.\nNote that edits and alternate versions do not fall under this category.",
   "@flagTypeInferiorBody": {
     "description": "Description of the inferior post flag."
+  },
+  "taskCancelAll": "Cancel all",
+  "@taskCancelAll": {
+    "description": "Tooltip of the button which cancels all tasks."
+  },
+  "taskClearDone": "Clear done",
+  "@taskClearDone": {
+    "description": "Tooltip of the button which clears all finished tasks."
+  },
+  "taskClearSelection": "Clear selection",
+  "@taskClearSelection": {
+    "description": "Tooltip of the button which clears the task selection."
+  },
+  "taskCancel": "Cancel",
+  "@taskCancel": {
+    "description": "Tooltip of the button which cancels a task."
+  },
+  "taskDismiss": "Dismiss",
+  "@taskDismiss": {
+    "description": "Tooltip of the button which dismisses a task."
+  },
+  "taskNoTasks": "No tasks",
+  "@taskNoTasks": {
+    "description": "Placeholder shown when there are no tasks."
+  },
+  "taskFailedToLoadTasks": "Failed to load tasks",
+  "@taskFailedToLoadTasks": {
+    "description": "Error message shown when tasks failed to load."
+  },
+  "taskSelectionCount": "{count, plural, =1{1 task} other{{count} tasks}}",
+  "@taskSelectionCount": {
+    "description": "Selection counter on the tasks page.",
+    "placeholders": {
+      "count": {
+        "type": "num"
+      }
+    }
+  },
+  "taskGroupActive": "Active",
+  "@taskGroupActive": {
+    "description": "Header of the active tasks group."
+  },
+  "taskGroupFailed": "Failed",
+  "@taskGroupFailed": {
+    "description": "Header of the failed tasks group."
+  },
+  "taskActionDownload": "download",
+  "@taskActionDownload": {
+    "description": "Name of the download task action."
+  },
+  "taskActionFavorite": "favorite",
+  "@taskActionFavorite": {
+    "description": "Name of the favorite task action."
+  },
+  "taskActionUnfavorite": "unfavorite",
+  "@taskActionUnfavorite": {
+    "description": "Name of the unfavorite task action."
+  },
+  "taskDownloadRunning": "downloading",
+  "@taskDownloadRunning": {
+    "description": "Label of a running download task."
+  },
+  "taskFavoriteRunning": "favoriting",
+  "@taskFavoriteRunning": {
+    "description": "Label of a running favorite task."
+  },
+  "taskUnfavoriteRunning": "unfavoriting",
+  "@taskUnfavoriteRunning": {
+    "description": "Label of a running unfavorite task."
+  },
+  "taskDownloadCompleted": "downloaded",
+  "@taskDownloadCompleted": {
+    "description": "Label of a completed download task."
+  },
+  "taskFavoriteCompleted": "favorited",
+  "@taskFavoriteCompleted": {
+    "description": "Label of a completed favorite task."
+  },
+  "taskUnfavoriteCompleted": "unfavorited",
+  "@taskUnfavoriteCompleted": {
+    "description": "Label of a completed unfavorite task."
+  },
+  "taskQueuedTo": "queued to {action}",
+  "@taskQueuedTo": {
+    "description": "Label of a queued task.",
+    "placeholders": {
+      "action": {
+        "type": "String"
+      }
+    }
+  },
+  "taskFailedTo": "failed to {action}",
+  "@taskFailedTo": {
+    "description": "Label of a failed task.",
+    "placeholders": {
+      "action": {
+        "type": "String"
+      }
+    }
+  },
+  "taskCanceledAction": "canceled {action}",
+  "@taskCanceledAction": {
+    "description": "Label of a canceled task.",
+    "placeholders": {
+      "action": {
+        "type": "String"
+      }
+    }
+  },
+  "taskTileTitle": "{label} post #{id}",
+  "@taskTileTitle": {
+    "description": "Title of a task tile.",
+    "placeholders": {
+      "label": {
+        "type": "String"
+      },
+      "id": {
+        "type": "num"
+      }
+    }
   }
 }

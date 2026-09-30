@@ -1856,6 +1856,90 @@ class AppLocalizationsZh extends AppLocalizations {
   @override
   String get flagTypeInferiorBody =>
       '站点上已存在该帖子的更优版本。\n这包括画质更好的图片（尺寸更大、压缩更少），也可能是修正了视觉错误后的“修正版”。\n请注意，编辑版和其他变体版本不属于此类。';
+
+  @override
+  String get taskCancelAll => '全部取消';
+
+  @override
+  String get taskClearDone => '清除已完成';
+
+  @override
+  String get taskClearSelection => '清除所选';
+
+  @override
+  String get taskCancel => '取消';
+
+  @override
+  String get taskDismiss => '移除';
+
+  @override
+  String get taskNoTasks => '没有任务';
+
+  @override
+  String get taskFailedToLoadTasks => '任务加载失败';
+
+  @override
+  String taskSelectionCount(num count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count 个任务',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get taskGroupActive => '进行中';
+
+  @override
+  String get taskGroupFailed => '已失败';
+
+  @override
+  String get taskActionDownload => '下载';
+
+  @override
+  String get taskActionFavorite => '收藏';
+
+  @override
+  String get taskActionUnfavorite => '取消收藏';
+
+  @override
+  String get taskDownloadRunning => '正在下载';
+
+  @override
+  String get taskFavoriteRunning => '正在收藏';
+
+  @override
+  String get taskUnfavoriteRunning => '正在取消收藏';
+
+  @override
+  String get taskDownloadCompleted => '已下载';
+
+  @override
+  String get taskFavoriteCompleted => '已收藏';
+
+  @override
+  String get taskUnfavoriteCompleted => '已取消收藏';
+
+  @override
+  String taskQueuedTo(String action) {
+    return '等待$action';
+  }
+
+  @override
+  String taskFailedTo(String action) {
+    return '$action失败';
+  }
+
+  @override
+  String taskCanceledAction(String action) {
+    return '已取消$action';
+  }
+
+  @override
+  String taskTileTitle(String label, num id) {
+    return '$label帖子 #$id';
+  }
 }
 
 /// The translations for Chinese, using the Han script (`zh_Hant`).
@@ -3710,4 +3794,88 @@ class AppLocalizationsZhHant extends AppLocalizationsZh {
   @override
   String get flagTypeInferiorBody =>
       '網站上已存在該貼文的更優版本。\n這包括畫質更好的圖片（尺寸更大、壓縮更少），也可能是修正了視覺錯誤後的「修正版」。\n請注意，編輯版和其他變體版本不屬於此類。';
+
+  @override
+  String get taskCancelAll => '全部取消';
+
+  @override
+  String get taskClearDone => '清除已完成';
+
+  @override
+  String get taskClearSelection => '清除所選';
+
+  @override
+  String get taskCancel => '取消';
+
+  @override
+  String get taskDismiss => '移除';
+
+  @override
+  String get taskNoTasks => '沒有任務';
+
+  @override
+  String get taskFailedToLoadTasks => '任務載入失敗';
+
+  @override
+  String taskSelectionCount(num count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count 個任務',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get taskGroupActive => '進行中';
+
+  @override
+  String get taskGroupFailed => '已失敗';
+
+  @override
+  String get taskActionDownload => '下載';
+
+  @override
+  String get taskActionFavorite => '收藏';
+
+  @override
+  String get taskActionUnfavorite => '取消收藏';
+
+  @override
+  String get taskDownloadRunning => '正在下載';
+
+  @override
+  String get taskFavoriteRunning => '正在收藏';
+
+  @override
+  String get taskUnfavoriteRunning => '正在取消收藏';
+
+  @override
+  String get taskDownloadCompleted => '已下載';
+
+  @override
+  String get taskFavoriteCompleted => '已收藏';
+
+  @override
+  String get taskUnfavoriteCompleted => '已取消收藏';
+
+  @override
+  String taskQueuedTo(String action) {
+    return '等待$action';
+  }
+
+  @override
+  String taskFailedTo(String action) {
+    return '$action失敗';
+  }
+
+  @override
+  String taskCanceledAction(String action) {
+    return '已取消$action';
+  }
+
+  @override
+  String taskTileTitle(String label, num id) {
+    return '$label貼文 #$id';
+  }
 }

@@ -1899,4 +1899,89 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get flagTypeInferiorBody =>
       'A superior version of this post already exists on the site.\nThis may include images with better visual quality (larger, less compressed), but may also feature \"fixed\" versions, with visual mistakes accounted for by the artist.\nNote that edits and alternate versions do not fall under this category.';
+
+  @override
+  String get taskCancelAll => 'Cancel all';
+
+  @override
+  String get taskClearDone => 'Clear done';
+
+  @override
+  String get taskClearSelection => 'Clear selection';
+
+  @override
+  String get taskCancel => 'Cancel';
+
+  @override
+  String get taskDismiss => 'Dismiss';
+
+  @override
+  String get taskNoTasks => 'No tasks';
+
+  @override
+  String get taskFailedToLoadTasks => 'Failed to load tasks';
+
+  @override
+  String taskSelectionCount(num count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count tasks',
+      one: '1 task',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get taskGroupActive => 'Active';
+
+  @override
+  String get taskGroupFailed => 'Failed';
+
+  @override
+  String get taskActionDownload => 'download';
+
+  @override
+  String get taskActionFavorite => 'favorite';
+
+  @override
+  String get taskActionUnfavorite => 'unfavorite';
+
+  @override
+  String get taskDownloadRunning => 'downloading';
+
+  @override
+  String get taskFavoriteRunning => 'favoriting';
+
+  @override
+  String get taskUnfavoriteRunning => 'unfavoriting';
+
+  @override
+  String get taskDownloadCompleted => 'downloaded';
+
+  @override
+  String get taskFavoriteCompleted => 'favorited';
+
+  @override
+  String get taskUnfavoriteCompleted => 'unfavorited';
+
+  @override
+  String taskQueuedTo(String action) {
+    return 'queued to $action';
+  }
+
+  @override
+  String taskFailedTo(String action) {
+    return 'failed to $action';
+  }
+
+  @override
+  String taskCanceledAction(String action) {
+    return 'canceled $action';
+  }
+
+  @override
+  String taskTileTitle(String label, num id) {
+    return '$label post #$id';
+  }
 }
