@@ -11,6 +11,8 @@ const List<({String value, String label})> appLanguages = [
   (value: 'en', label: 'English'),
   (value: 'zh', label: '简体中文'),
   (value: 'zh_Hant', label: '繁體中文'),
+  (value: 'ja', label: '日本語'),
+  (value: 'ru', label: 'Русский'),
 ];
 
 /// Parses a stored language value into a locale.
