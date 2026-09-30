@@ -2088,7 +2088,7 @@ abstract class AppLocalizations {
   /// Label of the live log source tile in the log file list.
   ///
   /// In en, this message translates to:
-  /// **'Live\n'**
+  /// **'Live'**
   String get logsLive;
 
   /// Message shown when there are no log entries.
@@ -2256,7 +2256,7 @@ abstract class AppLocalizations {
   /// Hint below the account host input field.
   ///
   /// In en, this message translates to:
-  /// **'The site is where your posts and account live.'**
+  /// **'The site that hosts your account and posts.'**
   String get identityHostHint;
 
   /// Segment that selects the sign-in mode of the account form.
@@ -2286,7 +2286,7 @@ abstract class AppLocalizations {
   /// Message of the login loading dialog.
   ///
   /// In en, this message translates to:
-  /// **'Connecting to {host} as {username}...'**
+  /// **'Connecting to {host} as {username}…'**
   String identityConnecting(String host, String username);
 
   /// Error shown when identities failed to load.
@@ -2784,13 +2784,13 @@ abstract class AppLocalizations {
   /// Subtitle of the pool order switch when sorting oldest first.
   ///
   /// In en, this message translates to:
-  /// **'oldest first'**
+  /// **'Oldest first'**
   String get poolOldestFirst;
 
   /// Subtitle of the pool order switch when sorting newest first.
   ///
   /// In en, this message translates to:
-  /// **'newest first'**
+  /// **'Newest first'**
   String get poolNewestFirst;
 
   /// Title of the pool reader mode switch in the pool drawer.

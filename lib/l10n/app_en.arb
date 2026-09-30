@@ -995,7 +995,7 @@
   "@noLogFiles": {
     "description": "Message shown when there are no log files."
   },
-  "logsLive": "Live\n",
+  "logsLive": "Live",
   "@logsLive": {
     "description": "Label of the live log source tile in the log file list."
   },
@@ -1122,7 +1122,7 @@
   "@identitySignupPrompt": {
     "description": "Link that opens the registration page of the current site."
   },
-  "identityHostHint": "The site is where your posts and account live.",
+  "identityHostHint": "The site that hosts your account and posts.",
   "@identityHostHint": {
     "description": "Hint below the account host input field."
   },
@@ -1142,7 +1142,7 @@
   "@identityBrowseAnonymously": {
     "description": "Button that continues without an account."
   },
-  "identityConnecting": "Connecting to {host} as {username}...",
+  "identityConnecting": "Connecting to {host} as {username}…",
   "@identityConnecting": {
     "description": "Message of the login loading dialog.",
     "placeholders": {
@@ -1584,11 +1584,11 @@
   "@poolOrder": {
     "description": "Title of the pool order switch in the pool drawer."
   },
-  "poolOldestFirst": "oldest first",
+  "poolOldestFirst": "Oldest first",
   "@poolOldestFirst": {
     "description": "Subtitle of the pool order switch when sorting oldest first."
   },
-  "poolNewestFirst": "newest first",
+  "poolNewestFirst": "Newest first",
   "@poolNewestFirst": {
     "description": "Subtitle of the pool order switch when sorting newest first."
   },

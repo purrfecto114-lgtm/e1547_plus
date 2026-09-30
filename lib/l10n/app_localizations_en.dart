@@ -1137,7 +1137,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get noLogFiles => 'No log files available!';
 
   @override
-  String get logsLive => 'Live\n';
+  String get logsLive => 'Live';
 
   @override
   String get noLogs => 'No logs';
@@ -1239,8 +1239,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get identitySignupPrompt => 'Don\'t have an account? Sign up here';
 
   @override
-  String get identityHostHint =>
-      'The site is where your posts and account live.';
+  String get identityHostHint => 'The site that hosts your account and posts.';
 
   @override
   String get identitySignIn => 'Sign in';
@@ -1256,7 +1255,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String identityConnecting(String host, String username) {
-    return 'Connecting to $host as $username...';
+    return 'Connecting to $host as $username…';
   }
 
   @override
@@ -1568,10 +1567,10 @@ class AppLocalizationsEn extends AppLocalizations {
   String get poolOrder => 'Pool order';
 
   @override
-  String get poolOldestFirst => 'oldest first';
+  String get poolOldestFirst => 'Oldest first';
 
   @override
-  String get poolNewestFirst => 'newest first';
+  String get poolNewestFirst => 'Newest first';
 
   @override
   String get poolReaderMode => 'Pool reader mode';
