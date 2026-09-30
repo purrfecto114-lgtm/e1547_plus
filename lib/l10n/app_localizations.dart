@@ -2966,6 +2966,36 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Notifications for tags you are following'**
   String get followChannelDescription;
+
+  /// Title of the host unavailable page.
+  ///
+  /// In en, this message translates to:
+  /// **'Host unavailable'**
+  String get hostUnavailableTitle;
+
+  /// Body of the host unavailable page.
+  ///
+  /// In en, this message translates to:
+  /// **'It appears that {host} is not available!'**
+  String hostUnavailableBody(String host);
+
+  /// Hint about resolving the host unavailability in a browser.
+  ///
+  /// In en, this message translates to:
+  /// **'Please resolve the issue in the following browser window.\n\nCloudflare captcha cookies will be saved.'**
+  String get hostUnavailableResolveHint;
+
+  /// Button opening the browser window resolving the host unavailability.
+  ///
+  /// In en, this message translates to:
+  /// **'Resolve'**
+  String get hostUnavailableResolve;
+
+  /// Body of the host unavailable page when the issue cannot be resolved by the user.
+  ///
+  /// In en, this message translates to:
+  /// **'\nPlease wait for {host} to resolve the situation on their end.'**
+  String hostUnavailableWaitBody(String host);
 }
 
 class _AppLocalizationsDelegate
