@@ -32,6 +32,14 @@
 - Video support
 - Multiple logins
 - Multiple App Themes
+- Multilingual interface (English, 简体中文, 繁體中文, 日本語, Русский)
+- Language selection during onboarding, with quick filters in the app bar
+
+## Localization
+
+The app interface is available in English, Simplified and Traditional Chinese, Japanese and Russian, selectable on the first-launch welcome screen or in the settings at any time.
+
+To add another language, create an `app_<locale>.arb` file in `lib/l10n` with translations for every key of `app_en.arb`, add the language to `appLanguages` in `lib/settings/data/language.dart`, and run `flutter gen-l10n` — the language picker and onboarding step pick it up automatically.
 
 ## Screenshots
 

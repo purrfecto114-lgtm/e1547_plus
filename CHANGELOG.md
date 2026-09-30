@@ -4,6 +4,20 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and this project
 adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [21.1.0-rc.4+107] - 2026-09-30
+### Added
+- a language selection step to onboarding
+- japanese and russian translations
+- a filter button to the posts app bar, exposing search filters and their query syntax
+- simplified and traditional chinese translations of the post detail info section, the dtext editor toolbar, the tag drawer and wiki prompt, the post edit form, report and flag flows and the tasks page
+- translations of follow notifications, the host unavailable page and desktop share and download prompts
+
+### Changed
+- merged duplicate translation keys and polished translation wording
+
+### Fixed
+- vote failure messages on timeline tiles
+
 ## [21.1.0-rc.3+106] - 2026-09-29
 ### Added
 - simplified and traditional chinese translations of the blacklist editor, search filters and most remaining interface pages
@@ -1008,6 +1022,7 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 ### Fixed
 - API client bindings
 
+[21.1.0-rc.4+107]: https://github.com/purrfecto114-lgtm/e1547_plus/compare/21.1.0-rc.3+106...21.1.0-rc.4+107
 [21.1.0-rc.3+106]: https://github.com/purrfecto114-lgtm/e1547_plus/compare/21.1.0-rc.2+105...21.1.0-rc.3+106
 [21.1.0-rc.2+105]: https://github.com/purrfecto114-lgtm/e1547_plus/compare/21.1.0-rc.1+104...21.1.0-rc.2+105
 [21.1.0-rc.1+104]: https://github.com/clragon/e1547/compare/21.0.1+103...21.1.0-rc.1+104
