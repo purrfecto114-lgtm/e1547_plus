@@ -657,12 +657,6 @@ abstract class AppLocalizations {
   /// **'options hidden'**
   String get devOptionsHidden;
 
-  /// No description provided for @settingsLogs.
-  ///
-  /// In en, this message translates to:
-  /// **'Logs'**
-  String get settingsLogs;
-
   /// No description provided for @errorsLogged.
   ///
   /// In en, this message translates to:
@@ -932,12 +926,6 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Error loading database'**
   String get databaseErrorLoading;
-
-  /// No description provided for @databaseUnknownSize.
-  ///
-  /// In en, this message translates to:
-  /// **'Unknown'**
-  String get databaseUnknownSize;
 
   /// No description provided for @databaseExportTitle.
   ///
@@ -1262,12 +1250,6 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'New'**
   String get filterNew;
-
-  /// Sort order option that sorts by favorites.
-  ///
-  /// In en, this message translates to:
-  /// **'Favorites'**
-  String get filterFavorites;
 
   /// Sort order option that sorts by rank.
   ///
@@ -2088,7 +2070,7 @@ abstract class AppLocalizations {
   /// Label of the live log source tile in the log file list.
   ///
   /// In en, this message translates to:
-  /// **'Live\n'**
+  /// **'Live'**
   String get logsLive;
 
   /// Message shown when there are no log entries.
@@ -2256,7 +2238,7 @@ abstract class AppLocalizations {
   /// Hint below the account host input field.
   ///
   /// In en, this message translates to:
-  /// **'The site is where your posts and account live.'**
+  /// **'The site that hosts your account and posts.'**
   String get identityHostHint;
 
   /// Segment that selects the sign-in mode of the account form.
@@ -2286,7 +2268,7 @@ abstract class AppLocalizations {
   /// Message of the login loading dialog.
   ///
   /// In en, this message translates to:
-  /// **'Connecting to {host} as {username}...'**
+  /// **'Connecting to {host} as {username}…'**
   String identityConnecting(String host, String username);
 
   /// Error shown when identities failed to load.
@@ -2607,12 +2589,6 @@ abstract class AppLocalizations {
   /// **'Users'**
   String get historyUsers;
 
-  /// Type filter showing reply history entries.
-  ///
-  /// In en, this message translates to:
-  /// **'Replies'**
-  String get historyReplies;
-
   /// Empty state of the history page.
   ///
   /// In en, this message translates to:
@@ -2624,12 +2600,6 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Failed to load history'**
   String get historyFailedToLoad;
-
-  /// Menu action showing the description of a history entry.
-  ///
-  /// In en, this message translates to:
-  /// **'Description'**
-  String get historyDescription;
 
   /// Placeholder shown when a history entry has no description.
   ///
@@ -2660,12 +2630,6 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Wiki #{id}'**
   String historyLinkWiki(num id);
-
-  /// Name of a visited reply in the history.
-  ///
-  /// In en, this message translates to:
-  /// **'Reply #{id}'**
-  String historyLinkReply(num id);
 
   /// Name of a visited user page in the history, looked up by name.
   ///
@@ -2775,12 +2739,6 @@ abstract class AppLocalizations {
   /// **'Pool not found'**
   String get poolNotFound;
 
-  /// Tooltip of the pool info button.
-  ///
-  /// In en, this message translates to:
-  /// **'Info'**
-  String get poolInfo;
-
   /// Title of the pool order switch in the pool drawer.
   ///
   /// In en, this message translates to:
@@ -2790,13 +2748,13 @@ abstract class AppLocalizations {
   /// Subtitle of the pool order switch when sorting oldest first.
   ///
   /// In en, this message translates to:
-  /// **'oldest first'**
+  /// **'Oldest first'**
   String get poolOldestFirst;
 
   /// Subtitle of the pool order switch when sorting newest first.
   ///
   /// In en, this message translates to:
-  /// **'newest first'**
+  /// **'Newest first'**
   String get poolNewestFirst;
 
   /// Title of the pool reader mode switch in the pool drawer.

@@ -322,9 +322,6 @@ class AppLocalizationsZh extends AppLocalizations {
   String get devOptionsHidden => '隐藏开发者选项';
 
   @override
-  String get settingsLogs => '日志';
-
-  @override
   String errorsLogged(num count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,
@@ -473,9 +470,6 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get databaseErrorLoading => '数据库加载出错';
-
-  @override
-  String get databaseUnknownSize => '未知';
 
   @override
   String get databaseExportTitle => '导出数据库';
@@ -660,9 +654,6 @@ class AppLocalizationsZh extends AppLocalizations {
   String get filterNew => '最新';
 
   @override
-  String get filterFavorites => '收藏';
-
-  @override
   String get filterRank => '排名';
 
   @override
@@ -747,7 +738,7 @@ class AppLocalizationsZh extends AppLocalizations {
   String get filterGeneral => '综合';
 
   @override
-  String get filterSiteBugReports => '站点问题与功能请求';
+  String get filterSiteBugReports => '站点问题反馈与功能请求';
 
   @override
   String get filterTagWikiProjects => '标签/维基项目与提问';
@@ -1119,7 +1110,7 @@ class AppLocalizationsZh extends AppLocalizations {
   String get noLogFiles => '没有可用的日志文件！';
 
   @override
-  String get logsLive => '实时\n';
+  String get logsLive => '实时';
 
   @override
   String get noLogs => '没有日志';
@@ -1210,13 +1201,13 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get identityApikeyInvalid =>
-      'API 密钥是由 A-z 和 0-9 组成的 24 或 32 位字符序列\n例如 1ca1d165e973d7f8d35b7deb7a2ae54c';
+      'API 密钥是由 A-z 和 0-9 中的 24 或 32 个字符组成的序列\n例如 1ca1d165e973d7f8d35b7deb7a2ae54c';
 
   @override
   String get identitySignupPrompt => '还没有账户？在这里注册';
 
   @override
-  String get identityHostHint => '站点是你的帖子和账户所在的地方。';
+  String get identityHostHint => '你的账户和帖子所在的站点。';
 
   @override
   String get identitySignIn => '登录';
@@ -1232,7 +1223,7 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String identityConnecting(String host, String username) {
-    return '正在以 $username 身份连接 $host...';
+    return '正在以 $username 身份连接 $host…';
   }
 
   @override
@@ -1433,16 +1424,10 @@ class AppLocalizationsZh extends AppLocalizations {
   String get historyUsers => '用户';
 
   @override
-  String get historyReplies => '回复';
-
-  @override
   String get historyEmpty => '历史记录为空';
 
   @override
   String get historyFailedToLoad => '历史加载失败';
-
-  @override
-  String get historyDescription => '描述';
 
   @override
   String get historyNoDescription => '暂无描述';
@@ -1463,11 +1448,6 @@ class AppLocalizationsZh extends AppLocalizations {
   @override
   String historyLinkWiki(num id) {
     return '维基 #$id';
-  }
-
-  @override
-  String historyLinkReply(num id) {
-    return '回复 #$id';
   }
 
   @override
@@ -1535,16 +1515,13 @@ class AppLocalizationsZh extends AppLocalizations {
   String get poolNotFound => '找不到图集';
 
   @override
-  String get poolInfo => '信息';
-
-  @override
   String get poolOrder => '图集排序';
 
   @override
-  String get poolOldestFirst => '从旧到新';
+  String get poolOldestFirst => '最旧优先';
 
   @override
-  String get poolNewestFirst => '从新到旧';
+  String get poolNewestFirst => '最新优先';
 
   @override
   String get poolReaderMode => '图集阅读模式';
@@ -1565,7 +1542,7 @@ class AppLocalizationsZh extends AppLocalizations {
   String get topicTagEditsHidden => '已隐藏';
 
   @override
-  String get topicTagEditsVisible => '显示中';
+  String get topicTagEditsVisible => '已显示';
 
   @override
   String topicLink(num id) {
@@ -2303,7 +2280,7 @@ class AppLocalizationsZhHant extends AppLocalizationsZh {
   }
 
   @override
-  String get settingsTheme => '佈景主題';
+  String get settingsTheme => '主題';
 
   @override
   String get themeDark => '深色';
@@ -2433,9 +2410,6 @@ class AppLocalizationsZhHant extends AppLocalizationsZh {
 
   @override
   String get devOptionsHidden => '隱藏開發者選項';
-
-  @override
-  String get settingsLogs => '記錄檔';
 
   @override
   String errorsLogged(num count) {
@@ -2586,9 +2560,6 @@ class AppLocalizationsZhHant extends AppLocalizationsZh {
 
   @override
   String get databaseErrorLoading => '資料庫載入錯誤';
-
-  @override
-  String get databaseUnknownSize => '未知';
 
   @override
   String get databaseExportTitle => '匯出資料庫';
@@ -2771,9 +2742,6 @@ class AppLocalizationsZhHant extends AppLocalizationsZh {
 
   @override
   String get filterNew => '最新';
-
-  @override
-  String get filterFavorites => '收藏';
 
   @override
   String get filterRank => '排名';
@@ -3232,7 +3200,7 @@ class AppLocalizationsZhHant extends AppLocalizationsZh {
   String get noLogFiles => '沒有可用的記錄檔案！';
 
   @override
-  String get logsLive => '即時\n';
+  String get logsLive => '即時';
 
   @override
   String get noLogs => '沒有記錄';
@@ -3323,13 +3291,13 @@ class AppLocalizationsZhHant extends AppLocalizationsZh {
 
   @override
   String get identityApikeyInvalid =>
-      'API 金鑰是由 A-z 和 0-9 組成的 24 或 32 位字元序列\n例如 1ca1d165e973d7f8d35b7deb7a2ae54c';
+      'API 金鑰是由 A-z 和 0-9 中的 24 或 32 個字元組成的序列\n例如 1ca1d165e973d7f8d35b7deb7a2ae54c';
 
   @override
   String get identitySignupPrompt => '還沒有帳戶？在這裡註冊';
 
   @override
-  String get identityHostHint => '網站是你的貼文和帳戶所在的地方。';
+  String get identityHostHint => '你的帳戶和貼文所在的網站。';
 
   @override
   String get identitySignIn => '登入';
@@ -3345,7 +3313,7 @@ class AppLocalizationsZhHant extends AppLocalizationsZh {
 
   @override
   String identityConnecting(String host, String username) {
-    return '正在以 $username 身分連線 $host...';
+    return '正在以 $username 身分連線 $host…';
   }
 
   @override
@@ -3546,16 +3514,10 @@ class AppLocalizationsZhHant extends AppLocalizationsZh {
   String get historyUsers => '使用者';
 
   @override
-  String get historyReplies => '回覆';
-
-  @override
   String get historyEmpty => '歷史記錄為空';
 
   @override
   String get historyFailedToLoad => '歷史載入失敗';
-
-  @override
-  String get historyDescription => '描述';
 
   @override
   String get historyNoDescription => '暫無描述';
@@ -3576,11 +3538,6 @@ class AppLocalizationsZhHant extends AppLocalizationsZh {
   @override
   String historyLinkWiki(num id) {
     return '維基 #$id';
-  }
-
-  @override
-  String historyLinkReply(num id) {
-    return '回覆 #$id';
   }
 
   @override
@@ -3648,16 +3605,13 @@ class AppLocalizationsZhHant extends AppLocalizationsZh {
   String get poolNotFound => '找不到圖集';
 
   @override
-  String get poolInfo => '資訊';
-
-  @override
   String get poolOrder => '圖集排序';
 
   @override
-  String get poolOldestFirst => '從舊到新';
+  String get poolOldestFirst => '最舊優先';
 
   @override
-  String get poolNewestFirst => '從新到舊';
+  String get poolNewestFirst => '最新優先';
 
   @override
   String get poolReaderMode => '圖集閱讀模式';
@@ -3678,7 +3632,7 @@ class AppLocalizationsZhHant extends AppLocalizationsZh {
   String get topicTagEditsHidden => '已隱藏';
 
   @override
-  String get topicTagEditsVisible => '顯示中';
+  String get topicTagEditsVisible => '已顯示';
 
   @override
   String topicLink(num id) {

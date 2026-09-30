@@ -326,9 +326,6 @@ class AppLocalizationsEn extends AppLocalizations {
   String get devOptionsHidden => 'options hidden';
 
   @override
-  String get settingsLogs => 'Logs';
-
-  @override
   String errorsLogged(num count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,
@@ -481,9 +478,6 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get databaseErrorLoading => 'Error loading database';
-
-  @override
-  String get databaseUnknownSize => 'Unknown';
 
   @override
   String get databaseExportTitle => 'Export Database';
@@ -670,9 +664,6 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get filterNew => 'New';
-
-  @override
-  String get filterFavorites => 'Favorites';
 
   @override
   String get filterRank => 'Rank';
@@ -1137,7 +1128,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get noLogFiles => 'No log files available!';
 
   @override
-  String get logsLive => 'Live\n';
+  String get logsLive => 'Live';
 
   @override
   String get noLogs => 'No logs';
@@ -1239,8 +1230,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get identitySignupPrompt => 'Don\'t have an account? Sign up here';
 
   @override
-  String get identityHostHint =>
-      'The site is where your posts and account live.';
+  String get identityHostHint => 'The site that hosts your account and posts.';
 
   @override
   String get identitySignIn => 'Sign in';
@@ -1256,7 +1246,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String identityConnecting(String host, String username) {
-    return 'Connecting to $host as $username...';
+    return 'Connecting to $host as $username…';
   }
 
   @override
@@ -1463,16 +1453,10 @@ class AppLocalizationsEn extends AppLocalizations {
   String get historyUsers => 'Users';
 
   @override
-  String get historyReplies => 'Replies';
-
-  @override
   String get historyEmpty => 'Your history is empty';
 
   @override
   String get historyFailedToLoad => 'Failed to load history';
-
-  @override
-  String get historyDescription => 'Description';
 
   @override
   String get historyNoDescription => 'no description';
@@ -1493,11 +1477,6 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String historyLinkWiki(num id) {
     return 'Wiki #$id';
-  }
-
-  @override
-  String historyLinkReply(num id) {
-    return 'Reply #$id';
   }
 
   @override
@@ -1565,16 +1544,13 @@ class AppLocalizationsEn extends AppLocalizations {
   String get poolNotFound => 'Pool not found';
 
   @override
-  String get poolInfo => 'Info';
-
-  @override
   String get poolOrder => 'Pool order';
 
   @override
-  String get poolOldestFirst => 'oldest first';
+  String get poolOldestFirst => 'Oldest first';
 
   @override
-  String get poolNewestFirst => 'newest first';
+  String get poolNewestFirst => 'Newest first';
 
   @override
   String get poolReaderMode => 'Pool reader mode';

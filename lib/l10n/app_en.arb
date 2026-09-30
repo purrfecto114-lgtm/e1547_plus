@@ -153,7 +153,6 @@
   "settingsDeveloperMode": "Developer mode",
   "devOptionsShown": "options shown",
   "devOptionsHidden": "options hidden",
-  "settingsLogs": "Logs",
   "errorsLogged": "{count, plural, =1{1 error logged} other{{count} errors logged}}",
   "@errorsLogged": {
     "placeholders": {
@@ -234,7 +233,6 @@
   "aboutDonorsFailed": "Failed to fetch donors",
   "developerUnlocked": "You are now a developer!",
   "databaseErrorLoading": "Error loading database",
-  "databaseUnknownSize": "Unknown",
   "databaseExportTitle": "Export Database",
   "databaseExportSubtitle": "Save a backup copy of your database",
   "databaseImportSubtitle": "Replace current database with imported one",
@@ -351,10 +349,6 @@
   "filterNew": "New",
   "@filterNew": {
     "description": "Sort order option that sorts by newest posts."
-  },
-  "filterFavorites": "Favorites",
-  "@filterFavorites": {
-    "description": "Sort order option that sorts by favorites."
   },
   "filterRank": "Rank",
   "@filterRank": {
@@ -995,7 +989,7 @@
   "@noLogFiles": {
     "description": "Message shown when there are no log files."
   },
-  "logsLive": "Live\n",
+  "logsLive": "Live",
   "@logsLive": {
     "description": "Label of the live log source tile in the log file list."
   },
@@ -1122,7 +1116,7 @@
   "@identitySignupPrompt": {
     "description": "Link that opens the registration page of the current site."
   },
-  "identityHostHint": "The site is where your posts and account live.",
+  "identityHostHint": "The site that hosts your account and posts.",
   "@identityHostHint": {
     "description": "Hint below the account host input field."
   },
@@ -1142,7 +1136,7 @@
   "@identityBrowseAnonymously": {
     "description": "Button that continues without an account."
   },
-  "identityConnecting": "Connecting to {host} as {username}...",
+  "identityConnecting": "Connecting to {host} as {username}…",
   "@identityConnecting": {
     "description": "Message of the login loading dialog.",
     "placeholders": {
@@ -1420,10 +1414,6 @@
   "@historyUsers": {
     "description": "Type filter showing user history entries."
   },
-  "historyReplies": "Replies",
-  "@historyReplies": {
-    "description": "Type filter showing reply history entries."
-  },
   "historyEmpty": "Your history is empty",
   "@historyEmpty": {
     "description": "Empty state of the history page."
@@ -1431,10 +1421,6 @@
   "historyFailedToLoad": "Failed to load history",
   "@historyFailedToLoad": {
     "description": "Error state of the history page."
-  },
-  "historyDescription": "Description",
-  "@historyDescription": {
-    "description": "Menu action showing the description of a history entry."
   },
   "historyNoDescription": "no description",
   "@historyNoDescription": {
@@ -1465,15 +1451,6 @@
   "historyLinkWiki": "Wiki #{id}",
   "@historyLinkWiki": {
     "description": "Name of a visited wiki page in the history.",
-    "placeholders": {
-      "id": {
-        "type": "num"
-      }
-    }
-  },
-  "historyLinkReply": "Reply #{id}",
-  "@historyLinkReply": {
-    "description": "Name of a visited reply in the history.",
     "placeholders": {
       "id": {
         "type": "num"
@@ -1580,19 +1557,15 @@
   "@poolNotFound": {
     "description": "Empty state of the pool loading page."
   },
-  "poolInfo": "Info",
-  "@poolInfo": {
-    "description": "Tooltip of the pool info button."
-  },
   "poolOrder": "Pool order",
   "@poolOrder": {
     "description": "Title of the pool order switch in the pool drawer."
   },
-  "poolOldestFirst": "oldest first",
+  "poolOldestFirst": "Oldest first",
   "@poolOldestFirst": {
     "description": "Subtitle of the pool order switch when sorting oldest first."
   },
-  "poolNewestFirst": "newest first",
+  "poolNewestFirst": "Newest first",
   "@poolNewestFirst": {
     "description": "Subtitle of the pool order switch when sorting newest first."
   },
