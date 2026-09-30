@@ -2109,4 +2109,48 @@ class AppLocalizationsEn extends AppLocalizations {
   String taskTileTitle(String label, num id) {
     return '$label post #$id';
   }
+
+  @override
+  String followNotificationBody(num count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'has $count new posts!',
+      one: 'has a new post!',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get followNotificationSummary => 'New posts!';
+
+  @override
+  String get followChannelName => 'Followed Tags';
+
+  @override
+  String get followChannelDescription =>
+      'Notifications for tags you are following';
+
+  @override
+  String get hostUnavailableTitle => 'Host unavailable';
+
+  @override
+  String hostUnavailableBody(String host) {
+    return 'It appears that $host is not available!';
+  }
+
+  @override
+  String get hostUnavailableResolveHint =>
+      'Please resolve the issue in the following browser window.\n\nCloudflare captcha cookies will be saved.';
+
+  @override
+  String get hostUnavailableResolve => 'Resolve';
+
+  @override
+  String hostUnavailableWaitBody(String host) {
+    return '\nPlease wait for $host to resolve the situation on their end.';
+  }
+
+  @override
+  String get downloadChooseFolder => 'Choose a folder';
 }

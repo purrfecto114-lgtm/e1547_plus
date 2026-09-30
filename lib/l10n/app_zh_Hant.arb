@@ -598,5 +598,15 @@
   "taskQueuedTo": "等待{action}",
   "taskFailedTo": "{action}失敗",
   "taskCanceledAction": "已取消{action}",
-  "taskTileTitle": "{label}貼文 #{id}"
+  "taskTileTitle": "{label}貼文 #{id}",
+  "followNotificationBody": "{count, plural, other{有 {count} 則新貼文！}}",
+  "followNotificationSummary": "新貼文！",
+  "followChannelName": "已追蹤標籤",
+  "followChannelDescription": "你追蹤的標籤的通知",
+  "hostUnavailableTitle": "網站無法使用",
+  "hostUnavailableBody": "看來 {host} 無法使用！",
+  "hostUnavailableResolveHint": "請在接下來的瀏覽器視窗中解決該問題。\n\nCloudflare 驗證碼 Cookie 將會被儲存。",
+  "hostUnavailableResolve": "解決",
+  "hostUnavailableWaitBody": "\n請等待 {host} 方面解決該問題。",
+  "downloadChooseFolder": "選擇資料夾"
 }

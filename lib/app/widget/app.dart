@@ -64,41 +64,8 @@ class App extends StatelessWidget {
                                 RelativeTimeLocalizations.delegate,
                               ],
                               localeListResolutionCallback:
-                                  (locales, supported) {
-                                    Locale resolved = basicLocaleListResolution(
-                                      locales ?? const <Locale>[],
-                                      supported,
-                                    );
-                                    // Prefer the traditional script for
-                                    // regions that use it, the default
-                                    // resolution only matches the language
-                                    // code. Only upgrade a generic zh result,
-                                    // never override another language.
-                                    if (resolved.languageCode != 'zh' ||
-                                        resolved.scriptCode != null) {
-                                      return resolved;
-                                    }
-                                    for (final locale
-                                        in locales ?? const <Locale>[]) {
-                                      if (locale.languageCode != 'zh') continue;
-                                      if (![
-                                        'TW',
-                                        'HK',
-                                        'MO',
-                                      ].contains(locale.countryCode)) {
-                                        continue;
-                                      }
-                                      const Locale traditional =
-                                          Locale.fromSubtags(
-                                            languageCode: 'zh',
-                                            scriptCode: 'Hant',
-                                          );
-                                      if (supported.contains(traditional)) {
-                                        return traditional;
-                                      }
-                                    }
-                                    return resolved;
-                                  },
+                                  (locales, supported) =>
+                                      resolveAppLocale(locales),
                               navigatorKey: navigatorKey,
                               navigatorObservers: [
                                 context.watch<AnyRouteObserver>(),

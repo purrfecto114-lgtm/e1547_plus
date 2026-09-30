@@ -2317,5 +2317,60 @@
         "type": "num"
       }
     }
+  },
+  "followNotificationBody": "{count, plural, =1{has a new post!} other{has {count} new posts!}}",
+  "@followNotificationBody": {
+    "description": "Body of a follow notification, shown under the follow's title.",
+    "placeholders": {
+      "count": {
+        "type": "num"
+      }
+    }
+  },
+  "followNotificationSummary": "New posts!",
+  "@followNotificationSummary": {
+    "description": "Title of the summary notification for multiple follows."
+  },
+  "followChannelName": "Followed Tags",
+  "@followChannelName": {
+    "description": "Name of the follow notification channel shown in the system settings."
+  },
+  "followChannelDescription": "Notifications for tags you are following",
+  "@followChannelDescription": {
+    "description": "Description of the follow notification channel shown in the system settings."
+  },
+  "hostUnavailableTitle": "Host unavailable",
+  "@hostUnavailableTitle": {
+    "description": "Title of the host unavailable page."
+  },
+  "hostUnavailableBody": "It appears that {host} is not available!",
+  "@hostUnavailableBody": {
+    "description": "Body of the host unavailable page.",
+    "placeholders": {
+      "host": {
+        "type": "String"
+      }
+    }
+  },
+  "hostUnavailableResolveHint": "Please resolve the issue in the following browser window.\n\nCloudflare captcha cookies will be saved.",
+  "@hostUnavailableResolveHint": {
+    "description": "Hint about resolving the host unavailability in a browser."
+  },
+  "hostUnavailableResolve": "Resolve",
+  "@hostUnavailableResolve": {
+    "description": "Button opening the browser window resolving the host unavailability."
+  },
+  "hostUnavailableWaitBody": "\nPlease wait for {host} to resolve the situation on their end.",
+  "@hostUnavailableWaitBody": {
+    "description": "Body of the host unavailable page when the issue cannot be resolved by the user.",
+    "placeholders": {
+      "host": {
+        "type": "String"
+      }
+    }
+  },
+  "downloadChooseFolder": "Choose a folder",
+  "@downloadChooseFolder": {
+    "description": "Title of the folder picker dialog on desktop."
   }
 }

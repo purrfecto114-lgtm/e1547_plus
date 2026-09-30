@@ -598,5 +598,15 @@
   "taskQueuedTo": "等待{action}",
   "taskFailedTo": "{action}失败",
   "taskCanceledAction": "已取消{action}",
-  "taskTileTitle": "{label}帖子 #{id}"
+  "taskTileTitle": "{label}帖子 #{id}",
+  "followNotificationBody": "{count, plural, other{有 {count} 条新帖子！}}",
+  "followNotificationSummary": "新帖子！",
+  "followChannelName": "已关注标签",
+  "followChannelDescription": "你关注的标签的通知",
+  "hostUnavailableTitle": "站点不可用",
+  "hostUnavailableBody": "看起来 {host} 不可用！",
+  "hostUnavailableResolveHint": "请在接下来的浏览器窗口中解决该问题。\n\nCloudflare 验证码 Cookie 将会被保存。",
+  "hostUnavailableResolve": "解决",
+  "hostUnavailableWaitBody": "\n请等待 {host} 方面解决该问题。",
+  "downloadChooseFolder": "选择文件夹"
 }

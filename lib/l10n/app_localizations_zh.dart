@@ -2064,6 +2064,48 @@ class AppLocalizationsZh extends AppLocalizations {
   String taskTileTitle(String label, num id) {
     return '$label帖子 #$id';
   }
+
+  @override
+  String followNotificationBody(num count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '有 $count 条新帖子！',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get followNotificationSummary => '新帖子！';
+
+  @override
+  String get followChannelName => '已关注标签';
+
+  @override
+  String get followChannelDescription => '你关注的标签的通知';
+
+  @override
+  String get hostUnavailableTitle => '站点不可用';
+
+  @override
+  String hostUnavailableBody(String host) {
+    return '看起来 $host 不可用！';
+  }
+
+  @override
+  String get hostUnavailableResolveHint =>
+      '请在接下来的浏览器窗口中解决该问题。\n\nCloudflare 验证码 Cookie 将会被保存。';
+
+  @override
+  String get hostUnavailableResolve => '解决';
+
+  @override
+  String hostUnavailableWaitBody(String host) {
+    return '\n请等待 $host 方面解决该问题。';
+  }
+
+  @override
+  String get downloadChooseFolder => '选择文件夹';
 }
 
 /// The translations for Chinese, using the Han script (`zh_Hant`).
@@ -4126,4 +4168,46 @@ class AppLocalizationsZhHant extends AppLocalizationsZh {
   String taskTileTitle(String label, num id) {
     return '$label貼文 #$id';
   }
+
+  @override
+  String followNotificationBody(num count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '有 $count 則新貼文！',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get followNotificationSummary => '新貼文！';
+
+  @override
+  String get followChannelName => '已追蹤標籤';
+
+  @override
+  String get followChannelDescription => '你追蹤的標籤的通知';
+
+  @override
+  String get hostUnavailableTitle => '網站無法使用';
+
+  @override
+  String hostUnavailableBody(String host) {
+    return '看來 $host 無法使用！';
+  }
+
+  @override
+  String get hostUnavailableResolveHint =>
+      '請在接下來的瀏覽器視窗中解決該問題。\n\nCloudflare 驗證碼 Cookie 將會被儲存。';
+
+  @override
+  String get hostUnavailableResolve => '解決';
+
+  @override
+  String hostUnavailableWaitBody(String host) {
+    return '\n請等待 $host 方面解決該問題。';
+  }
+
+  @override
+  String get downloadChooseFolder => '選擇資料夾';
 }
