@@ -1,0 +1,230 @@
+import 'package:drift/native.dart';
+import 'package:e1547/app/app.dart';
+import 'package:e1547/client/client.dart';
+import 'package:e1547/identity/identity.dart';
+import 'package:e1547/l10n/app_localizations.dart';
+import 'package:e1547/post/post.dart';
+import 'package:e1547/query/query.dart';
+import 'package:e1547/settings/settings.dart';
+import 'package:e1547/shared/shared.dart';
+import 'package:e1547/traits/traits.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_cache_manager/flutter_cache_manager.dart';
+import 'package:flutter_test/flutter_test.dart';
+import 'package:notified_preferences/notified_preferences.dart';
+import 'package:provider/provider.dart';
+
+import '../../_support/fake_e621.dart';
+import '../../_support/harness.dart';
+import '../../_support/images.dart';
+
+void main() {
+  late FakeE621 fake;
+  late Client client;
+  late ValueNotifier<Traits> traits;
+  late AppDatabase sqlite;
+  late Settings settings;
+
+  setUpAll(() async {
+    await initializeTestApp();
+    sqlite = AppDatabase(NativeDatabase.memory());
+  });
+
+  tearDownAll(() => sqlite.close());
+
+  setUp(() async {
+    SharedPreferences.setMockInitialValues({});
+    fake = await FakeE621.start();
+    traits = ValueNotifier(
+      const Traits(
+        id: 1,
+        userId: null,
+        denylist: [],
+        homeTags: '',
+        avatar: null,
+        perPage: null,
+      ),
+    );
+    client = Client(
+      identity: Identity(id: 1, host: fake.url, username: null, headers: null),
+      traits: traits,
+      storage: AppStorage(
+        preferences: await SharedPreferences.getInstance(),
+        temporaryFiles: '.',
+        queryCache: CachedQuery.asNewInstance()
+          ..config(
+            config: const GlobalQueryConfig(
+              cacheDuration: Duration(milliseconds: 1),
+            ),
+          ),
+        sqlite: sqlite,
+      ),
+    );
+    settings = Settings(await SharedPreferences.getInstance());
+  });
+
+  tearDown(() async {
+    traits.dispose();
+    await fake.stop();
+  });
+
+  /// The posts page query lands on the fake server, so requests have to
+  /// settle while the test still owns the clock. The tall surface keeps the
+  /// whole filter prompt on screen.
+  Future<PostParamsController> pumpPage(
+    WidgetTester tester, {
+    Widget? home,
+  }) async {
+    tester.view.physicalSize = const Size(800, 1600);
+    tester.view.devicePixelRatio = 1;
+    addTearDown(tester.view.resetPhysicalSize);
+    addTearDown(tester.view.resetDevicePixelRatio);
+    await tester.runAsync(() async {
+      await tester.pumpWidget(
+        MultiProvider(
+          providers: [
+            Provider<Client>.value(value: client),
+            Provider<BaseCacheManager>.value(
+              value: const NoImageCacheManager(),
+            ),
+            Provider<Settings>.value(value: settings),
+          ],
+          child: MaterialApp(
+            locale: const Locale('zh'),
+            localizationsDelegates: AppLocalizations.localizationsDelegates,
+            supportedLocales: AppLocalizations.supportedLocales,
+            home: home ?? const PostsPage(),
+          ),
+        ),
+      );
+      await Future<void>.delayed(const Duration(milliseconds: 100));
+    });
+    await tester.pump();
+    // Both the app bar button and the search button watch the page's
+    // controller, so either hands it out.
+    return tester
+        .element(find.byType(PostsPageFab))
+        .read<PostParamsController>();
+  }
+
+  /// Opens the filter prompt and lets its sheet settle.
+  Future<void> openFilterPrompt(WidgetTester tester) async {
+    await tester.tap(find.byIcon(Icons.filter_list));
+    await tester.pump();
+    for (int i = 0; i < 12; i++) {
+      await tester.pump(const Duration(milliseconds: 100));
+    }
+  }
+
+  /// Lets the requests a filter change started land before the test ends.
+  Future<void> settle(WidgetTester tester) async {
+    await tester.runAsync(() async {
+      await Future<void>.delayed(const Duration(milliseconds: 100));
+    });
+    await tester.pump();
+  }
+
+  /// Picks [option] in the dropdown of the filter with [icon].
+  ///
+  /// The dropdown menu opens in its own route, below the prompt's, so its
+  /// items are the last of their texts in the tree.
+  Future<void> pickFilterOption(
+    WidgetTester tester, {
+    required IconData icon,
+    required String option,
+  }) async {
+    await tester.tap(find.byIcon(icon));
+    await tester.pump();
+    await tester.pump(const Duration(milliseconds: 200));
+    await tester.tap(find.text(option).last);
+    await tester.pump();
+    await tester.pump(const Duration(milliseconds: 200));
+  }
+
+  Color? buttonColor(WidgetTester tester) =>
+      tester.widget<Icon>(find.byIcon(Icons.filter_list)).color;
+
+  Color primaryColor(WidgetTester tester) =>
+      Theme.of(tester.element(find.byType(PostPageAppBar))).colorScheme.primary;
+
+  /// The query the filter prompt previews.
+  ///
+  /// The app bar title can show the same words, so the preview is keyed.
+  String queryPreview(WidgetTester tester) => tester
+      .widget<Text>(find.byKey(const Key('PostsFilterPanel/Query')))
+      .data!;
+
+  displayTest('a posts page offers filters in its app bar', (tester) async {
+    await pumpPage(tester);
+
+    expect(find.byIcon(Icons.filter_list), findsOneWidget);
+    expect(find.byIcon(Icons.tune), findsOneWidget);
+    // The search button stays put, the app bar only adds to it.
+    expect(find.byType(PostsPageFab), findsOneWidget);
+    // Nothing filters an empty search.
+    expect(buttonColor(tester), isNull);
+
+    await openFilterPrompt(tester);
+
+    expect(find.text('筛选'), findsOneWidget);
+    expect(find.text('当前查询：'), findsOneWidget);
+    expect(queryPreview(tester), '—');
+    expect(find.text('评分'), findsOneWidget);
+    expect(find.text('收藏数'), findsOneWidget);
+    expect(find.text('排序方式'), findsOneWidget);
+    expect(find.text('分级'), findsOneWidget);
+    expect(find.text('含图集'), findsOneWidget);
+    expect(find.text('是子帖'), findsOneWidget);
+    expect(find.text('是父帖'), findsOneWidget);
+    expect(find.text('上传日期'), findsOneWidget);
+    expect(find.text('状态'), findsOneWidget);
+  });
+
+  displayTest('the home page offers filters in its app bar', (tester) async {
+    await pumpPage(tester, home: const HomePage());
+
+    expect(find.byIcon(Icons.filter_list), findsOneWidget);
+    expect(find.byIcon(Icons.tune), findsOneWidget);
+    expect(find.byType(PostsPageFab), findsOneWidget);
+  });
+
+  displayTest('filter changes apply to the search live', (tester) async {
+    final controller = await pumpPage(tester);
+
+    await openFilterPrompt(tester);
+    await pickFilterOption(tester, icon: Icons.question_mark, option: '露骨');
+
+    expect(controller.value.tags, 'rating:e');
+    expect(queryPreview(tester), 'rating:e');
+    expect(buttonColor(tester), primaryColor(tester));
+
+    await pickFilterOption(tester, icon: Icons.question_mark, option: '全部');
+    await settle(tester);
+
+    expect(controller.value.tags, isNull);
+    expect(queryPreview(tester), '—');
+    expect(buttonColor(tester), isNull);
+  });
+
+  displayTest('filter changes carry bare tags over', (tester) async {
+    final controller = await pumpPage(
+      tester,
+      home: const PostsPage(params: PostParams(tags: 'wolf')),
+    );
+
+    await openFilterPrompt(tester);
+    expect(queryPreview(tester), 'wolf');
+    await pickFilterOption(tester, icon: Icons.sort, option: '排名');
+
+    expect(controller.value.tags, 'wolf order:rank');
+    expect(queryPreview(tester), 'wolf order:rank');
+    expect(buttonColor(tester), primaryColor(tester));
+
+    await pickFilterOption(tester, icon: Icons.sort, option: '默认');
+    await settle(tester);
+
+    expect(controller.value.tags, 'wolf');
+    expect(queryPreview(tester), 'wolf');
+    expect(buttonColor(tester), isNull);
+  });
+}

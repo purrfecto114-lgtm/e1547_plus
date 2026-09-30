@@ -609,5 +609,7 @@
   "hostUnavailableResolveHint": "請在接下來的瀏覽器視窗中解決該問題。\n\nCloudflare 驗證碼 Cookie 將會被儲存。",
   "hostUnavailableResolve": "解決",
   "hostUnavailableWaitBody": "\n請等待 {host} 方面解決該問題。",
-  "downloadChooseFolder": "選擇資料夾"
+  "downloadChooseFolder": "選擇資料夾",
+  "searchFilterTitle": "篩選",
+  "searchFilterQueryLabel": "當前查詢："
 }

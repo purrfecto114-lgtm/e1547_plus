@@ -2376,5 +2376,13 @@
   "downloadChooseFolder": "Choose a folder",
   "@downloadChooseFolder": {
     "description": "Title of the folder picker dialog on desktop."
+  },
+  "searchFilterTitle": "Filters",
+  "@searchFilterTitle": {
+    "description": "Title of the posts search filter prompt."
+  },
+  "searchFilterQueryLabel": "Current query:",
+  "@searchFilterQueryLabel": {
+    "description": "Label of the query preview of the posts search filter prompt."
   }
 }

@@ -2109,6 +2109,12 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get downloadChooseFolder => '选择文件夹';
+
+  @override
+  String get searchFilterTitle => '筛选';
+
+  @override
+  String get searchFilterQueryLabel => '当前查询：';
 }
 
 /// The translations for Chinese, using the Han script (`zh_Hant`).
@@ -4216,4 +4222,10 @@ class AppLocalizationsZhHant extends AppLocalizationsZh {
 
   @override
   String get downloadChooseFolder => '選擇資料夾';
+
+  @override
+  String get searchFilterTitle => '篩選';
+
+  @override
+  String get searchFilterQueryLabel => '當前查詢：';
 }

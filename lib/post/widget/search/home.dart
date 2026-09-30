@@ -37,7 +37,10 @@ class HomePage extends StatelessWidget {
                     appBar: const PostSelectionAppBar(
                       child: DefaultAppBar(
                         title: Center(child: AppIcon()),
-                        actions: [ContextDrawerButton()],
+                        actions: [
+                          PostsPageFilterButton(),
+                          ContextDrawerButton(),
+                        ],
                       ),
                     ),
                     floatingActionButton: const PostsPageFab(),

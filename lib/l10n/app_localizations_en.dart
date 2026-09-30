@@ -2156,4 +2156,10 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get downloadChooseFolder => 'Choose a folder';
+
+  @override
+  String get searchFilterTitle => 'Filters';
+
+  @override
+  String get searchFilterQueryLabel => 'Current query:';
 }
