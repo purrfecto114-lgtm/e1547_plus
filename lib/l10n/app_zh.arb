@@ -499,5 +499,18 @@
   "editorPreviewPlaceholder": "你的文本会显示在这里",
   "editorWrite": "编写",
   "editorPreview": "预览",
-  "editorTypeHere": "在此输入…"
+  "editorTypeHere": "在此输入…",
+  "tagNoTags": "没有标签",
+  "tagFailedToLoadTags": "标签加载失败",
+  "tagUnableToRetrieveWiki": "无法获取维基条目",
+  "tagNoWikiEntry": "没有维基条目",
+  "tagCategoryGeneral": "通用",
+  "tagCategorySpecies": "物种",
+  "tagCategoryCharacter": "角色",
+  "tagCategoryCopyright": "版权",
+  "tagCategoryMeta": "元信息",
+  "tagCategoryLore": "背景设定",
+  "tagCategoryArtist": "画师",
+  "tagCategoryContributor": "贡献者",
+  "tagCategoryInvalid": "无效"
 }

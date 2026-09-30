@@ -3098,6 +3098,84 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'type here...'**
   String get editorTypeHere;
+
+  /// Placeholder shown when the tag counter drawer found no tags.
+  ///
+  /// In en, this message translates to:
+  /// **'no tags'**
+  String get tagNoTags;
+
+  /// Error state of the tag counter drawer.
+  ///
+  /// In en, this message translates to:
+  /// **'failed to load tags'**
+  String get tagFailedToLoadTags;
+
+  /// Error shown when the wiki entry of a tag failed to load.
+  ///
+  /// In en, this message translates to:
+  /// **'unable to retrieve wiki entry'**
+  String get tagUnableToRetrieveWiki;
+
+  /// Placeholder shown when a tag has no wiki entry.
+  ///
+  /// In en, this message translates to:
+  /// **'no wiki entry'**
+  String get tagNoWikiEntry;
+
+  /// Name of the general tag category.
+  ///
+  /// In en, this message translates to:
+  /// **'General'**
+  String get tagCategoryGeneral;
+
+  /// Name of the species tag category.
+  ///
+  /// In en, this message translates to:
+  /// **'Species'**
+  String get tagCategorySpecies;
+
+  /// Name of the character tag category.
+  ///
+  /// In en, this message translates to:
+  /// **'Character'**
+  String get tagCategoryCharacter;
+
+  /// Name of the copyright tag category.
+  ///
+  /// In en, this message translates to:
+  /// **'Copyright'**
+  String get tagCategoryCopyright;
+
+  /// Name of the meta tag category.
+  ///
+  /// In en, this message translates to:
+  /// **'Meta'**
+  String get tagCategoryMeta;
+
+  /// Name of the lore tag category.
+  ///
+  /// In en, this message translates to:
+  /// **'Lore'**
+  String get tagCategoryLore;
+
+  /// Name of the artist tag category.
+  ///
+  /// In en, this message translates to:
+  /// **'Artist'**
+  String get tagCategoryArtist;
+
+  /// Name of the contributor tag category.
+  ///
+  /// In en, this message translates to:
+  /// **'Contributor'**
+  String get tagCategoryContributor;
+
+  /// Name of the invalid tag category.
+  ///
+  /// In en, this message translates to:
+  /// **'Invalid'**
+  String get tagCategoryInvalid;
 }
 
 class _AppLocalizationsDelegate

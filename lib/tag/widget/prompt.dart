@@ -1,6 +1,7 @@
 import 'package:collection/collection.dart';
 import 'package:e1547/client/client.dart';
 import 'package:e1547/history/history.dart';
+import 'package:e1547/l10n/app_localizations.dart';
 import 'package:e1547/markup/markup.dart';
 import 'package:e1547/post/post.dart';
 import 'package:e1547/shared/shared.dart';
@@ -228,9 +229,9 @@ class _SearchTagDisplayState extends State<SearchTagDisplay> {
           if (snapshot.hasData) {
             return DText(snapshot.data!.body);
           } else if (snapshot.hasError) {
-            return const IconMessage(
-              title: Text('unable to retrieve wiki entry'),
-              icon: Icon(Icons.warning_amber_outlined),
+            return IconMessage(
+              title: Text(AppLocalizations.of(context).tagUnableToRetrieveWiki),
+              icon: const Icon(Icons.warning_amber_outlined),
               direction: Axis.horizontal,
             );
           } else {
@@ -240,7 +241,7 @@ class _SearchTagDisplayState extends State<SearchTagDisplay> {
                 Padding(
                   padding: const EdgeInsets.all(16),
                   child: Text(
-                    'no wiki entry',
+                    AppLocalizations.of(context).tagNoWikiEntry,
                     style: TextStyle(
                       color: dimTextColor(context, 0.5),
                       fontStyle: FontStyle.italic,

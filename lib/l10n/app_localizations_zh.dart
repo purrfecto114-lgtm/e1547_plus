@@ -1718,6 +1718,45 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get editorTypeHere => '在此输入…';
+
+  @override
+  String get tagNoTags => '没有标签';
+
+  @override
+  String get tagFailedToLoadTags => '标签加载失败';
+
+  @override
+  String get tagUnableToRetrieveWiki => '无法获取维基条目';
+
+  @override
+  String get tagNoWikiEntry => '没有维基条目';
+
+  @override
+  String get tagCategoryGeneral => '通用';
+
+  @override
+  String get tagCategorySpecies => '物种';
+
+  @override
+  String get tagCategoryCharacter => '角色';
+
+  @override
+  String get tagCategoryCopyright => '版权';
+
+  @override
+  String get tagCategoryMeta => '元信息';
+
+  @override
+  String get tagCategoryLore => '背景设定';
+
+  @override
+  String get tagCategoryArtist => '画师';
+
+  @override
+  String get tagCategoryContributor => '贡献者';
+
+  @override
+  String get tagCategoryInvalid => '无效';
 }
 
 /// The translations for Chinese, using the Han script (`zh_Hant`).
@@ -3434,4 +3473,43 @@ class AppLocalizationsZhHant extends AppLocalizationsZh {
 
   @override
   String get editorTypeHere => '在此輸入…';
+
+  @override
+  String get tagNoTags => '沒有標籤';
+
+  @override
+  String get tagFailedToLoadTags => '標籤載入失敗';
+
+  @override
+  String get tagUnableToRetrieveWiki => '無法取得維基條目';
+
+  @override
+  String get tagNoWikiEntry => '沒有維基條目';
+
+  @override
+  String get tagCategoryGeneral => '一般';
+
+  @override
+  String get tagCategorySpecies => '物種';
+
+  @override
+  String get tagCategoryCharacter => '角色';
+
+  @override
+  String get tagCategoryCopyright => '版權';
+
+  @override
+  String get tagCategoryMeta => '中繼資訊';
+
+  @override
+  String get tagCategoryLore => '背景設定';
+
+  @override
+  String get tagCategoryArtist => '繪師';
+
+  @override
+  String get tagCategoryContributor => '貢獻者';
+
+  @override
+  String get tagCategoryInvalid => '無效';
 }

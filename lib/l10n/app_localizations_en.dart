@@ -1749,4 +1749,43 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get editorTypeHere => 'type here...';
+
+  @override
+  String get tagNoTags => 'no tags';
+
+  @override
+  String get tagFailedToLoadTags => 'failed to load tags';
+
+  @override
+  String get tagUnableToRetrieveWiki => 'unable to retrieve wiki entry';
+
+  @override
+  String get tagNoWikiEntry => 'no wiki entry';
+
+  @override
+  String get tagCategoryGeneral => 'General';
+
+  @override
+  String get tagCategorySpecies => 'Species';
+
+  @override
+  String get tagCategoryCharacter => 'Character';
+
+  @override
+  String get tagCategoryCopyright => 'Copyright';
+
+  @override
+  String get tagCategoryMeta => 'Meta';
+
+  @override
+  String get tagCategoryLore => 'Lore';
+
+  @override
+  String get tagCategoryArtist => 'Artist';
+
+  @override
+  String get tagCategoryContributor => 'Contributor';
+
+  @override
+  String get tagCategoryInvalid => 'Invalid';
 }

@@ -499,5 +499,18 @@
   "editorPreviewPlaceholder": "你的文字會顯示在這裡",
   "editorWrite": "撰寫",
   "editorPreview": "預覽",
-  "editorTypeHere": "在此輸入…"
+  "editorTypeHere": "在此輸入…",
+  "tagNoTags": "沒有標籤",
+  "tagFailedToLoadTags": "標籤載入失敗",
+  "tagUnableToRetrieveWiki": "無法取得維基條目",
+  "tagNoWikiEntry": "沒有維基條目",
+  "tagCategoryGeneral": "一般",
+  "tagCategorySpecies": "物種",
+  "tagCategoryCharacter": "角色",
+  "tagCategoryCopyright": "版權",
+  "tagCategoryMeta": "中繼資訊",
+  "tagCategoryLore": "背景設定",
+  "tagCategoryArtist": "繪師",
+  "tagCategoryContributor": "貢獻者",
+  "tagCategoryInvalid": "無效"
 }
