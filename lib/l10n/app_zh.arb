@@ -487,5 +487,17 @@
   "postUpvoteFailed": "帖子 #{id} 点赞失败",
   "postDownvoteFailed": "帖子 #{id} 点踩失败",
   "postAddFavoriteFailed": "帖子 #{id} 收藏失败",
-  "postRemoveFavoriteFailed": "帖子 #{id} 取消收藏失败"
+  "postRemoveFavoriteFailed": "帖子 #{id} 取消收藏失败",
+  "editorSection": "章节",
+  "editorQuote": "引用",
+  "editorCode": "代码",
+  "editorSpoiler": "剧透",
+  "editorBold": "加粗",
+  "editorItalic": "斜体",
+  "editorUnderlined": "下划线",
+  "editorStrikethrough": "删除线",
+  "editorPreviewPlaceholder": "你的文本会显示在这里",
+  "editorWrite": "编写",
+  "editorPreview": "预览",
+  "editorTypeHere": "在此输入…"
 }

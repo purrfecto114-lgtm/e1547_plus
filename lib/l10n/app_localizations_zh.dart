@@ -1682,6 +1682,42 @@ class AppLocalizationsZh extends AppLocalizations {
   String postRemoveFavoriteFailed(num id) {
     return '帖子 #$id 取消收藏失败';
   }
+
+  @override
+  String get editorSection => '章节';
+
+  @override
+  String get editorQuote => '引用';
+
+  @override
+  String get editorCode => '代码';
+
+  @override
+  String get editorSpoiler => '剧透';
+
+  @override
+  String get editorBold => '加粗';
+
+  @override
+  String get editorItalic => '斜体';
+
+  @override
+  String get editorUnderlined => '下划线';
+
+  @override
+  String get editorStrikethrough => '删除线';
+
+  @override
+  String get editorPreviewPlaceholder => '你的文本会显示在这里';
+
+  @override
+  String get editorWrite => '编写';
+
+  @override
+  String get editorPreview => '预览';
+
+  @override
+  String get editorTypeHere => '在此输入…';
 }
 
 /// The translations for Chinese, using the Han script (`zh_Hant`).
@@ -3362,4 +3398,40 @@ class AppLocalizationsZhHant extends AppLocalizationsZh {
   String postRemoveFavoriteFailed(num id) {
     return '貼文 #$id 取消收藏失敗';
   }
+
+  @override
+  String get editorSection => '章節';
+
+  @override
+  String get editorQuote => '引用';
+
+  @override
+  String get editorCode => '程式碼';
+
+  @override
+  String get editorSpoiler => '劇透';
+
+  @override
+  String get editorBold => '粗體';
+
+  @override
+  String get editorItalic => '斜體';
+
+  @override
+  String get editorUnderlined => '底線';
+
+  @override
+  String get editorStrikethrough => '刪除線';
+
+  @override
+  String get editorPreviewPlaceholder => '你的文字會顯示在這裡';
+
+  @override
+  String get editorWrite => '撰寫';
+
+  @override
+  String get editorPreview => '預覽';
+
+  @override
+  String get editorTypeHere => '在此輸入…';
 }

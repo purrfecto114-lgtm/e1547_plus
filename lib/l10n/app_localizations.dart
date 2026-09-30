@@ -3026,6 +3026,78 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Failed to remove post #{id} from favorites'**
   String postRemoveFavoriteFailed(num id);
+
+  /// Tooltip of the DText editor button enclosing a section block.
+  ///
+  /// In en, this message translates to:
+  /// **'Section'**
+  String get editorSection;
+
+  /// Tooltip of the DText editor button enclosing a quote block.
+  ///
+  /// In en, this message translates to:
+  /// **'Quote'**
+  String get editorQuote;
+
+  /// Tooltip of the DText editor button enclosing a code block.
+  ///
+  /// In en, this message translates to:
+  /// **'Code'**
+  String get editorCode;
+
+  /// Tooltip of the DText editor button enclosing a spoiler block.
+  ///
+  /// In en, this message translates to:
+  /// **'Spoiler'**
+  String get editorSpoiler;
+
+  /// Tooltip of the DText editor button enclosing bold text.
+  ///
+  /// In en, this message translates to:
+  /// **'Bold'**
+  String get editorBold;
+
+  /// Tooltip of the DText editor button enclosing italic text.
+  ///
+  /// In en, this message translates to:
+  /// **'Italic'**
+  String get editorItalic;
+
+  /// Tooltip of the DText editor button enclosing underlined text.
+  ///
+  /// In en, this message translates to:
+  /// **'Underlined'**
+  String get editorUnderlined;
+
+  /// Tooltip of the DText editor button enclosing struck-through text.
+  ///
+  /// In en, this message translates to:
+  /// **'Strikethrough'**
+  String get editorStrikethrough;
+
+  /// Placeholder shown in the preview pane of the DText editor.
+  ///
+  /// In en, this message translates to:
+  /// **'your text here'**
+  String get editorPreviewPlaceholder;
+
+  /// Tab label of the editing pane of the text editor.
+  ///
+  /// In en, this message translates to:
+  /// **'Write'**
+  String get editorWrite;
+
+  /// Tab label of the preview pane of the text editor.
+  ///
+  /// In en, this message translates to:
+  /// **'Preview'**
+  String get editorPreview;
+
+  /// Hint text of the text editor input field.
+  ///
+  /// In en, this message translates to:
+  /// **'type here...'**
+  String get editorTypeHere;
 }
 
 class _AppLocalizationsDelegate

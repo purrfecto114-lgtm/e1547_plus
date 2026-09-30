@@ -1713,4 +1713,40 @@ class AppLocalizationsEn extends AppLocalizations {
   String postRemoveFavoriteFailed(num id) {
     return 'Failed to remove post #$id from favorites';
   }
+
+  @override
+  String get editorSection => 'Section';
+
+  @override
+  String get editorQuote => 'Quote';
+
+  @override
+  String get editorCode => 'Code';
+
+  @override
+  String get editorSpoiler => 'Spoiler';
+
+  @override
+  String get editorBold => 'Bold';
+
+  @override
+  String get editorItalic => 'Italic';
+
+  @override
+  String get editorUnderlined => 'Underlined';
+
+  @override
+  String get editorStrikethrough => 'Strikethrough';
+
+  @override
+  String get editorPreviewPlaceholder => 'your text here';
+
+  @override
+  String get editorWrite => 'Write';
+
+  @override
+  String get editorPreview => 'Preview';
+
+  @override
+  String get editorTypeHere => 'type here...';
 }

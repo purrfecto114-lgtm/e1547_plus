@@ -1780,5 +1780,53 @@
         "type": "num"
       }
     }
+  },
+  "editorSection": "Section",
+  "@editorSection": {
+    "description": "Tooltip of the DText editor button enclosing a section block."
+  },
+  "editorQuote": "Quote",
+  "@editorQuote": {
+    "description": "Tooltip of the DText editor button enclosing a quote block."
+  },
+  "editorCode": "Code",
+  "@editorCode": {
+    "description": "Tooltip of the DText editor button enclosing a code block."
+  },
+  "editorSpoiler": "Spoiler",
+  "@editorSpoiler": {
+    "description": "Tooltip of the DText editor button enclosing a spoiler block."
+  },
+  "editorBold": "Bold",
+  "@editorBold": {
+    "description": "Tooltip of the DText editor button enclosing bold text."
+  },
+  "editorItalic": "Italic",
+  "@editorItalic": {
+    "description": "Tooltip of the DText editor button enclosing italic text."
+  },
+  "editorUnderlined": "Underlined",
+  "@editorUnderlined": {
+    "description": "Tooltip of the DText editor button enclosing underlined text."
+  },
+  "editorStrikethrough": "Strikethrough",
+  "@editorStrikethrough": {
+    "description": "Tooltip of the DText editor button enclosing struck-through text."
+  },
+  "editorPreviewPlaceholder": "your text here",
+  "@editorPreviewPlaceholder": {
+    "description": "Placeholder shown in the preview pane of the DText editor."
+  },
+  "editorWrite": "Write",
+  "@editorWrite": {
+    "description": "Tab label of the editing pane of the text editor."
+  },
+  "editorPreview": "Preview",
+  "@editorPreview": {
+    "description": "Tab label of the preview pane of the text editor."
+  },
+  "editorTypeHere": "type here...",
+  "@editorTypeHere": {
+    "description": "Hint text of the text editor input field."
   }
 }

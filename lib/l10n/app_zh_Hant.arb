@@ -487,5 +487,17 @@
   "postUpvoteFailed": "貼文 #{id} 按讚失敗",
   "postDownvoteFailed": "貼文 #{id} 倒讚失敗",
   "postAddFavoriteFailed": "貼文 #{id} 收藏失敗",
-  "postRemoveFavoriteFailed": "貼文 #{id} 取消收藏失敗"
+  "postRemoveFavoriteFailed": "貼文 #{id} 取消收藏失敗",
+  "editorSection": "章節",
+  "editorQuote": "引用",
+  "editorCode": "程式碼",
+  "editorSpoiler": "劇透",
+  "editorBold": "粗體",
+  "editorItalic": "斜體",
+  "editorUnderlined": "底線",
+  "editorStrikethrough": "刪除線",
+  "editorPreviewPlaceholder": "你的文字會顯示在這裡",
+  "editorWrite": "撰寫",
+  "editorPreview": "預覽",
+  "editorTypeHere": "在此輸入…"
 }
