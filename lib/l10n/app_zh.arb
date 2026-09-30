@@ -482,5 +482,6 @@
   "hostUnavailableBody": "看起来 {host} 不可用！",
   "hostUnavailableResolveHint": "请在接下来的浏览器窗口中解决该问题。\n\nCloudflare 验证码 Cookie 将会被保存。",
   "hostUnavailableResolve": "解决",
-  "hostUnavailableWaitBody": "\n请等待 {host} 方面解决该问题。"
+  "hostUnavailableWaitBody": "\n请等待 {host} 方面解决该问题。",
+  "downloadChooseFolder": "选择文件夹"
 }

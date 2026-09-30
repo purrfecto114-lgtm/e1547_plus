@@ -2996,6 +2996,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'\nPlease wait for {host} to resolve the situation on their end.'**
   String hostUnavailableWaitBody(String host);
+
+  /// Title of the folder picker dialog on desktop.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose a folder'**
+  String get downloadChooseFolder;
 }
 
 class _AppLocalizationsDelegate

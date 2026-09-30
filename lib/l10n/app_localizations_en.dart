@@ -1692,4 +1692,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String hostUnavailableWaitBody(String host) {
     return '\nPlease wait for $host to resolve the situation on their end.';
   }
+
+  @override
+  String get downloadChooseFolder => 'Choose a folder';
 }

@@ -1660,6 +1660,9 @@ class AppLocalizationsZh extends AppLocalizations {
   String hostUnavailableWaitBody(String host) {
     return '\n请等待 $host 方面解决该问题。';
   }
+
+  @override
+  String get downloadChooseFolder => '选择文件夹';
 }
 
 /// The translations for Chinese, using the Han script (`zh_Hant`).
@@ -3318,4 +3321,7 @@ class AppLocalizationsZhHant extends AppLocalizationsZh {
   String hostUnavailableWaitBody(String host) {
     return '\n請等待 $host 方面解決該問題。';
   }
+
+  @override
+  String get downloadChooseFolder => '選擇資料夾';
 }

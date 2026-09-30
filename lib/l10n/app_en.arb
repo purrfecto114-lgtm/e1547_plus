@@ -1740,5 +1740,9 @@
         "type": "String"
       }
     }
+  },
+  "downloadChooseFolder": "Choose a folder",
+  "@downloadChooseFolder": {
+    "description": "Title of the folder picker dialog on desktop."
   }
 }
