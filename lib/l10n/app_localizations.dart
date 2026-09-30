@@ -3176,6 +3176,522 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Invalid'**
   String get tagCategoryInvalid;
+
+  /// Title of the post description editor page.
+  ///
+  /// In en, this message translates to:
+  /// **'#{postId} description'**
+  String editDescriptionTitle(num postId);
+
+  /// Hint text of the post description input field.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter post description...'**
+  String get editDescriptionHint;
+
+  /// Error text shown when the parent id input is not a number.
+  ///
+  /// In en, this message translates to:
+  /// **'Invalid number format'**
+  String get editInvalidNumber;
+
+  /// Error text shown when a parent post does not exist.
+  ///
+  /// In en, this message translates to:
+  /// **'Invalid parent post'**
+  String get editInvalidParent;
+
+  /// Label of the parent id input field of the post edit form.
+  ///
+  /// In en, this message translates to:
+  /// **'Parent ID (optional)'**
+  String get editParentIdLabel;
+
+  /// Hint text of the parent id input field of the post edit form.
+  ///
+  /// In en, this message translates to:
+  /// **'Parent post ID'**
+  String get editParentIdHint;
+
+  /// Label of the edit reason input field of the post edit form.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit reason (optional)'**
+  String get editReasonLabel;
+
+  /// Hint text of the edit reason input field of the post edit form.
+  ///
+  /// In en, this message translates to:
+  /// **'Why are you editing this post?'**
+  String get editReasonHint;
+
+  /// Title of the post sources editor page.
+  ///
+  /// In en, this message translates to:
+  /// **'#{postId} sources'**
+  String editSourcesTitle(num postId);
+
+  /// Hint text of the tags input field of the post edit form.
+  ///
+  /// In en, this message translates to:
+  /// **'space separated tags'**
+  String get editTagsHint;
+
+  /// Error shown when the tag preview failed to load.
+  ///
+  /// In en, this message translates to:
+  /// **'Error loading tag preview: {error}'**
+  String editTagPreviewFailed(String error);
+
+  /// Status label of a tag that does not exist yet.
+  ///
+  /// In en, this message translates to:
+  /// **'new'**
+  String get editTagStatusNew;
+
+  /// Status label of a tag in the invalid category.
+  ///
+  /// In en, this message translates to:
+  /// **'invalid'**
+  String get editTagStatusInvalid;
+
+  /// Status label of a tag without any posts.
+  ///
+  /// In en, this message translates to:
+  /// **'empty'**
+  String get editTagStatusEmpty;
+
+  /// Status label of a rarely used general tag.
+  ///
+  /// In en, this message translates to:
+  /// **'underused'**
+  String get editTagStatusUnderused;
+
+  /// Success message after reporting a comment.
+  ///
+  /// In en, this message translates to:
+  /// **'Reported comment #{id}'**
+  String reportCommentSuccess(num id);
+
+  /// Error message after failing to report a comment.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to report comment #{id}'**
+  String reportCommentFailed(num id);
+
+  /// Success message after reporting a reply.
+  ///
+  /// In en, this message translates to:
+  /// **'Reported reply #{id}'**
+  String reportReplySuccess(num id);
+
+  /// Error message after failing to report a reply.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to report reply #{id}'**
+  String reportReplyFailed(num id);
+
+  /// Success message after reporting a user.
+  ///
+  /// In en, this message translates to:
+  /// **'Reported user #{id}'**
+  String reportUserSuccess(num id);
+
+  /// Error message after failing to report a user.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to report user #{id}'**
+  String reportUserFailed(num id);
+
+  /// Success message after reporting a post.
+  ///
+  /// In en, this message translates to:
+  /// **'Reported post #{id}'**
+  String reportPostSuccess(num id);
+
+  /// Error message after failing to report a post.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to report post #{id}'**
+  String reportPostFailed(num id);
+
+  /// Error text shown when no report type was selected.
+  ///
+  /// In en, this message translates to:
+  /// **'Type cannot be empty'**
+  String get reportTypeRequired;
+
+  /// Label of the report reason input field.
+  ///
+  /// In en, this message translates to:
+  /// **'Reason'**
+  String get reportReason;
+
+  /// Error text shown when the report reason is empty.
+  ///
+  /// In en, this message translates to:
+  /// **'Reason cannot be empty'**
+  String get reportReasonRequired;
+
+  /// Success message after submitting a report.
+  ///
+  /// In en, this message translates to:
+  /// **'Submitted report'**
+  String get reportSubmitted;
+
+  /// Error message after failing to submit a report.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to submit report'**
+  String get reportSubmitFailed;
+
+  /// Name of the rating abuse post report type.
+  ///
+  /// In en, this message translates to:
+  /// **'Rating Abuse'**
+  String get reportTypeRating;
+
+  /// Name of the malicious file post report type.
+  ///
+  /// In en, this message translates to:
+  /// **'Malicious File'**
+  String get reportTypeFile;
+
+  /// Name of the malicious source post report type.
+  ///
+  /// In en, this message translates to:
+  /// **'Malicious Source'**
+  String get reportTypeSource;
+
+  /// Name of the description abuse post report type.
+  ///
+  /// In en, this message translates to:
+  /// **'Description Abuse'**
+  String get reportTypeDescription;
+
+  /// Name of the note abuse post report type.
+  ///
+  /// In en, this message translates to:
+  /// **'Note Abuse'**
+  String get reportTypeNote;
+
+  /// Name of the tagging abuse post report type.
+  ///
+  /// In en, this message translates to:
+  /// **'Tagging Abuse'**
+  String get reportTypeTagging;
+
+  /// Description of the rating abuse post report type.
+  ///
+  /// In en, this message translates to:
+  /// **'The rating of the submission has been set to something incorrect.'**
+  String get reportTypeRatingBody;
+
+  /// Description of the malicious file post report type.
+  ///
+  /// In en, this message translates to:
+  /// **'The file contains either malicious code or contains a hidden file archive. This is not for imagery depicted in the image itself.'**
+  String get reportTypeFileBody;
+
+  /// Description of the malicious source post report type.
+  ///
+  /// In en, this message translates to:
+  /// **'One or more of the listed sources link to malicious pages or pay content.'**
+  String get reportTypeSourceBody;
+
+  /// Description of the description abuse post report type.
+  ///
+  /// In en, this message translates to:
+  /// **'The description contains malicious content, or has been edited to contain abusive material.'**
+  String get reportTypeDescriptionBody;
+
+  /// Description of the note abuse post report type.
+  ///
+  /// In en, this message translates to:
+  /// **'The notes on this post are wrong, harassive, or otherwise abusive.'**
+  String get reportTypeNoteBody;
+
+  /// Description of the tagging abuse post report type.
+  ///
+  /// In en, this message translates to:
+  /// **'One or more tags on this post aren\'t valid or one or more valid tags have been removed from this post.'**
+  String get reportTypeTaggingBody;
+
+  /// Success message after flagging a post.
+  ///
+  /// In en, this message translates to:
+  /// **'Flagged post #{id}'**
+  String flagPostSuccess(num id);
+
+  /// Error message after failing to flag a post.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to flag post #{id}'**
+  String flagPostFailed(num id);
+
+  /// Label of the parent id input field of the post flag form.
+  ///
+  /// In en, this message translates to:
+  /// **'Parent ID'**
+  String get flagParentId;
+
+  /// Error text shown when the parent id of a flag is empty.
+  ///
+  /// In en, this message translates to:
+  /// **'Parent ID cannot be empty'**
+  String get flagParentIdRequired;
+
+  /// Error text shown when the parent id of a flag is not a number.
+  ///
+  /// In en, this message translates to:
+  /// **'Parent ID must be a number'**
+  String get flagParentIdInvalid;
+
+  /// Name of the uploading guidelines post flag.
+  ///
+  /// In en, this message translates to:
+  /// **'Does not meet the uploading guidelines'**
+  String get flagTypeUploadingGuidelines;
+
+  /// Name of the young human post flag.
+  ///
+  /// In en, this message translates to:
+  /// **'Young human-like character in an explicit situation'**
+  String get flagTypeYoungHuman;
+
+  /// Name of the do not post artist post flag.
+  ///
+  /// In en, this message translates to:
+  /// **'The artist of this post is on the avoid posting list'**
+  String get flagTypeDnpArtist;
+
+  /// Name of the pay content post flag.
+  ///
+  /// In en, this message translates to:
+  /// **'Paysite, commercial, or subscription content'**
+  String get flagTypePayContent;
+
+  /// Name of the trace post flag.
+  ///
+  /// In en, this message translates to:
+  /// **'Trace of another artist\'s work'**
+  String get flagTypeTrace;
+
+  /// Name of the previously deleted post flag.
+  ///
+  /// In en, this message translates to:
+  /// **'Previously deleted'**
+  String get flagTypePreviouslyDeleted;
+
+  /// Name of the real porn post flag.
+  ///
+  /// In en, this message translates to:
+  /// **'Real-life pornography'**
+  String get flagTypeRealPorn;
+
+  /// Name of the corrupt file post flag.
+  ///
+  /// In en, this message translates to:
+  /// **'File is either corrupted, broken, or otherwise does not work'**
+  String get flagTypeCorrupt;
+
+  /// Name of the inferior post flag.
+  ///
+  /// In en, this message translates to:
+  /// **'Duplicate or inferior version of another post'**
+  String get flagTypeInferior;
+
+  /// Description of the uploading guidelines post flag.
+  ///
+  /// In en, this message translates to:
+  /// **'This post fails to meet the site\'s standards, be it for artistic worth, image quality, relevancy, or something else.\nKeep in mind that your personal preferences have no bearing on this. If you find the content of a post objectionable, simply [[e621:blacklist|blacklist]] it.'**
+  String get flagTypeUploadingGuidelinesBody;
+
+  /// Description of the young human post flag.
+  ///
+  /// In en, this message translates to:
+  /// **'Posts featuring human and human-like characters depicted in a sexual or explicit nude way, are not acceptable on this site.'**
+  String get flagTypeYoungHumanBody;
+
+  /// Description of the do not post artist post flag.
+  ///
+  /// In en, this message translates to:
+  /// **'Certain artists have requested that their work is not to be published on this site, and were granted [[avoid_posting|Do Not Post]] status.\nSometimes, that status comes with conditions; see [[conditional_dnp]] for more information'**
+  String get flagTypeDnpArtistBody;
+
+  /// Description of the pay content post flag.
+  ///
+  /// In en, this message translates to:
+  /// **'We do not host paysite or commercial content of any kind. This includes Patreon leaks, reposts from piracy websites, and so on.'**
+  String get flagTypePayContentBody;
+
+  /// Description of the trace post flag.
+  ///
+  /// In en, this message translates to:
+  /// **'Images traced from other artists\' artwork are not accepted on this site. Referencing from something is fine, but outright copying someone else\'s work is not.\nPlease, leave more information in the comments, or simply add the original artwork as the posts\'s parent if it\'s hosted on this site.'**
+  String get flagTypeTraceBody;
+
+  /// Description of the previously deleted post flag.
+  ///
+  /// In en, this message translates to:
+  /// **'Posts usually get removed for a good reason, and reuploading of deleted content is not acceptable.\nPlease, leave more information in the comments, or simply add the original post as this post\'s parent.'**
+  String get flagTypePreviouslyDeletedBody;
+
+  /// Description of the real porn post flag.
+  ///
+  /// In en, this message translates to:
+  /// **'Posts featuring real-life pornography are not acceptable on this site. No exceptions.\nNote that images featuring non-erotic photographs are acceptable.'**
+  String get flagTypeRealPornBody;
+
+  /// Description of the corrupt file post flag.
+  ///
+  /// In en, this message translates to:
+  /// **'Something about this post does not work quite right. This may be a broken video, or a corrupted image.\nEither way, in order to avoid confusion, please explain the situation in the comments.'**
+  String get flagTypeCorruptBody;
+
+  /// Description of the inferior post flag.
+  ///
+  /// In en, this message translates to:
+  /// **'A superior version of this post already exists on the site.\nThis may include images with better visual quality (larger, less compressed), but may also feature \"fixed\" versions, with visual mistakes accounted for by the artist.\nNote that edits and alternate versions do not fall under this category.'**
+  String get flagTypeInferiorBody;
+
+  /// Tooltip of the button which cancels all tasks.
+  ///
+  /// In en, this message translates to:
+  /// **'Cancel all'**
+  String get taskCancelAll;
+
+  /// Tooltip of the button which clears all finished tasks.
+  ///
+  /// In en, this message translates to:
+  /// **'Clear done'**
+  String get taskClearDone;
+
+  /// Tooltip of the button which clears the task selection.
+  ///
+  /// In en, this message translates to:
+  /// **'Clear selection'**
+  String get taskClearSelection;
+
+  /// Tooltip of the button which cancels a task.
+  ///
+  /// In en, this message translates to:
+  /// **'Cancel'**
+  String get taskCancel;
+
+  /// Tooltip of the button which dismisses a task.
+  ///
+  /// In en, this message translates to:
+  /// **'Dismiss'**
+  String get taskDismiss;
+
+  /// Placeholder shown when there are no tasks.
+  ///
+  /// In en, this message translates to:
+  /// **'No tasks'**
+  String get taskNoTasks;
+
+  /// Error message shown when tasks failed to load.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to load tasks'**
+  String get taskFailedToLoadTasks;
+
+  /// Selection counter on the tasks page.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{1 task} other{{count} tasks}}'**
+  String taskSelectionCount(num count);
+
+  /// Header of the active tasks group.
+  ///
+  /// In en, this message translates to:
+  /// **'Active'**
+  String get taskGroupActive;
+
+  /// Header of the failed tasks group.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed'**
+  String get taskGroupFailed;
+
+  /// Name of the download task action.
+  ///
+  /// In en, this message translates to:
+  /// **'download'**
+  String get taskActionDownload;
+
+  /// Name of the favorite task action.
+  ///
+  /// In en, this message translates to:
+  /// **'favorite'**
+  String get taskActionFavorite;
+
+  /// Name of the unfavorite task action.
+  ///
+  /// In en, this message translates to:
+  /// **'unfavorite'**
+  String get taskActionUnfavorite;
+
+  /// Label of a running download task.
+  ///
+  /// In en, this message translates to:
+  /// **'downloading'**
+  String get taskDownloadRunning;
+
+  /// Label of a running favorite task.
+  ///
+  /// In en, this message translates to:
+  /// **'favoriting'**
+  String get taskFavoriteRunning;
+
+  /// Label of a running unfavorite task.
+  ///
+  /// In en, this message translates to:
+  /// **'unfavoriting'**
+  String get taskUnfavoriteRunning;
+
+  /// Label of a completed download task.
+  ///
+  /// In en, this message translates to:
+  /// **'downloaded'**
+  String get taskDownloadCompleted;
+
+  /// Label of a completed favorite task.
+  ///
+  /// In en, this message translates to:
+  /// **'favorited'**
+  String get taskFavoriteCompleted;
+
+  /// Label of a completed unfavorite task.
+  ///
+  /// In en, this message translates to:
+  /// **'unfavorited'**
+  String get taskUnfavoriteCompleted;
+
+  /// Label of a queued task.
+  ///
+  /// In en, this message translates to:
+  /// **'queued to {action}'**
+  String taskQueuedTo(String action);
+
+  /// Label of a failed task.
+  ///
+  /// In en, this message translates to:
+  /// **'failed to {action}'**
+  String taskFailedTo(String action);
+
+  /// Label of a canceled task.
+  ///
+  /// In en, this message translates to:
+  /// **'canceled {action}'**
+  String taskCanceledAction(String action);
+
+  /// Title of a task tile.
+  ///
+  /// In en, this message translates to:
+  /// **'{label} post #{id}'**
+  String taskTileTitle(String label, num id);
 }
 
 class _AppLocalizationsDelegate

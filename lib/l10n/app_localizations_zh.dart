@@ -1757,6 +1757,313 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get tagCategoryInvalid => '无效';
+
+  @override
+  String editDescriptionTitle(num postId) {
+    return '帖子 #$postId 的描述';
+  }
+
+  @override
+  String get editDescriptionHint => '输入帖子描述…';
+
+  @override
+  String get editInvalidNumber => '数字格式无效';
+
+  @override
+  String get editInvalidParent => '父帖无效';
+
+  @override
+  String get editParentIdLabel => '父帖 ID（可选）';
+
+  @override
+  String get editParentIdHint => '父帖 ID';
+
+  @override
+  String get editReasonLabel => '编辑原因（可选）';
+
+  @override
+  String get editReasonHint => '你为什么要编辑这个帖子？';
+
+  @override
+  String editSourcesTitle(num postId) {
+    return '帖子 #$postId 的来源';
+  }
+
+  @override
+  String get editTagsHint => '以空格分隔的标签';
+
+  @override
+  String editTagPreviewFailed(String error) {
+    return '标签预览加载失败：$error';
+  }
+
+  @override
+  String get editTagStatusNew => '新建';
+
+  @override
+  String get editTagStatusInvalid => '无效';
+
+  @override
+  String get editTagStatusEmpty => '空';
+
+  @override
+  String get editTagStatusUnderused => '冷门';
+
+  @override
+  String reportCommentSuccess(num id) {
+    return '已举报评论 #$id';
+  }
+
+  @override
+  String reportCommentFailed(num id) {
+    return '举报评论 #$id 失败';
+  }
+
+  @override
+  String reportReplySuccess(num id) {
+    return '已举报回复 #$id';
+  }
+
+  @override
+  String reportReplyFailed(num id) {
+    return '举报回复 #$id 失败';
+  }
+
+  @override
+  String reportUserSuccess(num id) {
+    return '已举报用户 #$id';
+  }
+
+  @override
+  String reportUserFailed(num id) {
+    return '举报用户 #$id 失败';
+  }
+
+  @override
+  String reportPostSuccess(num id) {
+    return '已举报帖子 #$id';
+  }
+
+  @override
+  String reportPostFailed(num id) {
+    return '举报帖子 #$id 失败';
+  }
+
+  @override
+  String get reportTypeRequired => '类型不能为空';
+
+  @override
+  String get reportReason => '理由';
+
+  @override
+  String get reportReasonRequired => '理由不能为空';
+
+  @override
+  String get reportSubmitted => '已提交举报';
+
+  @override
+  String get reportSubmitFailed => '提交举报失败';
+
+  @override
+  String get reportTypeRating => '分级滥用';
+
+  @override
+  String get reportTypeFile => '恶意文件';
+
+  @override
+  String get reportTypeSource => '恶意来源';
+
+  @override
+  String get reportTypeDescription => '描述滥用';
+
+  @override
+  String get reportTypeNote => '注释滥用';
+
+  @override
+  String get reportTypeTagging => '标签滥用';
+
+  @override
+  String get reportTypeRatingBody => '该作品的分级被设置成了错误的值。';
+
+  @override
+  String get reportTypeFileBody => '文件中包含恶意代码或隐藏的文件压缩包。这与图像本身描绘的内容无关。';
+
+  @override
+  String get reportTypeSourceBody => '所列来源中有一个或多个指向恶意页面或付费内容。';
+
+  @override
+  String get reportTypeDescriptionBody => '描述中包含恶意内容，或被编辑加入了辱骂性内容。';
+
+  @override
+  String get reportTypeNoteBody => '该帖子的注释有误、带有骚扰性或存在其他滥用情况。';
+
+  @override
+  String get reportTypeTaggingBody => '该帖子存在一个或多个无效标签，或有一个或多个有效标签被移除。';
+
+  @override
+  String flagPostSuccess(num id) {
+    return '已标记帖子 #$id';
+  }
+
+  @override
+  String flagPostFailed(num id) {
+    return '标记帖子 #$id 失败';
+  }
+
+  @override
+  String get flagParentId => '父帖 ID';
+
+  @override
+  String get flagParentIdRequired => '父帖 ID 不能为空';
+
+  @override
+  String get flagParentIdInvalid => '父帖 ID 必须是数字';
+
+  @override
+  String get flagTypeUploadingGuidelines => '不符合上传准则';
+
+  @override
+  String get flagTypeYoungHuman => '露骨场景中的年轻类人角色';
+
+  @override
+  String get flagTypeDnpArtist => '该帖子的画师在禁止上传列表中';
+
+  @override
+  String get flagTypePayContent => '付费站、商业或订阅内容';
+
+  @override
+  String get flagTypeTrace => '对其他画师作品的描图';
+
+  @override
+  String get flagTypePreviouslyDeleted => '曾被删除';
+
+  @override
+  String get flagTypeRealPorn => '真人色情内容';
+
+  @override
+  String get flagTypeCorrupt => '文件已损坏、损毁或因其他原因无法正常使用';
+
+  @override
+  String get flagTypeInferior => '其他帖子的重复或较差版本';
+
+  @override
+  String get flagTypeUploadingGuidelinesBody =>
+      '该帖子未能达到站点标准，无论是艺术价值、图像质量、相关性还是其他方面。\n请注意，你的个人偏好与此无关。如果你觉得帖子内容令人不适，直接[[e621:blacklist|屏蔽]]即可。';
+
+  @override
+  String get flagTypeYoungHumanBody => '以色情或露骨裸露方式描绘人类及类人角色的帖子，在本站不被接受。';
+
+  @override
+  String get flagTypeDnpArtistBody =>
+      '部分画师已要求不在本站发布其作品，并获得了[[avoid_posting|禁止上传]]状态。\n该状态有时附带条件；详情参见[[conditional_dnp]]';
+
+  @override
+  String get flagTypePayContentBody =>
+      '本站不托管任何付费站或商业内容，包括 Patreon 泄露内容、盗版网站的转载等。';
+
+  @override
+  String get flagTypeTraceBody =>
+      '描图自其他画师作品的图片在本站不被接受。参考其他作品没有问题，但直接照搬他人作品不行。\n请在评论中留下更多信息；如果原作品也托管在本站，也可以直接将其设为该帖子的父帖。';
+
+  @override
+  String get flagTypePreviouslyDeletedBody =>
+      '帖子被移除通常都有充分的理由，重新上传已删除的内容是不被接受的。\n请在评论中留下更多信息，或者直接将原帖设为该帖子的父帖。';
+
+  @override
+  String get flagTypeRealPornBody =>
+      '包含真人色情内容的帖子在本站不被接受，没有例外。\n请注意，非色情性质的真人照片是可以接受的。';
+
+  @override
+  String get flagTypeCorruptBody =>
+      '该帖子存在无法正常工作的问题，可能是视频损坏，也可能是图像损坏。\n无论是哪种情况，为避免混淆，请在评论中说明具体情况。';
+
+  @override
+  String get flagTypeInferiorBody =>
+      '站点上已存在该帖子的更优版本。\n这包括画质更好的图片（尺寸更大、压缩更少），也可能是修正了视觉错误后的“修正版”。\n请注意，编辑版和其他变体版本不属于此类。';
+
+  @override
+  String get taskCancelAll => '全部取消';
+
+  @override
+  String get taskClearDone => '清除已完成';
+
+  @override
+  String get taskClearSelection => '清除所选';
+
+  @override
+  String get taskCancel => '取消';
+
+  @override
+  String get taskDismiss => '移除';
+
+  @override
+  String get taskNoTasks => '没有任务';
+
+  @override
+  String get taskFailedToLoadTasks => '任务加载失败';
+
+  @override
+  String taskSelectionCount(num count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count 个任务',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get taskGroupActive => '进行中';
+
+  @override
+  String get taskGroupFailed => '已失败';
+
+  @override
+  String get taskActionDownload => '下载';
+
+  @override
+  String get taskActionFavorite => '收藏';
+
+  @override
+  String get taskActionUnfavorite => '取消收藏';
+
+  @override
+  String get taskDownloadRunning => '正在下载';
+
+  @override
+  String get taskFavoriteRunning => '正在收藏';
+
+  @override
+  String get taskUnfavoriteRunning => '正在取消收藏';
+
+  @override
+  String get taskDownloadCompleted => '已下载';
+
+  @override
+  String get taskFavoriteCompleted => '已收藏';
+
+  @override
+  String get taskUnfavoriteCompleted => '已取消收藏';
+
+  @override
+  String taskQueuedTo(String action) {
+    return '等待$action';
+  }
+
+  @override
+  String taskFailedTo(String action) {
+    return '$action失败';
+  }
+
+  @override
+  String taskCanceledAction(String action) {
+    return '已取消$action';
+  }
+
+  @override
+  String taskTileTitle(String label, num id) {
+    return '$label帖子 #$id';
+  }
 }
 
 /// The translations for Chinese, using the Han script (`zh_Hant`).
@@ -3512,4 +3819,311 @@ class AppLocalizationsZhHant extends AppLocalizationsZh {
 
   @override
   String get tagCategoryInvalid => '無效';
+
+  @override
+  String editDescriptionTitle(num postId) {
+    return '貼文 #$postId 的描述';
+  }
+
+  @override
+  String get editDescriptionHint => '輸入貼文描述…';
+
+  @override
+  String get editInvalidNumber => '數字格式無效';
+
+  @override
+  String get editInvalidParent => '父貼文無效';
+
+  @override
+  String get editParentIdLabel => '父貼文 ID（可選）';
+
+  @override
+  String get editParentIdHint => '父貼文 ID';
+
+  @override
+  String get editReasonLabel => '編輯原因（可選）';
+
+  @override
+  String get editReasonHint => '你為什麼要編輯這個貼文？';
+
+  @override
+  String editSourcesTitle(num postId) {
+    return '貼文 #$postId 的來源';
+  }
+
+  @override
+  String get editTagsHint => '以空格分隔的標籤';
+
+  @override
+  String editTagPreviewFailed(String error) {
+    return '標籤預覽載入失敗：$error';
+  }
+
+  @override
+  String get editTagStatusNew => '新增';
+
+  @override
+  String get editTagStatusInvalid => '無效';
+
+  @override
+  String get editTagStatusEmpty => '空';
+
+  @override
+  String get editTagStatusUnderused => '冷門';
+
+  @override
+  String reportCommentSuccess(num id) {
+    return '已檢舉評論 #$id';
+  }
+
+  @override
+  String reportCommentFailed(num id) {
+    return '檢舉評論 #$id 失敗';
+  }
+
+  @override
+  String reportReplySuccess(num id) {
+    return '已檢舉回覆 #$id';
+  }
+
+  @override
+  String reportReplyFailed(num id) {
+    return '檢舉回覆 #$id 失敗';
+  }
+
+  @override
+  String reportUserSuccess(num id) {
+    return '已檢舉使用者 #$id';
+  }
+
+  @override
+  String reportUserFailed(num id) {
+    return '檢舉使用者 #$id 失敗';
+  }
+
+  @override
+  String reportPostSuccess(num id) {
+    return '已檢舉貼文 #$id';
+  }
+
+  @override
+  String reportPostFailed(num id) {
+    return '檢舉貼文 #$id 失敗';
+  }
+
+  @override
+  String get reportTypeRequired => '類型不能為空';
+
+  @override
+  String get reportReason => '理由';
+
+  @override
+  String get reportReasonRequired => '理由不能為空';
+
+  @override
+  String get reportSubmitted => '已送出檢舉';
+
+  @override
+  String get reportSubmitFailed => '送出檢舉失敗';
+
+  @override
+  String get reportTypeRating => '分級濫用';
+
+  @override
+  String get reportTypeFile => '惡意檔案';
+
+  @override
+  String get reportTypeSource => '惡意來源';
+
+  @override
+  String get reportTypeDescription => '描述濫用';
+
+  @override
+  String get reportTypeNote => '註釋濫用';
+
+  @override
+  String get reportTypeTagging => '標籤濫用';
+
+  @override
+  String get reportTypeRatingBody => '該作品的分級被設定成了錯誤的值。';
+
+  @override
+  String get reportTypeFileBody => '檔案中包含惡意程式碼或隱藏的檔案壓縮包。這與圖像本身描繪的內容無關。';
+
+  @override
+  String get reportTypeSourceBody => '所列來源中有一個或多個指向惡意頁面或付費內容。';
+
+  @override
+  String get reportTypeDescriptionBody => '描述中包含惡意內容，或被編輯加入了辱罵性內容。';
+
+  @override
+  String get reportTypeNoteBody => '該貼文的註釋有誤、帶有騷擾性或存在其他濫用情況。';
+
+  @override
+  String get reportTypeTaggingBody => '該貼文存在一個或多個無效標籤，或有一個或多個有效標籤被移除。';
+
+  @override
+  String flagPostSuccess(num id) {
+    return '已標記貼文 #$id';
+  }
+
+  @override
+  String flagPostFailed(num id) {
+    return '標記貼文 #$id 失敗';
+  }
+
+  @override
+  String get flagParentId => '父貼文 ID';
+
+  @override
+  String get flagParentIdRequired => '父貼文 ID 不能為空';
+
+  @override
+  String get flagParentIdInvalid => '父貼文 ID 必須是數字';
+
+  @override
+  String get flagTypeUploadingGuidelines => '不符合上傳準則';
+
+  @override
+  String get flagTypeYoungHuman => '露骨場景中的年輕類人角色';
+
+  @override
+  String get flagTypeDnpArtist => '該貼文的繪師在禁止上傳清單中';
+
+  @override
+  String get flagTypePayContent => '付費站、商業或訂閱內容';
+
+  @override
+  String get flagTypeTrace => '對其他繪師作品的描圖';
+
+  @override
+  String get flagTypePreviouslyDeleted => '曾被刪除';
+
+  @override
+  String get flagTypeRealPorn => '真人色情內容';
+
+  @override
+  String get flagTypeCorrupt => '檔案已損壞、損毀或因其他原因無法正常使用';
+
+  @override
+  String get flagTypeInferior => '其他貼文的重複或較差版本';
+
+  @override
+  String get flagTypeUploadingGuidelinesBody =>
+      '該貼文未能達到網站標準，無論是藝術價值、圖像品質、相關性還是其他方面。\n請注意，你的個人偏好與此無關。如果你覺得貼文內容令人不適，直接[[e621:blacklist|封鎖]]即可。';
+
+  @override
+  String get flagTypeYoungHumanBody => '以色情或露骨裸露方式描繪人類及類人角色的貼文，在本站不被接受。';
+
+  @override
+  String get flagTypeDnpArtistBody =>
+      '部分繪師已要求不在本站發佈其作品，並取得了[[avoid_posting|禁止上傳]]狀態。\n該狀態有時附帶條件；詳情參見[[conditional_dnp]]';
+
+  @override
+  String get flagTypePayContentBody =>
+      '本站不託管任何付費站或商業內容，包括 Patreon 外流內容、盜版網站的轉載等。';
+
+  @override
+  String get flagTypeTraceBody =>
+      '描圖自其他繪師作品的圖片在本站不被接受。參考其他作品沒有問題，但直接照搬他人作品不行。\n請在評論中留下更多資訊；如果原作品也託管在本站，也可以直接將其設為該貼文的父貼文。';
+
+  @override
+  String get flagTypePreviouslyDeletedBody =>
+      '貼文被移除通常都有充分的理由，重新上傳已刪除的內容是不被接受的。\n請在評論中留下更多資訊，或者直接將原貼文設為該貼文的父貼文。';
+
+  @override
+  String get flagTypeRealPornBody =>
+      '包含真人色情內容的貼文在本站不被接受，沒有例外。\n請注意，非色情性質的真人照片是可以接受的。';
+
+  @override
+  String get flagTypeCorruptBody =>
+      '該貼文存在無法正常運作的問題，可能是影片損壞，也可能是圖像損壞。\n無論是哪種情況，為避免混淆，請在評論中說明具體情況。';
+
+  @override
+  String get flagTypeInferiorBody =>
+      '網站上已存在該貼文的更優版本。\n這包括畫質更好的圖片（尺寸更大、壓縮更少），也可能是修正了視覺錯誤後的「修正版」。\n請注意，編輯版和其他變體版本不屬於此類。';
+
+  @override
+  String get taskCancelAll => '全部取消';
+
+  @override
+  String get taskClearDone => '清除已完成';
+
+  @override
+  String get taskClearSelection => '清除所選';
+
+  @override
+  String get taskCancel => '取消';
+
+  @override
+  String get taskDismiss => '移除';
+
+  @override
+  String get taskNoTasks => '沒有任務';
+
+  @override
+  String get taskFailedToLoadTasks => '任務載入失敗';
+
+  @override
+  String taskSelectionCount(num count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count 個任務',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get taskGroupActive => '進行中';
+
+  @override
+  String get taskGroupFailed => '已失敗';
+
+  @override
+  String get taskActionDownload => '下載';
+
+  @override
+  String get taskActionFavorite => '收藏';
+
+  @override
+  String get taskActionUnfavorite => '取消收藏';
+
+  @override
+  String get taskDownloadRunning => '正在下載';
+
+  @override
+  String get taskFavoriteRunning => '正在收藏';
+
+  @override
+  String get taskUnfavoriteRunning => '正在取消收藏';
+
+  @override
+  String get taskDownloadCompleted => '已下載';
+
+  @override
+  String get taskFavoriteCompleted => '已收藏';
+
+  @override
+  String get taskUnfavoriteCompleted => '已取消收藏';
+
+  @override
+  String taskQueuedTo(String action) {
+    return '等待$action';
+  }
+
+  @override
+  String taskFailedTo(String action) {
+    return '$action失敗';
+  }
+
+  @override
+  String taskCanceledAction(String action) {
+    return '已取消$action';
+  }
+
+  @override
+  String taskTileTitle(String label, num id) {
+    return '$label貼文 #$id';
+  }
 }

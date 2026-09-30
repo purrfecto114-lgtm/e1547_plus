@@ -1788,4 +1788,325 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get tagCategoryInvalid => 'Invalid';
+
+  @override
+  String editDescriptionTitle(num postId) {
+    return '#$postId description';
+  }
+
+  @override
+  String get editDescriptionHint => 'Enter post description...';
+
+  @override
+  String get editInvalidNumber => 'Invalid number format';
+
+  @override
+  String get editInvalidParent => 'Invalid parent post';
+
+  @override
+  String get editParentIdLabel => 'Parent ID (optional)';
+
+  @override
+  String get editParentIdHint => 'Parent post ID';
+
+  @override
+  String get editReasonLabel => 'Edit reason (optional)';
+
+  @override
+  String get editReasonHint => 'Why are you editing this post?';
+
+  @override
+  String editSourcesTitle(num postId) {
+    return '#$postId sources';
+  }
+
+  @override
+  String get editTagsHint => 'space separated tags';
+
+  @override
+  String editTagPreviewFailed(String error) {
+    return 'Error loading tag preview: $error';
+  }
+
+  @override
+  String get editTagStatusNew => 'new';
+
+  @override
+  String get editTagStatusInvalid => 'invalid';
+
+  @override
+  String get editTagStatusEmpty => 'empty';
+
+  @override
+  String get editTagStatusUnderused => 'underused';
+
+  @override
+  String reportCommentSuccess(num id) {
+    return 'Reported comment #$id';
+  }
+
+  @override
+  String reportCommentFailed(num id) {
+    return 'Failed to report comment #$id';
+  }
+
+  @override
+  String reportReplySuccess(num id) {
+    return 'Reported reply #$id';
+  }
+
+  @override
+  String reportReplyFailed(num id) {
+    return 'Failed to report reply #$id';
+  }
+
+  @override
+  String reportUserSuccess(num id) {
+    return 'Reported user #$id';
+  }
+
+  @override
+  String reportUserFailed(num id) {
+    return 'Failed to report user #$id';
+  }
+
+  @override
+  String reportPostSuccess(num id) {
+    return 'Reported post #$id';
+  }
+
+  @override
+  String reportPostFailed(num id) {
+    return 'Failed to report post #$id';
+  }
+
+  @override
+  String get reportTypeRequired => 'Type cannot be empty';
+
+  @override
+  String get reportReason => 'Reason';
+
+  @override
+  String get reportReasonRequired => 'Reason cannot be empty';
+
+  @override
+  String get reportSubmitted => 'Submitted report';
+
+  @override
+  String get reportSubmitFailed => 'Failed to submit report';
+
+  @override
+  String get reportTypeRating => 'Rating Abuse';
+
+  @override
+  String get reportTypeFile => 'Malicious File';
+
+  @override
+  String get reportTypeSource => 'Malicious Source';
+
+  @override
+  String get reportTypeDescription => 'Description Abuse';
+
+  @override
+  String get reportTypeNote => 'Note Abuse';
+
+  @override
+  String get reportTypeTagging => 'Tagging Abuse';
+
+  @override
+  String get reportTypeRatingBody =>
+      'The rating of the submission has been set to something incorrect.';
+
+  @override
+  String get reportTypeFileBody =>
+      'The file contains either malicious code or contains a hidden file archive. This is not for imagery depicted in the image itself.';
+
+  @override
+  String get reportTypeSourceBody =>
+      'One or more of the listed sources link to malicious pages or pay content.';
+
+  @override
+  String get reportTypeDescriptionBody =>
+      'The description contains malicious content, or has been edited to contain abusive material.';
+
+  @override
+  String get reportTypeNoteBody =>
+      'The notes on this post are wrong, harassive, or otherwise abusive.';
+
+  @override
+  String get reportTypeTaggingBody =>
+      'One or more tags on this post aren\'t valid or one or more valid tags have been removed from this post.';
+
+  @override
+  String flagPostSuccess(num id) {
+    return 'Flagged post #$id';
+  }
+
+  @override
+  String flagPostFailed(num id) {
+    return 'Failed to flag post #$id';
+  }
+
+  @override
+  String get flagParentId => 'Parent ID';
+
+  @override
+  String get flagParentIdRequired => 'Parent ID cannot be empty';
+
+  @override
+  String get flagParentIdInvalid => 'Parent ID must be a number';
+
+  @override
+  String get flagTypeUploadingGuidelines =>
+      'Does not meet the uploading guidelines';
+
+  @override
+  String get flagTypeYoungHuman =>
+      'Young human-like character in an explicit situation';
+
+  @override
+  String get flagTypeDnpArtist =>
+      'The artist of this post is on the avoid posting list';
+
+  @override
+  String get flagTypePayContent =>
+      'Paysite, commercial, or subscription content';
+
+  @override
+  String get flagTypeTrace => 'Trace of another artist\'s work';
+
+  @override
+  String get flagTypePreviouslyDeleted => 'Previously deleted';
+
+  @override
+  String get flagTypeRealPorn => 'Real-life pornography';
+
+  @override
+  String get flagTypeCorrupt =>
+      'File is either corrupted, broken, or otherwise does not work';
+
+  @override
+  String get flagTypeInferior =>
+      'Duplicate or inferior version of another post';
+
+  @override
+  String get flagTypeUploadingGuidelinesBody =>
+      'This post fails to meet the site\'s standards, be it for artistic worth, image quality, relevancy, or something else.\nKeep in mind that your personal preferences have no bearing on this. If you find the content of a post objectionable, simply [[e621:blacklist|blacklist]] it.';
+
+  @override
+  String get flagTypeYoungHumanBody =>
+      'Posts featuring human and human-like characters depicted in a sexual or explicit nude way, are not acceptable on this site.';
+
+  @override
+  String get flagTypeDnpArtistBody =>
+      'Certain artists have requested that their work is not to be published on this site, and were granted [[avoid_posting|Do Not Post]] status.\nSometimes, that status comes with conditions; see [[conditional_dnp]] for more information';
+
+  @override
+  String get flagTypePayContentBody =>
+      'We do not host paysite or commercial content of any kind. This includes Patreon leaks, reposts from piracy websites, and so on.';
+
+  @override
+  String get flagTypeTraceBody =>
+      'Images traced from other artists\' artwork are not accepted on this site. Referencing from something is fine, but outright copying someone else\'s work is not.\nPlease, leave more information in the comments, or simply add the original artwork as the posts\'s parent if it\'s hosted on this site.';
+
+  @override
+  String get flagTypePreviouslyDeletedBody =>
+      'Posts usually get removed for a good reason, and reuploading of deleted content is not acceptable.\nPlease, leave more information in the comments, or simply add the original post as this post\'s parent.';
+
+  @override
+  String get flagTypeRealPornBody =>
+      'Posts featuring real-life pornography are not acceptable on this site. No exceptions.\nNote that images featuring non-erotic photographs are acceptable.';
+
+  @override
+  String get flagTypeCorruptBody =>
+      'Something about this post does not work quite right. This may be a broken video, or a corrupted image.\nEither way, in order to avoid confusion, please explain the situation in the comments.';
+
+  @override
+  String get flagTypeInferiorBody =>
+      'A superior version of this post already exists on the site.\nThis may include images with better visual quality (larger, less compressed), but may also feature \"fixed\" versions, with visual mistakes accounted for by the artist.\nNote that edits and alternate versions do not fall under this category.';
+
+  @override
+  String get taskCancelAll => 'Cancel all';
+
+  @override
+  String get taskClearDone => 'Clear done';
+
+  @override
+  String get taskClearSelection => 'Clear selection';
+
+  @override
+  String get taskCancel => 'Cancel';
+
+  @override
+  String get taskDismiss => 'Dismiss';
+
+  @override
+  String get taskNoTasks => 'No tasks';
+
+  @override
+  String get taskFailedToLoadTasks => 'Failed to load tasks';
+
+  @override
+  String taskSelectionCount(num count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count tasks',
+      one: '1 task',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get taskGroupActive => 'Active';
+
+  @override
+  String get taskGroupFailed => 'Failed';
+
+  @override
+  String get taskActionDownload => 'download';
+
+  @override
+  String get taskActionFavorite => 'favorite';
+
+  @override
+  String get taskActionUnfavorite => 'unfavorite';
+
+  @override
+  String get taskDownloadRunning => 'downloading';
+
+  @override
+  String get taskFavoriteRunning => 'favoriting';
+
+  @override
+  String get taskUnfavoriteRunning => 'unfavoriting';
+
+  @override
+  String get taskDownloadCompleted => 'downloaded';
+
+  @override
+  String get taskFavoriteCompleted => 'favorited';
+
+  @override
+  String get taskUnfavoriteCompleted => 'unfavorited';
+
+  @override
+  String taskQueuedTo(String action) {
+    return 'queued to $action';
+  }
+
+  @override
+  String taskFailedTo(String action) {
+    return 'failed to $action';
+  }
+
+  @override
+  String taskCanceledAction(String action) {
+    return 'canceled $action';
+  }
+
+  @override
+  String taskTileTitle(String label, num id) {
+    return '$label post #$id';
+  }
 }
