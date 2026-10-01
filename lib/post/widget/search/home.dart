@@ -36,7 +36,8 @@ class HomePage extends StatelessWidget {
                   child: AdaptiveScaffold(
                     appBar: const PostSelectionAppBar(
                       child: DefaultAppBar(
-                        title: Center(child: AppIcon()),
+                        title: AppIcon(),
+                        centerTitle: true,
                         actions: [
                           PostsPageFilterButton(),
                           ContextDrawerButton(),

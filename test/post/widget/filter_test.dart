@@ -75,8 +75,9 @@ void main() {
   Future<PostParamsController> pumpPage(
     WidgetTester tester, {
     Widget? home,
+    Size size = const Size(800, 1600),
   }) async {
-    tester.view.physicalSize = const Size(800, 1600);
+    tester.view.physicalSize = size;
     tester.view.devicePixelRatio = 1;
     addTearDown(tester.view.resetPhysicalSize);
     addTearDown(tester.view.resetDevicePixelRatio);
@@ -192,6 +193,26 @@ void main() {
     expect(find.byIcon(Icons.filter_list), findsOneWidget);
     expect(find.byIcon(Icons.tune), findsOneWidget);
     expect(find.byType(PostsPageFab), findsOneWidget);
+  });
+
+  displayTest('the home page app bar icon stays centered', (tester) async {
+    await pumpPage(tester, home: const HomePage());
+
+    final Rect icon = tester.getRect(find.byType(AppIcon).first);
+    // The 800 wide surface has its center at 400; an uncentered title
+    // would sit left of it, behind the asymmetric action buttons.
+    expect(icon.center.dx, moreOrLessEquals(400, epsilon: 0.5));
+  });
+
+  displayTest('the home page app bar icon stays centered on wide screens', (
+    tester,
+  ) async {
+    // Wide, but below the 1200 breakpoint that swaps the drawer in beside
+    // the body, which the bare test harness does not provide for.
+    await pumpPage(tester, home: const HomePage(), size: const Size(1100, 800));
+
+    final Rect icon = tester.getRect(find.byType(AppIcon).first);
+    expect(icon.center.dx, moreOrLessEquals(550, epsilon: 0.5));
   });
 
   displayTest('filter changes apply to the search live', (tester) async {
