@@ -59,7 +59,7 @@ class PostGridSliver extends StatelessWidget {
     required this.fetchNextPage,
   });
 
-  final PagingState<int, Post> state;
+  final PagingState<Object, Post> state;
   final VoidCallback fetchNextPage;
 
   @override
@@ -79,7 +79,7 @@ class PostGridSliver extends StatelessWidget {
     );
 
     return switch (TileLayout.of(context).stagger) {
-      GridQuilt.square => PagedSliverGrid<int, Post>(
+      GridQuilt.square => PagedSliverGrid<Object, Post>(
         showNewPageErrorIndicatorAsGridChild: false,
         showNewPageProgressIndicatorAsGridChild: false,
         showNoMoreItemsIndicatorAsGridChild: false,
@@ -91,7 +91,7 @@ class PostGridSliver extends StatelessWidget {
           childAspectRatio: 1 / TileLayout.of(context).tileHeightFactor,
         ),
       ),
-      GridQuilt.vertical => PagedSliverMasonryGrid<int, Post>.count(
+      GridQuilt.vertical => PagedSliverMasonryGrid<Object, Post>.count(
         showNewPageErrorIndicatorAsGridChild: false,
         showNewPageProgressIndicatorAsGridChild: false,
         showNoMoreItemsIndicatorAsGridChild: false,
@@ -116,7 +116,7 @@ class PostComicSliver extends StatelessWidget {
     required this.fetchNextPage,
   });
 
-  final PagingState<int, Post> state;
+  final PagingState<Object, Post> state;
   final VoidCallback fetchNextPage;
 
   @override
@@ -148,7 +148,7 @@ class PostTimelineSliver extends StatelessWidget {
     required this.fetchNextPage,
   });
 
-  final PagingState<int, Post> state;
+  final PagingState<Object, Post> state;
   final VoidCallback fetchNextPage;
 
   @override

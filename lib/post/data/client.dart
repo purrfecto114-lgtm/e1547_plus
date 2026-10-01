@@ -27,8 +27,10 @@ class PostClient {
       .then(unwrapRailsArray)
       .then((response) => E621Post.fromJson(response.data));
 
+  /// [page] is either a 1-based page number or a `b<id>` cursor, which the
+  /// server serves with the posts before that id in descending id order.
   Future<List<Post>> page({
-    int? page,
+    Object? page,
     int? limit,
     QueryMap? query,
     CancelToken? cancelToken,
@@ -127,7 +129,7 @@ class PostClient {
   );
 
   Future<List<Post>> favorites({
-    int? page,
+    Object? page,
     int? limit,
     QueryMap? query,
     CancelToken? cancelToken,

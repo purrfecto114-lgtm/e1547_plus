@@ -136,8 +136,8 @@ void main() {
 
     await pushDetail(tester, filter, post: samplePost(id: 1000));
 
-    final view = tester.widget<PagedPageView<int, Post>>(
-      find.byType(PagedPageView<int, Post>),
+    final view = tester.widget<PagedPageView<Object, Post>>(
+      find.byType(PagedPageView<Object, Post>),
     );
     expect(view.state.items?.map((post) => post.id), [1000]);
   });
