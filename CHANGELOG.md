@@ -4,6 +4,19 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and this project
 adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [21.1.0-rc.5+108] - 2026-10-01
+### Added
+- cursor pagination to post searches sorted by recency, keeping browsing stable while new posts arrive
+- a page footer with page and post counts and page jumping to post lists
+- translations of the remaining status and error messages
+
+### Changed
+- post searches with non-id orderings now stop at e621's page limit instead of failing with a server error
+
+### Fixed
+- detail page dates not following the app language
+- a russian plural mismatch in follow notification counts
+
 ## [21.1.0-rc.4+107] - 2026-09-30
 ### Added
 - a language selection step to onboarding
@@ -1022,6 +1035,7 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 ### Fixed
 - API client bindings
 
+[21.1.0-rc.5+108]: https://github.com/purrfecto114-lgtm/e1547_plus/compare/21.1.0-rc.4+107...21.1.0-rc.5+108
 [21.1.0-rc.4+107]: https://github.com/purrfecto114-lgtm/e1547_plus/compare/21.1.0-rc.3+106...21.1.0-rc.4+107
 [21.1.0-rc.3+106]: https://github.com/purrfecto114-lgtm/e1547_plus/compare/21.1.0-rc.2+105...21.1.0-rc.3+106
 [21.1.0-rc.2+105]: https://github.com/purrfecto114-lgtm/e1547_plus/compare/21.1.0-rc.1+104...21.1.0-rc.2+105

@@ -34,6 +34,7 @@
 - Multiple App Themes
 - Multilingual interface (English, 简体中文, 繁體中文, 日本語, Русский)
 - Language selection during onboarding, with quick filters in the app bar
+- Stable cursor pagination with a page footer and page jumping
 
 ## Localization
 
