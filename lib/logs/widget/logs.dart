@@ -47,9 +47,10 @@ class _LogsPageState extends State<LogsPage> {
           onShowAll: () => Navigator.of(context).push(
             MaterialPageRoute(
               builder: (context) => LogFileList(
+                // Closing the list is the tile's own job: its guard pops
+                // the list's route before handing over the selection.
                 onSelected: (file) {
                   setState(() => _file = file);
-                  Navigator.of(context).pop();
                 },
               ),
             ),
