@@ -458,6 +458,13 @@
   "@filterAny": {
     "description": "Post status option that allows any status."
   },
+  "filterFileType": "File type",
+  "filterUploader": "Uploader",
+  "filterWidth": "Width",
+  "filterHeight": "Height",
+  "filterTagCount": "Tag count",
+  "filterTrue": "True",
+  "filterFalse": "False",
   "filterTitleContains": "Title contains",
   "@filterTitleContains": {
     "description": "Name of the topic title filter."

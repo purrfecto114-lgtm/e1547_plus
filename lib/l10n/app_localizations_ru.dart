@@ -797,6 +797,27 @@ class AppLocalizationsRu extends AppLocalizations {
   String get filterAny => 'Любой';
 
   @override
+  String get filterFileType => 'Тип файла';
+
+  @override
+  String get filterUploader => 'Загрузивший';
+
+  @override
+  String get filterWidth => 'Ширина';
+
+  @override
+  String get filterHeight => 'Высота';
+
+  @override
+  String get filterTagCount => 'Количество тегов';
+
+  @override
+  String get filterTrue => 'Да';
+
+  @override
+  String get filterFalse => 'Нет';
+
+  @override
   String get filterTitleContains => 'Заголовок содержит';
 
   @override

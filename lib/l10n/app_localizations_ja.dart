@@ -764,6 +764,27 @@ class AppLocalizationsJa extends AppLocalizations {
   String get filterAny => '指定なし';
 
   @override
+  String get filterFileType => 'ファイル形式';
+
+  @override
+  String get filterUploader => '投稿者';
+
+  @override
+  String get filterWidth => '幅';
+
+  @override
+  String get filterHeight => '高さ';
+
+  @override
+  String get filterTagCount => 'タグ数';
+
+  @override
+  String get filterTrue => 'はい';
+
+  @override
+  String get filterFalse => 'いいえ';
+
+  @override
   String get filterTitleContains => 'タイトルに含む';
 
   @override

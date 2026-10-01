@@ -762,6 +762,27 @@ class AppLocalizationsZh extends AppLocalizations {
   String get filterAny => '任意';
 
   @override
+  String get filterFileType => '文件类型';
+
+  @override
+  String get filterUploader => '上传者';
+
+  @override
+  String get filterWidth => '宽度';
+
+  @override
+  String get filterHeight => '高度';
+
+  @override
+  String get filterTagCount => '标签数';
+
+  @override
+  String get filterTrue => '是';
+
+  @override
+  String get filterFalse => '否';
+
+  @override
   String get filterTitleContains => '标题包含';
 
   @override
@@ -2896,6 +2917,27 @@ class AppLocalizationsZhHant extends AppLocalizationsZh {
 
   @override
   String get filterAny => '任意';
+
+  @override
+  String get filterFileType => '檔案類型';
+
+  @override
+  String get filterUploader => '上傳者';
+
+  @override
+  String get filterWidth => '寬度';
+
+  @override
+  String get filterHeight => '高度';
+
+  @override
+  String get filterTagCount => '標籤數';
+
+  @override
+  String get filterTrue => '是';
+
+  @override
+  String get filterFalse => '否';
 
   @override
   String get filterTitleContains => '標題包含';

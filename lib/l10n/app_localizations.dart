@@ -1453,6 +1453,48 @@ abstract class AppLocalizations {
   /// **'Any'**
   String get filterAny;
 
+  /// No description provided for @filterFileType.
+  ///
+  /// In en, this message translates to:
+  /// **'File type'**
+  String get filterFileType;
+
+  /// No description provided for @filterUploader.
+  ///
+  /// In en, this message translates to:
+  /// **'Uploader'**
+  String get filterUploader;
+
+  /// No description provided for @filterWidth.
+  ///
+  /// In en, this message translates to:
+  /// **'Width'**
+  String get filterWidth;
+
+  /// No description provided for @filterHeight.
+  ///
+  /// In en, this message translates to:
+  /// **'Height'**
+  String get filterHeight;
+
+  /// No description provided for @filterTagCount.
+  ///
+  /// In en, this message translates to:
+  /// **'Tag count'**
+  String get filterTagCount;
+
+  /// No description provided for @filterTrue.
+  ///
+  /// In en, this message translates to:
+  /// **'True'**
+  String get filterTrue;
+
+  /// No description provided for @filterFalse.
+  ///
+  /// In en, this message translates to:
+  /// **'False'**
+  String get filterFalse;
+
   /// Name of the topic title filter.
   ///
   /// In en, this message translates to:

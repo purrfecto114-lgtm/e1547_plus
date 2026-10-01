@@ -143,6 +143,48 @@ abstract class PostParams with _$PostParams {
         ],
         icon: Icon(Icons.help),
       ),
+      const ChoiceFilterTag(
+        tag: 'type',
+        name: 'File type',
+        options: [
+          ChoiceFilterTagValue(value: null, name: 'All'),
+          ChoiceFilterTagValue(value: 'jpg', name: 'JPG'),
+          ChoiceFilterTagValue(value: 'png', name: 'PNG'),
+          ChoiceFilterTagValue(value: 'gif', name: 'GIF'),
+          ChoiceFilterTagValue(value: 'webm', name: 'WEBM'),
+          ChoiceFilterTagValue(value: 'swf', name: 'SWF'),
+        ],
+        icon: Icon(Icons.image),
+      ),
+      const TextFilterTag(
+        tag: 'user',
+        name: 'Uploader',
+        icon: Icon(Icons.person),
+      ),
+      const NumberRangeFilterTag(
+        tag: 'width',
+        name: 'Width',
+        min: 0,
+        max: 10000,
+        division: 100,
+        icon: Icon(Icons.straighten),
+      ),
+      const NumberRangeFilterTag(
+        tag: 'height',
+        name: 'Height',
+        min: 0,
+        max: 10000,
+        division: 100,
+        icon: Icon(Icons.height),
+      ),
+      const NumberRangeFilterTag(
+        tag: 'tagcount',
+        name: 'Tag count',
+        min: 0,
+        max: 50,
+        division: 5,
+        icon: Icon(Icons.label),
+      ),
     ],
   );
 }

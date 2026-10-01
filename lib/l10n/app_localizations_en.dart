@@ -776,6 +776,27 @@ class AppLocalizationsEn extends AppLocalizations {
   String get filterAny => 'Any';
 
   @override
+  String get filterFileType => 'File type';
+
+  @override
+  String get filterUploader => 'Uploader';
+
+  @override
+  String get filterWidth => 'Width';
+
+  @override
+  String get filterHeight => 'Height';
+
+  @override
+  String get filterTagCount => 'Tag count';
+
+  @override
+  String get filterTrue => 'True';
+
+  @override
+  String get filterFalse => 'False';
+
+  @override
   String get filterTitleContains => 'Title contains';
 
   @override

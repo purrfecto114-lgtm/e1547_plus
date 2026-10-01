@@ -178,6 +178,11 @@ void main() {
     expect(find.text('是父帖'), findsOneWidget);
     expect(find.text('上传日期'), findsOneWidget);
     expect(find.text('状态'), findsOneWidget);
+    expect(find.text('文件类型'), findsOneWidget);
+    expect(find.text('上传者'), findsOneWidget);
+    expect(find.text('宽度'), findsOneWidget);
+    expect(find.text('高度'), findsOneWidget);
+    expect(find.text('标签数'), findsOneWidget);
   });
 
   displayTest('the home page offers filters in its app bar', (tester) async {
@@ -226,5 +231,76 @@ void main() {
     expect(controller.value.tags, 'wolf');
     expect(queryPreview(tester), 'wolf');
     expect(buttonColor(tester), isNull);
+  });
+
+  displayTest('the file type filter writes a type tag', (tester) async {
+    final controller = await pumpPage(tester);
+
+    await openFilterPrompt(tester);
+    await pickFilterOption(tester, icon: Icons.image, option: 'WEBM');
+
+    expect(controller.value.tags, 'type:webm');
+    expect(queryPreview(tester), 'type:webm');
+    expect(buttonColor(tester), primaryColor(tester));
+
+    await pickFilterOption(tester, icon: Icons.image, option: '全部');
+    await settle(tester);
+
+    expect(controller.value.tags, isNull);
+    expect(queryPreview(tester), '—');
+    expect(buttonColor(tester), isNull);
+  });
+
+  displayTest('the uploader filter writes a user tag', (tester) async {
+    final controller = await pumpPage(tester);
+
+    await openFilterPrompt(tester);
+    await tester.enterText(find.byKey(const Key('FilterList/user')), 'alice');
+    await tester.pump();
+
+    expect(controller.value.tags, 'user:alice');
+    expect(queryPreview(tester), 'user:alice');
+    expect(buttonColor(tester), primaryColor(tester));
+
+    await tester.enterText(find.byKey(const Key('FilterList/user')), '');
+    await tester.pump();
+    await settle(tester);
+
+    expect(controller.value.tags, isNull);
+    expect(queryPreview(tester), '—');
+    expect(buttonColor(tester), isNull);
+  });
+
+  displayTest('the width filter writes a number range tag', (tester) async {
+    final controller = await pumpPage(tester);
+
+    await openFilterPrompt(tester);
+    await tester.tap(find.byKey(const Key('FilterList/width:null')));
+    await tester.pump();
+    await tester.pump(const Duration(milliseconds: 200));
+
+    // A range the formatter lets through, but the parser rejects, shows the
+    // dialog's error state.
+    final dialogField = find.descendant(
+      of: find.byType(AlertDialog),
+      matching: find.byType(TextField),
+    );
+    await tester.enterText(dialogField, '>=');
+    await tester.tap(find.text('确定'));
+    await tester.pump();
+    expect(find.text('格式无效'), findsOneWidget);
+
+    await tester.enterText(dialogField, '>=1000');
+    await tester.pump();
+    expect(find.text('格式无效'), findsNothing);
+
+    await tester.tap(find.text('确定'));
+    await tester.pump();
+    await tester.pump(const Duration(milliseconds: 200));
+    await settle(tester);
+
+    expect(controller.value.tags, 'width:>=1000');
+    expect(queryPreview(tester), 'width:>=1000');
+    expect(buttonColor(tester), primaryColor(tester));
   });
 }

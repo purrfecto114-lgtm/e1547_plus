@@ -496,7 +496,19 @@ void main() {
     );
 
     // filter labels
-    for (final label in ['评分', '收藏数', '排序方式', '分级', '上传日期', '状态']) {
+    for (final label in [
+      '评分',
+      '收藏数',
+      '排序方式',
+      '分级',
+      '上传日期',
+      '状态',
+      '文件类型',
+      '上传者',
+      '宽度',
+      '高度',
+      '标签数',
+    ]) {
       expect(find.text(label), findsOneWidget, reason: label);
     }
     // checkbox labels and descriptions
@@ -504,9 +516,9 @@ void main() {
       expect(find.text(label), findsOneWidget, reason: label);
     }
     // the order and status dropdowns show their default values,
-    // as do the rating and upload date dropdowns
+    // as do the rating, upload date and file type dropdowns
     expect(find.text('默认'), findsNWidgets(2));
-    expect(find.text('全部'), findsNWidgets(2));
+    expect(find.text('全部'), findsNWidgets(3));
     expect(find.text('Sort by'), findsNothing);
     expect(find.text('Rating'), findsNothing);
 
@@ -531,9 +543,18 @@ void main() {
     expect(find.text('存疑'), findsOneWidget);
     expect(find.text('露骨'), findsOneWidget);
     // the menu repeats the current value
-    expect(find.text('全部'), findsNWidgets(3));
+    expect(find.text('全部'), findsNWidgets(4));
 
     await tester.tap(find.text('露骨').last);
+    await tester.pumpAndSettle();
+
+    // the file type dropdown's options stay untranslated by design
+    await tester.tap(find.byIcon(Icons.image));
+    await tester.pumpAndSettle();
+    expect(find.text('JPG'), findsOneWidget);
+    expect(find.text('WEBM'), findsOneWidget);
+
+    await tester.tap(find.text('WEBM').last);
     await tester.pumpAndSettle();
 
     // the picked options stick
@@ -541,5 +562,6 @@ void main() {
     expect(find.text('露骨'), findsOneWidget);
     expect(find.text('默认'), findsOneWidget);
     expect(find.text('全部'), findsOneWidget);
+    expect(find.text('WEBM'), findsOneWidget);
   });
 }
