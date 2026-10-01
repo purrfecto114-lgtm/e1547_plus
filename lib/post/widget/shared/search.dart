@@ -31,6 +31,8 @@ class TagSearchFilter extends StatelessWidget {
         autofocus: theme.primary,
         controller: controller,
         submit: (value) => state.onSubmit?.call(value),
+        // These tags go to the server, so its metatags are fair game here.
+        metatagSuggestions: true,
       ),
     );
   }
