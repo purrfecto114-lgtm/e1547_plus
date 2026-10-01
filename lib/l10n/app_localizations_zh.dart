@@ -600,6 +600,30 @@ class AppLocalizationsZh extends AppLocalizations {
   String get failedToLoadPosts => '帖子加载失败';
 
   @override
+  String postListPageSummary(num count, Object page) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count 个帖子',
+    );
+    return '第 $page 页 · $_temp0';
+  }
+
+  @override
+  String get postListPageLimit => '已达服务器页数上限，请缩小搜索范围';
+
+  @override
+  String get postListJumpToPage => '跳转页面';
+
+  @override
+  String get postListJumpPageLabel => '页码';
+
+  @override
+  String postListJumpPageRange(Object max) {
+    return '请输入 1 到 $max 之间的页码';
+  }
+
+  @override
   String get postDeletedOverlay => '帖子已被删除';
 
   @override
@@ -2710,6 +2734,30 @@ class AppLocalizationsZhHant extends AppLocalizationsZh {
 
   @override
   String get failedToLoadPosts => '貼文載入失敗';
+
+  @override
+  String postListPageSummary(num count, Object page) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count 則貼文',
+    );
+    return '第 $page 頁 · $_temp0';
+  }
+
+  @override
+  String get postListPageLimit => '已達伺服器頁數上限，請縮小搜尋範圍';
+
+  @override
+  String get postListJumpToPage => '跳轉頁面';
+
+  @override
+  String get postListJumpPageLabel => '頁碼';
+
+  @override
+  String postListJumpPageRange(Object max) {
+    return '請輸入 1 到 $max 之間的頁碼';
+  }
 
   @override
   String get postDeletedOverlay => '貼文已被刪除';

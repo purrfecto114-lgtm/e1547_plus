@@ -625,6 +625,34 @@ class AppLocalizationsRu extends AppLocalizations {
   String get failedToLoadPosts => 'Не удалось загрузить посты';
 
   @override
+  String postListPageSummary(num count, Object page) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count поста',
+      many: '$count постов',
+      few: '$count поста',
+      one: '$count пост',
+    );
+    return 'Страница $page · $_temp0';
+  }
+
+  @override
+  String get postListPageLimit =>
+      'Достигнут лимит страниц сервера. Сузьте условия поиска.';
+
+  @override
+  String get postListJumpToPage => 'Перейти на страницу';
+
+  @override
+  String get postListJumpPageLabel => 'Номер страницы';
+
+  @override
+  String postListJumpPageRange(Object max) {
+    return 'Введите номер страницы от 1 до $max';
+  }
+
+  @override
   String get postDeletedOverlay => 'Пост удалён';
 
   @override

@@ -1165,6 +1165,36 @@ abstract class AppLocalizations {
   /// **'Failed to load posts'**
   String get failedToLoadPosts;
 
+  /// No description provided for @postListPageSummary.
+  ///
+  /// In en, this message translates to:
+  /// **'Page {page} · {count, plural, one{{count} post} other{{count} posts}}'**
+  String postListPageSummary(num count, Object page);
+
+  /// No description provided for @postListPageLimit.
+  ///
+  /// In en, this message translates to:
+  /// **'You have reached the server\'s page limit. Please narrow your search terms.'**
+  String get postListPageLimit;
+
+  /// No description provided for @postListJumpToPage.
+  ///
+  /// In en, this message translates to:
+  /// **'Jump to page'**
+  String get postListJumpToPage;
+
+  /// No description provided for @postListJumpPageLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Page number'**
+  String get postListJumpPageLabel;
+
+  /// No description provided for @postListJumpPageRange.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter a page number between 1 and {max}'**
+  String postListJumpPageRange(Object max);
+
   /// No description provided for @postDeletedOverlay.
   ///
   /// In en, this message translates to:

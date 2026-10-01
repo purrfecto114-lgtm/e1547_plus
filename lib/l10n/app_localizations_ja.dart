@@ -602,6 +602,30 @@ class AppLocalizationsJa extends AppLocalizations {
   String get failedToLoadPosts => '投稿を読み込めませんでした';
 
   @override
+  String postListPageSummary(num count, Object page) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count 件の投稿',
+    );
+    return '$page ページ目・$_temp0';
+  }
+
+  @override
+  String get postListPageLimit => 'サーバーのページ数上限に達しました。検索条件を絞ってください。';
+
+  @override
+  String get postListJumpToPage => 'ページに移動';
+
+  @override
+  String get postListJumpPageLabel => 'ページ番号';
+
+  @override
+  String postListJumpPageRange(Object max) {
+    return '1～$max のページ番号を入力してください';
+  }
+
+  @override
   String get postDeletedOverlay => '削除された投稿です';
 
   @override

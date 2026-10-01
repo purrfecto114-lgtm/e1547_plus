@@ -11,18 +11,37 @@ class PostList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => PostPageQueryBuilder(
-    builder: (context, state, query) => PullToRefresh(
-      onRefresh: query.invalidate,
-      child: CustomScrollView(
-        primary: true,
-        slivers: [
-          SliverPadding(
-            padding: defaultActionListPadding,
-            sliver: SliverPostList(displayType: displayType),
-          ),
-        ],
-      ),
-    ),
+    builder: (context, state, query) {
+      // The scroll view shadows the primary scroll controller from the
+      // footer inside it, so it is handed in from out here.
+      final scrollController = PrimaryScrollController.of(context);
+      return PullToRefresh(
+        onRefresh: query.invalidate,
+        child: CustomScrollView(
+          primary: true,
+          slivers: [
+            SliverPadding(
+              padding: defaultListPadding,
+              sliver: SliverPostList(displayType: displayType),
+            ),
+            // The footer carries the bottom clearance of the list, so the
+            // posts end flush above it.
+            SliverPadding(
+              padding: defaultListPadding.copyWith(
+                bottom: defaultActionListPadding.bottom,
+              ),
+              sliver: SliverToBoxAdapter(
+                child: PostListFooter(
+                  state: state,
+                  query: query,
+                  scrollController: scrollController,
+                ),
+              ),
+            ),
+          ],
+        ),
+      );
+    },
   );
 }
 

@@ -611,6 +611,32 @@ class AppLocalizationsEn extends AppLocalizations {
   String get failedToLoadPosts => 'Failed to load posts';
 
   @override
+  String postListPageSummary(num count, Object page) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count posts',
+      one: '$count post',
+    );
+    return 'Page $page · $_temp0';
+  }
+
+  @override
+  String get postListPageLimit =>
+      'You have reached the server\'s page limit. Please narrow your search terms.';
+
+  @override
+  String get postListJumpToPage => 'Jump to page';
+
+  @override
+  String get postListJumpPageLabel => 'Page number';
+
+  @override
+  String postListJumpPageRange(Object max) {
+    return 'Enter a page number between 1 and $max';
+  }
+
+  @override
   String get postDeletedOverlay => 'Post was deleted';
 
   @override
