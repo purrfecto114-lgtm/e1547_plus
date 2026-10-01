@@ -6,6 +6,20 @@ import 'package:flutter/material.dart';
 import 'package:flutter_sub/flutter_sub.dart';
 import 'package:sliding_sheet/sliding_sheet.dart';
 
+/// Pops the dialog that [context] belongs to, ignoring repeated calls.
+///
+/// A dialog that is already leaving—like when a double tap fires its button
+/// twice—is no longer the navigator's current route, so a further call does
+/// nothing, not even to the route below. Returns whether the dialog was still
+/// open and has been popped.
+bool popDialog<T>(BuildContext context, [T? result]) {
+  if (ModalRoute.of(context)?.isCurrent ?? false) {
+    Navigator.of(context).pop(result);
+    return true;
+  }
+  return false;
+}
+
 abstract class _PromptActionRoute {
   /// Whether the dialog is open.
   bool get isOpen;

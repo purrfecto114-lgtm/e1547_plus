@@ -54,20 +54,21 @@ class IdentitiesPage extends StatelessWidget {
                       content: Text(l10n.identityRemoveBody),
                       actions: [
                         TextButton(
-                          onPressed: Navigator.of(context).maybePop,
+                          onPressed: () => popDialog(context),
                           child: Text(l10n.actionCancel),
                         ),
                         ElevatedButton(
                           child: Text(l10n.actionRemove),
                           onPressed: () {
-                            Navigator.of(context).maybePop();
-                            final storage = context.read<AppStorage>();
-                            context.read<IdentityClient>().remove(identity);
-                            removeIdentityQueries(
-                              cache: storage.queryCache,
-                              database: storage.sqlite,
-                              identity: identity.id,
-                            );
+                            if (popDialog(context)) {
+                              final storage = context.read<AppStorage>();
+                              context.read<IdentityClient>().remove(identity);
+                              removeIdentityQueries(
+                                cache: storage.queryCache,
+                                database: storage.sqlite,
+                                identity: identity.id,
+                              );
+                            }
                           },
                         ),
                       ],

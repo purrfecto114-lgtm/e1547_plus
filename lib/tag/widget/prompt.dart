@@ -37,13 +37,14 @@ Future<void> showTagSearchPrompt({
           children: [
             InkWell(
               onTap: () {
-                Navigator.of(context).maybePop();
-                Navigator.of(context).push(
-                  MaterialPageRoute(
-                    builder: (context) =>
-                        PostsPage(params: PostParams(tags: tag)),
-                  ),
-                );
+                if (popDialog(context)) {
+                  Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (context) =>
+                          PostsPage(params: PostParams(tags: tag)),
+                    ),
+                  );
+                }
               },
               child: Text(
                 tagToName(tag),

@@ -1,5 +1,6 @@
 import 'package:e1547/l10n/app_localizations.dart';
 import 'package:e1547/post/post.dart';
+import 'package:e1547/shared/shared.dart';
 import 'package:e1547/ticket/ticket.dart';
 import 'package:flutter/material.dart';
 
@@ -96,8 +97,9 @@ Future<Rating?> showRatingDialog({
               title: Text(localizedRatingName(context, rating)),
               leading: rating.icon,
               onTap: () {
-                onSelected?.call(rating);
-                Navigator.of(context).pop(rating);
+                if (popDialog(context, rating)) {
+                  onSelected?.call(rating);
+                }
               },
             ),
           )

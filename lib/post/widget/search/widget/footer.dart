@@ -187,7 +187,7 @@ class _PageJumpDialogState extends State<_PageJumpDialog> {
       setState(() => hasError = true);
       return;
     }
-    Navigator.of(context).pop(page);
+    popDialog(context, page);
   }
 
   @override
@@ -208,7 +208,7 @@ class _PageJumpDialogState extends State<_PageJumpDialog> {
       ),
       actions: [
         TextButton(
-          onPressed: () => Navigator.of(context).maybePop(),
+          onPressed: () => popDialog(context),
           child: Text(l10n.actionCancel),
         ),
         TextButton(onPressed: submit, child: Text(l10n.actionOk)),

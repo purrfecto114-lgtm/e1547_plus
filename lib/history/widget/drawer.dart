@@ -72,13 +72,14 @@ class HistoryClearTile extends StatelessWidget {
           content: Text(AppLocalizations.of(context).historyClearConfirmBody),
           actions: [
             TextButton(
-              onPressed: () => Navigator.of(context).pop(),
+              onPressed: () => popDialog(context),
               child: Text(AppLocalizations.of(context).actionCancel),
             ),
             TextButton(
               onPressed: () {
-                Navigator.of(context).pop();
-                client.histories.useClear().mutate();
+                if (popDialog(context)) {
+                  client.histories.useClear().mutate();
+                }
               },
               child: Text(AppLocalizations.of(context).historyClearAction),
             ),
@@ -116,15 +117,16 @@ class HistoryLimitTile extends StatelessWidget {
                 ),
                 actions: [
                   TextButton(
-                    onPressed: () => Navigator.of(context).maybePop(),
+                    onPressed: () => popDialog(context),
                     child: Text(AppLocalizations.of(context).actionCancel),
                   ),
                   TextButton(
                     onPressed: () {
-                      client.traits.value = client.traits.value.copyWith(
-                        trimHistory: value,
-                      );
-                      Navigator.of(context).maybePop();
+                      if (popDialog(context)) {
+                        client.traits.value = client.traits.value.copyWith(
+                          trimHistory: value,
+                        );
+                      }
                     },
                     child: Text(AppLocalizations.of(context).actionOk),
                   ),

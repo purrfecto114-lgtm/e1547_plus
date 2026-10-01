@@ -287,6 +287,72 @@ void main() {
     expect(fake.requests, hasLength(requestsBefore));
   });
 
+  displayTest('a page jump prompt survives a double tap on its ok button', (
+    tester,
+  ) async {
+    fake.state.posts
+      ..clear()
+      ..addAll(
+        FakeE621State.seeded(posts: 200).posts
+          ..sort((a, b) => (a['id']! as int).compareTo(b['id']! as int)),
+      );
+    await pumpApp(
+      tester,
+      home: const PostsPage(params: PostParams(tags: 'order:score')),
+    );
+    await settle(tester);
+
+    // The footer sits below the loaded posts, so it has to be scrolled to.
+    // Reaching it runs the list into its next page request, which is still
+    // in flight when the jump is made.
+    await tester.scrollUntilVisible(
+      find.byIcon(Icons.onetwothree),
+      400,
+      scrollable: find.byType(Scrollable).first,
+    );
+
+    await tester.tap(find.byIcon(Icons.onetwothree));
+    await tester.pump();
+
+    await tester.enterText(
+      find.descendant(
+        of: find.byType(AlertDialog),
+        matching: find.byType(TextField),
+      ),
+      '3',
+    );
+
+    // A double tap fires the ok button twice without a frame between the
+    // calls, the tightest window a real double tap can hit.
+    final button = tester.widget<TextButton>(
+      find.widgetWithText(TextButton, '确定'),
+    );
+    button.onPressed!();
+    button.onPressed!();
+    await tester.pump();
+
+    // The prompt left the posts page itself in place.
+    expect(find.byType(PostsPage), findsOneWidget);
+
+    // The jump has to land behind the in-flight page before the test ends.
+    final query = pageQuery('order:score');
+    for (var i = 0; i < 10; i++) {
+      await settle(tester);
+
+      if (query.state is InfiniteQuerySuccess && listPages().contains('3')) {
+        break;
+      }
+    }
+    await tester.pump(const Duration(milliseconds: 400));
+
+    // The search was replaced by the page jumped to, and only once.
+    expect(query.state.data?.args, [3]);
+
+    // The connection of the landed requests waits out its idle timeout on a
+    // timer that has to run out before the test can end.
+    await tester.pump(const Duration(seconds: 5));
+  });
+
   displayTest('the footer reports the state of the search', (tester) async {
     InfiniteQueryStatus<List<Post>, Object> status({
       required List<List<Post>> pages,

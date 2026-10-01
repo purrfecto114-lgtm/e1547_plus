@@ -273,11 +273,11 @@ class DatabaseImportTile extends StatelessWidget {
           content: Text(AppLocalizations.of(context).databaseImportWarning),
           actions: [
             TextButton(
-              onPressed: () => Navigator.of(context).pop(false),
+              onPressed: () => popDialog(context, false),
               child: Text(AppLocalizations.of(context).actionCancel),
             ),
             TextButton(
-              onPressed: () => Navigator.of(context).pop(true),
+              onPressed: () => popDialog(context, true),
               style: TextButton.styleFrom(
                 foregroundColor: Theme.of(context).colorScheme.error,
               ),

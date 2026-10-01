@@ -100,13 +100,14 @@ class LogFileDeleteConfirmation extends StatelessWidget {
       content: Text(l10n.actionCannotBeUndone),
       actions: [
         TextButton(
-          onPressed: () => Navigator.of(context).pop(),
+          onPressed: () => popDialog(context),
           child: Text(l10n.actionCancel),
         ),
         TextButton(
           onPressed: () {
-            onConfirm?.call();
-            Navigator.of(context).pop();
+            if (popDialog(context)) {
+              onConfirm?.call();
+            }
           },
           child: Text(l10n.menuDelete),
         ),
