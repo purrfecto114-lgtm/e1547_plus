@@ -20,6 +20,17 @@ import '../../_support/fake_e621.dart';
 import '../../_support/harness.dart';
 import '../../_support/images.dart';
 
+/// Counts the material page routes pushed onto the navigator.
+class _PushCounter extends NavigatorObserver {
+  int get pages => pushed.whereType<MaterialPageRoute<dynamic>>().length;
+
+  final List<Route<dynamic>> pushed = [];
+
+  @override
+  void didPush(Route<dynamic> route, Route<dynamic>? previousRoute) =>
+      pushed.add(route);
+}
+
 void main() {
   late FakeE621 fake;
   late Client client;
@@ -78,6 +89,7 @@ void main() {
   displayTest('a double tapped tag prompt opens one posts page', (
     tester,
   ) async {
+    final counter = _PushCounter();
     // The prompt's sheet keeps its header below a short screen's fold.
     tester.view.physicalSize = const Size(800, 1600);
     tester.view.devicePixelRatio = 1;
@@ -94,6 +106,7 @@ void main() {
             Provider<Settings>.value(value: settings),
           ],
           child: MaterialApp(
+            navigatorObservers: [counter],
             locale: const Locale('zh'),
             localizationsDelegates: const [
               ...AppLocalizations.localizationsDelegates,
@@ -138,6 +151,7 @@ void main() {
     final header = tester.widget<InkWell>(
       find.ancestor(of: find.text('canine'), matching: find.byType(InkWell)),
     );
+    final pagesBefore = counter.pages;
     header.onTap!();
     header.onTap!();
     await tester.pump();
@@ -145,6 +159,9 @@ void main() {
     await tester.pump(const Duration(milliseconds: 100));
 
     expect(find.byType(PostsPage), findsOneWidget);
+    // The unguarded double tap would push a second posts page after
+    // popping the first, which the lone count above could not tell apart.
+    expect(counter.pages - pagesBefore, 1);
 
     // The pushed page keeps its requests coming, and the test client's
     // cache expires them again in no time, refetching whatever still
