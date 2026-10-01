@@ -134,7 +134,11 @@ class _LogFileListState extends State<LogFileList> {
                       (context, index) {
                         if (index == 0) {
                           return InkWell(
-                            onTap: () => widget.onSelected(null),
+                            onTap: () {
+                              if (popDialog(context)) {
+                                widget.onSelected(null);
+                              }
+                            },
                             child: Column(
                               children: [
                                 Expanded(
@@ -190,7 +194,13 @@ class LogFileTile extends StatelessWidget {
     return SelectionItemOverlay<LogFileInfo>(
       item: file,
       child: InkWell(
-        onTap: onSelected != null ? () => onSelected!(file) : null,
+        onTap: onSelected != null
+            ? () {
+                if (popDialog(context)) {
+                  onSelected!(file);
+                }
+              }
+            : null,
         child: Column(
           children: [
             Expanded(

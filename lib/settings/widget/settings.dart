@@ -173,8 +173,9 @@ class SettingsPage extends StatelessWidget {
                                       ),
                                     ),
                                     onTap: () {
-                                      settings.theme.value = theme;
-                                      Navigator.of(context).maybePop();
+                                      if (popDialog(context)) {
+                                        settings.theme.value = theme;
+                                      }
                                     },
                                   ),
                                 )
@@ -217,8 +218,9 @@ class SettingsPage extends StatelessWidget {
                                 ? const Icon(Icons.check)
                                 : null,
                             onTap: () {
-                              settings.language.value = null;
-                              Navigator.of(context).maybePop();
+                              if (popDialog(context)) {
+                                settings.language.value = null;
+                              }
                             },
                           ),
                           ...appLanguages.map(
@@ -228,8 +230,9 @@ class SettingsPage extends StatelessWidget {
                                   ? const Icon(Icons.check)
                                   : null,
                               onTap: () {
-                                settings.language.value = language.value;
-                                Navigator.of(context).maybePop();
+                                if (popDialog(context)) {
+                                  settings.language.value = language.value;
+                                }
                               },
                             ),
                           ),
@@ -371,8 +374,9 @@ class SettingsPage extends StatelessWidget {
                             (resolution) => ListTile(
                               title: Text(resolution.localizedTitle(context)),
                               onTap: () {
-                                settings.videoResolution.value = resolution;
-                                Navigator.of(context).maybePop();
+                                if (popDialog(context)) {
+                                  settings.videoResolution.value = resolution;
+                                }
                               },
                             ),
                           )

@@ -28,8 +28,9 @@ class IdentitiesPage extends StatelessWidget {
             leading: IdentityAvatar(identity.id),
             title: Text(identity.username ?? l10n.identityAnonymous),
             onTap: () {
-              context.read<IdentityClient>().activate(identity.id);
-              Navigator.of(context).maybePop();
+              if (popDialog(context)) {
+                context.read<IdentityClient>().activate(identity.id);
+              }
             },
             trailing: PopupMenuButton<VoidCallback>(
               icon: const Dimmed(child: Icon(Icons.more_vert)),

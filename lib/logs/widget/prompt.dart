@@ -74,8 +74,9 @@ class LogErrorsHeader extends StatelessWidget {
                   icon: const Icon(Icons.format_list_numbered),
                   label: Text(l10n.logsAll),
                   onTap: () {
-                    Navigator.of(context).pop();
-                    onOpenLogs!();
+                    if (popDialog(context)) {
+                      onOpenLogs!();
+                    }
                   },
                 ),
               if (!errors.isEmpty)
@@ -83,8 +84,9 @@ class LogErrorsHeader extends StatelessWidget {
                   icon: const Icon(Icons.delete_sweep),
                   label: Text(l10n.logsDismissAll),
                   onTap: () {
-                    errors.clear();
-                    Navigator.of(context).pop();
+                    if (popDialog(context)) {
+                      errors.clear();
+                    }
                   },
                 ),
             ],

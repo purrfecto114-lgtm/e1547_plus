@@ -121,8 +121,9 @@ class PoolNameFilter extends StatelessWidget {
             focusNode: theme.focusNode,
             onSelected: (value) {
               if (value.link != null) {
-                Navigator.of(context).pop();
-                const E621LinkParser().open(context, value.link!);
+                if (popDialog(context)) {
+                  const E621LinkParser().open(context, value.link!);
+                }
               } else {
                 controller.text = '${value.name} ';
                 controller.setFocusToEnd();

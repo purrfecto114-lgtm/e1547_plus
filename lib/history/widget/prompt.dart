@@ -20,8 +20,9 @@ Future<void> showHistoryPrompt({
       child: InkWell(
         onTap: onTap != null
             ? () {
-                Navigator.of(context).maybePop();
-                onTap();
+                if (popDialog(context)) {
+                  onTap();
+                }
               }
             : null,
         child: Text(

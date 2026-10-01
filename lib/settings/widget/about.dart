@@ -208,7 +208,7 @@ class AboutVersion extends StatelessWidget {
         ),
         actions: [
           TextButton(
-            onPressed: Navigator.of(context).maybePop,
+            onPressed: () => popDialog(context),
             child: Text(AppLocalizations.of(context).actionCancel),
           ),
           TextButton(

@@ -192,8 +192,9 @@ class RemoveTagAction extends StatelessWidget {
       icon: const Icon(Icons.search_off),
       label: Text(AppLocalizations.of(context).actionRemove),
       onTap: () {
-        Navigator.of(context).maybePop();
-        controller.removeTag(tag);
+        if (popDialog(context)) {
+          controller.removeTag(tag);
+        }
       },
     );
   }
@@ -212,8 +213,9 @@ class AddTagAction extends StatelessWidget {
       icon: const Icon(Icons.zoom_in),
       label: Text(AppLocalizations.of(context).actionAdd),
       onTap: () {
-        Navigator.of(context).maybePop();
-        controller.addTag(tag);
+        if (popDialog(context)) {
+          controller.addTag(tag);
+        }
       },
     );
   }
@@ -232,8 +234,9 @@ class SubtractTagAction extends StatelessWidget {
       icon: const Icon(Icons.zoom_out),
       label: Text(AppLocalizations.of(context).actionSubtract),
       onTap: () {
-        Navigator.of(context).maybePop();
-        controller.subtractTag(tag);
+        if (popDialog(context)) {
+          controller.subtractTag(tag);
+        }
       },
     );
   }

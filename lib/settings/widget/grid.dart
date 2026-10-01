@@ -38,8 +38,9 @@ class GridSettingsTile extends StatelessWidget {
                       trailing: Icon(state.icon),
                       title: Text(quiltDescription(context, state)),
                       onTap: () {
-                        onChange!(state);
-                        Navigator.of(context).maybePop();
+                        if (popDialog(context)) {
+                          onChange!(state);
+                        }
                       },
                     ),
                   )
