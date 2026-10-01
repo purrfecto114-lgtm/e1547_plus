@@ -526,6 +526,7 @@ void main() {
     await tester.tap(find.byIcon(Icons.sort));
     await tester.pumpAndSettle();
     expect(find.text('最新'), findsOneWidget);
+    expect(find.text('最旧优先'), findsOneWidget);
     expect(find.text('收藏'), findsOneWidget);
     expect(find.text('排名'), findsOneWidget);
     expect(find.text('随机'), findsOneWidget);

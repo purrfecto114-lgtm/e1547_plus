@@ -60,6 +60,7 @@ class MetatagValueSuggestion extends TagSuggestion {
 const Map<String, List<(String, String)>> metatagValues = {
   'order': [
     ('new', 'New'),
+    ('id_asc', 'Oldest'),
     ('score', 'Score'),
     ('favcount', 'Favorites'),
     ('rank', 'Rank'),

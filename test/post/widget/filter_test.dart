@@ -7,6 +7,7 @@ import 'package:e1547/post/post.dart';
 import 'package:e1547/query/query.dart';
 import 'package:e1547/settings/settings.dart';
 import 'package:e1547/shared/shared.dart';
+import 'package:e1547/tag/tag.dart';
 import 'package:e1547/traits/traits.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_cache_manager/flutter_cache_manager.dart';
@@ -230,6 +231,25 @@ void main() {
 
     expect(controller.value.tags, 'wolf');
     expect(queryPreview(tester), 'wolf');
+    expect(buttonColor(tester), isNull);
+  });
+
+  displayTest('the order filter offers an oldest order', (tester) async {
+    final controller = await pumpPage(tester);
+
+    await openFilterPrompt(tester);
+    await pickFilterOption(tester, icon: Icons.sort, option: '最旧优先');
+
+    expect(controller.value.tags, 'order:id_asc');
+    expect(TagMap(controller.value.tags)['order'], 'id_asc');
+    expect(queryPreview(tester), 'order:id_asc');
+    expect(buttonColor(tester), primaryColor(tester));
+
+    await pickFilterOption(tester, icon: Icons.sort, option: '默认');
+    await settle(tester);
+
+    expect(controller.value.tags, isNull);
+    expect(queryPreview(tester), '—');
     expect(buttonColor(tester), isNull);
   });
 

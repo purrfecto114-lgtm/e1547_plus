@@ -552,6 +552,7 @@ String localizedFilterName(BuildContext context, String name) => switch (name) {
   'Favorite count' => AppLocalizations.of(context).filterFavoriteCount,
   'Sort by' => AppLocalizations.of(context).filterSortBy,
   'New' => AppLocalizations.of(context).filterNew,
+  'Oldest' => AppLocalizations.of(context).filterOldestFirst,
   'Favorites' => AppLocalizations.of(context).navFavorites,
   'Rank' => AppLocalizations.of(context).filterRank,
   'Random' => AppLocalizations.of(context).filterRandom,

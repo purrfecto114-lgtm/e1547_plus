@@ -98,6 +98,35 @@ void main() {
     expect(controller.text, 'order:rank ');
   });
 
+  testWidgets('the tag input suggests the oldest order', (tester) async {
+    final controller = TextEditingController();
+    addTearDown(controller.dispose);
+    final client = await makeClient();
+    addTearDown(client.dispose);
+
+    await tester.pumpWidget(
+      wrap(
+        client: client,
+        child: TagInput(controller: controller, metatagSuggestions: true),
+      ),
+    );
+
+    await tester.enterText(find.byType(TextField), 'order:id');
+    await tester.pump(const Duration(milliseconds: 400));
+    // Let the suggestion box finish its entrance animation.
+    await tester.pumpAndSettle();
+
+    expect(find.text('order:id_asc'), findsOneWidget);
+    // The localized value teaches what the metatag means.
+    expect(find.text('最旧优先'), findsOneWidget);
+
+    // Picking the suggestion replaces the tag being typed.
+    await tester.tap(find.text('order:id_asc'));
+    await tester.pump();
+
+    expect(controller.text, 'order:id_asc ');
+  });
+
   testWidgets('the tag input keeps operators on metatag insert', (
     tester,
   ) async {

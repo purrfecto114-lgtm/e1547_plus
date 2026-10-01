@@ -7,6 +7,7 @@ void main() {
 
     expect(suggestions.map((suggestion) => suggestion.insertText), [
       'order:new',
+      'order:id_asc',
       'order:score',
       'order:favcount',
       'order:rank',
@@ -14,11 +15,22 @@ void main() {
     ]);
     expect(suggestions.map((suggestion) => suggestion.name), [
       'New',
+      'Oldest',
       'Score',
       'Favorites',
       'Rank',
       'Random',
     ]);
+  });
+
+  test('suggests the oldest order by its id prefixes', () {
+    for (final tag in ['order:id', 'order:id_a']) {
+      final suggestions = suggestMetatagValues(tag);
+
+      expect(suggestions, hasLength(1));
+      expect(suggestions.single.insertText, 'order:id_asc');
+      expect(suggestions.single.name, 'Oldest');
+    }
   });
 
   test('suggests values by prefix', () {
