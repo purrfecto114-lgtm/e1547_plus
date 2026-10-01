@@ -3,8 +3,6 @@ import 'dart:io';
 import 'package:cached_query/cached_query.dart';
 import 'package:drift/native.dart';
 import 'package:e1547/app/app.dart';
-import 'package:e1547/client/client.dart';
-import 'package:e1547/identity/identity.dart';
 import 'package:e1547/l10n/app_localizations.dart';
 import 'package:e1547/logs/logs.dart';
 import 'package:e1547/settings/settings.dart';
@@ -211,8 +209,8 @@ void main() {
           Provider<AppStorage>.value(value: storage),
           Provider<Settings>.value(value: settings),
         ],
-        child: MaterialApp(
-          locale: const Locale('zh'),
+        child: const MaterialApp(
+          locale: Locale('zh'),
           localizationsDelegates: AppLocalizations.localizationsDelegates,
           supportedLocales: AppLocalizations.supportedLocales,
           home: const LogsPage(),
