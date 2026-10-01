@@ -291,15 +291,19 @@ void main() {
     expect(controller.value.tags, '-type:webm -type:mp4 -type:swf rating:e');
   });
 
-  displayTest('the file type filter writes a type tag', (tester) async {
+  displayTest('the file type filter writes type group tags', (tester) async {
     final controller = await pumpPage(tester);
 
     await openFilterPrompt(tester);
-    await pickFilterOption(tester, icon: Icons.image, option: 'WEBM');
+    await pickFilterOption(tester, icon: Icons.image, option: '视频');
 
-    expect(controller.value.tags, 'type:webm');
-    expect(queryPreview(tester), 'type:webm');
+    expect(controller.value.tags, PostFileType.video.token);
+    expect(queryPreview(tester), PostFileType.video.token!);
     expect(buttonColor(tester), primaryColor(tester));
+
+    await pickFilterOption(tester, icon: Icons.image, option: '图片');
+
+    expect(controller.value.tags, PostFileType.image.token);
 
     await pickFilterOption(tester, icon: Icons.image, option: '全部');
     await settle(tester);
@@ -307,6 +311,27 @@ void main() {
     expect(controller.value.tags, isNull);
     expect(queryPreview(tester), '—');
     expect(buttonColor(tester), isNull);
+  });
+
+  displayTest('the file type filter adopts plain type tags', (tester) async {
+    final controller = await pumpPage(
+      tester,
+      home: const PostsPage(params: PostParams(tags: 'type:jpg wolf')),
+    );
+
+    await openFilterPrompt(tester);
+
+    // The plain tag of an older query shows as its category, stays in the
+    // query untouched, and lights the filter button.
+    expect(find.text('图片'), findsOneWidget);
+    expect(controller.value.tags, 'type:jpg wolf');
+    expect(buttonColor(tester), primaryColor(tester));
+
+    // Picking a category replaces the whole family of type tags.
+    await pickFilterOption(tester, icon: Icons.image, option: '视频');
+    await settle(tester);
+
+    expect(controller.value.tags, 'wolf ${PostFileType.video.token}');
   });
 
   displayTest('the uploader filter writes a user tag', (tester) async {

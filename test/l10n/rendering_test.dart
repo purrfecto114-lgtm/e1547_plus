@@ -549,13 +549,13 @@ void main() {
     await tester.tap(find.text('露骨').last);
     await tester.pumpAndSettle();
 
-    // the file type dropdown's options stay untranslated by design
+    // the file type dropdown's categories are translated
     await tester.tap(find.byIcon(Icons.image));
     await tester.pumpAndSettle();
-    expect(find.text('JPG'), findsOneWidget);
-    expect(find.text('WEBM'), findsOneWidget);
+    expect(find.text('图片'), findsOneWidget);
+    expect(find.text('视频'), findsOneWidget);
 
-    await tester.tap(find.text('WEBM').last);
+    await tester.tap(find.text('视频').last);
     await tester.pumpAndSettle();
 
     // the picked options stick
@@ -563,6 +563,6 @@ void main() {
     expect(find.text('露骨'), findsOneWidget);
     expect(find.text('默认'), findsOneWidget);
     expect(find.text('全部'), findsOneWidget);
-    expect(find.text('WEBM'), findsOneWidget);
+    expect(find.text('视频'), findsOneWidget);
   });
 }

@@ -232,6 +232,8 @@
   "filterTagCount": "タグ数",
   "filterTrue": "はい",
   "filterFalse": "いいえ",
+  "filterImages": "画像",
+  "filterVideos": "動画",
   "filterTitleContains": "タイトルに含む",
   "filterCategory": "カテゴリ",
   "filterGeneral": "全般",

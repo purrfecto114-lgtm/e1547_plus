@@ -797,6 +797,12 @@ class AppLocalizationsEn extends AppLocalizations {
   String get filterFalse => 'False';
 
   @override
+  String get filterImages => 'Images';
+
+  @override
+  String get filterVideos => 'Videos';
+
+  @override
   String get filterTitleContains => 'Title contains';
 
   @override

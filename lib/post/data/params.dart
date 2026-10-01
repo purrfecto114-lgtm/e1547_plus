@@ -145,19 +145,7 @@ abstract class PostParams with _$PostParams {
         ],
         icon: Icon(Icons.help),
       ),
-      const ChoiceFilterTag(
-        tag: 'type',
-        name: 'File type',
-        options: [
-          ChoiceFilterTagValue(value: null, name: 'All'),
-          ChoiceFilterTagValue(value: 'jpg', name: 'JPG'),
-          ChoiceFilterTagValue(value: 'png', name: 'PNG'),
-          ChoiceFilterTagValue(value: 'gif', name: 'GIF'),
-          ChoiceFilterTagValue(value: 'webm', name: 'WEBM'),
-          ChoiceFilterTagValue(value: 'swf', name: 'SWF'),
-        ],
-        icon: Icon(Icons.image),
-      ),
+      FileTypeFilterTag(),
       const TextFilterTag(
         tag: 'user',
         name: 'Uploader',

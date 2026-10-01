@@ -56,7 +56,9 @@ class MetatagValueSuggestion extends TagSuggestion {
 /// reject would teach users broken syntax.
 ///
 /// Display names double as [localizedFilterName] keys and must match the
-/// names the posts filter panel uses.
+/// names the posts filter panel uses, with the file type extensions as the
+/// exception: the panel offers them grouped into picture and video
+/// categories, so they keep their raw names here.
 const Map<String, List<(String, String)>> metatagValues = {
   'order': [
     ('new', 'New'),
@@ -84,8 +86,9 @@ const Map<String, List<(String, String)>> metatagValues = {
     ('jpg', 'JPG'),
     ('png', 'PNG'),
     ('gif', 'GIF'),
+    ('webp', 'WEBP'),
     ('webm', 'WEBM'),
-    ('swf', 'SWF'),
+    ('mp4', 'MP4'),
   ],
   'inpool': [('true', 'True'), ('false', 'False')],
   'ischild': [('true', 'True'), ('false', 'False')],

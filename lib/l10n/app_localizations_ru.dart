@@ -818,6 +818,12 @@ class AppLocalizationsRu extends AppLocalizations {
   String get filterFalse => 'Нет';
 
   @override
+  String get filterImages => 'Изображения';
+
+  @override
+  String get filterVideos => 'Видео';
+
+  @override
   String get filterTitleContains => 'Заголовок содержит';
 
   @override

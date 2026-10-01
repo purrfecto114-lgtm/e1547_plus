@@ -465,6 +465,8 @@
   "filterTagCount": "Tag count",
   "filterTrue": "True",
   "filterFalse": "False",
+  "filterImages": "Images",
+  "filterVideos": "Videos",
   "filterTitleContains": "Title contains",
   "@filterTitleContains": {
     "description": "Name of the topic title filter."

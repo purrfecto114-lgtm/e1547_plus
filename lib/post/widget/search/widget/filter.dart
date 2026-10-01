@@ -39,9 +39,13 @@ class PostsPageFilterButton extends StatelessWidget {
   Widget build(BuildContext context) {
     final controller = context.watch<PostParamsController>();
     final map = TagMap(controller.value.tags);
-    final active = PostParams.tagsFilter.filters.whereType<FilterTag>().any(
-      (filter) => map.containsKey(filter.tag),
-    );
+    final active =
+        PostParams.tagsFilter.filters.whereType<FilterTag>().any(
+          (filter) => map.containsKey(filter.tag),
+        ) ||
+        // The file type filter writes its family of tags as one group
+        // token, which no plain filter tag carries.
+        hasFileTypeTokens(map);
 
     return IconButton(
       tooltip: AppLocalizations.of(context).searchFilterTitle,

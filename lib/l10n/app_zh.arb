@@ -232,6 +232,8 @@
   "filterTagCount": "标签数",
   "filterTrue": "是",
   "filterFalse": "否",
+  "filterImages": "图片",
+  "filterVideos": "视频",
   "filterTitleContains": "标题包含",
   "filterCategory": "分类",
   "filterGeneral": "综合",

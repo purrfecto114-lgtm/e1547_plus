@@ -1495,6 +1495,18 @@ abstract class AppLocalizations {
   /// **'False'**
   String get filterFalse;
 
+  /// No description provided for @filterImages.
+  ///
+  /// In en, this message translates to:
+  /// **'Images'**
+  String get filterImages;
+
+  /// No description provided for @filterVideos.
+  ///
+  /// In en, this message translates to:
+  /// **'Videos'**
+  String get filterVideos;
+
   /// Name of the topic title filter.
   ///
   /// In en, this message translates to:

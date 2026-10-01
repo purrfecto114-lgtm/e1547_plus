@@ -232,6 +232,8 @@
   "filterTagCount": "Количество тегов",
   "filterTrue": "Да",
   "filterFalse": "Нет",
+  "filterImages": "Изображения",
+  "filterVideos": "Видео",
   "filterTitleContains": "Заголовок содержит",
   "filterCategory": "Категория",
   "filterGeneral": "Общие",

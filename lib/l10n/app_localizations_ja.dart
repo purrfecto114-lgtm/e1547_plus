@@ -785,6 +785,12 @@ class AppLocalizationsJa extends AppLocalizations {
   String get filterFalse => 'いいえ';
 
   @override
+  String get filterImages => '画像';
+
+  @override
+  String get filterVideos => '動画';
+
+  @override
   String get filterTitleContains => 'タイトルに含む';
 
   @override

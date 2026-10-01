@@ -783,6 +783,12 @@ class AppLocalizationsZh extends AppLocalizations {
   String get filterFalse => '否';
 
   @override
+  String get filterImages => '图片';
+
+  @override
+  String get filterVideos => '视频';
+
+  @override
   String get filterTitleContains => '标题包含';
 
   @override
@@ -2938,6 +2944,12 @@ class AppLocalizationsZhHant extends AppLocalizationsZh {
 
   @override
   String get filterFalse => '否';
+
+  @override
+  String get filterImages => '圖片';
+
+  @override
+  String get filterVideos => '影片';
 
   @override
   String get filterTitleContains => '標題包含';

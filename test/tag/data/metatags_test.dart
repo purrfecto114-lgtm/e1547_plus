@@ -1,3 +1,4 @@
+import 'package:e1547/post/post.dart';
 import 'package:e1547/tag/tag.dart';
 import 'package:flutter_test/flutter_test.dart';
 
@@ -65,5 +66,17 @@ void main() {
     // must not match the directory.
     expect(suggestMetatagValues('-order:ra'), isEmpty);
     expect(suggestMetatagValues('~rating:s'), isEmpty);
+  });
+  test('the file type catalog matches the filter categories', () {
+    // Every extension the catalog offers belongs to a filter category,
+    // and flash is dead in this app: it never lists flash posts.
+    expect(
+      metatagValues['type']!.map((entry) => entry.$1),
+      unorderedEquals(fileTypeAliases.keys),
+    );
+    expect(
+      metatagValues['type']!.map((entry) => entry.$1),
+      isNot(contains('swf')),
+    );
   });
 }
