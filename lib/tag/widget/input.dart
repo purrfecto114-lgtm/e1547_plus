@@ -95,6 +95,10 @@ class TagInput extends StatelessWidget {
             List<String> tags = controller.text.split(' ');
             int selection = findTag(tags, controller.selection.extent.offset);
             String tag = tags[selection];
+            // A stale suggestion can outlive the text it belonged to, like
+            // after picking one suggestion right after another, which leaves
+            // the current tag empty.
+            if (tag.isEmpty) return;
             String operator = tag[0];
             if (['-', '~'].contains(operator)) {
               tags[selection] = tag.substring(1);

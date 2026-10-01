@@ -274,6 +274,23 @@ void main() {
     expect(buttonColor(tester), isNull);
   });
 
+  displayTest('filter edits keep repeated tokens of other filters', (
+    tester,
+  ) async {
+    final controller = await pumpPage(
+      tester,
+      home: const PostsPage(
+        params: PostParams(tags: '-type:webm -type:mp4 -type:swf'),
+      ),
+    );
+
+    await openFilterPrompt(tester);
+    await pickFilterOption(tester, icon: Icons.question_mark, option: '露骨');
+    await settle(tester);
+
+    expect(controller.value.tags, '-type:webm -type:mp4 -type:swf rating:e');
+  });
+
   displayTest('the file type filter writes a type tag', (tester) async {
     final controller = await pumpPage(tester);
 

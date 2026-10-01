@@ -98,6 +98,67 @@ void main() {
     expect(controller.text, 'order:rank ');
   });
 
+  testWidgets('the tag input ignores suggestions once a tag is picked', (
+    tester,
+  ) async {
+    final controller = TextEditingController();
+    addTearDown(controller.dispose);
+    final client = await makeClient();
+    addTearDown(client.dispose);
+
+    await tester.pumpWidget(
+      wrap(
+        client: client,
+        child: TagInput(controller: controller, metatagSuggestions: true),
+      ),
+    );
+
+    await tester.enterText(find.byType(TextField), 'order:ra');
+    await tester.pump(const Duration(milliseconds: 400));
+    await tester.pumpAndSettle();
+
+    // Picking one suggestion empties the current tag, and the suggestion
+    // list needs another debounce turn to catch up, so a second pick right
+    // after targets an empty tag.
+    await tester.tap(find.text('order:rank'));
+    await tester.tap(find.text('order:random'));
+    await tester.pump();
+
+    expect(tester.takeException(), isNull);
+    expect(controller.text, 'order:rank ');
+  });
+
+  testWidgets('the tag input ignores suggestions after a trailing space', (
+    tester,
+  ) async {
+    final controller = TextEditingController();
+    addTearDown(controller.dispose);
+    final client = await makeClient();
+    addTearDown(client.dispose);
+
+    await tester.pumpWidget(
+      wrap(
+        client: client,
+        child: TagInput(controller: controller, metatagSuggestions: true),
+      ),
+    );
+
+    await tester.enterText(find.byType(TextField), 'order:ra');
+    await tester.pump(const Duration(milliseconds: 400));
+    await tester.pumpAndSettle();
+
+    // A trailing space empties the current tag, and the suggestions of the
+    // previous text stay around for another debounce turn.
+    await tester.enterText(find.byType(TextField), 'order:ra ');
+    await tester.pump(const Duration(milliseconds: 100));
+
+    await tester.tap(find.text('order:rank'));
+    await tester.pump();
+
+    expect(tester.takeException(), isNull);
+    expect(controller.text, 'order:ra ');
+  });
+
   testWidgets('the tag input suggests the oldest order', (tester) async {
     final controller = TextEditingController();
     addTearDown(controller.dispose);
