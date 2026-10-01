@@ -213,7 +213,7 @@ void main() {
           locale: Locale('zh'),
           localizationsDelegates: AppLocalizations.localizationsDelegates,
           supportedLocales: AppLocalizations.supportedLocales,
-          home: const LogsPage(),
+          home: LogsPage(),
         ),
       ),
     );
