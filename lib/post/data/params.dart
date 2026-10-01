@@ -172,7 +172,7 @@ abstract class PostParams with _$PostParams {
         name: 'Tag count',
         min: 0,
         max: 50,
-        division: 5,
+        division: 10,
         icon: Icon(Icons.label),
       ),
     ],

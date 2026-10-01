@@ -386,4 +386,27 @@ void main() {
     expect(queryPreview(tester), 'width:>=1000');
     expect(buttonColor(tester), primaryColor(tester));
   });
+
+  displayTest('the tag count filter steps its slider by five', (tester) async {
+    await pumpPage(tester);
+
+    await openFilterPrompt(tester);
+    // The tag count row ends the panel, below the sheet's fold.
+    await tester.ensureVisible(
+      find.byKey(const Key('FilterList/tagcount:null')),
+    );
+    await tester.pump(const Duration(milliseconds: 400));
+    await tester.tap(find.byKey(const Key('FilterList/tagcount:null')));
+    await tester.pump();
+    await tester.pump(const Duration(milliseconds: 200));
+
+    final slider = tester.widget<Slider>(
+      find.descendant(
+        of: find.byType(AlertDialog),
+        matching: find.byType(Slider),
+      ),
+    );
+    expect(slider.divisions, 10);
+    expect(slider.max, 50);
+  });
 }
