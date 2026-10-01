@@ -4,6 +4,22 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and this project
 adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [21.1.0-rc.7+110] - 2026-10-01
+### Added
+- an oldest-first order to the posts filter and its metatag autocomplete
+- a page footer with page and post counts and page jumping to the follow timeline
+- picture and video categories to the file type filter
+
+### Fixed
+- dialog buttons dismissing the page behind them or running twice when tapped in quick succession
+- the home app bar logo sitting left of the screen center
+- manually typed metatag filters with repeated tokens (like several -type: exclusions) being collapsed when editing any other filter
+- a crash when tapping a stale tag autocomplete suggestion
+- the follow timeline resetting its search when its panel rebuilt
+- empty searches showing a paging footer
+- the tag count filter slider stepping by 10 instead of 5
+- the russian wording of the uploader filter label
+
 ## [21.1.0-rc.6+109] - 2026-10-01
 ### Added
 - more search filters to the posts filter panel: file type, uploader, width, height and tag count
@@ -1145,3 +1161,4 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 [1.1.0+4]: https://github.com/clragon/e1547/compare/1.0.1...1.1.0
 [1.0.1+2]: https://github.com/clragon/e1547/compare/1.0.0...1.0.1
 [1.0.0+1]: https://github.com/clragon/e1547/releases/tag/1.0.0
+[21.1.0-rc.7+110]: https://github.com/purrfecto114-lgtm/e1547_plus/compare/21.1.0-rc.6+109...21.1.0-rc.7+110
