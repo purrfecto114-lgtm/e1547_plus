@@ -72,8 +72,15 @@ class PostListFooter extends StatelessWidget {
     final data = state.data;
     if (data == null) return const SizedBox.shrink();
     // An ended search without posts has nothing to report or page through.
-    if (state case InfiniteQuerySuccess ended
-        when !ended.hasNextPage && data.pages.expand((page) => page).isEmpty) {
+    // An empty last page counts as ended too: the query's has-next-page
+    // flag lags an empty page by a fetch, and an empty search never
+    // fetches again to correct it.
+    final bool ended = switch (state) {
+      InfiniteQuerySuccess success =>
+        !success.hasNextPage || success.data.pages.lastOrNull?.isEmpty == true,
+      _ => false,
+    };
+    if (ended && data.pages.expand((page) => page).isEmpty) {
       return const SizedBox.shrink();
     }
 
