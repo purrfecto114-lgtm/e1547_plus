@@ -73,6 +73,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get filterTooltip => 'Filter';
 
   @override
+  String get rangeInvalidFormat => 'Invalid format';
+
+  @override
   String itemProgress(num current, num total) {
     return 'Item $current/$total';
   }
@@ -474,10 +477,16 @@ class AppLocalizationsEn extends AppLocalizations {
   String get aboutDonorsFailed => 'Failed to fetch donors';
 
   @override
+  String get aboutDonorsNotListed => 'Not on the list? Contact us!';
+
+  @override
   String get developerUnlocked => 'You are now a developer!';
 
   @override
   String get databaseErrorLoading => 'Error loading database';
+
+  @override
+  String get databaseUnknownSize => 'Unknown';
 
   @override
   String get databaseExportTitle => 'Export Database';
@@ -1247,6 +1256,16 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String identityConnecting(String host, String username) {
     return 'Connecting to $host as $username…';
+  }
+
+  @override
+  String identityActivateFailed(Object error) {
+    return 'Failed to activate identity: $error';
+  }
+
+  @override
+  String traitsActivateFailed(Object error) {
+    return 'Failed to activate traits: $error';
   }
 
   @override
@@ -2138,4 +2157,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get searchFilterQueryLabel => 'Current query:';
+
+  @override
+  String get dtextParsingFailed => 'DText parsing has failed';
 }

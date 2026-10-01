@@ -11,7 +11,7 @@ import 'package:filesize/filesize.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_sub/flutter_sub.dart';
 
-typedef DatabaseInfo = ({String name, String size});
+typedef DatabaseInfo = ({String name, String? size});
 
 final _logger = Logger('DbManagement');
 
@@ -55,9 +55,7 @@ class DatabaseInfoDisplay extends StatelessWidget {
     final dbFile = File(dbPath);
 
     final name = dbPath.split(Platform.pathSeparator).last;
-    final size = dbFile.existsSync()
-        ? filesize(dbFile.lengthSync())
-        : 'Unknown';
+    final size = dbFile.existsSync() ? filesize(dbFile.lengthSync()) : null;
 
     return (name: name, size: size);
   }
@@ -91,7 +89,8 @@ class DatabaseInfoDisplay extends StatelessWidget {
               const SizedBox(height: 8),
               Dimmed(
                 child: Text(
-                  dbInfo.size,
+                  dbInfo.size ??
+                      AppLocalizations.of(context).databaseUnknownSize,
                   style: Theme.of(context).textTheme.bodyLarge,
                 ),
               ),

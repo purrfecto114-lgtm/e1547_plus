@@ -268,7 +268,7 @@ class _RangeDialogState extends State<RangeDialog> {
   late RangeDialogMode mode =
       widget.initialMode ??
       RangeDialogMode.fromComparison(widget.value?.comparison);
-  String? errorMessage;
+  bool hasError = false;
 
   @override
   void dispose() {
@@ -285,7 +285,7 @@ class _RangeDialogState extends State<RangeDialog> {
       widget.onSubmit(range);
       Navigator.of(context).maybePop();
     } on FormatException {
-      setState(() => errorMessage = 'Invalid format');
+      setState(() => hasError = true);
     }
   }
 
@@ -411,11 +411,13 @@ class _RangeDialogState extends State<RangeDialog> {
                     textAlign: TextAlign.center,
                     decoration: InputDecoration(
                       border: InputBorder.none,
-                      errorText: errorMessage,
+                      errorText: hasError
+                          ? AppLocalizations.of(context).rangeInvalidFormat
+                          : null,
                     ),
                     controller: controller,
                     onChanged: (value) => setState(() {
-                      errorMessage = null;
+                      hasError = false;
                       mode = getCurrentMode();
                     }),
                     onSubmitted: submit,
