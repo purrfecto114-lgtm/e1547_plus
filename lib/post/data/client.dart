@@ -94,7 +94,10 @@ class PostClient {
     CancelToken? cancelToken,
   }) async {
     page ??= 1;
-    tags.removeWhere((e) => e.contains(' ') || e.contains(':'));
+    // The list is filtered through a copy: it belongs to the caller, and
+    // callers embed it in query keys, which an in-place edit would leave
+    // behind as a different key.
+    tags = tags.where((e) => !e.contains(' ') && !e.contains(':')).toList();
     if (tags.isEmpty) return [];
     int max = 40;
     int pages = (tags.length / max).ceil();

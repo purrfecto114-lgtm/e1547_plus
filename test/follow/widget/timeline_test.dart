@@ -139,24 +139,41 @@ void main() {
   displayTest('a follow timeline hides its footer without subscriptions', (
     tester,
   ) async {
-    // byTags filters the tag list in place, so it has to stay mutable.
+    // The timeline request would be pointless without a tag to follow.
     final List<String> tags = [];
     await pumpTimeline(tester, tags: tags);
     await settle(tester);
 
-    expect(find.byType(PostListFooter), findsNothing);
+    expect(
+      fake.requests.where((request) => request.path == '/posts.json'),
+      isEmpty,
+    );
+
+    // The footer sits below the timeline, so it is scrolled to before
+    // anything is claimed about it.
+    await tester.scrollUntilVisible(
+      find.byType(PostListFooter),
+      400,
+      scrollable: find.byType(Scrollable).first,
+    );
+    expect(find.textContaining('第 1 页'), findsNothing);
     expect(find.byIcon(Icons.onetwothree), findsNothing);
   });
 
   displayTest('a follow timeline hides its footer for an empty search', (
     tester,
   ) async {
-    // byTags filters the tag list in place, so it has to stay mutable.
-    final List<String> tags = ['tag_999'];
+    fake.state.posts.clear();
+    final List<String> tags = ['tag_1'];
     await pumpTimeline(tester, tags: tags);
     await settle(tester);
 
-    expect(find.byType(PostListFooter), findsNothing);
+    await tester.scrollUntilVisible(
+      find.byType(PostListFooter),
+      400,
+      scrollable: find.byType(Scrollable).first,
+    );
+    expect(find.textContaining('第 1 页'), findsNothing);
     expect(find.byIcon(Icons.onetwothree), findsNothing);
   });
 }
