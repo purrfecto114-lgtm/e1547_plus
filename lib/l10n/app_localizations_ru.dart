@@ -800,7 +800,7 @@ class AppLocalizationsRu extends AppLocalizations {
   String get filterFileType => 'Тип файла';
 
   @override
-  String get filterUploader => 'Загрузивший';
+  String get filterUploader => 'Автор загрузки';
 
   @override
   String get filterWidth => 'Ширина';

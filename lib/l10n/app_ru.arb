@@ -226,7 +226,7 @@
   "filterFlagged": "Помеченные",
   "filterAny": "Любой",
   "filterFileType": "Тип файла",
-  "filterUploader": "Загрузивший",
+  "filterUploader": "Автор загрузки",
   "filterWidth": "Ширина",
   "filterHeight": "Высота",
   "filterTagCount": "Количество тегов",
