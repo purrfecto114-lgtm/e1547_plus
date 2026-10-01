@@ -4,6 +4,11 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and this project
 adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [21.1.0-rc.6+109] - 2026-10-01
+### Added
+- more search filters to the posts filter panel: file type, uploader, width, height and tag count
+- metatag autocomplete to search inputs, suggesting values for special search terms like order:rank
+
 ## [21.1.0-rc.5+108] - 2026-10-01
 ### Added
 - cursor pagination to post searches sorted by recency, keeping browsing stable while new posts arrive
@@ -1035,6 +1040,7 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 ### Fixed
 - API client bindings
 
+[21.1.0-rc.6+109]: https://github.com/purrfecto114-lgtm/e1547_plus/compare/21.1.0-rc.5+108...21.1.0-rc.6+109
 [21.1.0-rc.5+108]: https://github.com/purrfecto114-lgtm/e1547_plus/compare/21.1.0-rc.4+107...21.1.0-rc.5+108
 [21.1.0-rc.4+107]: https://github.com/purrfecto114-lgtm/e1547_plus/compare/21.1.0-rc.3+106...21.1.0-rc.4+107
 [21.1.0-rc.3+106]: https://github.com/purrfecto114-lgtm/e1547_plus/compare/21.1.0-rc.2+105...21.1.0-rc.3+106
