@@ -75,6 +75,9 @@ class AppLocalizationsRu extends AppLocalizations {
   String get filterTooltip => 'Фильтр';
 
   @override
+  String get rangeInvalidFormat => 'Неверный формат';
+
+  @override
   String itemProgress(num current, num total) {
     return 'Элемент $current/$total';
   }
@@ -485,10 +488,16 @@ class AppLocalizationsRu extends AppLocalizations {
   String get aboutDonorsFailed => 'Не удалось загрузить список донатеров';
 
   @override
+  String get aboutDonorsNotListed => 'Нет в списке? Свяжитесь с нами!';
+
+  @override
   String get developerUnlocked => 'Теперь вы разработчик!';
 
   @override
   String get databaseErrorLoading => 'Ошибка загрузки базы данных';
+
+  @override
+  String get databaseUnknownSize => 'Неизвестно';
 
   @override
   String get databaseExportTitle => 'Экспорт базы данных';
@@ -1281,6 +1290,16 @@ class AppLocalizationsRu extends AppLocalizations {
   }
 
   @override
+  String identityActivateFailed(Object error) {
+    return 'Не удалось активировать аккаунт: $error';
+  }
+
+  @override
+  String traitsActivateFailed(Object error) {
+    return 'Не удалось активировать настройки: $error';
+  }
+
+  @override
   String get failedToLoadIdentities => 'Не удалось загрузить аккаунты';
 
   @override
@@ -1396,15 +1415,7 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String followNewPosts(num count, String label) {
-    String _temp0 = intl.Intl.pluralLogic(
-      count,
-      locale: localeName,
-      other: '$label новых поста',
-      many: '$label новых постов',
-      few: '$label новых поста',
-      one: '$label новый пост',
-    );
-    return '$_temp0';
+    return 'Новых постов: $label';
   }
 
   @override
@@ -2180,4 +2191,7 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get searchFilterQueryLabel => 'Текущий запрос:';
+
+  @override
+  String get dtextParsingFailed => 'Не удалось разобрать DText';
 }

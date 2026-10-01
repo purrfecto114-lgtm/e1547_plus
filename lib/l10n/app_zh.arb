@@ -18,6 +18,7 @@
   "copiedToClipboard": "已复制到剪贴板",
   "saveFile": "保存文件",
   "filterTooltip": "筛选",
+  "rangeInvalidFormat": "格式无效",
   "itemProgress": "第 {current}/{total} 项",
   "taskCancelled": "已取消任务",
   "taskFailedAt": "第 {index} 项失败",
@@ -136,8 +137,10 @@
   "aboutDonorsThanks": "感谢你们支持本项目的开发！",
   "aboutNoDonors": "暂无捐赠者",
   "aboutDonorsFailed": "获取捐赠者失败",
+  "aboutDonorsNotListed": "不在名单上？请联系我们！",
   "developerUnlocked": "你已成为开发者！",
   "databaseErrorLoading": "数据库加载出错",
+  "databaseUnknownSize": "未知",
   "databaseExportTitle": "导出数据库",
   "databaseExportSubtitle": "保存数据库备份副本",
   "databaseImportSubtitle": "用导入的数据库替换当前数据库",
@@ -362,6 +365,8 @@
   "identityLogin": "登录",
   "identityBrowseAnonymously": "匿名浏览",
   "identityConnecting": "正在以 {username} 身份连接 {host}…",
+  "identityActivateFailed": "激活身份失败：{error}",
+  "traitsActivateFailed": "激活特性失败：{error}",
   "failedToLoadIdentities": "账户加载失败",
   "onboardingSkip": "跳过",
   "onboardingBack": "上一步",
@@ -604,5 +609,6 @@
   "hostUnavailableWaitBody": "\n请等待 {host} 方面解决该问题。",
   "downloadChooseFolder": "选择文件夹",
   "searchFilterTitle": "筛选",
-  "searchFilterQueryLabel": "当前查询："
+  "searchFilterQueryLabel": "当前查询：",
+  "dtextParsingFailed": "DText 解析失败"
 }

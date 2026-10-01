@@ -211,6 +211,12 @@ abstract class AppLocalizations {
   /// **'Filter'**
   String get filterTooltip;
 
+  /// No description provided for @rangeInvalidFormat.
+  ///
+  /// In en, this message translates to:
+  /// **'Invalid format'**
+  String get rangeInvalidFormat;
+
   /// Progress of processing items.
   ///
   /// In en, this message translates to:
@@ -919,6 +925,12 @@ abstract class AppLocalizations {
   /// **'Failed to fetch donors'**
   String get aboutDonorsFailed;
 
+  /// No description provided for @aboutDonorsNotListed.
+  ///
+  /// In en, this message translates to:
+  /// **'Not on the list? Contact us!'**
+  String get aboutDonorsNotListed;
+
   /// No description provided for @developerUnlocked.
   ///
   /// In en, this message translates to:
@@ -930,6 +942,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Error loading database'**
   String get databaseErrorLoading;
+
+  /// No description provided for @databaseUnknownSize.
+  ///
+  /// In en, this message translates to:
+  /// **'Unknown'**
+  String get databaseUnknownSize;
 
   /// No description provided for @databaseExportTitle.
   ///
@@ -2274,6 +2292,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Connecting to {host} as {username}…'**
   String identityConnecting(String host, String username);
+
+  /// No description provided for @identityActivateFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to activate identity: {error}'**
+  String identityActivateFailed(Object error);
+
+  /// No description provided for @traitsActivateFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to activate traits: {error}'**
+  String traitsActivateFailed(Object error);
 
   /// Error shown when identities failed to load.
   ///
@@ -3732,6 +3762,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Current query:'**
   String get searchFilterQueryLabel;
+
+  /// No description provided for @dtextParsingFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'DText parsing has failed'**
+  String get dtextParsingFailed;
 }
 
 class _AppLocalizationsDelegate

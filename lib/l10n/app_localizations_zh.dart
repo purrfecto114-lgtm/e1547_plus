@@ -72,6 +72,9 @@ class AppLocalizationsZh extends AppLocalizations {
   String get filterTooltip => '筛选';
 
   @override
+  String get rangeInvalidFormat => '格式无效';
+
+  @override
   String itemProgress(num current, num total) {
     return '第 $current/$total 项';
   }
@@ -466,10 +469,16 @@ class AppLocalizationsZh extends AppLocalizations {
   String get aboutDonorsFailed => '获取捐赠者失败';
 
   @override
+  String get aboutDonorsNotListed => '不在名单上？请联系我们！';
+
+  @override
   String get developerUnlocked => '你已成为开发者！';
 
   @override
   String get databaseErrorLoading => '数据库加载出错';
+
+  @override
+  String get databaseUnknownSize => '未知';
 
   @override
   String get databaseExportTitle => '导出数据库';
@@ -1224,6 +1233,16 @@ class AppLocalizationsZh extends AppLocalizations {
   @override
   String identityConnecting(String host, String username) {
     return '正在以 $username 身份连接 $host…';
+  }
+
+  @override
+  String identityActivateFailed(Object error) {
+    return '激活身份失败：$error';
+  }
+
+  @override
+  String traitsActivateFailed(Object error) {
+    return '激活特性失败：$error';
   }
 
   @override
@@ -2092,6 +2111,9 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get searchFilterQueryLabel => '当前查询：';
+
+  @override
+  String get dtextParsingFailed => 'DText 解析失败';
 }
 
 /// The translations for Chinese, using the Han script (`zh_Hant`).
@@ -2160,6 +2182,9 @@ class AppLocalizationsZhHant extends AppLocalizationsZh {
 
   @override
   String get filterTooltip => '篩選';
+
+  @override
+  String get rangeInvalidFormat => '格式無效';
 
   @override
   String itemProgress(num current, num total) {
@@ -2556,10 +2581,16 @@ class AppLocalizationsZhHant extends AppLocalizationsZh {
   String get aboutDonorsFailed => '取得捐贈者失敗';
 
   @override
+  String get aboutDonorsNotListed => '不在名單上？請聯絡我們！';
+
+  @override
   String get developerUnlocked => '你已成為開發者！';
 
   @override
   String get databaseErrorLoading => '資料庫載入錯誤';
+
+  @override
+  String get databaseUnknownSize => '未知';
 
   @override
   String get databaseExportTitle => '匯出資料庫';
@@ -3314,6 +3345,16 @@ class AppLocalizationsZhHant extends AppLocalizationsZh {
   @override
   String identityConnecting(String host, String username) {
     return '正在以 $username 身分連線 $host…';
+  }
+
+  @override
+  String identityActivateFailed(Object error) {
+    return '啟用身分失敗：$error';
+  }
+
+  @override
+  String traitsActivateFailed(Object error) {
+    return '啟用特性失敗：$error';
   }
 
   @override
@@ -4182,4 +4223,7 @@ class AppLocalizationsZhHant extends AppLocalizationsZh {
 
   @override
   String get searchFilterQueryLabel => '當前查詢：';
+
+  @override
+  String get dtextParsingFailed => 'DText 解析失敗';
 }

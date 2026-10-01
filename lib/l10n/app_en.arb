@@ -38,6 +38,7 @@
   "copiedToClipboard": "Copied to clipboard",
   "saveFile": "Save file",
   "filterTooltip": "Filter",
+  "rangeInvalidFormat": "Invalid format",
   "itemProgress": "Item {current}/{total}",
   "@itemProgress": {
     "description": "Progress of processing items.",
@@ -231,8 +232,10 @@
   "aboutDonorsThanks": "Thanks for helping me keep up development!",
   "aboutNoDonors": "No donors yet",
   "aboutDonorsFailed": "Failed to fetch donors",
+  "aboutDonorsNotListed": "Not on the list? Contact us!",
   "developerUnlocked": "You are now a developer!",
   "databaseErrorLoading": "Error loading database",
+  "databaseUnknownSize": "Unknown",
   "databaseExportTitle": "Export Database",
   "databaseExportSubtitle": "Save a backup copy of your database",
   "databaseImportSubtitle": "Replace current database with imported one",
@@ -1148,6 +1151,8 @@
       }
     }
   },
+  "identityActivateFailed": "Failed to activate identity: {error}",
+  "traitsActivateFailed": "Failed to activate traits: {error}",
   "failedToLoadIdentities": "Failed to load identities",
   "@failedToLoadIdentities": {
     "description": "Error shown when identities failed to load."
@@ -2357,5 +2362,6 @@
   "searchFilterQueryLabel": "Current query:",
   "@searchFilterQueryLabel": {
     "description": "Label of the query preview of the posts search filter prompt."
-  }
+  },
+  "dtextParsingFailed": "DText parsing has failed"
 }

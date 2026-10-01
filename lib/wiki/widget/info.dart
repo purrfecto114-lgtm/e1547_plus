@@ -51,11 +51,12 @@ class WikiInfo extends StatelessWidget {
             textInfoRow(l10n.wikiInfoAlias, otherNames.join(', ')),
           textInfoRow(
             l10n.wikiInfoCreated,
-            DateFormatting.dateTime(wiki.createdAt.toLocal()),
+            localizedDateTime(context, wiki.createdAt.toLocal()),
           ),
           textInfoRow(
             l10n.wikiInfoUpdated,
-            DateFormatting.dateTime(
+            localizedDateTime(
+              context,
               (wiki.updatedAt ?? wiki.createdAt).toLocal(),
             ),
           ),

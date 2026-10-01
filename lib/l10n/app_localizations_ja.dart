@@ -72,6 +72,9 @@ class AppLocalizationsJa extends AppLocalizations {
   String get filterTooltip => 'フィルター';
 
   @override
+  String get rangeInvalidFormat => '形式が無効です';
+
+  @override
   String itemProgress(num current, num total) {
     return 'アイテム $current/$total';
   }
@@ -467,10 +470,16 @@ class AppLocalizationsJa extends AppLocalizations {
   String get aboutDonorsFailed => '支援者の取得に失敗しました';
 
   @override
+  String get aboutDonorsNotListed => 'リストに載っていませんか？ご連絡ください！';
+
+  @override
   String get developerUnlocked => 'あなたは開発者になりました！';
 
   @override
   String get databaseErrorLoading => 'データベースの読み込みエラー';
+
+  @override
+  String get databaseUnknownSize => '不明';
 
   @override
   String get databaseExportTitle => 'データベースのエクスポート';
@@ -1227,6 +1236,16 @@ class AppLocalizationsJa extends AppLocalizations {
   @override
   String identityConnecting(String host, String username) {
     return '$username として $host に接続しています…';
+  }
+
+  @override
+  String identityActivateFailed(Object error) {
+    return 'アカウントの有効化に失敗しました：$error';
+  }
+
+  @override
+  String traitsActivateFailed(Object error) {
+    return '特性の有効化に失敗しました：$error';
   }
 
   @override
@@ -2099,4 +2118,7 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get searchFilterQueryLabel => '現在のクエリ：';
+
+  @override
+  String get dtextParsingFailed => 'DText の解析に失敗しました';
 }

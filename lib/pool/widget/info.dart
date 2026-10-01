@@ -59,11 +59,11 @@ class PoolInfo extends StatelessWidget {
           ),
           textInfoRow(
             AppLocalizations.of(context).poolInfoCreated,
-            DateFormatting.dateTime(pool.createdAt.toLocal()),
+            localizedDateTime(context, pool.createdAt.toLocal()),
           ),
           textInfoRow(
             AppLocalizations.of(context).poolInfoUpdated,
-            DateFormatting.dateTime(pool.updatedAt.toLocal()),
+            localizedDateTime(context, pool.updatedAt.toLocal()),
           ),
         ],
       ),
