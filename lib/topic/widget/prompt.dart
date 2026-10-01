@@ -100,11 +100,11 @@ class TopicInfo extends StatelessWidget {
           ),
           textInfoRow(
             AppLocalizations.of(context).topicInfoCreated,
-            DateFormatting.dateTime(topic.createdAt.toLocal()),
+            localizedDateTime(context, topic.createdAt.toLocal()),
           ),
           textInfoRow(
             AppLocalizations.of(context).topicInfoUpdated,
-            DateFormatting.dateTime(topic.updatedAt.toLocal()),
+            localizedDateTime(context, topic.updatedAt.toLocal()),
           ),
         ],
       ),
