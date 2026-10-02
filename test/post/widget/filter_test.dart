@@ -61,6 +61,10 @@ void main() {
         sqlite: sqlite,
       ),
     );
+// The fake clock would otherwise leave dio's timeout timers pending
+    // on requests that are still in flight when the test ends.
+    client.dio.options.connectTimeout = null;
+    client.dio.options.receiveTimeout = null;
     settings = Settings(await SharedPreferences.getInstance());
   });
 
@@ -121,7 +125,7 @@ void main() {
   /// Lets the requests a filter change started land before the test ends.
   Future<void> settle(WidgetTester tester) async {
     await tester.runAsync(() async {
-      await Future<void>.delayed(const Duration(milliseconds: 100));
+      await Future<void>.delayed(const Duration(milliseconds: 400));
     });
     await tester.pump();
   }
@@ -140,7 +144,9 @@ void main() {
     await tester.pump(const Duration(milliseconds: 200));
     await tester.tap(find.text(option).last);
     await tester.pump();
-    await tester.pump(const Duration(milliseconds: 200));
+    // The panel applies filter changes debounced, so the pick has to
+    // outlast the debounce before anything can observe it.
+    await tester.pump(const Duration(milliseconds: 400));
   }
 
   Color? buttonColor(WidgetTester tester) =>
@@ -340,6 +346,7 @@ void main() {
     await openFilterPrompt(tester);
     await tester.enterText(find.byKey(const Key('FilterList/user')), 'alice');
     await tester.pump();
+    await tester.pump(const Duration(milliseconds: 400));
 
     expect(controller.value.tags, 'user:alice');
     expect(queryPreview(tester), 'user:alice');
@@ -347,11 +354,79 @@ void main() {
 
     await tester.enterText(find.byKey(const Key('FilterList/user')), '');
     await tester.pump();
+    await tester.pump(const Duration(milliseconds: 400));
     await settle(tester);
 
     expect(controller.value.tags, isNull);
     expect(queryPreview(tester), '—');
     expect(buttonColor(tester), isNull);
+  });
+
+  /// Pumps the bare filter panel with its own controller,
+  /// without a posts page behind it.
+  Future<PostParamsController> pumpPanel(WidgetTester tester) async {
+    final controller = PostParamsController();
+    addTearDown(controller.dispose);
+    // The panel is taller than the default surface.
+    tester.view.physicalSize = const Size(800, 1600);
+    tester.view.devicePixelRatio = 1;
+    addTearDown(tester.view.resetPhysicalSize);
+    addTearDown(tester.view.resetDevicePixelRatio);
+    await tester.pumpWidget(
+      MultiProvider(
+        providers: [
+          Provider<Client>.value(value: client),
+          Provider<Settings>.value(value: settings),
+          ChangeNotifierProvider<PostParamsController>.value(
+            value: controller,
+          ),
+        ],
+        child: MaterialApp(
+          locale: const Locale('zh'),
+          localizationsDelegates: AppLocalizations.localizationsDelegates,
+          supportedLocales: AppLocalizations.supportedLocales,
+          home: const Scaffold(body: PostsFilterPanel()),
+        ),
+      ),
+    );
+    await tester.pump();
+    return controller;
+  }
+
+  displayTest('the uploader filter does not update on every keystroke', (
+    tester,
+  ) async {
+    final controller = await pumpPanel(tester);
+
+    // Typing a whole name must not apply per character.
+    for (var i = 1; i <= 'alice'.length; i++) {
+      await tester.enterText(
+        find.byKey(const Key('FilterList/user')),
+        'alice'.substring(0, i),
+      );
+      await tester.pump(const Duration(milliseconds: 50));
+    }
+    expect(controller.value.tags, isNull);
+
+    await tester.pump(const Duration(milliseconds: 400));
+    expect(controller.value.tags, 'user:alice');
+  });
+
+  displayTest('closing the prompt flushes a pending filter change', (
+    tester,
+  ) async {
+    final controller = await pumpPanel(tester);
+
+    await tester.enterText(find.byKey(const Key('FilterList/user')), 'alice');
+    await tester.pump(const Duration(milliseconds: 100));
+    expect(controller.value.tags, isNull);
+
+    // Unmounting the panel, like closing the sheet does, applies the
+    // pending change right away instead of dropping it.
+    await tester.pumpWidget(const SizedBox.shrink());
+    await tester.pump();
+
+    expect(controller.value.tags, 'user:alice');
   });
 
   displayTest('the width filter writes a number range tag', (tester) async {
@@ -379,7 +454,7 @@ void main() {
 
     await tester.tap(find.text('确定'));
     await tester.pump();
-    await tester.pump(const Duration(milliseconds: 200));
+    await tester.pump(const Duration(milliseconds: 400));
     await settle(tester);
 
     expect(controller.value.tags, 'width:>=1000');

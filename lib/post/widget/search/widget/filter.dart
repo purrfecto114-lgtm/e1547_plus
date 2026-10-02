@@ -62,8 +62,29 @@ class PostsPageFilterButton extends StatelessWidget {
 ///
 /// Edits the filter tags of the search the prompt was opened from, and
 /// previews the query syntax they produce.
-class PostsFilterPanel extends StatelessWidget {
+///
+/// Changes are debounced: every filter control feeds [FilterList.onChanged]
+/// on each interaction, and some controls, like the uploader filter, edit
+/// free text. Feeding that straight into the controller refetches the
+/// search on every keystroke.
+class PostsFilterPanel extends StatefulWidget {
   const PostsFilterPanel({super.key});
+
+  @override
+  State<PostsFilterPanel> createState() => _PostsFilterPanelState();
+}
+
+class _PostsFilterPanelState extends State<PostsFilterPanel> {
+  final Debouncer _apply = Debouncer();
+
+  @override
+  void dispose() {
+    // Closing the prompt applies whatever the user just entered,
+    // keeping the panel's live apply semantics intact.
+    _apply.flush();
+    _apply.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -82,10 +103,12 @@ class PostsFilterPanel extends StatelessWidget {
             tags: map,
             onChanged: (value) {
               final tags = TagMap.from(value).toString();
-              // An empty query is no query, just like an unset search.
-              controller.update(
-                (params) => params.copyWith(tags: tags.isEmpty ? null : tags),
-              );
+              // Debounced: each keystroke no longer refetches the search.
+              _apply(() => controller.update(
+                    (params) => params.copyWith(
+                      tags: tags.isEmpty ? null : tags,
+                    ),
+                  ));
             },
             filters: PostParams.tagsFilter.filters,
           ),
