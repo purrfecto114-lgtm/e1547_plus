@@ -186,11 +186,12 @@ void main() {
   });
 }
 
-/// Every case of [localizedFilterName]'s switch, with its chinese and
-/// traditional chinese display names.
+/// The cases of [localizedFilterName]'s switch that assert against the
+/// chinese and traditional chinese display names of the app arb files.
 ///
-/// These names double as stable keys, keep them in sync with the data sources
-/// that use them, like [PostParams.tagsFilter] and the topic page's filters.
+/// 'Oldest' is covered by dedicated order tests instead. These names double
+/// as stable keys, keep them in sync with the data sources that use them,
+/// like [PostParams.tagsFilter] and the topic page's filters.
 const List<(String, String, String)> _filterNames = [
   ('Score', '评分', '評分'),
   ('Favorite count', '收藏数', '收藏數'),
@@ -246,6 +247,15 @@ const List<(String, String, String)> _filterNames = [
   ('Created', '创建时间', '建立時間'),
   ('Updated', '更新时间', '更新時間'),
   ('Post count', '帖子数', '貼文數'),
+  ('File type', '文件类型', '檔案類型'),
+  ('Uploader', '上传者', '上傳者'),
+  ('Width', '宽度', '寬度'),
+  ('Height', '高度', '高度'),
+  ('Tag count', '标签数', '標籤數'),
+  ('True', '是', '是'),
+  ('False', '否', '否'),
+  ('Images', '图片', '圖片'),
+  ('Videos', '视频', '影片'),
   ('Tags', '标签', '標籤'),
 ];
 
