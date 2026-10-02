@@ -63,7 +63,7 @@ class PostsPageFilterButton extends StatelessWidget {
 /// Edits the filter tags of the search the prompt was opened from, and
 /// previews the query syntax they produce.
 ///
-/// Changes are debounced: every filter control feeds [FilterList.onChanged]
+/// Changes are debounced: every filter control feeds FilterList.onChanged
 /// on each interaction, and some controls, like the uploader filter, edit
 /// free text. Feeding that straight into the controller refetches the
 /// search on every keystroke.
@@ -104,11 +104,11 @@ class _PostsFilterPanelState extends State<PostsFilterPanel> {
             onChanged: (value) {
               final tags = TagMap.from(value).toString();
               // Debounced: each keystroke no longer refetches the search.
-              _apply(() => controller.update(
-                    (params) => params.copyWith(
-                      tags: tags.isEmpty ? null : tags,
-                    ),
-                  ));
+              _apply(
+                () => controller.update(
+                  (params) => params.copyWith(tags: tags.isEmpty ? null : tags),
+                ),
+              );
             },
             filters: PostParams.tagsFilter.filters,
           ),

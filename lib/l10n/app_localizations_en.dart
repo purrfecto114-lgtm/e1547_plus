@@ -36,6 +36,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get actionImport => 'IMPORT';
 
   @override
+  String get actionExport => 'EXPORT';
+
+  @override
   String get actionRestartNow => 'RESTART NOW';
 
   @override
@@ -501,6 +504,26 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get databaseImportWarning =>
       'This will replace your current database. \nAll data will be lost. This cannot be undone!';
+
+  @override
+  String get databaseExportSanitizedBody =>
+      'The exported file will not contain your logins or API keys.\nEverything else, including accounts, hosts, history, follows and tasks, is included.';
+
+  @override
+  String get databaseImportNewerFile =>
+      'This file was created by a newer app version and cannot be imported.';
+
+  @override
+  String get databaseImportSanitized =>
+      'For safety, saved logins were removed from the imported file.';
+
+  @override
+  String databaseImportHostsWarning(String hosts) {
+    return 'Warning: the imported file contains accounts on other sites: $hosts';
+  }
+
+  @override
+  String get databaseImportCancelled => 'Import cancelled';
 
   @override
   String get postsTitle => 'Posts';

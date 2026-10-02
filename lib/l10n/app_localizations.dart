@@ -157,6 +157,12 @@ abstract class AppLocalizations {
   /// **'IMPORT'**
   String get actionImport;
 
+  /// No description provided for @actionExport.
+  ///
+  /// In en, this message translates to:
+  /// **'EXPORT'**
+  String get actionExport;
+
   /// No description provided for @actionRestartNow.
   ///
   /// In en, this message translates to:
@@ -972,6 +978,36 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'This will replace your current database. \nAll data will be lost. This cannot be undone!'**
   String get databaseImportWarning;
+
+  /// No description provided for @databaseExportSanitizedBody.
+  ///
+  /// In en, this message translates to:
+  /// **'The exported file will not contain your logins or API keys.\nEverything else, including accounts, hosts, history, follows and tasks, is included.'**
+  String get databaseExportSanitizedBody;
+
+  /// No description provided for @databaseImportNewerFile.
+  ///
+  /// In en, this message translates to:
+  /// **'This file was created by a newer app version and cannot be imported.'**
+  String get databaseImportNewerFile;
+
+  /// No description provided for @databaseImportSanitized.
+  ///
+  /// In en, this message translates to:
+  /// **'For safety, saved logins were removed from the imported file.'**
+  String get databaseImportSanitized;
+
+  /// No description provided for @databaseImportHostsWarning.
+  ///
+  /// In en, this message translates to:
+  /// **'Warning: the imported file contains accounts on other sites: {hosts}'**
+  String databaseImportHostsWarning(String hosts);
+
+  /// No description provided for @databaseImportCancelled.
+  ///
+  /// In en, this message translates to:
+  /// **'Import cancelled'**
+  String get databaseImportCancelled;
 
   /// No description provided for @postsTitle.
   ///

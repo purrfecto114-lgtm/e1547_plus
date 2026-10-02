@@ -61,7 +61,7 @@ void main() {
         sqlite: sqlite,
       ),
     );
-// The fake clock would otherwise leave dio's timeout timers pending
+    // The fake clock would otherwise leave dio's timeout timers pending
     // on requests that are still in flight when the test ends.
     client.dio.options.connectTimeout = null;
     client.dio.options.receiveTimeout = null;
@@ -377,15 +377,13 @@ void main() {
         providers: [
           Provider<Client>.value(value: client),
           Provider<Settings>.value(value: settings),
-          ChangeNotifierProvider<PostParamsController>.value(
-            value: controller,
-          ),
+          ChangeNotifierProvider<PostParamsController>.value(value: controller),
         ],
-        child: MaterialApp(
-          locale: const Locale('zh'),
+        child: const MaterialApp(
+          locale: Locale('zh'),
           localizationsDelegates: AppLocalizations.localizationsDelegates,
           supportedLocales: AppLocalizations.supportedLocales,
-          home: const Scaffold(body: PostsFilterPanel()),
+          home: Scaffold(body: PostsFilterPanel()),
         ),
       ),
     );

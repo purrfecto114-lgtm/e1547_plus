@@ -13,6 +13,7 @@
   "actionTryAgain": "Try again",
   "actionDownload": "DOWNLOAD",
   "actionImport": "IMPORT",
+  "actionExport": "EXPORT",
   "actionRestartNow": "RESTART NOW",
   "failedToLoadSuggestions": "Failed to load suggestions",
   "selectionItemCount": "{count, plural, =1{1 item} other{{count} items}}",
@@ -240,6 +241,19 @@
   "databaseExportSubtitle": "Save a backup copy of your database",
   "databaseImportSubtitle": "Replace current database with imported one",
   "databaseImportWarning": "This will replace your current database. \nAll data will be lost. This cannot be undone!",
+  "databaseExportSanitizedBody": "The exported file will not contain your logins or API keys.\nEverything else, including accounts, hosts, history, follows and tasks, is included.",
+  "databaseImportNewerFile": "This file was created by a newer app version and cannot be imported.",
+  "databaseImportSanitized": "For safety, saved logins were removed from the imported file.",
+  "databaseImportHostsWarning": "Warning: the imported file contains accounts on other sites: {hosts}",
+  "@databaseImportHostsWarning": {
+    "placeholders": {
+      "hosts": {
+        "type": "String",
+        "required": true
+      }
+    }
+  },
+  "databaseImportCancelled": "Import cancelled",
   "postsTitle": "Posts",
   "favoritesOf": "{user}'s Favorites",
   "@favoritesOf": {

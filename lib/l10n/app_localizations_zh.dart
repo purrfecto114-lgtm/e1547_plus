@@ -36,6 +36,9 @@ class AppLocalizationsZh extends AppLocalizations {
   String get actionImport => '导入';
 
   @override
+  String get actionExport => '导出';
+
+  @override
   String get actionRestartNow => '立即重启';
 
   @override
@@ -491,6 +494,24 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get databaseImportWarning => '这将替换你当前的数据库。\n所有数据都会丢失，且无法撤销！';
+
+  @override
+  String get databaseExportSanitizedBody =>
+      '导出的文件不会包含你的登录名和 API 密钥。\n其余内容（账号、主机、历史、关注和任务）都会包含。';
+
+  @override
+  String get databaseImportNewerFile => '此文件由更新版本的应用创建，无法导入。';
+
+  @override
+  String get databaseImportSanitized => '为安全起见，已从导入的文件中移除保存的登录信息。';
+
+  @override
+  String databaseImportHostsWarning(String hosts) {
+    return '警告：导入的文件包含其他站点的账号：$hosts';
+  }
+
+  @override
+  String get databaseImportCancelled => '已取消导入';
 
   @override
   String get postsTitle => '帖子';
@@ -2199,6 +2220,9 @@ class AppLocalizationsZhHant extends AppLocalizationsZh {
   String get actionImport => '匯入';
 
   @override
+  String get actionExport => '匯出';
+
+  @override
   String get actionRestartNow => '立即重新啟動';
 
   @override
@@ -2654,6 +2678,24 @@ class AppLocalizationsZhHant extends AppLocalizationsZh {
 
   @override
   String get databaseImportWarning => '這將取代你目前的資料庫。\n所有資料都會遺失，且無法復原！';
+
+  @override
+  String get databaseExportSanitizedBody =>
+      '匯出的檔案不會包含你的登入名和 API 金鑰。\n其餘內容（帳號、主機、歷史、關注和任務）都會包含。';
+
+  @override
+  String get databaseImportNewerFile => '此檔案由較新版本的應用程式建立，無法匯入。';
+
+  @override
+  String get databaseImportSanitized => '為安全起見，已從匯入的檔案中移除儲存的登入資訊。';
+
+  @override
+  String databaseImportHostsWarning(String hosts) {
+    return '警告：匯入的檔案包含其他網站的帳號：$hosts';
+  }
+
+  @override
+  String get databaseImportCancelled => '已取消匯入';
 
   @override
   String get postsTitle => '貼文';

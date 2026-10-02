@@ -36,6 +36,9 @@ class AppLocalizationsRu extends AppLocalizations {
   String get actionImport => 'ИМПОРТ';
 
   @override
+  String get actionExport => 'ЭКСПОРТ';
+
+  @override
   String get actionRestartNow => 'ПЕРЕЗАПУСТИТЬ СЕЙЧАС';
 
   @override
@@ -512,6 +515,26 @@ class AppLocalizationsRu extends AppLocalizations {
   @override
   String get databaseImportWarning =>
       'Текущая база данных будет заменена.\nВсе данные будут потеряны. Это действие нельзя отменить!';
+
+  @override
+  String get databaseExportSanitizedBody =>
+      'В экспортируемом файле не будет ваших логинов и API-ключей.\nВсе остальные данные, включая аккаунты, хосты, историю, подписки и задачи, будут сохранены.';
+
+  @override
+  String get databaseImportNewerFile =>
+      'Этот файл создан более новой версией приложения и не может быть импортирован.';
+
+  @override
+  String get databaseImportSanitized =>
+      'В целях безопасности сохранённые логины были удалены из импортированного файла.';
+
+  @override
+  String databaseImportHostsWarning(String hosts) {
+    return 'Внимание: в импортированном файле есть аккаунты других сайтов: $hosts';
+  }
+
+  @override
+  String get databaseImportCancelled => 'Импорт отменён';
 
   @override
   String get postsTitle => 'Посты';
