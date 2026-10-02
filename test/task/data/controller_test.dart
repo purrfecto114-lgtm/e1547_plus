@@ -214,28 +214,31 @@ void main() {
     expect(await repository.readStatus(task.id), TaskStatus.canceled);
   });
 
-  test('does not revive canceled downloads when disposed mid-download', () async {
-    final responses = StreamController<FileResponse>.broadcast();
-    final instance = controller(cacheManager: FakeCacheManager(responses));
+  test(
+    'does not revive canceled downloads when disposed mid-download',
+    () async {
+      final responses = StreamController<FileResponse>.broadcast();
+      final instance = controller(cacheManager: FakeCacheManager(responses));
 
-    final task = await instance.enqueue(
-      downloadRequest('canceled-dispose.webm'),
-    );
-    await pumpEventQueue();
+      final task = await instance.enqueue(
+        downloadRequest('canceled-dispose.webm'),
+      );
+      await pumpEventQueue();
 
-    responses.add(const DownloadProgress('https://example.com', 100, 50));
-    await pumpEventQueue();
+      responses.add(const DownloadProgress('https://example.com', 100, 50));
+      await pumpEventQueue();
 
-    await instance.cancel(task.id);
-    await pumpEventQueue();
+      await instance.cancel(task.id);
+      await pumpEventQueue();
 
-    instance.dispose();
-    responses.add(const DownloadProgress('https://example.com', 100, 60));
-    await pumpEventQueue();
-    await pumpEventQueue();
+      instance.dispose();
+      responses.add(const DownloadProgress('https://example.com', 100, 60));
+      await pumpEventQueue();
+      await pumpEventQueue();
 
-    expect(await repository.readStatus(task.id), TaskStatus.canceled);
+      expect(await repository.readStatus(task.id), TaskStatus.canceled);
 
-    await responses.close();
-  });
+      await responses.close();
+    },
+  );
 }

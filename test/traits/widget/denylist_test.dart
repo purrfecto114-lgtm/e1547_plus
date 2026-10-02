@@ -59,7 +59,12 @@ void main() {
       ),
     );
     client = Client(
-      identity: Identity(id: 1, host: 'e621.net', username: null, headers: null),
+      identity: const Identity(
+        id: 1,
+        host: 'e621.net',
+        username: null,
+        headers: null,
+      ),
       traits: traits,
       storage: AppStorage(
         preferences: await SharedPreferences.getInstance(),
@@ -86,10 +91,10 @@ void main() {
               value: const NoImageCacheManager(),
             ),
           ],
-          child: MaterialApp(
+          child: const MaterialApp(
             localizationsDelegates: AppLocalizations.localizationsDelegates,
             supportedLocales: AppLocalizations.supportedLocales,
-            home: const DenyListPage(),
+            home: DenyListPage(),
           ),
         ),
       );
@@ -103,8 +108,9 @@ void main() {
     await tester.tap(find.byIcon(Icons.more_vert).at(index));
     await tester.pumpAndSettle();
     await tester.tap(find.text('Delete'));
-    await tester.pump();
-    await tester.pump();
+    // The snackbar slides in from below the viewport; only a settled
+    // entrance puts its action within reach of a tap.
+    await tester.pumpAndSettle();
   }
 
   testWidgets('the denylist page lists the denylist', (tester) async {
@@ -116,28 +122,30 @@ void main() {
     expect(find.text('c'), findsOneWidget);
   });
 
-  strictDisplayTest(
-    'undoing a deleted entry keeps later deletions', (tester) async {
-      traits.value = traits.value.copyWith(denylist: ['a', 'b', 'c']);
-      await pumpPage(tester);
+  strictDisplayTest('undoing a deleted entry keeps later deletions', (
+    tester,
+  ) async {
+    traits.value = traits.value.copyWith(denylist: ['a', 'b', 'c']);
+    await pumpPage(tester);
 
-      await deleteEntry(tester, 0);
-      expect(client.traits.value.denylist, ['b', 'c']);
+    await deleteEntry(tester, 0);
+    expect(client.traits.value.denylist, ['b', 'c']);
 
-      await deleteEntry(tester, 0);
-      expect(client.traits.value.denylist, ['c']);
+    await deleteEntry(tester, 0);
+    expect(client.traits.value.denylist, ['c']);
 
-      // The first snackbar is still the one on screen; the second one is
-      // queued behind it.
-      expect(find.byType(SnackBarAction), findsOneWidget);
-      await tester.tap(find.byType(SnackBarAction));
-      await tester.pump();
+    // The first snackbar is still the one on screen; the second one is
+    // queued behind it.
+    expect(find.byType(SnackBarAction), findsOneWidget);
+    await tester.tap(find.byType(SnackBarAction));
+    await tester.pump();
 
-      expect(client.traits.value.denylist, ['a', 'c']);
-    },
-  );
+    expect(client.traits.value.denylist, ['a', 'c']);
+  });
 
-  strictDisplayTest('undoing twice does not duplicate an entry', (tester) async {
+  strictDisplayTest('undoing twice does not duplicate an entry', (
+    tester,
+  ) async {
     traits.value = traits.value.copyWith(denylist: ['a']);
     await pumpPage(tester);
 

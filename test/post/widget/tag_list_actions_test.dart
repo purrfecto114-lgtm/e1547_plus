@@ -21,13 +21,17 @@ void main() {
 
   setUpAll(() async {
     await initializeTestApp();
-    sqlite = AppDatabase(NativeDatabase.memory());
   });
-
-  tearDownAll(() => sqlite.close());
 
   setUp(() async {
     SharedPreferences.setMockInitialValues({});
+    // A fresh database per test keeps the follow lists of the bookmark and
+    // follow cases independent; the identity row has to exist for the
+    // follow join table to accept writes.
+    sqlite = AppDatabase(NativeDatabase.memory());
+    await IdentityRepository(
+      sqlite,
+    ).add(const IdentityRequest(host: 'e621.net'));
     traits = ValueNotifier(
       const Traits(
         id: 1,
@@ -66,7 +70,10 @@ void main() {
     client.dio.options.receiveTimeout = null;
   });
 
-  tearDown(() => traits.dispose());
+  tearDown(() async {
+    traits.dispose();
+    await sqlite.close();
+  });
 
   Future<void> pumpActions(WidgetTester tester, {required String tag}) async {
     await tester.runAsync(() async {
@@ -76,7 +83,9 @@ void main() {
           child: MaterialApp(
             localizationsDelegates: AppLocalizations.localizationsDelegates,
             supportedLocales: AppLocalizations.supportedLocales,
-            home: Scaffold(body: Center(child: TagListActions(tag: tag))),
+            home: Scaffold(
+              body: Center(child: TagListActions(tag: tag)),
+            ),
           ),
         ),
       );
@@ -108,13 +117,16 @@ void main() {
     button.onPressed!();
   }
 
-  displayTest('double tapping the bookmark button follows once', (tester) async {
+  displayTest('double tapping the bookmark button follows once', (
+    tester,
+  ) async {
     await pumpActions(tester, tag: 'test_tag');
 
     doubleTap(tester, Icons.turned_in_not);
     await settle(tester);
 
-    final follows = await tester.runAsync(client.follows.all);
+    final follows =
+        await tester.runAsync(client.follows.all) ?? const <Follow>[];
     expect(follows, hasLength(1));
     expect(follows.single.tags, 'test_tag');
     expect(follows.single.type, FollowType.bookmark);
@@ -126,7 +138,8 @@ void main() {
     doubleTap(tester, Icons.person_add_alt_1);
     await settle(tester);
 
-    final follows = await tester.runAsync(client.follows.all);
+    final follows =
+        await tester.runAsync(client.follows.all) ?? const <Follow>[];
     expect(follows, hasLength(1));
     expect(follows.single.tags, 'test_tag');
     expect(follows.single.type, FollowType.update);

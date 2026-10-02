@@ -151,9 +151,7 @@ class _TagListActionsState extends State<TagListActions> {
                                     AppLocalizations.of(context).actionBookmark,
                                   ),
                             onTap: () => guard(
-                              () => applyFollowMutation(
-                                FollowType.bookmark,
-                              ),
+                              () => applyFollowMutation(FollowType.bookmark),
                             ),
                           ),
                         ],

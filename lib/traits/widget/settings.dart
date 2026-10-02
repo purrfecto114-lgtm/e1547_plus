@@ -164,8 +164,7 @@ class DenyListPage extends StatelessWidget {
                                             // other deletions since this
                                             // snackbar was shown must not be
                                             // rolled back.
-                                            final current =
-                                                client.traits.value;
+                                            final current = client.traits.value;
                                             if (current.denylist.contains(
                                               tag,
                                             )) {
@@ -173,17 +172,16 @@ class DenyListPage extends StatelessWidget {
                                             }
                                             client.accounts.push(
                                               traits: current.copyWith(
-                                                denylist: List.of(
-                                                  current.denylist,
-                                                )..insert(
-                                                    position.clamp(
-                                                      0,
-                                                      current
-                                                          .denylist
-                                                          .length,
+                                                denylist:
+                                                    List.of(
+                                                      current.denylist,
+                                                    )..insert(
+                                                      position.clamp(
+                                                        0,
+                                                        current.denylist.length,
+                                                      ),
+                                                      tag,
                                                     ),
-                                                    tag,
-                                                  ),
                                               ),
                                             );
                                           },
