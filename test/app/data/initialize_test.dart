@@ -27,49 +27,38 @@ Uint8List sqliteHeader(int version) {
   return bytes;
 }
 
-Future<String> writeHeader(
-  Directory dir,
-  String name,
-  List<int> bytes,
-) async {
+Future<String> writeHeader(Directory dir, String name, List<int> bytes) async {
   final path = '${dir.path}${Platform.pathSeparator}$name';
   await File(path).writeAsBytes(bytes, flush: true);
   return path;
 }
 
 void main() {
-  test(
-    'readSqliteUserVersion reads the big endian user_version',
-    () async {
-      final dir = await Directory.systemTemp.createTemp('e1547_version');
-      addTearDown(() => dir.delete(recursive: true));
+  test('readSqliteUserVersion reads the big endian user_version', () async {
+    final dir = await Directory.systemTemp.createTemp('e1547_version');
+    addTearDown(() => dir.delete(recursive: true));
 
-      final good = await writeHeader(dir, 'good.db', sqliteHeader(7));
-      expect(await readSqliteUserVersion(good), 7);
+    final good = await writeHeader(dir, 'good.db', sqliteHeader(7));
+    expect(await readSqliteUserVersion(good), 7);
 
-      final zero = await writeHeader(
-        dir,
-        'zero.db',
-        sqliteHeader(0),
-      );
-      expect(await readSqliteUserVersion(zero), 0);
+    final zero = await writeHeader(dir, 'zero.db', sqliteHeader(0));
+    expect(await readSqliteUserVersion(zero), 0);
 
-      final wrongMagic = sqliteHeader(9);
-      wrongMagic[0] = 88;
-      final wrong = await writeHeader(dir, 'wrong.db', wrongMagic);
-      expect(await readSqliteUserVersion(wrong), isNull);
+    final wrongMagic = sqliteHeader(9);
+    wrongMagic[0] = 88;
+    final wrong = await writeHeader(dir, 'wrong.db', wrongMagic);
+    expect(await readSqliteUserVersion(wrong), isNull);
 
-      final short = await writeHeader(
-        dir,
-        'short.db',
-        sqliteHeader(9).sublist(0, 63),
-      );
-      expect(await readSqliteUserVersion(short), isNull);
+    final short = await writeHeader(
+      dir,
+      'short.db',
+      sqliteHeader(9).sublist(0, 63),
+    );
+    expect(await readSqliteUserVersion(short), isNull);
 
-      final missing = '${dir.path}${Platform.pathSeparator}missing.db';
-      expect(await readSqliteUserVersion(missing), isNull);
-    },
-  );
+    final missing = '${dir.path}${Platform.pathSeparator}missing.db';
+    expect(await readSqliteUserVersion(missing), isNull);
+  });
 
   test('readSqliteUserVersion reads a real drift database', () async {
     final dir = await Directory.systemTemp.createTemp('e1547_real');
@@ -113,8 +102,9 @@ void main() {
 
     // A staged import and sidecar files all exist next to the database.
     for (final suffix in ['.new', '-journal', '-wal', '-shm']) {
-      await File('${support.path}${Platform.pathSeparator}app.db$suffix')
-          .writeAsString('x');
+      await File(
+        '${support.path}${Platform.pathSeparator}app.db$suffix',
+      ).writeAsString('x');
     }
 
     // Without an iOS handler this must not throw;

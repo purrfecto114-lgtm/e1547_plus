@@ -93,7 +93,10 @@ void main() {
       final path = '${dir.path}${Platform.pathSeparator}app.db';
 
       final fileDb = AppDatabase(
-        NativeDatabase(File(path), setup: (db) => db.execute('PRAGMA journal_mode = DELETE')),
+        NativeDatabase(
+          File(path),
+          setup: (db) => db.execute('PRAGMA journal_mode = DELETE'),
+        ),
       );
       await IdentityRepository(fileDb).add(
         const IdentityRequest(
