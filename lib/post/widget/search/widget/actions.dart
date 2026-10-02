@@ -8,13 +8,33 @@ import 'package:e1547/shared/shared.dart';
 import 'package:e1547/tag/tag.dart';
 import 'package:flutter/material.dart';
 
-class TagListActions extends StatelessWidget {
+class TagListActions extends StatefulWidget {
   const TagListActions({super.key, required this.tag});
 
   final String tag;
 
   @override
+  State<TagListActions> createState() => _TagListActionsState();
+}
+
+class _TagListActionsState extends State<TagListActions> {
+  bool _busy = false;
+
+  // Follow and block actions mutate the server; a second tap while a request
+  // is in flight would repeat the mutation.
+  Future<void> guard(Future<void> Function() action) async {
+    if (_busy) return;
+    setState(() => _busy = true);
+    try {
+      await action();
+    } finally {
+      if (mounted) setState(() => _busy = false);
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
+    final String tag = widget.tag;
     if (wikiMetaTags.any((prefix) => tag.startsWith(prefix))) {
       return const SizedBox.shrink();
     }
@@ -88,7 +108,9 @@ class TagListActions extends StatelessWidget {
                                 : Text(
                                     AppLocalizations.of(context).actionFollow,
                                   ),
-                            onTap: () => applyFollowMutation(FollowType.update),
+                            onTap: () => guard(
+                              () => applyFollowMutation(FollowType.update),
+                            ),
                           ),
                           CrossFade(
                             showChild: following,
@@ -103,7 +125,7 @@ class TagListActions extends StatelessWidget {
                                   : Text(
                                       AppLocalizations.of(context).actionNotify,
                                     ),
-                              onTap: () async {
+                              onTap: () => guard(() async {
                                 if (!hasFollow) return;
                                 await client.follows.update(
                                   id: follow.id,
@@ -112,7 +134,7 @@ class TagListActions extends StatelessWidget {
                                       : FollowType.notify,
                                 );
                                 query.invalidate();
-                              },
+                              }),
                             ),
                           ),
                           ActionButton(
@@ -145,7 +167,7 @@ class TagListActions extends StatelessWidget {
                         label: denied
                             ? Text(AppLocalizations.of(context).actionUnblock)
                             : Text(AppLocalizations.of(context).actionBlock),
-                        onTap: () async {
+                        onTap: () => guard(() async {
                           if (denied) {
                             await client.accounts.push(
                               traits: traits.copyWith(
@@ -165,7 +187,7 @@ class TagListActions extends StatelessWidget {
                               ),
                             );
                           }
-                        },
+                        }),
                       ),
                     ),
                   ],

@@ -66,6 +66,8 @@ class _AccountFormState extends State<AccountForm> {
   void submit() {
     if (!formKey.currentState!.validate()) return;
     if (withAuth == null) return;
+    // A double tap would stack a second loading dialog on the first one.
+    if (ModalRoute.of(context)?.isCurrent == false) return;
     // Resolved up front, contexts must not cross async gaps.
     final l10n = AppLocalizations.of(context);
     showDialog(
