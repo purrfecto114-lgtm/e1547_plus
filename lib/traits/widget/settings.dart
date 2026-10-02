@@ -159,18 +159,34 @@ class DenyListPage extends StatelessWidget {
                                         ),
                                         action: SnackBarAction(
                                           label: l10n.actionUndo,
-                                          onPressed: () => client.accounts.push(
-                                            traits: traits.copyWith(
-                                              denylist: List.of(remaining)
-                                                ..insert(
-                                                  position.clamp(
-                                                    0,
-                                                    remaining.length,
+                                          onPressed: () {
+                                            // Read the current traits:
+                                            // other deletions since this
+                                            // snackbar was shown must not be
+                                            // rolled back.
+                                            final current =
+                                                client.traits.value;
+                                            if (current.denylist.contains(
+                                              tag,
+                                            )) {
+                                              return;
+                                            }
+                                            client.accounts.push(
+                                              traits: current.copyWith(
+                                                denylist: List.of(
+                                                  current.denylist,
+                                                )..insert(
+                                                    position.clamp(
+                                                      0,
+                                                      current
+                                                          .denylist
+                                                          .length,
+                                                    ),
+                                                    tag,
                                                   ),
-                                                  tag,
-                                                ),
-                                            ),
-                                          ),
+                                              ),
+                                            );
+                                          },
                                         ),
                                       ),
                                     );
