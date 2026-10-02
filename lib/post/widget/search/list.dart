@@ -20,6 +20,12 @@ class PostList extends StatelessWidget {
         child: CustomScrollView(
           primary: true,
           slivers: [
+            if (state.error case final error?
+                when isConnectionError(error) &&
+                    (state.data?.pages.isNotEmpty ?? false))
+              SliverToBoxAdapter(
+                child: _OfflineBanner(onRetry: query.invalidate),
+              ),
             SliverPadding(
               padding: defaultListPadding,
               sliver: SliverPostList(displayType: displayType),
@@ -88,7 +94,12 @@ class PostGridSliver extends StatelessWidget {
     ) => defaultPagedChildBuilderDelegate<Post>(
       onRetry: fetchNextPage,
       onEmpty: Text(AppLocalizations.of(context).noPosts),
-      onError: Text(AppLocalizations.of(context).failedToLoadPosts),
+      onError: switch (state.error) {
+        final error? when isConnectionError(error) => Text(
+          AppLocalizations.of(context).offlineNoData,
+        ),
+        _ => Text(AppLocalizations.of(context).failedToLoadPosts),
+      },
       itemBuilder: itemBuilder,
     );
 
@@ -188,6 +199,36 @@ class PostTimelineSliver extends StatelessWidget {
           ),
         ),
       ),
+    );
+  }
+}
+
+/// A dismissible banner shown while a post list shows cached data offline.
+class _OfflineBanner extends StatefulWidget {
+  const _OfflineBanner({required this.onRetry});
+
+  final VoidCallback onRetry;
+
+  @override
+  State<_OfflineBanner> createState() => _OfflineBannerState();
+}
+
+class _OfflineBannerState extends State<_OfflineBanner> {
+  bool dismissed = false;
+
+  @override
+  Widget build(BuildContext context) {
+    if (dismissed) return const SizedBox.shrink();
+    final l10n = AppLocalizations.of(context);
+    return MaterialBanner(
+      content: Text(l10n.offlineBanner),
+      actions: [
+        TextButton(onPressed: widget.onRetry, child: Text(l10n.actionTryAgain)),
+        TextButton(
+          onPressed: () => setState(() => dismissed = true),
+          child: Text(l10n.actionCancel),
+        ),
+      ],
     );
   }
 }

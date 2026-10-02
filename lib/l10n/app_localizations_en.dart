@@ -634,6 +634,12 @@ class AppLocalizationsEn extends AppLocalizations {
   String get failedToLoadPosts => 'Failed to load posts';
 
   @override
+  String get offlineBanner => 'You are offline. Showing cached data.';
+
+  @override
+  String get offlineNoData => 'You are offline';
+
+  @override
   String postListPageSummary(num count, Object page) {
     String _temp0 = intl.Intl.pluralLogic(
       count,

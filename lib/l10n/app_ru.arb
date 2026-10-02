@@ -183,6 +183,8 @@
   "selectionPostsCount": "{count, plural, one{{count} пост} few{{count} поста} many{{count} постов} other{{count} поста}}",
   "noPosts": "Нет постов",
   "failedToLoadPosts": "Не удалось загрузить посты",
+  "offlineBanner": "Нет подключения. Показаны сохранённые данные.",
+  "offlineNoData": "Нет подключения",
   "postListPageSummary": "Страница {page} · {count, plural, one{{count} пост} few{{count} поста} many{{count} постов} other{{count} поста}}",
   "postListPageLimit": "Достигнут лимит страниц сервера. Сузьте условия поиска.",
   "postListJumpToPage": "Перейти на страницу",

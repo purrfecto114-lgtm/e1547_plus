@@ -183,6 +183,8 @@
   "selectionPostsCount": "{count, plural, other{{count} 件の投稿}}",
   "noPosts": "投稿がありません",
   "failedToLoadPosts": "投稿を読み込めませんでした",
+  "offlineBanner": "オフラインのため、キャッシュされたデータを表示しています。",
+  "offlineNoData": "オフラインです",
   "postListPageSummary": "{page} ページ目・{count, plural, other{{count} 件の投稿}}",
   "postListPageLimit": "サーバーのページ数上限に達しました。検索条件を絞ってください。",
   "postListJumpToPage": "ページに移動",

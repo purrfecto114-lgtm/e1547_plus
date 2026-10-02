@@ -183,6 +183,8 @@
   "selectionPostsCount": "{count, plural, other{{count} 則貼文}}",
   "noPosts": "沒有貼文",
   "failedToLoadPosts": "貼文載入失敗",
+  "offlineBanner": "目前離線，正在顯示快取資料。",
+  "offlineNoData": "目前離線",
   "postListPageSummary": "第 {page} 頁 · {count, plural, other{{count} 則貼文}}",
   "postListPageLimit": "已達伺服器頁數上限，請縮小搜尋範圍",
   "postListJumpToPage": "跳轉頁面",

@@ -183,6 +183,8 @@
   "selectionPostsCount": "{count, plural, other{{count} 个帖子}}",
   "noPosts": "没有帖子",
   "failedToLoadPosts": "帖子加载失败",
+  "offlineBanner": "当前离线，正在显示缓存数据。",
+  "offlineNoData": "当前离线",
   "postListPageSummary": "第 {page} 页 · {count, plural, other{{count} 个帖子}}",
   "postListPageLimit": "已达服务器页数上限，请缩小搜索范围",
   "postListJumpToPage": "跳转页面",

@@ -621,6 +621,12 @@ class AppLocalizationsZh extends AppLocalizations {
   String get failedToLoadPosts => '帖子加载失败';
 
   @override
+  String get offlineBanner => '当前离线，正在显示缓存数据。';
+
+  @override
+  String get offlineNoData => '当前离线';
+
+  @override
   String postListPageSummary(num count, Object page) {
     String _temp0 = intl.Intl.pluralLogic(
       count,
@@ -2803,6 +2809,12 @@ class AppLocalizationsZhHant extends AppLocalizationsZh {
 
   @override
   String get failedToLoadPosts => '貼文載入失敗';
+
+  @override
+  String get offlineBanner => '目前離線，正在顯示快取資料。';
+
+  @override
+  String get offlineNoData => '目前離線';
 
   @override
   String postListPageSummary(num count, Object page) {

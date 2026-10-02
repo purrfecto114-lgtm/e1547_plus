@@ -1201,6 +1201,18 @@ abstract class AppLocalizations {
   /// **'Failed to load posts'**
   String get failedToLoadPosts;
 
+  /// No description provided for @offlineBanner.
+  ///
+  /// In en, this message translates to:
+  /// **'You are offline. Showing cached data.'**
+  String get offlineBanner;
+
+  /// No description provided for @offlineNoData.
+  ///
+  /// In en, this message translates to:
+  /// **'You are offline'**
+  String get offlineNoData;
+
   /// No description provided for @postListPageSummary.
   ///
   /// In en, this message translates to:

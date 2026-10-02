@@ -625,6 +625,12 @@ class AppLocalizationsJa extends AppLocalizations {
   String get failedToLoadPosts => '投稿を読み込めませんでした';
 
   @override
+  String get offlineBanner => 'オフラインのため、キャッシュされたデータを表示しています。';
+
+  @override
+  String get offlineNoData => 'オフラインです';
+
+  @override
   String postListPageSummary(num count, Object page) {
     String _temp0 = intl.Intl.pluralLogic(
       count,

@@ -648,6 +648,12 @@ class AppLocalizationsRu extends AppLocalizations {
   String get failedToLoadPosts => 'Не удалось загрузить посты';
 
   @override
+  String get offlineBanner => 'Нет подключения. Показаны сохранённые данные.';
+
+  @override
+  String get offlineNoData => 'Нет подключения';
+
+  @override
   String postListPageSummary(num count, Object page) {
     String _temp0 = intl.Intl.pluralLogic(
       count,

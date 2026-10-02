@@ -307,6 +307,8 @@
   },
   "noPosts": "No posts",
   "failedToLoadPosts": "Failed to load posts",
+  "offlineBanner": "You are offline. Showing cached data.",
+  "offlineNoData": "You are offline",
   "postListPageSummary": "Page {page} · {count, plural, one{{count} post} other{{count} posts}}",
   "postListPageLimit": "You have reached the server's page limit. Please narrow your search terms.",
   "postListJumpToPage": "Jump to page",
