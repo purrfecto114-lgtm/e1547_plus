@@ -39,6 +39,9 @@ class AppLocalizationsRu extends AppLocalizations {
   String get actionExport => 'ЭКСПОРТ';
 
   @override
+  String get actionUndo => 'Вернуть';
+
+  @override
   String get actionRestartNow => 'ПЕРЕЗАПУСТИТЬ СЕЙЧАС';
 
   @override
@@ -731,6 +734,9 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get blacklistEditTag => 'Изменить тег';
+
+  @override
+  String get denylistEntryDeleted => 'Запись чёрного списка удалена';
 
   @override
   String get blacklistEmpty => 'Ваш чёрный список пуст';
@@ -1529,6 +1535,19 @@ class AppLocalizationsRu extends AppLocalizations {
       many: '$count записей',
       few: '$count записи',
       one: '$count запись',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String historyEntriesDeleted(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count записи истории удалены',
+      many: '$count записей истории удалены',
+      few: '$count записи истории удалены',
+      one: 'Запись истории удалена',
     );
     return '$_temp0';
   }

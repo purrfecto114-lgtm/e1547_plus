@@ -139,7 +139,29 @@ class _HistoryTileDropdown extends StatelessWidget {
         PopupMenuTile(
           title: l10n.menuDelete,
           icon: Icons.delete,
-          value: () => client.histories.useRemove().mutate([entry.id]),
+          value: () {
+            final messenger = ScaffoldMessenger.of(context);
+            client.histories.useRemove().mutate([entry.id]);
+            messenger.showSnackBar(
+              SnackBar(
+                content: Text(l10n.historyEntriesDeleted(1)),
+                action: SnackBarAction(
+                  label: l10n.actionUndo,
+                  onPressed: () => client.histories.useAdd().mutate(
+                    HistoryRequest(
+                      visitedAt: entry.visitedAt,
+                      link: entry.link,
+                      category: entry.category,
+                      type: entry.type,
+                      title: entry.title,
+                      subtitle: entry.subtitle,
+                      thumbnails: entry.thumbnails,
+                    ),
+                  ),
+                ),
+              ),
+            );
+          },
         ),
       ],
     );

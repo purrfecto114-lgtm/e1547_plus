@@ -60,10 +60,34 @@ class HistorySelectionAppBar extends StatelessWidget with AppBarBuilderWidget {
           icon: const Icon(Icons.delete_outline),
           onPressed: () async {
             final client = context.read<Client>();
+            final l10n = AppLocalizations.of(context);
+            final messenger = ScaffoldMessenger.of(context);
+            final selections = List.of(data.selections);
             final removeMutation = client.histories.useRemove();
             data.onChanged({});
-            await removeMutation.mutate(
-              data.selections.map((e) => e.id).toList(),
+            await removeMutation.mutate(selections.map((e) => e.id).toList());
+            messenger.showSnackBar(
+              SnackBar(
+                content: Text(l10n.historyEntriesDeleted(selections.length)),
+                action: SnackBarAction(
+                  label: l10n.actionUndo,
+                  onPressed: () {
+                    for (final entry in selections) {
+                      client.histories.useAdd().mutate(
+                        HistoryRequest(
+                          visitedAt: entry.visitedAt,
+                          link: entry.link,
+                          category: entry.category,
+                          type: entry.type,
+                          title: entry.title,
+                          subtitle: entry.subtitle,
+                          thumbnails: entry.thumbnails,
+                        ),
+                      );
+                    }
+                  },
+                ),
+              ),
             );
           },
         ),

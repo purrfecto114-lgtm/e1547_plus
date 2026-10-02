@@ -39,6 +39,9 @@ class AppLocalizationsJa extends AppLocalizations {
   String get actionExport => 'エクスポート';
 
   @override
+  String get actionUndo => '元に戻す';
+
+  @override
   String get actionRestartNow => '今すぐ再起動';
 
   @override
@@ -698,6 +701,9 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get blacklistEditTag => 'タグを編集';
+
+  @override
+  String get denylistEntryDeleted => 'ブラックリストの項目を削除しました';
 
   @override
   String get blacklistEmpty => 'ブラックリストは空です';
@@ -1469,6 +1475,16 @@ class AppLocalizationsJa extends AppLocalizations {
       count,
       locale: localeName,
       other: '$count 件のエントリ',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String historyEntriesDeleted(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '履歴$count件を削除しました',
     );
     return '$_temp0';
   }

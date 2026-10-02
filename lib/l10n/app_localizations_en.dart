@@ -39,6 +39,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get actionExport => 'EXPORT';
 
   @override
+  String get actionUndo => 'Undo';
+
+  @override
   String get actionRestartNow => 'RESTART NOW';
 
   @override
@@ -710,6 +713,9 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get blacklistEditTag => 'Edit tag';
+
+  @override
+  String get denylistEntryDeleted => 'Blacklist entry removed';
 
   @override
   String get blacklistEmpty => 'Your blacklist is empty';
@@ -1496,6 +1502,17 @@ class AppLocalizationsEn extends AppLocalizations {
       locale: localeName,
       other: '$count entries',
       one: '1 entry',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String historyEntriesDeleted(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Deleted $count history entries',
+      one: 'Deleted 1 history entry',
     );
     return '$_temp0';
   }

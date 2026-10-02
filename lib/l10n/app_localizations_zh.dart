@@ -39,6 +39,9 @@ class AppLocalizationsZh extends AppLocalizations {
   String get actionExport => '导出';
 
   @override
+  String get actionUndo => '撤销';
+
+  @override
   String get actionRestartNow => '立即重启';
 
   @override
@@ -694,6 +697,9 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get blacklistEditTag => '编辑标签';
+
+  @override
+  String get denylistEntryDeleted => '已移除黑名单条目';
 
   @override
   String get blacklistEmpty => '你的黑名单为空';
@@ -1469,6 +1475,16 @@ class AppLocalizationsZh extends AppLocalizations {
   }
 
   @override
+  String historyEntriesDeleted(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '已删除 $count 条历史记录',
+    );
+    return '$_temp0';
+  }
+
+  @override
   String get historyClear => '清空历史';
 
   @override
@@ -2229,6 +2245,9 @@ class AppLocalizationsZhHant extends AppLocalizationsZh {
   String get actionExport => '匯出';
 
   @override
+  String get actionUndo => '撤銷';
+
+  @override
   String get actionRestartNow => '立即重新啟動';
 
   @override
@@ -2884,6 +2903,9 @@ class AppLocalizationsZhHant extends AppLocalizationsZh {
 
   @override
   String get blacklistEditTag => '編輯標籤';
+
+  @override
+  String get denylistEntryDeleted => '已移除黑名單條目';
 
   @override
   String get blacklistEmpty => '你的黑名單是空的';
@@ -3654,6 +3676,16 @@ class AppLocalizationsZhHant extends AppLocalizationsZh {
       count,
       locale: localeName,
       other: '$count 個條目',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String historyEntriesDeleted(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '已刪除 $count 條歷史記錄',
     );
     return '$_temp0';
   }

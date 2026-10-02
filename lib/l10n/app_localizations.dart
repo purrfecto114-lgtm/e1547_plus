@@ -163,6 +163,12 @@ abstract class AppLocalizations {
   /// **'EXPORT'**
   String get actionExport;
 
+  /// No description provided for @actionUndo.
+  ///
+  /// In en, this message translates to:
+  /// **'Undo'**
+  String get actionUndo;
+
   /// No description provided for @actionRestartNow.
   ///
   /// In en, this message translates to:
@@ -1314,6 +1320,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Edit tag'**
   String get blacklistEditTag;
+
+  /// No description provided for @denylistEntryDeleted.
+  ///
+  /// In en, this message translates to:
+  /// **'Blacklist entry removed'**
+  String get denylistEntryDeleted;
 
   /// Message shown when the blacklist contains no entries.
   ///
@@ -2658,6 +2670,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'{count, plural, =1{1 entry} other{{count} entries}}'**
   String historySelectionCount(num count);
+
+  /// No description provided for @historyEntriesDeleted.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{Deleted 1 history entry} other{Deleted {count} history entries}}'**
+  String historyEntriesDeleted(int count);
 
   /// Title of the clear history tile in the history drawer.
   ///

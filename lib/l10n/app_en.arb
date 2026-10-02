@@ -14,6 +14,7 @@
   "actionDownload": "DOWNLOAD",
   "actionImport": "IMPORT",
   "actionExport": "EXPORT",
+  "actionUndo": "Undo",
   "actionRestartNow": "RESTART NOW",
   "failedToLoadSuggestions": "Failed to load suggestions",
   "selectionItemCount": "{count, plural, =1{1 item} other{{count} items}}",
@@ -347,6 +348,7 @@
     "description": "Title of the prompt that adds a tag to the blacklist."
   },
   "blacklistEditTag": "Edit tag",
+  "denylistEntryDeleted": "Blacklist entry removed",
   "@blacklistEditTag": {
     "description": "Title of the prompt that edits a blacklist entry."
   },
@@ -1361,6 +1363,15 @@
     }
   },
   "historySelectionCount": "{count, plural, =1{1 entry} other{{count} entries}}",
+  "historyEntriesDeleted": "{count, plural, =1{Deleted 1 history entry} other{Deleted {count} history entries}}",
+  "@historyEntriesDeleted": {
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "required": true
+      }
+    }
+  },
   "@historySelectionCount": {
     "description": "Title of the history selection app bar.",
     "placeholders": {

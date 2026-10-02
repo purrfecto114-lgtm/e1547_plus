@@ -138,11 +138,44 @@ class DenyListPage extends StatelessWidget {
                                 ),
                               );
                             },
-                            onDelete: () => client.accounts.push(
-                              traits: traits.copyWith(
-                                denylist: denylist..remove(denylist[index]),
-                              ),
-                            ),
+                            onDelete: () {
+                              final l10n = AppLocalizations.of(context);
+                              final messenger = ScaffoldMessenger.of(context);
+                              final tag = denylist[index];
+                              final position = index;
+                              final remaining = List.of(denylist)
+                                ..removeAt(position);
+                              client.accounts
+                                  .push(
+                                    traits: traits.copyWith(
+                                      denylist: remaining,
+                                    ),
+                                  )
+                                  .then((_) {
+                                    messenger.showSnackBar(
+                                      SnackBar(
+                                        content: Text(
+                                          l10n.denylistEntryDeleted,
+                                        ),
+                                        action: SnackBarAction(
+                                          label: l10n.actionUndo,
+                                          onPressed: () => client.accounts.push(
+                                            traits: traits.copyWith(
+                                              denylist: List.of(remaining)
+                                                ..insert(
+                                                  position.clamp(
+                                                    0,
+                                                    remaining.length,
+                                                  ),
+                                                  tag,
+                                                ),
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    );
+                                  });
+                            },
                           ),
                         ),
                 ),
