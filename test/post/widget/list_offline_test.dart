@@ -52,7 +52,7 @@ void main() {
   });
 
   Future<Client> offlineClient() async => Client(
-    identity: Identity(
+    identity: const Identity(
       id: 1,
       host: 'https://example.invalid',
       username: null,
@@ -87,11 +87,11 @@ void main() {
             ),
             Provider<Settings>.value(value: settings),
           ],
-          child: MaterialApp(
-            locale: const Locale('zh'),
+          child: const MaterialApp(
+            locale: Locale('zh'),
             localizationsDelegates: AppLocalizations.localizationsDelegates,
             supportedLocales: AppLocalizations.supportedLocales,
-            home: const PostsPage(),
+            home: PostsPage(),
           ),
         ),
       );

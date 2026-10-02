@@ -58,7 +58,6 @@ void main() {
         isConnectionError(
           DioException(
             requestOptions: RequestOptions(),
-            type: DioExceptionType.unknown,
             error: const SocketException('failed'),
           ),
         ),
@@ -70,7 +69,6 @@ void main() {
         isConnectionError(
           DioException(
             requestOptions: RequestOptions(),
-            type: DioExceptionType.unknown,
             error: _FakeClientException(),
           ),
         ),
@@ -93,7 +91,6 @@ void main() {
         isConnectionError(
           DioException(
             requestOptions: RequestOptions(),
-            type: DioExceptionType.unknown,
             error: Exception('some parsing bug'),
           ),
         ),
