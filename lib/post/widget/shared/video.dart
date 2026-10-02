@@ -271,12 +271,20 @@ class _VideoGestureState extends State<VideoGesture>
     vsync: this,
     duration: const Duration(milliseconds: 400),
   );
-  late final Animation<double> fadeAnimation = CurvedAnimation(
+  late final CurvedAnimation fadeAnimation = CurvedAnimation(
     parent: animationController,
     curve: Curves.easeInOut,
   );
   int combo = 0;
   Timer? comboReset;
+
+  @override
+  void dispose() {
+    comboReset?.cancel();
+    fadeAnimation.dispose();
+    animationController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -301,8 +309,12 @@ class _VideoGestureState extends State<VideoGesture>
           const Duration(milliseconds: 900),
           () => setState(() => combo = 0),
         );
-        await animationController.forward();
-        await animationController.reverse();
+        try {
+          await animationController.forward().orCancel;
+          await animationController.reverse().orCancel;
+        } on TickerCanceled {
+          // the widget was unmounted mid-animation
+        }
       },
       child: FadeTransition(
         opacity: fadeAnimation,
