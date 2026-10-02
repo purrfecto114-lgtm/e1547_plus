@@ -246,7 +246,7 @@ class _VideoBarState extends State<VideoBar> {
                   Text(duration.toString().substring(2, 7)),
                   const SizedBox(width: 4),
                   InkWell(
-                    onTap: Navigator.of(context).maybePop,
+                    onTap: () => popDialog(context),
                     child: Padding(
                       padding: const EdgeInsets.all(4),
                       child: Icon(
