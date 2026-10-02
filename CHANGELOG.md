@@ -1196,3 +1196,4 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 [21.1.0-rc.7+110]: https://github.com/purrfecto114-lgtm/e1547_plus/compare/21.1.0-rc.6+109...21.1.0-rc.7+110
 [21.1.0-rc.8+111]: https://github.com/purrfecto114-lgtm/e1547_plus/compare/21.1.0-rc.7+110...21.1.0-rc.8+111
 [21.1.0-rc.9+112]: https://github.com/purrfecto114-lgtm/e1547_plus/compare/21.1.0-rc.8+111...21.1.0-rc.9+112
+[21.1.0-rc.10+113]: https://github.com/purrfecto114-lgtm/e1547_plus/compare/21.1.0-rc.9+112...21.1.0-rc.10+113
