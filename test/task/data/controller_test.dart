@@ -199,4 +199,43 @@ void main() {
     instance.dispose();
     await responses.close();
   });
+
+  test('does not revive canceled tasks when released', () async {
+    final task = await repository.add(
+      downloadRequest('canceled-release.webm'),
+      identity,
+    );
+    final claimed = await repository.claimNext(identity: identity);
+    expect(claimed!.id, task.id);
+
+    await repository.markCanceled(task.id);
+    await repository.release(task.id);
+
+    expect(await repository.readStatus(task.id), TaskStatus.canceled);
+  });
+
+  test('does not revive canceled downloads when disposed mid-download', () async {
+    final responses = StreamController<FileResponse>.broadcast();
+    final instance = controller(cacheManager: FakeCacheManager(responses));
+
+    final task = await instance.enqueue(
+      downloadRequest('canceled-dispose.webm'),
+    );
+    await pumpEventQueue();
+
+    responses.add(const DownloadProgress('https://example.com', 100, 50));
+    await pumpEventQueue();
+
+    await instance.cancel(task.id);
+    await pumpEventQueue();
+
+    instance.dispose();
+    responses.add(const DownloadProgress('https://example.com', 100, 60));
+    await pumpEventQueue();
+    await pumpEventQueue();
+
+    expect(await repository.readStatus(task.id), TaskStatus.canceled);
+
+    await responses.close();
+  });
 }
