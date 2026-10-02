@@ -4,6 +4,19 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and this project
 adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [21.1.0-rc.9+112] - 2026-10-02
+### Added
+- an offline state to post lists, plus a banner showing cached data while offline
+- undo snackbars for deleted history entries and blacklist entries
+- a receive timeout to api and update requests
+
+### Changed
+- database exports no longer contain saved logins; they are stripped from the exported file before it is saved
+- database imports strip saved logins, reject files from newer app versions, check for missing app tables, and warn about accounts on unexpected hosts
+- the database and its sidecar files are excluded from Android cloud backups and iOS/iCloud backups
+- the cookie capture webview only navigates to its own host; off-site links and non-http schemes are blocked
+- the posts filter panel applies its changes debounced, so typing an uploader name no longer refetches on every keystroke
+
 ## [21.1.0-rc.8+111] - 2026-10-02
 ### Fixed
 - a crash when leaving a video while its double tap seek animation was still playing
@@ -1176,3 +1189,4 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 [1.0.0+1]: https://github.com/clragon/e1547/releases/tag/1.0.0
 [21.1.0-rc.7+110]: https://github.com/purrfecto114-lgtm/e1547_plus/compare/21.1.0-rc.6+109...21.1.0-rc.7+110
 [21.1.0-rc.8+111]: https://github.com/purrfecto114-lgtm/e1547_plus/compare/21.1.0-rc.7+110...21.1.0-rc.8+111
+[21.1.0-rc.9+112]: https://github.com/purrfecto114-lgtm/e1547_plus/compare/21.1.0-rc.8+111...21.1.0-rc.9+112
