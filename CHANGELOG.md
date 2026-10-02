@@ -4,6 +4,12 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and this project
 adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [21.1.0-rc.10+113] - 2026-10-02
+### Fixed
+- the bookmark button repeating its action when double tapped
+- canceled tasks being revived when their controller was disposed
+- the blacklist entry undo rolling back later deletions
+
 ## [21.1.0-rc.9+112] - 2026-10-02
 ### Added
 - an offline state to post lists, plus a banner showing cached data while offline
