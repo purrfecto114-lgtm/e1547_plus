@@ -44,8 +44,20 @@ void main() {
     });
   });
 
-  Widget wrap(Widget child) =>
-      MaterialApp(home: Scaffold(body: Center(child: child)));
+  late VideoService videos;
+
+  setUp(() {
+    videos = VideoService();
+  });
+
+  tearDown(() => videos.dispose());
+
+  Widget wrap(Widget child) => MultiProvider(
+    providers: [ChangeNotifierProvider<VideoService>.value(value: videos)],
+    child: MaterialApp(
+      home: Scaffold(body: Center(child: child)),
+    ),
+  );
 
   Future<void> pumpVideoGesture(
     WidgetTester tester, {
@@ -138,6 +150,76 @@ void main() {
       await tester.pumpWidget(wrap(const SizedBox()));
       await tester.pump(const Duration(seconds: 2));
 
+      expect(tester.takeException(), isNull);
+    });
+  });
+
+  group('VideoBar', () {
+    Future<void> pumpVideoBar(
+      WidgetTester tester, {
+      required FakePlatformPlayer platform,
+    }) async {
+      await tester.pumpWidget(
+        wrap(VideoBar(player: VideoPlayer(platformPlayer: platform))),
+      );
+      await tester.pump();
+    }
+
+    testWidgets('routes slider seeks to its player', (tester) async {
+      final platform = FakePlatformPlayer()..setDuration(duration);
+      await pumpVideoBar(tester, platform: platform);
+
+      // the slider stays disabled until a position arrives
+      platform.setPosition(step);
+      await tester.pump();
+      await tester.pump();
+
+      await tester.drag(find.byType(Slider), const Offset(100, 0));
+      await tester.pump();
+
+      expect(platform.seeks, hasLength(1));
+      expect(
+        platform.seeks.single,
+        allOf(greaterThanOrEqualTo(step), lessThanOrEqualTo(duration)),
+      );
+      expect(tester.takeException(), isNull);
+    });
+
+    testWidgets('syncs with a replaced player in the same slot', (
+      tester,
+    ) async {
+      final first = FakePlatformPlayer()
+        ..setDuration(duration)
+        ..setPosition(const Duration(seconds: 30));
+      await pumpVideoBar(tester, platform: first);
+      expect(find.text('00:30'), findsOneWidget);
+      expect(find.text('01:00'), findsOneWidget);
+
+      final second = FakePlatformPlayer()
+        ..setDuration(const Duration(minutes: 2))
+        ..setPosition(const Duration(seconds: 90));
+      await pumpVideoBar(tester, platform: second);
+
+      expect(find.text('01:30'), findsOneWidget);
+      expect(find.text('02:00'), findsOneWidget);
+      expect(tester.takeException(), isNull);
+    });
+
+    testWidgets('ignores events from a replaced player', (tester) async {
+      final first = FakePlatformPlayer()..setDuration(duration);
+      final second = FakePlatformPlayer()
+        ..setDuration(const Duration(minutes: 2))
+        ..setPosition(const Duration(seconds: 90));
+      await pumpVideoBar(tester, platform: first);
+      await pumpVideoBar(tester, platform: second);
+
+      // the old player keeps reporting positions
+      first.setPosition(const Duration(seconds: 30));
+      await tester.pump();
+      await tester.pump();
+
+      expect(find.text('00:30'), findsNothing);
+      expect(find.text('01:30'), findsOneWidget);
       expect(tester.takeException(), isNull);
     });
   });

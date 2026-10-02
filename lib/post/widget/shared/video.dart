@@ -130,32 +130,51 @@ class _VideoBarState extends State<VideoBar> {
   @override
   void initState() {
     super.initState();
-    playing = widget.player.state.playing;
-    position = widget.player.state.position;
-    duration = widget.player.state.duration;
-    buffer = widget.player.state.buffer;
+    _syncWith(widget.player);
+    _subscribeTo(widget.player);
+  }
+
+  @override
+  void didUpdateWidget(VideoBar oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (oldWidget.player != widget.player) {
+      _unsubscribe();
+      _syncWith(widget.player);
+      _subscribeTo(widget.player);
+    }
+  }
+
+  void _syncWith(VideoPlayer player) {
+    playing = player.state.playing;
+    position = player.state.position;
+    duration = player.state.duration;
+    buffer = player.state.buffer;
+    seeking = false;
+  }
+
+  void _subscribeTo(VideoPlayer player) {
     subscriptions.addAll([
-      widget.player.stream.playing.listen((event) {
+      player.stream.playing.listen((event) {
         setState(() {
           playing = event;
         });
       }),
-      widget.player.stream.completed.listen((event) {
+      player.stream.completed.listen((event) {
         setState(() {
           position = Duration.zero;
         });
       }),
-      widget.player.stream.position.listen((event) {
+      player.stream.position.listen((event) {
         setState(() {
           if (!seeking) position = event;
         });
       }),
-      widget.player.stream.duration.listen((event) {
+      player.stream.duration.listen((event) {
         setState(() {
           duration = event;
         });
       }),
-      widget.player.stream.buffer.listen((event) {
+      player.stream.buffer.listen((event) {
         setState(() {
           buffer = event;
         });
@@ -163,11 +182,16 @@ class _VideoBarState extends State<VideoBar> {
     ]);
   }
 
-  @override
-  void dispose() {
+  void _unsubscribe() {
     for (final s in subscriptions) {
       s.cancel();
     }
+    subscriptions.clear();
+  }
+
+  @override
+  void dispose() {
+    _unsubscribe();
     super.dispose();
   }
 
