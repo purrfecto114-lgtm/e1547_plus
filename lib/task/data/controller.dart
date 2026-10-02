@@ -85,6 +85,7 @@ class TasksController extends ChangeNotifier {
   }
 
   void _recomputeProgress() {
+    if (_disposed) return;
     double inFlight = 0;
     for (final notifier in _progress.values) {
       inFlight += notifier.value;
@@ -94,6 +95,9 @@ class TasksController extends ChangeNotifier {
 
   Future<void> _init() async {
     await repository.resetRunning(identity: identity);
+    // the controller may be disposed while the reset is in flight; leaving
+    // now keeps the active watch from outliving the controller
+    if (_disposed) return;
     _activeSub = repository.active(identity: identity).stream.listen((list) {
       final bool wasActive = _active.isNotEmpty;
       _active = list;
@@ -107,6 +111,10 @@ class TasksController extends ChangeNotifier {
       if (list.isNotEmpty) {
         _hideTimer?.cancel();
         _hideTimer = null;
+        // a task may have been enqueued by a controller that was disposed
+        // before the insert landed; picking work up again here keeps such
+        // tasks from waiting for the next user action
+        if (!wasActive) _kick();
       } else if (wasActive) {
         _hideTimer?.cancel();
         _hideTimer = Timer(_lingerAfterDone, _resetCounters);
@@ -118,6 +126,7 @@ class TasksController extends ChangeNotifier {
   }
 
   void _resetCounters() {
+    if (_disposed) return;
     _runningTotal = 0;
     _runningDone = 0;
     notifyListeners();
@@ -155,9 +164,11 @@ class TasksController extends ChangeNotifier {
     _hideTimer?.cancel();
     _hideTimer = null;
     final task = await repository.add(request, identity);
-    _runningTotal++;
-    notifyListeners();
-    _kick();
+    if (!_disposed) {
+      _runningTotal++;
+      notifyListeners();
+      _kick();
+    }
     return task;
   }
 
@@ -167,9 +178,11 @@ class TasksController extends ChangeNotifier {
     _hideTimer?.cancel();
     _hideTimer = null;
     final List<Task> created = await repository.addAll(list, identity);
-    _runningTotal += created.length;
-    notifyListeners();
-    _kick();
+    if (!_disposed) {
+      _runningTotal += created.length;
+      notifyListeners();
+      _kick();
+    }
     return created;
   }
 
@@ -197,6 +210,11 @@ class TasksController extends ChangeNotifier {
         actions: const {TaskAction.download},
       );
       if (next == null) break;
+      if (_disposed) {
+        // give the claimed task back so the next controller can pick it up
+        await repository.release(next.id);
+        break;
+      }
       await _process(next);
     }
   }
@@ -211,6 +229,11 @@ class TasksController extends ChangeNotifier {
           actions: const {TaskAction.favorite, TaskAction.unfavorite},
         );
         if (next == null) break;
+        if (_disposed) {
+          // give the claimed task back so the next controller can pick it up
+          await repository.release(next.id);
+          break;
+        }
         await _process(next);
       }
     } finally {
@@ -243,8 +266,10 @@ class TasksController extends ChangeNotifier {
       _runningDone++;
       _runningIds.remove(task.id);
       _progress.remove(task.id)?.dispose();
-      _recomputeProgress();
-      notifyListeners();
+      if (!_disposed) {
+        _recomputeProgress();
+        notifyListeners();
+      }
     }
   }
 
@@ -290,9 +315,20 @@ class TasksController extends ChangeNotifier {
       withProgress: true,
     )) {
       if (response is DownloadProgress) {
+        if (_disposed) {
+          // the controller is gone; put the task back so the next controller
+          // can pick it up again
+          await repository.release(task.id);
+          return;
+        }
         progress?.value = (response.progress ?? 0).clamp(0, 1);
         _recomputeProgress();
       } else if (response is FileInfo) {
+        final TaskStatus? status = await repository.readStatus(task.id);
+        if (status == TaskStatus.canceled) {
+          // a canceled download must not land in the user's gallery
+          return;
+        }
         try {
           await FileDownloader.downloadImage(
             file: response.file,

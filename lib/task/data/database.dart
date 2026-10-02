@@ -232,6 +232,13 @@ class TaskRepository extends DatabaseAccessor<GeneratedDatabase>
         ),
       );
 
+  /// Returns a claimed running task to the pending queue, e.g. when the
+  /// controller that claimed it is disposed.
+  Future<void> release(int id) =>
+      (update(tasksTable)..where((tbl) => tbl.id.equals(id))).write(
+        const TaskCompanion(status: Value(TaskStatus.pending)),
+      );
+
   Future<int> cancelAll({int? identity}) =>
       (update(tasksTable)
             ..where((tbl) => _identityQuery(tbl, identity))
