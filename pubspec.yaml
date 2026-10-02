@@ -1,6 +1,6 @@
 name: e1547
 description: A sophisticated e621 browser
-version: 21.1.0-rc.9+112
+version: 21.1.0-rc.10+113
 publish_to: none
 
 environment:
@@ -119,12 +119,12 @@ dependency_overrides:
   cached_query:
     git:
       url: https://github.com/clragon/cached_query.git
-      ref: main
+      ref: 5d63291bc9ca14c74c202b641c5683e62c654135
       path: packages/cached_query
   cached_query_flutter:
     git:
       url: https://github.com/clragon/cached_query.git
-      ref: main
+      ref: 5d63291bc9ca14c74c202b641c5683e62c654135
       path: packages/cached_query_flutter
 
 flutter:
