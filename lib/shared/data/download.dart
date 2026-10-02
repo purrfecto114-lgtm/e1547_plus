@@ -124,7 +124,14 @@ abstract final class FileDownloader {
         final targetFile = File(
           join(directoryPath, fileName ?? basename(file.path)),
         );
-        await targetFile.writeAsBytes(await file.readAsBytes());
+        // Copy streams in chunks instead of buffering the whole file; a
+        // same-file copy must stay a no-op, though.
+        final bool sameFile =
+            targetFile.existsSync() &&
+            await file.resolveSymbolicLinks() ==
+                await targetFile.resolveSymbolicLinks();
+        if (sameFile) return;
+        await file.copy(targetFile.path);
       }
     } on Exception catch (e) {
       throw FileDownloadException.from(e);
