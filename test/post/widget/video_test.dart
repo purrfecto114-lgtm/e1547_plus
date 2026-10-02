@@ -222,5 +222,37 @@ void main() {
       expect(find.text('01:30'), findsOneWidget);
       expect(tester.takeException(), isNull);
     });
+
+    testWidgets('resets its position when the player completes', (
+      tester,
+    ) async {
+      final platform = FakePlatformPlayer()..setDuration(duration);
+      await pumpVideoBar(tester, platform: platform);
+
+      platform.setPosition(step);
+      await tester.pump();
+      await tester.pump();
+      expect(find.text('00:10'), findsOneWidget);
+
+      platform.complete();
+      await tester.pump();
+      await tester.pump();
+
+      expect(find.text('00:00'), findsOneWidget);
+      expect(tester.takeException(), isNull);
+    });
+
+    testWidgets('tracks the buffered range of its player', (tester) async {
+      final platform = FakePlatformPlayer()..setDuration(duration);
+      await pumpVideoBar(tester, platform: platform);
+
+      platform.setBuffer(step);
+      await tester.pump();
+      await tester.pump();
+
+      final slider = tester.widget<Slider>(find.byType(Slider));
+      expect(slider.secondaryTrackValue, step.inMilliseconds.toDouble());
+      expect(tester.takeException(), isNull);
+    });
   });
 }
