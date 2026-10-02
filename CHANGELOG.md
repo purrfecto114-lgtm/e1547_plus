@@ -4,6 +4,19 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and this project
 adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [21.1.0-rc.8+111] - 2026-10-02
+### Fixed
+- a crash when leaving a video while its double tap seek animation was still playing
+- the video bar freezing on the previous video after the player was replaced
+- task queue races when switching accounts during a download, which could leave tasks stuck or marked failed
+- canceled downloads still saving their file to the gallery
+- the fullscreen video exit dismissing the page behind it when double tapped
+- follow and login buttons repeating their action when double tapped
+
+### Changed
+- desktop downloads now copy files in chunks instead of buffering them entirely in memory
+- the denylist filter cache cleans up in throttled sweeps instead of on every lookup
+
 ## [21.1.0-rc.7+110] - 2026-10-01
 ### Added
 - an oldest-first order to the posts filter and its metatag autocomplete
@@ -1162,3 +1175,4 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 [1.0.1+2]: https://github.com/clragon/e1547/compare/1.0.0...1.0.1
 [1.0.0+1]: https://github.com/clragon/e1547/releases/tag/1.0.0
 [21.1.0-rc.7+110]: https://github.com/purrfecto114-lgtm/e1547_plus/compare/21.1.0-rc.6+109...21.1.0-rc.7+110
+[21.1.0-rc.8+111]: https://github.com/purrfecto114-lgtm/e1547_plus/compare/21.1.0-rc.7+110...21.1.0-rc.8+111
