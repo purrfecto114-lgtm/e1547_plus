@@ -9,7 +9,7 @@
       <a href="https://github.com/purrfecto114-lgtm/e1547_plus/commits/master"><img src="https://img.shields.io/github/commit-activity/m/purrfecto114-lgtm/e1547_plus"></a>
       <a href="https://github.com/purrfecto114-lgtm/e1547_plus/commits/master"><img src="https://img.shields.io/github/last-commit/purrfecto114-lgtm/e1547_plus"></a>
       <a href="blob/master/LICENSE"><img src="https://img.shields.io/github/license/purrfecto114-lgtm/e1547_plus"></a>
-      <a href="https://github.com/purrfecto114-lgtm/e1547_plus/releases/latest"><img src="https://img.shields.io/github/downloads/purrfecto114-lgtm/e1547_plus/total"></a>
+      <a href="https://github.com/purrfecto114-lgtm/e1547_plus/releases"><img src="https://img.shields.io/github/downloads/purrfecto114-lgtm/e1547_plus/total"></a>
     </td>
   </tr>
 </table>
@@ -59,7 +59,7 @@ To add another language, create an `app_<locale>.arb` file in `lib/l10n` with tr
 ## Download
 
 APK, IPA, Windows and Linux packages can be found over at
-the [releases](https://github.com/purrfecto114-lgtm/e1547_plus/releases/latest).
+the [releases](https://github.com/purrfecto114-lgtm/e1547_plus/releases).
 
 A great tool for managing updates for this app is [obtainium](https://github.com/ImranR98/Obtainium) (see [Using Obtainium](#Using-Obtainium) for a more detailed guide).
 
@@ -78,7 +78,7 @@ via a tool like [AppVerifier](https://github.com/soupslurpr/AppVerifier).
 
 Requires Android 7.0 or newer.
 
-1. Download the [latest APK](https://github.com/purrfecto114-lgtm/e1547_plus/releases/latest)
+1. Download the [latest APK](https://github.com/purrfecto114-lgtm/e1547_plus/releases)
 2. Open it on your Android device with a file manager
 3. Click install
 
@@ -108,7 +108,7 @@ The app is not available in the AppStore.
 
 or
 
-- Jailbreak your device and install the [IPA](https://github.com/purrfecto114-lgtm/e1547_plus/releases/latest) directly
+- Jailbreak your device and install the [IPA](https://github.com/purrfecto114-lgtm/e1547_plus/releases) directly
 
 ### Upgrading
 
