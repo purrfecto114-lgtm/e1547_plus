@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:cached_query/cached_query.dart';
+import 'package:dio/dio.dart';
 import 'package:drift/native.dart';
 import 'package:e1547/app/app.dart';
 import 'package:e1547/client/client.dart';
@@ -19,17 +20,15 @@ import 'package:notified_preferences/notified_preferences.dart';
 import '../../_support/harness.dart';
 
 class FakeCacheManager implements BaseCacheManager {
-  FakeCacheManager(this.responses);
+  FakeCacheManager({FileInfo? cached}) : _cached = cached;
 
-  final StreamController<FileResponse> responses;
+  final FileInfo? _cached;
 
   @override
-  Stream<FileResponse> getFileStream(
+  Future<FileInfo?> getFileFromCache(
     String url, {
-    String? key,
-    Map<String, String>? headers,
-    bool withProgress = false,
-  }) => responses.stream;
+    bool ignoreMemCache = false,
+  }) async => _cached;
 
   @override
   dynamic noSuchMethod(Invocation invocation) =>
@@ -46,6 +45,25 @@ class GatedTaskRepository extends TaskRepository {
     await gate.future;
     return super.claimNext(identity: identity, actions: actions);
   }
+}
+
+/// A fetcher that mimics an in-flight network transfer: it reports progress,
+/// then stays put until its token is canceled, at which point it aborts with a
+/// cancel exception like a real aborted transfer.
+class FakeTransfer {
+  final Completer<void> started = Completer<void>();
+  final Completer<void> aborted = Completer<void>();
+
+  DownloadFileFetcher get fetcher => (url, token, onProgress) async {
+    onProgress?.call(0.3);
+    started.complete();
+    await token.whenCancel;
+    if (!aborted.isCompleted) aborted.complete();
+    throw DioException(
+      requestOptions: RequestOptions(path: url),
+      type: DioExceptionType.cancel,
+    );
+  };
 }
 
 void main() {
@@ -104,12 +122,17 @@ void main() {
   TasksController controller({
     BaseCacheManager? cacheManager,
     TaskRepository? taskRepository,
+    DownloadFileFetcher? fileFetcher,
   }) => TasksController(
     repository: taskRepository ?? repository,
     client: client,
-    cacheManager: cacheManager ?? FakeCacheManager(StreamController()),
+    cacheManager: cacheManager ?? FakeCacheManager(),
     settings: settings,
     identity: identity,
+    fileFetcher:
+        fileFetcher ??
+        (url, token, onProgress) =>
+            fail('this test should not start a download'),
   );
 
   TaskRequest downloadRequest(String fileName) => TaskRequest(
@@ -120,6 +143,13 @@ void main() {
       fileName: fileName,
     ),
   );
+
+  File fetchableFile(String path) {
+    final file = File(path);
+    file.createSync(recursive: true);
+    file.writeAsBytesSync([1, 2, 3]);
+    return file;
+  }
 
   test('does not revive its active watch when disposed during init', () async {
     final instance = controller();
@@ -145,23 +175,19 @@ void main() {
     expect(await repository.readStatus(task.id), TaskStatus.pending);
   });
 
-  test('returns in-flight downloads when disposed mid-download', () async {
-    final responses = StreamController<FileResponse>.broadcast();
-    final instance = controller(cacheManager: FakeCacheManager(responses));
+  test('aborts in-flight transfers and returns them when disposed', () async {
+    final transfer = FakeTransfer();
+    final instance = controller(fileFetcher: transfer.fetcher);
 
     final task = await instance.enqueue(downloadRequest('in-flight.webm'));
-    await pumpEventQueue();
-
-    responses.add(const DownloadProgress('https://example.com', 100, 50));
-    await pumpEventQueue();
+    await transfer.started.future;
 
     instance.dispose();
-    responses.add(const DownloadProgress('https://example.com', 100, 60));
+    await transfer.aborted.future;
     await pumpEventQueue();
 
+    expect(transfer.aborted.isCompleted, isTrue);
     expect(await repository.readStatus(task.id), TaskStatus.pending);
-
-    await responses.close();
   });
 
   test('does not export canceled downloads', () async {
@@ -169,8 +195,21 @@ void main() {
     addTearDown(() => dir.delete(recursive: true));
     settings.downloadPath.value = dir.path;
 
-    final responses = StreamController<FileResponse>.broadcast();
-    final instance = controller(cacheManager: FakeCacheManager(responses));
+    final gate = Completer<void>();
+    final source = fetchableFile('${dir.path}/source.bin');
+    final fetched = File('${dir.path}/fetched.bin');
+    addTearDown(() => source.delete());
+
+    final instance = controller(
+      fileFetcher: (url, token, onProgress) async {
+        onProgress?.call(0.5);
+        // the transfer completes even though the task was canceled, as can
+        // happen when the cancellation races a finished download
+        await gate.future;
+        fetched.writeAsBytesSync([1, 2, 3]);
+        return fetched;
+      },
+    );
 
     final task = await instance.enqueue(downloadRequest('canceled.webm'));
     await pumpEventQueue();
@@ -178,26 +217,16 @@ void main() {
     await instance.cancel(task.id);
     await pumpEventQueue();
 
-    final source = const LocalFileSystem().file('${dir.path}/source.bin');
-    await source.writeAsBytes([1, 2, 3]);
-    addTearDown(() => source.delete());
-
-    responses.add(
-      FileInfo(
-        source,
-        FileSource.Online,
-        DateTime.now().add(const Duration(hours: 1)),
-        'https://example.com/canceled.webm',
-      ),
-    );
+    gate.complete();
     await pumpEventQueue();
     await pumpEventQueue();
 
     expect(await repository.readStatus(task.id), TaskStatus.canceled);
     expect(File('${dir.path}/canceled.webm').existsSync(), isFalse);
+    // the completed-but-canceled transfer is cleaned up with its temp file
+    expect(fetched.existsSync(), isFalse);
 
     instance.dispose();
-    await responses.close();
   });
 
   test('does not revive canceled tasks when released', () async {
@@ -217,57 +246,94 @@ void main() {
   test(
     'does not revive canceled downloads when disposed mid-download',
     () async {
-      final responses = StreamController<FileResponse>.broadcast();
-      final instance = controller(cacheManager: FakeCacheManager(responses));
+      final transfer = FakeTransfer();
+      final instance = controller(fileFetcher: transfer.fetcher);
 
       final task = await instance.enqueue(
         downloadRequest('canceled-dispose.webm'),
       );
-      await pumpEventQueue();
-
-      responses.add(const DownloadProgress('https://example.com', 100, 50));
-      await pumpEventQueue();
+      await transfer.started.future;
 
       await instance.cancel(task.id);
-      await pumpEventQueue();
+      await transfer.aborted.future;
 
       instance.dispose();
-      responses.add(const DownloadProgress('https://example.com', 100, 60));
       await pumpEventQueue();
       await pumpEventQueue();
 
       expect(await repository.readStatus(task.id), TaskStatus.canceled);
-
-      await responses.close();
     },
   );
+
+  test('canceling a download aborts its transfer', () async {
+    final dir = await Directory.systemTemp.createTemp('task-abort');
+    addTearDown(() => dir.delete(recursive: true));
+    settings.downloadPath.value = dir.path;
+
+    final transfer = FakeTransfer();
+    final instance = controller(fileFetcher: transfer.fetcher);
+
+    final task = await instance.enqueue(downloadRequest('abort.webm'));
+    await transfer.started.future;
+
+    await instance.cancel(task.id);
+    await transfer.aborted.future;
+    await pumpEventQueue();
+    await pumpEventQueue();
+
+    // the task is canceled, not failed, and nothing was exported
+    expect(await repository.readStatus(task.id), TaskStatus.canceled);
+    expect(File('${dir.path}/abort.webm').existsSync(), isFalse);
+
+    instance.dispose();
+  });
+
+  test('canceling all tasks aborts their transfers', () async {
+    final transfers = [FakeTransfer(), FakeTransfer()];
+    int index = 0;
+    final instance = controller(
+      fileFetcher: (url, token, onProgress) {
+        final FakeTransfer transfer = transfers[index++];
+        return transfer.fetcher(url, token, onProgress);
+      },
+    );
+
+    final tasks = [
+      await instance.enqueue(downloadRequest('cancel-all-1.webm')),
+      await instance.enqueue(downloadRequest('cancel-all-2.webm')),
+    ];
+    await transfers[0].started.future;
+    await transfers[1].started.future;
+
+    await instance.cancelAll();
+    await transfers[0].aborted.future;
+    await transfers[1].aborted.future;
+    await pumpEventQueue();
+
+    for (final task in tasks) {
+      expect(await repository.readStatus(task.id), TaskStatus.canceled);
+    }
+
+    instance.dispose();
+  });
 
   test('a completed download lands in the gallery folder', () async {
     final dir = await Directory.systemTemp.createTemp('task-complete');
     addTearDown(() => dir.delete(recursive: true));
     settings.downloadPath.value = dir.path;
 
-    final responses = StreamController<FileResponse>.broadcast();
-    final instance = controller(cacheManager: FakeCacheManager(responses));
-
-    final task = await instance.enqueue(downloadRequest('completed.webm'));
-    await pumpEventQueue();
-
-    responses.add(const DownloadProgress('https://example.com', 100, 50));
-    await pumpEventQueue();
-
-    final source = const LocalFileSystem().file('${dir.path}/source.bin');
-    await source.writeAsBytes([1, 2, 3]);
+    final source = fetchableFile('${dir.path}/source.bin');
     addTearDown(() => source.delete());
 
-    responses.add(
-      FileInfo(
-        source,
-        FileSource.Online,
-        DateTime.now().add(const Duration(hours: 1)),
-        'https://example.com/completed.webm',
-      ),
+    final instance = controller(
+      fileFetcher: (url, token, onProgress) async {
+        onProgress?.call(0.5);
+        onProgress?.call(1);
+        return source;
+      },
     );
+
+    final task = await instance.enqueue(downloadRequest('completed.webm'));
     await pumpEventQueue();
     await pumpEventQueue();
     await pumpEventQueue();
@@ -276,20 +342,52 @@ void main() {
     expect(File('${dir.path}/completed.webm').existsSync(), isTrue);
 
     instance.dispose();
-    await responses.close();
   });
 
-  test('a download whose stream ends without a file fails the task', () async {
-    final responses = StreamController<FileResponse>.broadcast();
-    final instance = controller(cacheManager: FakeCacheManager(responses));
+  test('a cached download skips the network transfer', () async {
+    final dir = await Directory.systemTemp.createTemp('task-cached');
+    addTearDown(() => dir.delete(recursive: true));
+    settings.downloadPath.value = dir.path;
 
-    final task = await instance.enqueue(downloadRequest('empty.webm'));
+    final source = const LocalFileSystem().file('${dir.path}/source.bin');
+    source.createSync(recursive: true);
+    source.writeAsBytesSync([1, 2, 3]);
+    addTearDown(() => source.delete());
+
+    final instance = controller(
+      cacheManager: FakeCacheManager(
+        cached: FileInfo(
+          source,
+          FileSource.Cache,
+          DateTime.now().add(const Duration(hours: 1)),
+          'https://example.com/cached.webm',
+        ),
+      ),
+      fileFetcher: (url, token, onProgress) {
+        fail('a cached download must not start a network transfer');
+      },
+    );
+
+    final task = await instance.enqueue(downloadRequest('cached.webm'));
+    await pumpEventQueue();
+    await pumpEventQueue();
     await pumpEventQueue();
 
-    responses.add(const DownloadProgress('https://example.com', 100, 50));
-    await pumpEventQueue();
+    expect(await repository.readStatus(task.id), TaskStatus.completed);
+    expect(File('${dir.path}/cached.webm').existsSync(), isTrue);
 
-    await responses.close();
+    instance.dispose();
+  });
+
+  test('a failed transfer marks the task failed', () async {
+    final instance = controller(
+      fileFetcher: (url, token, onProgress) async => throw DioException(
+        requestOptions: RequestOptions(path: url),
+        type: DioExceptionType.connectionError,
+      ),
+    );
+
+    final task = await instance.enqueue(downloadRequest('error.webm'));
     await pumpEventQueue();
     await pumpEventQueue();
 
