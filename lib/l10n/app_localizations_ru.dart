@@ -280,6 +280,11 @@ class AppLocalizationsRu extends AppLocalizations {
   String get videoWithSound => 'со звуком';
 
   @override
+  String videoSeekSeconds(Object seconds) {
+    return '$seconds с';
+  }
+
+  @override
   String get settingsVideoResolution => 'Разрешение видео';
 
   @override
@@ -521,7 +526,7 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get databaseExportSanitizedBody =>
-      'В экспортируемом файле не будет ваших логинов и API-ключей.\nВсе остальные данные, включая аккаунты, хосты, историю, подписки и задачи, будут сохранены.';
+      'В экспортируемом файле не будет ваших логинов и API-ключей.\nВсе остальные данные, включая аккаунты, сайты, историю, подписки и задачи, будут сохранены.';
 
   @override
   String get databaseImportNewerFile =>

@@ -272,6 +272,11 @@ class AppLocalizationsEn extends AppLocalizations {
   String get videoWithSound => 'with sound';
 
   @override
+  String videoSeekSeconds(Object seconds) {
+    return '$seconds seconds';
+  }
+
+  @override
   String get settingsVideoResolution => 'Video resolution';
 
   @override

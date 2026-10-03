@@ -268,6 +268,11 @@ class AppLocalizationsZh extends AppLocalizations {
   String get videoWithSound => '有声音';
 
   @override
+  String videoSeekSeconds(Object seconds) {
+    return '$seconds 秒';
+  }
+
+  @override
   String get settingsVideoResolution => '视频分辨率';
 
   @override
@@ -500,7 +505,7 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get databaseExportSanitizedBody =>
-      '导出的文件不会包含你的登录名和 API 密钥。\n其余内容（账号、主机、历史、关注和任务）都会包含。';
+      '导出的文件不会包含你的登录信息和 API 密钥。\n其余内容（账号、站点、历史、关注和任务）都会包含。';
 
   @override
   String get databaseImportNewerFile => '此文件由更新版本的应用创建，无法导入。';
@@ -2087,7 +2092,7 @@ class AppLocalizationsZh extends AppLocalizations {
   String get taskCancel => '取消';
 
   @override
-  String get taskDismiss => '移除';
+  String get taskDismiss => '忽略';
 
   @override
   String get taskNoTasks => '没有任务';
@@ -2474,6 +2479,11 @@ class AppLocalizationsZhHant extends AppLocalizationsZh {
   String get videoWithSound => '有聲音';
 
   @override
+  String videoSeekSeconds(Object seconds) {
+    return '$seconds 秒';
+  }
+
+  @override
   String get settingsVideoResolution => '影片解析度';
 
   @override
@@ -2706,7 +2716,7 @@ class AppLocalizationsZhHant extends AppLocalizationsZh {
 
   @override
   String get databaseExportSanitizedBody =>
-      '匯出的檔案不會包含你的登入名和 API 金鑰。\n其餘內容（帳號、主機、歷史、關注和任務）都會包含。';
+      '匯出的檔案不會包含你的登入資訊和 API 金鑰。\n其餘內容（帳號、網站、歷史、關注和任務）都會包含。';
 
   @override
   String get databaseImportNewerFile => '此檔案由較新版本的應用程式建立，無法匯入。';
@@ -4293,7 +4303,7 @@ class AppLocalizationsZhHant extends AppLocalizationsZh {
   String get taskCancel => '取消';
 
   @override
-  String get taskDismiss => '移除';
+  String get taskDismiss => '忽略';
 
   @override
   String get taskNoTasks => '沒有任務';

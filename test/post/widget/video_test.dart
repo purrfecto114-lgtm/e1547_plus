@@ -1,3 +1,4 @@
+import 'package:e1547/l10n/app_localizations.dart';
 import 'package:e1547/post/post.dart';
 import 'package:e1547/shared/shared.dart';
 import 'package:flutter/material.dart';
@@ -55,6 +56,8 @@ void main() {
   Widget wrap(Widget child) => MultiProvider(
     providers: [ChangeNotifierProvider<VideoService>.value(value: videos)],
     child: MaterialApp(
+      localizationsDelegates: AppLocalizations.localizationsDelegates,
+      supportedLocales: AppLocalizations.supportedLocales,
       home: Scaffold(body: Center(child: child)),
     ),
   );

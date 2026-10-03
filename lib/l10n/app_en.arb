@@ -135,6 +135,7 @@
   "settingsVideoVolume": "Video volume",
   "videoMuted": "muted",
   "videoWithSound": "with sound",
+  "videoSeekSeconds": "{seconds} seconds",
   "settingsVideoResolution": "Video resolution",
   "videoResStandard": "Standard (480p)",
   "videoResHigh": "High (720p)",

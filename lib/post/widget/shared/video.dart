@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:e1547/l10n/app_localizations.dart';
 import 'package:e1547/post/post.dart';
 import 'package:e1547/shared/shared.dart';
 import 'package:flutter/material.dart';
@@ -350,7 +351,9 @@ class _VideoGestureState extends State<VideoGesture>
                 color: Colors.white,
               ),
               title: Text(
-                '${videoSeekStep.inSeconds * combo} seconds',
+                AppLocalizations.of(
+                  context,
+                ).videoSeekSeconds(videoSeekStep.inSeconds * combo),
                 style: const TextStyle(color: Colors.white),
               ),
             ),

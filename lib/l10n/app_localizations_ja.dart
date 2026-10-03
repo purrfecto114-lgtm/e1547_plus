@@ -268,6 +268,11 @@ class AppLocalizationsJa extends AppLocalizations {
   String get videoWithSound => '音声あり';
 
   @override
+  String videoSeekSeconds(Object seconds) {
+    return '$seconds 秒';
+  }
+
+  @override
   String get settingsVideoResolution => '動画の解像度';
 
   @override
@@ -304,7 +309,7 @@ class AppLocalizationsJa extends AppLocalizations {
   String get disabled => '無効';
 
   @override
-  String get settingsPinLock => 'PINロック';
+  String get settingsPinLock => 'PIN ロック';
 
   @override
   String get pinEnabled => 'PIN 有効';
@@ -502,7 +507,7 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get databaseExportSanitizedBody =>
-      'エクスポートされたファイルにログイン名と API キーは含まれません。\nアカウント、ホスト、履歴、フォロー、タスクなどのその他のデータは含まれます。';
+      'エクスポートされたファイルにログイン情報と API キーは含まれません。\nアカウント、サイト、履歴、フォロー、タスクなどのその他のデータは含まれます。';
 
   @override
   String get databaseImportNewerFile =>
@@ -1484,7 +1489,7 @@ class AppLocalizationsJa extends AppLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '履歴$count件を削除しました',
+      other: '履歴 $count 件を削除しました',
     );
     return '$_temp0';
   }
@@ -2096,7 +2101,7 @@ class AppLocalizationsJa extends AppLocalizations {
   String get taskCancel => 'キャンセル';
 
   @override
-  String get taskDismiss => '削除';
+  String get taskDismiss => '非表示';
 
   @override
   String get taskNoTasks => 'タスクはありません';

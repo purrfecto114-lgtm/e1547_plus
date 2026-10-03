@@ -553,6 +553,12 @@ abstract class AppLocalizations {
   /// **'with sound'**
   String get videoWithSound;
 
+  /// No description provided for @videoSeekSeconds.
+  ///
+  /// In en, this message translates to:
+  /// **'{seconds} seconds'**
+  String videoSeekSeconds(Object seconds);
+
   /// No description provided for @settingsVideoResolution.
   ///
   /// In en, this message translates to:
