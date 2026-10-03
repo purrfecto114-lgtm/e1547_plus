@@ -6,6 +6,7 @@
     <td width="80%">
       <h1>e1547</h1>
       <h4>A sophisticated e621 browser</h4>
+      <a href="README.zh-CN.md"><img src="https://img.shields.io/badge/README-简体中文-orange" alt="简体中文"></a>
       <a href="https://github.com/purrfecto114-lgtm/e1547_plus/commits/master"><img src="https://img.shields.io/github/commit-activity/m/purrfecto114-lgtm/e1547_plus"></a>
       <a href="https://github.com/purrfecto114-lgtm/e1547_plus/commits/master"><img src="https://img.shields.io/github/last-commit/purrfecto114-lgtm/e1547_plus"></a>
       <a href="blob/master/LICENSE"><img src="https://img.shields.io/github/license/purrfecto114-lgtm/e1547_plus"></a>
@@ -19,6 +20,21 @@
 This repository is a fork of [e1547](https://github.com/clynamic/e1547) (GPL-3.0),
 maintained with a focus on stability on Android 7 and other low memory devices.
 
+On top of upstream 21.0.1, this fork ships:
+
+- a stability batch for Android 7 and low memory devices — sized image caches,
+  a capped video player pool, guarded cache database access and memory-adaptive
+  defaults
+- a security batch — credential-free database exports, hardened imports, a
+  locked-down cookie webview, database files excluded from OS backups and
+  request timeouts
+- downloads that cancel at the network level, with a task queue that keeps
+  its concurrency
+- a fully localized interface — seven languages, plus curated chinese
+  descriptions for about 230 common tags
+
+The fork's changes are offered back upstream as pull requests.
+
 The app's updater checks this repository for new versions. Since the fork is
 signed with its own key, it cannot be installed over the official release —
 see [Upgrading](#upgrading) below.
@@ -29,7 +45,7 @@ see [Upgrading](#upgrading) below.
 - Browse posts and pools
 - Edit posts
 - Comment on posts
-- Download images
+- Download images, with mid-transfer cancellation
 - Favorite, up and down vote posts
 - Follow tags with notifications
 - Local blacklist
@@ -37,16 +53,23 @@ see [Upgrading](#upgrading) below.
 - Video support
 - Multiple logins
 - Multiple app themes
-- Multilingual interface (English, 简体中文, 繁體中文, 日本語, Русский)
+- Multilingual interface (English, 简体中文, 繁體中文, 日本語, Русский, Deutsch, Español)
 - Language selection during onboarding and in the settings
+- Chinese tag descriptions for around 230 common tags, offline
 - Stable cursor pagination with a page footer and page jumping
 - Search filters for special search terms (order, rating, file type and more), with metatag autocomplete in search inputs
 
 ## Localization
 
-The app interface is available in English, Simplified and Traditional Chinese, Japanese and Russian, selectable on the first-launch welcome screen or in the settings at any time.
+The app interface is available in English, Simplified and Traditional Chinese,
+Japanese, Russian, German and Spanish, selectable on the first-launch welcome
+screen or in the settings at any time. The Japanese and Russian translations
+have had a native review pass.
 
-To add another language, create an `app_<locale>.arb` file in `lib/l10n` with translations for every key of `app_en.arb`, add the language to `appLanguages` in `lib/settings/data/language.dart`, and run `flutter gen-l10n` — the language picker and onboarding step pick it up automatically.
+To add another language, create an `app_<locale>.arb` file in `lib/l10n` with
+translations for every key of `app_en.arb`, add the language to `appLanguages`
+in `lib/settings/data/language.dart`, and run `flutter gen-l10n` — the language
+picker and onboarding step pick it up automatically.
 
 ## Screenshots
 
