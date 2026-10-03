@@ -241,4 +241,60 @@ void main() {
       await responses.close();
     },
   );
+
+  test('a completed download lands in the gallery folder', () async {
+    final dir = await Directory.systemTemp.createTemp('task-complete');
+    addTearDown(() => dir.delete(recursive: true));
+    settings.downloadPath.value = dir.path;
+
+    final responses = StreamController<FileResponse>.broadcast();
+    final instance = controller(cacheManager: FakeCacheManager(responses));
+
+    final task = await instance.enqueue(downloadRequest('completed.webm'));
+    await pumpEventQueue();
+
+    responses.add(const DownloadProgress('https://example.com', 100, 50));
+    await pumpEventQueue();
+
+    final source = const LocalFileSystem().file('${dir.path}/source.bin');
+    await source.writeAsBytes([1, 2, 3]);
+    addTearDown(() => source.delete());
+
+    responses.add(
+      FileInfo(
+        source,
+        FileSource.Online,
+        DateTime.now().add(const Duration(hours: 1)),
+        'https://example.com/completed.webm',
+      ),
+    );
+    await pumpEventQueue();
+    await pumpEventQueue();
+    await pumpEventQueue();
+
+    expect(await repository.readStatus(task.id), TaskStatus.completed);
+    expect(File('${dir.path}/completed.webm').existsSync(), isTrue);
+
+    instance.dispose();
+    await responses.close();
+  });
+
+  test('a download whose stream ends without a file fails the task', () async {
+    final responses = StreamController<FileResponse>.broadcast();
+    final instance = controller(cacheManager: FakeCacheManager(responses));
+
+    final task = await instance.enqueue(downloadRequest('empty.webm'));
+    await pumpEventQueue();
+
+    responses.add(const DownloadProgress('https://example.com', 100, 50));
+    await pumpEventQueue();
+
+    await responses.close();
+    await pumpEventQueue();
+    await pumpEventQueue();
+
+    expect(await repository.readStatus(task.id), TaskStatus.failed);
+
+    instance.dispose();
+  });
 }
