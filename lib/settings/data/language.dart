@@ -13,6 +13,8 @@ const List<({String value, String label})> appLanguages = [
   (value: 'zh_Hant', label: '繁體中文'),
   (value: 'ja', label: '日本語'),
   (value: 'ru', label: 'Русский'),
+  (value: 'de', label: 'Deutsch'),
+  (value: 'es', label: 'Español'),
 ];
 
 /// Parses a stored language value into a locale.
@@ -41,6 +43,15 @@ Locale resolveAppLocale(List<Locale>? preferredLocales) {
     preferredLocales ?? const <Locale>[],
     AppLocalizations.supportedLocales,
   );
+  // basicLocaleListResolution falls back to the first supported locale,
+  // which is alphabetically ordered and need not be english; an unsupported
+  // preferred language must still fall back to english
+  final bool matchesPreference = (preferredLocales ?? const <Locale>[]).any(
+    (locale) => locale.languageCode == resolved.languageCode,
+  );
+  if (!matchesPreference) {
+    return const Locale('en');
+  }
   if (resolved.languageCode != 'zh' || resolved.scriptCode != null) {
     return resolved;
   }

@@ -20,8 +20,9 @@ void main() {
       expect(resolveAppLocale(const [traditional]), traditional);
       expect(resolveAppLocale(const [Locale('en', 'US')]), const Locale('en'));
       expect(resolveAppLocale(const [Locale('zh', 'CN')]), const Locale('zh'));
-      expect(resolveAppLocale(const [Locale('de')]), const Locale('en'));
-      expect(resolveAppLocale(const [Locale('de', 'DE')]), const Locale('en'));
+      expect(resolveAppLocale(const [Locale('de')]), const Locale('de'));
+      expect(resolveAppLocale(const [Locale('de', 'DE')]), const Locale('de'));
+      expect(resolveAppLocale(const [Locale('fr')]), const Locale('en'));
       expect(resolveAppLocale(null), const Locale('en'));
       expect(resolveAppLocale(const []), const Locale('en'));
     });
@@ -55,6 +56,15 @@ void main() {
         resolveAppLocale(const [Locale('fi'), Locale('ru')]),
         const Locale('ru'),
       );
+    });
+
+    test('resolves the german and spanish languages generically', () {
+      expect(parseLanguage('de'), const Locale('de'));
+      expect(parseLanguage('es'), const Locale('es'));
+      expect(resolveAppLocale(const [Locale('de')]), const Locale('de'));
+      expect(resolveAppLocale(const [Locale('es')]), const Locale('es'));
+      expect(resolveAppLocale(const [Locale('de', 'AT')]), const Locale('de'));
+      expect(resolveAppLocale(const [Locale('es', 'MX')]), const Locale('es'));
     });
   });
 
