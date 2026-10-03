@@ -20,8 +20,8 @@ class TagListActions extends StatefulWidget {
 class _TagListActionsState extends State<TagListActions> {
   bool _busy = false;
 
-  // Follow and block actions mutate the server; a second tap while a request
-  // is in flight would repeat the mutation.
+  // Follow, notify, bookmark and block actions mutate the server; a second
+  // tap while a request is in flight would repeat the mutation.
   Future<void> guard(Future<void> Function() action) async {
     if (_busy) return;
     setState(() => _busy = true);
