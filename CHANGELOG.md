@@ -4,6 +4,19 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and this project
 adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [21.2.0+115] - 2026-10-03
+### Added
+- german and spanish translations of the whole interface
+- a chinese description for common tags in the tag prompt, served offline without a wiki request
+
+### Changed
+- the japanese and russian translations received a native quality review
+
+### Fixed
+- canceling a download now aborts its network transfer, instead of letting it finish invisibly in the background
+- download tasks enqueued while another download is running start immediately again; the queue had collapsed to a single lane whenever a worker was busy
+- unsupported system languages fall back to english again; adding german had made the fallback pick the alphabetically first language
+
 ## [21.1.0+114] - 2026-10-03
 ### Added
 - a system theme that follows the platform dark mode
@@ -1245,3 +1258,4 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 [21.1.0-rc.9+112]: https://github.com/purrfecto114-lgtm/e1547_plus/compare/21.1.0-rc.8+111...21.1.0-rc.9+112
 [21.1.0-rc.10+113]: https://github.com/purrfecto114-lgtm/e1547_plus/compare/21.1.0-rc.9+112...21.1.0-rc.10+113
 [21.1.0+114]: https://github.com/purrfecto114-lgtm/e1547_plus/compare/21.1.0-rc.10+113...21.1.0+114
+[21.2.0+115]: https://github.com/purrfecto114-lgtm/e1547_plus/compare/21.1.0+114...21.2.0+115
