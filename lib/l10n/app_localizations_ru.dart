@@ -1174,7 +1174,7 @@ class AppLocalizationsRu extends AppLocalizations {
   String get userId => 'ID';
 
   @override
-  String get userJoined => 'регистрация';
+  String get userJoined => 'дата регистрации';
 
   @override
   String get userRank => 'ранг';
@@ -1204,7 +1204,7 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String logsTitleDate(String date) {
-    return 'Логи - $date';
+    return 'Логи — $date';
   }
 
   @override
@@ -2120,7 +2120,7 @@ class AppLocalizationsRu extends AppLocalizations {
   String get flagTypeRealPorn => 'Порнография с реальными людьми';
 
   @override
-  String get flagTypeCorrupt => 'Файл повреждён, сломан или иначе не работает';
+  String get flagTypeCorrupt => 'Файл повреждён или не воспроизводится';
 
   @override
   String get flagTypeInferior => 'Дубликат или худшая версия другого поста';

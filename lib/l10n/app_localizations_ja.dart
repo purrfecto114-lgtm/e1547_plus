@@ -499,7 +499,7 @@ class AppLocalizationsJa extends AppLocalizations {
   String get databaseExportSubtitle => 'データベースのバックアップを保存';
 
   @override
-  String get databaseImportSubtitle => '現在のデータベースをインポートしたものに置き換えます';
+  String get databaseImportSubtitle => 'インポートした内容で現在のデータベースを置き換えます';
 
   @override
   String get databaseImportWarning =>
@@ -991,7 +991,7 @@ class AppLocalizationsJa extends AppLocalizations {
   String get warningUserRecorded => 'このメッセージにより、ユーザーに記録が残りました';
 
   @override
-  String get warningUserBanned => 'このメッセージにより、ユーザーはBANされました';
+  String get warningUserBanned => 'このメッセージにより、ユーザーは BAN されました';
 
   @override
   String get repliesTitle => '返信';
@@ -1293,21 +1293,21 @@ class AppLocalizationsJa extends AppLocalizations {
   String get identityUsernameRequired => 'ユーザー名を入力してください。';
 
   @override
-  String get identityApikeyLabel => 'APIキー';
+  String get identityApikeyLabel => 'API キー';
 
   @override
-  String get identityApikeyHelp => 'APIキーはどこで確認できますか？';
+  String get identityApikeyHelp => 'API キーはどこで確認できますか？';
 
   @override
   String get identityApikeyRequired =>
-      'APIキーを入力してください。\n例：1ca1d165e973d7f8d35b7deb7a2ae54c';
+      'API キーを入力してください。\n例：1ca1d165e973d7f8d35b7deb7a2ae54c';
 
   @override
   String get identityApikeyInvalid =>
-      'APIキーは A-z と 0-9 の文字で構成される 24 文字または 32 文字の列です\n例：1ca1d165e973d7f8d35b7deb7a2ae54c';
+      'API キーは A-z と 0-9 の文字で構成される 24 文字または 32 文字の列です\n例：1ca1d165e973d7f8d35b7deb7a2ae54c';
 
   @override
-  String get identitySignupPrompt => 'アカウントをお持ちでないですか？こちらから登録';
+  String get identitySignupPrompt => 'アカウントをお持ちでないですか？こちらから登録できます';
 
   @override
   String get identityHostHint => 'あなたのアカウントと投稿があるサイトです。';
@@ -1479,7 +1479,7 @@ class AppLocalizationsJa extends AppLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '$count 件のエントリ',
+      other: '$count 件の項目',
     );
     return '$_temp0';
   }
@@ -1514,7 +1514,7 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String historyLimitEnableBody(String amount, num months) {
-    return '履歴の上限を有効にすると、$amount 件を超えるエントリと $months か月より古いエントリは自動的に削除されます。';
+    return '履歴の上限を有効にすると、$amount 件を超える項目と $months か月より古い項目は自動的に削除されます。';
   }
 
   @override
@@ -1522,14 +1522,14 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String historyLimitOn(String amount, num months) {
-    return '$months か月以内かつ $amount 件までのエントリに制限されています。';
+    return '$months か月以内かつ $amount 件までの項目に制限されています。';
   }
 
   @override
   String get historyLimitOff => '履歴は無制限';
 
   @override
-  String get historyEntries => 'エントリ';
+  String get historyEntries => '項目';
 
   @override
   String get historyType => '種類';
