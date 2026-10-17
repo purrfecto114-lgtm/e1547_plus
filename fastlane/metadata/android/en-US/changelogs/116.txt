@@ -1,0 +1,7 @@
+### Added
+- a quality menu to fullscreen videos, listing every re-encoded variant of a post alongside its original file
+- an automatic video loading setting, off by default, so videos are only downloaded when they are actually played; enabling it explains the consequences and takes effect immediately
+### Changed
+- switching video quality keeps the current playback position and play state
+- the video resolution setting now considers all re-encoded variants of a post, preferring a smaller mp4 re-encode over the original upload when the sizes match
+- with automatic loading off, browsing no longer fetches videos or their preview frames; a placeholder shows until a video is played

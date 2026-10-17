@@ -4,6 +4,16 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and this project
 adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [21.3.0-rc.1+116] - 2026-10-17
+### Added
+- a quality menu to fullscreen videos, listing every re-encoded variant of a post alongside its original file
+- an automatic video loading setting, off by default, so videos are only downloaded when they are actually played; enabling it explains the consequences and takes effect immediately
+
+### Changed
+- switching video quality keeps the current playback position and play state
+- the video resolution setting now considers all re-encoded variants of a post, preferring a smaller mp4 re-encode over the original upload when the sizes match
+- with automatic loading off, browsing no longer fetches videos or their preview frames; a placeholder shows until a video is played
+
 ## [21.2.0+115] - 2026-10-03
 ### Added
 - german and spanish translations of the whole interface
@@ -1259,3 +1269,4 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 [21.1.0-rc.10+113]: https://github.com/purrfecto114-lgtm/e1547_plus/compare/21.1.0-rc.9+112...21.1.0-rc.10+113
 [21.1.0+114]: https://github.com/purrfecto114-lgtm/e1547_plus/compare/21.1.0-rc.10+113...21.1.0+114
 [21.2.0+115]: https://github.com/purrfecto114-lgtm/e1547_plus/compare/21.1.0+114...21.2.0+115
+[21.3.0-rc.1+116]: https://github.com/purrfecto114-lgtm/e1547_plus/compare/21.2.0+115...21.3.0-rc.1+116
