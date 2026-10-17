@@ -296,6 +296,25 @@ class AppLocalizationsDe extends AppLocalizations {
   String get videoResSource => 'Original';
 
   @override
+  String get settingsAutoLoadVideos => 'Videos automatisch laden';
+
+  @override
+  String get autoLoadVideosOn => 'Videos werden beim Surfen geladen';
+
+  @override
+  String get autoLoadVideosOff => 'Videos werden beim Abspielen geladen';
+
+  @override
+  String get autoLoadVideosDialogTitle => 'Videos automatisch laden?';
+
+  @override
+  String get autoLoadVideosDialogBody =>
+      'Videos werden vollständig heruntergeladen, während du surfst und suchst. Das kann auf getakteten Verbindungen viel Datenvolumen verbrauchen.';
+
+  @override
+  String get videoQuality => 'Videoqualität';
+
+  @override
   String get settingsSecureDisplay => 'Displayschutz';
 
   @override

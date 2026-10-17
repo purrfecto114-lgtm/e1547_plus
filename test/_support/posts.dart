@@ -7,6 +7,7 @@ Post samplePost({
   Map<String, List<String>> tags = const {},
   String? file,
   String? preview,
+  Map<String, String?>? variants,
   Relationships relationships = const Relationships(
     parentId: null,
     hasChildren: false,
@@ -34,7 +35,7 @@ Post samplePost({
   height: height,
   ext: ext,
   size: size,
-  variants: null,
+  variants: variants,
   tags: tags,
   uploaderId: uploaderId,
   uploaderName: uploaderName,

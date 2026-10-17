@@ -291,6 +291,25 @@ class AppLocalizationsZh extends AppLocalizations {
   String get videoResSource => '原始画质';
 
   @override
+  String get settingsAutoLoadVideos => '自动加载视频';
+
+  @override
+  String get autoLoadVideosOn => '浏览时加载视频';
+
+  @override
+  String get autoLoadVideosOff => '播放时加载视频';
+
+  @override
+  String get autoLoadVideosDialogTitle => '自动加载视频？';
+
+  @override
+  String get autoLoadVideosDialogBody =>
+      '开启后，浏览和搜索时会完整下载视频。在按流量计费的网络下可能消耗大量数据。';
+
+  @override
+  String get videoQuality => '视频画质';
+
+  @override
   String get settingsSecureDisplay => '屏幕内容保护';
 
   @override
@@ -2500,6 +2519,25 @@ class AppLocalizationsZhHant extends AppLocalizationsZh {
 
   @override
   String get videoResSource => '原始畫質';
+
+  @override
+  String get settingsAutoLoadVideos => '自動載入影片';
+
+  @override
+  String get autoLoadVideosOn => '瀏覽時載入影片';
+
+  @override
+  String get autoLoadVideosOff => '播放時載入影片';
+
+  @override
+  String get autoLoadVideosDialogTitle => '自動載入影片？';
+
+  @override
+  String get autoLoadVideosDialogBody =>
+      '開啟後，瀏覽和搜尋時會完整下載影片。在按流量計費的網路下可能消耗大量數據。';
+
+  @override
+  String get videoQuality => '影片畫質';
 
   @override
   String get settingsSecureDisplay => '螢幕內容保護';

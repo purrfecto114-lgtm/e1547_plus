@@ -385,6 +385,7 @@ class SettingsPage extends StatelessWidget {
                   ),
                 ),
               ),
+              const AutoLoadVideosTile(),
               const Divider(),
               SectionHeader(
                 indent: SectionHeader.listTileIndent,

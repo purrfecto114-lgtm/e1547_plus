@@ -9,6 +9,9 @@ class FakePlatformPlayer extends PlatformPlayer {
   /// Durations passed to [seek], in call order.
   final List<Duration> seeks = [];
 
+  /// Playables passed to [open], in call order.
+  final List<Playable> opened = [];
+
   void _setPlaying(bool playing) {
     state = state.copyWith(playing: playing);
     playingController.add(playing);
@@ -43,8 +46,10 @@ class FakePlatformPlayer extends PlatformPlayer {
   Future<int> get handle => Completer<int>().future;
 
   @override
-  Future<void> open(Playable playable, {bool play = true}) async =>
-      _setPlaying(play);
+  Future<void> open(Playable playable, {bool play = true}) async {
+    opened.add(playable);
+    _setPlaying(play);
+  }
 
   @override
   Future<void> stop() async => _setPlaying(false);

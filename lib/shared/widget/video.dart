@@ -48,6 +48,14 @@ class VideoPlayer extends Player {
   String? _media;
   String? get media => _media;
 
+  /// The media url this player is deferred to, if any.
+  ///
+  /// A deferred player holds its slot in the video pool but downloads
+  /// nothing; the media is loaded once [play] is called.
+  String? defer;
+
+  bool get isDeferred => defer != null;
+
   int _leases = 0;
 
   bool get isLeased => _leases > 0;
@@ -59,16 +67,32 @@ class VideoPlayer extends Player {
     _initialized.add(value);
   }
 
-  Future<void> load(String media) async {
+  /// Opens [media], optionally starting at [position] and resuming playback.
+  Future<void> load(
+    String media, {
+    Duration? position,
+    bool play = false,
+  }) async {
     _media = media;
+    defer = null;
     _failed = false;
     _hasParams = false;
     _update();
-    await open(Media(media), play: false);
+    await open(Media(media, start: position), play: play);
+  }
+
+  @override
+  Future<void> play() async {
+    if (defer case String media) {
+      await load(media, play: true);
+      return;
+    }
+    await super.play();
   }
 
   Future<void> unload() async {
     _media = null;
+    defer = null;
     _failed = false;
     _hasParams = false;
     _update();
@@ -117,11 +141,38 @@ class VideoService extends ChangeNotifier {
     _logger.debug('Videos muted: {muted}', {'muted': _muteVideos});
   }
 
-  VideoPlayer? getVideo(String key) {
+  VideoPlayer? getVideo(
+    String key, {
+    bool autoLoad = true,
+    Duration? seekTo,
+    bool resume = false,
+  }) {
     // Re-inserting moves the key to the back of the map,
     // so that eviction walks from least to most recently used.
     VideoPlayer? player = _videos.remove(key);
-    if (player != null) return _videos[key] = player;
+    if (player != null) {
+      // A deferred player is loaded once auto-loading is enabled, e.g.
+      // when the user turns the setting on and returns to a route.
+      if (autoLoad && player.isDeferred) {
+        unawaited(player.load(key, position: seekTo, play: resume));
+        _logger.debug('Backfilled {video}', {'video': key});
+      } else if (player.media != null && (seekTo != null || resume)) {
+        // Returning to an already loaded video, e.g. when switching video
+        // quality back, restores the requested position and playback state.
+        // VideoService notifies on every lease release, which re-runs route
+        // dependencies with the player's own position; those pass through
+        // without seeking or replaying here.
+        if (seekTo case Duration position) {
+          if (position != player.state.position) {
+            unawaited(player.seek(position));
+          }
+        }
+        if (resume && !player.state.playing) {
+          unawaited(player.play());
+        }
+      }
+      return _videos[key] = player;
+    }
     while (_videos.length >= maxLoaded) {
       String? spare;
       for (final MapEntry(:key, :value) in _videos.entries) {
@@ -153,9 +204,16 @@ class VideoService extends ChangeNotifier {
     _videos[key] = player;
     player.setPlaylistMode(PlaylistMode.single);
     player.setVolume(_muteVideos ? 0 : 100);
-    // TODO: this is missing client auth headers
-    player.load(key);
-    _logger.debug('Loaded {video}', {'video': key});
+    if (autoLoad || resume) {
+      // TODO: this is missing client auth headers
+      unawaited(player.load(key, position: seekTo, play: resume));
+      _logger.debug('Loaded {video}', {'video': key});
+    } else {
+      // The player is parked on its url without downloading anything;
+      // a later cache hit can backfill it once auto-loading is enabled.
+      player.defer = key;
+      _logger.debug('Deferred {video}', {'video': key});
+    }
     return player;
   }
 
@@ -188,6 +246,18 @@ class VideoServiceProvider
         create: (context, settings) =>
             VideoService(muteVideos: settings.muteVideos.value),
       );
+}
+
+/// A fullscreen-scoped video quality override.
+///
+/// While one is provided, [url] is played instead of the resolution-based
+/// selection and the video is loaded immediately: the user just picked it,
+/// so deferring it again would only stall their player.
+class PostVideoQuality {
+  const PostVideoQuality({required this.url});
+
+  /// The video url to play.
+  final String url;
 }
 
 class VideoServiceVolumeControl extends StatelessWidget {

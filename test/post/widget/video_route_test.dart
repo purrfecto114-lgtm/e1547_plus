@@ -4,6 +4,7 @@ import 'package:e1547/settings/settings.dart';
 import 'package:e1547/shared/shared.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:media_kit/media_kit.dart';
 import 'package:notified_preferences/notified_preferences.dart';
 
 import '../../_support/posts.dart';
@@ -148,4 +149,117 @@ void main() {
 
     expect(player.state.playing, isTrue);
   });
+
+  testWidgets('a deferred video is loaded once auto-loading is enabled', (
+    tester,
+  ) async {
+    // autoLoadVideos defaults to off.
+    expect(settings.autoLoadVideos.value, isFalse);
+
+    await tester.pumpWidget(
+      app(
+        Builder(
+          builder: (context) => Column(
+            children: [
+              TextButton(
+                onPressed: () => Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (_) => Scaffold(
+                      appBar: AppBar(),
+                      body: const Text('settings'),
+                    ),
+                  ),
+                ),
+                child: const Text('cover'),
+              ),
+              PostVideoRoute(
+                post: first,
+                stopOnDispose: false,
+                child: const SizedBox(height: 10),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+
+    final player = playerOf(tester, first);
+    expect(player.isDeferred, isTrue);
+    expect(player.media, isNull);
+
+    // covering the route releases the player, like the settings page does
+    await tester.tap(find.text('cover'));
+    await tester.pumpAndSettle();
+    expect(playerOfOrNull(tester, first)?.player, isNull);
+
+    // the settings page turns auto-loading on
+    settings.autoLoadVideos.value = true;
+
+    // returning re-activates the route and backfills the deferred player
+    await tester.pageBack();
+    await tester.pumpAndSettle();
+
+    final reactivated = playerOf(tester, first);
+    expect(reactivated, same(player));
+    expect(reactivated.isDeferred, isFalse);
+    expect(reactivated.media, first.file);
+  });
+
+  testWidgets('switching quality restores the playback position', (
+    tester,
+  ) async {
+    final post = samplePost(
+      ext: 'webm',
+      file: 'source.webm',
+      variants: const {'1280x720': 'hi.mp4', '960x540': 'lo.mp4'},
+    );
+    addTearDown(() {
+      videos.unloadVideo('source.webm');
+      videos.unloadVideo('hi.mp4');
+      videos.unloadVideo('lo.mp4');
+    });
+    settings.autoLoadVideos.value = true;
+    settings.videoResolution.value = VideoResolution.high;
+
+    Widget qualityScope(String? url) => Provider<PostVideoQuality?>.value(
+      value: url == null ? null : PostVideoQuality(url: url),
+      child: PostVideoRoute(
+        post: post,
+        stopOnDispose: false,
+        child: const SizedBox(height: 10),
+      ),
+    );
+
+    await tester.pumpWidget(app(qualityScope(null)));
+    final initial = playerOf(tester, post);
+    expect(initial.media, 'hi.mp4');
+
+    await initial.play();
+    (initial.platform! as FakePlatformPlayer).setPosition(
+      const Duration(seconds: 30),
+    );
+    await tester.pump();
+
+    // the fullscreen quality picker switches to the low quality url
+    await tester.pumpWidget(app(qualityScope('lo.mp4')));
+
+    final switched = playerOf(tester, post);
+    expect(switched, isNot(same(initial)));
+    expect(switched.media, 'lo.mp4');
+    final opened = (switched.platform! as FakePlatformPlayer).opened
+        .whereType<Media>()
+        .where((media) => media.uri == 'lo.mp4')
+        .toList();
+    expect(opened.single.start, const Duration(seconds: 30));
+    expect(switched.state.playing, isTrue);
+    expect(initial.state.playing, isFalse);
+  });
 }
+
+PostVideoRouteState? playerOfOrNull(WidgetTester tester, Post post) =>
+    tester.state<PostVideoRouteState>(
+      find.byWidgetPredicate(
+        (widget) => widget is PostVideoRoute && widget.post == post,
+        skipOffstage: false,
+      ),
+    );

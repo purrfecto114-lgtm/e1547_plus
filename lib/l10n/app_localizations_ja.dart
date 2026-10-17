@@ -291,6 +291,25 @@ class AppLocalizationsJa extends AppLocalizations {
   String get videoResSource => 'オリジナル';
 
   @override
+  String get settingsAutoLoadVideos => '動画を自動的に読み込む';
+
+  @override
+  String get autoLoadVideosOn => '閲覧中に動画を読み込む';
+
+  @override
+  String get autoLoadVideosOff => '再生時に動画を読み込む';
+
+  @override
+  String get autoLoadVideosDialogTitle => '動画を自動的に読み込みますか？';
+
+  @override
+  String get autoLoadVideosDialogBody =>
+      '有効にすると、閲覧や検索中に動画が完全にダウンロードされます。従量制の接続では大量のデータを消費する可能性があります。';
+
+  @override
+  String get videoQuality => '動画の画質';
+
+  @override
   String get settingsSecureDisplay => '画面の保護';
 
   @override

@@ -182,7 +182,38 @@ extension PostTyping on Post {
 }
 
 extension PostVideoPlaying on Post {
-  VideoPlayer? getVideo(BuildContext context) {
+  /// All playable video variants of this post, keyed `"widthxheight"`.
+  ///
+  /// Entries that are null or not videos are dropped.
+  Map<String, String> get videoVariants => {
+    for (final MapEntry(:key, :value) in (variants ?? const {}).entries)
+      if (value != null && (value.endsWith('mp4') || value.endsWith('webm')))
+        key: value,
+  };
+
+  /// The video url closest to [target] in pixel count,
+  /// falling back to the source file.
+  String videoUrl(VideoResolution target) {
+    String closestUrl = file!;
+    int? closestDifference;
+    for (final MapEntry(:key, :value) in videoVariants.entries) {
+      final dimensions = key.split('x').map(int.parse).toList();
+      final pixelSize = dimensions[0] * dimensions[1];
+      final difference = (target.pixels - pixelSize).abs();
+
+      if (closestDifference == null || difference < closestDifference) {
+        closestDifference = difference;
+        closestUrl = value;
+      }
+    }
+    return closestUrl;
+  }
+
+  VideoPlayer? getVideo(
+    BuildContext context, {
+    Duration? seekTo,
+    bool resume = false,
+  }) {
     if (type == PostType.video && file != null) {
       // An inactive subtree holds no player, so that a stack of post routes
       // cannot pin one video each.
@@ -190,28 +221,17 @@ extension PostVideoPlaying on Post {
 
       VideoService service = context.watch<VideoService>();
       Settings settings = context.watch<Settings>();
+      PostVideoQuality? quality = context.watch<PostVideoQuality?>();
 
-      VideoResolution target = settings.videoResolution.value;
-      String closestUrl = file!;
-      int? closestDifference;
+      String url = quality?.url ?? videoUrl(settings.videoResolution.value);
 
-      // maybe move this logic into the VideoService
-      if (variants != null && variants!.isNotEmpty) {
-        for (final MapEntry(:key, :value) in variants!.entries) {
-          if (value == null) continue;
-          if (!value.endsWith('mp4') && !value.endsWith('webm')) continue;
-          final dimensions = key.split('x').map(int.parse).toList();
-          final pixelSize = dimensions[0] * dimensions[1];
-          final difference = (target.pixels - pixelSize).abs();
-
-          if (closestDifference == null || difference < closestDifference) {
-            closestDifference = difference;
-            closestUrl = value;
-          }
-        }
-      }
-
-      return service.getVideo(closestUrl);
+      return service.getVideo(
+        url,
+        // An explicit quality choice always loads: it was just requested.
+        autoLoad: quality != null || settings.autoLoadVideos.value,
+        seekTo: seekTo,
+        resume: resume,
+      );
     }
     return null;
   }

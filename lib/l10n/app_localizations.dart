@@ -599,6 +599,42 @@ abstract class AppLocalizations {
   /// **'Source'**
   String get videoResSource;
 
+  /// No description provided for @settingsAutoLoadVideos.
+  ///
+  /// In en, this message translates to:
+  /// **'Automatically load videos'**
+  String get settingsAutoLoadVideos;
+
+  /// No description provided for @autoLoadVideosOn.
+  ///
+  /// In en, this message translates to:
+  /// **'videos load while browsing'**
+  String get autoLoadVideosOn;
+
+  /// No description provided for @autoLoadVideosOff.
+  ///
+  /// In en, this message translates to:
+  /// **'videos load when played'**
+  String get autoLoadVideosOff;
+
+  /// No description provided for @autoLoadVideosDialogTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Load videos automatically?'**
+  String get autoLoadVideosDialogTitle;
+
+  /// No description provided for @autoLoadVideosDialogBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Videos will be downloaded in full while you browse and search. This can consume a lot of data on metered connections.'**
+  String get autoLoadVideosDialogBody;
+
+  /// No description provided for @videoQuality.
+  ///
+  /// In en, this message translates to:
+  /// **'Video quality'**
+  String get videoQuality;
+
   /// No description provided for @settingsSecureDisplay.
   ///
   /// In en, this message translates to:

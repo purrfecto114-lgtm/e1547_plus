@@ -71,6 +71,15 @@ class Settings extends NotifiedSettings {
     values: VideoResolution.values,
   );
 
+  /// Whether browsing silently downloads videos.
+  ///
+  /// When disabled, videos are only fetched once their play button is
+  /// pressed, so scrolling a timeline stays data-free. Defaults to off.
+  late final ValueNotifier<bool> autoLoadVideos = createSetting<bool>(
+    key: 'autoLoadVideos',
+    initialValue: false,
+  );
+
   late final ValueNotifier<bool> secureDisplay = createSetting<bool>(
     key: 'secureDisplay',
     initialValue: false,

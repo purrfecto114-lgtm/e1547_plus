@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:e1547/l10n/app_localizations.dart';
 import 'package:e1547/post/post.dart';
+import 'package:e1547/settings/settings.dart';
 import 'package:e1547/shared/shared.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_sub/flutter_sub.dart';
@@ -111,9 +112,14 @@ class VideoButton extends StatelessWidget {
 }
 
 class VideoBar extends StatefulWidget {
-  const VideoBar({super.key, required this.player});
+  const VideoBar({super.key, required this.player, this.post});
 
   final VideoPlayer player;
+
+  /// The post whose video is playing, when known.
+  ///
+  /// It enables the quality switcher on the bar.
+  final Post? post;
 
   @override
   State<VideoBar> createState() => _VideoBarState();
@@ -211,6 +217,8 @@ class _VideoBarState extends State<VideoBar> {
                 children: [
                   const VideoServiceVolumeControl(),
                   const SizedBox(width: 4),
+                  if (widget.post != null)
+                    VideoQualityButton(post: widget.post!),
                   Text(position.toString().substring(2, 7)),
                   Flexible(
                     child: Slider(
@@ -269,6 +277,101 @@ class _VideoBarState extends State<VideoBar> {
 
 const Duration videoSeekStep = Duration(seconds: 10);
 
+/// Opens the fullscreen video quality picker.
+///
+/// Hidden outside of a [PostFullscreen], which owns the quality override.
+class VideoQualityButton extends StatelessWidget {
+  const VideoQualityButton({super.key, required this.post});
+
+  final Post post;
+
+  @override
+  Widget build(BuildContext context) {
+    PostFullscreenState? fullscreen = context
+        .findAncestorStateOfType<PostFullscreenState>();
+    if (fullscreen == null) return const SizedBox.shrink();
+
+    PostVideoQuality? quality = context.watch<PostVideoQuality?>();
+    Settings settings = context.watch<Settings>();
+    String current =
+        quality?.url ?? post.videoUrl(settings.videoResolution.value);
+
+    return Tooltip(
+      message: AppLocalizations.of(context).videoQuality,
+      child: InkWell(
+        onTap: () => showDialog(
+          context: context,
+          builder: (context) => VideoQualityDialog(
+            post: post,
+            current: current,
+            onSelected: fullscreen.setVideoQuality,
+          ),
+        ),
+        child: const Padding(
+          padding: EdgeInsets.all(4),
+          child: Icon(
+            Icons.high_quality_outlined,
+            size: 24,
+            color: Colors.white,
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+/// Lists the video qualities of a post and reports the picked url.
+class VideoQualityDialog extends StatelessWidget {
+  const VideoQualityDialog({
+    super.key,
+    required this.post,
+    required this.current,
+    required this.onSelected,
+  });
+
+  final Post post;
+
+  /// The url the quality picker marks as active.
+  final String current;
+
+  /// Receives the picked url.
+  final ValueChanged<String> onSelected;
+
+  @override
+  Widget build(BuildContext context) {
+    int pixels(String key) =>
+        key.split('x').map(int.parse).fold(1, (a, b) => a * b);
+    // A variant that serves the untouched source file is covered by the
+    // dedicated source entry, so only re-encodes get their own row.
+    final variants =
+        post.videoVariants.entries
+            .where((entry) => entry.value != post.file)
+            .toList()
+          ..sort((a, b) => pixels(a.key).compareTo(pixels(b.key)));
+
+    Widget entry({required String title, required String url}) => ListTile(
+      title: Text(title),
+      trailing: current == url ? const Icon(Icons.check) : null,
+      onTap: () {
+        // Picking the current entry just closes the dialog.
+        if (popDialog(context) && url != current) onSelected(url);
+      },
+    );
+
+    return SimpleDialog(
+      title: Text(AppLocalizations.of(context).videoQuality),
+      children: [
+        for (final MapEntry(:key, :value) in variants)
+          entry(title: key, url: value),
+        entry(
+          title: AppLocalizations.of(context).videoResSource,
+          url: post.file!,
+        ),
+      ],
+    );
+  }
+}
+
 Duration videoSeekTarget({
   required Duration position,
   required Duration duration,
@@ -316,6 +419,8 @@ class _VideoGestureState extends State<VideoGesture>
     return GestureDetector(
       behavior: HitTestBehavior.translucent,
       onDoubleTap: () async {
+        // A deferred player holds no media to seek through yet.
+        if (widget.player.isDeferred) return;
         Duration current = widget.player.state.position;
         Duration target = videoSeekTarget(
           position: current,
@@ -472,7 +577,20 @@ class PostVideoRouteState extends State<PostVideoRoute> {
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    VideoPlayer? next = widget.post.getVideo(context);
+    // When the player for this route changes, e.g. because the video quality
+    // switched, the playback position and state carry over to its successor.
+    Duration? seekTo;
+    bool resume = false;
+    if (player case VideoPlayer previous) {
+      seekTo = previous.state.position;
+      resume = previous.state.playing;
+      if (seekTo == Duration.zero) seekTo = null;
+    }
+    VideoPlayer? next = widget.post.getVideo(
+      context,
+      seekTo: seekTo,
+      resume: resume,
+    );
     if (next == player) return;
     if (player case VideoPlayer previous) {
       if (!_keepPlaying) previous.pause();
