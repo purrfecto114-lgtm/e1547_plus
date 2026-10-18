@@ -191,6 +191,19 @@ extension PostVideoPlaying on Post {
         key: value,
   };
 
+  /// The "widthxheight" label of the variant served at [url],
+  /// or null when [url] is the source file or no variant matches.
+  ///
+  /// Mirrors the quality dialog's deduplication: a variant that serves the
+  /// untouched source file is reported as the source, not as its size.
+  String? videoQualityLabel(String url) {
+    if (url == file) return null;
+    for (final MapEntry(:value, :key) in videoVariants.entries) {
+      if (value == url) return key;
+    }
+    return null;
+  }
+
   /// The video url closest to [target] in pixel count,
   /// falling back to the source file.
   String videoUrl(VideoResolution target) {

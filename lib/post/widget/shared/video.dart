@@ -217,8 +217,6 @@ class _VideoBarState extends State<VideoBar> {
                 children: [
                   const VideoServiceVolumeControl(),
                   const SizedBox(width: 4),
-                  if (widget.post != null)
-                    VideoQualityButton(post: widget.post!),
                   Text(position.toString().substring(2, 7)),
                   Flexible(
                     child: Slider(
@@ -254,6 +252,13 @@ class _VideoBarState extends State<VideoBar> {
                   ),
                   Text(duration.toString().substring(2, 7)),
                   const SizedBox(width: 4),
+                  // The quality picker sits at the end of the bar, next to
+                  // the fullscreen button, where players conventionally
+                  // keep their quality and view controls.
+                  if (widget.post != null) ...[
+                    VideoQualityButton(post: widget.post!),
+                    const SizedBox(width: 4),
+                  ],
                   InkWell(
                     onTap: () => popDialog(context),
                     child: Padding(
@@ -295,6 +300,9 @@ class VideoQualityButton extends StatelessWidget {
     Settings settings = context.watch<Settings>();
     String current =
         quality?.url ?? post.videoUrl(settings.videoResolution.value);
+    String label =
+        post.videoQualityLabel(current) ??
+        AppLocalizations.of(context).videoResSource;
 
     return Tooltip(
       message: AppLocalizations.of(context).videoQuality,
@@ -307,12 +315,17 @@ class VideoQualityButton extends StatelessWidget {
             onSelected: fullscreen.setVideoQuality,
           ),
         ),
-        child: const Padding(
-          padding: EdgeInsets.all(4),
-          child: Icon(
-            Icons.high_quality_outlined,
-            size: 24,
-            color: Colors.white,
+        // The label states the quality in use, so the button reads as a
+        // picker rather than as a quality toggle.
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 8),
+          child: Text(
+            label,
+            style: const TextStyle(
+              color: Colors.white,
+              fontSize: 13,
+              fontWeight: FontWeight.w500,
+            ),
           ),
         ),
       ),
