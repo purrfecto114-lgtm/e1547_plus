@@ -64,42 +64,25 @@ void main() {
     });
   });
 
-  group('PostVideoPlaying.videoQualityLabel', () {
-    test('labels a variant url with its dimensions', () {
+  group('PostVideoPlaying.hasVideoQualities', () {
+    test('is true with a distinct variant', () {
       final post = videoPost(
         variants: {'1280x720': 'https://example.com/hi.mp4'},
       );
-      expect(post.videoQualityLabel('https://example.com/hi.mp4'), '1280x720');
+      expect(post.hasVideoQualities, isTrue);
     });
 
-    test('labels the source file as null', () {
-      final post = videoPost(
-        variants: {'1280x720': 'https://example.com/hi.mp4'},
-      );
-      expect(post.videoQualityLabel('https://example.com/file.webm'), isNull);
-    });
-
-    test('a variant serving the source file is the source', () {
+    test('a variant serving the source file is not a choice', () {
       // Original-tier mp4 posts re-list the untouched file under its size;
-      // the label must agree with the dialog's Source row.
+      // the source row alone is not a choice, so no picker is offered.
       final post = videoPost(
         variants: {'1280x720': 'https://example.com/file.webm'},
       );
-      expect(post.videoQualityLabel('https://example.com/file.webm'), isNull);
+      expect(post.hasVideoQualities, isFalse);
     });
 
-    test('unknown urls fall back to null', () {
-      final post = videoPost(
-        variants: {'1280x720': 'https://example.com/hi.mp4'},
-      );
-      expect(post.videoQualityLabel('https://example.com/other.mp4'), isNull);
-    });
-
-    test('has no label without variants', () {
-      expect(
-        videoPost().videoQualityLabel('https://example.com/file.webm'),
-        isNull,
-      );
+    test('is false without variants', () {
+      expect(videoPost().hasVideoQualities, isFalse);
     });
   });
 }

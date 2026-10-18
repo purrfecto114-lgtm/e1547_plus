@@ -255,8 +255,9 @@ class _VideoBarState extends State<VideoBar> {
                   // The quality picker sits at the end of the bar, next to
                   // the fullscreen button, where players conventionally
                   // keep their quality and view controls.
-                  if (widget.post != null) ...[
-                    VideoQualityButton(post: widget.post!),
+                  if (widget.post case Post post
+                      when post.hasVideoQualities) ...[
+                    VideoQualityButton(post: post),
                     const SizedBox(width: 4),
                   ],
                   InkWell(
@@ -300,10 +301,10 @@ class VideoQualityButton extends StatelessWidget {
     Settings settings = context.watch<Settings>();
     String current =
         quality?.url ?? post.videoUrl(settings.videoResolution.value);
-    String label =
-        post.videoQualityLabel(current) ??
-        AppLocalizations.of(context).videoResSource;
 
+    // The button is an icon, matching the fullscreen button beside it and
+    // avoiding the layout squeeze of a quality label; the qualities are
+    // listed by the dialog it opens.
     return Tooltip(
       message: AppLocalizations.of(context).videoQuality,
       child: InkWell(
@@ -315,17 +316,12 @@ class VideoQualityButton extends StatelessWidget {
             onSelected: fullscreen.setVideoQuality,
           ),
         ),
-        // The label states the quality in use, so the button reads as a
-        // picker rather than as a quality toggle.
         child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 8),
-          child: Text(
-            label,
-            style: const TextStyle(
-              color: Colors.white,
-              fontSize: 13,
-              fontWeight: FontWeight.w500,
-            ),
+          padding: const EdgeInsets.all(4),
+          child: Icon(
+            Icons.video_settings,
+            size: 24,
+            color: Theme.of(context).iconTheme.color,
           ),
         ),
       ),
