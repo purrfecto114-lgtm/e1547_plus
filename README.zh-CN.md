@@ -28,6 +28,8 @@
   数据库文件排除在系统备份之外、请求超时
 - 传输级取消的下载 —— 取消任务即中断网络传输，且任务队列保持并发
 - 完整本地化的界面 —— 七种语言，并为约 230 个常用标签提供精选中文说明
+- 视频清晰度选择与按需加载 —— 全屏视频可切换帖子提供的任意尺寸，
+  默认仅在播放时才下载视频，可在设置中开启自动加载
 
 分支的改动均以 Pull Request 的形式回馈上游。
 
@@ -76,6 +78,8 @@
 
 APK、IPA、Windows 与 Linux 安装包可在
 [releases](https://github.com/purrfecto114-lgtm/e1547_plus/releases) 页面获取。
+稳定版会标记为“最新”；`rc` 预发布版用于跟踪开发进展，
+可在同一周期的 rc 版本之间直接覆盖安装。
 
 管理本应用更新的好工具是 [obtainium](https://github.com/ImranR98/Obtainium)（详见[使用 Obtainium](#使用-obtainium)）。
 

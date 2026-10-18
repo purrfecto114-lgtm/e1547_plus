@@ -32,6 +32,9 @@ On top of upstream 21.0.1, this fork ships:
   its concurrency
 - a fully localized interface — seven languages, plus curated chinese
   descriptions for about 230 common tags
+- a video quality picker with on-demand loading — fullscreen videos offer
+  every size a post provides, videos download only when played unless
+  automatic loading is turned on
 
 The fork's changes are offered back upstream as pull requests.
 
@@ -83,6 +86,8 @@ picker and onboarding step pick it up automatically.
 
 APK, IPA, Windows and Linux packages can be found over at
 the [releases](https://github.com/purrfecto114-lgtm/e1547_plus/releases).
+Stable releases are marked "latest"; `rc` pre-releases track work in
+progress and install over previous rc builds of the same cycle.
 
 A great tool for managing updates for this app is [obtainium](https://github.com/ImranR98/Obtainium) (see [Using Obtainium](#Using-Obtainium) for a more detailed guide).
 
