@@ -1,0 +1,3 @@
+### Changed
+- the fullscreen video quality picker moved to the end of the video bar, next to the fullscreen button, and its button now shows the active quality instead of an HQ icon
+- the video resolution setting lists plain sizes and explains that the closest available size is used, since videos rarely come in standard resolutions
