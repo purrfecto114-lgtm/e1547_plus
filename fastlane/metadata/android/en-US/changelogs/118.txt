@@ -1,0 +1,3 @@
+### Changed
+- the fullscreen video quality button is an icon that opens the quality picker, instead of a label stating the active quality, which could crowd and misalign the video bar
+- the quality button is hidden when a video has no re-encoded variants, leaving only its source file to pick

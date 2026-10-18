@@ -4,6 +4,11 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and this project
 adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [21.3.0-rc.3+118] - 2026-10-18
+### Changed
+- the fullscreen video quality button is an icon that opens the quality picker, instead of a label stating the active quality, which could crowd and misalign the video bar
+- the quality button is hidden when a video has no re-encoded variants, leaving only its source file to pick
+
 ## [21.3.0-rc.2+117] - 2026-10-17
 ### Changed
 - the fullscreen video quality picker moved to the end of the video bar, next to the fullscreen button, and its button now shows the active quality instead of an HQ icon
@@ -1276,3 +1281,4 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 [21.2.0+115]: https://github.com/purrfecto114-lgtm/e1547_plus/compare/21.1.0+114...21.2.0+115
 [21.3.0-rc.1+116]: https://github.com/purrfecto114-lgtm/e1547_plus/compare/21.2.0+115...21.3.0-rc.1+116
 [21.3.0-rc.2+117]: https://github.com/purrfecto114-lgtm/e1547_plus/compare/21.3.0-rc.1+116...21.3.0-rc.2+117
+[21.3.0-rc.3+118]: https://github.com/purrfecto114-lgtm/e1547_plus/compare/21.3.0-rc.2+117...21.3.0-rc.3+118
