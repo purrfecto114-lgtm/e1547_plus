@@ -281,19 +281,23 @@ class AppLocalizationsDe extends AppLocalizations {
   String get settingsVideoResolution => 'Video-Auflösung';
 
   @override
-  String get videoResStandard => 'Standard (480p)';
+  String get videoResStandard => '480p';
 
   @override
-  String get videoResHigh => 'Hoch (720p)';
+  String get videoResHigh => '720p';
 
   @override
-  String get videoResFull => 'Full HD (1080p)';
+  String get videoResFull => '1080p';
 
   @override
-  String get videoResUltra => 'Ultra (4K)';
+  String get videoResUltra => '4K';
 
   @override
   String get videoResSource => 'Original';
+
+  @override
+  String get videoResNote =>
+      'Videos sind nicht immer in Standardgrößen verfügbar; die Größe, die der Auswahl am nächsten kommt, wird verwendet.';
 
   @override
   String get settingsAutoLoadVideos => 'Videos automatisch laden';

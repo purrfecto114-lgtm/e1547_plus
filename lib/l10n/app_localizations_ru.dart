@@ -288,19 +288,23 @@ class AppLocalizationsRu extends AppLocalizations {
   String get settingsVideoResolution => 'Разрешение видео';
 
   @override
-  String get videoResStandard => 'Стандартное (480p)';
+  String get videoResStandard => '480p';
 
   @override
-  String get videoResHigh => 'Высокое (720p)';
+  String get videoResHigh => '720p';
 
   @override
-  String get videoResFull => 'Полное (1080p)';
+  String get videoResFull => '1080p';
 
   @override
-  String get videoResUltra => 'Ультра (4K)';
+  String get videoResUltra => '4K';
 
   @override
   String get videoResSource => 'Оригинал';
+
+  @override
+  String get videoResNote =>
+      'Видео доступны не во всех стандартных разрешениях; используется ближайшее к выбранному.';
 
   @override
   String get settingsAutoLoadVideos => 'Автоматически загружать видео';

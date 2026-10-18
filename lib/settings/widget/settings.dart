@@ -369,18 +369,25 @@ class SettingsPage extends StatelessWidget {
                       title: Text(
                         AppLocalizations.of(context).settingsVideoResolution,
                       ),
-                      children: VideoResolution.values
-                          .map(
-                            (resolution) => ListTile(
-                              title: Text(resolution.localizedTitle(context)),
-                              onTap: () {
-                                if (popDialog(context)) {
-                                  settings.videoResolution.value = resolution;
-                                }
-                              },
-                            ),
-                          )
-                          .toList(),
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.fromLTRB(16, 8, 16, 8),
+                          child: Text(
+                            AppLocalizations.of(context).videoResNote,
+                            style: Theme.of(context).textTheme.bodySmall,
+                          ),
+                        ),
+                        ...VideoResolution.values.map(
+                          (resolution) => ListTile(
+                            title: Text(resolution.localizedTitle(context)),
+                            onTap: () {
+                              if (popDialog(context)) {
+                                settings.videoResolution.value = resolution;
+                              }
+                            },
+                          ),
+                        ),
+                      ],
                     ),
                   ),
                 ),

@@ -288,14 +288,6 @@ enum VideoResolution {
   ultra,
   source;
 
-  String get title => switch (this) {
-    VideoResolution.standard => 'Standard (480p)',
-    VideoResolution.high => 'High (720p)',
-    VideoResolution.full => 'Full (1080p)',
-    VideoResolution.ultra => 'Ultra (4K)',
-    VideoResolution.source => 'Source',
-  };
-
   /// Localized display name for pickers.
   String localizedTitle(BuildContext context) => switch (this) {
     VideoResolution.standard => AppLocalizations.of(context).videoResStandard,

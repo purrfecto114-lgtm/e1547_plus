@@ -276,19 +276,22 @@ class AppLocalizationsZh extends AppLocalizations {
   String get settingsVideoResolution => '视频分辨率';
 
   @override
-  String get videoResStandard => '标准 (480p)';
+  String get videoResStandard => '480p';
 
   @override
-  String get videoResHigh => '高 (720p)';
+  String get videoResHigh => '720p';
 
   @override
-  String get videoResFull => '全高清 (1080p)';
+  String get videoResFull => '1080p';
 
   @override
-  String get videoResUltra => '超高清 (4K)';
+  String get videoResUltra => '4K';
 
   @override
   String get videoResSource => '原始画质';
+
+  @override
+  String get videoResNote => '视频并不总有标准尺寸可选，将使用与所选档位最接近的尺寸。';
 
   @override
   String get settingsAutoLoadVideos => '自动加载视频';
@@ -2506,19 +2509,22 @@ class AppLocalizationsZhHant extends AppLocalizationsZh {
   String get settingsVideoResolution => '影片解析度';
 
   @override
-  String get videoResStandard => '標準 (480p)';
+  String get videoResStandard => '480p';
 
   @override
-  String get videoResHigh => '高 (720p)';
+  String get videoResHigh => '720p';
 
   @override
-  String get videoResFull => '全高畫質 (1080p)';
+  String get videoResFull => '1080p';
 
   @override
-  String get videoResUltra => '超高畫質 (4K)';
+  String get videoResUltra => '4K';
 
   @override
   String get videoResSource => '原始畫質';
+
+  @override
+  String get videoResNote => '影片並非總有標準尺寸可選，將使用與所選檔位最接近的尺寸。';
 
   @override
   String get settingsAutoLoadVideos => '自動載入影片';

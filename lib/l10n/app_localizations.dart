@@ -572,25 +572,25 @@ abstract class AppLocalizations {
   /// No description provided for @videoResStandard.
   ///
   /// In en, this message translates to:
-  /// **'Standard (480p)'**
+  /// **'480p'**
   String get videoResStandard;
 
   /// No description provided for @videoResHigh.
   ///
   /// In en, this message translates to:
-  /// **'High (720p)'**
+  /// **'720p'**
   String get videoResHigh;
 
   /// No description provided for @videoResFull.
   ///
   /// In en, this message translates to:
-  /// **'Full (1080p)'**
+  /// **'1080p'**
   String get videoResFull;
 
   /// No description provided for @videoResUltra.
   ///
   /// In en, this message translates to:
-  /// **'Ultra (4K)'**
+  /// **'4K'**
   String get videoResUltra;
 
   /// No description provided for @videoResSource.
@@ -598,6 +598,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Source'**
   String get videoResSource;
+
+  /// No description provided for @videoResNote.
+  ///
+  /// In en, this message translates to:
+  /// **'Videos are not always available in standard sizes; the size closest to the selection is used.'**
+  String get videoResNote;
 
   /// No description provided for @settingsAutoLoadVideos.
   ///

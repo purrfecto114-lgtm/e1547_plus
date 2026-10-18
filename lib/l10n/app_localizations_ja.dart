@@ -276,19 +276,22 @@ class AppLocalizationsJa extends AppLocalizations {
   String get settingsVideoResolution => '動画の解像度';
 
   @override
-  String get videoResStandard => '標準 (480p)';
+  String get videoResStandard => '480p';
 
   @override
-  String get videoResHigh => '高画質 (720p)';
+  String get videoResHigh => '720p';
 
   @override
-  String get videoResFull => 'フルHD (1080p)';
+  String get videoResFull => '1080p';
 
   @override
-  String get videoResUltra => 'ウルトラ (4K)';
+  String get videoResUltra => '4K';
 
   @override
   String get videoResSource => 'オリジナル';
+
+  @override
+  String get videoResNote => '動画は常に標準サイズで用意されているわけではありません。選択に最も近いサイズが使用されます。';
 
   @override
   String get settingsAutoLoadVideos => '動画を自動的に読み込む';
