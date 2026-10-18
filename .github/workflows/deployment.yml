@@ -3,6 +3,11 @@ name: Application Release
 on:
   workflow_dispatch:
     inputs:
+      # For rc and stable releases, prepare the version manually
+      # (pubspec, CHANGELOG entry with link reference, fastlane changelog;
+      # see docs/RELEASE.md) and dispatch with version=none. The automatic
+      # bump cannot write the changelog link reference the release job's
+      # changelog parsing requires.
       version:
         description: "Version to bump"
         required: true
