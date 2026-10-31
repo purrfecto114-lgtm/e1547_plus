@@ -22,8 +22,8 @@ class NoImageCacheManager implements BaseCacheManager {
   @override
   Future<File> getSingleFile(
     String url, {
-    String? key,
-    Map<String, String>? headers,
+    String key = '',
+    Map<String, String> headers = const {},
   }) => Future.error(Exception('no image at $url'));
 
   @override
