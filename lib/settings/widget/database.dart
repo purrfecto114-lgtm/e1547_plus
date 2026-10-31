@@ -23,6 +23,27 @@ final _logger = Logger('DbManagement');
 /// AppDatabase.schemaVersion; test/app/data/initialize_test.dart guards it.
 const int supportedSchemaVersion = 9;
 
+/// How an import candidate's schema version classifies.
+enum ImportSchemaGate { ok, tooNew, empty }
+
+/// Classifies a database file's [userVersion] (as reported by
+/// [readSqliteUserVersion]) for the import.
+///
+/// sqlite reports null for files that are no databases at all, and drift
+/// treats version 0 as brand new: opening either would run onCreate, create
+/// every app table itself, and let an empty file pass the table check —
+/// the import would then replace the user's data with an empty database.
+/// Version 0 therefore means "not an e1547 export".
+ImportSchemaGate classifyImportSchemaVersion(int? userVersion) {
+  if (userVersion == null || userVersion == 0) {
+    return ImportSchemaGate.empty;
+  }
+  if (userVersion > supportedSchemaVersion) {
+    return ImportSchemaGate.tooNew;
+  }
+  return ImportSchemaGate.ok;
+}
+
 /// The tables a complete app database must have.
 const Set<String> appTables = {
   'identities_table',
@@ -308,16 +329,31 @@ class DatabaseImportTile extends StatelessWidget {
       if (path == null) return;
       if (!context.mounted) return;
 
-      // Reject newer-schema files before touching anything.
+      // Reject files this build cannot understand before touching anything.
       final version = await readSqliteUserVersion(path);
-      if (version != null && version > supportedSchemaVersion) {
-        messenger.showSnackBar(
-          SnackBar(content: Text(l10n.databaseImportNewerFile)),
-        );
-        _logger.warn('Rejected database from a newer schema version', {
-          'version': version,
-        });
-        return;
+      switch (classifyImportSchemaVersion(version)) {
+        case ImportSchemaGate.tooNew:
+          messenger.showSnackBar(
+            SnackBar(content: Text(l10n.databaseImportNewerFile)),
+          );
+          _logger.warn('Rejected database from a newer schema version', {
+            'version': version,
+          });
+          return;
+        case ImportSchemaGate.empty:
+          messenger.showSnackBar(
+            SnackBar(
+              content: Text(
+                l10n.databaseImportFailed('not an e1547 database'),
+              ),
+            ),
+          );
+          _logger.warn('Rejected database without a schema version', {
+            'version': version,
+          });
+          return;
+        case ImportSchemaGate.ok:
+          break;
       }
       if (!context.mounted) return;
 
