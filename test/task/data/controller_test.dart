@@ -455,6 +455,64 @@ void main() {
     instance.dispose();
   });
 
+  // Regression test for the worker rewrite (a0c9b779): tasks arriving while
+  // every worker is busy must not collapse the queue to a single lane.
+  test('keeps the download queue concurrent', () async {
+    final dir = await Directory.systemTemp.createTemp('task-concurrency');
+    addTearDown(() => dir.delete(recursive: true));
+    settings.downloadPath.value = dir.path;
+    final source = fetchableFile('${dir.path}/source.bin');
+
+    int active = 0;
+    int peak = 0;
+    final started = <String, Completer<void>>{};
+    final release = <String, Completer<void>>{};
+
+    final instance = controller(
+      fileFetcher: (url, token, onProgress) async {
+        active++;
+        peak = peak > active ? peak : active;
+        final String name = url.split('/').last;
+        started.putIfAbsent(name, Completer.new).complete();
+        await release.putIfAbsent(name, Completer.new).future;
+        active--;
+        return source;
+      },
+    );
+
+    final tasks = [
+      for (int i = 0; i < 6; i++)
+        await instance.enqueue(downloadRequest('concurrent-$i.webm')),
+    ];
+
+    // wait until four transfers run at once
+    while (started.length < 4) {
+      await pumpEventQueue();
+    }
+    expect(peak, 4);
+
+    // free the lanes; the remaining tasks must claim them immediately
+    for (final Completer<void> gate in release.values) {
+      if (!gate.isCompleted) gate.complete();
+    }
+    while (started.length < 6) {
+      await pumpEventQueue();
+    }
+    expect(peak, 4); // the limit is never exceeded
+    for (final Completer<void> gate in release.values) {
+      if (!gate.isCompleted) gate.complete();
+    }
+    await pumpEventQueue();
+    await pumpEventQueue();
+    await pumpEventQueue();
+
+    for (final task in tasks) {
+      expect(await repository.readStatus(task.id), TaskStatus.completed);
+    }
+
+    instance.dispose();
+  });
+
   test('a failed transfer marks the task failed', () async {
     final instance = controller(
       fileFetcher: (url, token, onProgress) async => throw DioException(
