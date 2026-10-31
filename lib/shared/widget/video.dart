@@ -1,8 +1,11 @@
 import 'dart:async';
+import 'dart:io';
+
 import 'package:e1547/l10n/app_localizations.dart';
 import 'package:e1547/logs/logs.dart';
 import 'package:e1547/settings/settings.dart';
 import 'package:e1547/shared/shared.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:media_kit/media_kit.dart';
 import 'package:rxdart/rxdart.dart';
@@ -67,24 +70,33 @@ class VideoPlayer extends Player {
     _initialized.add(value);
   }
 
+  Map<String, String>? _headers;
+
   /// Opens [media], optionally starting at [position] and resuming playback.
   Future<void> load(
     String media, {
     Duration? position,
     bool play = false,
+    Map<String, String>? headers,
   }) async {
     _media = media;
     defer = null;
     _failed = false;
     _hasParams = false;
     _update();
-    await open(Media(media, start: position), play: play);
+    // The headers of the last load are reused when a deferred player is
+    // started through [play], which has no headers of its own.
+    _headers = headers ?? _headers;
+    await open(
+      Media(media, start: position, httpHeaders: _headers),
+      play: play,
+    );
   }
 
   @override
   Future<void> play() async {
     if (defer case String media) {
-      await load(media, play: true);
+      await load(media, play: true, headers: _headers);
       return;
     }
     await super.play();
@@ -110,13 +122,23 @@ class VideoPlayer extends Player {
 }
 
 class VideoService extends ChangeNotifier {
-  VideoService({bool muteVideos = false, VideoPlayer Function()? createPlayer})
-    : _muteVideos = muteVideos,
-      _createPlayer = createPlayer ?? VideoPlayer.new;
+  VideoService({
+    bool muteVideos = false,
+    VideoPlayer Function()? createPlayer,
+    ValueListenable<bool>? muteSetting,
+    Map<String, String> Function()? headers,
+    int? maxLoaded,
+  }) : _muteVideos = muteVideos,
+       _createPlayer = createPlayer ?? VideoPlayer.new,
+       _muteSetting = muteSetting,
+       _headers = headers,
+       maxLoaded = maxLoaded ?? _defaultMaxLoaded {
+    _muteSetting?.addListener(_onMuteSettingChanged);
+  }
 
   static void ensureInitialized() => MediaKit.ensureInitialized();
 
-  // To prevent the app from crashing due tue OutOfMemoryErrors,
+  // To prevent the app from crashing due to OutOfMemoryErrors,
   // the list of all loaded videos is global.
   static final Map<String, VideoPlayer> _videos = {};
 
@@ -126,11 +148,48 @@ class VideoService extends ChangeNotifier {
 
   final Logger _logger = Logger('Videos');
 
-  final int maxLoaded = 3;
+  /// The number of players the pool holds at most.
+  ///
+  /// Every player owns a full mpv instance, which low-memory devices
+  /// cannot spare many of; the default scales with the device memory,
+  /// see [_defaultMaxLoaded].
+  final int maxLoaded;
+
+  /// Derives the pool size from the device's total memory.
+  ///
+  /// Android exposes it via /proc/meminfo. Other platforms see little
+  /// memory variance across devices and always use the full pool.
+  static int get _defaultMaxLoaded {
+    if (!Platform.isAndroid) return 3;
+    try {
+      final match = RegExp(
+        r'MemTotal:\s+(\d+)\s+kB',
+      ).firstMatch(File('/proc/meminfo').readAsStringSync());
+      final int? totalKb = match == null ? null : int.parse(match.group(1)!);
+      if (totalKb == null) return 3;
+      if (totalKb < 2 * 1024 * 1024) return 1; // below 2 GiB
+      if (totalKb < 4 * 1024 * 1024) return 2; // below 4 GiB
+      return 3;
+    } on Object {
+      return 3;
+    }
+  }
 
   final VideoPlayer Function() _createPlayer;
 
+  final ValueListenable<bool>? _muteSetting;
+
+  /// Resolves the headers video requests are sent with, e.g. the app's
+  /// user agent. Evaluated per load, so identity switches apply.
+  final Map<String, String> Function()? _headers;
+
   bool _muteVideos;
+
+  void _onMuteSettingChanged() {
+    if (_muteSetting case ValueListenable<bool> setting) {
+      if (setting.value != _muteVideos) muteVideos = setting.value;
+    }
+  }
 
   bool get muteVideos => _muteVideos;
 
@@ -147,6 +206,7 @@ class VideoService extends ChangeNotifier {
     Duration? seekTo,
     bool resume = false,
   }) {
+    final Map<String, String>? requestHeaders = _headers?.call();
     // Re-inserting moves the key to the back of the map,
     // so that eviction walks from least to most recently used.
     VideoPlayer? player = _videos.remove(key);
@@ -154,7 +214,14 @@ class VideoService extends ChangeNotifier {
       // A deferred player is loaded once auto-loading is enabled, e.g.
       // when the user turns the setting on and returns to a route.
       if (autoLoad && player.isDeferred) {
-        unawaited(player.load(key, position: seekTo, play: resume));
+        unawaited(
+          player.load(
+            key,
+            position: seekTo,
+            play: resume,
+            headers: requestHeaders,
+          ),
+        );
         _logger.debug('Backfilled {video}', {'video': key});
       } else if (player.media != null && (seekTo != null || resume)) {
         // Returning to an already loaded video, e.g. when switching video
@@ -205,8 +272,14 @@ class VideoService extends ChangeNotifier {
     player.setPlaylistMode(PlaylistMode.single);
     player.setVolume(_muteVideos ? 0 : 100);
     if (autoLoad || resume) {
-      // TODO: this is missing client auth headers
-      unawaited(player.load(key, position: seekTo, play: resume));
+      unawaited(
+        player.load(
+          key,
+          position: seekTo,
+          play: resume,
+          headers: requestHeaders,
+        ),
+      );
       _logger.debug('Loaded {video}', {'video': key});
     } else {
       // The player is parked on its url without downloading anything;
@@ -237,14 +310,25 @@ class VideoService extends ChangeNotifier {
     player.unload();
     _logger.debug('Unloaded {video}', {'video': key});
   }
+
+  @override
+  void dispose() {
+    _muteSetting?.removeListener(_onMuteSettingChanged);
+    super.dispose();
+  }
 }
 
 class VideoServiceProvider
     extends SubChangeNotifierProvider<Settings, VideoService> {
   VideoServiceProvider({super.child, super.builder})
     : super(
-        create: (context, settings) =>
-            VideoService(muteVideos: settings.muteVideos.value),
+        create: (context, settings) => VideoService(
+          muteVideos: settings.muteVideos.value,
+          muteSetting: settings.muteVideos,
+          headers: () => {
+            HttpHeaders.userAgentHeader: AppInfo.instance.userAgent,
+          },
+        ),
       );
 }
 
@@ -267,14 +351,22 @@ class VideoServiceVolumeControl extends StatelessWidget {
   Widget build(BuildContext context) {
     VideoService service = context.watch<VideoService>();
     bool muted = service.muteVideos;
-    return InkWell(
-      onTap: () => service.muteVideos = !muted,
-      child: Padding(
-        padding: const EdgeInsets.all(4),
-        child: Icon(
-          muted ? Icons.volume_off : Icons.volume_up,
-          size: 24,
-          color: Colors.white,
+    return Tooltip(
+      message: muted
+          ? AppLocalizations.of(context).videoWithSound
+          : AppLocalizations.of(context).videoMuted,
+      child: InkWell(
+        // Writing the setting instead of the service lets the service
+        // mirror it through its listener, keeping player state and
+        // preferences in sync in both directions.
+        onTap: () => context.read<Settings>().muteVideos.value = !muted,
+        child: Padding(
+          padding: const EdgeInsets.all(4),
+          child: Icon(
+            muted ? Icons.volume_off : Icons.volume_up,
+            size: 24,
+            color: Colors.white,
+          ),
         ),
       ),
     );

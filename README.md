@@ -23,8 +23,8 @@ maintained with a focus on stability on Android 7 and other low memory devices.
 On top of upstream 21.0.1, this fork ships:
 
 - a stability batch for Android 7 and low memory devices — sized image caches,
-  a capped video player pool, guarded cache database access and memory-adaptive
-  defaults
+  a video player pool capped by device memory, guarded cache database access
+  and memory-adaptive defaults
 - a security batch — credential-free database exports, hardened imports, a
   locked-down cookie webview, database files excluded from OS backups and
   request timeouts
