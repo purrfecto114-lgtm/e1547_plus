@@ -1,4 +1,5 @@
 import 'package:e1547/l10n/app_localizations.dart';
+import 'package:e1547/settings/settings.dart';
 import 'package:e1547/shared/shared.dart';
 import 'package:e1547/ticket/ticket.dart';
 import 'package:flutter/material.dart';
@@ -80,6 +81,9 @@ class _ReasonReportScreenState extends State<ReasonReportScreen> {
             title: widget.title,
             leading: const CloseButton(),
           ),
+          floatingActionButtonLocation: Handedness.of(
+            context,
+          ).floatingActionButtonLocation,
           floatingActionButton: Builder(
             builder: (context) => FloatingActionButton(
               onPressed: isLoading

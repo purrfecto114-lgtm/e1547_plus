@@ -1,4 +1,5 @@
 import 'package:e1547/logs/logs.dart';
+import 'package:e1547/settings/settings.dart';
 import 'package:e1547/shared/shared.dart';
 import 'package:e1547/task/task.dart';
 import 'package:flutter/foundation.dart';
@@ -46,6 +47,7 @@ class _AppBubbleOverlayState extends State<AppBubbleOverlay> {
         errors?.suppressBubble,
       ]),
       builder: (context, _) => BubbleOverlay(
+        side: Handedness.of(context).side,
         bubbles: [
           if (_open.isEmpty) ...[
             if (tasks.kind != TaskKind.none && !tasks.suppressBubble.value)

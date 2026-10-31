@@ -142,6 +142,21 @@ void main() {
     expect(updated.thumbnail, isNotNull);
   });
 
+  displayTest('visiting a follow takes its latest from posts it shows', (
+    tester,
+  ) async {
+    traits.value = traits.value.copyWith(denylist: ['tag_114']);
+    final follow = await seedFollow(tester, 'tag_1');
+
+    await visit(tester, 'tag_1');
+
+    final updated = await tester.runAsync(
+      () => client.follows.get(id: follow.id),
+    );
+    expect(updated!.latest, 1021);
+    expect(updated.thumbnail, client.posts.postCache.get(1021)!.sample);
+  });
+
   displayTest('visiting a search leaves other follows alone', (tester) async {
     final follow = await seedFollow(tester, 'tag_2');
 

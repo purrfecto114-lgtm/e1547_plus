@@ -1,7 +1,6 @@
 import 'package:e1547/post/post.dart';
 import 'package:e1547/shared/shared.dart';
 import 'package:flutter/material.dart';
-import 'package:photo_view/photo_view.dart';
 
 class PostFullscreen extends StatefulWidget {
   const PostFullscreen({super.key, required this.post});
@@ -49,59 +48,19 @@ class PostFullscreenState extends State<PostFullscreen> {
             child: PostImageOverlay(
               post: widget.post,
               builder: (context) {
-                int? cacheSize = context.watch<ImageCacheSize?>()?.size;
                 switch (widget.post.type) {
                   case PostType.image:
-                    if (Theme.of(context).isDesktop) {
-                      return InteractiveViewer(
-                        maxScale: 6,
-                        child: Center(
-                          child: Hero(
-                            tag: widget.post.link,
-                            child: PostImageWidget(
-                              post: widget.post,
-                              fit: BoxFit.cover,
-                              size: PostImageSize.file,
-                              cacheSize: cacheSize,
-                              lowResCacheSize: cacheSize,
-                              maxPixels: fullscreenImageMaxPixels,
-                            ),
-                          ),
-                        ),
-                      );
-                    } else {
-                      return PhotoViewGestureDetectorScope(
-                        axis: Axis.horizontal,
-                        child: PhotoView.customChild(
-                          heroAttributes: PhotoViewHeroAttributes(
-                            tag: widget.post.link,
-                          ),
-                          backgroundDecoration: const BoxDecoration(
-                            color: Colors.transparent,
-                          ),
-                          childSize: Size(
-                            widget.post.width.toDouble(),
-                            widget.post.height.toDouble(),
-                          ),
-                          initialScale: PhotoViewComputedScale.contained,
-                          minScale: PhotoViewComputedScale.contained,
-                          maxScale: PhotoViewComputedScale.covered * 6,
-                          child: PostImageWidget(
-                            fit: BoxFit.cover,
-                            post: widget.post,
-                            size: PostImageSize.file,
-                            cacheSize: cacheSize,
-                            lowResCacheSize: cacheSize,
-                            maxPixels: fullscreenImageMaxPixels,
-                          ),
-                        ),
-                      );
-                    }
+                    return _PostFullscreenImage(post: widget.post);
                   case PostType.video:
                     VideoPlayer? player = widget.post.getVideo(context);
                     return Center(
-                      child: Hero(
+                      child: ContentHero(
                         tag: widget.post.link,
+                        content: FittedContent(
+                          fit: BoxFit.contain,
+                          aspectRatio:
+                              widget.post.width / widget.post.height,
+                        ),
                         child: player != null
                             ? VideoGestures(
                                 player: player,
@@ -121,6 +80,93 @@ class PostFullscreenState extends State<PostFullscreen> {
           ),
         ),
       ),
+    );
+  }
+}
+
+class _PostFullscreenImage extends StatefulWidget {
+  const _PostFullscreenImage({required this.post});
+
+  final Post post;
+
+  @override
+  State<_PostFullscreenImage> createState() => _PostFullscreenImageState();
+}
+
+class _PostFullscreenImageState extends State<_PostFullscreenImage> {
+  final ZoomController zoom = ZoomController();
+  final ImageLoadController load = ImageLoadController();
+
+  @override
+  void dispose() {
+    zoom.dispose();
+    load.dispose();
+    super.dispose();
+  }
+
+  void onSpare(Offset spare) =>
+      DismissController.maybeOf(context)?.push(spare.dy);
+
+  void onSpareEnd(Velocity velocity) {
+    final DismissController? dismiss = DismissController.maybeOf(context);
+    if (dismiss != null && dismiss.release(velocity.pixelsPerSecond.dy)) {
+      Navigator.of(context).maybePop();
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final Post post = widget.post;
+    final Size content = Size(post.width.toDouble(), post.height.toDouble());
+    return Stack(
+      fit: StackFit.expand,
+      children: [
+        DismissPointers(
+          child: DismissTransform(
+            child: Zoomable(
+              controller: zoom,
+              content: content,
+              onSpare: onSpare,
+              onSpareEnd: onSpareEnd,
+              onSpareCancel: () => DismissController.maybeOf(context)?.settle(),
+              child: Center(
+                child: AspectRatio(
+                  aspectRatio: content.aspectRatio,
+                  child: ContentHero(
+                    tag: post.link,
+                    content: FittedContent(
+                      fit: BoxFit.contain,
+                      aspectRatio: content.aspectRatio,
+                    ),
+                    child: PostImageWidget(
+                      post: post,
+                      fit: BoxFit.cover,
+                      size: PostImageSize.file,
+                      cacheSize: context.watch<ImageCacheSize?>()?.size,
+                      lowResCacheSize: context.watch<ImageCacheSize?>()?.size,
+                      maxPixels: fullscreenImageMaxPixels,
+                      load: load,
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          ),
+        ),
+        DismissFade(
+          child: ImageLoadOverlay(
+            load: load,
+            moves: zoom.transformation,
+            locate: (size) => switch (containedRect(content, size)) {
+              final Rect image => MatrixUtils.transformRect(
+                zoom.transformation.value,
+                image,
+              ),
+              null => null,
+            },
+          ),
+        ),
+      ],
     );
   }
 }

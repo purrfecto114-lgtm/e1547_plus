@@ -388,6 +388,9 @@ class _LogPageState extends State<LogPage> {
                 ],
               ),
             ),
+            floatingActionButtonLocation: Handedness.of(
+              context,
+            ).floatingActionButtonLocation,
             floatingActionButton: items.isEmpty
                 ? null
                 : FloatingActionButton(

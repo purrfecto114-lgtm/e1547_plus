@@ -1,6 +1,7 @@
 import 'package:e1547/client/client.dart';
 import 'package:e1547/l10n/app_localizations.dart';
 import 'package:e1547/post/post.dart';
+import 'package:e1547/settings/settings.dart';
 import 'package:e1547/shared/shared.dart';
 import 'package:flutter/material.dart';
 
@@ -194,6 +195,9 @@ class _PostEditPageState extends State<PostEditPage> {
           appBar: TransparentAppBar(
             child: AppBar(leading: const CloseButton()),
           ),
+          floatingActionButtonLocation: Handedness.of(
+            context,
+          ).floatingActionButtonLocation,
           floatingActionButton: FloatingActionButton(
             onPressed: _isLoading ? null : _saveChanges,
             child: const Icon(Icons.check),

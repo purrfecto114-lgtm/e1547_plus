@@ -207,6 +207,9 @@ class _MultiTextEditorState extends State<MultiTextEditor> {
               return ListenableBuilder(
                 listenable: tabController,
                 builder: (context, child) => Scaffold(
+                  floatingActionButtonLocation: Handedness.of(
+                    context,
+                  ).floatingActionButtonLocation,
                   floatingActionButton: fab(),
                   bottomSheet: tabController.index == 0
                       ? widget.toolbar?.call(context, textControllerMap)

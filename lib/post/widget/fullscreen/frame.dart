@@ -40,6 +40,7 @@ class PostFullscreenFrame extends StatelessWidget {
               builder: (context) {
                 VideoPlayer? player = post.getVideo(context);
                 return AdaptiveScaffold(
+                  backgroundColor: Colors.transparent,
                   extendBodyBehindAppBar: true,
                   extendBody: true,
                   appBar: ScaffoldFrameAppBar(
@@ -48,7 +49,7 @@ class PostFullscreenFrame extends StatelessWidget {
                   drawer: drawer,
                   endDrawer: endDrawer,
                   bottomNavigationBar: player != null
-                      ? VideoBar(player: player, post: post)
+                      ? DismissFade(child: VideoBar(player: player, post: post))
                       : null,
                   body: GestureDetector(
                     behavior: HitTestBehavior.translucent,
@@ -68,8 +69,26 @@ class PostFullscreenFrame extends StatelessWidget {
                       fit: StackFit.passthrough,
                       alignment: Alignment.center,
                       children: [
-                        child,
-                        if (player != null) VideoButton(player: player),
+                        Positioned.fill(
+                          child: DismissFade(
+                            child: ColoredBox(
+                              color: Theme.of(context).scaffoldBackgroundColor,
+                            ),
+                          ),
+                        ),
+                        if (player != null)
+                          DragToDismiss(
+                            child: Stack(
+                              fit: StackFit.passthrough,
+                              alignment: Alignment.center,
+                              children: [
+                                child,
+                                DismissFade(child: VideoButton(player: player)),
+                              ],
+                            ),
+                          )
+                        else
+                          child,
                       ],
                     ),
                   ),

@@ -165,7 +165,12 @@ class LoadingPage extends StatelessWidget {
       return body ?? content(context);
     }
 
-    return Material(child: body());
+    return Material(
+      type: state == LoadingPageState.done
+          ? MaterialType.transparency
+          : MaterialType.canvas,
+      child: body(),
+    );
   }
 }
 

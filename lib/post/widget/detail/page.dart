@@ -2,6 +2,7 @@ import 'dart:math';
 
 import 'package:e1547/client/client.dart';
 import 'package:e1547/post/post.dart';
+import 'package:e1547/settings/settings.dart';
 import 'package:e1547/shared/shared.dart';
 import 'package:flutter/material.dart';
 
@@ -30,7 +31,7 @@ class PostDetail extends StatelessWidget {
               onTapImage!();
             } else {
               Navigator.of(context).push(
-                MaterialPageRoute(
+                DismissRoute<void>(
                   builder: (context) => ImageCacheSizeProvider(
                     size: fullscreenImageCacheSize,
                     child: PostFullscreen(post: post),
@@ -82,75 +83,99 @@ class PostDetail extends StatelessWidget {
       post: post,
       child: PostHistoryConnector(
         post: post,
-        child: Scaffold(
-          extendBodyBehindAppBar: true,
-          appBar: PostDetailAppBar(post: post),
-          floatingActionButton: context.read<Client>().hasLogin
-              ? PostDetailFab(post: post)
-              : null,
-          body: MediaQuery.removeViewInsets(
-            context: context,
-            removeTop: true,
-            child: Builder(
-              builder: (context) {
-                final size = MediaQuery.sizeOf(context);
-                if (size.width < 1000) {
-                  return ListView(
-                    primary: true,
-                    padding: EdgeInsets.only(
-                      top: MediaQuery.of(context).padding.top,
-                      bottom: kBottomNavigationBarHeight + 24,
+        child: ScrollToDismiss(
+          child: Scaffold(
+            backgroundColor: Colors.transparent,
+            extendBodyBehindAppBar: true,
+            appBar: PostDetailAppBar(post: post),
+            floatingActionButtonLocation: Handedness.of(
+              context,
+            ).floatingActionButtonLocation,
+            floatingActionButton: context.read<Client>().hasLogin
+                ? DismissFade(child: PostDetailFab(post: post))
+                : null,
+            body: MediaQuery.removeViewInsets(
+              context: context,
+              removeTop: true,
+              child: Stack(
+                fit: StackFit.expand,
+                children: [
+                  DismissFade(
+                    child: ColoredBox(
+                      color: Theme.of(context).scaffoldBackgroundColor,
                     ),
-                    children: [
-                      image(context, size),
-                      upperBody(context),
-                      middleBody(context),
-                      lowerBody(context),
-                    ],
-                  );
-                } else {
-                  double sideBarWidth;
-                  if (size.width > 1400) {
-                    sideBarWidth = 404;
-                  } else {
-                    sideBarWidth = 304;
-                  }
-                  return CustomScrollView(
-                    primary: true,
-                    slivers: [
-                      SliverCrossAxisGroup(
-                        slivers: [
-                          SliverMainAxisGroup(
-                            slivers: [
-                              SliverToBoxAdapter(
-                                child: Column(
-                                  children: [
-                                    image(context, size),
-                                    upperBody(context),
+                  ),
+                  Builder(
+                    builder: (context) {
+                      final size = MediaQuery.sizeOf(context);
+                      if (size.width < 1000) {
+                        return ListView(
+                          primary: true,
+                          padding: EdgeInsets.only(
+                            top: MediaQuery.of(context).padding.top,
+                            bottom: kBottomNavigationBarHeight + 24,
+                          ),
+                          children: [
+                            image(context, size),
+                            DismissFade(child: upperBody(context)),
+                            DismissFade(child: middleBody(context)),
+                            DismissFade(child: lowerBody(context)),
+                          ],
+                        );
+                      } else {
+                        double sideBarWidth;
+                        if (size.width > 1400) {
+                          sideBarWidth = 404;
+                        } else {
+                          sideBarWidth = 304;
+                        }
+                        return CustomScrollView(
+                          primary: true,
+                          slivers: [
+                            SliverCrossAxisGroup(
+                              slivers: [
+                                SliverMainAxisGroup(
+                                  slivers: [
+                                    SliverToBoxAdapter(
+                                      child: Column(
+                                        children: [
+                                          image(context, size),
+                                          DismissFade(
+                                            child: upperBody(context),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                    DismissSliverFade(
+                                      sliver: SliverPostCommentSection(
+                                        postId: post.id,
+                                      ),
+                                    ),
                                   ],
                                 ),
-                              ),
-                              SliverPostCommentSection(postId: post.id),
-                            ],
-                          ),
-                          SliverConstrainedCrossAxis(
-                            maxExtent: sideBarWidth,
-                            sliver: SliverToBoxAdapter(
-                              child: Column(
-                                mainAxisSize: MainAxisSize.min,
-                                children: [
-                                  const SizedBox(height: 56),
-                                  lowerBody(context),
-                                ],
-                              ),
+                                SliverConstrainedCrossAxis(
+                                  maxExtent: sideBarWidth,
+                                  sliver: SliverToBoxAdapter(
+                                    child: DismissFade(
+                                      child: Column(
+                                        mainAxisSize: MainAxisSize.min,
+                                        children: [
+                                          const SizedBox(height: 56),
+                                          lowerBody(context),
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ],
                             ),
-                          ),
-                        ],
-                      ),
-                    ],
-                  );
-                }
-              },
+                          ],
+                        );
+                      }
+                    },
+                  ),
+                ],
+              ),
             ),
           ),
         ),

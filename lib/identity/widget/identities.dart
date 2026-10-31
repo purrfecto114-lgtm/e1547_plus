@@ -2,6 +2,7 @@ import 'package:e1547/app/app.dart';
 import 'package:e1547/identity/identity.dart';
 import 'package:e1547/l10n/app_localizations.dart';
 import 'package:e1547/query/query.dart';
+import 'package:e1547/settings/settings.dart';
 import 'package:e1547/shared/shared.dart';
 import 'package:e1547/user/user.dart';
 import 'package:flutter/material.dart';
@@ -127,6 +128,9 @@ class IdentitiesPage extends StatelessWidget {
             appBar: const TransparentAppBar(
               child: DefaultAppBar(leading: CloseButton()),
             ),
+            floatingActionButtonLocation: Handedness.of(
+              context,
+            ).floatingActionButtonLocation,
             floatingActionButton: identities != null
                 ? FloatingActionButton(
                     child: const Icon(Icons.add),

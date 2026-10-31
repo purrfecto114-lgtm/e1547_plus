@@ -100,8 +100,11 @@ class SettingsProvider extends SubProvider<AppStorage, Settings> {
   SettingsProvider({super.child, TransitionBuilder? builder})
     : super(
         create: (context, databases) => Settings(databases.preferences),
-        builder: (context, child) =>
-            PrivateTextFields(child: builder?.call(context, child) ?? child!),
+        builder: (context, child) => PrivateTextFields(
+          child: HandednessScope(
+            child: builder?.call(context, child) ?? child!,
+          ),
+        ),
       );
 }
 

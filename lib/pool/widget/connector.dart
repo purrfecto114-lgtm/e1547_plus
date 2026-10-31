@@ -1,8 +1,8 @@
-import 'package:cached_query_flutter/cached_query_flutter.dart';
 import 'package:e1547/client/client.dart';
 import 'package:e1547/history/history.dart';
 import 'package:e1547/pool/pool.dart';
 import 'package:e1547/post/post.dart';
+import 'package:e1547/query/query.dart';
 import 'package:e1547/shared/shared.dart';
 import 'package:flutter/material.dart';
 
@@ -27,10 +27,12 @@ class PoolHistoryConnector extends StatelessWidget {
       getEntry: (context, state) {
         final data = state.data;
         if (data == null || data.pages.isEmpty) return null;
+        final filter = context.read<FilterController<Post>?>();
         final posts = data.pages
             .expand((p) => p)
             .map((id) => client.posts.postCache.get(id))
             .whereType<Post>()
+            .where((post) => filter?.filter(post) ?? true)
             .toList();
         return PoolHistoryRequest.item(pool: pool, posts: posts);
       },
@@ -64,9 +66,11 @@ class PoolsHistoryConnector extends StatelessWidget {
             .map((p) => p.postIds.isEmpty ? null : p.postIds.first)
             .whereType<int>()
             .toList();
+        final filter = context.read<FilterController<Post>?>();
         final posts = thumbIds
             .map((id) => client.posts.postCache.get(id))
             .whereType<Post>()
+            .where((post) => filter?.filter(post) ?? true)
             .toList();
         return PoolHistoryRequest.search(
           query: controller.value.toQuery(),

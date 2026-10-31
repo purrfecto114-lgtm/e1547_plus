@@ -136,13 +136,14 @@ class PostFilter extends FilterController<Post>
     _filterCache.removeWhere((_, entry) => entry.lastAccessed.isBefore(cutoff));
   }
 
-  bool denies(Post post) {
+  bool blocks(Post post) {
     if (!denying) return false;
+    return entriesFor(post).any((entry) => !allowedEntries.contains(entry));
+  }
+
+  bool denies(Post post) {
     if (allowedPosts.contains(post.id)) return false;
-    final activeEntries = entriesFor(
-      post,
-    ).where((entry) => !allowedEntries.contains(entry));
-    return activeEntries.isNotEmpty;
+    return blocks(post);
   }
 
   @override

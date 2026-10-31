@@ -1,5 +1,6 @@
 import 'dart:math';
 
+import 'package:e1547/shared/shared.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/physics.dart';
@@ -23,11 +24,13 @@ class BubbleOverlay extends StatefulWidget {
     required this.child,
     required this.bubbles,
     this.margin = 16,
+    this.side = HorizontalDirection.right,
   });
 
   final Widget child;
   final List<OverlayBubble> bubbles;
   final double margin;
+  final HorizontalDirection side;
 
   @override
   State<BubbleOverlay> createState() => _BubbleOverlayState();
@@ -52,16 +55,34 @@ class _BubbleOverlayState extends State<BubbleOverlay>
   EdgeInsets _insets = EdgeInsets.zero;
 
   final Map<Object, bool> _snapRight = {};
+  final Map<Object, double> _sizes = {};
 
   double _sizeOf(Object id) {
     for (final OverlayBubble bubble in widget.bubbles) {
       if (bubble.id == id) return bubble.size;
     }
-    return 0;
+    return _sizes[id] ?? 0;
   }
 
   Offset _confine(Object id, Offset value) =>
       _clamp(value, _sizeOf(id), _bounds, _insets);
+
+  @override
+  void didUpdateWidget(covariant BubbleOverlay oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (oldWidget.side == widget.side) return;
+    for (final Object id in _positions.keys.toList()) {
+      if (_snapRight.containsKey(id)) continue;
+      _stop(id);
+      _positions[id] = _confine(
+        id,
+        Offset(
+          _edge(_sizeOf(id), _bounds, right: _defaultRight),
+          _positions[id]!.dy,
+        ),
+      );
+    }
+  }
 
   @override
   void dispose() {
@@ -109,8 +130,16 @@ class _BubbleOverlayState extends State<BubbleOverlay>
     );
   }
 
+  bool get _defaultRight => widget.side == HorizontalDirection.right;
+
+  double _edge(
+    double size,
+    BoxConstraints constraints, {
+    required bool right,
+  }) => right ? constraints.maxWidth - size - widget.margin : widget.margin;
+
   Offset _rest(int index, double size, BoxConstraints constraints) => Offset(
-    constraints.maxWidth - size - widget.margin,
+    _edge(size, constraints, right: _defaultRight),
     (constraints.maxHeight - size) / 2 + index * (size + widget.margin),
   );
 
@@ -199,11 +228,8 @@ class _BubbleOverlayState extends State<BubbleOverlay>
     final double y = fromSpan > 0
         ? current.dy * (toSpan / fromSpan)
         : current.dy;
-    final bool right = _snapRight[id] ?? true;
-    return _confine(
-      id,
-      Offset(right ? to.maxWidth - size - widget.margin : widget.margin, y),
-    );
+    final bool right = _snapRight[id] ?? _defaultRight;
+    return _confine(id, Offset(_edge(size, to, right: right), y));
   }
 
   void _settle(
@@ -249,6 +275,9 @@ class _BubbleOverlayState extends State<BubbleOverlay>
         final BoxConstraints previous = _bounds;
         _bounds = constraints;
         _insets = padding;
+        for (final OverlayBubble bubble in widget.bubbles) {
+          _sizes[bubble.id] = bubble.size;
+        }
 
         if (resized && _positions.isNotEmpty && previous.maxHeight.isFinite) {
           for (final Object id in _positions.keys.toList()) {

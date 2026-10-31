@@ -18,17 +18,20 @@ class PostFullscreenAppBar extends StatelessWidget
 
   @override
   Widget build(BuildContext context) {
-    return TransparentAppBar(
-      child: DefaultAppBar(
-        actions: isEditing
-            ? null
-            : [
-                PopupMenuButton<VoidCallback>(
-                  icon: const Icon(Icons.more_vert),
-                  onSelected: (value) => value(),
-                  itemBuilder: (context) => postMenuPostActions(context, post),
-                ),
-              ],
+    return DismissFade(
+      child: TransparentAppBar(
+        child: DefaultAppBar(
+          actions: isEditing
+              ? null
+              : [
+                  PopupMenuButton<VoidCallback>(
+                    icon: const Icon(Icons.more_vert),
+                    onSelected: (value) => value(),
+                    itemBuilder: (context) =>
+                        postMenuPostActions(context, post),
+                  ),
+                ],
+        ),
       ),
     );
   }

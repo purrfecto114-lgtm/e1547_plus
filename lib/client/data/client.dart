@@ -9,6 +9,7 @@ import 'package:e1547/history/history.dart';
 import 'package:e1547/identity/identity.dart';
 import 'package:e1547/pool/pool.dart';
 import 'package:e1547/post/post.dart';
+import 'package:e1547/query/query.dart';
 import 'package:e1547/reply/reply.dart';
 import 'package:e1547/shared/shared.dart';
 import 'package:e1547/tag/tag.dart';
@@ -72,6 +73,7 @@ class Client with Disposable {
     postsClient: posts,
     poolsClient: pools,
     tagsClient: tags,
+    onSynced: () => dio.queryCache?.invalidateKey(follows.queryKey),
   );
 
   late final HistoryServer historyServer = HistoryServer(

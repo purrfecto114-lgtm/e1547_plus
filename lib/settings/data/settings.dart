@@ -1,6 +1,7 @@
 import 'dart:ffi';
 
 import 'package:e1547/app/app.dart';
+import 'package:e1547/settings/settings.dart';
 import 'package:e1547/shared/shared.dart';
 import 'package:flutter/foundation.dart';
 import 'package:notified_preferences/notified_preferences.dart';
@@ -25,6 +26,11 @@ class Settings extends NotifiedSettings {
     key: 'theme',
     initialValue: AppTheme.values.first,
     values: AppTheme.values,
+  );
+  late final ValueNotifier<Handedness> handedness = createEnumSetting(
+    key: 'handedness',
+    initialValue: Handedness.right,
+    values: Handedness.values,
   );
 
   /// The app language, stored as a locale string.

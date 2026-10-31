@@ -9,7 +9,7 @@ class PostFullscreenGallery extends StatefulWidget {
     super.key,
     this.initialPostId,
     this.pageController,
-    this.onPageChanged,
+    this.onPageSettled,
   }) : assert(
          initialPostId == null || pageController == null,
          'Cannot pass both initialPostId and pageController',
@@ -17,7 +17,7 @@ class PostFullscreenGallery extends StatefulWidget {
 
   final int? initialPostId;
   final PageController? pageController;
-  final ValueChanged<int>? onPageChanged;
+  final ValueChanged<int>? onPageSettled;
 
   @override
   State<PostFullscreenGallery> createState() => _PostFullscreenGalleryState();
@@ -50,27 +50,36 @@ class _PostFullscreenGalleryState extends State<PostFullscreenGallery>
           builder: (context, pageController) => ScaffoldFrame(
             child: GalleryButtons(
               controller: pageController,
-              child: PagedPageView<Object, Post>(
-                pageController: pageController,
-                state: state.paging,
-                fetchNextPage: query.getNextPage,
-                onPageChanged: (index) {
-                  final items = state.paging.items;
-                  if (items != null && index < items.length) {
-                    postId = items[index].id;
+              child: NotificationListener<ScrollEndNotification>(
+                onNotification: (notification) {
+                  final metrics = notification.metrics;
+                  final page = metrics is PageMetrics ? metrics.page : null;
+                  if (notification.depth == 0 && page != null) {
+                    widget.onPageSettled?.call(page.round());
                   }
-                  widget.onPageChanged?.call(index);
-                  preloadPostImages(
-                    context: context,
-                    index: index,
-                    posts: items ?? [],
-                    size: PostImageSize.file,
-                  );
+                  return false;
                 },
-                builderDelegate: defaultPagedChildBuilderDelegate(
-                  onRetry: query.getNextPage,
-                  itemBuilder: (context, item, index) =>
-                      PostFullscreen(post: item),
+                child: PagedPageView<Object, Post>(
+                  pageController: pageController,
+                  state: state.paging,
+                  fetchNextPage: query.getNextPage,
+                  onPageChanged: (index) {
+                    final items = state.paging.items;
+                    if (items != null && index < items.length) {
+                      postId = items[index].id;
+                    }
+                    preloadPostImages(
+                      context: context,
+                      index: index,
+                      posts: items ?? [],
+                      size: PostImageSize.file,
+                    );
+                  },
+                  builderDelegate: defaultPagedChildBuilderDelegate(
+                    onRetry: query.getNextPage,
+                    itemBuilder: (context, item, index) =>
+                        PostFullscreen(post: item),
+                  ),
                 ),
               ),
             ),

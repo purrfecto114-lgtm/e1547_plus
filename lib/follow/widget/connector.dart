@@ -56,10 +56,12 @@ class FollowSeenConnector extends StatelessWidget {
             ? 'pool:$poolId'
             : params.tags?.nullWhenEmpty;
         if (tags == null) return null;
+        final filter = context.read<FilterController<Post>?>();
         final posts = data.pages
             .expand((p) => p)
             .map((id) => client.posts.postCache.get(id))
             .whereType<Post>()
+            .where((post) => filter?.filter(post) ?? true)
             .toList();
         return (
           tags: tags,

@@ -19,6 +19,7 @@ class FollowServer with Disposable {
     required this.postsClient,
     this.poolsClient,
     this.tagsClient,
+    this.onSynced,
   }) : repository = FollowRepository(database: database);
 
   final FollowRepository repository;
@@ -27,6 +28,7 @@ class FollowServer with Disposable {
   final PostClient postsClient;
   final PoolClient? poolsClient;
   final TagClient? tagsClient;
+  final VoidCallback? onSynced;
 
   final StreamController<FollowSync?> _syncStream =
       BehaviorSubject<FollowSync?>();
@@ -52,6 +54,7 @@ class FollowServer with Disposable {
     await sync.run();
     _currentSync = null;
     _syncStream.add(null);
+    onSynced?.call();
   }
 
   Future<void> syncWith({

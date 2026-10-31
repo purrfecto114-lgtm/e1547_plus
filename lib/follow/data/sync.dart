@@ -106,7 +106,7 @@ class FollowSync {
 
   Future<void> run() async {
     _operation ??= CancelableOperation.fromFuture(_run());
-    return _operation!.value;
+    await _operation!.valueOrCancellation();
   }
 
   Future<void> _run() async {

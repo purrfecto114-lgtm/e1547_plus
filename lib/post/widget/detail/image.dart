@@ -149,9 +149,7 @@ class PostDetailImageActions extends StatelessWidget {
     }
 
     Widget? showButton() {
-      if (filter == null || filter.entriesFor(post).isEmpty) {
-        return null;
-      }
+      if (filter == null || !filter.blocks(post)) return null;
       return Card(
         color: denied ? Colors.transparent : Colors.black12,
         elevation: 0,
@@ -224,8 +222,12 @@ class PostDetailImageDisplay extends StatelessWidget {
       child: PostImageOverlay(
         post: post,
         builder: (context) => Center(
-          child: Hero(
+          child: ContentHero(
             tag: post.link,
+            content: FittedContent(
+              fit: BoxFit.contain,
+              aspectRatio: post.width / post.height,
+            ),
             child: ImageCacheSizeProvider(
               size: context.watch<ImageCacheSize?>()?.size,
               child: switch (post.type) {

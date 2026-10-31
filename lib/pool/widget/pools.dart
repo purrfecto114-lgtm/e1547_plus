@@ -23,10 +23,10 @@ class _PoolsPageState extends State<PoolsPage> with RouterDrawerEntryWidget {
     final client = context.watch<Client>();
     return ChangeNotifierProvider(
       create: (_) => PoolParamsController(widget.search),
-      child: PoolsHistoryConnector(
-        child: FilterControllerProvider<PostFilter, Post>(
-          create: (_) => PostFilter(client),
-          keys: (_) => [client],
+      child: FilterControllerProvider<PostFilter, Post>(
+        create: (_) => PostFilter(client),
+        keys: (_) => [client],
+        child: PoolsHistoryConnector(
           child: PoolPageQueryBuilder(
             builder: (context, state, query) {
               final thumbnails =

@@ -22,6 +22,7 @@ class PostImageWidget extends StatelessWidget {
     this.cacheSize,
     this.lowResCacheSize,
     this.maxPixels,
+    this.load,
   });
 
   /// The post which provides the image.
@@ -52,6 +53,8 @@ class PostImageWidget extends StatelessWidget {
   /// ratios would defeat a one dimensional [cacheSize] limit.
   final int? maxPixels;
 
+  final ImageLoadController? load;
+
   @override
   Widget build(BuildContext context) {
     return RepaintBoundary(
@@ -76,10 +79,11 @@ class PostImageWidget extends StatelessWidget {
                 showProgress: showProgress,
                 fit: fit,
                 cacheSize: cacheSize,
+                load: load,
                 progressIndicatorBuilder: withLowRes
                     ? (context, url, progress) => ImageProgressWrapper(
                         aspectRatio: aspectRatio,
-                        progress: progress.progress,
+                        progress: load == null ? progress.progress : null,
                         child: lowResCacheSize != null
                             ? RawPostImageWidget(
                                 post: post,
@@ -104,9 +108,10 @@ class PostImageWidget extends StatelessWidget {
                 fit: fit,
                 cacheSize: cacheSize,
                 maxPixels: maxPixels,
+                load: load,
                 progressIndicatorBuilder: (context, url, progress) =>
                     ImageProgressWrapper(
-                      progress: progress.progress,
+                      progress: load == null ? progress.progress : null,
                       aspectRatio: aspectRatio,
                       child: RawPostImageWidget(
                         post: post,
@@ -135,6 +140,7 @@ class RawPostImageWidget extends StatelessWidget {
     this.showProgress = true,
     this.cacheSize,
     this.maxPixels,
+    this.load,
   });
 
   final Post post;
@@ -144,12 +150,14 @@ class RawPostImageWidget extends StatelessWidget {
   final bool stacked;
   final bool showProgress;
   final int? cacheSize;
+  final ImageLoadController? load;
 
   /// The maximum number of pixels this image may decode to.
   final int? maxPixels;
 
   @override
   Widget build(BuildContext context) {
+    final ImageLoadController? load = this.load;
     Duration fades = stacked
         ? Duration.zero
         : const Duration(milliseconds: 500);
@@ -215,9 +223,25 @@ class RawPostImageWidget extends StatelessWidget {
       // A failed image used to render as a blank tile in grids, which
       // is indistinguishable from "no content"; show the broken image
       // hint everywhere instead.
-      errorWidget: defaultErrorBuilder,
+      errorWidget: (context, url, error) {
+        load?.report(url, ImageFailed(error));
+        return defaultErrorBuilder(context, url, error);
+      },
       progressIndicatorBuilder: showProgress || stacked
-          ? progressIndicatorBuilder ?? progressIndicator
+          ? (context, url, progress) {
+              load?.report(url, ImageLoading(progress.progress));
+              return (progressIndicatorBuilder ?? progressIndicator)(
+                context,
+                url,
+                progress,
+              );
+            }
+          : null,
+      imageBuilder: load != null
+          ? (context, image) {
+              load.report(url, const ImageLoaded());
+              return Image(image: image, fit: fit);
+            }
           : null,
       memCacheWidth: memCacheWidth,
       memCacheHeight: memCacheHeight,

@@ -298,6 +298,13 @@ class SettingsPage extends StatelessWidget {
                   onChanged: (value) => settings.showPostInfo.value = value,
                 ),
               ),
+              ValueListenableBuilder<Handedness>(
+                valueListenable: settings.handedness,
+                builder: (context, value, child) => HandednessSettingsTile(
+                  state: value,
+                  onChange: (value) => settings.handedness.value = value,
+                ),
+              ),
               const Divider(),
               SectionHeader(
                 indent: SectionHeader.listTileIndent,
