@@ -8,20 +8,7 @@ import 'package:flutter/foundation.dart';
 
 class TasksListController extends ChangeNotifier {
   TasksListController({required this.repository, required this.identity}) {
-    _subscription = repository
-        .all(identity: identity)
-        .stream
-        .listen(
-          (items) {
-            _items = items;
-            _error = null;
-            notifyListeners();
-          },
-          onError: (Object error) {
-            _error = error;
-            notifyListeners();
-          },
-        );
+    _listen();
   }
 
   final TaskRepository repository;
@@ -42,6 +29,33 @@ class TasksListController extends ChangeNotifier {
     hasNextPage: false,
     isLoading: _items == null && _error == null,
   );
+
+  void _listen() {
+    _subscription = repository
+        .all(identity: identity)
+        .stream
+        .listen(
+          (items) {
+            _items = items;
+            _error = null;
+            notifyListeners();
+          },
+          onError: (Object error) {
+            _error = error;
+            notifyListeners();
+          },
+        );
+  }
+
+  /// Re-subscribes to the task stream, e.g. after a database failure
+  /// left the list in an error state.
+  void retry() {
+    _subscription?.cancel();
+    _items = null;
+    _error = null;
+    notifyListeners();
+    _listen();
+  }
 
   @override
   void dispose() {

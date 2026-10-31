@@ -70,7 +70,7 @@ class SliverTasksList extends StatelessWidget {
         child: SectionHeader(title: localizedTaskGroupName(context, value)),
       ),
       builderDelegate: defaultPagedChildBuilderDelegate<Task>(
-        onRetry: () {},
+        onRetry: controller.retry,
         onEmpty: Text(l10n.taskNoTasks),
         onError: Text(l10n.taskFailedToLoadTasks),
         itemBuilder: (context, task, index) => TaskTile(
