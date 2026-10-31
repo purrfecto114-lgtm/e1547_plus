@@ -1,4 +1,7 @@
 import 'dart:io';
+import 'dart:typed_data';
+import 'package:cryptography/cryptography.dart'
+    show SecretBoxAuthenticationError;
 import 'package:drift/drift.dart' show driftRuntimeOptions;
 import 'package:drift_flutter/drift_flutter.dart';
 import 'package:e1547/app/app.dart';
@@ -6,6 +9,7 @@ import 'package:e1547/app/widget/initialize.dart';
 import 'package:e1547/identity/identity.dart';
 import 'package:e1547/l10n/app_localizations.dart';
 import 'package:e1547/logs/logs.dart';
+import 'package:e1547/settings/data/export_crypto.dart';
 import 'package:e1547/shared/shared.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:filesize/filesize.dart';
@@ -156,30 +160,19 @@ class DatabaseInfoDisplay extends StatelessWidget {
 class DatabaseExportTile extends StatelessWidget {
   const DatabaseExportTile({super.key});
 
-  Future<bool> _showExportWarning(BuildContext context) => showDialog<bool>(
+  /// Shows the export confirmation with an optional encryption password.
+  ///
+  /// Returns null when the export was cancelled, an empty string for a
+  /// plain unencrypted file, and the password otherwise.
+  Future<String?> _showExportDialog(BuildContext context) => showDialog<String>(
     context: context,
     builder: (context) => Center(
       child: ConstrainedBox(
         constraints: const BoxConstraints(maxWidth: 600),
-        child: AlertDialog(
-          title: Text(AppLocalizations.of(context).databaseExportTitle),
-          content: Text(
-            AppLocalizations.of(context).databaseExportSanitizedBody,
-          ),
-          actions: [
-            TextButton(
-              onPressed: () => popDialog(context, false),
-              child: Text(AppLocalizations.of(context).actionCancel),
-            ),
-            TextButton(
-              onPressed: () => popDialog(context, true),
-              child: Text(AppLocalizations.of(context).actionExport),
-            ),
-          ],
-        ),
+        child: const _ExportOptionsDialog(),
       ),
     ),
-  ).then((value) => value ?? false);
+  );
 
   Future<void> _exportDatabase(BuildContext context) async {
     final navigator = Navigator.of(context);
@@ -187,7 +180,8 @@ class DatabaseExportTile extends StatelessWidget {
     final l10n = AppLocalizations.of(context);
     final sqlite = context.read<AppStorage>().sqlite;
 
-    if (!await _showExportWarning(context)) return;
+    final String? password = await _showExportDialog(context);
+    if (password == null) return;
     if (!context.mounted) return;
 
     File? tempFile;
@@ -262,12 +256,17 @@ class DatabaseExportTile extends StatelessWidget {
       await tempFile.delete();
       tempFile = null;
 
+      Uint8List outputBytes = bytes;
+      if (password.isNotEmpty) {
+        outputBytes = await encryptDatabaseExport(bytes, password);
+      }
+
       String? outputFile = await FilePicker.platform.saveFile(
         dialogTitle: l10n.databaseExportTitle,
         fileName: 'e1547_database_backup.db',
         type: FileType.custom,
         allowedExtensions: ['db'],
-        bytes: bytes,
+        bytes: outputBytes,
       );
 
       navigator.pop();
@@ -316,6 +315,10 @@ class DatabaseImportTile extends StatelessWidget {
     final confirmed = await _showImportWarning(context);
     if (!confirmed) return;
 
+    // A decrypted copy of a picked encrypted export, if any. Deleted again
+    // in the finally below; the picked file itself is never modified.
+    File? decryptedFile;
+
     try {
       // iOS needs custom file type declarations but we are lazy so we pick any
       FilePickerResult? result = await FilePicker.platform.pickFiles(
@@ -329,8 +332,44 @@ class DatabaseImportTile extends StatelessWidget {
       if (path == null) return;
       if (!context.mounted) return;
 
+      // Encrypted exports carry a magic header sqlite cannot read. Ask for
+      // the password up front, decrypt into a temporary file and let the
+      // regular checks below run against that.
+      String sourcePath = path;
+      if (hasDatabaseExportMagic(await File(path).readAsBytes())) {
+        bool wrongPassword = false;
+        while (true) {
+          if (!context.mounted) return;
+          final password = await _showPasswordPrompt(
+            context,
+            wrongPassword: wrongPassword,
+          );
+          if (password == null) return;
+          try {
+            final plain = await decryptDatabaseExport(
+              await File(path).readAsBytes(),
+              password,
+            );
+            final tempPath = join(
+              await getTemporaryAppDirectory(),
+              'e1547_import.db',
+            );
+            await Directory(dirname(tempPath)).create(recursive: true);
+            decryptedFile = File(tempPath);
+            if (decryptedFile.existsSync()) await decryptedFile.delete();
+            await decryptedFile.writeAsBytes(plain);
+            sourcePath = tempPath;
+            break;
+          } on SecretBoxAuthenticationError {
+            // AES-GCM tag mismatch: wrong password or a corrupted file.
+            wrongPassword = true;
+          }
+        }
+        if (!context.mounted) return;
+      }
+
       // Reject files this build cannot understand before touching anything.
-      final version = await readSqliteUserVersion(path);
+      final version = await readSqliteUserVersion(sourcePath);
       switch (classifyImportSchemaVersion(version)) {
         case ImportSchemaGate.tooNew:
           messenger.showSnackBar(
@@ -382,7 +421,7 @@ class DatabaseImportTile extends StatelessWidget {
       final newDbPath = '$dbPath.new';
       final newDbFile = File(newDbPath);
       if (newDbFile.existsSync()) await newDbFile.delete();
-      await File(path).copy(newDbPath);
+      await File(sourcePath).copy(newDbPath);
 
       Set<String> hosts;
       try {
@@ -438,6 +477,14 @@ class DatabaseImportTile extends StatelessWidget {
       messenger.showSnackBar(
         SnackBar(content: Text(l10n.databaseImportFailed(e.toString()))),
       );
+    } finally {
+      if (decryptedFile != null && decryptedFile.existsSync()) {
+        try {
+          await decryptedFile.delete();
+        } on FileSystemException {
+          // already deleted elsewhere
+        }
+      }
     }
   }
 
@@ -537,5 +584,166 @@ class DatabaseImportTile extends StatelessWidget {
       ),
       onTap: () => _importDatabase(context),
     );
+  }
+}
+
+/// Password prompt for encrypted database imports.
+Future<String?> _showPasswordPrompt(
+  BuildContext context, {
+  required bool wrongPassword,
+}) => showDialog<String>(
+  context: context,
+  barrierDismissible: false,
+  builder: (context) => Center(
+    child: ConstrainedBox(
+      constraints: const BoxConstraints(maxWidth: 600),
+      child: _ImportPasswordDialog(wrongPassword: wrongPassword),
+    ),
+  ),
+);
+
+class _ImportPasswordDialog extends StatefulWidget {
+  const _ImportPasswordDialog({required this.wrongPassword});
+
+  final bool wrongPassword;
+
+  @override
+  State<_ImportPasswordDialog> createState() => _ImportPasswordDialogState();
+}
+
+class _ImportPasswordDialogState extends State<_ImportPasswordDialog> {
+  final TextEditingController controller = TextEditingController();
+  bool obscure = true;
+
+  @override
+  Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
+    return AlertDialog(
+      title: Text(l10n.databaseImportEncryptedTitle),
+      content: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          if (widget.wrongPassword) ...[
+            Row(
+              children: [
+                Icon(
+                  Icons.warning_amber,
+                  color: Theme.of(context).colorScheme.error,
+                ),
+                const SizedBox(width: 8),
+                Flexible(
+                  child: Text(
+                    l10n.databaseImportWrongPassword,
+                    style: TextStyle(
+                      color: Theme.of(context).colorScheme.error,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+            const SizedBox(height: 12),
+          ],
+          TextField(
+            controller: controller,
+            obscureText: obscure,
+            autocorrect: false,
+            enableSuggestions: false,
+            autofocus: true,
+            onSubmitted: (_) => popDialog(context, controller.text),
+            decoration: InputDecoration(
+              labelText: l10n.databaseImportPasswordLabel,
+              suffixIcon: IconButton(
+                icon: Icon(
+                  obscure
+                      ? Icons.visibility_off_outlined
+                      : Icons.visibility_outlined,
+                ),
+                onPressed: () => setState(() => obscure = !obscure),
+              ),
+            ),
+          ),
+        ],
+      ),
+      actions: [
+        TextButton(
+          onPressed: () => popDialog(context),
+          child: Text(l10n.actionCancel),
+        ),
+        TextButton(
+          onPressed: () => popDialog(context, controller.text),
+          child: Text(l10n.actionUnlock),
+        ),
+      ],
+    );
+  }
+
+  @override
+  void dispose() {
+    controller.dispose();
+    super.dispose();
+  }
+}
+
+/// Export confirmation with an optional encryption password.
+class _ExportOptionsDialog extends StatefulWidget {
+  const _ExportOptionsDialog();
+
+  @override
+  State<_ExportOptionsDialog> createState() => _ExportOptionsDialogState();
+}
+
+class _ExportOptionsDialogState extends State<_ExportOptionsDialog> {
+  final TextEditingController controller = TextEditingController();
+  bool obscure = true;
+
+  @override
+  Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
+    return AlertDialog(
+      title: Text(l10n.databaseExportTitle),
+      content: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(l10n.databaseExportSanitizedBody),
+          const SizedBox(height: 16),
+          TextField(
+            controller: controller,
+            obscureText: obscure,
+            autocorrect: false,
+            enableSuggestions: false,
+            decoration: InputDecoration(
+              labelText: l10n.databaseExportPasswordLabel,
+              helperText: l10n.databaseExportPasswordHint,
+              suffixIcon: IconButton(
+                icon: Icon(
+                  obscure
+                      ? Icons.visibility_off_outlined
+                      : Icons.visibility_outlined,
+                ),
+                onPressed: () => setState(() => obscure = !obscure),
+              ),
+            ),
+          ),
+        ],
+      ),
+      actions: [
+        TextButton(
+          onPressed: () => popDialog(context),
+          child: Text(l10n.actionCancel),
+        ),
+        TextButton(
+          onPressed: () => popDialog(context, controller.text),
+          child: Text(l10n.actionExport),
+        ),
+      ],
+    );
+  }
+
+  @override
+  void dispose() {
+    controller.dispose();
+    super.dispose();
   }
 }

@@ -54,6 +54,7 @@ dependencies:
   cached_query: ^3.7.0
   cached_query_flutter: ^3.4.0
   collection: ^1.19.0
+  cryptography: ^2.7.0
   deep_pick: ^1.0.0
   dio: ^5.9.0
   native_dio_adapter: ^1.8.0
