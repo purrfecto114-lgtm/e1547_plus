@@ -4,6 +4,13 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and this project
 adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [21.3.0-rc.5+120] - 2026-10-31
+### Added
+- french and brazilian portuguese translations of the whole interface
+- a japanese offline dictionary for common tags, and around a hundred more curated simplified chinese entries covering species, fantasy races, clothing, meta and rating tags
+- optional password encryption for database exports; importing an encrypted file asks for the password again and rejects wrong ones
+- an 18+ confirmation before logging in, phrased like a person and not a legal disclaimer
+
 ## [21.3.0-rc.4+119] - 2026-10-31
 ### Fixed
 - the ios version probe no longer crashes the app on startup when the os reports an unexpected version format
@@ -1309,3 +1316,4 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 [21.3.0-rc.2+117]: https://github.com/purrfecto114-lgtm/e1547_plus/compare/21.3.0-rc.1+116...21.3.0-rc.2+117
 [21.3.0-rc.3+118]: https://github.com/purrfecto114-lgtm/e1547_plus/compare/21.3.0-rc.2+117...21.3.0-rc.3+118
 [21.3.0-rc.4+119]: https://github.com/purrfecto114-lgtm/e1547_plus/compare/21.3.0-rc.3+118...21.3.0-rc.4+119
+[21.3.0-rc.5+120]: https://github.com/purrfecto114-lgtm/e1547_plus/compare/21.3.0-rc.4+119...21.3.0-rc.5+120

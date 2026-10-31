@@ -1,0 +1,5 @@
+### Added
+- french and brazilian portuguese translations of the whole interface
+- a japanese offline dictionary for common tags, and around a hundred more curated simplified chinese entries covering species, fantasy races, clothing, meta and rating tags
+- optional password encryption for database exports; importing an encrypted file asks for the password again and rejects wrong ones
+- an 18+ confirmation before logging in, phrased like a person and not a legal disclaimer
