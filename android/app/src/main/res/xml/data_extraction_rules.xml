@@ -6,6 +6,8 @@
         <exclude domain="file" path="app.db-journal" />
         <exclude domain="file" path="app.db-wal" />
         <exclude domain="file" path="app.db-shm" />
+        <!-- the shared preferences hold the screen-lock PIN in plain text -->
+        <exclude domain="sharedpref" path="FlutterSharedPreferences.xml" />
     </cloud-backup>
     <device-transfer>
         <!-- keep app.db so direct device-to-device migration keeps logins;

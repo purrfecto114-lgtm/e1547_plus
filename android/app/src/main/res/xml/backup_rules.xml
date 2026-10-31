@@ -1,10 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- The database stores account credentials in plain text; keep it out of
-     cloud backups. Users transfer it deliberately via export/import. -->
+     cloud backups. Users transfer it deliberately via export/import.
+     The shared preferences hold the screen-lock PIN in plain text as well,
+     so they stay out of cloud backups too. -->
 <full-backup-content>
     <exclude domain="file" path="app.db" />
     <exclude domain="file" path="app.db.new" />
     <exclude domain="file" path="app.db-journal" />
     <exclude domain="file" path="app.db-wal" />
     <exclude domain="file" path="app.db-shm" />
+    <exclude domain="sharedpref" path="FlutterSharedPreferences.xml" />
 </full-backup-content>
