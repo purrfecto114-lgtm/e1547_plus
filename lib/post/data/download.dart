@@ -54,6 +54,9 @@ extension PostDownloading on Post {
     if (artists.isNotEmpty) {
       filename = '${artists.join(', ')} - ';
     }
-    return filename += '$id.$ext';
+    // ext comes from the server's post json; a hostile host must not be
+    // able to smuggle path segments into the file name
+    final String safeExt = ext.replaceAll(RegExp(r'[^\w]'), '');
+    return filename += '$id.$safeExt';
   }
 }

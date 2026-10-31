@@ -121,8 +121,10 @@ abstract final class FileDownloader {
           await targetDir.create(recursive: true);
         }
 
+        // The name may originate from a server's post json; flatten it so a
+        // crafted name cannot escape the download directory.
         final targetFile = File(
-          join(directoryPath, fileName ?? basename(file.path)),
+          join(directoryPath, basename(fileName ?? basename(file.path))),
         );
         // Copy streams in chunks instead of buffering the whole file; a
         // same-file copy must stay a no-op, though.
