@@ -9,10 +9,36 @@ import 'package:e1547/shared/shared.dart';
 import 'package:e1547/task/task.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_cache_manager/flutter_cache_manager.dart';
+import 'package:path/path.dart';
 
 enum TaskKind { none, download, favorite, unfavorite, mixed, done }
 
 const Duration _lingerAfterDone = Duration(seconds: 2);
+
+/// Exports a fetched download file into the user's gallery folder. Injectable
+/// like [DownloadFileFetcher], so tests can hold the export itself open.
+typedef FileExporter =
+    Future<void> Function({
+      required File file,
+      required String? directory,
+      String? folderName,
+      String? fileName,
+      void Function(String dir)? onDirectoryChanged,
+    });
+
+Future<void> exportDownloadFile({
+  required File file,
+  required String? directory,
+  String? folderName,
+  String? fileName,
+  void Function(String dir)? onDirectoryChanged,
+}) => FileDownloader.downloadImage(
+  file: file,
+  directory: directory,
+  folderName: folderName,
+  fileName: fileName,
+  onDirectoryChanged: onDirectoryChanged,
+);
 
 class TasksController extends ChangeNotifier {
   TasksController({
@@ -22,6 +48,7 @@ class TasksController extends ChangeNotifier {
     required this.settings,
     required this.identity,
     this.fileFetcher = fetchFileToTemp,
+    this.exporter = exportDownloadFile,
   }) {
     _init();
   }
@@ -35,6 +62,9 @@ class TasksController extends ChangeNotifier {
   /// Fetches download files over the network; canceling its token aborts the
   /// transfer itself, not just the listening side.
   final DownloadFileFetcher fileFetcher;
+
+  /// Exports fetched files into the user's gallery folder.
+  final FileExporter exporter;
 
   late final Logger _logger = Logger('TasksController', {'identity': identity});
 
@@ -340,6 +370,9 @@ class TasksController extends ChangeNotifier {
         _recomputeProgress();
       } else {
         file = await fileFetcher(url, cancelToken, (double value) {
+          // the controller may have been disposed while the transfer was in
+          // flight; its progress notifier is gone by then
+          if (_disposed) return;
           progress?.value = value;
           _recomputeProgress();
         });
@@ -362,7 +395,7 @@ class TasksController extends ChangeNotifier {
         return;
       }
       try {
-        await FileDownloader.downloadImage(
+        await exporter(
           file: file,
           directory: settings.downloadPath.value,
           folderName: AppInfo.instance.appName,

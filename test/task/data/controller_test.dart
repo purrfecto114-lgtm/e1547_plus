@@ -229,6 +229,33 @@ void main() {
     instance.dispose();
   });
 
+  test('ignores download progress arriving after disposal', () async {
+    final started = Completer<void>();
+    final disposed = Completer<void>();
+    final instance = controller(
+      fileFetcher: (url, token, onProgress) async {
+        onProgress?.call(0.3);
+        started.complete();
+        await disposed.future;
+        // the notifier is gone by now; a late report must be ignored
+        // instead of failing the task
+        onProgress?.call(0.7);
+        return fetchableFile('${Directory.systemTemp.path}/late-progress.bin');
+      },
+    );
+
+    final task = await instance.enqueue(downloadRequest('late-progress.webm'));
+    await started.future;
+
+    instance.dispose();
+    disposed.complete();
+    await pumpEventQueue();
+    await pumpEventQueue();
+
+    // disposal releases the task back to the queue instead of failing it
+    expect(await repository.readStatus(task.id), TaskStatus.pending);
+  });
+
   test('does not revive canceled tasks when released', () async {
     final task = await repository.add(
       downloadRequest('canceled-release.webm'),
