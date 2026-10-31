@@ -146,15 +146,17 @@ class IdentitiesPage extends StatelessWidget {
                   ).padding.add(defaultActionListPadding),
                   shrinkWrap: true,
                   children: [
-                    if (identities == null)
-                      const Center(child: CircularProgressIndicator())
-                    else if (snapshot.hasError)
+                    // Check the error first: with no data yet, a stream
+                    // failure would otherwise spin forever below.
+                    if (snapshot.hasError)
                       IconMessage(
                         icon: const Icon(Icons.warning_amber),
                         title: Text(
                           AppLocalizations.of(context).failedToLoadIdentities,
                         ),
                       )
+                    else if (identities == null)
+                      const Center(child: CircularProgressIndicator())
                     else
                       form(context, identities),
                   ],
