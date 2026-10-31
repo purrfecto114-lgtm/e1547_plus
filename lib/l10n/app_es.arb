@@ -643,5 +643,9 @@
   "downloadChooseFolder": "Elegir carpeta",
   "searchFilterTitle": "Filtros",
   "searchFilterQueryLabel": "Consulta actual:",
-  "dtextParsingFailed": "No se pudo analizar el DText"
+  "dtextParsingFailed": "No se pudo analizar el DText",
+  "filteredShow": "Mostrar",
+  "filteredHide": "Ocultar",
+  "selectOptions": "Seleccionar opciones...",
+  "databaseNotE1547": "Este archivo no es una base de datos de e1547."
 }

@@ -643,5 +643,9 @@
   "downloadChooseFolder": "選擇資料夾",
   "searchFilterTitle": "篩選",
   "searchFilterQueryLabel": "當前查詢：",
-  "dtextParsingFailed": "DText 解析失敗"
+  "dtextParsingFailed": "DText 解析失敗",
+  "filteredShow": "顯示",
+  "filteredHide": "隱藏",
+  "selectOptions": "選擇選項...",
+  "databaseNotE1547": "該檔案不是 e1547 資料庫。"
 }

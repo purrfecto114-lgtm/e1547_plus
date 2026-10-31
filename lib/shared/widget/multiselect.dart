@@ -1,3 +1,4 @@
+import 'package:e1547/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 
 class MultiSelectFormField<T> extends StatefulWidget {
@@ -81,7 +82,9 @@ class _MultiSelectFormFieldState<T> extends State<MultiSelectFormField<T>> {
       label: widget.decoration.labelText != null
           ? Text(widget.decoration.labelText!)
           : null,
-      hintText: _selectedValues.isEmpty ? 'Select options...' : null,
+      hintText: _selectedValues.isEmpty
+          ? AppLocalizations.of(context).selectOptions
+          : null,
       trailingIcon: widget.icon,
       inputDecorationTheme: InputDecorationTheme(
         border: widget.decoration.border,

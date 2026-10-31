@@ -2235,6 +2235,18 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get dtextParsingFailed => 'DText 解析失败';
+
+  @override
+  String get filteredShow => '显示';
+
+  @override
+  String get filteredHide => '隐藏';
+
+  @override
+  String get selectOptions => '选择选项...';
+
+  @override
+  String get databaseNotE1547 => '该文件不是 e1547 数据库。';
 }
 
 /// The translations for Chinese, using the Han script (`zh_Hant`).
@@ -4468,4 +4480,16 @@ class AppLocalizationsZhHant extends AppLocalizationsZh {
 
   @override
   String get dtextParsingFailed => 'DText 解析失敗';
+
+  @override
+  String get filteredShow => '顯示';
+
+  @override
+  String get filteredHide => '隱藏';
+
+  @override
+  String get selectOptions => '選擇選項...';
+
+  @override
+  String get databaseNotE1547 => '該檔案不是 e1547 資料庫。';
 }

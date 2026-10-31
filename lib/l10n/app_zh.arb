@@ -643,5 +643,9 @@
   "downloadChooseFolder": "选择文件夹",
   "searchFilterTitle": "筛选",
   "searchFilterQueryLabel": "当前查询：",
-  "dtextParsingFailed": "DText 解析失败"
+  "dtextParsingFailed": "DText 解析失败",
+  "filteredShow": "显示",
+  "filteredHide": "隐藏",
+  "selectOptions": "选择选项...",
+  "databaseNotE1547": "该文件不是 e1547 数据库。"
 }

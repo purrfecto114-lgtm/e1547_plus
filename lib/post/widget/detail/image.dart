@@ -171,7 +171,11 @@ class PostDetailImageActions extends StatelessWidget {
                 ),
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 5),
-                  child: Text(denied ? 'show' : 'hide'),
+                  child: Text(
+                    denied
+                        ? AppLocalizations.of(context).filteredShow
+                        : AppLocalizations.of(context).filteredHide,
+                  ),
                 ),
               ],
             ),

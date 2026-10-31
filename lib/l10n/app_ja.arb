@@ -643,5 +643,9 @@
   "downloadChooseFolder": "フォルダを選択",
   "searchFilterTitle": "フィルター",
   "searchFilterQueryLabel": "現在のクエリ：",
-  "dtextParsingFailed": "DText の解析に失敗しました"
+  "dtextParsingFailed": "DText の解析に失敗しました",
+  "filteredShow": "表示",
+  "filteredHide": "隠す",
+  "selectOptions": "オプションを選択...",
+  "databaseNotE1547": "このファイルはe1547のデータベースではありません。"
 }

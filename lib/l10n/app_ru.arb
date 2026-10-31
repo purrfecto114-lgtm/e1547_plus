@@ -643,5 +643,9 @@
   "downloadChooseFolder": "Выберите папку",
   "searchFilterTitle": "Фильтры",
   "searchFilterQueryLabel": "Текущий запрос:",
-  "dtextParsingFailed": "Не удалось разобрать DText"
+  "dtextParsingFailed": "Не удалось разобрать DText",
+  "filteredShow": "Показать",
+  "filteredHide": "Скрыть",
+  "selectOptions": "Выберите варианты...",
+  "databaseNotE1547": "Этот файл не является базой данных e1547."
 }

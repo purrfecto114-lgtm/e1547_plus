@@ -2303,4 +2303,17 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get dtextParsingFailed => 'No se pudo analizar el DText';
+
+  @override
+  String get filteredShow => 'Mostrar';
+
+  @override
+  String get filteredHide => 'Ocultar';
+
+  @override
+  String get selectOptions => 'Seleccionar opciones...';
+
+  @override
+  String get databaseNotE1547 =>
+      'Este archivo no es una base de datos de e1547.';
 }

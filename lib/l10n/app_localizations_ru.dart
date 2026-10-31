@@ -2325,4 +2325,16 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get dtextParsingFailed => 'Не удалось разобрать DText';
+
+  @override
+  String get filteredShow => 'Показать';
+
+  @override
+  String get filteredHide => 'Скрыть';
+
+  @override
+  String get selectOptions => 'Выберите варианты...';
+
+  @override
+  String get databaseNotE1547 => 'Этот файл не является базой данных e1547.';
 }

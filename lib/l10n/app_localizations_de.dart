@@ -2310,4 +2310,16 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get dtextParsingFailed => 'DText konnte nicht geparst werden';
+
+  @override
+  String get filteredShow => 'Anzeigen';
+
+  @override
+  String get filteredHide => 'Ausblenden';
+
+  @override
+  String get selectOptions => 'Optionen auswählen...';
+
+  @override
+  String get databaseNotE1547 => 'Diese Datei ist keine e1547-Datenbank.';
 }

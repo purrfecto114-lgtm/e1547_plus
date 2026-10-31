@@ -3970,6 +3970,30 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'DText parsing has failed'**
   String get dtextParsingFailed;
+
+  /// No description provided for @filteredShow.
+  ///
+  /// In en, this message translates to:
+  /// **'Show'**
+  String get filteredShow;
+
+  /// No description provided for @filteredHide.
+  ///
+  /// In en, this message translates to:
+  /// **'Hide'**
+  String get filteredHide;
+
+  /// No description provided for @selectOptions.
+  ///
+  /// In en, this message translates to:
+  /// **'Select options...'**
+  String get selectOptions;
+
+  /// No description provided for @databaseNotE1547.
+  ///
+  /// In en, this message translates to:
+  /// **'This file is not an e1547 database.'**
+  String get databaseNotE1547;
 }
 
 class _AppLocalizationsDelegate

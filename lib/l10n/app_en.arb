@@ -2412,5 +2412,9 @@
   "@searchFilterQueryLabel": {
     "description": "Label of the query preview of the posts search filter prompt."
   },
-  "dtextParsingFailed": "DText parsing has failed"
+  "dtextParsingFailed": "DText parsing has failed",
+  "filteredShow": "Show",
+  "filteredHide": "Hide",
+  "selectOptions": "Select options...",
+  "databaseNotE1547": "This file is not an e1547 database."
 }

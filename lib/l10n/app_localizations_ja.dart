@@ -2244,4 +2244,16 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get dtextParsingFailed => 'DText の解析に失敗しました';
+
+  @override
+  String get filteredShow => '表示';
+
+  @override
+  String get filteredHide => '隠す';
+
+  @override
+  String get selectOptions => 'オプションを選択...';
+
+  @override
+  String get databaseNotE1547 => 'このファイルはe1547のデータベースではありません。';
 }

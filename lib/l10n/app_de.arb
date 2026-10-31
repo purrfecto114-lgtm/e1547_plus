@@ -643,5 +643,9 @@
   "downloadChooseFolder": "Ordner wählen",
   "searchFilterTitle": "Filter",
   "searchFilterQueryLabel": "Aktuelle Suche:",
-  "dtextParsingFailed": "DText konnte nicht geparst werden"
+  "dtextParsingFailed": "DText konnte nicht geparst werden",
+  "filteredShow": "Anzeigen",
+  "filteredHide": "Ausblenden",
+  "selectOptions": "Optionen auswählen...",
+  "databaseNotE1547": "Diese Datei ist keine e1547-Datenbank."
 }

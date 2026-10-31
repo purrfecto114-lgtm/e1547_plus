@@ -13,6 +13,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_sub/flutter_sub.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:relative_time/relative_time.dart';
 
 class App extends StatelessWidget {
@@ -62,6 +63,9 @@ class App extends StatelessWidget {
                                 ...AppLocalizations.localizationsDelegates,
                                 GlobalCupertinoLocalizations.delegate,
                                 RelativeTimeLocalizations.delegate,
+                                // The pull-to-refresh headers would otherwise
+                                // fall back to their hardcoded English strings.
+                                RefreshLocalizations.delegate,
                               ],
                               localeListResolutionCallback:
                                   (locales, supported) =>
