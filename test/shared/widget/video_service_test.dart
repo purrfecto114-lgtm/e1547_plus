@@ -158,4 +158,70 @@ void main() {
       expect(openedFor(platformOf(first), 'reuse'), hasLength(1));
     });
   });
+
+  // Regression guards for the player pool (issue #175): players are never
+  // disposed, so the pool may only recycle players that no widget holds.
+  group('VideoService lease invariants', () {
+    test('never recycles a leased video for a new url', () {
+      final leased = videos.getVideo('lease-held')!;
+      videos.acquire(leased);
+      addTearDown(() => videos.release(leased));
+      videos.getVideo('lease-b', autoLoad: false);
+      videos.getVideo('lease-c', autoLoad: false);
+
+      // a fourth url would evict the least recently used video; the leased
+      // one stays untouched even though it is the least recent
+      final fourth = videos.getVideo('lease-d', autoLoad: false);
+      expect(fourth, isNot(same(leased)));
+      expect(leased.media, 'lease-held');
+      expect(openedFor(platformOf(leased), 'lease-held'), hasLength(1));
+    });
+
+    test('refuses a video when every player is leased', () {
+      final a = videos.getVideo('lease-a')!;
+      final b = videos.getVideo('lease-b-url')!;
+      final c = videos.getVideo('lease-c-url')!;
+      for (final VideoPlayer player in [a, b, c]) {
+        videos.acquire(player);
+      }
+      addTearDown(() {
+        for (final VideoPlayer player in [a, b, c]) {
+          videos.release(player);
+        }
+      });
+
+      // creating a fourth player would grow the pool forever, since
+      // players are never disposed; the caller gets a placeholder instead
+      expect(videos.getVideo('lease-d-url'), isNull);
+    });
+
+    test('a released lease lets a refused video in', () async {
+      final a = videos.getVideo('cycle-a')!;
+      final b = videos.getVideo('cycle-b')!;
+      final c = videos.getVideo('cycle-c')!;
+      for (final VideoPlayer player in [a, b, c]) {
+        videos.acquire(player);
+      }
+      addTearDown(() {
+        for (final VideoPlayer player in [b, c]) {
+          videos.release(player);
+        }
+      });
+      expect(videos.getVideo('cycle-d'), isNull);
+
+      bool notified = false;
+      void listener() => notified = true;
+      videos.addListener(listener);
+      videos.release(a);
+      await pumpEventQueue();
+      expect(notified, isTrue);
+      videos.removeListener(listener);
+
+      // with the lease gone, the refused url recycles the released player;
+      // recycling is the only way the pool could serve it without growing
+      final d = videos.getVideo('cycle-d');
+      expect(d, same(a));
+      expect(a.media, 'cycle-d');
+    });
+  });
 }
