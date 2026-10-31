@@ -21,7 +21,7 @@ class FakeSingleFileCache implements BaseCacheManager {
     String url, {
     String? key,
     Map<String, String>? headers,
-  }) async => pkg_file.LocalFileSystem().file(path);
+  }) async => const pkg_file.LocalFileSystem().file(path);
 
   @override
   dynamic noSuchMethod(Invocation invocation) =>

@@ -302,7 +302,7 @@ void main() {
       );
 
       final first = samplePost(
-        id: 1,
+        id: 11,
         ext: 'webm',
         file: 'https://example.com/route-a.webm',
       );
@@ -314,7 +314,7 @@ void main() {
 
       // the page element is recycled for the next post
       final second = samplePost(
-        id: 2,
+        id: 22,
         ext: 'webm',
         file: 'https://example.com/route-b.webm',
       );

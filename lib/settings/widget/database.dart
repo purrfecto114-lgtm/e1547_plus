@@ -343,9 +343,7 @@ class DatabaseImportTile extends StatelessWidget {
         case ImportSchemaGate.empty:
           messenger.showSnackBar(
             SnackBar(
-              content: Text(
-                l10n.databaseImportFailed('not an e1547 database'),
-              ),
+              content: Text(l10n.databaseImportFailed('not an e1547 database')),
             ),
           );
           _logger.warn('Rejected database without a schema version', {

@@ -269,24 +269,25 @@ void main() {
     final exportResumed = Completer<void>();
     final instance = controller(
       fileFetcher: (url, token, onProgress) async => source,
-      exporter: ({
-        required file,
-        directory,
-        folderName,
-        fileName,
-        onDirectoryChanged,
-      }) async {
-        exportStarted.complete();
-        // the user cancels while the export is copying the file
-        await exportResumed.future;
-        await FileDownloader.downloadImage(
-          file: file,
-          directory: directory,
-          folderName: folderName,
-          fileName: fileName,
-          onDirectoryChanged: onDirectoryChanged,
-        );
-      },
+      exporter:
+          ({
+            required file,
+            directory,
+            folderName,
+            fileName,
+            onDirectoryChanged,
+          }) async {
+            exportStarted.complete();
+            // the user cancels while the export is copying the file
+            await exportResumed.future;
+            await FileDownloader.downloadImage(
+              file: file,
+              directory: directory,
+              folderName: folderName,
+              fileName: fileName,
+              onDirectoryChanged: onDirectoryChanged,
+            );
+          },
     );
 
     final task = await instance.enqueue(downloadRequest('export-race.webm'));
