@@ -19,24 +19,31 @@
 
 This repository is a fork of [e1547](https://github.com/clynamic/e1547) (GPL-3.0),
 maintained with a focus on stability on Android 7 and other low memory devices.
+It rebases on upstream 21.1.1 and carries its own `21.2.x` / `21.3.0-rc` release
+line — every change is listed per release in the [changelog](CHANGELOG.md).
 
-On top of upstream 21.0.1, this fork ships:
+On top of upstream, this fork ships:
 
 - a stability batch for Android 7 and low memory devices — sized image caches,
   a video player pool capped by device memory, guarded cache database access
   and memory-adaptive defaults
-- a security batch — credential-free database exports, hardened imports, a
-  locked-down cookie webview, database files excluded from OS backups and
-  request timeouts
+- a security batch — database exports stripped of saved logins and optionally
+  password-protected with AES-256-GCM (importing an encrypted export asks for
+  the password and rejects wrong ones), hardened imports, a locked-down cookie
+  webview, database files excluded from OS backups and request timeouts
+- an 18+ confirmation before logging in, phrased like a person and not a
+  legal disclaimer
 - downloads that cancel at the network level, with a task queue that keeps
   its concurrency
-- a fully localized interface — seven languages, plus curated chinese
-  descriptions for about 230 common tags
+- a fully localized interface — nine languages, plus curated offline tag
+  dictionaries: around 400 simplified chinese and 370 japanese descriptions
+  for common tags
 - a video quality picker with on-demand loading — fullscreen videos offer
   every size a post provides, videos download only when played unless
   automatic loading is turned on
 
-The fork's changes are offered back upstream as pull requests.
+The fork's changes are offered back upstream as pull requests
+([#190](https://github.com/clynamic/e1547/pull/190)–[#193](https://github.com/clynamic/e1547/pull/193)).
 
 The app's updater checks this repository for new versions. Since the fork is
 signed with its own key, it cannot be installed over the official release —
@@ -56,18 +63,22 @@ see [Upgrading](#upgrading) below.
 - Video support
 - Multiple logins
 - Multiple app themes
-- Multilingual interface (English, 简体中文, 繁體中文, 日本語, Русский, Deutsch, Español)
+- Multilingual interface (English, 简体中文, 繁體中文, 日本語, Русский, Deutsch, Español, Français, Português do Brasil)
 - Language selection during onboarding and in the settings
-- Chinese tag descriptions for around 230 common tags, offline
+- Offline tag dictionaries — curated descriptions for around 400 common tags in
+  simplified chinese and around 370 in japanese
+- Password-protected database exports (AES-256-GCM), with a password prompt on
+  import
+- An 18+ age confirmation before logging in
 - Stable cursor pagination with a page footer and page jumping
 - Search filters for special search terms (order, rating, file type and more), with metatag autocomplete in search inputs
 
 ## Localization
 
 The app interface is available in English, Simplified and Traditional Chinese,
-Japanese, Russian, German and Spanish, selectable on the first-launch welcome
-screen or in the settings at any time. The Japanese and Russian translations
-have had a native review pass.
+Japanese, Russian, German, Spanish, French and Brazilian Portuguese, selectable
+on the first-launch welcome screen or in the settings at any time. The Japanese
+and Russian translations have had a native review pass.
 
 To add another language, create an `app_<locale>.arb` file in `lib/l10n` with
 translations for every key of `app_en.arb`, add the language to `appLanguages`

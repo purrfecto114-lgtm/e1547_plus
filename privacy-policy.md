@@ -4,4 +4,5 @@ Privacy Policy
 - e1547 stores user information, including but not limited to username and api key, on the user's device.
 - e1547 does not share user information with any other parties except the above mentioned.
 - database exports are stripped of saved logins, and importing a database warns about accounts on unexpected hosts.
+- database exports can optionally be password-protected with AES-256-GCM; the password derives the export key and is never stored, and importing an encrypted export asks for the password again.
 - the app database is excluded from Android and iOS cloud backups.

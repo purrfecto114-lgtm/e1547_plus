@@ -15,3 +15,8 @@ e1547 provides a polished and comfortable browsing experience for your favorite 
 - Supports DText, the e6 markdown language
 - Experimental forum support
 - Multiple themes and personalization options
+<b> About this build </b>
+
+This build is an enhanced fork of e1547, focused on stability on Android 7 and other low memory devices. On top of the official feature set it adds a video quality picker with on-demand loading, password-protected (AES-256-GCM) database exports, an 18+ confirmation before logging in, nine interface languages (English, Simplified and Traditional Chinese, Japanese, Russian, German, Spanish, French, Brazilian Portuguese), curated offline tag descriptions in simplified chinese and japanese, and low-memory tuned image caching and video playback.
+
+e1547 is an app by clragon and clynamic — all credit for the original app goes to them and the e1547 community. Updates for this fork are published on its GitHub releases page.
