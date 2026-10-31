@@ -4,6 +4,32 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and this project
 adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [21.3.0-rc.4+119] - 2026-10-31
+### Fixed
+- the ios version probe no longer crashes the app on startup when the os reports an unexpected version format
+- video durations past an hour show the hours part instead of silently dropping it, non-standard quality keys no longer break the video player, and players that are refused no longer look frozen
+- the file cache treats isolate-wrapped sqlite failures like direct ones instead of surfacing them as unknown errors
+- download progress arriving after a task was disposed no longer touches dead state
+- files exported from downloads canceled during the export are removed again
+- database imports without a schema version are rejected instead of importing a potentially corrupt database
+- a video route recycled for another post releases the previous player instead of holding two leases
+- failed grid thumbnails show a broken image hint instead of a blank tile
+- the task list retry button triggers the controller retry again
+- identity stream errors are visible instead of an endless spinner
+- timeline tag query failures surface an error with a retry instead of spinning forever
+- detail loading failures offer a retry button
+
+### Changed
+- the video player pool is sized by device memory and video loads send the app user agent
+- filtered overlay labels, prompts and the refresh indicator are localized
+- the screen-lock pin is excluded from android cloud backups
+- the cookie capture page no longer downgrades https identities to http
+- server-provided download file names are flattened to a single safe path segment
+
+### Added
+- regression tests covering the video pool lease invariants and the download queue concurrency
+- a ci check that the pinned localization output stays in sync with the arb sources
+
 ## [21.3.0-rc.3+118] - 2026-10-18
 ### Changed
 - the fullscreen video quality button is an icon that opens the quality picker, instead of a label stating the active quality, which could crowd and misalign the video bar
@@ -1282,3 +1308,4 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 [21.3.0-rc.1+116]: https://github.com/purrfecto114-lgtm/e1547_plus/compare/21.2.0+115...21.3.0-rc.1+116
 [21.3.0-rc.2+117]: https://github.com/purrfecto114-lgtm/e1547_plus/compare/21.3.0-rc.1+116...21.3.0-rc.2+117
 [21.3.0-rc.3+118]: https://github.com/purrfecto114-lgtm/e1547_plus/compare/21.3.0-rc.2+117...21.3.0-rc.3+118
+[21.3.0-rc.4+119]: https://github.com/purrfecto114-lgtm/e1547_plus/compare/21.3.0-rc.3+118...21.3.0-rc.4+119

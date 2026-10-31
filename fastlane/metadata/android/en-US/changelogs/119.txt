@@ -1,0 +1,24 @@
+### Fixed
+- the ios version probe no longer crashes the app on startup when the os reports an unexpected version format
+- video durations past an hour show the hours part instead of silently dropping it, non-standard quality keys no longer break the video player, and players that are refused no longer look frozen
+- the file cache treats isolate-wrapped sqlite failures like direct ones instead of surfacing them as unknown errors
+- download progress arriving after a task was disposed no longer touches dead state
+- files exported from downloads canceled during the export are removed again
+- database imports without a schema version are rejected instead of importing a potentially corrupt database
+- a video route recycled for another post releases the previous player instead of holding two leases
+- failed grid thumbnails show a broken image hint instead of a blank tile
+- the task list retry button triggers the controller retry again
+- identity stream errors are visible instead of an endless spinner
+- timeline tag query failures surface an error with a retry instead of spinning forever
+- detail loading failures offer a retry button
+
+### Changed
+- the video player pool is sized by device memory and video loads send the app user agent
+- filtered overlay labels, prompts and the refresh indicator are localized
+- the screen-lock pin is excluded from android cloud backups
+- the cookie capture page no longer downgrades https identities to http
+- server-provided download file names are flattened to a single safe path segment
+
+### Added
+- regression tests covering the video pool lease invariants and the download queue concurrency
+- a ci check that the pinned localization output stays in sync with the arb sources
