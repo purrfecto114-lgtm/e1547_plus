@@ -6,11 +6,17 @@ abstract final class PlatformCapabilities {
   /// This returns false on iOS < 13 because the old API is unsupported.
   static bool get hasBackgroundWorker {
     if (Platform.isIOS) {
-      final version = Platform.operatingSystemVersion.split(' ')[1];
-      final majorVersion = int.parse(version.split('.')[0]);
-      return majorVersion >= 13;
+      // [Platform.operatingSystemVersion] is a human readable string
+      // ("Version 17.5.1 (Build 21F90)") whose layout is not contractual.
+      // Probe it defensively: this runs during startup, and a thrown
+      // RangeError or FormatException here would keep the app from
+      // launching at all.
+      final match = RegExp(r'\d+').firstMatch(Platform.operatingSystemVersion);
+      // If the version cannot be parsed at all, assume a modern iOS:
+      // Flutter itself no longer runs on the versions worth guarding against.
+      return match == null || int.parse(match.group(1)!) >= 13;
     }
-    return [Platform.isAndroid].any((e) => e);
+    return Platform.isAndroid;
   }
 
   /// Whether this platform supports sending notifications.
