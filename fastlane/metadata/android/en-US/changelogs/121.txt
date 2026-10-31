@@ -1,0 +1,35 @@
+### Added
+- a quality menu to fullscreen videos, listing every re-encoded variant of a post alongside its original file; switching quality keeps the playback position and play state
+- an automatic video loading setting, off by default, so videos are only downloaded when they are actually played
+- french and brazilian portuguese translations of the whole interface
+- a japanese offline dictionary for common tags, and around a hundred more curated simplified chinese entries covering species, fantasy races, clothing, meta and rating tags
+- optional password encryption for database exports; importing an encrypted file asks for the password again and rejects wrong ones
+- an 18+ confirmation before logging in, phrased like a person and not a legal disclaimer
+- swipe to close fullscreen images, an image loading progress bar and a preferred hand setting, merged from upstream
+- content hero transitions between post lists and fullscreen views, merged from upstream
+
+### Changed
+- the video player pool is sized by device memory and video loads send the app user agent
+- filtered overlay labels, prompts and the refresh indicator are localized
+- the fullscreen video quality picker sits at the end of the video bar as an icon, and is hidden when a video has no re-encoded variants
+- the video resolution setting lists plain sizes and explains that the closest available size is used
+- with automatic loading off, browsing no longer fetches videos or their preview frames; a placeholder shows until a video is played
+
+### Fixed
+- the ios version probe no longer crashes the app on startup when the os reports an unexpected version format
+- video durations past an hour show the hours part instead of silently dropping it, and non-standard quality keys no longer break the video player
+- the file cache treats isolate-wrapped sqlite failures like direct ones instead of surfacing them as unknown errors
+- download progress arriving after a task was disposed no longer touches dead state
+- files exported from downloads canceled during the export are removed again
+- database imports without a schema version are rejected instead of importing a potentially corrupt database
+- a video route recycled for another post releases the previous player instead of holding two leases
+- failed grid thumbnails show a broken image hint instead of a blank tile
+- the task list retry button triggers the controller retry again
+- identity stream errors are visible instead of an endless spinner
+- timeline tag query failures surface an error with a retry instead of spinning forever
+- detail loading failures offer a retry button
+- blacklists now apply to parent/child posts, avatar posts, thumbnails, visited history and the detail view, merged from upstream
+- videos no longer crash when their activity is destroyed, image pinch zoom no longer loses to page scrolling, merged from upstream
+- a cancelled follow sync no longer hangs and subscriptions no longer go stale after syncing, merged from upstream
+- the floating action button no longer covers inline drawers and bubbles no longer hide at the screen edge, merged from upstream
+
