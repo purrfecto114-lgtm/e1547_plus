@@ -141,9 +141,11 @@ bool isCloudflareCookie(String name) {
 
 /// Decides whether the cookie capture page may navigate to [request].
 ///
-/// The page exists only to pass a Cloudflare challenge on [host], so
-/// main-frame navigation is restricted to http(s) requests for that exact
-/// host. Everything else—off-site links, redirects, and non-http schemes
+/// The page exists only to pass a Cloudflare challenge on the
+/// identity's host, so main-frame navigation is restricted to https
+/// requests for that exact host; identities that are themselves http
+/// keep their insecure scheme. Everything else—off-site links,
+/// redirects, and non-http schemes
 /// like intent://, tel: or market://—is phishing or scheme-escape surface
 /// and is blocked. Subframes are always allowed, because Cloudflare
 /// challenge widgets are embedded in iframes on challenges.cloudflare.com.
@@ -153,5 +155,9 @@ bool allowsCookieCaptureNavigation(String host, NavigationRequest request) {
   Uri? target = Uri.tryParse(request.url);
   if (allowed == null || allowed.host.isEmpty || target == null) return false;
   if (!target.isScheme('http') && !target.isScheme('https')) return false;
+  // an https identity must not be navigable over plain http; the page
+  // collects credentials after the challenge, which must not cross an
+  // unencrypted connection
+  if (!target.isScheme('https') && !allowed.isScheme('http')) return false;
   return target.host == allowed.host;
 }

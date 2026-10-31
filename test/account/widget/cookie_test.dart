@@ -51,14 +51,28 @@ void main() {
     NavigationRequest request(String url, {bool isMainFrame = true}) =>
         NavigationRequest(url: url, isMainFrame: isMainFrame);
 
-    test('allows same-host http and https', () {
+    test('allows same-host https and rejects downgrading to http', () {
       const host = 'https://e621.net';
       expect(
         allowsCookieCaptureNavigation(host, request('https://e621.net/posts')),
         isTrue,
       );
+      // the capture page passes the challenge and then collects credentials;
+      // an https identity must not be navigable over plain http
       expect(
         allowsCookieCaptureNavigation(host, request('http://e621.net/posts')),
+        isFalse,
+      );
+    });
+
+    test('an http identity keeps its insecure scheme', () {
+      const host = 'http://e621.net';
+      expect(
+        allowsCookieCaptureNavigation(host, request('http://e621.net/posts')),
+        isTrue,
+      );
+      expect(
+        allowsCookieCaptureNavigation(host, request('https://e621.net/posts')),
         isTrue,
       );
     });
