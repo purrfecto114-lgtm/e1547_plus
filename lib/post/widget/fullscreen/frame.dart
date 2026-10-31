@@ -49,7 +49,9 @@ class PostFullscreenFrame extends StatelessWidget {
                   drawer: drawer,
                   endDrawer: endDrawer,
                   bottomNavigationBar: player != null
-                      ? DismissFade(child: VideoBar(player: player, post: post))
+                      ? DismissFade(
+                          child: VideoBar(player: player, post: post),
+                        )
                       : null,
                   body: GestureDetector(
                     behavior: HitTestBehavior.translucent,

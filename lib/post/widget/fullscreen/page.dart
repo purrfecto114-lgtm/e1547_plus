@@ -58,8 +58,7 @@ class PostFullscreenState extends State<PostFullscreen> {
                         tag: widget.post.link,
                         content: FittedContent(
                           fit: BoxFit.contain,
-                          aspectRatio:
-                              widget.post.width / widget.post.height,
+                          aspectRatio: widget.post.width / widget.post.height,
                         ),
                         child: player != null
                             ? VideoGestures(
