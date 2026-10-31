@@ -31,6 +31,14 @@ jobs:
       - name: get flutter dependencies
         run: flutter pub get
 
+      # The generated localizations are committed; regenerate them here so a
+      # stale checkout (arb edits without a regeneration commit) fails
+      # instead of shipping an interface that disagrees with its arbs.
+      - name: verify localization freshness
+        run: |
+          flutter gen-l10n
+          git diff --exit-code lib/l10n
+
       - name: verify formatting
         run: dart format --output=none --set-exit-if-changed .
 
