@@ -14,21 +14,34 @@ class FollowsTimelinePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final client = context.watch<Client>();
+    final timelineTags = client.follows.useTimelineTags();
     return RouterDrawerEntry<FollowsTimelinePage>(
       child: FilterControllerProvider(
         create: (_) => PostFilter(client),
         keys: (_) => [client],
         child: QueryBuilder(
-          query: client.follows.useTimelineTags(),
+          query: timelineTags,
           builder: (context, tagsState) {
             final tags = tagsState.data;
             if (tags == null) {
+              // A failed tags query used to spin forever; offer a retry.
+              Widget body = const Center(child: CircularProgressIndicator());
+              if (tagsState.isError) {
+                body = IconMessage(
+                  icon: const Icon(Icons.warning_amber),
+                  title: Text(AppLocalizations.of(context).failedToLoad),
+                  action: TextButton(
+                    onPressed: () => timelineTags.refetch(),
+                    child: Text(AppLocalizations.of(context).actionTryAgain),
+                  ),
+                );
+              }
               return Scaffold(
                 appBar: DefaultAppBar(
                   title: Text(AppLocalizations.of(context).navTimeline),
                   actions: const [ContextDrawerButton()],
                 ),
-                body: const Center(child: CircularProgressIndicator()),
+                body: body,
               );
             }
             final followedTags = [
