@@ -8,6 +8,7 @@ import 'package:e1547/app/app.dart';
 import 'package:e1547/client/client.dart';
 import 'package:e1547/identity/identity.dart';
 import 'package:e1547/settings/settings.dart';
+import 'package:e1547/shared/shared.dart';
 import 'package:e1547/task/task.dart';
 import 'package:e1547/traits/traits.dart';
 // ignore: depend_on_referenced_packages
@@ -123,6 +124,7 @@ void main() {
     BaseCacheManager? cacheManager,
     TaskRepository? taskRepository,
     DownloadFileFetcher? fileFetcher,
+    FileExporter? exporter,
   }) => TasksController(
     repository: taskRepository ?? repository,
     client: client,
@@ -133,6 +135,7 @@ void main() {
         fileFetcher ??
         (url, token, onProgress) =>
             fail('this test should not start a download'),
+    exporter: exporter ?? exportDownloadFile,
   );
 
   TaskRequest downloadRequest(String fileName) => TaskRequest(
@@ -254,6 +257,52 @@ void main() {
 
     // disposal releases the task back to the queue instead of failing it
     expect(await repository.readStatus(task.id), TaskStatus.pending);
+  });
+
+  test('removes the export of a download canceled mid-export', () async {
+    final dir = await Directory.systemTemp.createTemp('task-export-race');
+    addTearDown(() => dir.delete(recursive: true));
+    settings.downloadPath.value = dir.path;
+
+    final source = fetchableFile('${dir.path}/source.bin');
+    final exportStarted = Completer<void>();
+    final exportResumed = Completer<void>();
+    final instance = controller(
+      fileFetcher: (url, token, onProgress) async => source,
+      exporter: ({
+        required file,
+        directory,
+        folderName,
+        fileName,
+        onDirectoryChanged,
+      }) async {
+        exportStarted.complete();
+        // the user cancels while the export is copying the file
+        await exportResumed.future;
+        await FileDownloader.downloadImage(
+          file: file,
+          directory: directory,
+          folderName: folderName,
+          fileName: fileName,
+          onDirectoryChanged: onDirectoryChanged,
+        );
+      },
+    );
+
+    final task = await instance.enqueue(downloadRequest('export-race.webm'));
+    await exportStarted.future;
+
+    await instance.cancel(task.id);
+    exportResumed.complete();
+    await pumpEventQueue();
+    await pumpEventQueue();
+    await pumpEventQueue();
+
+    expect(await repository.readStatus(task.id), TaskStatus.canceled);
+    // the file raced its cancellation into the gallery; it must not stay
+    expect(File('${dir.path}/export-race.webm').existsSync(), isFalse);
+
+    instance.dispose();
   });
 
   test('does not revive canceled tasks when released', () async {

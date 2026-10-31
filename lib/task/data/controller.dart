@@ -402,6 +402,11 @@ class TasksController extends ChangeNotifier {
           fileName: fileName,
           onDirectoryChanged: (p) => settings.downloadPath.value = p,
         );
+        // the export itself is not cancelable; a cancel that raced it must
+        // not leave the file behind
+        if (await repository.readStatus(task.id) == TaskStatus.canceled) {
+          _deleteExportedQuietly(fileName);
+        }
       } on FileDownloadException {
         rethrow;
       } on Exception catch (e) {
@@ -433,6 +438,14 @@ class TasksController extends ChangeNotifier {
     // the fetched file lives in a temporary directory; leaving it behind would
     // leak disk space until the system clears its cache
     file.delete().ignore();
+  }
+
+  void _deleteExportedQuietly(String fileName) {
+    // best-effort: gallery exports on Android go through SAF and are not
+    // files this process can address, so only plain directories are cleaned
+    final String? directory = settings.downloadPath.value;
+    if (directory == null) return;
+    File(join(directory, fileName)).delete().ignore();
   }
 
   Future<void> cancel(int taskId) async {
