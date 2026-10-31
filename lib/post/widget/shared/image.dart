@@ -212,9 +212,10 @@ class RawPostImageWidget extends StatelessWidget {
       fadeInDuration: fades,
       fadeOutDuration: fades,
       imageUrl: url,
-      errorWidget: stacked
-          ? defaultErrorBuilder
-          : (context, url, error) => const SizedBox.shrink(),
+      // A failed image used to render as a blank tile in grids, which
+      // is indistinguishable from "no content"; show the broken image
+      // hint everywhere instead.
+      errorWidget: defaultErrorBuilder,
       progressIndicatorBuilder: showProgress || stacked
           ? progressIndicatorBuilder ?? progressIndicator
           : null,
