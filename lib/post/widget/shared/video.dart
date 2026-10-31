@@ -41,7 +41,7 @@ class VideoButton extends StatelessWidget {
             bool loading = !initialized || buffering;
             bool alwaysVisible = !playing || loading;
             bool shown = alwaysVisible || (frameController?.visible ?? false);
-            bool showPlayButton = !playing || (playing && !loading);
+            bool showPlayButton = !playing || !loading;
 
             return ScaffoldFrameChild(
               shown: shown,
@@ -217,7 +217,7 @@ class _VideoBarState extends State<VideoBar> {
                 children: [
                   const VideoServiceVolumeControl(),
                   const SizedBox(width: 4),
-                  Text(position.toString().substring(2, 7)),
+                  Text(formatVideoDuration(position)),
                   Flexible(
                     child: Slider(
                       max: duration.inMilliseconds.toDouble(),
@@ -250,7 +250,7 @@ class _VideoBarState extends State<VideoBar> {
                       },
                     ),
                   ),
-                  Text(duration.toString().substring(2, 7)),
+                  Text(formatVideoDuration(duration)),
                   const SizedBox(width: 4),
                   // The quality picker sits at the end of the bar, next to
                   // the fullscreen button, where players conventionally
@@ -348,8 +348,12 @@ class VideoQualityDialog extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    int pixels(String key) =>
-        key.split('x').map(int.parse).fold(1, (a, b) => a * b);
+    // Variant keys are expected as "WIDTHxHEIGHT", but the format comes
+    // from the server; unparsable keys sort last instead of crashing.
+    int pixels(String key) => key
+        .split('x')
+        .map((e) => int.tryParse(e) ?? 0)
+        .fold(1, (a, b) => a * b);
     // A variant that serves the untouched source file is covered by the
     // dedicated source entry, so only re-encodes get their own row.
     final variants =
@@ -372,13 +376,25 @@ class VideoQualityDialog extends StatelessWidget {
       children: [
         for (final MapEntry(:key, :value) in variants)
           entry(title: key, url: value),
-        entry(
-          title: AppLocalizations.of(context).videoResSource,
-          url: post.file!,
-        ),
+        if (post.file case String file)
+          entry(title: AppLocalizations.of(context).videoResSource, url: file),
       ],
     );
   }
+}
+
+/// Formats [duration] as mm:ss, or h:mm:ss once it outgrows an hour.
+///
+/// [Duration.toString] cannot be trimmed to a fixed range: past an hour
+/// the string starts at the hours digit, so cutting it would silently
+/// drop the hour from the displayed time.
+String formatVideoDuration(Duration duration) {
+  String twoDigits(int n) => n.toString().padLeft(2, '0');
+  final String minutes = twoDigits(duration.inMinutes % 60);
+  final String seconds = twoDigits(duration.inSeconds % 60);
+  return duration.inHours > 0
+      ? '${duration.inHours}:$minutes:$seconds'
+      : '${twoDigits(duration.inMinutes)}:$seconds';
 }
 
 Duration videoSeekTarget({
@@ -659,24 +675,38 @@ class PostVideoWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     VideoPlayer? player = post.getVideo(context);
 
-    Widget placeholder() {
-      return PostImageWidget(
-        post: post,
-        size: PostImageSize.sample,
-        fit: BoxFit.cover,
-        showProgress: false,
-        lowResCacheSize: context.watch<ImageCacheSize?>()?.size,
+    Widget placeholder({bool waiting = false}) {
+      // A missing player means the pool refused the request until a lease
+      // frees up (or the video has not initialized yet). Surface that as
+      // a spinner on the sample image instead of a frozen-looking tile.
+      return Stack(
+        alignment: Alignment.center,
+        children: [
+          PostImageWidget(
+            post: post,
+            size: PostImageSize.sample,
+            fit: BoxFit.cover,
+            showProgress: false,
+            lowResCacheSize: context.watch<ImageCacheSize?>()?.size,
+          ),
+          if (waiting)
+            const SizedBox(
+              width: 28,
+              height: 28,
+              child: CircularProgressIndicator(strokeWidth: 2.5),
+            ),
+        ],
       );
     }
 
-    if (player == null) return placeholder();
+    if (player == null) return placeholder(waiting: true);
 
     return SubStream<bool>(
       create: () => player.initialized,
       keys: [player],
       builder: (context, snapshot) {
         bool initialized = snapshot.data ?? player.isInitialized;
-        if (!initialized) return placeholder();
+        if (!initialized) return placeholder(waiting: true);
         return AspectRatio(
           aspectRatio: post.width / post.height,
           child: Video(

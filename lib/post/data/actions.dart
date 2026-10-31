@@ -203,8 +203,15 @@ extension PostVideoPlaying on Post {
     String closestUrl = file!;
     int? closestDifference;
     for (final MapEntry(:key, :value) in videoVariants.entries) {
-      final dimensions = key.split('x').map(int.parse).toList();
-      final pixelSize = dimensions[0] * dimensions[1];
+      final dimensions = key.split('x').map(int.tryParse).toList();
+      // Variant keys come from the server; skip malformed ones instead
+      // of crashing resolution selection.
+      if (dimensions.length != 2 ||
+          dimensions[0] == null ||
+          dimensions[1] == null) {
+        continue;
+      }
+      final pixelSize = dimensions[0]! * dimensions[1]!;
       final difference = (target.pixels - pixelSize).abs();
 
       if (closestDifference == null || difference < closestDifference) {

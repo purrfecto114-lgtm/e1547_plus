@@ -248,6 +248,18 @@ void main() {
       expect(tester.takeException(), isNull);
     });
 
+    testWidgets('shows the hour in durations beyond an hour', (tester) async {
+      // [Duration.toString] starts at the hours digit past an hour, which
+      // the old string-slicing time display silently dropped.
+      final platform = FakePlatformPlayer()
+        ..setDuration(const Duration(hours: 1, minutes: 2, seconds: 3))
+        ..setPosition(const Duration(hours: 1, minutes: 2, seconds: 3));
+      await pumpVideoBar(tester, platform: platform);
+
+      expect(find.text('1:02:03'), findsNWidgets(2));
+      expect(tester.takeException(), isNull);
+    });
+
     testWidgets('tracks the buffered range of its player', (tester) async {
       final platform = FakePlatformPlayer()..setDuration(duration);
       await pumpVideoBar(tester, platform: platform);
