@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:drift/drift.dart';
+import 'package:drift/isolate.dart' show DriftRemoteException;
 import 'package:drift/native.dart' show SqliteException;
 import 'package:e1547/logs/logs.dart';
 import 'package:flutter_cache_manager/flutter_cache_manager.dart';
@@ -156,15 +157,28 @@ class DriftFileCacheStorage extends CacheInfoRepository {
   ) async {
     try {
       return await run();
+    } on DriftRemoteException catch (error, stackTrace) {
+      // the database runs on a background isolate, so its sqlite failures
+      // arrive wrapped; the original error is the remote cause
+      return _degrade(action, error.remoteCause, stackTrace, fallback);
     } on SqliteException catch (error, stackTrace) {
-      _logger.error(
-        'Ignoring cache {action} failure: {error}',
-        {'action': action, 'error': error.toString()},
-        error,
-        stackTrace,
-      );
-      return fallback;
+      return _degrade(action, error, stackTrace, fallback);
     }
+  }
+
+  T _degrade<T>(
+    String action,
+    Object error,
+    StackTrace stackTrace,
+    T fallback,
+  ) {
+    _logger.error(
+      'Ignoring cache {action} failure: {error}',
+      {'action': action, 'error': error.toString()},
+      error,
+      stackTrace,
+    );
+    return fallback;
   }
 
   CacheObject _touched(CacheObject object, DateTime touched) => CacheObject(

@@ -99,6 +99,9 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
+  # test/files/data/storage_test.dart locks the database file to provoke
+  # write failures in a background isolate
+  sqlite3: ^3.3.1
   # test/_support/fake_e621.dart
   shelf: ^1.4.2
   shelf_router: ^1.1.4

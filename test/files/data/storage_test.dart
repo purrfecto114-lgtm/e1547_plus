@@ -1,8 +1,11 @@
+import 'dart:io';
+
 import 'package:drift/native.dart';
 import 'package:e1547/app/app.dart';
 import 'package:e1547/files/files.dart';
 import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:sqlite3/sqlite3.dart';
 
 void main() {
   late AppDatabase sqlite;
@@ -123,6 +126,39 @@ void main() {
       expect(await other.get('a'), isNull);
       expect(await other.exists(), isFalse);
       expect(await repository.exists(), isTrue);
+    });
+
+    test('degrades sqlite failures arriving from the background isolate', () async {
+      // The production database runs on a background isolate, where sqlite
+      // failures arrive wrapped as DriftRemoteException (the identity login
+      // flow matches on exactly that shape). A second connection holding an
+      // exclusive lock makes the next write fail, reproducing the storage
+      // pressure of issue #178: the failure must degrade into a cache miss
+      // instead of crashing the caller.
+      final temp = await Directory.systemTemp.createTemp('file-cache-isolate');
+      addTearDown(() => temp.delete(recursive: true));
+      final file = File('${temp.path}/cache.db');
+      final isolatedDb = AppDatabase(
+        NativeDatabase.createInBackground(file),
+      );
+      final storage = DriftFileCacheStorage(
+        repository: FileCacheRepository(database: isolatedDb),
+        cache: fileCacheKey,
+        flushDelay: const Duration(milliseconds: 10),
+      );
+      await storage.open();
+      addTearDown(isolatedDb.close);
+      addTearDown(storage.close);
+
+      await storage.insert(object('a'));
+
+      final blocker = sqlite3.open(file.path);
+      addTearDown(blocker.dispose);
+      blocker.execute('BEGIN EXCLUSIVE');
+
+      final stored = await storage.insert(object('b'));
+      expect(stored.key, 'b'); // degraded to the fallback, not thrown
+      expect(stored.id, isNull); // never received a database id
     });
   });
 }
