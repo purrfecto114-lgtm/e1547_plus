@@ -14,8 +14,9 @@ class CommentLoadingPage extends StatelessWidget {
   Widget build(BuildContext context) {
     final client = context.watch<Client>();
     final l10n = AppLocalizations.of(context);
+    final comment = client.comments.useGet(id: id);
     return QueryBuilder(
-      query: client.comments.useGet(id: id),
+      query: comment,
       builder: (context, state) => LoadingPage(
         isLoading: state.isLoading,
         isError: state.isError,
@@ -29,6 +30,7 @@ class CommentLoadingPage extends StatelessWidget {
         ),
         onError: Text(l10n.failedToLoadComment),
         onEmpty: Text(l10n.commentNotFound),
+        onRetry: () => comment.refetch(),
         child: (context) => PostCommentsPage(postId: state.data!.postId),
       ),
     );

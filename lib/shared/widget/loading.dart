@@ -91,6 +91,7 @@ class LoadingPage extends StatelessWidget {
     this.loadingBuilder,
     this.onEmpty,
     this.onError,
+    this.onRetry,
   });
 
   final WidgetBuilder child;
@@ -103,6 +104,10 @@ class LoadingPage extends StatelessWidget {
 
   /// Title shown inside the failed state's [IconMessage].
   final Widget? onError;
+
+  /// Invoked by the failed state's retry button, if provided.
+  final VoidCallback? onRetry;
+
   final bool isLoading;
   final bool isEmpty;
   final bool isError;
@@ -131,6 +136,12 @@ class LoadingPage extends StatelessWidget {
           return IconMessage(
             icon: const Icon(Icons.warning_amber_outlined),
             title: onError ?? Text(AppLocalizations.of(context).failedToLoad),
+            action: onRetry == null
+                ? null
+                : TextButton(
+                    onPressed: onRetry,
+                    child: Text(AppLocalizations.of(context).actionTryAgain),
+                  ),
           );
         case LoadingPageState.empty:
           return IconMessage(
@@ -168,12 +179,14 @@ class AsyncLoadingPage<T> extends StatelessWidget {
     this.isBuilt,
     this.onEmpty,
     this.onError,
+    this.onRetry,
   });
 
   final Widget Function(BuildContext context, T value) builder;
   final Widget? title;
   final Widget? onEmpty;
   final Widget? onError;
+  final VoidCallback? onRetry;
   final bool? isEmpty;
   final bool? isBuilt;
   final AsyncSnapshot<T> snapshot;
@@ -194,6 +207,7 @@ class AsyncLoadingPage<T> extends StatelessWidget {
       isBuilt: isBuilt,
       onEmpty: onEmpty,
       onError: onError,
+      onRetry: onRetry,
     );
   }
 }
@@ -208,12 +222,14 @@ class FutureLoadingPage<T> extends StatelessWidget {
     this.isBuilt,
     this.onEmpty,
     this.onError,
+    this.onRetry,
   });
 
   final Widget Function(BuildContext context, T value) builder;
   final Widget? title;
   final Widget? onEmpty;
   final Widget? onError;
+  final VoidCallback? onRetry;
   final bool? isEmpty;
   final bool? isBuilt;
   final Future<T> future;
@@ -229,6 +245,7 @@ class FutureLoadingPage<T> extends StatelessWidget {
         isBuilt: isBuilt,
         onEmpty: onEmpty,
         onError: onError,
+        onRetry: onRetry,
         builder: builder,
       ),
     );

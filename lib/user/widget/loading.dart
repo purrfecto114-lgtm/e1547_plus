@@ -27,10 +27,11 @@ class UserLoadingPage extends StatelessWidget {
     final users = context.watch<Client>().users;
     final id = this.id;
     final l10n = AppLocalizations.of(context);
+    final user = id != null
+        ? users.useGet(id: id)
+        : users.useGetByName(name: name!);
     return QueryBuilder(
-      query: id != null
-          ? users.useGet(id: id)
-          : users.useGetByName(name: name!),
+      query: user,
       builder: (context, state) => LoadingPage(
         isLoading: state.isLoading,
         isError: state.isError,
@@ -44,6 +45,7 @@ class UserLoadingPage extends StatelessWidget {
         ),
         onError: Text(l10n.failedToLoadUser),
         onEmpty: Text(l10n.userNotFound),
+        onRetry: () => user.refetch(),
         child: (context) =>
             UserPage(user: state.data!, initialPage: initalPage),
       ),

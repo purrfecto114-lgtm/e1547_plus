@@ -14,8 +14,9 @@ class PoolLoadingPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final client = context.watch<Client>();
+    final pool = client.pools.useGet(id: id);
     return QueryBuilder(
-      query: client.pools.useGet(id: id),
+      query: pool,
       builder: (context, state) => LoadingPage(
         isLoading: state.isLoading,
         isError: state.isError,
@@ -29,6 +30,7 @@ class PoolLoadingPage extends StatelessWidget {
         ),
         onError: Text(AppLocalizations.of(context).poolFailedToLoadPool),
         onEmpty: Text(AppLocalizations.of(context).poolNotFound),
+        onRetry: () => pool.refetch(),
         child: (context) =>
             PoolPage(pool: state.data!, orderByOldest: orderByOldest),
       ),
