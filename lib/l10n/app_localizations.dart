@@ -8,7 +8,9 @@ import 'package:intl/intl.dart' as intl;
 import 'app_localizations_de.dart';
 import 'app_localizations_en.dart';
 import 'app_localizations_es.dart';
+import 'app_localizations_fr.dart';
 import 'app_localizations_ja.dart';
+import 'app_localizations_pt.dart';
 import 'app_localizations_ru.dart';
 import 'app_localizations_zh.dart';
 
@@ -101,7 +103,9 @@ abstract class AppLocalizations {
     Locale('de'),
     Locale('en'),
     Locale('es'),
+    Locale('fr'),
     Locale('ja'),
+    Locale('pt'),
     Locale('ru'),
     Locale('zh'),
     Locale.fromSubtags(languageCode: 'zh', scriptCode: 'Hant'),
@@ -3994,6 +3998,66 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'This file is not an e1547 database.'**
   String get databaseNotE1547;
+
+  /// Title of the 18+ confirmation dialog shown before a login is attempted.
+  ///
+  /// In en, this message translates to:
+  /// **'Quick reality check'**
+  String get adultGateTitle;
+
+  /// Body of the 18+ confirmation dialog shown before a login is attempted.
+  ///
+  /// In en, this message translates to:
+  /// **'This app leads straight into e621, an art community strictly for adults. Please confirm that you are of legal age where you live — we trust you, our lawyers just don’t.'**
+  String get adultGateBody;
+
+  /// Confirmation action of the 18+ dialog; deliberately conversational.
+  ///
+  /// In en, this message translates to:
+  /// **'Of course — I’m 18 or older'**
+  String get adultGateConfirm;
+
+  /// Denial action of the 18+ dialog; deliberately conversational.
+  ///
+  /// In en, this message translates to:
+  /// **'Take me back'**
+  String get adultGateDeny;
+
+  /// Label of the optional password field in the database export dialog.
+  ///
+  /// In en, this message translates to:
+  /// **'Password (optional)'**
+  String get databaseExportPasswordLabel;
+
+  /// Helper text under the optional export password field.
+  ///
+  /// In en, this message translates to:
+  /// **'Encrypts the exported file. Leave empty for a plain, unencrypted file.'**
+  String get databaseExportPasswordHint;
+
+  /// Title of the password prompt for encrypted database imports.
+  ///
+  /// In en, this message translates to:
+  /// **'Encrypted database'**
+  String get databaseImportEncryptedTitle;
+
+  /// Label of the password field in the encrypted import prompt.
+  ///
+  /// In en, this message translates to:
+  /// **'Password'**
+  String get databaseImportPasswordLabel;
+
+  /// Shown when decryption fails, i.e. the password was wrong or the file is corrupted.
+  ///
+  /// In en, this message translates to:
+  /// **'Wrong password or corrupted file.'**
+  String get databaseImportWrongPassword;
+
+  /// Confirmation action of the encrypted import password prompt.
+  ///
+  /// In en, this message translates to:
+  /// **'UNLOCK'**
+  String get actionUnlock;
 }
 
 class _AppLocalizationsDelegate
@@ -4010,7 +4074,9 @@ class _AppLocalizationsDelegate
     'de',
     'en',
     'es',
+    'fr',
     'ja',
+    'pt',
     'ru',
     'zh',
   ].contains(locale.languageCode);
@@ -4040,8 +4106,12 @@ AppLocalizations lookupAppLocalizations(Locale locale) {
       return AppLocalizationsEn();
     case 'es':
       return AppLocalizationsEs();
+    case 'fr':
+      return AppLocalizationsFr();
     case 'ja':
       return AppLocalizationsJa();
+    case 'pt':
+      return AppLocalizationsPt();
     case 'ru':
       return AppLocalizationsRu();
     case 'zh':

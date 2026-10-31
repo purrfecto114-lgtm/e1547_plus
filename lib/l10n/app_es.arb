@@ -647,5 +647,15 @@
   "filteredShow": "Mostrar",
   "filteredHide": "Ocultar",
   "selectOptions": "Seleccionar opciones...",
-  "databaseNotE1547": "Este archivo no es una base de datos de e1547."
+  "databaseNotE1547": "Este archivo no es una base de datos de e1547.",
+  "adultGateTitle": "Un trámite rápido",
+  "adultGateBody": "Esta aplicación te mete de lleno en e621, una comunidad de arte solo para adultos. Confirma que tienes la edad legal donde vives. Nosotros te creemos; los abogados, no tanto.",
+  "adultGateConfirm": "Por supuesto — tengo 18 o más",
+  "adultGateDeny": "Llévame de vuelta",
+  "databaseExportPasswordLabel": "Contraseña (opcional)",
+  "databaseExportPasswordHint": "Cifra el archivo exportado. Déjalo vacío para exportar sin cifrar.",
+  "databaseImportEncryptedTitle": "Base de datos cifrada",
+  "databaseImportPasswordLabel": "Contraseña",
+  "databaseImportWrongPassword": "Contraseña incorrecta o archivo dañado.",
+  "actionUnlock": "DESBLOQUEAR"
 }

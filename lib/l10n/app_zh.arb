@@ -647,5 +647,15 @@
   "filteredShow": "显示",
   "filteredHide": "隐藏",
   "selectOptions": "选择选项...",
-  "databaseNotE1547": "该文件不是 e1547 数据库。"
+  "databaseNotE1547": "该文件不是 e1547 数据库。",
+  "adultGateTitle": "先做个小确认",
+  "adultGateBody": "这个应用会带你直接进入 e621——一个仅限成年人的艺术社区。请确认你已达到所在地区的法定年龄。我们相信你，只是律师不太信。",
+  "adultGateConfirm": "当然——我已满 18 岁",
+  "adultGateDeny": "带我回去",
+  "databaseExportPasswordLabel": "密码（可选）",
+  "databaseExportPasswordHint": "为导出的文件加密；留空则导出未加密的普通文件。",
+  "databaseImportEncryptedTitle": "加密的数据库",
+  "databaseImportPasswordLabel": "密码",
+  "databaseImportWrongPassword": "密码错误或文件已损坏。",
+  "actionUnlock": "解锁"
 }

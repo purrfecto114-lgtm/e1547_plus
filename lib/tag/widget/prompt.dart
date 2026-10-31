@@ -2,7 +2,7 @@ import 'package:collection/collection.dart';
 import 'package:e1547/client/client.dart';
 import 'package:e1547/history/history.dart';
 import 'package:e1547/l10n/app_localizations.dart';
-import 'package:e1547/l10n/tag_descriptions_zh.dart';
+import 'package:e1547/l10n/tag_descriptions.dart';
 import 'package:e1547/markup/markup.dart';
 import 'package:e1547/post/post.dart';
 import 'package:e1547/shared/shared.dart';

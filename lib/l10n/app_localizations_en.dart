@@ -2299,4 +2299,36 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get databaseNotE1547 => 'This file is not an e1547 database.';
+
+  @override
+  String get adultGateTitle => 'Quick reality check';
+
+  @override
+  String get adultGateBody =>
+      'This app leads straight into e621, an art community strictly for adults. Please confirm that you are of legal age where you live — we trust you, our lawyers just don’t.';
+
+  @override
+  String get adultGateConfirm => 'Of course — I’m 18 or older';
+
+  @override
+  String get adultGateDeny => 'Take me back';
+
+  @override
+  String get databaseExportPasswordLabel => 'Password (optional)';
+
+  @override
+  String get databaseExportPasswordHint =>
+      'Encrypts the exported file. Leave empty for a plain, unencrypted file.';
+
+  @override
+  String get databaseImportEncryptedTitle => 'Encrypted database';
+
+  @override
+  String get databaseImportPasswordLabel => 'Password';
+
+  @override
+  String get databaseImportWrongPassword => 'Wrong password or corrupted file.';
+
+  @override
+  String get actionUnlock => 'UNLOCK';
 }

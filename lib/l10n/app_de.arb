@@ -647,5 +647,15 @@
   "filteredShow": "Anzeigen",
   "filteredHide": "Ausblenden",
   "selectOptions": "Optionen auswählen...",
-  "databaseNotE1547": "Diese Datei ist keine e1547-Datenbank."
+  "databaseNotE1547": "Diese Datei ist keine e1547-Datenbank.",
+  "adultGateTitle": "Kurz nachgefragt",
+  "adultGateBody": "Diese App führt dich direkt zu e621, einer Kunst-Community ausschließlich für Erwachsene. Bitte bestätige, dass du volljährig bist, wo du wohnst. Wir vertrauen dir — unsere Anwälte nur so halb.",
+  "adultGateConfirm": "Aber sicher — ich bin 18 oder älter",
+  "adultGateDeny": "Zurück, bitte",
+  "databaseExportPasswordLabel": "Passwort (optional)",
+  "databaseExportPasswordHint": "Verschlüsselt die exportierte Datei. Leer lassen für eine unverschlüsselte Datei.",
+  "databaseImportEncryptedTitle": "Verschlüsselte Datenbank",
+  "databaseImportPasswordLabel": "Passwort",
+  "databaseImportWrongPassword": "Falsches Passwort oder beschädigte Datei.",
+  "actionUnlock": "ENTSPERRN"
 }

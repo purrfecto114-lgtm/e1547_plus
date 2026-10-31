@@ -2337,4 +2337,37 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get databaseNotE1547 => 'Этот файл не является базой данных e1547.';
+
+  @override
+  String get adultGateTitle => 'Небольшая проверка';
+
+  @override
+  String get adultGateBody =>
+      'Это приложение ведёт прямиком в e621 — художественное сообщество строго для взрослых. Подтвердите, что достигли совершеннолетия там, где живёте. Мы вам верим, а вот юристы — не совсем.';
+
+  @override
+  String get adultGateConfirm => 'Конечно — мне 18 или больше';
+
+  @override
+  String get adultGateDeny => 'Вернуться обратно';
+
+  @override
+  String get databaseExportPasswordLabel => 'Пароль (необязательно)';
+
+  @override
+  String get databaseExportPasswordHint =>
+      'Шифрует файл экспорта. Оставьте пустым, чтобы экспортировать без шифрования.';
+
+  @override
+  String get databaseImportEncryptedTitle => 'Зашифрованная база данных';
+
+  @override
+  String get databaseImportPasswordLabel => 'Пароль';
+
+  @override
+  String get databaseImportWrongPassword =>
+      'Неверный пароль или файл повреждён.';
+
+  @override
+  String get actionUnlock => 'РАЗБЛОКИРОВАТЬ';
 }

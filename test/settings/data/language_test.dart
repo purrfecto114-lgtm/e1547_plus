@@ -22,7 +22,12 @@ void main() {
       expect(resolveAppLocale(const [Locale('zh', 'CN')]), const Locale('zh'));
       expect(resolveAppLocale(const [Locale('de')]), const Locale('de'));
       expect(resolveAppLocale(const [Locale('de', 'DE')]), const Locale('de'));
-      expect(resolveAppLocale(const [Locale('fr')]), const Locale('en'));
+      // french and portuguese ship with the app
+      expect(resolveAppLocale(const [Locale('fr')]), const Locale('fr'));
+      expect(resolveAppLocale(const [Locale('pt')]), const Locale('pt'));
+      expect(resolveAppLocale(const [Locale('pt', 'BR')]), const Locale('pt'));
+      // an unsupported language still falls back to english
+      expect(resolveAppLocale(const [Locale('fi')]), const Locale('en'));
       expect(resolveAppLocale(null), const Locale('en'));
       expect(resolveAppLocale(const []), const Locale('en'));
     });
@@ -103,6 +108,18 @@ void main() {
       expect(localizations.followNotificationBody(5), '5 новых постов!');
       expect(localizations.followNotificationBody(21), '21 новый пост!');
       expect(localizations.followChannelName, 'Подписки на теги');
+    });
+
+    test('loads the stored french and portuguese localizations', () async {
+      SharedPreferences.setMockInitialValues({'language': 'fr'});
+      AppLocalizations localizations = await loadPreferenceLocalizations();
+      expect(localizations.followNotificationSummary, 'Nouveaux posts !');
+      expect(localizations.followChannelName, 'Tags suivis');
+
+      SharedPreferences.setMockInitialValues({'language': 'pt'});
+      localizations = await loadPreferenceLocalizations();
+      expect(localizations.followNotificationSummary, 'Novos posts!');
+      expect(localizations.followChannelName, 'Tags seguidas');
     });
 
     test('falls back to the platform locales when nothing is stored', () async {

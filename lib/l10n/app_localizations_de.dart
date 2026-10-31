@@ -2322,4 +2322,37 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get databaseNotE1547 => 'Diese Datei ist keine e1547-Datenbank.';
+
+  @override
+  String get adultGateTitle => 'Kurz nachgefragt';
+
+  @override
+  String get adultGateBody =>
+      'Diese App führt dich direkt zu e621, einer Kunst-Community ausschließlich für Erwachsene. Bitte bestätige, dass du volljährig bist, wo du wohnst. Wir vertrauen dir — unsere Anwälte nur so halb.';
+
+  @override
+  String get adultGateConfirm => 'Aber sicher — ich bin 18 oder älter';
+
+  @override
+  String get adultGateDeny => 'Zurück, bitte';
+
+  @override
+  String get databaseExportPasswordLabel => 'Passwort (optional)';
+
+  @override
+  String get databaseExportPasswordHint =>
+      'Verschlüsselt die exportierte Datei. Leer lassen für eine unverschlüsselte Datei.';
+
+  @override
+  String get databaseImportEncryptedTitle => 'Verschlüsselte Datenbank';
+
+  @override
+  String get databaseImportPasswordLabel => 'Passwort';
+
+  @override
+  String get databaseImportWrongPassword =>
+      'Falsches Passwort oder beschädigte Datei.';
+
+  @override
+  String get actionUnlock => 'ENTSPERRN';
 }

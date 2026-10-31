@@ -2247,6 +2247,37 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get databaseNotE1547 => '该文件不是 e1547 数据库。';
+
+  @override
+  String get adultGateTitle => '先做个小确认';
+
+  @override
+  String get adultGateBody =>
+      '这个应用会带你直接进入 e621——一个仅限成年人的艺术社区。请确认你已达到所在地区的法定年龄。我们相信你，只是律师不太信。';
+
+  @override
+  String get adultGateConfirm => '当然——我已满 18 岁';
+
+  @override
+  String get adultGateDeny => '带我回去';
+
+  @override
+  String get databaseExportPasswordLabel => '密码（可选）';
+
+  @override
+  String get databaseExportPasswordHint => '为导出的文件加密；留空则导出未加密的普通文件。';
+
+  @override
+  String get databaseImportEncryptedTitle => '加密的数据库';
+
+  @override
+  String get databaseImportPasswordLabel => '密码';
+
+  @override
+  String get databaseImportWrongPassword => '密码错误或文件已损坏。';
+
+  @override
+  String get actionUnlock => '解锁';
 }
 
 /// The translations for Chinese, using the Han script (`zh_Hant`).
@@ -4492,4 +4523,35 @@ class AppLocalizationsZhHant extends AppLocalizationsZh {
 
   @override
   String get databaseNotE1547 => '該檔案不是 e1547 資料庫。';
+
+  @override
+  String get adultGateTitle => '先做個小確認';
+
+  @override
+  String get adultGateBody =>
+      '這個應用會帶你直接進入 e621——一個僅限成年人的藝術社群。請確認你已達到所在地區的法定年齡。我們相信你，只是律師不太信。';
+
+  @override
+  String get adultGateConfirm => '當然——我已滿 18 歲';
+
+  @override
+  String get adultGateDeny => '帶我回去';
+
+  @override
+  String get databaseExportPasswordLabel => '密碼（可選）';
+
+  @override
+  String get databaseExportPasswordHint => '為匯出的檔案加密；留空則匯出未加密的普通檔案。';
+
+  @override
+  String get databaseImportEncryptedTitle => '加密的資料庫';
+
+  @override
+  String get databaseImportPasswordLabel => '密碼';
+
+  @override
+  String get databaseImportWrongPassword => '密碼錯誤或檔案已損壞。';
+
+  @override
+  String get actionUnlock => '解鎖';
 }

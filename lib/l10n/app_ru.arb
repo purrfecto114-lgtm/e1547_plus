@@ -647,5 +647,15 @@
   "filteredShow": "Показать",
   "filteredHide": "Скрыть",
   "selectOptions": "Выберите варианты...",
-  "databaseNotE1547": "Этот файл не является базой данных e1547."
+  "databaseNotE1547": "Этот файл не является базой данных e1547.",
+  "adultGateTitle": "Небольшая проверка",
+  "adultGateBody": "Это приложение ведёт прямиком в e621 — художественное сообщество строго для взрослых. Подтвердите, что достигли совершеннолетия там, где живёте. Мы вам верим, а вот юристы — не совсем.",
+  "adultGateConfirm": "Конечно — мне 18 или больше",
+  "adultGateDeny": "Вернуться обратно",
+  "databaseExportPasswordLabel": "Пароль (необязательно)",
+  "databaseExportPasswordHint": "Шифрует файл экспорта. Оставьте пустым, чтобы экспортировать без шифрования.",
+  "databaseImportEncryptedTitle": "Зашифрованная база данных",
+  "databaseImportPasswordLabel": "Пароль",
+  "databaseImportWrongPassword": "Неверный пароль или файл повреждён.",
+  "actionUnlock": "РАЗБЛОКИРОВАТЬ"
 }
