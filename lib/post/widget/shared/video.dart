@@ -614,6 +614,24 @@ class PostVideoRouteState extends State<PostVideoRoute> {
   }
 
   @override
+  void didUpdateWidget(PostVideoRoute oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    // Gallery pages recycle this state for other posts; the previous post's
+    // player must not stay leased, and its playback state must not leak
+    // into the next post's video. Releasing the lease notifies the service,
+    // so a following didChangeDependencies fetches the new post's player
+    // from scratch instead of carrying the old one's position over.
+    if (oldWidget.post.id == widget.post.id) return;
+    if (player case VideoPlayer previous) {
+      if (!_keepPlaying) previous.pause();
+      _keepPlaying = false;
+      _wasPlaying = false;
+      _videos?.release(previous);
+      player = null;
+    }
+  }
+
+  @override
   void dispose() {
     // The lease outlives this state by a frame, so that pausing cannot land
     // on a player that has already been recycled for another video.

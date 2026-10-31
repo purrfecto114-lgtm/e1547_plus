@@ -1,9 +1,12 @@
 import 'package:e1547/l10n/app_localizations.dart';
 import 'package:e1547/post/post.dart';
+import 'package:e1547/settings/settings.dart';
 import 'package:e1547/shared/shared.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:notified_preferences/notified_preferences.dart';
 
+import '../../_support/posts.dart';
 import '../../_support/video.dart';
 
 void main() {
@@ -255,6 +258,74 @@ void main() {
 
       final slider = tester.widget<Slider>(find.byType(Slider));
       expect(slider.secondaryTrackValue, step.inMilliseconds.toDouble());
+      expect(tester.takeException(), isNull);
+    });
+  });
+
+  group('PostVideoRoute', () {
+    late Settings settings;
+
+    setUp(() async {
+      SharedPreferences.setMockInitialValues({});
+      settings = Settings(await SharedPreferences.getInstance());
+      // the groups above use the real player factory; this one needs fakes
+      // so the pool never touches a native player
+      videos = fakeVideoService();
+    });
+
+    Widget wrapRoute(Widget child) => MultiProvider(
+      providers: [
+        ChangeNotifierProvider<VideoService>.value(value: videos),
+        Provider<Settings>.value(value: settings),
+      ],
+      child: MaterialApp(
+        localizationsDelegates: AppLocalizations.localizationsDelegates,
+        supportedLocales: AppLocalizations.supportedLocales,
+        home: Scaffold(body: Center(child: child)),
+      ),
+    );
+
+    testWidgets('releases its player when recycled for another post', (
+      tester,
+    ) async {
+      late PostVideoRouteState state;
+      Widget route(Post post) => wrapRoute(
+        PostVideoRoute(
+          post: post,
+          child: Builder(
+            builder: (context) {
+              state = PostVideoRoute.of(context);
+              return const SizedBox.expand();
+            },
+          ),
+        ),
+      );
+
+      final first = samplePost(
+        id: 1,
+        ext: 'webm',
+        file: 'https://example.com/route-a.webm',
+      );
+      await tester.pumpWidget(route(first));
+      await tester.pump();
+      expect(state.player, isNotNull);
+      final VideoPlayer previous = state.player!;
+      expect(previous.isLeased, isTrue);
+
+      // the page element is recycled for the next post
+      final second = samplePost(
+        id: 2,
+        ext: 'webm',
+        file: 'https://example.com/route-b.webm',
+      );
+      await tester.pumpWidget(route(second));
+      await tester.pump();
+      await tester.pump();
+
+      // the previous player must not stay leased, and the route must hold
+      // the new post's player instead
+      expect(previous.isLeased, isFalse);
+      expect(state.player, isNot(same(previous)));
       expect(tester.takeException(), isNull);
     });
   });
