@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:io';
 
 import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 
@@ -17,6 +18,13 @@ class NoImageCacheManager implements BaseCacheManager {
     Map<String, String>? headers,
     bool? withProgress,
   }) => const Stream.empty();
+
+  @override
+  Future<File> getSingleFile(
+    String url, {
+    String? key,
+    Map<String, String>? headers,
+  }) => Future.error(Exception('no image at $url'));
 
   @override
   dynamic noSuchMethod(Invocation invocation) =>

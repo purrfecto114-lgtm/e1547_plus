@@ -249,14 +249,14 @@ void main() {
     await tester.pump(const Duration(seconds: 1));
     await openFirstRelation(tester);
     expect(find.text('Post is blacklisted'), findsOneWidget);
-    expect(find.text('show'), findsOneWidget);
+    expect(find.text('Show'), findsOneWidget);
 
-    await tester.tap(find.text('show'));
+    await tester.tap(find.text('Show'));
     await tester.pump();
     await tester.pump(const Duration(seconds: 1));
 
     expect(find.text('Post is blacklisted'), findsNothing);
-    expect(find.text('hide'), findsOneWidget);
+    expect(find.text('Hide'), findsOneWidget);
   });
 
   displayTest('the hide button leaves with the blacklist off', (tester) async {
@@ -269,7 +269,7 @@ void main() {
 
     expect(find.byType(PostDetailImageDisplay), findsOneWidget);
     expect(find.text('Post is blacklisted'), findsNothing);
-    expect(find.text('hide'), findsNothing);
+    expect(find.text('Hide'), findsNothing);
   });
 
   displayTest('a child opened from a relation keeps the filter', (
