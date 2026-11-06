@@ -19,7 +19,7 @@
 
 This repository is a fork of [e1547](https://github.com/clynamic/e1547) (GPL-3.0),
 maintained with a focus on stability on Android 7 and other low memory devices.
-It rebases on upstream 21.1.1 and carries its own `21.2.x` / `21.3.0-rc` release
+It rebases on upstream 21.1.1 and carries its own `21.2.x` and newer release
 line — every change is listed per release in the [changelog](CHANGELOG.md).
 
 On top of upstream, this fork ships:
@@ -30,17 +30,23 @@ On top of upstream, this fork ships:
 - a security batch — database exports stripped of saved logins and optionally
   password-protected with AES-256-GCM (importing an encrypted export asks for
   the password and rejects wrong ones), hardened imports, a locked-down cookie
-  webview, database files excluded from OS backups and request timeouts
+  webview, database files excluded from OS backups, request timeouts, and a
+  biometric lock that works on Android 7's fingerprint API
 - an 18+ confirmation before logging in, phrased like a person and not a
   legal disclaimer
 - downloads that cancel at the network level, with a task queue that keeps
   its concurrency
-- a fully localized interface — nine languages, plus curated offline tag
-  dictionaries: around 400 simplified chinese and 370 japanese descriptions
-  for common tags
+- a fully localized interface — thirteen languages, plus curated offline tag
+  dictionaries: around 4000 simplified chinese (and a traditional rendering)
+  and 370 japanese descriptions for common tags
 - a video quality picker with on-demand loading — fullscreen videos offer
   every size a post provides, videos download only when played unless
-  automatic loading is turned on
+  automatic loading is turned on, and the default quality follows three
+  tiers (low, medium, high) picked during onboarding or in the settings
+- a secure display that draws its own privacy cover with a dedicated icon
+  in the Android app switcher, instead of the generic placeholder ROMs show
+  for flag-secured apps (note: on Android this trades away screenshot
+  blocking, which iOS keeps through its native blur)
 
 The fork's changes are offered back upstream as pull requests
 ([#190](https://github.com/clynamic/e1547/pull/190)–[#193](https://github.com/clynamic/e1547/pull/193)).
@@ -63,22 +69,27 @@ see [Upgrading](#upgrading) below.
 - Video support
 - Multiple logins
 - Multiple app themes
-- Multilingual interface (English, 简体中文, 繁體中文, 日本語, Русский, Deutsch, Español, Français, Português do Brasil)
-- Language selection during onboarding and in the settings
-- Offline tag dictionaries — curated descriptions for around 400 common tags in
-  simplified chinese and around 370 in japanese
+- Multilingual interface (English, 简体中文, 繁體中文, 日本語, Русский, 한국어, Deutsch, Español, Français, Italiano, Polski, Português do Brasil, Tiếng Việt)
+- Language and media quality selection during onboarding and in the settings
+- Offline tag dictionaries — curated descriptions for around 4000 common tags in
+  simplified chinese (plus a traditional rendering) and around 370 in japanese
+- PIN and biometric device locks, with a privacy cover over the app switcher
 - Password-protected database exports (AES-256-GCM), with a password prompt on
   import
+- An incognito keyboard mode that also works on older Android keyboards
 - An 18+ age confirmation before logging in
 - Stable cursor pagination with a page footer and page jumping
-- Search filters for special search terms (order, rating, file type and more), with metatag autocomplete in search inputs
+- Search filters for special search terms (order, rating, file type and more),
+  with metatag autocomplete in search inputs, grouped into labeled sections
 
 ## Localization
 
 The app interface is available in English, Simplified and Traditional Chinese,
-Japanese, Russian, German, Spanish, French and Brazilian Portuguese, selectable
-on the first-launch welcome screen or in the settings at any time. The Japanese
-and Russian translations have had a native review pass.
+Japanese, Russian, Korean, German, Spanish, French, Italian, Polish, Brazilian
+Portuguese and Vietnamese, selectable on the first-launch welcome screen or in
+the settings at any time. The Japanese and Russian translations have had a
+native review pass; Korean, Italian, Polish and Vietnamese are machine
+translated, complete but not yet reviewed by native speakers.
 
 Chinese users also get an offline dictionary of short tag descriptions for the
 tags they meet most often, since the site's tag wikis are English only. It
