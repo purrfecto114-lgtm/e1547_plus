@@ -9,8 +9,27 @@ import 'package:notified_preferences/notified_preferences.dart';
 class Settings extends NotifiedSettings {
   Settings(super.preferences);
 
-  static Future<Settings> getInstance() async =>
-      Settings(await SharedPreferences.getInstance());
+  static Future<Settings> getInstance() async {
+    final prefs = await SharedPreferences.getInstance();
+    await _migrateLegacyDefaults(prefs);
+    return Settings(prefs);
+  }
+
+  /// Resets settings that were persisted with outdated defaults.
+  ///
+  /// Older versions defaulted `muteVideos` to false and wrote that default
+  /// into storage for every user who never touched the setting, so those
+  /// installs kept playing video sound after the default flipped. The
+  /// stale value is cleared once; a sound preference chosen afterwards
+  /// survives, guarded by the marker key.
+  static Future<void> _migrateLegacyDefaults(SharedPreferences prefs) async {
+    const marker = 'legacyDefaultsMigrated';
+    if (prefs.getBool(marker) ?? false) return;
+    if (prefs.getBool('muteVideos') == false) {
+      await prefs.remove('muteVideos');
+    }
+    await prefs.setBool(marker, true);
+  }
 
   late final ValueNotifier<int> identity = createSetting(
     key: 'identity',
@@ -67,6 +86,12 @@ class Settings extends NotifiedSettings {
     key: 'downloadPath',
     initialValue: null,
   );
+
+  /// Whether videos start muted.
+  ///
+  /// Sound is opt-in: scrolling a public space should not blare audio,
+  /// so every fresh install defaults to muted and users unmute per
+  /// taste via the video overlay or this setting.
   late final ValueNotifier<bool> muteVideos = createSetting<bool>(
     key: 'muteVideos',
     initialValue: true,
