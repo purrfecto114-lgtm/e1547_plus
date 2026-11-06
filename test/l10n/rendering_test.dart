@@ -433,7 +433,9 @@ void main() {
       home: const OnboardingScreen(),
     );
 
-    // the first step offers languages
+    // the first step welcomes and offers languages together
+    expect(find.text('欢迎使用 e1547'), findsOneWidget);
+    expect(find.text('一款精致的 booru 浏览器。'), findsOneWidget);
     expect(find.text('选择语言'), findsOneWidget);
     expect(find.text('跟随系统'), findsOneWidget);
     expect(find.text('English'), findsOneWidget);
@@ -444,20 +446,12 @@ void main() {
     expect(find.text('上一步'), findsNothing);
     expect(find.text('Choose a language'), findsNothing);
     expect(find.text('System default'), findsNothing);
-
-    await tester.tap(find.text('下一步'));
-    await tester.pumpAndSettle();
-
-    // the second step welcomes
-    expect(find.text('欢迎使用 e1547'), findsOneWidget);
-    expect(find.text('一款精致的 booru 浏览器。'), findsOneWidget);
-    expect(find.text('上一步'), findsOneWidget);
     expect(find.text('Welcome to e1547'), findsNothing);
 
     await tester.tap(find.text('下一步'));
     await tester.pumpAndSettle();
 
-    // the third step offers themes
+    // the second step offers themes
     expect(find.text('选个外观'), findsOneWidget);
     expect(find.text('先试试看。以后随时可以更换。'), findsOneWidget);
     expect(find.text('深色'), findsOneWidget);
@@ -466,6 +460,19 @@ void main() {
     expect(find.text('蓝色'), findsOneWidget);
     expect(find.text('跟随系统'), findsOneWidget);
     expect(find.text('Pick a look'), findsNothing);
+
+    await tester.tap(find.text('下一步'));
+    await tester.pumpAndSettle();
+
+    // the third step tunes the media tiers
+    expect(find.text('调整媒体加载'), findsOneWidget);
+    expect(find.text('选择视频与缩略图的加载规格，稍后可在设置中更改。'), findsOneWidget);
+    expect(find.text('视频画质'), findsOneWidget);
+    expect(find.text('格子大小'), findsOneWidget);
+    expect(find.text('低'), findsNWidgets(2));
+    expect(find.text('中'), findsNWidgets(2));
+    expect(find.text('高'), findsNWidgets(2));
+    expect(find.text('Tune your media'), findsNothing);
 
     await tester.tap(find.text('下一步'));
     await tester.pumpAndSettle();

@@ -76,9 +76,9 @@ class _OnboardingPagerState extends State<_OnboardingPager> {
                         controller: controller,
                         onPageChanged: (value) => setState(() => page = value),
                         children: [
-                          const LanguageStep(),
-                          const WelcomeStep(),
+                          const WelcomeLanguageStep(),
                           const ThemeStep(),
+                          const QualityStep(),
                           LoginStep(initialHost: host, onComplete: complete),
                         ],
                       ),
