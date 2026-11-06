@@ -57,7 +57,6 @@ class _LockScreenState extends State<LockScreen> {
             borderSize: 2,
             borderColor: Theme.of(context).colorScheme.onSurfaceVariant,
             enabledColor: Theme.of(context).colorScheme.primary,
-            disabledColor: Colors.transparent,
             erroredColor: Theme.of(context).colorScheme.error,
             erroredBorderColor: Theme.of(context).colorScheme.error,
           ),

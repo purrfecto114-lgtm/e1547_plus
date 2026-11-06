@@ -67,7 +67,7 @@ class PoolPage extends StatelessWidget {
                       ],
                     ),
                     body: LimitedWidthLayout(
-                      child: TileLayout(child: const PostList()),
+                      child: const TileLayout(child: PostList()),
                     ),
                   ),
                 ),

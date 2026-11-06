@@ -1,7 +1,6 @@
 import 'package:e1547/identity/identity.dart';
 import 'package:e1547/l10n/app_localizations.dart';
 import 'package:e1547/settings/settings.dart';
-import 'package:e1547/settings/widget/sections/widget.dart';
 import 'package:e1547/shared/shared.dart';
 import 'package:flutter/material.dart';
 

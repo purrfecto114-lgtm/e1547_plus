@@ -133,12 +133,15 @@ class DatabaseExportTile extends StatelessWidget {
     if (password == null) return;
     if (!context.mounted) return;
 
-    final dbPath = await getAppDatabasePath();
-    final tempPath = join(await getTemporaryAppDirectory(), 'e1547_export.db');
     File? tempFile;
     try {
       showBlockingProgressDialog(context, l10n.databaseExporting);
 
+      final dbPath = await getAppDatabasePath();
+      final tempPath = join(
+        await getTemporaryAppDirectory(),
+        'e1547_export.db',
+      );
       await snapshotDatabase(sqlite, dbPath, tempPath);
       tempFile = File(tempPath);
       await withIsolatedDatabase('export-sanitize', tempPath, (db) async {

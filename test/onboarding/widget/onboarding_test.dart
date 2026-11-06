@@ -9,7 +9,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:notified_preferences/notified_preferences.dart';
-import 'package:provider/provider.dart';
 import 'package:relative_time/relative_time.dart';
 
 import '../../_support/harness.dart';

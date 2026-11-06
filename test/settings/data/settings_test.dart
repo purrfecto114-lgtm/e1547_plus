@@ -62,7 +62,7 @@ void main() {
     });
 
     test(
-      "the old high step maps onto the medium tier, not the new high",
+      'the old high step maps onto the medium tier, not the new high',
       () async {
         // The old "high" meant 720p; without the mapping its name would
         // collide with the new source-quality tier.
