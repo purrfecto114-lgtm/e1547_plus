@@ -4,6 +4,21 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and this project
 adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [21.4.0+122] - 2026-11-07
+### Added
+- the context drawer button lights up while the loaded pages hold blacklisted posts, putting the denylist switch one tap away
+- a "receive the latest updates" switch in the development settings; on, update checks also offer prerelease versions, and debug builds can exercise the updater
+- a page jump in the posts context drawer, reachable no matter where the list footer has scrolled to
+- a community simplified chinese tag dictionary with around 4050 entries covering general, artist, species and meta tags, licensed gpl-3.0, plus a traditional chinese rendering of it
+
+### Changed
+- videos start muted again on installs that still carried the old unmuted default; a deliberately chosen sound preference survives
+- the posts filter prompt groups its filters into labeled sections with active counts, and gains a reset action that clears every filter while keeping plain search tags
+- update checks fall back to the releases atom feed when the github api is rate limited, so shared addresses keep receiving updates
+- opening a section from the navigation drawer, a deep link, an in-app root link or a notification tap keeps the first route rooted, so backing out returns somewhere instead of leaving the app
+- the navigation drawer highlights whichever section sits on top of the stack
+- the last untranslated interface strings are localized across every language
+
 ## [21.3.0+121] - 2026-10-31
 ### Added
 - a quality menu to fullscreen videos, listing every re-encoded variant of a post alongside its original file; switching quality keeps the playback position and play state
@@ -1370,3 +1385,4 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 [21.3.0-rc.4+119]: https://github.com/purrfecto114-lgtm/e1547_plus/compare/21.3.0-rc.3+118...21.3.0-rc.4+119
 [21.3.0+121]: https://github.com/purrfecto114-lgtm/e1547_plus/compare/21.3.0-rc.5+120...21.3.0+121
 [21.3.0-rc.5+120]: https://github.com/purrfecto114-lgtm/e1547_plus/compare/21.3.0-rc.4+119...21.3.0-rc.5+120
+[21.4.0+122]: https://github.com/purrfecto114-lgtm/e1547_plus/compare/21.3.0+121...21.4.0+122
