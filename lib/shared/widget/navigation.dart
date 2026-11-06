@@ -123,9 +123,10 @@ class RouterDrawer extends StatelessWidget {
           title: Text(localizedDestinationName(context, destination.name)),
           leading: destination.icon,
           onTap: destination.unique
-              ? () => Navigator.of(
-                  context,
-                ).pushNamedAndRemoveUntil(destination.path, (_) => false)
+              ? () => Navigator.of(context).pushNamedAndRemoveUntil(
+                  destination.path,
+                  (route) => route.isFirst,
+                )
               : () {
                   Scaffold.maybeOf(context)?.closeDrawer();
                   Navigator.of(context).pushNamed(destination.path);
@@ -147,7 +148,7 @@ mixin RouterDrawerEntryWidget<T extends StatefulWidget> on State<T> {
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    if (ModalRoute.of(context)!.isFirst) {
+    if (ModalRoute.of(context)!.isCurrent) {
       context.watch<RouterDrawerController?>()?.setDrawerSelection<T>();
     }
   }
@@ -167,7 +168,7 @@ class _RouterDrawerEntryState<T extends Widget>
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    if (ModalRoute.of(context)!.isFirst) {
+    if (ModalRoute.of(context)!.isCurrent) {
       context.watch<RouterDrawerController?>()?.setDrawerSelection<T>();
     }
   }

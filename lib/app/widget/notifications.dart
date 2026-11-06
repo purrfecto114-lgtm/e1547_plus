@@ -108,7 +108,7 @@ class _NotificationHandlerState extends State<NotificationHandler> {
       case 'follow':
         widget.navigatorKey.currentState!.pushNamedAndRemoveUntil(
           '/subscriptions',
-          (_) => false,
+          (route) => route.isFirst,
         );
         if (notification.query != null) {
           final String? tags = notification.query!['tags'];

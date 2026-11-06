@@ -214,7 +214,9 @@ extension LinkOnTapExtension on LinkParser {
     VoidCallback navWrapper(WidgetBuilder builder, [bool root = false]) {
       return () {
         if (root) {
-          Navigator.of(context).popUntil((route) => false);
+          // Keep the first route rooted so the linked page can be
+          // backed out of instead of falling off the app.
+          Navigator.of(context).popUntil((route) => route.isFirst);
         }
         Navigator.of(context).push(MaterialPageRoute(builder: builder));
       };

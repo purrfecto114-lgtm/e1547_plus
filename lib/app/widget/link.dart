@@ -31,7 +31,9 @@ class _AppLinkHandlerState extends State<AppLinkHandler> {
         url.toString(),
       );
       if (action != null) {
-        widget.navigatorKey.currentState!.popUntil((route) => false);
+        // The first route stays rooted, so backing out of the linked
+        // page returns somewhere instead of leaving the app.
+        widget.navigatorKey.currentState!.popUntil((route) => route.isFirst);
         action();
       } else {
         await launch(url.toString());
