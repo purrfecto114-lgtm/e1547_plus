@@ -16,6 +16,27 @@ void main() {
     );
   });
 
+  test('describes tags from the imported community dictionary', () {
+    // from the GPL dictionary's full-tag tables, one per source category
+    expect(
+      localizedTagDescription('german_shepherd', const Locale('zh')),
+      contains('德国牧羊犬'),
+    );
+    expect(
+      localizedTagDescription('renamon', const Locale('zh')),
+      contains('妖狐兽'),
+    );
+    expect(
+      localizedTagDescription('pokemon', const Locale('zh')),
+      contains('宝可梦'),
+    );
+    // curated entries win over differing community translations
+    expect(
+      localizedTagDescription('jackal', const Locale('zh')),
+      contains('胡狼'),
+    );
+  });
+
   test('describes common tags for japanese users', () {
     expect(
       localizedTagDescription('canid', const Locale('ja')),

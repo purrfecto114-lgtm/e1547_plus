@@ -80,6 +80,12 @@ Japanese, Russian, German, Spanish, French and Brazilian Portuguese, selectable
 on the first-launch welcome screen or in the settings at any time. The Japanese
 and Russian translations have had a native review pass.
 
+Chinese users also get an offline dictionary of short tag descriptions for the
+tags they meet most often, since the site's tag wikis are English only. It
+combines a curated core with the community dictionary of the
+[e621 标签汉化&中文搜索](https://sleazyfork.org/en/scripts/554343) userscript
+by jcjyids (GPL-3.0-or-later).
+
 To add another language, create an `app_<locale>.arb` file in `lib/l10n` with
 translations for every key of `app_en.arb`, add the language to `appLanguages`
 in `lib/settings/data/language.dart`, and run `flutter gen-l10n` — the language
@@ -184,5 +190,9 @@ Based on [e1547](https://github.com/clynamic/e1547) by clragon and
 [clynamic](https://clynamic.net), originally written by
 [Perlatus](https://github.com/perlatus), with performance optimisations by
 [Miyoyo](https://github.com/miyoyo) and contributions from many others.
+
+The Chinese offline tag descriptions incorporate the community dictionary of
+the [e621 标签汉化&中文搜索](https://sleazyfork.org/en/scripts/554343)
+userscript by jcjyids, licensed GPL-3.0-or-later.
 
 This fork is maintained for Android 7 and low memory stability.
