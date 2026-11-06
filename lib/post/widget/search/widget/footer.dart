@@ -63,9 +63,7 @@ Future<void> jumpPostsSearchToPage({
   }
   while (true) {
     while (query.state is InfiniteQueryLoading) {
-      await query.stream.firstWhere(
-        (state) => state is! InfiniteQueryLoading,
-      );
+      await query.stream.firstWhere((state) => state is! InfiniteQueryLoading);
     }
     // The query clears its in-flight fetch a turn of the event loop after
     // its last state lands. Waiting out that turn lets the jump's refetch

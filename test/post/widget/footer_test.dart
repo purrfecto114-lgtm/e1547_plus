@@ -237,95 +237,96 @@ void main() {
     );
   });
 
-  displayTest('a posts page jumps from its drawer without scrolling to its end', (
-    tester,
-  ) async {
-    fake.state.posts
-      ..clear()
-      ..addAll(
-        FakeE621State.seeded(posts: 200).posts
-          ..sort((a, b) => (a['id']! as int).compareTo(b['id']! as int)),
+  displayTest(
+    'a posts page jumps from its drawer without scrolling to its end',
+    (tester) async {
+      fake.state.posts
+        ..clear()
+        ..addAll(
+          FakeE621State.seeded(posts: 200).posts
+            ..sort((a, b) => (a['id']! as int).compareTo(b['id']! as int)),
+        );
+      await pumpApp(
+        tester,
+        home: const PostsPage(params: PostParams(tags: 'order:score')),
       );
-    await pumpApp(
-      tester,
-      home: const PostsPage(params: PostParams(tags: 'order:score')),
-    );
-    await settle(tester);
-
-    // The drawer is always reachable, no matter how much the list has
-    // loaded behind its infinite scrolling.
-    tester
-        .state<ScaffoldState>(
-          find.byWidgetPredicate((widget) => widget is Scaffold),
-        )
-        .openEndDrawer();
-    // The drawer's opening animation is fast-forwarded; settling is not
-    // possible while the list's loading indicators keep animating.
-    await tester.pump();
-    await tester.pump(const Duration(milliseconds: 300));
-    await tester.pump(const Duration(seconds: 1));
-
-    // The drawer reports the search's paging state.
-    expect(
-      find.descendant(
-        of: find.byType(Drawer),
-        matching: find.text('第 1 页 · 75 个帖子'),
-      ),
-      findsOneWidget,
-    );
-
-    // The tile's jump closes the drawer and opens the same prompt the
-    // footer offers, without the list having to be scrolled anywhere.
-    await tester.tap(
-      find.descendant(
-        of: find.byType(Drawer),
-        matching: find.byIcon(Icons.onetwothree),
-      ),
-    );
-    await tester.pump(const Duration(seconds: 1));
-    // The drawer's exit needs a further frame to leave the tree.
-    await tester.pump(const Duration(seconds: 1));
-    expect(find.byType(Drawer), findsNothing);
-    expect(find.text('跳转页面'), findsOneWidget);
-
-    await tester.enterText(
-      find.descendant(
-        of: find.byType(AlertDialog),
-        matching: find.byType(TextField),
-      ),
-      '3',
-    );
-    await tester.tap(find.text('确定'));
-    await tester.pump();
-
-    final query = pageQuery('order:score');
-    for (var i = 0; i < 10; i++) {
       await settle(tester);
 
-      if (query.state is InfiniteQuerySuccess && listPages().contains('3')) {
-        break;
-      }
-    }
-    await tester.pump(const Duration(milliseconds: 400));
+      // The drawer is always reachable, no matter how much the list has
+      // loaded behind its infinite scrolling.
+      tester
+          .state<ScaffoldState>(
+            find.byWidgetPredicate((widget) => widget is Scaffold),
+          )
+          .openEndDrawer();
+      // The drawer's opening animation is fast-forwarded; settling is not
+      // possible while the list's loading indicators keep animating.
+      await tester.pump();
+      await tester.pump(const Duration(milliseconds: 300));
+      await tester.pump(const Duration(seconds: 1));
 
-    // The jump is the last page the fake served, and the search was
-    // replaced by the page jumped to.
-    expect(listPages().last, '3');
-    expect(query.state.data?.args, [3]);
-    // The list was returned to the top of that page.
-    expect(
-      PrimaryScrollController.of(
-        tester.element(find.byType(PostList)),
-      ).position.pixels,
-      0,
-    );
-    // The footer, once reached, and the drawer both report the new page.
-    await tester.scrollUntilVisible(
-      find.text('第 3 页 · 50 个帖子'),
-      400,
-      scrollable: find.byType(Scrollable).first,
-    );
-  });
+      // The drawer reports the search's paging state.
+      expect(
+        find.descendant(
+          of: find.byType(Drawer),
+          matching: find.text('第 1 页 · 75 个帖子'),
+        ),
+        findsOneWidget,
+      );
+
+      // The tile's jump closes the drawer and opens the same prompt the
+      // footer offers, without the list having to be scrolled anywhere.
+      await tester.tap(
+        find.descendant(
+          of: find.byType(Drawer),
+          matching: find.byIcon(Icons.onetwothree),
+        ),
+      );
+      await tester.pump(const Duration(seconds: 1));
+      // The drawer's exit needs a further frame to leave the tree.
+      await tester.pump(const Duration(seconds: 1));
+      expect(find.byType(Drawer), findsNothing);
+      expect(find.text('跳转页面'), findsOneWidget);
+
+      await tester.enterText(
+        find.descendant(
+          of: find.byType(AlertDialog),
+          matching: find.byType(TextField),
+        ),
+        '3',
+      );
+      await tester.tap(find.text('确定'));
+      await tester.pump();
+
+      final query = pageQuery('order:score');
+      for (var i = 0; i < 10; i++) {
+        await settle(tester);
+
+        if (query.state is InfiniteQuerySuccess && listPages().contains('3')) {
+          break;
+        }
+      }
+      await tester.pump(const Duration(milliseconds: 400));
+
+      // The jump is the last page the fake served, and the search was
+      // replaced by the page jumped to.
+      expect(listPages().last, '3');
+      expect(query.state.data?.args, [3]);
+      // The list was returned to the top of that page.
+      expect(
+        PrimaryScrollController.of(
+          tester.element(find.byType(PostList)),
+        ).position.pixels,
+        0,
+      );
+      // The footer, once reached, and the drawer both report the new page.
+      await tester.scrollUntilVisible(
+        find.text('第 3 页 · 50 个帖子'),
+        400,
+        scrollable: find.byType(Scrollable).first,
+      );
+    },
+  );
 
   displayTest('a page jump prompt rejects pages outside the site', (
     tester,

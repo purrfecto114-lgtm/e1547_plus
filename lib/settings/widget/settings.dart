@@ -513,9 +513,7 @@ class SettingsPage extends StatelessWidget {
               ValueListenableBuilder<bool>(
                 valueListenable: settings.updaterBeta,
                 builder: (context, value, child) => SwitchListTile(
-                  title: Text(
-                    AppLocalizations.of(context).settingsUpdaterBeta,
-                  ),
+                  title: Text(AppLocalizations.of(context).settingsUpdaterBeta),
                   subtitle: Text(
                     value
                         ? AppLocalizations.of(context).updaterBetaOn
