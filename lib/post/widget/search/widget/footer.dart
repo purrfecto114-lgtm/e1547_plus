@@ -41,6 +41,46 @@ extension PostListPaging on InfiniteQueryStatus<List<Post>, Object> {
   };
 }
 
+/// Jumps a posts search to [page].
+///
+/// The list is returned to the top of the page it is about to jump to.
+/// Leaving the bottom of the list behind also stops its auto-loading.
+///
+/// A fetch that is still in flight would swallow the jump's refetch, and
+/// would then overwrite the jump with a page of the search it jumped
+/// away from, so it is waited out first.
+Future<void> jumpPostsSearchToPage({
+  required InfiniteQuery<List<Object>, Object> query,
+  required int page,
+  ScrollController? scrollController,
+}) async {
+  if (scrollController?.hasClients ?? false) {
+    scrollController!.animateTo(
+      0,
+      duration: defaultAnimationDuration,
+      curve: Curves.easeInOut,
+    );
+  }
+  while (true) {
+    while (query.state is InfiniteQueryLoading) {
+      await query.stream.firstWhere(
+        (state) => state is! InfiniteQueryLoading,
+      );
+    }
+    // The query clears its in-flight fetch a turn of the event loop after
+    // its last state lands. Waiting out that turn lets the jump's refetch
+    // take the settled fetch's place instead of being swallowed by it.
+    await null;
+    if (query.state is! InfiniteQueryLoading) break;
+  }
+  // The posts query pages over id lists, so the jump hands it the one page
+  // argument its refetch restarts from.
+  query.setData(
+    InfiniteQueryData<List<int>, Object>(pages: const [], args: [page]),
+  );
+  query.invalidate();
+}
+
 /// The footer of a posts list.
 ///
 /// Reports the page and posts a search has loaded, and offers jumping to one
@@ -124,36 +164,11 @@ class PostListFooter extends StatelessWidget {
       currentPage: state.currentPage,
     );
     if (page == null) return;
-    // The list is returned to the top of the page it is about to jump to.
-    // Leaving the bottom of the list behind also stops its auto-loading.
-    if (scrollController.hasClients) {
-      scrollController.animateTo(
-        0,
-        duration: defaultAnimationDuration,
-        curve: Curves.easeInOut,
-      );
-    }
-    // A fetch that is still in flight would swallow the jump's refetch, and
-    // would then overwrite the jump with a page of the search it jumped
-    // away from, so it is waited out first.
-    while (true) {
-      while (query.state is InfiniteQueryLoading) {
-        await query.stream.firstWhere(
-          (state) => state is! InfiniteQueryLoading,
-        );
-      }
-      // The query clears its in-flight fetch a turn of the event loop after
-      // its last state lands. Waiting out that turn lets the jump's refetch
-      // take the settled fetch's place instead of being swallowed by it.
-      await null;
-      if (query.state is! InfiniteQueryLoading) break;
-    }
-    // The posts query pages over id lists, so the jump hands it the one page
-    // argument its refetch restarts from.
-    query.setData(
-      InfiniteQueryData<List<int>, Object>(pages: const [], args: [page]),
+    await jumpPostsSearchToPage(
+      query: query,
+      page: page,
+      scrollController: scrollController,
     );
-    query.invalidate();
   }
 }
 
@@ -165,6 +180,69 @@ Future<int?> showPageJumpPrompt({
   context: context,
   builder: (context) => _PageJumpDialog(currentPage: currentPage),
 );
+
+/// A drawer tile that reports and jumps the pages of a posts search.
+///
+/// The list footer that hosts this control sits at the end of the posts it
+/// pages, behind the list's infinite scrolling, which keeps pushing it out
+/// of reach while a search has more pages to load. The drawer stays
+/// reachable regardless of how far a search has loaded.
+class DrawerPageJumper extends StatelessWidget {
+  const DrawerPageJumper({super.key, required this.state, required this.query});
+
+  final InfiniteQueryStatus<List<Post>, Object> state;
+
+  /// The id query backing [state].
+  ///
+  /// Its pages are id lists, and a jump only replaces its page arguments.
+  final InfiniteQuery<List<Object>, Object> query;
+
+  @override
+  Widget build(BuildContext context) {
+    final data = state.data;
+    if (data == null) return const SizedBox.shrink();
+    final l10n = AppLocalizations.of(context);
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        ListTile(
+          leading: const Icon(Icons.onetwothree),
+          title: Text(l10n.postListJumpToPage),
+          subtitle: Text(
+            l10n.postListPageSummary(
+              data.pages.expand((page) => page).length,
+              state.currentPage,
+            ),
+          ),
+          onTap: () async {
+            // Everything the jump needs is captured before the drawer closes,
+            // so this tile going away with it cannot break the jump.
+            final NavigatorState navigator = Navigator.of(context);
+            final ScrollController? scrollController =
+                PrimaryScrollController.maybeOf(context);
+            Scaffold.maybeOf(context)?.closeEndDrawer();
+            final int? page = await showPageJumpPrompt(
+              context: navigator.context,
+              currentPage: state.currentPage,
+            );
+            if (page == null) return;
+            await jumpPostsSearchToPage(
+              query: query,
+              page: page,
+              scrollController: scrollController,
+            );
+          },
+        ),
+        if (state.atSitePageLimit)
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16),
+            child: Dimmed(child: Text(l10n.postListPageLimit)),
+          ),
+      ],
+    );
+  }
+}
 
 class _PageJumpDialog extends StatefulWidget {
   const _PageJumpDialog({required this.currentPage});

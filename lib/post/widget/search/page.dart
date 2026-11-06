@@ -55,6 +55,10 @@ class PostsPage extends StatelessWidget {
                             const PoolOrderSwitch(),
                           ],
                           const DrawerDenySwitch(),
+                          // The footer's own jump control hides behind the
+                          // list's infinite scrolling, so the drawer keeps a
+                          // copy of it within reach.
+                          DrawerPageJumper(state: state, query: query),
                           DrawerTagCounter(
                             posts: state.data?.pages.expand((p) => p).toList(),
                             error: state.error,
