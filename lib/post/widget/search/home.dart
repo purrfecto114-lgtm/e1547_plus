@@ -40,7 +40,7 @@ class HomePage extends StatelessWidget {
                         centerTitle: true,
                         actions: [
                           PostsPageFilterButton(),
-                          ContextDrawerButton(),
+                          PostsContextDrawerButton(),
                         ],
                       ),
                     ),

@@ -27,13 +27,28 @@ class PostPageAppBar extends StatelessWidget implements PreferredSizeWidget {
         if (showInfo) const _PostPageInfoButton(),
         if (controller.canSearch) const PostsPageFilterButton(),
         ...?actions,
-        const ContextDrawerButton(),
+        const PostsContextDrawerButton(),
       ],
     );
   }
 
   @override
   Size get preferredSize => const Size.fromHeight(kToolbarHeight);
+}
+
+/// The context drawer button of a posts page.
+///
+/// Lights up while the pages currently loaded in the search hold
+/// blacklisted posts; the drawer it opens contains the denylist switch
+/// that edits what gets hidden.
+class PostsContextDrawerButton extends StatelessWidget {
+  const PostsContextDrawerButton({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    final blocked = context.watch<PostFilter?>()?.blockedCount ?? 0;
+    return ContextDrawerButton(count: blocked > 0 ? blocked : null);
+  }
 }
 
 class _PostPageInfoButton extends StatelessWidget {
