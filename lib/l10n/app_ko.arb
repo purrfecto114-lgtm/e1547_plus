@@ -1,0 +1,2493 @@
+{
+  "@@locale": "ko",
+  "appName": "e1547",
+  "@appName": {
+    "description": "The app name.",
+    "placeholders": {}
+  },
+  "failedToLoad": "로드 실패",
+  "nothingToSeeHere": "여기는 볼 거 없어요",
+  "loading": "로딩 중...",
+  "actionCancel": "취소",
+  "actionOk": "확인",
+  "actionTryAgain": "다시 시도",
+  "actionDownload": "다운로드",
+  "actionImport": "가져오기",
+  "actionExport": "내보내기",
+  "actionUndo": "실행 취소",
+  "actionRestartNow": "지금 재시작",
+  "failedToLoadSuggestions": "제안 로드 실패",
+  "selectionItemCount": "{count, plural, =1{1개 항목} other{{count}개 항목}}",
+  "@selectionItemCount": {
+    "description": "Number of selected items.",
+    "placeholders": {
+      "count": {
+        "type": "num"
+      }
+    }
+  },
+  "actionAbort": "중단",
+  "actionSelectAll": "전체 선택",
+  "fileSavedAs": "{name}(으)로 저장됨",
+  "@fileSavedAs": {
+    "description": "Confirmation after saving a file.",
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "copiedToClipboard": "클립보드에 복사됨",
+  "saveFile": "파일 저장",
+  "filterTooltip": "필터",
+  "rangeInvalidFormat": "잘못된 형식",
+  "itemProgress": "항목 {current}/{total}",
+  "@itemProgress": {
+    "description": "Progress of processing items.",
+    "placeholders": {
+      "current": {
+        "type": "num"
+      },
+      "total": {
+        "type": "num"
+      }
+    }
+  },
+  "taskCancelled": "작업이 취소됨",
+  "taskFailedAt": "항목 {index}에서 실패",
+  "@taskFailedAt": {
+    "description": "Item processing failure.",
+    "placeholders": {
+      "index": {
+        "type": "num"
+      }
+    }
+  },
+  "taskDone": "완료",
+  "failedToInitialize": "초기화 실패",
+  "navHome": "홈",
+  "navHot": "인기",
+  "navSearch": "검색",
+  "navFavorites": "즐겨찾기",
+  "navTimeline": "타임라인",
+  "navSubscriptions": "구독",
+  "navBookmarks": "북마크",
+  "navPools": "풀",
+  "navForum": "포럼",
+  "navHistory": "기록",
+  "navTasks": "작업",
+  "navSettings": "설정",
+  "navAbout": "정보",
+  "settingsTitle": "설정",
+  "sectionAccount": "계정",
+  "sectionUser": "사용자",
+  "sectionAppearance": "외관",
+  "sectionInteractions": "상호작용",
+  "sectionSecurity": "보안",
+  "sectionDevelopment": "개발",
+  "settingsBlacklist": "블랙리스트",
+  "tagsBlocked": "{count, plural, =1{1개 태그 차단됨} other{{count}개 태그 차단됨}}",
+  "@tagsBlocked": {
+    "placeholders": {
+      "count": {
+        "type": "num"
+      }
+    }
+  },
+  "settingsFollows": "팔로우",
+  "searchesFollowed": "{count, plural, =1{1개 검색 팔로우됨} other{{count}개 검색 팔로우됨}}",
+  "@searchesFollowed": {
+    "placeholders": {
+      "count": {
+        "type": "num"
+      }
+    }
+  },
+  "settingsHistory": "기록",
+  "pagesVisited": "{count, plural, =1{1개 페이지 방문} other{{count}개 페이지 방문}}",
+  "@pagesVisited": {
+    "placeholders": {
+      "count": {
+        "type": "num"
+      }
+    }
+  },
+  "settingsTheme": "테마",
+  "themeDark": "다크",
+  "themeAmoled": "아모레드",
+  "themeLight": "라이트",
+  "themeBlue": "블루",
+  "themeSystem": "시스템",
+  "settingsLanguage": "언어",
+  "languageSystemDefault": "시스템 기본값",
+  "settingsHandedness": "선호 손",
+  "handRight": "오른손",
+  "handLeft": "왼손",
+  "settingsHandednessHint": "버튼과 빠른 작업이 이 손이 닿는 범위 내로 이동합니다.",
+  "settingsTileSize": "타일 크기",
+  "settingsQuilt": "퀼트",
+  "gridTitle": "그리드",
+  "quiltSquare": "타일이 정사각형",
+  "quiltVertical": "타일이 세로로 확장",
+  "settingsPostInfo": "게시물 정보",
+  "postInfoShown": "타일에 정보 표시",
+  "postInfoHidden": "이미지 타일만",
+  "settingsDownloadLocation": "다운로드 위치",
+  "settingsUpvoteFavorites": "즐겨찾기에 추천",
+  "upvoteFavoritesOn": "추천하고 즐겨찾기",
+  "upvoteFavoritesOff": "즐겨찾기만",
+  "settingsVideoVolume": "동영상 볼륨",
+  "videoMuted": "음소거",
+  "videoWithSound": "소리 있음",
+  "videoSeekSeconds": "{seconds}초",
+  "videoResSource": "원본",
+  "videoResNote": "동영상은 항상 표준 크기로 제공되지 않습니다; 선택에 가장 가까운 크기가 사용됩니다.",
+  "qualityLow": "낮음",
+  "qualityMedium": "보통",
+  "qualityHigh": "높음",
+  "settingsAutoLoadVideos": "자동으로 동영상 로드",
+  "autoLoadVideosOn": "탐색 시 동영상 로드",
+  "autoLoadVideosOff": "재생 시 동영상 로드",
+  "autoLoadVideosDialogTitle": "동영상을 자동으로 로드할까요?",
+  "autoLoadVideosDialogBody": "탐색 및 검색 시 전체 동영상이 다운로드됩니다. 이는 유료 연결에서 많은 데이터를 소모할 수 있습니다.",
+  "videoQuality": "동영상 품질",
+  "settingsSecureDisplay": "보안 디스플레이",
+  "secureDisplayOn": "화면 보호됨",
+  "secureDisplayOff": "화면 표시됨",
+  "secureDisplayCover": "콘텐츠 숨겨짐",
+  "settingsIncognitoKeyboard": "시크릿 키보드",
+  "enabled": "활성화됨",
+  "disabled": "비활성화됨",
+  "settingsPinLock": "PIN 잠금",
+  "pinEnabled": "PIN 활성화됨",
+  "pinDisabled": "PIN 비활성화됨",
+  "settingsBiometricLock": "생체 인식 잠금",
+  "biometricsEnabled": "생체 인식 활성화됨",
+  "biometricsDisabled": "생체 인식 비활성화됨",
+  "biometricsUnavailable": "이 기기에서 생체 인식을 찾을 수 없음",
+  "settingsUpdaterBeta": "최신 업데이트",
+  "updaterBetaOn": "안정판 및 프리릴리스 버전",
+  "updaterBetaOff": "안정판만",
+  "settingsDeveloperMode": "개발자 모드",
+  "devOptionsShown": "옵션 표시됨",
+  "devOptionsHidden": "옵션 숨겨짐",
+  "errorsLogged": "{count, plural, =1{1개 오류 기록됨} other{{count}개 오류 기록됨}}",
+  "@errorsLogged": {
+    "placeholders": {
+      "count": {
+        "type": "num"
+      }
+    }
+  },
+  "settingsDatabase": "데이터베이스",
+  "databaseExporting": "데이터베이스 내보내는 중...",
+  "databaseExported": "데이터베이스 내보내기 성공",
+  "databaseExportFailed": "내보내기 실패",
+  "databaseExport": "내보내기",
+  "databaseImporting": "데이터베이스 가져오는 중...",
+  "databaseInvalidFile": "잘못된 데이터베이스 파일: {error}",
+  "@databaseInvalidFile": {
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
+  "databaseImportFailed": "가져오기 실패: {error}",
+  "@databaseImportFailed": {
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
+  "databaseImportTitle": "데이터베이스 가져오기",
+  "databaseRestartTitle": "재시작 필요",
+  "databaseRestartBody": "변경 사항을 적용하려면 앱을 다시 시작해야 합니다.",
+  "databaseImport": "가져오기",
+  "lockEnterPin": "PIN 입력",
+  "lockEnterNewPin": "새 PIN 입력",
+  "lockConfirmNewPin": "새 PIN 확인",
+  "lockFailedAuth": "인증 실패",
+  "lockPleaseAuth": "인증해주세요",
+  "lockRetry": "재시도",
+  "lockBiometricReason": "잠금을 해제하려면 인증해주세요.",
+  "lockBiometricFailure": "생체 인증 심각한 오류",
+  "aboutVersion": "버전",
+  "updaterFetching": "업데이트 확인 중...",
+  "updaterCheckFailed": "업데이트 확인 실패",
+  "updaterNewest": "최신 버전입니다",
+  "updaterNewer": "새 버전이 있습니다: {version}",
+  "@updaterNewer": {
+    "placeholders": {
+      "version": {
+        "type": "String"
+      }
+    }
+  },
+  "updaterNewerHeader": "새 버전이 있습니다: ",
+  "aboutExperimentalPlatform": "실험적 플랫폼",
+  "aboutExperimentalBody": "이 플랫폼은 지원되지 않습니다. 버그와 누락된 기능이 있을 수 있습니다.",
+  "aboutGitHub": "GitHub",
+  "aboutUpstream": "원본 프로젝트",
+  "aboutUpstreamBody": "이 앱은 clragon/e1547의 포크 버전입니다",
+  "aboutDiscord": "Discord",
+  "aboutForum": "포럼",
+  "aboutForumTopic": "e621 스레드 #{id}",
+  "@aboutForumTopic": {
+    "placeholders": {
+      "id": {
+        "type": "num"
+      }
+    }
+  },
+  "aboutWebsite": "웹사이트",
+  "aboutKofi": "Ko-fi",
+  "aboutEmail": "이메일",
+  "aboutPlaystore": "Play Store",
+  "aboutDonors": "후원자",
+  "aboutDonorsThanks": "개발을 계속하는 데 도와주셔서 감사합니다!",
+  "aboutNoDonors": "후원자가 아직 없습니다",
+  "aboutDonorsFailed": "후원자 정보를 가져오지 못했습니다",
+  "aboutDonorsNotListed": "목록에 없으신가요? 연락주세요!",
+  "developerUnlocked": "이제 개발자입니다!",
+  "databaseErrorLoading": "데이터베이스 로드 오류",
+  "databaseUnknownSize": "알 수 없음",
+  "databaseExportTitle": "데이터베이스 내보내기",
+  "databaseExportSubtitle": "데이터베이스 백업 복사본 저장",
+  "databaseImportSubtitle": "가져온 데이터베이스로 현재 데이터베이스 교체",
+  "databaseImportWarning": "이것은 현재 데이터베이스를 교체합니다. \n모든 데이터가 손실됩니다. 이는 취소할 수 없습니다!",
+  "databaseExportSanitizedBody": "내보낸 파일에는 로그인 정보나 API 키가 포함되지 않습니다.\n계정, 호스트, 기록, 팔로우 및 작업을 포함한 모든 다른 데이터가 포함됩니다.",
+  "databaseImportNewerFile": "이 파일은 더 새 버전의 앱에서 생성되어 가져올 수 없습니다.",
+  "databaseImportSanitized": "안을 위해, 가져온 파일에서 저장된 로그인 정보가 제거되었습니다.",
+  "databaseImportHostsWarning": "경고: 가져온 파일에 다른 사이트의 계정이 포함되어 있습니다: {hosts}",
+  "@databaseImportHostsWarning": {
+    "placeholders": {
+      "hosts": {
+        "type": "String",
+        "required": true
+      }
+    }
+  },
+  "databaseImportCancelled": "가져오기 취소됨",
+  "postsTitle": "게시물",
+  "favoritesOf": "{user}의 즐겨찾기",
+  "@favoritesOf": {
+    "placeholders": {
+      "user": {
+        "type": "String"
+      }
+    }
+  },
+  "favoritesUnavailable": "익명 사용자는 즐겨찾기를 사용할 수 없습니다",
+  "favoriteOrder": "즐겨찾기 순서",
+  "orderAdded": "추가된 순서",
+  "orderId": "ID 순서",
+  "postStateDeleted": "삭제됨",
+  "postStateUnsupported": "지원되지 않음",
+  "postStateUnavailable": "사용 불가",
+  "menuShare": "공유",
+  "menuDownload": "다운로드",
+  "menuBrowse": "찾아보기",
+  "menuEdit": "편집",
+  "menuComment": "댓글",
+  "menuReport": "신고",
+  "menuFlag": "표시",
+  "actionOpen": "열기",
+  "actionFollow": "팔로우",
+  "actionUnfollow": "언팔로우",
+  "actionMute": "뮤트",
+  "actionNotify": "알림",
+  "actionBookmark": "북마크",
+  "actionUnbookmark": "북마크 해제",
+  "actionBlock": "차단",
+  "actionUnblock": "차단 해제",
+  "actionRemove": "제거",
+  "actionAdd": "추가",
+  "actionSubtract": "제외",
+  "selectionPost": "글 #{id}",
+  "@selectionPost": {
+    "placeholders": {
+      "id": {
+        "type": "num"
+      }
+    }
+  },
+  "selectionPostsCount": "{count, plural, other{{count}개 글}}",
+  "@selectionPostsCount": {
+    "placeholders": {
+      "count": {
+        "type": "num"
+      }
+    }
+  },
+  "noPosts": "글 없음",
+  "failedToLoadPosts": "글 불러오기 실패",
+  "offlineBanner": "오프라인 상태입니다. 캐시된 데이터를 표시합니다.",
+  "offlineNoData": "오프라인 상태입니다",
+  "postListPageSummary": "페이지 {page} · {count, plural, one{{count}개 글} other{{count}개 글}}",
+  "postListPageLimit": "서버 페이지 한도에 도달했습니다. 검색어를 좁혀주세요.",
+  "postListJumpToPage": "페이지로 이동",
+  "postListJumpPageLabel": "페이지 번호",
+  "postListJumpPageRange": "1과 {max} 사이의 페이지 번호를 입력하세요",
+  "postDeletedOverlay": "글이 삭제되었습니다",
+  "postUnavailableOverlay": "글을 사용할 수 없습니다",
+  "postBlacklistedOverlay": "글이 차단 목록에 있습니다",
+  "unsupportedFileType": "{ext} 파일은 지원되지 않습니다",
+  "@unsupportedFileType": {
+    "placeholders": {
+      "ext": {
+        "type": "String"
+      }
+    }
+  },
+  "loginRequiredEdit": "글을 편집하려면 로그인해야 합니다!",
+  "loginRequiredComment": "댓글을 남기려면 로그인해야 합니다!",
+  "loginRequiredReport": "글을 신고하려면 로그인해야 합니다!",
+  "loginRequiredFlag": "글을 표시하려면 로그인해야 합니다!",
+  "postsBlocked": "{count, plural, =1{1개 글 차단됨} other{{count}개 글 차단됨}}",
+  "@postsBlocked": {
+    "description": "Number of posts currently blocked by the blacklist.",
+    "placeholders": {
+      "count": {
+        "type": "num"
+      }
+    }
+  },
+  "blacklistUpdateFailed": "차단 목록 업데이트 실패!",
+  "@blacklistUpdateFailed": {
+    "description": "Error shown when saving the blacklist failed."
+  },
+  "blacklistAddTag": "태그 추가",
+  "@blacklistAddTag": {
+    "description": "Title of the prompt that adds a tag to the blacklist."
+  },
+  "blacklistEditTag": "태그 편집",
+  "denylistEntryDeleted": "차단 항목 제거됨",
+  "@blacklistEditTag": {
+    "description": "Title of the prompt that edits a blacklist entry."
+  },
+  "blacklistEmpty": "차단 목록이 비어 있습니다",
+  "@blacklistEmpty": {
+    "description": "Message shown when the blacklist contains no entries."
+  },
+  "menuDelete": "삭제",
+  "@menuDelete": {
+    "description": "Menu item that deletes an item."
+  },
+  "filterScore": "점수",
+  "@filterScore": {
+    "description": "Name of the score filter."
+  },
+  "filterFavoriteCount": "즐겨찾기 수",
+  "@filterFavoriteCount": {
+    "description": "Name of the favorite count filter."
+  },
+  "filterSortBy": "정렬 기준",
+  "@filterSortBy": {
+    "description": "Name of the sort order filter."
+  },
+  "filterNew": "새로운",
+  "@filterNew": {
+    "description": "Sort order option that sorts by newest posts."
+  },
+  "filterRank": "순위",
+  "@filterRank": {
+    "description": "Sort order option that sorts by rank."
+  },
+  "filterRandom": "무작위",
+  "@filterRandom": {
+    "description": "Sort order option that sorts randomly."
+  },
+  "filterDefault": "기본",
+  "@filterDefault": {
+    "description": "Choice that leaves a filter at its default."
+  },
+  "filterRating": "등급",
+  "@filterRating": {
+    "description": "Name of the rating filter."
+  },
+  "filterSafe": "안전",
+  "@filterSafe": {
+    "description": "The safe rating."
+  },
+  "filterQuestionable": "의심스러운",
+  "@filterQuestionable": {
+    "description": "The questionable rating."
+  },
+  "filterExplicit": "노골적",
+  "@filterExplicit": {
+    "description": "The explicit rating."
+  },
+  "filterAll": "모두",
+  "@filterAll": {
+    "description": "Choice that does not restrict a filter."
+  },
+  "filterPool": "풀",
+  "@filterPool": {
+    "description": "Name of the pool filter."
+  },
+  "filterHasPool": "풀 있음",
+  "@filterHasPool": {
+    "description": "Description of the pool filter."
+  },
+  "filterChild": "하위",
+  "@filterChild": {
+    "description": "Name of the child post filter."
+  },
+  "filterIsChildPost": "하위 글임",
+  "@filterIsChildPost": {
+    "description": "Description of the child post filter."
+  },
+  "filterParent": "상위",
+  "@filterParent": {
+    "description": "Name of the parent post filter."
+  },
+  "filterIsParentPost": "상위 글임",
+  "@filterIsParentPost": {
+    "description": "Description of the parent post filter."
+  },
+  "filterUploadDate": "업로드 날짜",
+  "@filterUploadDate": {
+    "description": "Name of the upload date filter."
+  },
+  "filterLastDay": "지난 1일",
+  "@filterLastDay": {
+    "description": "Upload date option for the last day."
+  },
+  "filterLastWeek": "지난 1주",
+  "@filterLastWeek": {
+    "description": "Upload date option for the last week."
+  },
+  "filterLastMonth": "지난 1개월",
+  "@filterLastMonth": {
+    "description": "Upload date option for the last month."
+  },
+  "filterLastYear": "지난 1년",
+  "@filterLastYear": {
+    "description": "Upload date option for the last year."
+  },
+  "filterStatus": "상태",
+  "@filterStatus": {
+    "description": "Name of the post status filter."
+  },
+  "filterActive": "활성",
+  "@filterActive": {
+    "description": "The active post status."
+  },
+  "filterPending": "대기 중",
+  "@filterPending": {
+    "description": "The pending post status."
+  },
+  "filterDeleted": "삭제됨",
+  "@filterDeleted": {
+    "description": "The deleted post status."
+  },
+  "filterFlagged": "표시됨",
+  "@filterFlagged": {
+    "description": "The flagged post status."
+  },
+  "filterAny": "모두",
+  "@filterAny": {
+    "description": "Post status option that allows any status."
+  },
+  "filterFileType": "파일 형식",
+  "filterUploader": "업로더",
+  "filterWidth": "너비",
+  "filterHeight": "높이",
+  "filterTagCount": "태그 수",
+  "filterTrue": "참",
+  "filterFalse": "거짓",
+  "filterImages": "이미지",
+  "filterVideos": "동영상",
+  "filterTitleContains": "제목 포함",
+  "@filterTitleContains": {
+    "description": "Name of the topic title filter."
+  },
+  "filterCategory": "카테고리",
+  "@filterCategory": {
+    "description": "Name of the category filter."
+  },
+  "filterGeneral": "일반",
+  "@filterGeneral": {
+    "description": "The general topic category."
+  },
+  "filterSiteBugReports": "사이트 버그 리포트 및 기능 요청",
+  "@filterSiteBugReports": {
+    "description": "A topic category."
+  },
+  "filterTagWikiProjects": "태크/위키 프로젝트 및 질문",
+  "@filterTagWikiProjects": {
+    "description": "A topic category."
+  },
+  "filterTagAliasSuggestions": "태크 별칭 및 함축 제안",
+  "@filterTagAliasSuggestions": {
+    "description": "A topic category."
+  },
+  "filterArtTalk": "아트 토크",
+  "@filterArtTalk": {
+    "description": "A topic category."
+  },
+  "filterOffTopic": "주제 외",
+  "@filterOffTopic": {
+    "description": "A topic category."
+  },
+  "filterE621Tools": "e621 도구 및 애플리케이션",
+  "@filterE621Tools": {
+    "description": "A topic category."
+  },
+  "filterNewestFirst": "최신순",
+  "@filterNewestFirst": {
+    "description": "Sort order option that sorts by newest topics first."
+  },
+  "filterOldestFirst": "오래된순",
+  "@filterOldestFirst": {
+    "description": "Sort order option that sorts by oldest topics first."
+  },
+  "filterSticky": "고정",
+  "@filterSticky": {
+    "description": "Name of the sticky filter."
+  },
+  "filterIsSticky": "고정됨",
+  "@filterIsSticky": {
+    "description": "Description of the sticky filter."
+  },
+  "filterLocked": "잠김",
+  "@filterLocked": {
+    "description": "Name of the locked filter."
+  },
+  "filterIsLocked": "잠겨있음",
+  "@filterIsLocked": {
+    "description": "Description of the locked filter."
+  },
+  "filterDescription": "설명",
+  "@filterDescription": {
+    "description": "Name of the pool description filter."
+  },
+  "filterCreator": "제작자",
+  "@filterCreator": {
+    "description": "Name of the pool creator filter."
+  },
+  "filterIsActive": "활성 상태",
+  "@filterIsActive": {
+    "description": "Description of the active pool filter."
+  },
+  "filterSeries": "시리즈",
+  "@filterSeries": {
+    "description": "The series pool category."
+  },
+  "filterCollection": "컬렉션",
+  "@filterCollection": {
+    "description": "The collection pool category."
+  },
+  "filterName": "이름",
+  "@filterName": {
+    "description": "Sort order option that sorts pools by name."
+  },
+  "filterCreated": "생성됨",
+  "@filterCreated": {
+    "description": "Sort order option that sorts pools by creation date."
+  },
+  "filterUpdated": "업데이트됨",
+  "@filterUpdated": {
+    "description": "Sort order option that sorts pools by update date."
+  },
+  "filterPostCount": "글 수",
+  "@filterPostCount": {
+    "description": "Sort order option that sorts pools by post count."
+  },
+  "postUpdateFailed": "글 업데이트 실패 #{id}",
+  "@postUpdateFailed": {
+    "description": "Error shown when updating a post failed.",
+    "placeholders": {
+      "id": {
+        "type": "num"
+      }
+    }
+  },
+  "postUpdated": "글 업데이트됨 #{id}",
+  "@postUpdated": {
+    "description": "Confirmation shown after updating a post.",
+    "placeholders": {
+      "id": {
+        "type": "num"
+      }
+    }
+  },
+  "failedToLoadPost": "글 불러오기 실패",
+  "@failedToLoadPost": {
+    "description": "Error shown when a single post failed to load."
+  },
+  "postNotFound": "글을 찾을 수 없음",
+  "@postNotFound": {
+    "description": "Message shown when a post does not exist."
+  },
+  "commentsTitle": "댓글",
+  "@commentsTitle": {
+    "description": "Title of the comment list drawer."
+  },
+  "commentsOfPost": "#{postId} 댓글",
+  "@commentsOfPost": {
+    "description": "Title of a post's comment page.",
+    "placeholders": {
+      "postId": {
+        "type": "num"
+      }
+    }
+  },
+  "commentOrder": "댓글 순서",
+  "@commentOrder": {
+    "description": "Label of the comment sorting switch."
+  },
+  "noComments": "댓글 없음",
+  "@noComments": {
+    "description": "Message shown when there are no comments."
+  },
+  "failedToLoadComments": "댓글 불러오기 실패",
+  "@failedToLoadComments": {
+    "description": "Error shown when comments failed to load."
+  },
+  "commentTitle": "댓글 #{id}",
+  "@commentTitle": {
+    "description": "Title of the comment loading page.",
+    "placeholders": {
+      "id": {
+        "type": "num"
+      }
+    }
+  },
+  "failedToLoadComment": "댓글 불러오기 실패",
+  "@failedToLoadComment": {
+    "description": "Error shown when a comment failed to load."
+  },
+  "commentNotFound": "댓글을 찾을 수 없음",
+  "@commentNotFound": {
+    "description": "Message shown when a comment does not exist."
+  },
+  "commentEditorTitle": "#{postId} 댓글",
+  "@commentEditorTitle": {
+    "description": "Title of the comment editor.",
+    "placeholders": {
+      "postId": {
+        "type": "num"
+      }
+    }
+  },
+  "commentSendFailed": "댓글 전송 실패!",
+  "@commentSendFailed": {
+    "description": "Error shown when sending a comment failed."
+  },
+  "commentSent": "댓글 전송됨!",
+  "@commentSent": {
+    "description": "Confirmation shown after sending a comment."
+  },
+  "commentHidden": "이 댓글은 숨겨짐",
+  "@commentHidden": {
+    "description": "Tooltip of the hidden comment indicator."
+  },
+  "commentUpvoteFailed": "댓글 추천 실패 #{id}",
+  "@commentUpvoteFailed": {
+    "description": "Error shown when upvoting a comment failed.",
+    "placeholders": {
+      "id": {
+        "type": "num"
+      }
+    }
+  },
+  "commentDownvoteFailed": "댓글 비추천 실패 #{id}",
+  "@commentDownvoteFailed": {
+    "description": "Error shown when downvoting a comment failed.",
+    "placeholders": {
+      "id": {
+        "type": "num"
+      }
+    }
+  },
+  "commentLoginRequiredEdit": "댓글을 수정하려면 로그인해야 합니다!",
+  "@commentLoginRequiredEdit": {
+    "description": "Error shown when editing a comment requires a login."
+  },
+  "commentLoginRequiredReply": "댓글에 답글을 달려면 로그인해야 합니다!",
+  "@commentLoginRequiredReply": {
+    "description": "Error shown when replying to a comment requires a login."
+  },
+  "commentLoginRequiredReport": "댓글을 신고하려면 로그인해야 합니다!",
+  "@commentLoginRequiredReport": {
+    "description": "Error shown when reporting a comment requires a login."
+  },
+  "commentCopiedId": "댓글 ID 복사됨 #{id}",
+  "@commentCopiedId": {
+    "description": "Confirmation shown after copying a comment id.",
+    "placeholders": {
+      "id": {
+        "type": "num"
+      }
+    }
+  },
+  "warningUserWarned": "이 메시지로 인해 사용자에게 경고가 발생함",
+  "@warningUserWarned": {
+    "description": "Warning attached to a comment or reply whose author was warned."
+  },
+  "warningUserRecorded": "이 메시지로 인해 사용자에게 기록이 남음",
+  "@warningUserRecorded": {
+    "description": "Warning attached to a comment or reply whose author received a record."
+  },
+  "warningUserBanned": "이 메시지로 인해 사용자가 차단됨",
+  "@warningUserBanned": {
+    "description": "Warning attached to a comment or reply whose author was banned."
+  },
+  "repliesTitle": "답글",
+  "@repliesTitle": {
+    "description": "Title of the reply list drawer."
+  },
+  "replyOrder": "답글 순서",
+  "@replyOrder": {
+    "description": "Label of the reply sorting switch."
+  },
+  "noReplies": "답글 없음",
+  "@noReplies": {
+    "description": "Message shown when there are no replies."
+  },
+  "failedToLoadReplies": "답글 불러오기 실패",
+  "@failedToLoadReplies": {
+    "description": "Error shown when replies failed to load."
+  },
+  "replyTitle": "답글 #{id}",
+  "@replyTitle": {
+    "description": "Title of the reply loading page.",
+    "placeholders": {
+      "id": {
+        "type": "num"
+      }
+    }
+  },
+  "failedToLoadReply": "답글 불러오기 실패",
+  "@failedToLoadReply": {
+    "description": "Error shown when a reply failed to load."
+  },
+  "replyNotFound": "답글을 찾을 수 없음",
+  "@replyNotFound": {
+    "description": "Message shown when a reply does not exist."
+  },
+  "replyEditorTitle": "#{topicId} 답글",
+  "@replyEditorTitle": {
+    "description": "Title of the reply editor.",
+    "placeholders": {
+      "topicId": {
+        "type": "num"
+      }
+    }
+  },
+  "replySendFailed": "답글 전송 실패!",
+  "@replySendFailed": {
+    "description": "Error shown when sending a reply failed."
+  },
+  "replySent": "답글 전송됨!",
+  "@replySent": {
+    "description": "Confirmation shown after sending a reply."
+  },
+  "replyHidden": "이 답글은 숨겨짐",
+  "@replyHidden": {
+    "description": "Tooltip of the hidden reply indicator."
+  },
+  "replyLoginRequiredEdit": "답글을 수정하려면 로그인해야 합니다!",
+  "@replyLoginRequiredEdit": {
+    "description": "Error shown when editing a reply requires a login."
+  },
+  "replyLoginRequiredReply": "답글에 답글을 달려면 로그인해야 합니다!",
+  "@replyLoginRequiredReply": {
+    "description": "Error shown when replying requires a login."
+  },
+  "replyLoginRequiredReport": "답글을 신고하려면 로그인해야 합니다!",
+  "@replyLoginRequiredReport": {
+    "description": "Error shown when reporting a reply requires a login."
+  },
+  "replyCopiedId": "답글 ID 복사됨 #{id}",
+  "@replyCopiedId": {
+    "description": "Confirmation shown after copying a reply id.",
+    "placeholders": {
+      "id": {
+        "type": "num"
+      }
+    }
+  },
+  "menuReply": "답글",
+  "@menuReply": {
+    "description": "Menu item that replies to an item."
+  },
+  "menuCopyId": "ID 복사",
+  "@menuCopyId": {
+    "description": "Menu item that copies an id to the clipboard."
+  },
+  "menuRefresh": "새로고침",
+  "@menuRefresh": {
+    "description": "Menu item that refreshes a list."
+  },
+  "actionCopy": "복사",
+  "@actionCopy": {
+    "description": "Tooltip of copy buttons."
+  },
+  "actionSave": "저장",
+  "@actionSave": {
+    "description": "Button that saves changes."
+  },
+  "actionShow": "보기",
+  "@actionShow": {
+    "description": "Tooltip to reveal a hidden value."
+  },
+  "actionHide": "숨기기",
+  "@actionHide": {
+    "description": "Tooltip to hide a visible value."
+  },
+  "actionCannotBeUndone": "이 작업은 취소할 수 없습니다.",
+  "@actionCannotBeUndone": {
+    "description": "Warning that a destructive action is permanent."
+  },
+  "info": "정보",
+  "@info": {
+    "description": "Label of info buttons and sections."
+  },
+  "wikiTitle": "위키 {idOrTitle}",
+  "@wikiTitle": {
+    "description": "Title of the wiki loading page. The placeholder is an id reference like '#123' or a wiki title.",
+    "placeholders": {
+      "idOrTitle": {
+        "type": "String"
+      }
+    }
+  },
+  "failedToLoadWiki": "위키 불러오기 실패",
+  "@failedToLoadWiki": {
+    "description": "Error shown when a wiki page failed to load."
+  },
+  "wikiNotFound": "위키를 찾을 수 없음",
+  "@wikiNotFound": {
+    "description": "Message shown when a wiki page does not exist."
+  },
+  "wikiCopiedId": "위키 ID 복사됨 #{id}",
+  "@wikiCopiedId": {
+    "description": "Confirmation shown after copying a wiki id.",
+    "placeholders": {
+      "id": {
+        "type": "num"
+      }
+    }
+  },
+  "wikiInfoId": "ID",
+  "@wikiInfoId": {
+    "description": "Label of the wiki id info row."
+  },
+  "wikiInfoAlias": "별칭",
+  "@wikiInfoAlias": {
+    "description": "Label of the wiki alias info row."
+  },
+  "wikiInfoCreated": "생성됨",
+  "@wikiInfoCreated": {
+    "description": "Label of the wiki creation date info row."
+  },
+  "wikiInfoUpdated": "업데이트됨",
+  "@wikiInfoUpdated": {
+    "description": "Label of the wiki update date info row."
+  },
+  "wikiInfoLocked": "잠김",
+  "@wikiInfoLocked": {
+    "description": "Label of the wiki lock info row."
+  },
+  "wikiInfoYes": "예",
+  "@wikiInfoYes": {
+    "description": "Positive value of info rows."
+  },
+  "wikiInfoNo": "아니오",
+  "@wikiInfoNo": {
+    "description": "Negative value of info rows."
+  },
+  "userTitle": "사용자 {idOrName}",
+  "@userTitle": {
+    "description": "Title of the user loading page. The placeholder is an id reference like '#123' or a username.",
+    "placeholders": {
+      "idOrName": {
+        "type": "String"
+      }
+    }
+  },
+  "failedToLoadUser": "사용자 로드 실패",
+  "@failedToLoadUser": {
+    "description": "Error shown when a user failed to load."
+  },
+  "userNotFound": "사용자를 찾을 수 없음",
+  "@userNotFound": {
+    "description": "Message shown when a user does not exist."
+  },
+  "userUploads": "업로드",
+  "@userUploads": {
+    "description": "Label of the uploads tab on the user page."
+  },
+  "userLoginRequiredReport": "신고하려면 로그인해야 합니다!",
+  "@userLoginRequiredReport": {
+    "description": "Error shown when reporting a user requires a login."
+  },
+  "userComission": "커미션",
+  "@userComission": {
+    "description": "Header of the commission info section on the user page."
+  },
+  "userId": "ID",
+  "@userId": {
+    "description": "Label of the user id info row."
+  },
+  "userJoined": "가입일",
+  "@userJoined": {
+    "description": "Label of the join date info row."
+  },
+  "userRank": "등급",
+  "@userRank": {
+    "description": "Label of the user rank info row."
+  },
+  "userPosts": "게시물",
+  "@userPosts": {
+    "description": "Label of the user post count info row."
+  },
+  "userEdits": "편집",
+  "@userEdits": {
+    "description": "Label of the user post edit count info row."
+  },
+  "userFavorites": "즐겨찾기",
+  "@userFavorites": {
+    "description": "Label of the user favorite count info row."
+  },
+  "userComments": "댓글",
+  "@userComments": {
+    "description": "Label of the user comment count info row."
+  },
+  "userForum": "포럼",
+  "@userForum": {
+    "description": "Label of the user forum post count info row."
+  },
+  "userCopiedId": "사용자 ID #{id} 복사됨",
+  "@userCopiedId": {
+    "description": "Confirmation shown after copying a user id.",
+    "placeholders": {
+      "id": {
+        "type": "num"
+      }
+    }
+  },
+  "logsTitle": "로그",
+  "@logsTitle": {
+    "description": "Title of the logs page."
+  },
+  "logsTitleDate": "로그 - {date}",
+  "@logsTitleDate": {
+    "description": "Title of the logs page for a specific date.",
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "selectionLogsCount": "{count, plural, other{{count}개 로그}}",
+  "@selectionLogsCount": {
+    "description": "Number of selected log entries.",
+    "placeholders": {
+      "count": {
+        "type": "num"
+      }
+    }
+  },
+  "selectionLogsFilesCount": "{count, plural, other{{count}개 로그 파일}}",
+  "@selectionLogsFilesCount": {
+    "description": "Number of selected log files.",
+    "placeholders": {
+      "count": {
+        "type": "num"
+      }
+    }
+  },
+  "logsLevels": "레벨",
+  "@logsLevels": {
+    "description": "Header of the log level filter section."
+  },
+  "logsRecording": "녹음 중",
+  "@logsRecording": {
+    "description": "Header of the log recording settings section."
+  },
+  "logsVerbose": "상세",
+  "@logsVerbose": {
+    "description": "Switch that records verbose logs."
+  },
+  "logsVerboseAll": "모든 레벨 기록됨",
+  "@logsVerboseAll": {
+    "description": "Subtitle of the verbose switch when all levels are recorded."
+  },
+  "logsVerboseMinimum": "{level} 이상",
+  "@logsVerboseMinimum": {
+    "description": "Subtitle of the verbose switch naming the minimum recorded level.",
+    "placeholders": {
+      "level": {
+        "type": "String"
+      }
+    }
+  },
+  "logFilesTitle": "로그 파일",
+  "@logFilesTitle": {
+    "description": "Title of the log file list page."
+  },
+  "failedToLoadLogFiles": "로그 파일 로드 실패!",
+  "@failedToLoadLogFiles": {
+    "description": "Error shown when log files failed to load."
+  },
+  "noLogFiles": "사용 가능한 로그 파일이 없습니다!",
+  "@noLogFiles": {
+    "description": "Message shown when there are no log files."
+  },
+  "logsLive": "실시간",
+  "@logsLive": {
+    "description": "Label of the live log source tile in the log file list."
+  },
+  "noLogs": "로그 없음",
+  "@noLogs": {
+    "description": "Message shown when there are no log entries."
+  },
+  "failedToReadLog": "로그 읽기 실패",
+  "@failedToReadLog": {
+    "description": "Error shown when a log file failed to read."
+  },
+  "noErrorsLogged": "오류 없음",
+  "@noErrorsLogged": {
+    "description": "Message shown when no errors have been logged."
+  },
+  "logsErrorsCount": "{count, plural, =1{1개 오류} other{{count}개 오류}}",
+  "@logsErrorsCount": {
+    "description": "Number of errors logged in the current session.",
+    "placeholders": {
+      "count": {
+        "type": "num"
+      }
+    }
+  },
+  "logsAll": "모든 로그",
+  "@logsAll": {
+    "description": "Button that opens the full logs page."
+  },
+  "logsDismissAll": "모두 닫기",
+  "@logsDismissAll": {
+    "description": "Button that dismisses all logged errors."
+  },
+  "logsDeleteTitle": "{count}개 로그 파일을 삭제할까요?",
+  "@logsDeleteTitle": {
+    "description": "Title of the log file deletion dialog.",
+    "placeholders": {
+      "count": {
+        "type": "num"
+      }
+    }
+  },
+  "identityAccounts": "계정",
+  "@identityAccounts": {
+    "description": "Header of the account list in the identity picker."
+  },
+  "identityAdd": "계정 추가",
+  "@identityAdd": {
+    "description": "Title of the page that adds an account."
+  },
+  "identityEdit": "계정 편집",
+  "@identityEdit": {
+    "description": "Title of the page that edits an account."
+  },
+  "identityRemoveTitle": "계정을 제거할까요?",
+  "@identityRemoveTitle": {
+    "description": "Title of the account removal dialog."
+  },
+  "identityRemoveBody": "모든 데이터가 영구적으로 제거됩니다, 기록과 팔로우를 포함하여.",
+  "@identityRemoveBody": {
+    "description": "Body of the account removal dialog."
+  },
+  "identityAnonymous": "익명",
+  "@identityAnonymous": {
+    "description": "Name shown for identities without a username."
+  },
+  "identityDuplicate": "이 호스트와 사용자 이름으로 이미 계정이 있습니다.",
+  "@identityDuplicate": {
+    "description": "Error shown when adding a duplicate identity."
+  },
+  "identityLoginFailed": "로그인 실패. \n{reason}",
+  "@identityLoginFailed": {
+    "description": "Error shown when logging in failed.",
+    "placeholders": {
+      "reason": {
+        "type": "String"
+      }
+    }
+  },
+  "identityLoginCheckDetails": "네트워크 연결과 로그인 정보를 확인하세요",
+  "@identityLoginCheckDetails": {
+    "description": "Fallback reason shown when logging in failed without details."
+  },
+  "identitySite": "사이트",
+  "@identitySite": {
+    "description": "Label of the account host input field."
+  },
+  "identityHostRequired": "호스트 URL을 제공해야 합니다.",
+  "@identityHostRequired": {
+    "description": "Error shown when the host field is empty."
+  },
+  "identityHostInvalid": "잘못된 호스트 URL",
+  "@identityHostInvalid": {
+    "description": "Error shown when the host URL is invalid."
+  },
+  "identityHostReadOnly": "사이트를 변경할 수 없습니다. 다른 사이트를 사용하려면 새 계정을 추가하세요.",
+  "@identityHostReadOnly": {
+    "description": "Tooltip of the read-only host field."
+  },
+  "identityUsernameLabel": "사용자 이름",
+  "@identityUsernameLabel": {
+    "description": "Label of the account username input field."
+  },
+  "identityUsernameRequired": "사용자 이름을 제공해야 합니다.",
+  "@identityUsernameRequired": {
+    "description": "Error shown when the username field is empty."
+  },
+  "identityApikeyLabel": "API 키",
+  "@identityApikeyLabel": {
+    "description": "Label of the account api key input field."
+  },
+  "identityApikeyHelp": "API 키는 어디서 찾을 수 있나요?",
+  "@identityApikeyHelp": {
+    "description": "Link that opens the api key page of the current site."
+  },
+  "identityApikeyRequired": "API 키를 제공해야 합니다.\n예: 1ca1d165e973d7f8d35b7deb7a2ae54c",
+  "@identityApikeyRequired": {
+    "description": "Error shown when the api key field is empty."
+  },
+  "identityApikeyInvalid": "API 키는 24 또는 32자의 A-z와 0-9 문자열입니다\n예: 1ca1d165e973d7f8d35b7deb7a2ae54c",
+  "@identityApikeyInvalid": {
+    "description": "Error shown when the api key is malformed."
+  },
+  "identitySignupPrompt": "계정이 없으신가요? 여기서 가입하세요",
+  "@identitySignupPrompt": {
+    "description": "Link that opens the registration page of the current site."
+  },
+  "identityHostHint": "계정과 게시물을 호스팅하는 사이트.",
+  "@identityHostHint": {
+    "description": "Hint below the account host input field."
+  },
+  "identitySignIn": "로그인",
+  "@identitySignIn": {
+    "description": "Segment that selects the sign-in mode of the account form."
+  },
+  "identityGuest": "게스트",
+  "@identityGuest": {
+    "description": "Segment that selects the guest mode of the account form."
+  },
+  "identityLogin": "로그인",
+  "@identityLogin": {
+    "description": "Button that logs in with the entered credentials."
+  },
+  "identityBrowseAnonymously": "익명으로 둘러보기",
+  "@identityBrowseAnonymously": {
+    "description": "Button that continues without an account."
+  },
+  "identityConnecting": "{host}에 {username}로 연결 중...",
+  "@identityConnecting": {
+    "description": "Message of the login loading dialog.",
+    "placeholders": {
+      "host": {
+        "type": "String"
+      },
+      "username": {
+        "type": "String"
+      }
+    }
+  },
+  "identityActivateFailed": "계정 활성화 실패: {error}",
+  "traitsActivateFailed": "특성 활성화 실패: {error}",
+  "failedToLoadIdentities": "계정 로드 실패",
+  "@failedToLoadIdentities": {
+    "description": "Error shown when identities failed to load."
+  },
+  "onboardingSkip": "건너뛰기",
+  "@onboardingSkip": {
+    "description": "Button that skips the onboarding."
+  },
+  "onboardingBack": "뒤로",
+  "@onboardingBack": {
+    "description": "Button that returns to the previous onboarding step."
+  },
+  "onboardingNext": "다음",
+  "@onboardingNext": {
+    "description": "Button that advances to the next onboarding step."
+  },
+  "onboardingWelcomeTitle": "{app}에 오신 것을 환영합니다",
+  "@onboardingWelcomeTitle": {
+    "description": "Title of the welcome onboarding step.",
+    "placeholders": {
+      "app": {
+        "type": "String"
+      }
+    }
+  },
+  "onboardingWelcomeBody": "정교한 booru 브라우저입니다.",
+  "@onboardingWelcomeBody": {
+    "description": "Body of the welcome onboarding step."
+  },
+  "onboardingThemeTitle": "외관 선택",
+  "@onboardingThemeTitle": {
+    "description": "Title of the theme onboarding step."
+  },
+  "onboardingThemeBody": "한번 시도해보세요. 나중에 마음을 바꿀 수 있습니다.",
+  "onboardingQualityTitle": "미디어 조정",
+  "onboardingQualityBody": "비디오와 썸네일이 얼마나 로드될지 선택하세요. 나중에 설정에서 변경할 수 있습니다.",
+  "@onboardingThemeBody": {
+    "description": "Body of the theme onboarding step."
+  },
+  "onboardingLoginTitle": "계정 연결",
+  "@onboardingLoginTitle": {
+    "description": "Title of the login onboarding step."
+  },
+  "onboardingLanguageTitle": "언어 선택",
+  "@onboardingLanguageTitle": {
+    "description": "Title of the language onboarding step."
+  },
+  "followAddToSubscriptions": "구독에 추가",
+  "@followAddToSubscriptions": {
+    "description": "Prompt title for adding a tag to the subscriptions page."
+  },
+  "followNoSubscriptions": "구독 없음",
+  "@followNoSubscriptions": {
+    "description": "Empty state of the subscriptions page."
+  },
+  "followFailedToLoadSubscriptions": "구독 로드 실패",
+  "@followFailedToLoadSubscriptions": {
+    "description": "Error state of the subscriptions page."
+  },
+  "followAddToBookmarks": "북마크에 추가",
+  "@followAddToBookmarks": {
+    "description": "Prompt title for adding a tag to the bookmarks page."
+  },
+  "followNoBookmarks": "북마크 없음",
+  "@followNoBookmarks": {
+    "description": "Empty state of the bookmarks page."
+  },
+  "followFailedToLoadBookmarks": "북마크 로드 실패",
+  "@followFailedToLoadBookmarks": {
+    "description": "Error state of the bookmarks page."
+  },
+  "followUnseenPosts": "읽지 않은 게시물",
+  "@followUnseenPosts": {
+    "description": "Title of the unseen posts tile in the subscriptions drawer."
+  },
+  "followMarkPostsSeen": "{count, plural, =1{1개 게시물을 본 것으로 표시} other{{count}개 게시물을 본 것으로 표시}}",
+  "@followMarkPostsSeen": {
+    "description": "Subtitle of the unseen posts tile, marking posts as seen.",
+    "placeholders": {
+      "count": {
+        "type": "num"
+      }
+    }
+  },
+  "followNoUnseenPosts": "새 게시물 없음",
+  "@followNoUnseenPosts": {
+    "description": "Subtitle of the unseen posts tile when nothing is unseen."
+  },
+  "followShowUnseenFirst": "새 게시물 우선 표시",
+  "@followShowUnseenFirst": {
+    "description": "Title of the unseen filter switch in the subscriptions drawer."
+  },
+  "followFilteringUnseen": "새 게시물 필터링 중",
+  "@followFilteringUnseen": {
+    "description": "Subtitle of the unseen filter switch when filtering."
+  },
+  "followAllPostsShown": "모든 게시물 표시됨",
+  "@followAllPostsShown": {
+    "description": "Subtitle of the unseen filter switch when not filtering."
+  },
+  "followForceSync": "강제 동기화",
+  "@followForceSync": {
+    "description": "Title of the force sync tile in the subscriptions drawer."
+  },
+  "followSyncAllFollows": "모든 팔로우 동기화",
+  "@followSyncAllFollows": {
+    "description": "Subtitle of the force sync tile when idle."
+  },
+  "followSyncingFollows": "팔로우 동기화 중... {progress}",
+  "@followSyncingFollows": {
+    "description": "Subtitle of the force sync tile while syncing, with a progress value.",
+    "placeholders": {
+      "progress": {
+        "type": "String"
+      }
+    }
+  },
+  "followEditorTitle": "팔로우 편집",
+  "@followEditorTitle": {
+    "description": "Title of the follow editor page."
+  },
+  "followSubscribe": "구독",
+  "@followSubscribe": {
+    "description": "Section title of the subscription list in the follow editor."
+  },
+  "followEditPrompt": "팔로우 편집",
+  "@followEditPrompt": {
+    "description": "Prompt title for editing a follow's tags."
+  },
+  "followTitlePrompt": "팔로우 제목",
+  "@followTitlePrompt": {
+    "description": "Label of the text field renaming a follow."
+  },
+  "followMarkAsRead": "읽음으로 표시",
+  "@followMarkAsRead": {
+    "description": "Menu action marking a follow as read."
+  },
+  "followDisableNotifications": "알림 끄기",
+  "@followDisableNotifications": {
+    "description": "Menu action disabling notifications of a follow."
+  },
+  "followEnableNotifications": "알림 켜기",
+  "@followEnableNotifications": {
+    "description": "Menu action enabling notifications of a follow."
+  },
+  "followRename": "이름 변경",
+  "@followRename": {
+    "description": "Menu action renaming a follow."
+  },
+  "followNewPosts": "{count, plural, =1{새 게시물 1개} other{{label} 새 게시물}}",
+  "@followNewPosts": {
+    "description": "Unseen counter label on a follow tile.",
+    "placeholders": {
+      "count": {
+        "type": "num"
+      },
+      "label": {
+        "type": "String"
+      }
+    }
+  },
+  "followSelectionCount": "{count, plural, =1{팔로우 1개} other{{count}개 팔로우}}",
+  "@followSelectionCount": {
+    "description": "Title of the follow selection app bar.",
+    "placeholders": {
+      "count": {
+        "type": "num"
+      }
+    }
+  },
+  "followAlias": "별칭 {alias}",
+  "@followAlias": {
+    "description": "Alias label on a follow tile.",
+    "placeholders": {
+      "alias": {
+        "type": "String?"
+      }
+    }
+  },
+  "historySelectionCount": "{count, plural, =1{항목 1개} other{{count}개 항목}}",
+  "historyEntriesDeleted": "{count, plural, =1{기록 항목 1개 삭제됨} other{기록 항목 {count}개 삭제됨}}",
+  "@historyEntriesDeleted": {
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "required": true
+      }
+    }
+  },
+  "@historySelectionCount": {
+    "description": "Title of the history selection app bar.",
+    "placeholders": {
+      "count": {
+        "type": "num"
+      }
+    }
+  },
+  "historyClear": "기록 삭제",
+  "@historyClear": {
+    "description": "Title of the clear history tile in the history drawer."
+  },
+  "historyClearSubtitle": "모든 항목 삭제",
+  "@historyClearSubtitle": {
+    "description": "Subtitle of the clear history tile."
+  },
+  "historyClearConfirm": "기록을 삭제하시겠습니까?",
+  "@historyClearConfirm": {
+    "description": "Title of the clear history confirmation dialog."
+  },
+  "historyClearConfirmBody": "모든 기록 항목이 영구적으로 삭제됩니다. 이 작업은 취소할 수 없습니다.",
+  "@historyClearConfirmBody": {
+    "description": "Body of the clear history confirmation dialog."
+  },
+  "historyClearAction": "삭제",
+  "@historyClearAction": {
+    "description": "Confirmation button of the clear history dialog."
+  },
+  "historyLimit": "기록 제한",
+  "@historyLimit": {
+    "description": "Title of the history limit dialog."
+  },
+  "historyLimitEnableBody": "기록 제한을 사용하면 {amount}개를 초과하거나 {months}개월이 지난 모든 기록 항목이 자동으로 삭제됩니다.",
+  "@historyLimitEnableBody": {
+    "description": "Body of the history limit dialog explaining its effects.",
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      },
+      "months": {
+        "type": "num"
+      }
+    }
+  },
+  "historyLimitTitle": "기록 제한",
+  "@historyLimitTitle": {
+    "description": "Title of the history limit switch in the history drawer."
+  },
+  "historyLimitOn": "{months}개월 이전 또는 {amount}개 이하의 항목으로 제한됨.",
+  "@historyLimitOn": {
+    "description": "Subtitle of the history limit switch when enabled.",
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      },
+      "months": {
+        "type": "num"
+      }
+    }
+  },
+  "historyLimitOff": "무한 기록",
+  "@historyLimitOff": {
+    "description": "Subtitle of the history limit switch when disabled."
+  },
+  "historyEntries": "항목",
+  "@historyEntries": {
+    "description": "Section header of the history category filters."
+  },
+  "historyType": "유형",
+  "@historyType": {
+    "description": "Section header of the history type filters."
+  },
+  "historyItems": "항목",
+  "@historyItems": {
+    "description": "Category filter showing visited items."
+  },
+  "historySearches": "검색",
+  "@historySearches": {
+    "description": "Category filter showing visited searches."
+  },
+  "historyWikis": "위키",
+  "@historyWikis": {
+    "description": "Type filter showing wiki history entries."
+  },
+  "historyUsers": "사용자",
+  "@historyUsers": {
+    "description": "Type filter showing user history entries."
+  },
+  "historyEmpty": "기록이 비어 있습니다",
+  "@historyEmpty": {
+    "description": "Empty state of the history page."
+  },
+  "historyFailedToLoad": "기록 불러오기 실패",
+  "@historyFailedToLoad": {
+    "description": "Error state of the history page."
+  },
+  "historyNoDescription": "설명 없음",
+  "@historyNoDescription": {
+    "description": "Placeholder shown when a history entry has no description."
+  },
+  "historyHotPosts": "인기 게시물",
+  "@historyHotPosts": {
+    "description": "Name of the hot posts search in the history."
+  },
+  "historyLinkPost": "게시물 #{id}",
+  "@historyLinkPost": {
+    "description": "Name of a visited post in the history.",
+    "placeholders": {
+      "id": {
+        "type": "num"
+      }
+    }
+  },
+  "historyLinkUser": "사용자 #{id}",
+  "@historyLinkUser": {
+    "description": "Name of a visited user in the history.",
+    "placeholders": {
+      "id": {
+        "type": "num"
+      }
+    }
+  },
+  "historyLinkWiki": "위키 #{id}",
+  "@historyLinkWiki": {
+    "description": "Name of a visited wiki page in the history.",
+    "placeholders": {
+      "id": {
+        "type": "num"
+      }
+    }
+  },
+  "historyLinkUserByName": "{id} - 사용자",
+  "@historyLinkUserByName": {
+    "description": "Name of a visited user page in the history, looked up by name.",
+    "placeholders": {
+      "id": {
+        "type": "String"
+      }
+    }
+  },
+  "historyLinkWikiByName": "{id} - 위키",
+  "@historyLinkWikiByName": {
+    "description": "Name of a visited wiki page in the history, looked up by title.",
+    "placeholders": {
+      "id": {
+        "type": "String"
+      }
+    }
+  },
+  "historySearchQuery": "{type} - {query}",
+  "@historySearchQuery": {
+    "description": "Name of a visited search in the history, combining its type and query.",
+    "placeholders": {
+      "type": {
+        "type": "String"
+      },
+      "query": {
+        "type": "String"
+      }
+    }
+  },
+  "historyWiki": "위키",
+  "@historyWiki": {
+    "description": "Menu action opening the wiki of a searched tag."
+  },
+  "poolEmpty": "풀이 없음",
+  "@poolEmpty": {
+    "description": "Empty state of the pools page."
+  },
+  "poolFailedToLoadPools": "풀 불러오기 실패",
+  "@poolFailedToLoadPools": {
+    "description": "Error state of the pools page."
+  },
+  "poolTitle": "풀 제목",
+  "@poolTitle": {
+    "description": "Label of the pool title search filter."
+  },
+  "poolInfoPosts": "게시물",
+  "@poolInfoPosts": {
+    "description": "Info row label of the post count of a pool."
+  },
+  "poolInfoId": "ID",
+  "@poolInfoId": {
+    "description": "Info row label of the id of a pool."
+  },
+  "poolInfoActivity": "활동",
+  "@poolInfoActivity": {
+    "description": "Info row label of the activity state of a pool."
+  },
+  "poolInfoActive": "활성",
+  "@poolInfoActive": {
+    "description": "Info row value of an active pool."
+  },
+  "poolInfoInactive": "비활성",
+  "@poolInfoInactive": {
+    "description": "Info row value of an inactive pool."
+  },
+  "poolInfoCreated": "생성됨",
+  "@poolInfoCreated": {
+    "description": "Info row label of the creation date of a pool."
+  },
+  "poolInfoUpdated": "업데이트됨",
+  "@poolInfoUpdated": {
+    "description": "Info row label of the last update of a pool."
+  },
+  "poolCopiedId": "풀 ID #{id} 복사됨",
+  "@poolCopiedId": {
+    "description": "Snackbar shown after copying the id of a pool.",
+    "placeholders": {
+      "id": {
+        "type": "num"
+      }
+    }
+  },
+  "poolLink": "풀 #{id}",
+  "@poolLink": {
+    "description": "Title of the pool loading page.",
+    "placeholders": {
+      "id": {
+        "type": "num"
+      }
+    }
+  },
+  "poolFailedToLoadPool": "풀 불러오기 실패",
+  "@poolFailedToLoadPool": {
+    "description": "Error state of the pool loading page."
+  },
+  "poolNotFound": "풀을 찾을 수 없음",
+  "@poolNotFound": {
+    "description": "Empty state of the pool loading page."
+  },
+  "poolOrder": "풀 순서",
+  "@poolOrder": {
+    "description": "Title of the pool order switch in the pool drawer."
+  },
+  "poolOldestFirst": "오래된 것부터",
+  "@poolOldestFirst": {
+    "description": "Subtitle of the pool order switch when sorting oldest first."
+  },
+  "poolNewestFirst": "새 것부터",
+  "@poolNewestFirst": {
+    "description": "Subtitle of the pool order switch when sorting newest first."
+  },
+  "poolReaderMode": "풀 읽기 모드",
+  "@poolReaderMode": {
+    "description": "Title of the pool reader mode switch in the pool drawer."
+  },
+  "poolReaderLargeImages": "큰 이미지",
+  "@poolReaderLargeImages": {
+    "description": "Subtitle of the pool reader mode switch when enabled."
+  },
+  "poolReaderNormalGrid": "일반 그리드",
+  "@poolReaderNormalGrid": {
+    "description": "Subtitle of the pool reader mode switch when disabled."
+  },
+  "topicsTitle": "주제",
+  "@topicsTitle": {
+    "description": "Title of the topics page."
+  },
+  "topicHideTagEdits": "태그 편집 숨기기",
+  "@topicHideTagEdits": {
+    "description": "Title of the tag edit switch in the topics drawer."
+  },
+  "topicTagEditsHidden": "숨김",
+  "@topicTagEditsHidden": {
+    "description": "Subtitle of the tag edit switch when hidden."
+  },
+  "topicTagEditsVisible": "표시됨",
+  "@topicTagEditsVisible": {
+    "description": "Subtitle of the tag edit switch when visible."
+  },
+  "topicLink": "주제 #{id}",
+  "@topicLink": {
+    "description": "Title of the topic loading page.",
+    "placeholders": {
+      "id": {
+        "type": "num"
+      }
+    }
+  },
+  "topicFailedToLoadTopic": "주제 불러오기 실패",
+  "@topicFailedToLoadTopic": {
+    "description": "Error state of the topic loading page."
+  },
+  "topicNotFound": "주제를 찾을 수 없음",
+  "@topicNotFound": {
+    "description": "Empty state of the topic loading page."
+  },
+  "topicEmpty": "주제가 없음",
+  "@topicEmpty": {
+    "description": "Empty state of the topics page."
+  },
+  "topicFailedToLoadTopics": "주제 불러오기 실패",
+  "@topicFailedToLoadTopics": {
+    "description": "Error state of the topics page."
+  },
+  "topicInfoReplies": "답글",
+  "@topicInfoReplies": {
+    "description": "Info row label of the reply count of a topic."
+  },
+  "topicInfoId": "ID",
+  "@topicInfoId": {
+    "description": "Info row label of the id of a topic."
+  },
+  "topicCopiedId": "주제 ID #{id} 복사됨",
+  "@topicCopiedId": {
+    "description": "Snackbar shown after copying the id of a topic.",
+    "placeholders": {
+      "id": {
+        "type": "num"
+      }
+    }
+  },
+  "topicInfoLocked": "잠김",
+  "@topicInfoLocked": {
+    "description": "Info row label of the locked state of a topic."
+  },
+  "topicInfoYes": "예",
+  "@topicInfoYes": {
+    "description": "Info row value confirming a topic state."
+  },
+  "topicInfoNo": "아니오",
+  "@topicInfoNo": {
+    "description": "Info row value denying a topic state."
+  },
+  "topicInfoCreated": "생성됨",
+  "@topicInfoCreated": {
+    "description": "Info row label of the creation date of a topic."
+  },
+  "topicInfoUpdated": "업데이트됨",
+  "@topicInfoUpdated": {
+    "description": "Info row label of the last update of a topic."
+  },
+  "filterTags": "태그",
+  "@filterTags": {
+    "description": "Name of the tags filter used by the tag prompt."
+  },
+  "loginRequired": "이 작업을 수행하려면 로그인해야 합니다.",
+  "actionChooseIdentity": "계정 선택",
+  "dateToday": "오늘",
+  "dateYesterday": "어제",
+  "detailCommentsButton": "댓글 ({count})",
+  "@detailCommentsButton": {
+    "description": "Button on the post detail page opening the comment section.",
+    "placeholders": {
+      "count": {
+        "type": "num"
+      }
+    }
+  },
+  "detailFile": "파일",
+  "@detailFile": {
+    "description": "Section header of the file info of a post."
+  },
+  "detailSources": "출처",
+  "@detailSources": {
+    "description": "Section header of the sources of a post."
+  },
+  "detailNoSources": "출처 없음",
+  "@detailNoSources": {
+    "description": "Placeholder shown when a post has no sources."
+  },
+  "detailChildren": "하위 게시물",
+  "@detailChildren": {
+    "description": "Section header listing the child posts of a post."
+  },
+  "detailDeletion": "삭제",
+  "@detailDeletion": {
+    "description": "Section header of the deletion flag reason of a post."
+  },
+  "detailBlacklisted": "차단됨",
+  "@detailBlacklisted": {
+    "description": "Section header listing the blacklist entries that blocked a post."
+  },
+  "detailNoArtist": "아티스트 없음",
+  "@detailNoArtist": {
+    "description": "Placeholder shown when a post has no artist tags."
+  },
+  "detailPoolPosts": "{count, plural, =1{1개 게시물} other{{count}개 게시물}}",
+  "@detailPoolPosts": {
+    "description": "Post count of a pool shown on a pool relation tile.",
+    "placeholders": {
+      "count": {
+        "type": "num"
+      }
+    }
+  },
+  "postCopiedId": "게시물 ID #{id} 복사됨",
+  "@postCopiedId": {
+    "description": "Snackbar shown after copying the id of a post.",
+    "placeholders": {
+      "id": {
+        "type": "num"
+      }
+    }
+  },
+  "postUpvoteFailed": "게시물 #{id} 추천 실패",
+  "@postUpvoteFailed": {
+    "description": "Error shown when upvoting a post failed.",
+    "placeholders": {
+      "id": {
+        "type": "num"
+      }
+    }
+  },
+  "postDownvoteFailed": "게시물 #{id} 비추천 실패",
+  "@postDownvoteFailed": {
+    "description": "Error shown when downvoting a post failed.",
+    "placeholders": {
+      "id": {
+        "type": "num"
+      }
+    }
+  },
+  "postAddFavoriteFailed": "게시물 #{id}를 즐겨찾기에 추가하지 못했습니다",
+  "@postAddFavoriteFailed": {
+    "description": "Error shown when adding a post to favorites failed.",
+    "placeholders": {
+      "id": {
+        "type": "num"
+      }
+    }
+  },
+  "postRemoveFavoriteFailed": "게시물 #{id}를 즐겨찾기에서 제거하지 못했습니다",
+  "@postRemoveFavoriteFailed": {
+    "description": "Error shown when removing a post from favorites failed.",
+    "placeholders": {
+      "id": {
+        "type": "num"
+      }
+    }
+  },
+  "editorSection": "섹션",
+  "@editorSection": {
+    "description": "Tooltip of the DText editor button enclosing a section block."
+  },
+  "editorQuote": "인용",
+  "@editorQuote": {
+    "description": "Tooltip of the DText editor button enclosing a quote block."
+  },
+  "editorCode": "코드",
+  "@editorCode": {
+    "description": "Tooltip of the DText editor button enclosing a code block."
+  },
+  "editorSpoiler": "스포일러",
+  "@editorSpoiler": {
+    "description": "Tooltip of the DText editor button enclosing a spoiler block."
+  },
+  "editorBold": "굵게",
+  "@editorBold": {
+    "description": "Tooltip of the DText editor button enclosing bold text."
+  },
+  "editorItalic": "기울임",
+  "@editorItalic": {
+    "description": "Tooltip of the DText editor button enclosing italic text."
+  },
+  "editorUnderlined": "밑줄",
+  "@editorUnderlined": {
+    "description": "Tooltip of the DText editor button enclosing underlined text."
+  },
+  "editorStrikethrough": "취소선",
+  "@editorStrikethrough": {
+    "description": "Tooltip of the DText editor button enclosing struck-through text."
+  },
+  "editorPreviewPlaceholder": "여기에 텍스트 입력",
+  "@editorPreviewPlaceholder": {
+    "description": "Placeholder shown in the preview pane of the DText editor."
+  },
+  "editorWrite": "작성",
+  "@editorWrite": {
+    "description": "Tab label of the editing pane of the text editor."
+  },
+  "editorPreview": "미리보기",
+  "@editorPreview": {
+    "description": "Tab label of the preview pane of the text editor."
+  },
+  "editorTypeHere": "여기에 입력...",
+  "@editorTypeHere": {
+    "description": "Hint text of the text editor input field."
+  },
+  "tagNoTags": "태그 없음",
+  "@tagNoTags": {
+    "description": "Placeholder shown when the tag counter drawer found no tags."
+  },
+  "tagFailedToLoadTags": "태그 로드 실패",
+  "@tagFailedToLoadTags": {
+    "description": "Error state of the tag counter drawer."
+  },
+  "tagUnableToRetrieveWiki": "위키 항목을 가져올 수 없음",
+  "@tagUnableToRetrieveWiki": {
+    "description": "Error shown when the wiki entry of a tag failed to load."
+  },
+  "tagNoWikiEntry": "위키 항목 없음",
+  "@tagNoWikiEntry": {
+    "description": "Placeholder shown when a tag has no wiki entry."
+  },
+  "tagCategoryGeneral": "일반",
+  "@tagCategoryGeneral": {
+    "description": "Name of the general tag category."
+  },
+  "tagCategorySpecies": "종",
+  "@tagCategorySpecies": {
+    "description": "Name of the species tag category."
+  },
+  "tagCategoryCharacter": "캐릭터",
+  "@tagCategoryCharacter": {
+    "description": "Name of the character tag category."
+  },
+  "tagCategoryCopyright": "저작권",
+  "@tagCategoryCopyright": {
+    "description": "Name of the copyright tag category."
+  },
+  "tagCategoryMeta": "메타",
+  "@tagCategoryMeta": {
+    "description": "Name of the meta tag category."
+  },
+  "tagCategoryLore": "배경설정",
+  "@tagCategoryLore": {
+    "description": "Name of the lore tag category."
+  },
+  "tagCategoryArtist": "아티스트",
+  "@tagCategoryArtist": {
+    "description": "Name of the artist tag category."
+  },
+  "tagCategoryContributor": "기여자",
+  "@tagCategoryContributor": {
+    "description": "Name of the contributor tag category."
+  },
+  "tagCategoryInvalid": "유효하지 않음",
+  "@tagCategoryInvalid": {
+    "description": "Name of the invalid tag category."
+  },
+  "editDescriptionTitle": "#{postId} 설명",
+  "@editDescriptionTitle": {
+    "description": "Title of the post description editor page.",
+    "placeholders": {
+      "postId": {
+        "type": "num"
+      }
+    }
+  },
+  "editDescriptionHint": "게시물 설명을 입력하세요...",
+  "@editDescriptionHint": {
+    "description": "Hint text of the post description input field."
+  },
+  "editInvalidNumber": "잘못된 숫자 형식",
+  "@editInvalidNumber": {
+    "description": "Error text shown when the parent id input is not a number."
+  },
+  "editInvalidParent": "잘못된 부모 게시물",
+  "@editInvalidParent": {
+    "description": "Error text shown when a parent post does not exist."
+  },
+  "editParentIdLabel": "부모 ID (선택사항)",
+  "@editParentIdLabel": {
+    "description": "Label of the parent id input field of the post edit form."
+  },
+  "editParentIdHint": "부모 게시물 ID",
+  "@editParentIdHint": {
+    "description": "Hint text of the parent id input field of the post edit form."
+  },
+  "editReasonLabel": "편집 사유 (선택사항)",
+  "@editReasonLabel": {
+    "description": "Label of the edit reason input field of the post edit form."
+  },
+  "editReasonHint": "이 게시물을 왜 편집하시나요?",
+  "@editReasonHint": {
+    "description": "Hint text of the edit reason input field of the post edit form."
+  },
+  "editSourcesTitle": "#{postId} 출처",
+  "@editSourcesTitle": {
+    "description": "Title of the post sources editor page.",
+    "placeholders": {
+      "postId": {
+        "type": "num"
+      }
+    }
+  },
+  "editTagsHint": "공백으로 구분된 태그",
+  "@editTagsHint": {
+    "description": "Hint text of the tags input field of the post edit form."
+  },
+  "editTagPreviewFailed": "태그 미리보기 로드 오류: {error}",
+  "@editTagPreviewFailed": {
+    "description": "Error shown when the tag preview failed to load.",
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
+  "editTagStatusNew": "새로운",
+  "@editTagStatusNew": {
+    "description": "Status label of a tag that does not exist yet."
+  },
+  "editTagStatusInvalid": "유효하지 않음",
+  "@editTagStatusInvalid": {
+    "description": "Status label of a tag in the invalid category."
+  },
+  "editTagStatusEmpty": "비어있음",
+  "@editTagStatusEmpty": {
+    "description": "Status label of a tag without any posts."
+  },
+  "editTagStatusUnderused": "사용 부족",
+  "@editTagStatusUnderused": {
+    "description": "Status label of a rarely used general tag."
+  },
+  "reportCommentSuccess": "댓글 #{id} 신고됨",
+  "@reportCommentSuccess": {
+    "description": "Success message after reporting a comment.",
+    "placeholders": {
+      "id": {
+        "type": "num"
+      }
+    }
+  },
+  "reportCommentFailed": "댓글 #{id} 신고 실패",
+  "@reportCommentFailed": {
+    "description": "Error message after failing to report a comment.",
+    "placeholders": {
+      "id": {
+        "type": "num"
+      }
+    }
+  },
+  "reportReplySuccess": "답글 #{id} 신고됨",
+  "@reportReplySuccess": {
+    "description": "Success message after reporting a reply.",
+    "placeholders": {
+      "id": {
+        "type": "num"
+      }
+    }
+  },
+  "reportReplyFailed": "답글 #{id} 신고 실패",
+  "@reportReplyFailed": {
+    "description": "Error message after failing to report a reply.",
+    "placeholders": {
+      "id": {
+        "type": "num"
+      }
+    }
+  },
+  "reportUserSuccess": "사용자 #{id} 신고됨",
+  "@reportUserSuccess": {
+    "description": "Success message after reporting a user.",
+    "placeholders": {
+      "id": {
+        "type": "num"
+      }
+    }
+  },
+  "reportUserFailed": "사용자 #{id} 신고 실패",
+  "@reportUserFailed": {
+    "description": "Error message after failing to report a user.",
+    "placeholders": {
+      "id": {
+        "type": "num"
+      }
+    }
+  },
+  "reportPostSuccess": "게시물 #{id} 신고됨",
+  "@reportPostSuccess": {
+    "description": "Success message after reporting a post.",
+    "placeholders": {
+      "id": {
+        "type": "num"
+      }
+    }
+  },
+  "reportPostFailed": "게시물 #{id} 신고 실패",
+  "@reportPostFailed": {
+    "description": "Error message after failing to report a post.",
+    "placeholders": {
+      "id": {
+        "type": "num"
+      }
+    }
+  },
+  "reportTypeRequired": "유형을 입력해야 합니다",
+  "@reportTypeRequired": {
+    "description": "Error text shown when no report type was selected."
+  },
+  "reportReason": "사유",
+  "@reportReason": {
+    "description": "Label of the report reason input field."
+  },
+  "reportReasonRequired": "사유를 입력해야 합니다",
+  "@reportReasonRequired": {
+    "description": "Error text shown when the report reason is empty."
+  },
+  "reportSubmitted": "신고가 제출되었습니다",
+  "@reportSubmitted": {
+    "description": "Success message after submitting a report."
+  },
+  "reportSubmitFailed": "신고 제출 실패",
+  "@reportSubmitFailed": {
+    "description": "Error message after failing to submit a report."
+  },
+  "reportTypeRating": "평오용",
+  "@reportTypeRating": {
+    "description": "Name of the rating abuse post report type."
+  },
+  "reportTypeFile": "악성 파일",
+  "@reportTypeFile": {
+    "description": "Name of the malicious file post report type."
+  },
+  "reportTypeSource": "악성 출처",
+  "@reportTypeSource": {
+    "description": "Name of the malicious source post report type."
+  },
+  "reportTypeDescription": "설명 오용",
+  "@reportTypeDescription": {
+    "description": "Name of the description abuse post report type."
+  },
+  "reportTypeNote": "노트 오용",
+  "@reportTypeNote": {
+    "description": "Name of the note abuse post report type."
+  },
+  "reportTypeTagging": "태그 오용",
+  "@reportTypeTagging": {
+    "description": "Name of the tagging abuse post report type."
+  },
+  "reportTypeRatingBody": "게시물의 평가가 올바르지 않게 설정되었습니다.",
+  "@reportTypeRatingBody": {
+    "description": "Description of the rating abuse post report type."
+  },
+  "reportTypeFileBody": "파일에 악성 코드나 숨겨진 파일 아카이브가 포함되어 있습니다. 이미지 자체에 묘사된 내용이 아닙니다.",
+  "@reportTypeFileBody": {
+    "description": "Description of the malicious file post report type."
+  },
+  "reportTypeSourceBody": "하나 이상의 출처 악성 페이지나 유료 콘텐츠로 연결됩니다.",
+  "@reportTypeSourceBody": {
+    "description": "Description of the malicious source post report type."
+  },
+  "reportTypeDescriptionBody": "설명에 악성 콘텐츠가 포함되어 있거나, 편집되어 비속한 자료가 포함되었습니다.",
+  "@reportTypeDescriptionBody": {
+    "description": "Description of the description abuse post report type."
+  },
+  "reportTypeNoteBody": "이 게시물의 노트가 잘못되었거나, 괴롭힘을 당하거나, 그 밖에 비속한 내용을 포함하고 있습니다.",
+  "@reportTypeNoteBody": {
+    "description": "Description of the note abuse post report type."
+  },
+  "reportTypeTaggingBody": "이 게시물의 하나 이상의 태그가 유효하지 않거나, 하나 이상의 유효한 태그가 게시물에서 제거되었습니다.",
+  "@reportTypeTaggingBody": {
+    "description": "Description of the tagging abuse post report type."
+  },
+  "flagPostSuccess": "게시물 #{id}가 신호되었습니다",
+  "@flagPostSuccess": {
+    "description": "Success message after flagging a post.",
+    "placeholders": {
+      "id": {
+        "type": "num"
+      }
+    }
+  },
+  "flagPostFailed": "게시물 #{id} 신고 실패",
+  "@flagPostFailed": {
+    "description": "Error message after failing to flag a post.",
+    "placeholders": {
+      "id": {
+        "type": "num"
+      }
+    }
+  },
+  "flagParentId": "상위 ID",
+  "@flagParentId": {
+    "description": "Label of the parent id input field of the post flag form."
+  },
+  "flagParentIdRequired": "상위 ID는 비워둘 수 없습니다",
+  "@flagParentIdRequired": {
+    "description": "Error text shown when the parent id of a flag is empty."
+  },
+  "flagParentIdInvalid": "상위 ID는 숫자여야 합니다",
+  "@flagParentIdInvalid": {
+    "description": "Error text shown when the parent id of a flag is not a number."
+  },
+  "flagTypeUploadingGuidelines": "업로드 가이드라인 미준수",
+  "@flagTypeUploadingGuidelines": {
+    "description": "Name of the uploading guidelines post flag."
+  },
+  "flagTypeYoungHuman": "노출 상황의 인간형 캐릭터",
+  "@flagTypeYoungHuman": {
+    "description": "Name of the young human post flag."
+  },
+  "flagTypeDnpArtist": "이 게시물의 작가는 게시 금지 목록에 있음",
+  "@flagTypeDnpArtist": {
+    "description": "Name of the do not post artist post flag."
+  },
+  "flagTypePayContent": "유료 사이트, 상업적 또는 구독 콘텐츠",
+  "@flagTypePayContent": {
+    "description": "Name of the pay content post flag."
+  },
+  "flagTypeTrace": "다른 작가 작품의 트레이스",
+  "@flagTypeTrace": {
+    "description": "Name of the trace post flag."
+  },
+  "flagTypePreviouslyDeleted": "이전에 삭제됨",
+  "@flagTypePreviouslyDeleted": {
+    "description": "Name of the previously deleted post flag."
+  },
+  "flagTypeRealPorn": "실생색 포르노그래피",
+  "@flagTypeRealPorn": {
+    "description": "Name of the real porn post flag."
+  },
+  "flagTypeCorrupt": "파일이 손상되었거나 깨졌거나 작동하지 않음",
+  "@flagTypeCorrupt": {
+    "description": "Name of the corrupt file post flag."
+  },
+  "flagTypeInferior": "다른 게시물의 중복 또는 열등한 버전",
+  "@flagTypeInferior": {
+    "description": "Name of the inferior post flag."
+  },
+  "flagTypeUploadingGuidelinesBody": "이 게시물은 예술적 가치, 이미지 품질, 관련성 또는 기타 사이트 기준을 충족하지 못합니다.\n개인적 취향은 이에 영향을 미치지 않습니다. 게시물 내용이 문제가 있다면 [[e621:blacklist|차단 목록]]에 추가하세요.",
+  "@flagTypeUploadingGuidelinesBody": {
+    "description": "Description of the uploading guidelines post flag."
+  },
+  "flagTypeYoungHumanBody": "성적 또는 노출 방식으로 묘사된 인간 및 인간형 캐릭터가 포함된 게시물은 이 사이트에서 허용되지 않습니다.",
+  "@flagTypeYoungHumanBody": {
+    "description": "Description of the young human post flag."
+  },
+  "flagTypeDnpArtistBody": "특정 작가들은 자신의 작품이 이 사이트에 게시되지 않기를 요청했으며, [[avoid_posting|게시 금지]] 상태를 받았습니다.\n때로는 이 상태에 조건이 따르기도 합니다; 자세한 내용은 [[conditional_dnp]]를 참조하세요.",
+  "@flagTypeDnpArtistBody": {
+    "description": "Description of the do not post artist post flag."
+  },
+  "flagTypePayContentBody": "우리는 어떤 종류의 유료 사이트 또는 상업적 콘텐츠를 호스팅하지 않습니다. 이에는 Patreon 유출, 불법 웹사이트에서 재업로드 등이 포함됩니다.",
+  "@flagTypePayContentBody": {
+    "description": "Description of the pay content post flag."
+  },
+  "flagTypeTraceBody": "다른 작가의 작품에서 트레이스된 이미지는 이 사이트에서 허용되지 않습니다. 참조는 괜찮지만, 다른 사람의 작품을 그대로 복제하는 것은 아닙니다.\n댓글에 더 많은 정보를 남기거나, 원작이 이 사이트에 호스팅되어 있다면 원작을 게시물의 상위로 추가하세요.",
+  "@flagTypeTraceBody": {
+    "description": "Description of the trace post flag."
+  },
+  "flagTypePreviouslyDeletedBody": "게시물은 보통 좋은 이유로 삭제되며, 삭제된 콘텐츠를 다시 업로드하는 것은 허용되지 않습니다.\n댓글에 더 많은 정보를 남기거나, 원본 게시물을 이 게시물의 상위로 추가하세요.",
+  "@flagTypePreviouslyDeletedBody": {
+    "description": "Description of the previously deleted post flag."
+  },
+  "flagTypeRealPornBody": "실생색 포르노그래피가 포함된 게시물은 이 사이트에서 허용되지 않습니다. 예외는 없습니다.\n비에로틱 사진이 포함된 이미지는 허용됩니다.",
+  "@flagTypeRealPornBody": {
+    "description": "Description of the real porn post flag."
+  },
+  "flagTypeCorruptBody": "이 게시물에 문제가 있습니다. 깨진 비디오나 손상된 이미일 수 있습니다.\n어느 쪽이든, 혼란을 피하기 위해 상황을 댓글로 설명해주세요.",
+  "@flagTypeCorruptBody": {
+    "description": "Description of the corrupt file post flag."
+  },
+  "flagTypeInferiorBody": "이 게시물의 우수한 버전이 이미 사이트에 존재합니다.\n이에는 시각적 품질이 더 좋은 이미지(더 크고, 압축 덜 됨)가 포함될 수 있으며, 작가가 시실적 실수를 수정한 \"수정된\" 버전도 포함될 수 있습니다.\n편집 및 대안 버전은 이 범주에 해당하지 않습니다.",
+  "@flagTypeInferiorBody": {
+    "description": "Description of the inferior post flag."
+  },
+  "taskCancelAll": "모두 취소",
+  "@taskCancelAll": {
+    "description": "Tooltip of the button which cancels all tasks."
+  },
+  "taskClearDone": "완료된 것 지우기",
+  "@taskClearDone": {
+    "description": "Tooltip of the button which clears all finished tasks."
+  },
+  "taskClearSelection": "선택 해제",
+  "@taskClearSelection": {
+    "description": "Tooltip of the button which clears the task selection."
+  },
+  "taskCancel": "취소",
+  "@taskCancel": {
+    "description": "Tooltip of the button which cancels a task."
+  },
+  "taskDismiss": "닫기",
+  "@taskDismiss": {
+    "description": "Tooltip of the button which dismisses a task."
+  },
+  "taskNoTasks": "작업 없음",
+  "@taskNoTasks": {
+    "description": "Placeholder shown when there are no tasks."
+  },
+  "taskFailedToLoadTasks": "작업 불러오기 실패",
+  "@taskFailedToLoadTasks": {
+    "description": "Error message shown when tasks failed to load."
+  },
+  "taskSelectionCount": "{count, plural, =1{1개 작업} other{{count}개 작업}}",
+  "@taskSelectionCount": {
+    "description": "Selection counter on the tasks page.",
+    "placeholders": {
+      "count": {
+        "type": "num"
+      }
+    }
+  },
+  "taskGroupActive": "진행 중",
+  "@taskGroupActive": {
+    "description": "Header of the active tasks group."
+  },
+  "taskGroupFailed": "실패",
+  "@taskGroupFailed": {
+    "description": "Header of the failed tasks group."
+  },
+  "taskActionDownload": "다운로드",
+  "@taskActionDownload": {
+    "description": "Name of the download task action."
+  },
+  "taskActionFavorite": "즐겨찾기",
+  "@taskActionFavorite": {
+    "description": "Name of the favorite task action."
+  },
+  "taskActionUnfavorite": "즐겨찾기 해제",
+  "@taskActionUnfavorite": {
+    "description": "Name of the unfavorite task action."
+  },
+  "taskDownloadRunning": "다운로드 중",
+  "@taskDownloadRunning": {
+    "description": "Label of a running download task."
+  },
+  "taskFavoriteRunning": "즐겨찾기 중",
+  "@taskFavoriteRunning": {
+    "description": "Label of a running favorite task."
+  },
+  "taskUnfavoriteRunning": "즐겨찾기 해제 중",
+  "@taskUnfavoriteRunning": {
+    "description": "Label of a running unfavorite task."
+  },
+  "taskDownloadCompleted": "다운로드됨",
+  "@taskDownloadCompleted": {
+    "description": "Label of a completed download task."
+  },
+  "taskFavoriteCompleted": "즐겨찾기됨",
+  "@taskFavoriteCompleted": {
+    "description": "Label of a completed favorite task."
+  },
+  "taskUnfavoriteCompleted": "즐겨찾기 해제됨",
+  "@taskUnfavoriteCompleted": {
+    "description": "Label of a completed unfavorite task."
+  },
+  "taskQueuedTo": "{action} 대기열에 추가됨",
+  "@taskQueuedTo": {
+    "description": "Label of a queued task.",
+    "placeholders": {
+      "action": {
+        "type": "String"
+      }
+    }
+  },
+  "taskFailedTo": "{action} 실패",
+  "@taskFailedTo": {
+    "description": "Label of a failed task.",
+    "placeholders": {
+      "action": {
+        "type": "String"
+      }
+    }
+  },
+  "taskCanceledAction": "{action} 취소됨",
+  "@taskCanceledAction": {
+    "description": "Label of a canceled task.",
+    "placeholders": {
+      "action": {
+        "type": "String"
+      }
+    }
+  },
+  "taskTileTitle": "{label} 게시물 #{id}",
+  "@taskTileTitle": {
+    "description": "Title of a task tile.",
+    "placeholders": {
+      "label": {
+        "type": "String"
+      },
+      "id": {
+        "type": "num"
+      }
+    }
+  },
+  "followNotificationBody": "{count, plural, =1{새 게시물이 있습니다!} other{{count}개 새 게시물이 있습니다!}}",
+  "@followNotificationBody": {
+    "description": "Body of a follow notification, shown under the follow's title.",
+    "placeholders": {
+      "count": {
+        "type": "num"
+      }
+    }
+  },
+  "followNotificationSummary": "새 게시물!",
+  "@followNotificationSummary": {
+    "description": "Title of the summary notification for multiple follows."
+  },
+  "followChannelName": "팔로우한 태그",
+  "@followChannelName": {
+    "description": "Name of the follow notification channel shown in the system settings."
+  },
+  "followChannelDescription": "팔로우 중인 태그 알림",
+  "@followChannelDescription": {
+    "description": "Description of the follow notification channel shown in the system settings."
+  },
+  "hostUnavailableTitle": "호스트 사용 불가",
+  "@hostUnavailableTitle": {
+    "description": "Title of the host unavailable page."
+  },
+  "hostUnavailableBody": "{host}를 사용할 수 없는 것 같습니다!",
+  "@hostUnavailableBody": {
+    "description": "Body of the host unavailable page.",
+    "placeholders": {
+      "host": {
+        "type": "String"
+      }
+    }
+  },
+  "hostUnavailableResolveHint": "다음 브라우저 창에서 문제를 해결하세요.\n\nCloudflare 캡챠 쿠키가 저장됩니다.",
+  "@hostUnavailableResolveHint": {
+    "description": "Hint about resolving the host unavailability in a browser."
+  },
+  "hostUnavailableResolve": "해결",
+  "@hostUnavailableResolve": {
+    "description": "Button opening the browser window resolving the host unavailability."
+  },
+  "hostUnavailableWaitBody": "\n{host}에서 문제를 해결할 때까지 기다려주세요.",
+  "@hostUnavailableWaitBody": {
+    "description": "Body of the host unavailable page when the issue cannot be resolved by the user.",
+    "placeholders": {
+      "host": {
+        "type": "String"
+      }
+    }
+  },
+  "downloadChooseFolder": "폴더 선택",
+  "@downloadChooseFolder": {
+    "description": "Title of the folder picker dialog on desktop."
+  },
+  "searchFilterTitle": "필터",
+  "@searchFilterTitle": {
+    "description": "Title of the posts search filter prompt."
+  },
+  "searchFilterQueryLabel": "현재 검색어:",
+  "@searchFilterQueryLabel": {
+    "description": "Label of the query preview of the posts search filter prompt."
+  },
+  "filterSectionSort": "정렬",
+  "@filterSectionSort": {
+    "description": "Header of the sorting section of the posts filter prompt."
+  },
+  "filterSectionContent": "콘텐츠",
+  "@filterSectionContent": {
+    "description": "Header of the content section of the posts filter prompt."
+  },
+  "filterSectionTime": "시간 및 상태",
+  "@filterSectionTime": {
+    "description": "Header of the time and status section of the posts filter prompt."
+  },
+  "filterSectionMedia": "미디어",
+  "@filterSectionMedia": {
+    "description": "Header of the media section of the posts filter prompt."
+  },
+  "filterSectionOther": "기타",
+  "@filterSectionOther": {
+    "description": "Header of the remaining filters of the posts filter prompt."
+  },
+  "searchFilterReset": "필터 초기화",
+  "@searchFilterReset": {
+    "description": "Button that clears every filter of the posts filter prompt."
+  },
+  "dtextParsingFailed": "DText 파싱 실패",
+  "filteredShow": "보기",
+  "filteredHide": "숨기기",
+  "selectOptions": "옵션 선택...",
+  "databaseNotE1547": "이 파일은 e1547 데이터베이스가 아닙니다.",
+  "adultGateTitle": "간단한 현실 확인",
+  "@adultGateTitle": {
+    "description": "Title of the 18+ confirmation dialog shown before a login is attempted."
+  },
+  "adultGateBody": "이 앱은 성인만을 위한 예술 커뮤니티인 e621로 직접 연결됩니다. 거주지에서 법적 성인임을 확인해주세요 - 우리는 당신을 믿지만, 변호사들은 그렇지 않습니다.",
+  "@adultGateBody": {
+    "description": "Body of the 18+ confirmation dialog shown before a login is attempted."
+  },
+  "adultGateConfirm": "물론입니다 - 저는 18세 이상입니다",
+  "@adultGateConfirm": {
+    "description": "Confirmation action of the 18+ dialog; deliberately conversational."
+  },
+  "adultGateDeny": "돌아가기",
+  "@adultGateDeny": {
+    "description": "Denial action of the 18+ dialog; deliberately conversational."
+  },
+  "databaseExportPasswordLabel": "비밀번호 (선택)",
+  "@databaseExportPasswordLabel": {
+    "description": "Label of the optional password field in the database export dialog."
+  },
+  "databaseExportPasswordHint": "내보낸 파일을 암호화합니다. 비워두면 평문 암호화 파일로 저장됩니다.",
+  "@databaseExportPasswordHint": {
+    "description": "Helper text under the optional export password field."
+  },
+  "databaseImportEncryptedTitle": "암호화된 데이터베이스",
+  "@databaseImportEncryptedTitle": {
+    "description": "Title of the password prompt for encrypted database imports."
+  },
+  "databaseImportPasswordLabel": "비밀번호",
+  "@databaseImportPasswordLabel": {
+    "description": "Label of the password field in the encrypted import prompt."
+  },
+  "databaseImportWrongPassword": "잘못된 비밀번호 또는 손상된 파일입니다.",
+  "@databaseImportWrongPassword": {
+    "description": "Shown when decryption fails, i.e. the password was wrong or the file is corrupted."
+  },
+  "actionUnlock": "잠금 해제",
+  "@actionUnlock": {
+    "description": "Confirmation action of the encrypted import password prompt."
+  }
+}

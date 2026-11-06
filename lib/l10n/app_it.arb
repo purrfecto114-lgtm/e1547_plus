@@ -1,0 +1,2493 @@
+{
+  "@@locale": "it",
+  "appName": "e1547",
+  "@appName": {
+    "description": "The app name.",
+    "placeholders": {}
+  },
+  "failedToLoad": "Caricamento fallito",
+  "nothingToSeeHere": "Nulla da vedere qui",
+  "loading": "Caricamento...",
+  "actionCancel": "ANNULLA",
+  "actionOk": "OK",
+  "actionTryAgain": "Riprova",
+  "actionDownload": "SCARICA",
+  "actionImport": "IMPORTA",
+  "actionExport": "ESPORTA",
+  "actionUndo": "Annulla",
+  "actionRestartNow": "RIAVVIA ORA",
+  "failedToLoadSuggestions": "Caricamento suggerimenti fallito",
+  "selectionItemCount": "{count, plural, one{1 elemento} other{{count} elementi}}",
+  "@selectionItemCount": {
+    "description": "Number of selected items.",
+    "placeholders": {
+      "count": {
+        "type": "num"
+      }
+    }
+  },
+  "actionAbort": "Interrompi",
+  "actionSelectAll": "Seleziona tutto",
+  "fileSavedAs": "File salvato come {name}",
+  "@fileSavedAs": {
+    "description": "Confirmation after saving a file.",
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "copiedToClipboard": "Copiato negli appunti",
+  "saveFile": "Salva file",
+  "filterTooltip": "Filtra",
+  "rangeInvalidFormat": "Formato non valido",
+  "itemProgress": "Elemento {current}/{total}",
+  "@itemProgress": {
+    "description": "Progress of processing items.",
+    "placeholders": {
+      "current": {
+        "type": "num"
+      },
+      "total": {
+        "type": "num"
+      }
+    }
+  },
+  "taskCancelled": "Task annullato",
+  "taskFailedAt": "Fallito all'elemento {index}",
+  "@taskFailedAt": {
+    "description": "Item processing failure.",
+    "placeholders": {
+      "index": {
+        "type": "num"
+      }
+    }
+  },
+  "taskDone": "Completato",
+  "failedToInitialize": "Inizializzazione fallita",
+  "navHome": "Home",
+  "navHot": "Popolari",
+  "navSearch": "Ricerca",
+  "navFavorites": "Preferiti",
+  "navTimeline": "Timeline",
+  "navSubscriptions": "Sottoscrizioni",
+  "navBookmarks": "Segnalibri",
+  "navPools": "Pool",
+  "navForum": "Forum",
+  "navHistory": "Cronologia",
+  "navTasks": "Task",
+  "navSettings": "Impostazioni",
+  "navAbout": "Informazioni",
+  "settingsTitle": "Impostazioni",
+  "sectionAccount": "Account",
+  "sectionUser": "Utente",
+  "sectionAppearance": "Aspetto",
+  "sectionInteractions": "Interazioni",
+  "sectionSecurity": "Sicurezza",
+  "sectionDevelopment": "Sviluppo",
+  "settingsBlacklist": "Blacklist",
+  "tagsBlocked": "{count, plural, one{1 tag bloccato} other{{count} tag bloccati}}",
+  "@tagsBlocked": {
+    "placeholders": {
+      "count": {
+        "type": "num"
+      }
+    }
+  },
+  "settingsFollows": "Seguiti",
+  "searchesFollowed": "{count, plural, one{1 ricerca seguita} other{{count} ricerche seguite}}",
+  "@searchesFollowed": {
+    "placeholders": {
+      "count": {
+        "type": "num"
+      }
+    }
+  },
+  "settingsHistory": "Cronologia",
+  "pagesVisited": "{count, plural, one{1 pagina visitata} other{{count} pagine visitate}}",
+  "@pagesVisited": {
+    "placeholders": {
+      "count": {
+        "type": "num"
+      }
+    }
+  },
+  "settingsTheme": "Tema",
+  "themeDark": "scuro",
+  "themeAmoled": "amoled",
+  "themeLight": "chiaro",
+  "themeBlue": "blu",
+  "themeSystem": "sistema",
+  "settingsLanguage": "Lingua",
+  "languageSystemDefault": "Predefinita di sistema",
+  "settingsHandedness": "Mano preferita",
+  "handRight": "Destra",
+  "handLeft": "Sinistra",
+  "settingsHandednessHint": "I pulsanti e le azioni rapide si spostano nella portata di questa mano.",
+  "settingsTileSize": "Dimensione tile",
+  "settingsQuilt": "Quilt",
+  "gridTitle": "Griglia",
+  "quiltSquare": "tile quadratiche",
+  "quiltVertical": "tile si espandono verticalmente",
+  "settingsPostInfo": "Info post",
+  "postInfoShown": "info sulle tile dei post",
+  "postInfoHidden": "solo le tile delle immagini",
+  "settingsDownloadLocation": "Posizione download",
+  "settingsUpvoteFavorites": "Apprezza i preferiti",
+  "upvoteFavoritesOn": "apprezza e metti nei preferiti",
+  "upvoteFavoritesOff": "solo nei preferiti",
+  "settingsVideoVolume": "Volume video",
+  "videoMuted": "muto",
+  "videoWithSound": "con suono",
+  "videoSeekSeconds": "{seconds} secondi",
+  "videoResSource": "Sorgente",
+  "videoResNote": "I video non sono sempre disponibili nelle dimensioni standard; viene usata quella più vicina alla selezione.",
+  "qualityLow": "Bassa",
+  "qualityMedium": "Media",
+  "qualityHigh": "Alta",
+  "settingsAutoLoadVideos": "Caricamento automatico video",
+  "autoLoadVideosOn": "video caricati durante la navigazione",
+  "autoLoadVideosOff": "video caricati alla riproduzione",
+  "autoLoadVideosDialogTitle": "Caricare i video automaticamente?",
+  "autoLoadVideosDialogBody": "I video verranno scaricati completamente durante la navigazione e la ricerca. Ciò può consumare molti dati su connessioni a consumo.",
+  "videoQuality": "Qualità video",
+  "settingsSecureDisplay": "Display sicuro",
+  "secureDisplayOn": "schermo protetto",
+  "secureDisplayOff": "schermo visibile",
+  "secureDisplayCover": "Contenuto nascosto",
+  "settingsIncognitoKeyboard": "Tastiera in incognito",
+  "enabled": "abilitato",
+  "disabled": "disabilitato",
+  "settingsPinLock": "Blocco PIN",
+  "pinEnabled": "PIN abilitato",
+  "pinDisabled": "PIN disabilitato",
+  "settingsBiometricLock": "Blocco biometrico",
+  "biometricsEnabled": "biometrie abilitate",
+  "biometricsDisabled": "biometrie disabilitate",
+  "biometricsUnavailable": "nessuna biometria trovata su questo dispositivo",
+  "settingsUpdaterBeta": "Aggiornamenti recenti",
+  "updaterBetaOn": "Versioni stabili e pre-release",
+  "updaterBetaOff": "Solo versioni stabili",
+  "settingsDeveloperMode": "Modalità sviluppatore",
+  "devOptionsShown": "opzioni mostrate",
+  "devOptionsHidden": "opzioni nascoste",
+  "errorsLogged": "{count, plural, =1{1 error registrato} other{{count} errori registrati}}",
+  "@errorsLogged": {
+    "placeholders": {
+      "count": {
+        "type": "num"
+      }
+    }
+  },
+  "settingsDatabase": "Database",
+  "databaseExporting": "Esportazione database in corso...",
+  "databaseExported": "Database esportato con successo",
+  "databaseExportFailed": "Esportazione fallita",
+  "databaseExport": "Esporta",
+  "databaseImporting": "Importazione database in corso...",
+  "databaseInvalidFile": "File database non valido: {error}",
+  "@databaseInvalidFile": {
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
+  "databaseImportFailed": "Importazione fallita: {error}",
+  "@databaseImportFailed": {
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
+  "databaseImportTitle": "Importa Database",
+  "databaseRestartTitle": "Riavvio Richiesto",
+  "databaseRestartBody": "L'applicazione deve riavviarsi per applicare le modifiche.",
+  "databaseImport": "Importa",
+  "lockEnterPin": "Inserisci PIN",
+  "lockEnterNewPin": "Inserisci nuovo PIN",
+  "lockConfirmNewPin": "Conferma nuovo PIN",
+  "lockFailedAuth": "Autenticazione fallita",
+  "lockPleaseAuth": "Per favore autenticati",
+  "lockRetry": "Riprova",
+  "lockBiometricReason": "Autenticati per sbloccare.",
+  "lockBiometricFailure": "Grave errore nell'autenticazione biometrica",
+  "aboutVersion": "Versione",
+  "updaterFetching": "Ricerca aggiornamenti...",
+  "updaterCheckFailed": "Impossibile controllare aggiornamenti",
+  "updaterNewest": "Hai l'ultima versione",
+  "updaterNewer": "È disponibile una versione più recente: {version}",
+  "@updaterNewer": {
+    "placeholders": {
+      "version": {
+        "type": "String"
+      }
+    }
+  },
+  "updaterNewerHeader": "È disponibile una versione più recente: ",
+  "aboutExperimentalPlatform": "Piattaforma sperimentale",
+  "aboutExperimentalBody": "Questa piattaforma non è supportata. Aspettati bug e funzionalità mancanti.",
+  "aboutGitHub": "GitHub",
+  "aboutUpstream": "Upstream",
+  "aboutUpstreamBody": "Questa app è un fork di clragon/e1547",
+  "aboutDiscord": "Discord",
+  "aboutForum": "Forum",
+  "aboutForumTopic": "Discussione e621 #{id}",
+  "@aboutForumTopic": {
+    "placeholders": {
+      "id": {
+        "type": "num"
+      }
+    }
+  },
+  "aboutWebsite": "Sito web",
+  "aboutKofi": "Ko-fi",
+  "aboutEmail": "Email",
+  "aboutPlaystore": "Playstore",
+  "aboutDonors": "Donatori",
+  "aboutDonorsThanks": "Grazie per aiutarmi a continuare lo sviluppo!",
+  "aboutNoDonors": "Ancora nessun donatore",
+  "aboutDonorsFailed": "Impossibile recuperare i donatori",
+  "aboutDonorsNotListed": "Non sei nella lista? Contattaci!",
+  "developerUnlocked": "Ora sei uno sviluppatore!",
+  "databaseErrorLoading": "Errore nel caricamento del database",
+  "databaseUnknownSize": "Sconosciuto",
+  "databaseExportTitle": "Esporta Database",
+  "databaseExportSubtitle": "Salva una copia di backup del tuo database",
+  "databaseImportSubtitle": "Sostituisci il database corrente con quello importato",
+  "databaseImportWarning": "Questo sostituirà il tuo database corrente. \nTutti i dati andranno persi. Questa operazione non può essere annullata!",
+  "databaseExportSanitizedBody": "Il file esportato non conterrà i tuoi accessi o chiavi API.\nTutto il resto, inclusi account, host, cronologia, seguiti e attività, è incluso.",
+  "databaseImportNewerFile": "Questo file è stato creato con una versione più recente dell'app e non può essere importato.",
+  "databaseImportSanitized": "Per sicurezza, gli accessi salvati sono stati rimossi dal file importato.",
+  "databaseImportHostsWarning": "Attenzione: il file importato contiene account su altri siti: {hosts}",
+  "@databaseImportHostsWarning": {
+    "placeholders": {
+      "hosts": {
+        "type": "String",
+        "required": true
+      }
+    }
+  },
+  "databaseImportCancelled": "Importazione annullata",
+  "postsTitle": "Post",
+  "favoritesOf": "Preferiti di {user}",
+  "@favoritesOf": {
+    "placeholders": {
+      "user": {
+        "type": "String"
+      }
+    }
+  },
+  "favoritesUnavailable": "I preferiti non sono disponibili per gli utenti anonimi",
+  "favoriteOrder": "Ordine preferito",
+  "orderAdded": "ordine aggiunto",
+  "orderId": "ID ordine",
+  "postStateDeleted": "eliminato",
+  "postStateUnsupported": "non supportato",
+  "postStateUnavailable": "non disponibile",
+  "menuShare": "Condividi",
+  "menuDownload": "Scarica",
+  "menuBrowse": "Sfoglia",
+  "menuEdit": "Modifica",
+  "menuComment": "Commenta",
+  "menuReport": "Segnala",
+  "menuFlag": "Segna",
+  "actionOpen": "Apri",
+  "actionFollow": "Segui",
+  "actionUnfollow": "Smetti di seguire",
+  "actionMute": "Silenzia",
+  "actionNotify": "Notifiche",
+  "actionBookmark": "Salva",
+  "actionUnbookmark": "Rimuovi salvataggio",
+  "actionBlock": "Blocca",
+  "actionUnblock": "Sblocca",
+  "actionRemove": "Rimuovi",
+  "actionAdd": "Aggiungi",
+  "actionSubtract": "Sottrai",
+  "selectionPost": "post #{id}",
+  "@selectionPost": {
+    "placeholders": {
+      "id": {
+        "type": "num"
+      }
+    }
+  },
+  "selectionPostsCount": "{count, plural, other{{count} post}}",
+  "@selectionPostsCount": {
+    "placeholders": {
+      "count": {
+        "type": "num"
+      }
+    }
+  },
+  "noPosts": "Nessun post",
+  "failedToLoadPosts": "Caricamento post fallito",
+  "offlineBanner": "Sei offline. Vengono mostrati i dati in cache.",
+  "offlineNoData": "Sei offline",
+  "postListPageSummary": "Pagina {page} · {count, plural, one{{count} post} other{{count} post}}",
+  "postListPageLimit": "Hai raggiunto il limite di pagine del server. Per favore, restringi i termini di ricerca.",
+  "postListJumpToPage": "Vai alla pagina",
+  "postListJumpPageLabel": "Numero pagina",
+  "postListJumpPageRange": "Inserisci un numero di pagina tra 1 e {max}",
+  "postDeletedOverlay": "Post eliminato",
+  "postUnavailableOverlay": "Post non disponibile",
+  "postBlacklistedOverlay": "Post nella blacklist",
+  "unsupportedFileType": "I file {ext} non sono supportati",
+  "@unsupportedFileType": {
+    "placeholders": {
+      "ext": {
+        "type": "String"
+      }
+    }
+  },
+  "loginRequiredEdit": "Devi essere loggato per modificare i post!",
+  "loginRequiredComment": "Devi essere loggato per commentare!",
+  "loginRequiredReport": "Devi essere loggato per segnalare i post!",
+  "loginRequiredFlag": "Devi essere loggato per segnare i post!",
+  "postsBlocked": "{count, plural, =1{bloccato 1 post} other{bloccati {count} post}}",
+  "@postsBlocked": {
+    "description": "Number of posts currently blocked by the blacklist.",
+    "placeholders": {
+      "count": {
+        "type": "num"
+      }
+    }
+  },
+  "blacklistUpdateFailed": "Aggiornamento blacklist fallito!",
+  "@blacklistUpdateFailed": {
+    "description": "Error shown when saving the blacklist failed."
+  },
+  "blacklistAddTag": "Aggiungi tag",
+  "@blacklistAddTag": {
+    "description": "Title of the prompt that adds a tag to the blacklist."
+  },
+  "blacklistEditTag": "Modifica tag",
+  "denylistEntryDeleted": "Voce blacklist rimossa",
+  "@blacklistEditTag": {
+    "description": "Title of the prompt that edits a blacklist entry."
+  },
+  "blacklistEmpty": "La tua blacklist è vuota",
+  "@blacklistEmpty": {
+    "description": "Message shown when the blacklist contains no entries."
+  },
+  "menuDelete": "Elimina",
+  "@menuDelete": {
+    "description": "Menu item that deletes an item."
+  },
+  "filterScore": "Punteggio",
+  "@filterScore": {
+    "description": "Name of the score filter."
+  },
+  "filterFavoriteCount": "Conteggio preferiti",
+  "@filterFavoriteCount": {
+    "description": "Name of the favorite count filter."
+  },
+  "filterSortBy": "Ordina per",
+  "@filterSortBy": {
+    "description": "Name of the sort order filter."
+  },
+  "filterNew": "Nuovi",
+  "@filterNew": {
+    "description": "Sort order option that sorts by newest posts."
+  },
+  "filterRank": "Classifica",
+  "@filterRank": {
+    "description": "Sort order option that sorts by rank."
+  },
+  "filterRandom": "Casuale",
+  "@filterRandom": {
+    "description": "Sort order option that sorts randomly."
+  },
+  "filterDefault": "Predefinito",
+  "@filterDefault": {
+    "description": "Choice that leaves a filter at its default."
+  },
+  "filterRating": "Valutazione",
+  "@filterRating": {
+    "description": "Name of the rating filter."
+  },
+  "filterSafe": "Sicuro",
+  "@filterSafe": {
+    "description": "The safe rating."
+  },
+  "filterQuestionable": "Dubbia",
+  "@filterQuestionable": {
+    "description": "The questionable rating."
+  },
+  "filterExplicit": "Esplicito",
+  "@filterExplicit": {
+    "description": "The explicit rating."
+  },
+  "filterAll": "Tutti",
+  "@filterAll": {
+    "description": "Choice that does not restrict a filter."
+  },
+  "filterPool": "Pool",
+  "@filterPool": {
+    "description": "Name of the pool filter."
+  },
+  "filterHasPool": "Ha pool",
+  "@filterHasPool": {
+    "description": "Description of the pool filter."
+  },
+  "filterChild": "Figlio",
+  "@filterChild": {
+    "description": "Name of the child post filter."
+  },
+  "filterIsChildPost": "È post figlio",
+  "@filterIsChildPost": {
+    "description": "Description of the child post filter."
+  },
+  "filterParent": "Genitore",
+  "@filterParent": {
+    "description": "Name of the parent post filter."
+  },
+  "filterIsParentPost": "È post genitore",
+  "@filterIsParentPost": {
+    "description": "Description of the parent post filter."
+  },
+  "filterUploadDate": "Data caricamento",
+  "@filterUploadDate": {
+    "description": "Name of the upload date filter."
+  },
+  "filterLastDay": "Ultimo giorno",
+  "@filterLastDay": {
+    "description": "Upload date option for the last day."
+  },
+  "filterLastWeek": "Ultima settimana",
+  "@filterLastWeek": {
+    "description": "Upload date option for the last week."
+  },
+  "filterLastMonth": "Ultimo mese",
+  "@filterLastMonth": {
+    "description": "Upload date option for the last month."
+  },
+  "filterLastYear": "Ultimo anno",
+  "@filterLastYear": {
+    "description": "Upload date option for the last year."
+  },
+  "filterStatus": "Stato",
+  "@filterStatus": {
+    "description": "Name of the post status filter."
+  },
+  "filterActive": "Attivo",
+  "@filterActive": {
+    "description": "The active post status."
+  },
+  "filterPending": "In attesa",
+  "@filterPending": {
+    "description": "The pending post status."
+  },
+  "filterDeleted": "Eliminato",
+  "@filterDeleted": {
+    "description": "The deleted post status."
+  },
+  "filterFlagged": "Segnalato",
+  "@filterFlagged": {
+    "description": "The flagged post status."
+  },
+  "filterAny": "Qualsiasi",
+  "@filterAny": {
+    "description": "Post status option that allows any status."
+  },
+  "filterFileType": "Tipo file",
+  "filterUploader": "Caricatore",
+  "filterWidth": "Larghezza",
+  "filterHeight": "Altezza",
+  "filterTagCount": "Conteggio tag",
+  "filterTrue": "Vero",
+  "filterFalse": "Falso",
+  "filterImages": "Immagini",
+  "filterVideos": "Video",
+  "filterTitleContains": "Il titolo contiene",
+  "@filterTitleContains": {
+    "description": "Name of the topic title filter."
+  },
+  "filterCategory": "Categoria",
+  "@filterCategory": {
+    "description": "Name of the category filter."
+  },
+  "filterGeneral": "Generale",
+  "@filterGeneral": {
+    "description": "The general topic category."
+  },
+  "filterSiteBugReports": "Segnalazioni bug e richieste funzionalità del sito",
+  "@filterSiteBugReports": {
+    "description": "A topic category."
+  },
+  "filterTagWikiProjects": "Progetti Wiki e domande sui tag",
+  "@filterTagWikiProjects": {
+    "description": "A topic category."
+  },
+  "filterTagAliasSuggestions": "Suggerimenti alias e implicazioni dei tag",
+  "@filterTagAliasSuggestions": {
+    "description": "A topic category."
+  },
+  "filterArtTalk": "Art Talk",
+  "@filterArtTalk": {
+    "description": "A topic category."
+  },
+  "filterOffTopic": "Off Topic",
+  "@filterOffTopic": {
+    "description": "A topic category."
+  },
+  "filterE621Tools": "Strumenti e applicazioni e621",
+  "@filterE621Tools": {
+    "description": "A topic category."
+  },
+  "filterNewestFirst": "Prima i più recenti",
+  "@filterNewestFirst": {
+    "description": "Sort order option that sorts by newest topics first."
+  },
+  "filterOldestFirst": "Prima i più vecchi",
+  "@filterOldestFirst": {
+    "description": "Sort order option that sorts by oldest topics first."
+  },
+  "filterSticky": "In evidenza",
+  "@filterSticky": {
+    "description": "Name of the sticky filter."
+  },
+  "filterIsSticky": "È in evidenza",
+  "@filterIsSticky": {
+    "description": "Description of the sticky filter."
+  },
+  "filterLocked": "Bloccato",
+  "@filterLocked": {
+    "description": "Name of the locked filter."
+  },
+  "filterIsLocked": "È bloccato",
+  "@filterIsLocked": {
+    "description": "Description of the locked filter."
+  },
+  "filterDescription": "Descrizione",
+  "@filterDescription": {
+    "description": "Name of the pool description filter."
+  },
+  "filterCreator": "Creatore",
+  "@filterCreator": {
+    "description": "Name of the pool creator filter."
+  },
+  "filterIsActive": "È attivo",
+  "@filterIsActive": {
+    "description": "Description of the active pool filter."
+  },
+  "filterSeries": "Serie",
+  "@filterSeries": {
+    "description": "The series pool category."
+  },
+  "filterCollection": "Collezione",
+  "@filterCollection": {
+    "description": "The collection pool category."
+  },
+  "filterName": "Nome",
+  "@filterName": {
+    "description": "Sort order option that sorts pools by name."
+  },
+  "filterCreated": "Creato",
+  "@filterCreated": {
+    "description": "Sort order option that sorts pools by creation date."
+  },
+  "filterUpdated": "Aggiornato",
+  "@filterUpdated": {
+    "description": "Sort order option that sorts pools by update date."
+  },
+  "filterPostCount": "Numero di post",
+  "@filterPostCount": {
+    "description": "Sort order option that sorts pools by post count."
+  },
+  "postUpdateFailed": "Aggiornamento post #{id} fallito",
+  "@postUpdateFailed": {
+    "description": "Error shown when updating a post failed.",
+    "placeholders": {
+      "id": {
+        "type": "num"
+      }
+    }
+  },
+  "postUpdated": "Post #{id} aggiornato",
+  "@postUpdated": {
+    "description": "Confirmation shown after updating a post.",
+    "placeholders": {
+      "id": {
+        "type": "num"
+      }
+    }
+  },
+  "failedToLoadPost": "Caricamento post fallito",
+  "@failedToLoadPost": {
+    "description": "Error shown when a single post failed to load."
+  },
+  "postNotFound": "Post non trovato",
+  "@postNotFound": {
+    "description": "Message shown when a post does not exist."
+  },
+  "commentsTitle": "Commenti",
+  "@commentsTitle": {
+    "description": "Title of the comment list drawer."
+  },
+  "commentsOfPost": "Commenti del post #{postId}",
+  "@commentsOfPost": {
+    "description": "Title of a post's comment page.",
+    "placeholders": {
+      "postId": {
+        "type": "num"
+      }
+    }
+  },
+  "commentOrder": "Ordine commenti",
+  "@commentOrder": {
+    "description": "Label of the comment sorting switch."
+  },
+  "noComments": "Nessun commento",
+  "@noComments": {
+    "description": "Message shown when there are no comments."
+  },
+  "failedToLoadComments": "Caricamento commenti fallito",
+  "@failedToLoadComments": {
+    "description": "Error shown when comments failed to load."
+  },
+  "commentTitle": "Commento #{id}",
+  "@commentTitle": {
+    "description": "Title of the comment loading page.",
+    "placeholders": {
+      "id": {
+        "type": "num"
+      }
+    }
+  },
+  "failedToLoadComment": "Caricamento commento fallito",
+  "@failedToLoadComment": {
+    "description": "Error shown when a comment failed to load."
+  },
+  "commentNotFound": "Commento non trovato",
+  "@commentNotFound": {
+    "description": "Message shown when a comment does not exist."
+  },
+  "commentEditorTitle": "Commento #{postId}",
+  "@commentEditorTitle": {
+    "description": "Title of the comment editor.",
+    "placeholders": {
+      "postId": {
+        "type": "num"
+      }
+    }
+  },
+  "commentSendFailed": "Invio commento fallito!",
+  "@commentSendFailed": {
+    "description": "Error shown when sending a comment failed."
+  },
+  "commentSent": "Commento inviato!",
+  "@commentSent": {
+    "description": "Confirmation shown after sending a comment."
+  },
+  "commentHidden": "Questo commento è nascosto",
+  "@commentHidden": {
+    "description": "Tooltip of the hidden comment indicator."
+  },
+  "commentUpvoteFailed": "Voto positivo al commento #{id} fallito",
+  "@commentUpvoteFailed": {
+    "description": "Error shown when upvoting a comment failed.",
+    "placeholders": {
+      "id": {
+        "type": "num"
+      }
+    }
+  },
+  "commentDownvoteFailed": "Voto negativo al commento #{id} fallito",
+  "@commentDownvoteFailed": {
+    "description": "Error shown when downvoting a comment failed.",
+    "placeholders": {
+      "id": {
+        "type": "num"
+      }
+    }
+  },
+  "commentLoginRequiredEdit": "Devi essere loggato per modificare i commenti!",
+  "@commentLoginRequiredEdit": {
+    "description": "Error shown when editing a comment requires a login."
+  },
+  "commentLoginRequiredReply": "Devi essere loggato per rispondere ai commenti!",
+  "@commentLoginRequiredReply": {
+    "description": "Error shown when replying to a comment requires a login."
+  },
+  "commentLoginRequiredReport": "Devi essere loggato per segnalare i commenti!",
+  "@commentLoginRequiredReport": {
+    "description": "Error shown when reporting a comment requires a login."
+  },
+  "commentCopiedId": "ID commento #{id} copiato",
+  "@commentCopiedId": {
+    "description": "Confirmation shown after copying a comment id.",
+    "placeholders": {
+      "id": {
+        "type": "num"
+      }
+    }
+  },
+  "warningUserWarned": "L'utente ha ricevuto un avviso per questo messaggio",
+  "@warningUserWarned": {
+    "description": "Warning attached to a comment or reply whose author was warned."
+  },
+  "warningUserRecorded": "L'utente ha ricevuto un record per questo messaggio",
+  "@warningUserRecorded": {
+    "description": "Warning attached to a comment or reply whose author received a record."
+  },
+  "warningUserBanned": "L'utente è stato bannato per questo messaggio",
+  "@warningUserBanned": {
+    "description": "Warning attached to a comment or reply whose author was banned."
+  },
+  "repliesTitle": "Risposte",
+  "@repliesTitle": {
+    "description": "Title of the reply list drawer."
+  },
+  "replyOrder": "Ordine risposte",
+  "@replyOrder": {
+    "description": "Label of the reply sorting switch."
+  },
+  "noReplies": "Nessuna risposta",
+  "@noReplies": {
+    "description": "Message shown when there are no replies."
+  },
+  "failedToLoadReplies": "Caricamento risposte fallito",
+  "@failedToLoadReplies": {
+    "description": "Error shown when replies failed to load."
+  },
+  "replyTitle": "Risposta #{id}",
+  "@replyTitle": {
+    "description": "Title of the reply loading page.",
+    "placeholders": {
+      "id": {
+        "type": "num"
+      }
+    }
+  },
+  "failedToLoadReply": "Caricamento risposta fallito",
+  "@failedToLoadReply": {
+    "description": "Error shown when a reply failed to load."
+  },
+  "replyNotFound": "Risposta non trovata",
+  "@replyNotFound": {
+    "description": "Message shown when a reply does not exist."
+  },
+  "replyEditorTitle": "Risposta #{topicId}",
+  "@replyEditorTitle": {
+    "description": "Title of the reply editor.",
+    "placeholders": {
+      "topicId": {
+        "type": "num"
+      }
+    }
+  },
+  "replySendFailed": "Invio risposta fallito!",
+  "@replySendFailed": {
+    "description": "Error shown when sending a reply failed."
+  },
+  "replySent": "Risposta inviata!",
+  "@replySent": {
+    "description": "Confirmation shown after sending a reply."
+  },
+  "replyHidden": "Questa risposta è nascosta",
+  "@replyHidden": {
+    "description": "Tooltip of the hidden reply indicator."
+  },
+  "replyLoginRequiredEdit": "Devi essere loggato per modificare le risposte!",
+  "@replyLoginRequiredEdit": {
+    "description": "Error shown when editing a reply requires a login."
+  },
+  "replyLoginRequiredReply": "Devi essere loggato per rispondere!",
+  "@replyLoginRequiredReply": {
+    "description": "Error shown when replying requires a login."
+  },
+  "replyLoginRequiredReport": "Devi essere loggato per segnalare le risposte!",
+  "@replyLoginRequiredReport": {
+    "description": "Error shown when reporting a reply requires a login."
+  },
+  "replyCopiedId": "ID risposta #{id} copiato",
+  "@replyCopiedId": {
+    "description": "Confirmation shown after copying a reply id.",
+    "placeholders": {
+      "id": {
+        "type": "num"
+      }
+    }
+  },
+  "menuReply": "Rispondi",
+  "@menuReply": {
+    "description": "Menu item that replies to an item."
+  },
+  "menuCopyId": "Copia ID",
+  "@menuCopyId": {
+    "description": "Menu item that copies an id to the clipboard."
+  },
+  "menuRefresh": "Aggiorna",
+  "@menuRefresh": {
+    "description": "Menu item that refreshes a list."
+  },
+  "actionCopy": "Copia",
+  "@actionCopy": {
+    "description": "Tooltip of copy buttons."
+  },
+  "actionSave": "Salva",
+  "@actionSave": {
+    "description": "Button that saves changes."
+  },
+  "actionShow": "Mostra",
+  "@actionShow": {
+    "description": "Tooltip to reveal a hidden value."
+  },
+  "actionHide": "Nascondi",
+  "@actionHide": {
+    "description": "Tooltip to hide a visible value."
+  },
+  "actionCannotBeUndone": "Questa azione non può essere annullata.",
+  "@actionCannotBeUndone": {
+    "description": "Warning that a destructive action is permanent."
+  },
+  "info": "Info",
+  "@info": {
+    "description": "Label of info buttons and sections."
+  },
+  "wikiTitle": "Wiki {idOrTitle}",
+  "@wikiTitle": {
+    "description": "Title of the wiki loading page. The placeholder is an id reference like '#123' or a wiki title.",
+    "placeholders": {
+      "idOrTitle": {
+        "type": "String"
+      }
+    }
+  },
+  "failedToLoadWiki": "Caricamento wiki fallito",
+  "@failedToLoadWiki": {
+    "description": "Error shown when a wiki page failed to load."
+  },
+  "wikiNotFound": "Wiki non trovata",
+  "@wikiNotFound": {
+    "description": "Message shown when a wiki page does not exist."
+  },
+  "wikiCopiedId": "ID wiki #{id} copiato",
+  "@wikiCopiedId": {
+    "description": "Confirmation shown after copying a wiki id.",
+    "placeholders": {
+      "id": {
+        "type": "num"
+      }
+    }
+  },
+  "wikiInfoId": "id",
+  "@wikiInfoId": {
+    "description": "Label of the wiki id info row."
+  },
+  "wikiInfoAlias": "alias",
+  "@wikiInfoAlias": {
+    "description": "Label of the wiki alias info row."
+  },
+  "wikiInfoCreated": "creato",
+  "@wikiInfoCreated": {
+    "description": "Label of the wiki creation date info row."
+  },
+  "wikiInfoUpdated": "aggiornato",
+  "@wikiInfoUpdated": {
+    "description": "Label of the wiki update date info row."
+  },
+  "wikiInfoLocked": "bloccato",
+  "@wikiInfoLocked": {
+    "description": "Label of the wiki lock info row."
+  },
+  "wikiInfoYes": "sì",
+  "@wikiInfoYes": {
+    "description": "Positive value of info rows."
+  },
+  "wikiInfoNo": "no",
+  "@wikiInfoNo": {
+    "description": "Negative value of info rows."
+  },
+  "userTitle": "Utente {idOrName}",
+  "@userTitle": {
+    "description": "Title of the user loading page. The placeholder is an id reference like '#123' or a username.",
+    "placeholders": {
+      "idOrName": {
+        "type": "String"
+      }
+    }
+  },
+  "failedToLoadUser": "Impossibile caricare l'utente",
+  "@failedToLoadUser": {
+    "description": "Error shown when a user failed to load."
+  },
+  "userNotFound": "Utente non trovato",
+  "@userNotFound": {
+    "description": "Message shown when a user does not exist."
+  },
+  "userUploads": "Caricamenti",
+  "@userUploads": {
+    "description": "Label of the uploads tab on the user page."
+  },
+  "userLoginRequiredReport": "Devi essere loggato per segnalare utenti!",
+  "@userLoginRequiredReport": {
+    "description": "Error shown when reporting a user requires a login."
+  },
+  "userComission": "Commissione",
+  "@userComission": {
+    "description": "Header of the commission info section on the user page."
+  },
+  "userId": "id",
+  "@userId": {
+    "description": "Label of the user id info row."
+  },
+  "userJoined": "iscritto",
+  "@userJoined": {
+    "description": "Label of the join date info row."
+  },
+  "userRank": "livello",
+  "@userRank": {
+    "description": "Label of the user rank info row."
+  },
+  "userPosts": "post",
+  "@userPosts": {
+    "description": "Label of the user post count info row."
+  },
+  "userEdits": "modifiche",
+  "@userEdits": {
+    "description": "Label of the user post edit count info row."
+  },
+  "userFavorites": "preferiti",
+  "@userFavorites": {
+    "description": "Label of the user favorite count info row."
+  },
+  "userComments": "commenti",
+  "@userComments": {
+    "description": "Label of the user comment count info row."
+  },
+  "userForum": "forum",
+  "@userForum": {
+    "description": "Label of the user forum post count info row."
+  },
+  "userCopiedId": "Copiato id utente #{id}",
+  "@userCopiedId": {
+    "description": "Confirmation shown after copying a user id.",
+    "placeholders": {
+      "id": {
+        "type": "num"
+      }
+    }
+  },
+  "logsTitle": "Log",
+  "@logsTitle": {
+    "description": "Title of the logs page."
+  },
+  "logsTitleDate": "Log - {date}",
+  "@logsTitleDate": {
+    "description": "Title of the logs page for a specific date.",
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "selectionLogsCount": "{count, plural, other{{count} log}}",
+  "@selectionLogsCount": {
+    "description": "Number of selected log entries.",
+    "placeholders": {
+      "count": {
+        "type": "num"
+      }
+    }
+  },
+  "selectionLogsFilesCount": "{count, plural, other{{count} file log}}",
+  "@selectionLogsFilesCount": {
+    "description": "Number of selected log files.",
+    "placeholders": {
+      "count": {
+        "type": "num"
+      }
+    }
+  },
+  "logsLevels": "Livelli",
+  "@logsLevels": {
+    "description": "Header of the log level filter section."
+  },
+  "logsRecording": "Registrazione",
+  "@logsRecording": {
+    "description": "Header of the log recording settings section."
+  },
+  "logsVerbose": "Dettagliato",
+  "@logsVerbose": {
+    "description": "Switch that records verbose logs."
+  },
+  "logsVerboseAll": "tutti i livelli registrati",
+  "@logsVerboseAll": {
+    "description": "Subtitle of the verbose switch when all levels are recorded."
+  },
+  "logsVerboseMinimum": "{level} e superiori",
+  "@logsVerboseMinimum": {
+    "description": "Subtitle of the verbose switch naming the minimum recorded level.",
+    "placeholders": {
+      "level": {
+        "type": "String"
+      }
+    }
+  },
+  "logFilesTitle": "File Log",
+  "@logFilesTitle": {
+    "description": "Title of the log file list page."
+  },
+  "failedToLoadLogFiles": "Impossibile caricare i file log!",
+  "@failedToLoadLogFiles": {
+    "description": "Error shown when log files failed to load."
+  },
+  "noLogFiles": "Nessun file log disponibile!",
+  "@noLogFiles": {
+    "description": "Message shown when there are no log files."
+  },
+  "logsLive": "Live",
+  "@logsLive": {
+    "description": "Label of the live log source tile in the log file list."
+  },
+  "noLogs": "Nessun log",
+  "@noLogs": {
+    "description": "Message shown when there are no log entries."
+  },
+  "failedToReadLog": "Impossibile leggere il log",
+  "@failedToReadLog": {
+    "description": "Error shown when a log file failed to read."
+  },
+  "noErrorsLogged": "Nessun errore registrato",
+  "@noErrorsLogged": {
+    "description": "Message shown when no errors have been logged."
+  },
+  "logsErrorsCount": "{count, plural, =1{1 errore} other{{count} errori}}",
+  "@logsErrorsCount": {
+    "description": "Number of errors logged in the current session.",
+    "placeholders": {
+      "count": {
+        "type": "num"
+      }
+    }
+  },
+  "logsAll": "Tutti i log",
+  "@logsAll": {
+    "description": "Button that opens the full logs page."
+  },
+  "logsDismissAll": "Ignora tutti",
+  "@logsDismissAll": {
+    "description": "Button that dismisses all logged errors."
+  },
+  "logsDeleteTitle": "Eliminare {count} file log?",
+  "@logsDeleteTitle": {
+    "description": "Title of the log file deletion dialog.",
+    "placeholders": {
+      "count": {
+        "type": "num"
+      }
+    }
+  },
+  "identityAccounts": "Account",
+  "@identityAccounts": {
+    "description": "Header of the account list in the identity picker."
+  },
+  "identityAdd": "Aggiungi account",
+  "@identityAdd": {
+    "description": "Title of the page that adds an account."
+  },
+  "identityEdit": "Modifica account",
+  "@identityEdit": {
+    "description": "Title of the page that edits an account."
+  },
+  "identityRemoveTitle": "Rimuovere account?",
+  "@identityRemoveTitle": {
+    "description": "Title of the account removal dialog."
+  },
+  "identityRemoveBody": "Tutti i suoi dati saranno rimossi permanentemente, inclusi cronologia e seguiti.",
+  "@identityRemoveBody": {
+    "description": "Body of the account removal dialog."
+  },
+  "identityAnonymous": "Anonimo",
+  "@identityAnonymous": {
+    "description": "Name shown for identities without a username."
+  },
+  "identityDuplicate": "Hai già un identità con questo host e username.",
+  "@identityDuplicate": {
+    "description": "Error shown when adding a duplicate identity."
+  },
+  "identityLoginFailed": "Accesso fallito. \n{reason}",
+  "@identityLoginFailed": {
+    "description": "Error shown when logging in failed.",
+    "placeholders": {
+      "reason": {
+        "type": "String"
+      }
+    }
+  },
+  "identityLoginCheckDetails": "Controlla la connessione di rete e i dati di accesso",
+  "@identityLoginCheckDetails": {
+    "description": "Fallback reason shown when logging in failed without details."
+  },
+  "identitySite": "Sito",
+  "@identitySite": {
+    "description": "Label of the account host input field."
+  },
+  "identityHostRequired": "Devi fornire un URL host.",
+  "@identityHostRequired": {
+    "description": "Error shown when the host field is empty."
+  },
+  "identityHostInvalid": "URL host non valido",
+  "@identityHostInvalid": {
+    "description": "Error shown when the host URL is invalid."
+  },
+  "identityHostReadOnly": "Il sito non può essere modificato. Aggiungi un nuovo account per usare uno diverso.",
+  "@identityHostReadOnly": {
+    "description": "Tooltip of the read-only host field."
+  },
+  "identityUsernameLabel": "Username",
+  "@identityUsernameLabel": {
+    "description": "Label of the account username input field."
+  },
+  "identityUsernameRequired": "Devi fornire un username.",
+  "@identityUsernameRequired": {
+    "description": "Error shown when the username field is empty."
+  },
+  "identityApikeyLabel": "Chiave API",
+  "@identityApikeyLabel": {
+    "description": "Label of the account api key input field."
+  },
+  "identityApikeyHelp": "Dove trovo la mia chiave API?",
+  "@identityApikeyHelp": {
+    "description": "Link that opens the api key page of the current site."
+  },
+  "identityApikeyRequired": "Devi fornire una chiave API.\nes. 1ca1d165e973d7f8d35b7deb7a2ae54c",
+  "@identityApikeyRequired": {
+    "description": "Error shown when the api key field is empty."
+  },
+  "identityApikeyInvalid": "La chiave API è una sequenza di 24 o 32 caratteri A-z e 0-9\nes. 1ca1d165e973d7f8d35b7deb7a2ae54c",
+  "@identityApikeyInvalid": {
+    "description": "Error shown when the api key is malformed."
+  },
+  "identitySignupPrompt": "Non hai un account? Iscriviti qui",
+  "@identitySignupPrompt": {
+    "description": "Link that opens the registration page of the current site."
+  },
+  "identityHostHint": "Il sito che ospita il tuo account e i post.",
+  "@identityHostHint": {
+    "description": "Hint below the account host input field."
+  },
+  "identitySignIn": "Accedi",
+  "@identitySignIn": {
+    "description": "Segment that selects the sign-in mode of the account form."
+  },
+  "identityGuest": "Ospite",
+  "@identityGuest": {
+    "description": "Segment that selects the guest mode of the account form."
+  },
+  "identityLogin": "Accedi",
+  "@identityLogin": {
+    "description": "Button that logs in with the entered credentials."
+  },
+  "identityBrowseAnonymously": "Naviga in modo anonimo",
+  "@identityBrowseAnonymously": {
+    "description": "Button that continues without an account."
+  },
+  "identityConnecting": "Connessione a {host} come {username}…",
+  "@identityConnecting": {
+    "description": "Message of the login loading dialog.",
+    "placeholders": {
+      "host": {
+        "type": "String"
+      },
+      "username": {
+        "type": "String"
+      }
+    }
+  },
+  "identityActivateFailed": "Impossibile attivare l'identità: {error}",
+  "traitsActivateFailed": "Impossibile attivare i tratti: {error}",
+  "failedToLoadIdentities": "Impossibile caricare le identità",
+  "@failedToLoadIdentities": {
+    "description": "Error shown when identities failed to load."
+  },
+  "onboardingSkip": "Salta",
+  "@onboardingSkip": {
+    "description": "Button that skips the onboarding."
+  },
+  "onboardingBack": "Indietro",
+  "@onboardingBack": {
+    "description": "Button that returns to the previous onboarding step."
+  },
+  "onboardingNext": "Avanti",
+  "@onboardingNext": {
+    "description": "Button that advances to the next onboarding step."
+  },
+  "onboardingWelcomeTitle": "Benvenuto in {app}",
+  "@onboardingWelcomeTitle": {
+    "description": "Title of the welcome onboarding step.",
+    "placeholders": {
+      "app": {
+        "type": "String"
+      }
+    }
+  },
+  "onboardingWelcomeBody": "Un browser booru sofisticato.",
+  "@onboardingWelcomeBody": {
+    "description": "Body of the welcome onboarding step."
+  },
+  "onboardingThemeTitle": "Scegli un tema",
+  "@onboardingThemeTitle": {
+    "description": "Title of the theme onboarding step."
+  },
+  "onboardingThemeBody": "Prova uno. Puoi sempre cambiare idea più tardi.",
+  "onboardingQualityTitle": "Regola i media",
+  "onboardingQualityBody": "Scegli come caricare video e miniature. Puoi cambiarlo più tardi nelle impostazioni.",
+  "@onboardingThemeBody": {
+    "description": "Body of the theme onboarding step."
+  },
+  "onboardingLoginTitle": "Collega un account",
+  "@onboardingLoginTitle": {
+    "description": "Title of the login onboarding step."
+  },
+  "onboardingLanguageTitle": "Scegli una lingua",
+  "@onboardingLanguageTitle": {
+    "description": "Title of the language onboarding step."
+  },
+  "followAddToSubscriptions": "Aggiungi alle sottoscrizioni",
+  "@followAddToSubscriptions": {
+    "description": "Prompt title for adding a tag to the subscriptions page."
+  },
+  "followNoSubscriptions": "Nessuna sottoscrizione",
+  "@followNoSubscriptions": {
+    "description": "Empty state of the subscriptions page."
+  },
+  "followFailedToLoadSubscriptions": "Impossibile caricare le sottoscrizioni",
+  "@followFailedToLoadSubscriptions": {
+    "description": "Error state of the subscriptions page."
+  },
+  "followAddToBookmarks": "Aggiungi ai segnalibri",
+  "@followAddToBookmarks": {
+    "description": "Prompt title for adding a tag to the bookmarks page."
+  },
+  "followNoBookmarks": "Nessun segnalibro",
+  "@followNoBookmarks": {
+    "description": "Empty state of the bookmarks page."
+  },
+  "followFailedToLoadBookmarks": "Impossibile caricare i segnalibri",
+  "@followFailedToLoadBookmarks": {
+    "description": "Error state of the bookmarks page."
+  },
+  "followUnseenPosts": "post non visti",
+  "@followUnseenPosts": {
+    "description": "Title of the unseen posts tile in the subscriptions drawer."
+  },
+  "followMarkPostsSeen": "{count, plural, =1{contrassegna 1 post come letto} other{contrassegna {count} post come letti}}",
+  "@followMarkPostsSeen": {
+    "description": "Subtitle of the unseen posts tile, marking posts as seen.",
+    "placeholders": {
+      "count": {
+        "type": "num"
+      }
+    }
+  },
+  "followNoUnseenPosts": "nessun post non letto",
+  "@followNoUnseenPosts": {
+    "description": "Subtitle of the unseen posts tile when nothing is unseen."
+  },
+  "followShowUnseenFirst": "mostra non letti per primi",
+  "@followShowUnseenFirst": {
+    "description": "Title of the unseen filter switch in the subscriptions drawer."
+  },
+  "followFilteringUnseen": "filtro per non letti",
+  "@followFilteringUnseen": {
+    "description": "Subtitle of the unseen filter switch when filtering."
+  },
+  "followAllPostsShown": "tutti i post mostrati",
+  "@followAllPostsShown": {
+    "description": "Subtitle of the unseen filter switch when not filtering."
+  },
+  "followForceSync": "Sincronizzazione forzata",
+  "@followForceSync": {
+    "description": "Title of the force sync tile in the subscriptions drawer."
+  },
+  "followSyncAllFollows": "sincronizza tutti i seguiti",
+  "@followSyncAllFollows": {
+    "description": "Subtitle of the force sync tile when idle."
+  },
+  "followSyncingFollows": "sincronizzazione seguiti... {progress}",
+  "@followSyncingFollows": {
+    "description": "Subtitle of the force sync tile while syncing, with a progress value.",
+    "placeholders": {
+      "progress": {
+        "type": "String"
+      }
+    }
+  },
+  "followEditorTitle": "Modifica seguiti",
+  "@followEditorTitle": {
+    "description": "Title of the follow editor page."
+  },
+  "followSubscribe": "Iscriviti",
+  "@followSubscribe": {
+    "description": "Section title of the subscription list in the follow editor."
+  },
+  "followEditPrompt": "Modifica seguito",
+  "@followEditPrompt": {
+    "description": "Prompt title for editing a follow's tags."
+  },
+  "followTitlePrompt": "Titolo seguito",
+  "@followTitlePrompt": {
+    "description": "Label of the text field renaming a follow."
+  },
+  "followMarkAsRead": "Contrassegna come letto",
+  "@followMarkAsRead": {
+    "description": "Menu action marking a follow as read."
+  },
+  "followDisableNotifications": "Disabilita notifiche",
+  "@followDisableNotifications": {
+    "description": "Menu action disabling notifications of a follow."
+  },
+  "followEnableNotifications": "Abilita notifiche",
+  "@followEnableNotifications": {
+    "description": "Menu action enabling notifications of a follow."
+  },
+  "followRename": "Rinomina",
+  "@followRename": {
+    "description": "Menu action renaming a follow."
+  },
+  "followNewPosts": "{count, plural, =1{1 nuovo post} other{{label} nuovi post}}",
+  "@followNewPosts": {
+    "description": "Unseen counter label on a follow tile.",
+    "placeholders": {
+      "count": {
+        "type": "num"
+      },
+      "label": {
+        "type": "String"
+      }
+    }
+  },
+  "followSelectionCount": "{count, plural, =1{1 seguito} other{{count} seguiti}}",
+  "@followSelectionCount": {
+    "description": "Title of the follow selection app bar.",
+    "placeholders": {
+      "count": {
+        "type": "num"
+      }
+    }
+  },
+  "followAlias": "alias {alias}",
+  "@followAlias": {
+    "description": "Alias label on a follow tile.",
+    "placeholders": {
+      "alias": {
+        "type": "String?"
+      }
+    }
+  },
+  "historySelectionCount": "{count, plural, =1{1 voce} other{{count} voci}}",
+  "historyEntriesDeleted": "{count, plural, =1{Cancellata 1 voce della cronologia} other{Cancellate {count} voci della cronologia}}",
+  "@historyEntriesDeleted": {
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "required": true
+      }
+    }
+  },
+  "@historySelectionCount": {
+    "description": "Title of the history selection app bar.",
+    "placeholders": {
+      "count": {
+        "type": "num"
+      }
+    }
+  },
+  "historyClear": "Cronologia",
+  "@historyClear": {
+    "description": "Title of the clear history tile in the history drawer."
+  },
+  "historyClearSubtitle": "Elimina tutte le voci",
+  "@historyClearSubtitle": {
+    "description": "Subtitle of the clear history tile."
+  },
+  "historyClearConfirm": "Cancellare la cronologia?",
+  "@historyClearConfirm": {
+    "description": "Title of the clear history confirmation dialog."
+  },
+  "historyClearConfirmBody": "Tutte le voci della cronologia verranno eliminate definitivamente. Questa azione non può essere annullata.",
+  "@historyClearConfirmBody": {
+    "description": "Body of the clear history confirmation dialog."
+  },
+  "historyClearAction": "Cancella",
+  "@historyClearAction": {
+    "description": "Confirmation button of the clear history dialog."
+  },
+  "historyLimit": "Limite cronologia",
+  "@historyLimit": {
+    "description": "Title of the history limit dialog."
+  },
+  "historyLimitEnableBody": "Abilitare il limite della cronologia significa che tutte le voci oltre {amount} e tutte le voci più vecchie di {months} mesi vengono eliminate automaticamente.",
+  "@historyLimitEnableBody": {
+    "description": "Body of the history limit dialog explaining its effects.",
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      },
+      "months": {
+        "type": "num"
+      }
+    }
+  },
+  "historyLimitTitle": "Limita cronologia",
+  "@historyLimitTitle": {
+    "description": "Title of the history limit switch in the history drawer."
+  },
+  "historyLimitOn": "Limitato a meno di {months} mesi o meno di {amount} voci.",
+  "@historyLimitOn": {
+    "description": "Subtitle of the history limit switch when enabled.",
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      },
+      "months": {
+        "type": "num"
+      }
+    }
+  },
+  "historyLimitOff": "cronologia illimitata",
+  "@historyLimitOff": {
+    "description": "Subtitle of the history limit switch when disabled."
+  },
+  "historyEntries": "Voci",
+  "@historyEntries": {
+    "description": "Section header of the history category filters."
+  },
+  "historyType": "Tipo",
+  "@historyType": {
+    "description": "Section header of the history type filters."
+  },
+  "historyItems": "Elementi",
+  "@historyItems": {
+    "description": "Category filter showing visited items."
+  },
+  "historySearches": "Ricerche",
+  "@historySearches": {
+    "description": "Category filter showing visited searches."
+  },
+  "historyWikis": "Wiki",
+  "@historyWikis": {
+    "description": "Type filter showing wiki history entries."
+  },
+  "historyUsers": "Utenti",
+  "@historyUsers": {
+    "description": "Type filter showing user history entries."
+  },
+  "historyEmpty": "La tua cronologia è vuota",
+  "@historyEmpty": {
+    "description": "Empty state of the history page."
+  },
+  "historyFailedToLoad": "Impossibile caricare la cronologia",
+  "@historyFailedToLoad": {
+    "description": "Error state of the history page."
+  },
+  "historyNoDescription": "nessuna descrizione",
+  "@historyNoDescription": {
+    "description": "Placeholder shown when a history entry has no description."
+  },
+  "historyHotPosts": "Post popolari",
+  "@historyHotPosts": {
+    "description": "Name of the hot posts search in the history."
+  },
+  "historyLinkPost": "Post #{id}",
+  "@historyLinkPost": {
+    "description": "Name of a visited post in the history.",
+    "placeholders": {
+      "id": {
+        "type": "num"
+      }
+    }
+  },
+  "historyLinkUser": "Utente #{id}",
+  "@historyLinkUser": {
+    "description": "Name of a visited user in the history.",
+    "placeholders": {
+      "id": {
+        "type": "num"
+      }
+    }
+  },
+  "historyLinkWiki": "Wiki #{id}",
+  "@historyLinkWiki": {
+    "description": "Name of a visited wiki page in the history.",
+    "placeholders": {
+      "id": {
+        "type": "num"
+      }
+    }
+  },
+  "historyLinkUserByName": "{id} - Utente",
+  "@historyLinkUserByName": {
+    "description": "Name of a visited user page in the history, looked up by name.",
+    "placeholders": {
+      "id": {
+        "type": "String"
+      }
+    }
+  },
+  "historyLinkWikiByName": "{id} - Wiki",
+  "@historyLinkWikiByName": {
+    "description": "Name of a visited wiki page in the history, looked up by title.",
+    "placeholders": {
+      "id": {
+        "type": "String"
+      }
+    }
+  },
+  "historySearchQuery": "{type} - {query}",
+  "@historySearchQuery": {
+    "description": "Name of a visited search in the history, combining its type and query.",
+    "placeholders": {
+      "type": {
+        "type": "String"
+      },
+      "query": {
+        "type": "String"
+      }
+    }
+  },
+  "historyWiki": "Wiki",
+  "@historyWiki": {
+    "description": "Menu action opening the wiki of a searched tag."
+  },
+  "poolEmpty": "Nessuna collezione",
+  "@poolEmpty": {
+    "description": "Empty state of the pools page."
+  },
+  "poolFailedToLoadPools": "Impossibile caricare le collezioni",
+  "@poolFailedToLoadPools": {
+    "description": "Error state of the pools page."
+  },
+  "poolTitle": "Titolo collezione",
+  "@poolTitle": {
+    "description": "Label of the pool title search filter."
+  },
+  "poolInfoPosts": "post",
+  "@poolInfoPosts": {
+    "description": "Info row label of the post count of a pool."
+  },
+  "poolInfoId": "id",
+  "@poolInfoId": {
+    "description": "Info row label of the id of a pool."
+  },
+  "poolInfoActivity": "attività",
+  "@poolInfoActivity": {
+    "description": "Info row label of the activity state of a pool."
+  },
+  "poolInfoActive": "attiva",
+  "@poolInfoActive": {
+    "description": "Info row value of an active pool."
+  },
+  "poolInfoInactive": "inattiva",
+  "@poolInfoInactive": {
+    "description": "Info row value of an inactive pool."
+  },
+  "poolInfoCreated": "creata",
+  "@poolInfoCreated": {
+    "description": "Info row label of the creation date of a pool."
+  },
+  "poolInfoUpdated": "aggiornata",
+  "@poolInfoUpdated": {
+    "description": "Info row label of the last update of a pool."
+  },
+  "poolCopiedId": "Copiato id collezione #{id}",
+  "@poolCopiedId": {
+    "description": "Snackbar shown after copying the id of a pool.",
+    "placeholders": {
+      "id": {
+        "type": "num"
+      }
+    }
+  },
+  "poolLink": "Collezione #{id}",
+  "@poolLink": {
+    "description": "Title of the pool loading page.",
+    "placeholders": {
+      "id": {
+        "type": "num"
+      }
+    }
+  },
+  "poolFailedToLoadPool": "Impossibile caricare la collezione",
+  "@poolFailedToLoadPool": {
+    "description": "Error state of the pool loading page."
+  },
+  "poolNotFound": "Collezione non trovata",
+  "@poolNotFound": {
+    "description": "Empty state of the pool loading page."
+  },
+  "poolOrder": "Ordine collezione",
+  "@poolOrder": {
+    "description": "Title of the pool order switch in the pool drawer."
+  },
+  "poolOldestFirst": "Prima i più vecchi",
+  "@poolOldestFirst": {
+    "description": "Subtitle of the pool order switch when sorting oldest first."
+  },
+  "poolNewestFirst": "Prima i più recenti",
+  "@poolNewestFirst": {
+    "description": "Subtitle of the pool order switch when sorting newest first."
+  },
+  "poolReaderMode": "Modalità lettura collezione",
+  "@poolReaderMode": {
+    "description": "Title of the pool reader mode switch in the pool drawer."
+  },
+  "poolReaderLargeImages": "immagini grandi",
+  "@poolReaderLargeImages": {
+    "description": "Subtitle of the pool reader mode switch when enabled."
+  },
+  "poolReaderNormalGrid": "griglia normale",
+  "@poolReaderNormalGrid": {
+    "description": "Subtitle of the pool reader mode switch when disabled."
+  },
+  "topicsTitle": "Argomenti",
+  "@topicsTitle": {
+    "description": "Title of the topics page."
+  },
+  "topicHideTagEdits": "Nascondi modifiche tag",
+  "@topicHideTagEdits": {
+    "description": "Title of the tag edit switch in the topics drawer."
+  },
+  "topicTagEditsHidden": "nascoste",
+  "@topicTagEditsHidden": {
+    "description": "Subtitle of the tag edit switch when hidden."
+  },
+  "topicTagEditsVisible": "visibili",
+  "@topicTagEditsVisible": {
+    "description": "Subtitle of the tag edit switch when visible."
+  },
+  "topicLink": "Argomento #{id}",
+  "@topicLink": {
+    "description": "Title of the topic loading page.",
+    "placeholders": {
+      "id": {
+        "type": "num"
+      }
+    }
+  },
+  "topicFailedToLoadTopic": "Impossibile caricare l'argomento",
+  "@topicFailedToLoadTopic": {
+    "description": "Error state of the topic loading page."
+  },
+  "topicNotFound": "Argomento non trovato",
+  "@topicNotFound": {
+    "description": "Empty state of the topic loading page."
+  },
+  "topicEmpty": "Nessun argomento",
+  "@topicEmpty": {
+    "description": "Empty state of the topics page."
+  },
+  "topicFailedToLoadTopics": "Impossibile caricare gli argomenti",
+  "@topicFailedToLoadTopics": {
+    "description": "Error state of the topics page."
+  },
+  "topicInfoReplies": "risposte",
+  "@topicInfoReplies": {
+    "description": "Info row label of the reply count of a topic."
+  },
+  "topicInfoId": "id",
+  "@topicInfoId": {
+    "description": "Info row label of the id of a topic."
+  },
+  "topicCopiedId": "Copiato id argomento #{id}",
+  "@topicCopiedId": {
+    "description": "Snackbar shown after copying the id of a topic.",
+    "placeholders": {
+      "id": {
+        "type": "num"
+      }
+    }
+  },
+  "topicInfoLocked": "bloccato",
+  "@topicInfoLocked": {
+    "description": "Info row label of the locked state of a topic."
+  },
+  "topicInfoYes": "sì",
+  "@topicInfoYes": {
+    "description": "Info row value confirming a topic state."
+  },
+  "topicInfoNo": "no",
+  "@topicInfoNo": {
+    "description": "Info row value denying a topic state."
+  },
+  "topicInfoCreated": "creato",
+  "@topicInfoCreated": {
+    "description": "Info row label of the creation date of a topic."
+  },
+  "topicInfoUpdated": "aggiornato",
+  "@topicInfoUpdated": {
+    "description": "Info row label of the last update of a topic."
+  },
+  "filterTags": "Tag",
+  "@filterTags": {
+    "description": "Name of the tags filter used by the tag prompt."
+  },
+  "loginRequired": "Devi essere connesso per eseguire questa azione.",
+  "actionChooseIdentity": "Scegli identità",
+  "dateToday": "Oggi",
+  "dateYesterday": "Ieri",
+  "detailCommentsButton": "COMMENTI ({count})",
+  "@detailCommentsButton": {
+    "description": "Button on the post detail page opening the comment section.",
+    "placeholders": {
+      "count": {
+        "type": "num"
+      }
+    }
+  },
+  "detailFile": "File",
+  "@detailFile": {
+    "description": "Section header of the file info of a post."
+  },
+  "detailSources": "Fonti",
+  "@detailSources": {
+    "description": "Section header of the sources of a post."
+  },
+  "detailNoSources": "nessuna fonte",
+  "@detailNoSources": {
+    "description": "Placeholder shown when a post has no sources."
+  },
+  "detailChildren": "Figli",
+  "@detailChildren": {
+    "description": "Section header listing the child posts of a post."
+  },
+  "detailDeletion": "Eliminazione",
+  "@detailDeletion": {
+    "description": "Section header of the deletion flag reason of a post."
+  },
+  "detailBlacklisted": "Nera",
+  "@detailBlacklisted": {
+    "description": "Section header listing the blacklist entries that blocked a post."
+  },
+  "detailNoArtist": "nessun artista",
+  "@detailNoArtist": {
+    "description": "Placeholder shown when a post has no artist tags."
+  },
+  "detailPoolPosts": "{count, plural, =1{1 post} other{{count} posts}}",
+  "@detailPoolPosts": {
+    "description": "Post count of a pool shown on a pool relation tile.",
+    "placeholders": {
+      "count": {
+        "type": "num"
+      }
+    }
+  },
+  "postCopiedId": "Copiato ID post #{id}",
+  "@postCopiedId": {
+    "description": "Snackbar shown after copying the id of a post.",
+    "placeholders": {
+      "id": {
+        "type": "num"
+      }
+    }
+  },
+  "postUpvoteFailed": "Impossibile dare +1 al post #{id}",
+  "@postUpvoteFailed": {
+    "description": "Error shown when upvoting a post failed.",
+    "placeholders": {
+      "id": {
+        "type": "num"
+      }
+    }
+  },
+  "postDownvoteFailed": "Impossibile dare -1 al post #{id}",
+  "@postDownvoteFailed": {
+    "description": "Error shown when downvoting a post failed.",
+    "placeholders": {
+      "id": {
+        "type": "num"
+      }
+    }
+  },
+  "postAddFavoriteFailed": "Impossibile aggiungere il post #{id} ai preferiti",
+  "@postAddFavoriteFailed": {
+    "description": "Error shown when adding a post to favorites failed.",
+    "placeholders": {
+      "id": {
+        "type": "num"
+      }
+    }
+  },
+  "postRemoveFavoriteFailed": "Impossibile rimuovere il post #{id} dai preferiti",
+  "@postRemoveFavoriteFailed": {
+    "description": "Error shown when removing a post from favorites failed.",
+    "placeholders": {
+      "id": {
+        "type": "num"
+      }
+    }
+  },
+  "editorSection": "Sezione",
+  "@editorSection": {
+    "description": "Tooltip of the DText editor button enclosing a section block."
+  },
+  "editorQuote": "Citazione",
+  "@editorQuote": {
+    "description": "Tooltip of the DText editor button enclosing a quote block."
+  },
+  "editorCode": "Codice",
+  "@editorCode": {
+    "description": "Tooltip of the DText editor button enclosing a code block."
+  },
+  "editorSpoiler": "Spoiler",
+  "@editorSpoiler": {
+    "description": "Tooltip of the DText editor button enclosing a spoiler block."
+  },
+  "editorBold": "Grassetto",
+  "@editorBold": {
+    "description": "Tooltip of the DText editor button enclosing bold text."
+  },
+  "editorItalic": "Corsivo",
+  "@editorItalic": {
+    "description": "Tooltip of the DText editor button enclosing italic text."
+  },
+  "editorUnderlined": "Sottolineato",
+  "@editorUnderlined": {
+    "description": "Tooltip of the DText editor button enclosing underlined text."
+  },
+  "editorStrikethrough": "Barrato",
+  "@editorStrikethrough": {
+    "description": "Tooltip of the DText editor button enclosing struck-through text."
+  },
+  "editorPreviewPlaceholder": "il tuo testo qui",
+  "@editorPreviewPlaceholder": {
+    "description": "Placeholder shown in the preview pane of the DText editor."
+  },
+  "editorWrite": "Scrivi",
+  "@editorWrite": {
+    "description": "Tab label of the editing pane of the text editor."
+  },
+  "editorPreview": "Anteprima",
+  "@editorPreview": {
+    "description": "Tab label of the preview pane of the text editor."
+  },
+  "editorTypeHere": "scrivi qui...",
+  "@editorTypeHere": {
+    "description": "Hint text of the text editor input field."
+  },
+  "tagNoTags": "nessun tag",
+  "@tagNoTags": {
+    "description": "Placeholder shown when the tag counter drawer found no tags."
+  },
+  "tagFailedToLoadTags": "impossibile caricare i tag",
+  "@tagFailedToLoadTags": {
+    "description": "Error state of the tag counter drawer."
+  },
+  "tagUnableToRetrieveWiki": "impossibile recuperare la voce wiki",
+  "@tagUnableToRetrieveWiki": {
+    "description": "Error shown when the wiki entry of a tag failed to load."
+  },
+  "tagNoWikiEntry": "nessuna voce wiki",
+  "@tagNoWikiEntry": {
+    "description": "Placeholder shown when a tag has no wiki entry."
+  },
+  "tagCategoryGeneral": "Generale",
+  "@tagCategoryGeneral": {
+    "description": "Name of the general tag category."
+  },
+  "tagCategorySpecies": "Specie",
+  "@tagCategorySpecies": {
+    "description": "Name of the species tag category."
+  },
+  "tagCategoryCharacter": "Personaggio",
+  "@tagCategoryCharacter": {
+    "description": "Name of the character tag category."
+  },
+  "tagCategoryCopyright": "Copyright",
+  "@tagCategoryCopyright": {
+    "description": "Name of the copyright tag category."
+  },
+  "tagCategoryMeta": "Meta",
+  "@tagCategoryMeta": {
+    "description": "Name of the meta tag category."
+  },
+  "tagCategoryLore": "Lore",
+  "@tagCategoryLore": {
+    "description": "Name of the lore tag category."
+  },
+  "tagCategoryArtist": "Artista",
+  "@tagCategoryArtist": {
+    "description": "Name of the artist tag category."
+  },
+  "tagCategoryContributor": "Contributore",
+  "@tagCategoryContributor": {
+    "description": "Name of the contributor tag category."
+  },
+  "tagCategoryInvalid": "Non valido",
+  "@tagCategoryInvalid": {
+    "description": "Name of the invalid tag category."
+  },
+  "editDescriptionTitle": "Descrizione #{postId}",
+  "@editDescriptionTitle": {
+    "description": "Title of the post description editor page.",
+    "placeholders": {
+      "postId": {
+        "type": "num"
+      }
+    }
+  },
+  "editDescriptionHint": "Inserisci la descrizione del post...",
+  "@editDescriptionHint": {
+    "description": "Hint text of the post description input field."
+  },
+  "editInvalidNumber": "Formato numero non valido",
+  "@editInvalidNumber": {
+    "description": "Error text shown when the parent id input is not a number."
+  },
+  "editInvalidParent": "Post padre non valido",
+  "@editInvalidParent": {
+    "description": "Error text shown when a parent post does not exist."
+  },
+  "editParentIdLabel": "ID padre (opzionale)",
+  "@editParentIdLabel": {
+    "description": "Label of the parent id input field of the post edit form."
+  },
+  "editParentIdHint": "ID del post padre",
+  "@editParentIdHint": {
+    "description": "Hint text of the parent id input field of the post edit form."
+  },
+  "editReasonLabel": "Motivo modifica (opzionale)",
+  "@editReasonLabel": {
+    "description": "Label of the edit reason input field of the post edit form."
+  },
+  "editReasonHint": "Perché stai modificando questo post?",
+  "@editReasonHint": {
+    "description": "Hint text of the edit reason input field of the post edit form."
+  },
+  "editSourcesTitle": "Fonti #{postId}",
+  "@editSourcesTitle": {
+    "description": "Title of the post sources editor page.",
+    "placeholders": {
+      "postId": {
+        "type": "num"
+      }
+    }
+  },
+  "editTagsHint": "tag separati da spazio",
+  "@editTagsHint": {
+    "description": "Hint text of the tags input field of the post edit form."
+  },
+  "editTagPreviewFailed": "Errore nel caricante l'anteprima del tag: {error}",
+  "@editTagPreviewFailed": {
+    "description": "Error shown when the tag preview failed to load.",
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
+  "editTagStatusNew": "nuovo",
+  "@editTagStatusNew": {
+    "description": "Status label of a tag that does not exist yet."
+  },
+  "editTagStatusInvalid": "non valido",
+  "@editTagStatusInvalid": {
+    "description": "Status label of a tag in the invalid category."
+  },
+  "editTagStatusEmpty": "vuoto",
+  "@editTagStatusEmpty": {
+    "description": "Status label of a tag without any posts."
+  },
+  "editTagStatusUnderused": "sotto-utilizzato",
+  "@editTagStatusUnderused": {
+    "description": "Status label of a rarely used general tag."
+  },
+  "reportCommentSuccess": "Segnalato commento #{id}",
+  "@reportCommentSuccess": {
+    "description": "Success message after reporting a comment.",
+    "placeholders": {
+      "id": {
+        "type": "num"
+      }
+    }
+  },
+  "reportCommentFailed": "Impossibile segnalare il commento #{id}",
+  "@reportCommentFailed": {
+    "description": "Error message after failing to report a comment.",
+    "placeholders": {
+      "id": {
+        "type": "num"
+      }
+    }
+  },
+  "reportReplySuccess": "Segnalata risposta #{id}",
+  "@reportReplySuccess": {
+    "description": "Success message after reporting a reply.",
+    "placeholders": {
+      "id": {
+        "type": "num"
+      }
+    }
+  },
+  "reportReplyFailed": "Impossibile segnalare la risposta #{id}",
+  "@reportReplyFailed": {
+    "description": "Error message after failing to report a reply.",
+    "placeholders": {
+      "id": {
+        "type": "num"
+      }
+    }
+  },
+  "reportUserSuccess": "Segnalato utente #{id}",
+  "@reportUserSuccess": {
+    "description": "Success message after reporting a user.",
+    "placeholders": {
+      "id": {
+        "type": "num"
+      }
+    }
+  },
+  "reportUserFailed": "Impossibile segnalare l'utente #{id}",
+  "@reportUserFailed": {
+    "description": "Error message after failing to report a user.",
+    "placeholders": {
+      "id": {
+        "type": "num"
+      }
+    }
+  },
+  "reportPostSuccess": "Segnalato post #{id}",
+  "@reportPostSuccess": {
+    "description": "Success message after reporting a post.",
+    "placeholders": {
+      "id": {
+        "type": "num"
+      }
+    }
+  },
+  "reportPostFailed": "Impossibile segnalare il post #{id}",
+  "@reportPostFailed": {
+    "description": "Error message after failing to report a post.",
+    "placeholders": {
+      "id": {
+        "type": "num"
+      }
+    }
+  },
+  "reportTypeRequired": "Il tipo non può essere vuoto",
+  "@reportTypeRequired": {
+    "description": "Error text shown when no report type was selected."
+  },
+  "reportReason": "Motivo",
+  "@reportReason": {
+    "description": "Label of the report reason input field."
+  },
+  "reportReasonRequired": "Il motivo non può essere vuoto",
+  "@reportReasonRequired": {
+    "description": "Error text shown when the report reason is empty."
+  },
+  "reportSubmitted": "Segnale inviata",
+  "@reportSubmitted": {
+    "description": "Success message after submitting a report."
+  },
+  "reportSubmitFailed": "Impossibile inviare la segnalazione",
+  "@reportSubmitFailed": {
+    "description": "Error message after failing to submit a report."
+  },
+  "reportTypeRating": "Abuso di valutazione",
+  "@reportTypeRating": {
+    "description": "Name of the rating abuse post report type."
+  },
+  "reportTypeFile": "File dannoso",
+  "@reportTypeFile": {
+    "description": "Name of the malicious file post report type."
+  },
+  "reportTypeSource": "Fonte dannosa",
+  "@reportTypeSource": {
+    "description": "Name of the malicious source post report type."
+  },
+  "reportTypeDescription": "Abuso di descrizione",
+  "@reportTypeDescription": {
+    "description": "Name of the description abuse post report type."
+  },
+  "reportTypeNote": "Abuso di note",
+  "@reportTypeNote": {
+    "description": "Name of the note abuse post report type."
+  },
+  "reportTypeTagging": "Abuso di tagging",
+  "@reportTypeTagging": {
+    "description": "Name of the tagging abuse post report type."
+  },
+  "reportTypeRatingBody": "La valutazione del post è stata impostata a qualcosa di non corretto.",
+  "@reportTypeRatingBody": {
+    "description": "Description of the rating abuse post report type."
+  },
+  "reportTypeFileBody": "Il file contiene codice dannoso o un archivio nascosto. Questo non si riferisce all'immagine stessa.",
+  "@reportTypeFileBody": {
+    "description": "Description of the malicious file post report type."
+  },
+  "reportTypeSourceBody": "Una o più fonti collegate portano a pagine dannose o contenuti a pagamento.",
+  "@reportTypeSourceBody": {
+    "description": "Description of the malicious source post report type."
+  },
+  "reportTypeDescriptionBody": "La descrizione contiene contenuti dannosi o è stata modificata per contenere materiale abusivo.",
+  "@reportTypeDescriptionBody": {
+    "description": "Description of the description abuse post report type."
+  },
+  "reportTypeNoteBody": "Le note di questo post sono errate, abusive o comunque dannose.",
+  "@reportTypeNoteBody": {
+    "description": "Description of the note abuse post report type."
+  },
+  "reportTypeTaggingBody": "Uno o più tag di questo post non sono validi o uno o più tag validi sono stati rimossi.",
+  "@reportTypeTaggingBody": {
+    "description": "Description of the tagging abuse post report type."
+  },
+  "flagPostSuccess": "Post #{id} segnalato",
+  "@flagPostSuccess": {
+    "description": "Success message after flagging a post.",
+    "placeholders": {
+      "id": {
+        "type": "num"
+      }
+    }
+  },
+  "flagPostFailed": "Segnalazione post #{id} fallita",
+  "@flagPostFailed": {
+    "description": "Error message after failing to flag a post.",
+    "placeholders": {
+      "id": {
+        "type": "num"
+      }
+    }
+  },
+  "flagParentId": "ID post padre",
+  "@flagParentId": {
+    "description": "Label of the parent id input field of the post flag form."
+  },
+  "flagParentIdRequired": "L'ID post padre non può essere vuoto",
+  "@flagParentIdRequired": {
+    "description": "Error text shown when the parent id of a flag is empty."
+  },
+  "flagParentIdInvalid": "L'ID post padre deve essere un numero",
+  "@flagParentIdInvalid": {
+    "description": "Error text shown when the parent id of a flag is not a number."
+  },
+  "flagTypeUploadingGuidelines": "Non rispetta le linee guida per l'upload",
+  "@flagTypeUploadingGuidelines": {
+    "description": "Name of the uploading guidelines post flag."
+  },
+  "flagTypeYoungHuman": "Personaggio umano in esplicita situazione",
+  "@flagTypeYoungHuman": {
+    "description": "Name of the young human post flag."
+  },
+  "flagTypeDnpArtist": "L'artista di questo post è nella lista di evita pubblicazione",
+  "@flagTypeDnpArtist": {
+    "description": "Name of the do not post artist post flag."
+  },
+  "flagTypePayContent": "Contenuto a pagamento, commerciale o abbonamento",
+  "@flagTypePayContent": {
+    "description": "Name of the pay content post flag."
+  },
+  "flagTypeTrace": "Traccia di un'opera di un altro artista",
+  "@flagTypeTrace": {
+    "description": "Name of the trace post flag."
+  },
+  "flagTypePreviouslyDeleted": "Precedentemente eliminato",
+  "@flagTypePreviouslyDeleted": {
+    "description": "Name of the previously deleted post flag."
+  },
+  "flagTypeRealPorn": "Pornografia reale",
+  "@flagTypeRealPorn": {
+    "description": "Name of the real porn post flag."
+  },
+  "flagTypeCorrupt": "Il file è corrotto, danneggiato o non funziona",
+  "@flagTypeCorrupt": {
+    "description": "Name of the corrupt file post flag."
+  },
+  "flagTypeInferior": "Versione duplicata o inferiore di un altro post",
+  "@flagTypeInferior": {
+    "description": "Name of the inferior post flag."
+  },
+  "flagTypeUploadingGuidelinesBody": "Questo post non rispetta gli standard del sito, per valore artistico, qualità dell'immagine, rilevanza o altro.\nRicorda che le tue preferenze personali non hanno alcun peso. Se trovi il contenuto di un post offensivo, semplicemente [[e621:blacklist|blacklistalo]].",
+  "@flagTypeUploadingGuidelinesBody": {
+    "description": "Description of the uploading guidelines post flag."
+  },
+  "flagTypeYoungHumanBody": "Non sono accettati post che rappresentano personaggi umani o umanoidi in situazioni sessuali o nudi espliciti.",
+  "@flagTypeYoungHumanBody": {
+    "description": "Description of the young human post flag."
+  },
+  "flagTypeDnpArtistBody": "Alcuni artisti hanno richiesto che le loro opere non vengano pubblicate su questo sito e hanno ottenuto lo stato [[avoid_posting|Non Pubblicare]].\nA volte questo stato include condizioni; vedi [[conditional_dnp]] per maggiori informazioni.",
+  "@flagTypeDnpArtistBody": {
+    "description": "Description of the do not post artist post flag."
+  },
+  "flagTypePayContentBody": "Non ospitiamo contenuti a pagamento o commerciali di alcun tipo. Questo include fughe da Patreon, repost da siti di pirateria e così via.",
+  "@flagTypePayContentBody": {
+    "description": "Description of the pay content post flag."
+  },
+  "flagTypeTraceBody": "Non sono accettate immagini tratte da opere di altri artisti. Prendere spunto è ok, ma copiare direttamente il lavoro di qualcunno no.\nPer favore, lascia maggiori informazioni nei commenti, o aggiungi l'opera originale come post padre se è ospitata su questo sito.",
+  "@flagTypeTraceBody": {
+    "description": "Description of the trace post flag."
+  },
+  "flagTypePreviouslyDeletedBody": "I post vengono rimossi per buone ragioni e non è accettato riuploadare contenuti eliminati.\nPer favore, lascia maggiori informazioni nei commenti, o aggiungi il post originale come post padre di questo.",
+  "@flagTypePreviouslyDeletedBody": {
+    "description": "Description of the previously deleted post flag."
+  },
+  "flagTypeRealPornBody": "Non sono accettati post con pornografia reale. Nessuna eccezione.\nNota che sono accettate immagini con foto non erotiche.",
+  "@flagTypeRealPornBody": {
+    "description": "Description of the real porn post flag."
+  },
+  "flagTypeCorruptBody": "C'è qualcosa che non va in questo post. Potrebbe essere un video rotto o un'immagine corrotta.\nIn ogni caso, per evitare confusione, per favore spiega la situazione nei commenti.",
+  "@flagTypeCorruptBody": {
+    "description": "Description of the corrupt file post flag."
+  },
+  "flagTypeInferiorBody": "Esiste già una versione superiore di questo post sul sito.\nQuesto può includere immagini con qualità migliore (più grandi, meno compresse), ma anche versioni \"corrette\", con errori visivi corretti dall'artista.\nNota che modifiche e versioni alternative non rientrano in questa categoria.",
+  "@flagTypeInferiorBody": {
+    "description": "Description of the inferior post flag."
+  },
+  "taskCancelAll": "Annulla tutto",
+  "@taskCancelAll": {
+    "description": "Tooltip of the button which cancels all tasks."
+  },
+  "taskClearDone": "Pulisci completati",
+  "@taskClearDone": {
+    "description": "Tooltip of the button which clears all finished tasks."
+  },
+  "taskClearSelection": "Pulisci selezione",
+  "@taskClearSelection": {
+    "description": "Tooltip of the button which clears the task selection."
+  },
+  "taskCancel": "Annulla",
+  "@taskCancel": {
+    "description": "Tooltip of the button which cancels a task."
+  },
+  "taskDismiss": "Ignora",
+  "@taskDismiss": {
+    "description": "Tooltip of the button which dismisses a task."
+  },
+  "taskNoTasks": "Nessuna attività",
+  "@taskNoTasks": {
+    "description": "Placeholder shown when there are no tasks."
+  },
+  "taskFailedToLoadTasks": "Caricamento attività fallito",
+  "@taskFailedToLoadTasks": {
+    "description": "Error message shown when tasks failed to load."
+  },
+  "taskSelectionCount": "{count, plural, =1{1 attività} other{{count} attività}}",
+  "@taskSelectionCount": {
+    "description": "Selection counter on the tasks page.",
+    "placeholders": {
+      "count": {
+        "type": "num"
+      }
+    }
+  },
+  "taskGroupActive": "Attive",
+  "@taskGroupActive": {
+    "description": "Header of the active tasks group."
+  },
+  "taskGroupFailed": "Fallite",
+  "@taskGroupFailed": {
+    "description": "Header of the failed tasks group."
+  },
+  "taskActionDownload": "scaricamento",
+  "@taskActionDownload": {
+    "description": "Name of the download task action."
+  },
+  "taskActionFavorite": "preferiti",
+  "@taskActionFavorite": {
+    "description": "Name of the favorite task action."
+  },
+  "taskActionUnfavorite": "rimozione preferiti",
+  "@taskActionUnfavorite": {
+    "description": "Name of the unfavorite task action."
+  },
+  "taskDownloadRunning": "in download",
+  "@taskDownloadRunning": {
+    "description": "Label of a running download task."
+  },
+  "taskFavoriteRunning": "in aggiunta preferiti",
+  "@taskFavoriteRunning": {
+    "description": "Label of a running favorite task."
+  },
+  "taskUnfavoriteRunning": "in rimozione preferiti",
+  "@taskUnfavoriteRunning": {
+    "description": "Label of a running unfavorite task."
+  },
+  "taskDownloadCompleted": "scaricato",
+  "@taskDownloadCompleted": {
+    "description": "Label of a completed download task."
+  },
+  "taskFavoriteCompleted": "aggiunto ai preferiti",
+  "@taskFavoriteCompleted": {
+    "description": "Label of a completed favorite task."
+  },
+  "taskUnfavoriteCompleted": "rimosso dai preferiti",
+  "@taskUnfavoriteCompleted": {
+    "description": "Label of a completed unfavorite task."
+  },
+  "taskQueuedTo": "in coda per {action}",
+  "@taskQueuedTo": {
+    "description": "Label of a queued task.",
+    "placeholders": {
+      "action": {
+        "type": "String"
+      }
+    }
+  },
+  "taskFailedTo": "fallito {action}",
+  "@taskFailedTo": {
+    "description": "Label of a failed task.",
+    "placeholders": {
+      "action": {
+        "type": "String"
+      }
+    }
+  },
+  "taskCanceledAction": "{action} annullato",
+  "@taskCanceledAction": {
+    "description": "Label of a canceled task.",
+    "placeholders": {
+      "action": {
+        "type": "String"
+      }
+    }
+  },
+  "taskTileTitle": "{label} post #{id}",
+  "@taskTileTitle": {
+    "description": "Title of a task tile.",
+    "placeholders": {
+      "label": {
+        "type": "String"
+      },
+      "id": {
+        "type": "num"
+      }
+    }
+  },
+  "followNotificationBody": "{count, plural, =1{ha un nuovo post!} other{ha {count} nuovi post!}}",
+  "@followNotificationBody": {
+    "description": "Body of a follow notification, shown under the follow's title.",
+    "placeholders": {
+      "count": {
+        "type": "num"
+      }
+    }
+  },
+  "followNotificationSummary": "Nuovi post!",
+  "@followNotificationSummary": {
+    "description": "Title of the summary notification for multiple follows."
+  },
+  "followChannelName": "Tag seguiti",
+  "@followChannelName": {
+    "description": "Name of the follow notification channel shown in the system settings."
+  },
+  "followChannelDescription": "Notifiche per i tag che segui",
+  "@followChannelDescription": {
+    "description": "Description of the follow notification channel shown in the system settings."
+  },
+  "hostUnavailableTitle": "Host non disponibile",
+  "@hostUnavailableTitle": {
+    "description": "Title of the host unavailable page."
+  },
+  "hostUnavailableBody": "Sembra che {host} non sia disponibile!",
+  "@hostUnavailableBody": {
+    "description": "Body of the host unavailable page.",
+    "placeholders": {
+      "host": {
+        "type": "String"
+      }
+    }
+  },
+  "hostUnavailableResolveHint": "Per favore risolvi il problema nella finestra del browser seguente.\n\nI cookie di captcha di Cloudflare saranno salvati.",
+  "@hostUnavailableResolveHint": {
+    "description": "Hint about resolving the host unavailability in a browser."
+  },
+  "hostUnavailableResolve": "Risolvi",
+  "@hostUnavailableResolve": {
+    "description": "Button opening the browser window resolving the host unavailability."
+  },
+  "hostUnavailableWaitBody": "\nPer favore aspetta che {host} risolva la situazione dalla loro parte.",
+  "@hostUnavailableWaitBody": {
+    "description": "Body of the host unavailable page when the issue cannot be resolved by the user.",
+    "placeholders": {
+      "host": {
+        "type": "String"
+      }
+    }
+  },
+  "downloadChooseFolder": "Scegli una cartella",
+  "@downloadChooseFolder": {
+    "description": "Title of the folder picker dialog on desktop."
+  },
+  "searchFilterTitle": "Filtri",
+  "@searchFilterTitle": {
+    "description": "Title of the posts search filter prompt."
+  },
+  "searchFilterQueryLabel": "Query corrente:",
+  "@searchFilterQueryLabel": {
+    "description": "Label of the query preview of the posts search filter prompt."
+  },
+  "filterSectionSort": "Ordinamento",
+  "@filterSectionSort": {
+    "description": "Header of the sorting section of the posts filter prompt."
+  },
+  "filterSectionContent": "Contenuto",
+  "@filterSectionContent": {
+    "description": "Header of the content section of the posts filter prompt."
+  },
+  "filterSectionTime": "Tempo e stato",
+  "@filterSectionTime": {
+    "description": "Header of the time and status section of the posts filter prompt."
+  },
+  "filterSectionMedia": "Media",
+  "@filterSectionMedia": {
+    "description": "Header of the media section of the posts filter prompt."
+  },
+  "filterSectionOther": "Altro",
+  "@filterSectionOther": {
+    "description": "Header of the remaining filters of the posts filter prompt."
+  },
+  "searchFilterReset": "Ripristina filtri",
+  "@searchFilterReset": {
+    "description": "Button that clears every filter of the posts filter prompt."
+  },
+  "dtextParsingFailed": "Analisi DText fallita",
+  "filteredShow": "Mostra",
+  "filteredHide": "Nascondi",
+  "selectOptions": "Seleziona opzioni...",
+  "databaseNotE1547": "Questo file non è un database e1547.",
+  "adultGateTitle": "Controllo rapido",
+  "@adultGateTitle": {
+    "description": "Title of the 18+ confirmation dialog shown before a login is attempted."
+  },
+  "adultGateBody": "Questa app conduce direttamente a e621, una community artistica riservata esclusivamente ad adulti. Per favore conferma di avere l'età legale nel tuo paese - ti fidiamo, i nostri avvocati no.",
+  "@adultGateBody": {
+    "description": "Body of the 18+ confirmation dialog shown before a login is attempted."
+  },
+  "adultGateConfirm": "Certo - ho 18 anni o più",
+  "@adultGateConfirm": {
+    "description": "Confirmation action of the 18+ dialog; deliberately conversational."
+  },
+  "adultGateDeny": "Rimandami indietro",
+  "@adultGateDeny": {
+    "description": "Denial action of the 18+ dialog; deliberately conversational."
+  },
+  "databaseExportPasswordLabel": "Password (opzionale)",
+  "@databaseExportPasswordLabel": {
+    "description": "Label of the optional password field in the database export dialog."
+  },
+  "databaseExportPasswordHint": "Crittografa il file esportato. Lascia vuoto per un file non crittografato.",
+  "@databaseExportPasswordHint": {
+    "description": "Helper text under the optional export password field."
+  },
+  "databaseImportEncryptedTitle": "Database crittografato",
+  "@databaseImportEncryptedTitle": {
+    "description": "Title of the password prompt for encrypted database imports."
+  },
+  "databaseImportPasswordLabel": "Password",
+  "@databaseImportPasswordLabel": {
+    "description": "Label of the password field in the encrypted import prompt."
+  },
+  "databaseImportWrongPassword": "Password errata o file corrotto.",
+  "@databaseImportWrongPassword": {
+    "description": "Shown when decryption fails, i.e. the password was wrong or the file is corrupted."
+  },
+  "actionUnlock": "SBLOCCA",
+  "@actionUnlock": {
+    "description": "Confirmation action of the encrypted import password prompt."
+  }
+}

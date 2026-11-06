@@ -1,0 +1,2493 @@
+{
+  "@@locale": "vi",
+  "appName": "e1547",
+  "@appName": {
+    "description": "The app name.",
+    "placeholders": {}
+  },
+  "failedToLoad": "Tải thất bại",
+  "nothingToSeeHere": "Không có gì để xem ở đây",
+  "loading": "Đang tải...",
+  "actionCancel": "HỦY",
+  "actionOk": "OK",
+  "actionTryAgain": "Thử lại",
+  "actionDownload": "TẢI VỀ",
+  "actionImport": "NHẬP",
+  "actionExport": "XUẤT",
+  "actionUndo": "Hoàn tác",
+  "actionRestartNow": "KHỞI ĐỘNG LẠI",
+  "failedToLoadSuggestions": "Không thể tải gợi ý",
+  "selectionItemCount": "{count, plural, =1{1 mục} other{{count} mục}}",
+  "@selectionItemCount": {
+    "description": "Number of selected items.",
+    "placeholders": {
+      "count": {
+        "type": "num"
+      }
+    }
+  },
+  "actionAbort": "HỦY BỎ",
+  "actionSelectAll": "Chọn tất cả",
+  "fileSavedAs": "Đã lưu file với tên {name}",
+  "@fileSavedAs": {
+    "description": "Confirmation after saving a file.",
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "copiedToClipboard": "Đã sao chép vào clipboard",
+  "saveFile": "Lưu file",
+  "filterTooltip": "Lọc",
+  "rangeInvalidFormat": "Định dạng không hợp lệ",
+  "itemProgress": "Mục {current}/{total}",
+  "@itemProgress": {
+    "description": "Progress of processing items.",
+    "placeholders": {
+      "current": {
+        "type": "num"
+      },
+      "total": {
+        "type": "num"
+      }
+    }
+  },
+  "taskCancelled": "Đã hủy tác vụ",
+  "taskFailedAt": "Thất bại ở mục {index}",
+  "@taskFailedAt": {
+    "description": "Item processing failure.",
+    "placeholders": {
+      "index": {
+        "type": "num"
+      }
+    }
+  },
+  "taskDone": "Hoàn thành",
+  "failedToInitialize": "Khởi tạo thất bại",
+  "navHome": "Trang chủ",
+  "navHot": "Nổi bật",
+  "navSearch": "Tìm kiếm",
+  "navFavorites": "Yêu thích",
+  "navTimeline": "Dòng thời gian",
+  "navSubscriptions": "Theo dõi",
+  "navBookmarks": "Dấu trang",
+  "navPools": "Pool",
+  "navForum": "Diễn đàn",
+  "navHistory": "Lịch sử",
+  "navTasks": "Tác vụ",
+  "navSettings": "Cài đặt",
+  "navAbout": "Giới thiệu",
+  "settingsTitle": "Cài đặt",
+  "sectionAccount": "Tài khoản",
+  "sectionUser": "Người dùng",
+  "sectionAppearance": "Giao diện",
+  "sectionInteractions": "Tương tác",
+  "sectionSecurity": "Bảo mật",
+  "sectionDevelopment": "Phát triển",
+  "settingsBlacklist": "Danh sách chặn",
+  "tagsBlocked": "{count, plural, =1{1 tag bị chặn} other{{count} tag bị chặn}}",
+  "@tagsBlocked": {
+    "placeholders": {
+      "count": {
+        "type": "num"
+      }
+    }
+  },
+  "settingsFollows": "Theo dõi",
+  "searchesFollowed": "{count, plural, =1{1 tìm kiếm theo dõi} other{{count} tìm kiếm theo dõi}}",
+  "@searchesFollowed": {
+    "placeholders": {
+      "count": {
+        "type": "num"
+      }
+    }
+  },
+  "settingsHistory": "Lịch sử",
+  "pagesVisited": "{count, plural, =1{1 trang đã xem} other{{count} trang đã xem}}",
+  "@pagesVisited": {
+    "placeholders": {
+      "count": {
+        "type": "num"
+      }
+    }
+  },
+  "settingsTheme": "Chủ đề",
+  "themeDark": "tối",
+  "themeAmoled": "amoled",
+  "themeLight": "sáng",
+  "themeBlue": "xanh dương",
+  "themeSystem": "hệ thống",
+  "settingsLanguage": "Ngôn ngữ",
+  "languageSystemDefault": "Mặc định hệ thống",
+  "settingsHandedness": "Tay thuận",
+  "handRight": "Tay phải",
+  "handLeft": "Tay trái",
+  "settingsHandednessHint": "Nút và thao tác nhanh sẽ di chuyển về phía tay thuận này.",
+  "settingsTileSize": "Kích thước ô",
+  "settingsQuilt": "Lưới",
+  "gridTitle": "Lưới",
+  "quiltSquare": "hình vuông",
+  "quiltVertical": "mở rộng chiều dọc",
+  "settingsPostInfo": "Thông tin bài",
+  "postInfoShown": "hiển thị thông tin",
+  "postInfoHidden": "chỉ hình ảnh",
+  "settingsDownloadLocation": "Vị trí tải",
+  "settingsUpvoteFavorites": "Bình chọn yêu thích",
+  "upvoteFavoritesOn": "bình chọn và lưu",
+  "upvoteFavoritesOff": "chỉ lưu",
+  "settingsVideoVolume": "Â lượng video",
+  "videoMuted": "âm thanh tắt",
+  "videoWithSound": "có âm thanh",
+  "videoSeekSeconds": "{seconds} giây",
+  "videoResSource": "Nguồn",
+  "videoResNote": "Video không luôn luôn có sẵn ở các kích thước tiêu chuẩn; kích thước gần nhất với lựa chọn sẽ được sử dụng.",
+  "qualityLow": "Thấp",
+  "qualityMedium": "Trung bình",
+  "qualityHigh": "Cao",
+  "settingsAutoLoadVideos": "Tải video tự động",
+  "autoLoadVideosOn": "video tải khi duyệt",
+  "autoLoadVideosOff": "video tải khi phát",
+  "autoLoadVideosDialogTitle": "Tải video tự động?",
+  "autoLoadVideosDialogBody": "Video sẽ được tải hoàn toàn khi bạn duyệt và tìm kiếm. Điều này có thể tiêu tốn nhiều dữ liệu trên kết nối đo lường.",
+  "videoQuality": "Chất lượng video",
+  "settingsSecureDisplay": "Màn hình an toàn",
+  "secureDisplayOn": "màn hình được bảo vệ",
+  "secureDisplayOff": "màn hình hiển thị",
+  "secureDisplayCover": "Nội dung ẩn",
+  "settingsIncognitoKeyboard": "Bàn phím ẩn danh",
+  "enabled": "đã bật",
+  "disabled": "đã tắt",
+  "settingsPinLock": "Khóa PIN",
+  "pinEnabled": "PIN đã bật",
+  "pinDisabled": "PIN đã tắt",
+  "settingsBiometricLock": "Khóa sinh trắc",
+  "biometricsEnabled": "sinh trắc đã bật",
+  "biometricsDisabled": "sinh trắc đã tắt",
+  "biometricsUnavailable": "không tìm thấy sinh trắc trên thiết bị này",
+  "settingsUpdaterBeta": "Cập nhật mới nhất",
+  "updaterBetaOn": "Phiên bản ổn định và bản phát hành trước",
+  "updaterBetaOff": "Chỉ phiên bản ổn định",
+  "settingsDeveloperMode": "Chế độ nhà phát triển",
+  "devOptionsShown": "tùy chọn hiển thị",
+  "devOptionsHidden": "tùy chọn ẩn",
+  "errorsLogged": "{count, plural, =1{1 lỗi đã ghi} other{{count} lỗi đã ghi}}",
+  "@errorsLogged": {
+    "placeholders": {
+      "count": {
+        "type": "num"
+      }
+    }
+  },
+  "settingsDatabase": "Cơ sở dữ liệu",
+  "databaseExporting": "Đang xuất cơ sở dữ liệu...",
+  "databaseExported": "Xuất cơ sở dữ liệu thành công",
+  "databaseExportFailed": "Xuất thất bại",
+  "databaseExport": "Xuất",
+  "databaseImporting": "Đang nhập cơ sở dữ liệu...",
+  "databaseInvalidFile": "Tệp cơ sở dữ liệu không hợp lệ: {error}",
+  "@databaseInvalidFile": {
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
+  "databaseImportFailed": "Nhập thất bại: {error}",
+  "@databaseImportFailed": {
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
+  "databaseImportTitle": "Nhập Cơ sở dữ liệu",
+  "databaseRestartTitle": "Cần khởi động lại",
+  "databaseRestartBody": "Ứng dụng cần khởi động lại để áp dụng các thay đổi.",
+  "databaseImport": "Nhập",
+  "lockEnterPin": "Nhập PIN",
+  "lockEnterNewPin": "Nhập PIN mới",
+  "lockConfirmNewPin": "Xác nhận PIN mới",
+  "lockFailedAuth": "Xác thực thất bại",
+  "lockPleaseAuth": "Vui lòng xác thực",
+  "lockRetry": "Thử lại",
+  "lockBiometricReason": "Xác thực để mở khóa.",
+  "lockBiometricFailure": "Lỗi nghiêm trọng trong xác thực sinh trắc",
+  "aboutVersion": "Phiên bản",
+  "updaterFetching": "Đang kiểm tra cập nhật...",
+  "updaterCheckFailed": "Không thể kiểm tra cập nhật",
+  "updaterNewest": "Bạn đang dùng phiên bản mới nhất",
+  "updaterNewer": "Phiên bản mới hơn có sẵn: {version}",
+  "@updaterNewer": {
+    "placeholders": {
+      "version": {
+        "type": "String"
+      }
+    }
+  },
+  "updaterNewerHeader": "Phiên bản mới hơn có sẵn: ",
+  "aboutExperimentalPlatform": "Nền tảng thử nghiệm",
+  "aboutExperimentalBody": "Nền tảng này không được hỗ trợ. Dự kiến có lỗi và tính năng thiếu.",
+  "aboutGitHub": "GitHub",
+  "aboutUpstream": "Nguồn gốc",
+  "aboutUpstreamBody": "Ứng dụng này là một nhánh của clragon/e1547",
+  "aboutDiscord": "Discord",
+  "aboutForum": "Diễn đàn",
+  "aboutForumTopic": "Chủ đề e621 #{id}",
+  "@aboutForumTopic": {
+    "placeholders": {
+      "id": {
+        "type": "num"
+      }
+    }
+  },
+  "aboutWebsite": "Trang web",
+  "aboutKofi": "Ko-fi",
+  "aboutEmail": "Email",
+  "aboutPlaystore": "Playstore",
+  "aboutDonors": "Người tài trợ",
+  "aboutDonorsThanks": "Cảm ơn vì đã giúp tôi tiếp tục phát triển!",
+  "aboutNoDonors": "Chưa có người tài trợ",
+  "aboutDonorsFailed": "Không thể lấy danh sách người tài trợ",
+  "aboutDonorsNotListed": "Không có trong danh sách? Liên hệ với chúng tôi!",
+  "developerUnlocked": "Bạn giờ là nhà phát triển!",
+  "databaseErrorLoading": "Lỗi tải cơ sở dữ liệu",
+  "databaseUnknownSize": "Không xác định",
+  "databaseExportTitle": "Xuất Cơ sở dữ liệu",
+  "databaseExportSubtitle": "Lưu một bản sao lưu của cơ sở dữ liệu",
+  "databaseImportSubtitle": "Thay thế cơ sở dữ liệu hiện tại bằng tệp đã nhập",
+  "databaseImportWarning": "Điều này sẽ thay thế cơ sở dữ liệu hiện tại. \nTất cả dữ liệu sẽ mất. Không thể hoàn tác!",
+  "databaseExportSanitizedBody": "Tệp xuất sẽ không chứa thông tin đăng nhập hoặc khóa API của bạn.\nMọi thứ khác, bao gồm tài khoản, máy chủ, lịch sử, theo dõi và tác vụ, đều được bao gồm.",
+  "databaseImportNewerFile": "Tệp này được tạo bởi phiên bản ứng dụng mới hơn và không thể nhập.",
+  "databaseImportSanitized": "Để an toàn, thông tin đăng nhập đã được xóa khỏi tệp đã nhập.",
+  "databaseImportHostsWarning": "Cảnh báo: tệp đã nhập chứa tài khoản trên các trang khác: {hosts}",
+  "@databaseImportHostsWarning": {
+    "placeholders": {
+      "hosts": {
+        "type": "String",
+        "required": true
+      }
+    }
+  },
+  "databaseImportCancelled": "Đã hủy nhập",
+  "postsTitle": "Bài đăng",
+  "favoritesOf": "Sưu thích của {user}",
+  "@favoritesOf": {
+    "placeholders": {
+      "user": {
+        "type": "String"
+      }
+    }
+  },
+  "favoritesUnavailable": "Sưu thích không khả dụng cho người dùng ẩn danh",
+  "favoriteOrder": "Thứ tự yêu thích",
+  "orderAdded": "đã thêm",
+  "orderId": "id thứ tự",
+  "postStateDeleted": "đã xóa",
+  "postStateUnsupported": "không được hỗ trợ",
+  "postStateUnavailable": "không có sẵn",
+  "menuShare": "Chia sẻ",
+  "menuDownload": "Tải xuống",
+  "menuBrowse": "Duyệt",
+  "menuEdit": "Chỉnh sửa",
+  "menuComment": "Bình luận",
+  "menuReport": "Báo cáo",
+  "menuFlag": "Đánh dấu",
+  "actionOpen": "Mở",
+  "actionFollow": "Theo dõi",
+  "actionUnfollow": "Bỏ theo dõi",
+  "actionMute": "Tắt tiếng",
+  "actionNotify": "Thông báo",
+  "actionBookmark": "Lưu lại",
+  "actionUnbookmark": "Bỏ lưu",
+  "actionBlock": "Chặn",
+  "actionUnblock": "Bỏ chặn",
+  "actionRemove": "Xóa",
+  "actionAdd": "Thêm",
+  "actionSubtract": "Trừ",
+  "selectionPost": "bài #{id}",
+  "@selectionPost": {
+    "placeholders": {
+      "id": {
+        "type": "num"
+      }
+    }
+  },
+  "selectionPostsCount": "{count, plural, other{{count} bài}}",
+  "@selectionPostsCount": {
+    "placeholders": {
+      "count": {
+        "type": "num"
+      }
+    }
+  },
+  "noPosts": "Không có bài",
+  "failedToLoadPosts": "Không thể tải bài",
+  "offlineBanner": "Bạn đang offline. Đang hiển thị dữ liệu đã lưu.",
+  "offlineNoData": "Bạn đang offline",
+  "postListPageSummary": "Trang {page} · {count, plural, one{{count} bài} other{{count} bài}}",
+  "postListPageLimit": "Bạn đã đạt đến giới hạn trang của máy chủ. Vui lòng thu hẹp các điều kiện tìm kiếm.",
+  "postListJumpToPage": "Đến trang",
+  "postListJumpPageLabel": "Số trang",
+  "postListJumpPageRange": "Nhập số trang từ 1 đến {max}",
+  "postDeletedOverlay": "Bài đã bị xóa",
+  "postUnavailableOverlay": "Bài không có sẵn",
+  "postBlacklistedOverlay": "Bài đã bị chặn",
+  "unsupportedFileType": "Tệp {ext} không được hỗ trợ",
+  "@unsupportedFileType": {
+    "placeholders": {
+      "ext": {
+        "type": "String"
+      }
+    }
+  },
+  "loginRequiredEdit": "Bạn phải đăng nhập để chỉnh sửa bài!",
+  "loginRequiredComment": "Bạn phải đăng nhập để bình luận!",
+  "loginRequiredReport": "Bạn phải đăng nhập để báo cáo bài!",
+  "loginRequiredFlag": "Bạn phải đăng nhập để đánh dấu bài!",
+  "postsBlocked": "{count, plural, =1{đã chặn 1 bài} other{đã chặn {count} bài}}",
+  "@postsBlocked": {
+    "description": "Number of posts currently blocked by the blacklist.",
+    "placeholders": {
+      "count": {
+        "type": "num"
+      }
+    }
+  },
+  "blacklistUpdateFailed": "Cập nhật danh sách chặn thất bại!",
+  "@blacklistUpdateFailed": {
+    "description": "Error shown when saving the blacklist failed."
+  },
+  "blacklistAddTag": "Thêm thẻ",
+  "@blacklistAddTag": {
+    "description": "Title of the prompt that adds a tag to the blacklist."
+  },
+  "blacklistEditTag": "Chỉnh sửa thẻ",
+  "denylistEntryDeleted": "Đã xóa mục chặn",
+  "@blacklistEditTag": {
+    "description": "Title of the prompt that edits a blacklist entry."
+  },
+  "blacklistEmpty": "Danh sách chặn của bạn trống",
+  "@blacklistEmpty": {
+    "description": "Message shown when the blacklist contains no entries."
+  },
+  "menuDelete": "Xóa",
+  "@menuDelete": {
+    "description": "Menu item that deletes an item."
+  },
+  "filterScore": "Điểm",
+  "@filterScore": {
+    "description": "Name of the score filter."
+  },
+  "filterFavoriteCount": "Số lượt thích",
+  "@filterFavoriteCount": {
+    "description": "Name of the favorite count filter."
+  },
+  "filterSortBy": "Sắp xếp theo",
+  "@filterSortBy": {
+    "description": "Name of the sort order filter."
+  },
+  "filterNew": "Mới",
+  "@filterNew": {
+    "description": "Sort order option that sorts by newest posts."
+  },
+  "filterRank": "Xếp hạng",
+  "@filterRank": {
+    "description": "Sort order option that sorts by rank."
+  },
+  "filterRandom": "Ngẫu nhiên",
+  "@filterRandom": {
+    "description": "Sort order option that sorts randomly."
+  },
+  "filterDefault": "Mặc định",
+  "@filterDefault": {
+    "description": "Choice that leaves a filter at its default."
+  },
+  "filterRating": "Đánh giá",
+  "@filterRating": {
+    "description": "Name of the rating filter."
+  },
+  "filterSafe": "An toàn",
+  "@filterSafe": {
+    "description": "The safe rating."
+  },
+  "filterQuestionable": "Nghi vấn",
+  "@filterQuestionable": {
+    "description": "The questionable rating."
+  },
+  "filterExplicit": "Rõ ràng",
+  "@filterExplicit": {
+    "description": "The explicit rating."
+  },
+  "filterAll": "Tất cả",
+  "@filterAll": {
+    "description": "Choice that does not restrict a filter."
+  },
+  "filterPool": "Bộ sưu tập",
+  "@filterPool": {
+    "description": "Name of the pool filter."
+  },
+  "filterHasPool": "Có bộ sưu tập",
+  "@filterHasPool": {
+    "description": "Description of the pool filter."
+  },
+  "filterChild": "Con",
+  "@filterChild": {
+    "description": "Name of the child post filter."
+  },
+  "filterIsChildPost": "Là bài con",
+  "@filterIsChildPost": {
+    "description": "Description of the child post filter."
+  },
+  "filterParent": "Cha",
+  "@filterParent": {
+    "description": "Name of the parent post filter."
+  },
+  "filterIsParentPost": "Là bài cha",
+  "@filterIsParentPost": {
+    "description": "Description of the parent post filter."
+  },
+  "filterUploadDate": "Ngày tải lên",
+  "@filterUploadDate": {
+    "description": "Name of the upload date filter."
+  },
+  "filterLastDay": "Ngày cuối",
+  "@filterLastDay": {
+    "description": "Upload date option for the last day."
+  },
+  "filterLastWeek": "Tuần cuối",
+  "@filterLastWeek": {
+    "description": "Upload date option for the last week."
+  },
+  "filterLastMonth": "Tháng cuối",
+  "@filterLastMonth": {
+    "description": "Upload date option for the last month."
+  },
+  "filterLastYear": "Năm cuối",
+  "@filterLastYear": {
+    "description": "Upload date option for the last year."
+  },
+  "filterStatus": "Trạng thái",
+  "@filterStatus": {
+    "description": "Name of the post status filter."
+  },
+  "filterActive": "Hoạt động",
+  "@filterActive": {
+    "description": "The active post status."
+  },
+  "filterPending": "Chờ xử lý",
+  "@filterPending": {
+    "description": "The pending post status."
+  },
+  "filterDeleted": "Đã xóa",
+  "@filterDeleted": {
+    "description": "The deleted post status."
+  },
+  "filterFlagged": "Đã đánh dấu",
+  "@filterFlagged": {
+    "description": "The flagged post status."
+  },
+  "filterAny": "Bất kỳ",
+  "@filterAny": {
+    "description": "Post status option that allows any status."
+  },
+  "filterFileType": "Loại tệp",
+  "filterUploader": "Người tải lên",
+  "filterWidth": "Chiều rộng",
+  "filterHeight": "Chiều cao",
+  "filterTagCount": "Số thẻ",
+  "filterTrue": "Đúng",
+  "filterFalse": "Sai",
+  "filterImages": "Hình ảnh",
+  "filterVideos": "Video",
+  "filterTitleContains": "Tiêu đề chứa",
+  "@filterTitleContains": {
+    "description": "Name of the topic title filter."
+  },
+  "filterCategory": "Thể loại",
+  "@filterCategory": {
+    "description": "Name of the category filter."
+  },
+  "filterGeneral": "Chung",
+  "@filterGeneral": {
+    "description": "The general topic category."
+  },
+  "filterSiteBugReports": "Báo cáo lỗi & Yêu cầu tính năng",
+  "@filterSiteBugReports": {
+    "description": "A topic category."
+  },
+  "filterTagWikiProjects": "Dự án Wiki/Thẻ & Câu hỏi",
+  "@filterTagWikiProjects": {
+    "description": "A topic category."
+  },
+  "filterTagAliasSuggestions": "Gợi ý Thẻ bí danh & Ngụ ý",
+  "@filterTagAliasSuggestions": {
+    "description": "A topic category."
+  },
+  "filterArtTalk": "Thảo luận nghệ thuật",
+  "@filterArtTalk": {
+    "description": "A topic category."
+  },
+  "filterOffTopic": "Nội dung không liên quan",
+  "@filterOffTopic": {
+    "description": "A topic category."
+  },
+  "filterE621Tools": "Công cụ & Ứng dụng e621",
+  "@filterE621Tools": {
+    "description": "A topic category."
+  },
+  "filterNewestFirst": "Mới nhất trước",
+  "@filterNewestFirst": {
+    "description": "Sort order option that sorts by newest topics first."
+  },
+  "filterOldestFirst": "Cũ nhất trước",
+  "@filterOldestFirst": {
+    "description": "Sort order option that sorts by oldest topics first."
+  },
+  "filterSticky": "Ghim",
+  "@filterSticky": {
+    "description": "Name of the sticky filter."
+  },
+  "filterIsSticky": "Đã ghim",
+  "@filterIsSticky": {
+    "description": "Description of the sticky filter."
+  },
+  "filterLocked": "Khóa",
+  "@filterLocked": {
+    "description": "Name of the locked filter."
+  },
+  "filterIsLocked": "Đã khóa",
+  "@filterIsLocked": {
+    "description": "Description of the locked filter."
+  },
+  "filterDescription": "Mô tả",
+  "@filterDescription": {
+    "description": "Name of the pool description filter."
+  },
+  "filterCreator": "Người tạo",
+  "@filterCreator": {
+    "description": "Name of the pool creator filter."
+  },
+  "filterIsActive": "Đang hoạt động",
+  "@filterIsActive": {
+    "description": "Description of the active pool filter."
+  },
+  "filterSeries": "Series",
+  "@filterSeries": {
+    "description": "The series pool category."
+  },
+  "filterCollection": "Bộ sưu tập",
+  "@filterCollection": {
+    "description": "The collection pool category."
+  },
+  "filterName": "Tên",
+  "@filterName": {
+    "description": "Sort order option that sorts pools by name."
+  },
+  "filterCreated": "Tạo lúc",
+  "@filterCreated": {
+    "description": "Sort order option that sorts pools by creation date."
+  },
+  "filterUpdated": "Cập nhật lúc",
+  "@filterUpdated": {
+    "description": "Sort order option that sorts pools by update date."
+  },
+  "filterPostCount": "Số bài",
+  "@filterPostCount": {
+    "description": "Sort order option that sorts pools by post count."
+  },
+  "postUpdateFailed": "Cập nhật bài #{id} thất bại",
+  "@postUpdateFailed": {
+    "description": "Error shown when updating a post failed.",
+    "placeholders": {
+      "id": {
+        "type": "num"
+      }
+    }
+  },
+  "postUpdated": "Đã cập nhật bài #{id}",
+  "@postUpdated": {
+    "description": "Confirmation shown after updating a post.",
+    "placeholders": {
+      "id": {
+        "type": "num"
+      }
+    }
+  },
+  "failedToLoadPost": "Tải bài thất bại",
+  "@failedToLoadPost": {
+    "description": "Error shown when a single post failed to load."
+  },
+  "postNotFound": "Không tìm thấy bài",
+  "@postNotFound": {
+    "description": "Message shown when a post does not exist."
+  },
+  "commentsTitle": "Bình luận",
+  "@commentsTitle": {
+    "description": "Title of the comment list drawer."
+  },
+  "commentsOfPost": "Bình luận bài #{postId}",
+  "@commentsOfPost": {
+    "description": "Title of a post's comment page.",
+    "placeholders": {
+      "postId": {
+        "type": "num"
+      }
+    }
+  },
+  "commentOrder": "Sắp xếp bình luận",
+  "@commentOrder": {
+    "description": "Label of the comment sorting switch."
+  },
+  "noComments": "Không có bình luận",
+  "@noComments": {
+    "description": "Message shown when there are no comments."
+  },
+  "failedToLoadComments": "Tải bình luận thất bại",
+  "@failedToLoadComments": {
+    "description": "Error shown when comments failed to load."
+  },
+  "commentTitle": "Bình luận #{id}",
+  "@commentTitle": {
+    "description": "Title of the comment loading page.",
+    "placeholders": {
+      "id": {
+        "type": "num"
+      }
+    }
+  },
+  "failedToLoadComment": "Tải bình luận thất bại",
+  "@failedToLoadComment": {
+    "description": "Error shown when a comment failed to load."
+  },
+  "commentNotFound": "Không tìm thấy bình luận",
+  "@commentNotFound": {
+    "description": "Message shown when a comment does not exist."
+  },
+  "commentEditorTitle": "Bình luận bài #{postId}",
+  "@commentEditorTitle": {
+    "description": "Title of the comment editor.",
+    "placeholders": {
+      "postId": {
+        "type": "num"
+      }
+    }
+  },
+  "commentSendFailed": "Gửi bình luận thất bại!",
+  "@commentSendFailed": {
+    "description": "Error shown when sending a comment failed."
+  },
+  "commentSent": "Đã gửi bình luận!",
+  "@commentSent": {
+    "description": "Confirmation shown after sending a comment."
+  },
+  "commentHidden": "Bình luận này đã bị ẩn",
+  "@commentHidden": {
+    "description": "Tooltip of the hidden comment indicator."
+  },
+  "commentUpvoteFailed": "Không thể thích bình luận #{id}",
+  "@commentUpvoteFailed": {
+    "description": "Error shown when upvoting a comment failed.",
+    "placeholders": {
+      "id": {
+        "type": "num"
+      }
+    }
+  },
+  "commentDownvoteFailed": "Không thể không thích bình luận #{id}",
+  "@commentDownvoteFailed": {
+    "description": "Error shown when downvoting a comment failed.",
+    "placeholders": {
+      "id": {
+        "type": "num"
+      }
+    }
+  },
+  "commentLoginRequiredEdit": "Bạn phải đăng nhập để chỉnh sửa bình luận!",
+  "@commentLoginRequiredEdit": {
+    "description": "Error shown when editing a comment requires a login."
+  },
+  "commentLoginRequiredReply": "Bạn phải đăng nhập để trả lời bình luận!",
+  "@commentLoginRequiredReply": {
+    "description": "Error shown when replying to a comment requires a login."
+  },
+  "commentLoginRequiredReport": "Bạn phải đăng nhập để báo cáo bình luận!",
+  "@commentLoginRequiredReport": {
+    "description": "Error shown when reporting a comment requires a login."
+  },
+  "commentCopiedId": "Đã sao chép id bình luận #{id}",
+  "@commentCopiedId": {
+    "description": "Confirmation shown after copying a comment id.",
+    "placeholders": {
+      "id": {
+        "type": "num"
+      }
+    }
+  },
+  "warningUserWarned": "Người dùng đã nhận cảnh báo cho tin nhắn này",
+  "@warningUserWarned": {
+    "description": "Warning attached to a comment or reply whose author was warned."
+  },
+  "warningUserRecorded": "Người dùng đã bị ghi nhận cho tin nhắn này",
+  "@warningUserRecorded": {
+    "description": "Warning attached to a comment or reply whose author received a record."
+  },
+  "warningUserBanned": "Người dùng đã bị cấm cho tin nhắn này",
+  "@warningUserBanned": {
+    "description": "Warning attached to a comment or reply whose author was banned."
+  },
+  "repliesTitle": "Trả lời",
+  "@repliesTitle": {
+    "description": "Title of the reply list drawer."
+  },
+  "replyOrder": "Sắp xếp trả lời",
+  "@replyOrder": {
+    "description": "Label of the reply sorting switch."
+  },
+  "noReplies": "Không có trả lời",
+  "@noReplies": {
+    "description": "Message shown when there are no replies."
+  },
+  "failedToLoadReplies": "Tải trả lời thất bại",
+  "@failedToLoadReplies": {
+    "description": "Error shown when replies failed to load."
+  },
+  "replyTitle": "Trả lời #{id}",
+  "@replyTitle": {
+    "description": "Title of the reply loading page.",
+    "placeholders": {
+      "id": {
+        "type": "num"
+      }
+    }
+  },
+  "failedToLoadReply": "Tải trả lời thất bại",
+  "@failedToLoadReply": {
+    "description": "Error shown when a reply failed to load."
+  },
+  "replyNotFound": "Không tìm thấy trả lời",
+  "@replyNotFound": {
+    "description": "Message shown when a reply does not exist."
+  },
+  "replyEditorTitle": "Trả lời #{topicId}",
+  "@replyEditorTitle": {
+    "description": "Title of the reply editor.",
+    "placeholders": {
+      "topicId": {
+        "type": "num"
+      }
+    }
+  },
+  "replySendFailed": "Gửi trả lời thất bại!",
+  "@replySendFailed": {
+    "description": "Error shown when sending a reply failed."
+  },
+  "replySent": "Đã gửi trả lời!",
+  "@replySent": {
+    "description": "Confirmation shown after sending a reply."
+  },
+  "replyHidden": "Trả lời này đã bị ẩn",
+  "@replyHidden": {
+    "description": "Tooltip of the hidden reply indicator."
+  },
+  "replyLoginRequiredEdit": "Bạn phải đăng nhập để chỉnh sửa trả lời!",
+  "@replyLoginRequiredEdit": {
+    "description": "Error shown when editing a reply requires a login."
+  },
+  "replyLoginRequiredReply": "Bạn phải đăng nhập để trả lời!",
+  "@replyLoginRequiredReply": {
+    "description": "Error shown when replying requires a login."
+  },
+  "replyLoginRequiredReport": "Bạn phải đăng nhập để báo cáo trả lời!",
+  "@replyLoginRequiredReport": {
+    "description": "Error shown when reporting a reply requires a login."
+  },
+  "replyCopiedId": "Đã sao chép id trả lời #{id}",
+  "@replyCopiedId": {
+    "description": "Confirmation shown after copying a reply id.",
+    "placeholders": {
+      "id": {
+        "type": "num"
+      }
+    }
+  },
+  "menuReply": "Trả lời",
+  "@menuReply": {
+    "description": "Menu item that replies to an item."
+  },
+  "menuCopyId": "Sao chép ID",
+  "@menuCopyId": {
+    "description": "Menu item that copies an id to the clipboard."
+  },
+  "menuRefresh": "Làm mới",
+  "@menuRefresh": {
+    "description": "Menu item that refreshes a list."
+  },
+  "actionCopy": "Sao chép",
+  "@actionCopy": {
+    "description": "Tooltip of copy buttons."
+  },
+  "actionSave": "Lưu",
+  "@actionSave": {
+    "description": "Button that saves changes."
+  },
+  "actionShow": "Hiện",
+  "@actionShow": {
+    "description": "Tooltip to reveal a hidden value."
+  },
+  "actionHide": "Ẩn",
+  "@actionHide": {
+    "description": "Tooltip to hide a visible value."
+  },
+  "actionCannotBeUndone": "Hành động này không thể hoàn tác.",
+  "@actionCannotBeUndone": {
+    "description": "Warning that a destructive action is permanent."
+  },
+  "info": "Thông tin",
+  "@info": {
+    "description": "Label of info buttons and sections."
+  },
+  "wikiTitle": "Wiki {idOrTitle}",
+  "@wikiTitle": {
+    "description": "Title of the wiki loading page. The placeholder is an id reference like '#123' or a wiki title.",
+    "placeholders": {
+      "idOrTitle": {
+        "type": "String"
+      }
+    }
+  },
+  "failedToLoadWiki": "Tải wiki thất bại",
+  "@failedToLoadWiki": {
+    "description": "Error shown when a wiki page failed to load."
+  },
+  "wikiNotFound": "Không tìm thấy wiki",
+  "@wikiNotFound": {
+    "description": "Message shown when a wiki page does not exist."
+  },
+  "wikiCopiedId": "Đã sao chép id wiki #{id}",
+  "@wikiCopiedId": {
+    "description": "Confirmation shown after copying a wiki id.",
+    "placeholders": {
+      "id": {
+        "type": "num"
+      }
+    }
+  },
+  "wikiInfoId": "id",
+  "@wikiInfoId": {
+    "description": "Label of the wiki id info row."
+  },
+  "wikiInfoAlias": "bí danh",
+  "@wikiInfoAlias": {
+    "description": "Label of the wiki alias info row."
+  },
+  "wikiInfoCreated": "tạo lúc",
+  "@wikiInfoCreated": {
+    "description": "Label of the wiki creation date info row."
+  },
+  "wikiInfoUpdated": "cập nhật lúc",
+  "@wikiInfoUpdated": {
+    "description": "Label of the wiki update date info row."
+  },
+  "wikiInfoLocked": "đã khóa",
+  "@wikiInfoLocked": {
+    "description": "Label of the wiki lock info row."
+  },
+  "wikiInfoYes": "có",
+  "@wikiInfoYes": {
+    "description": "Positive value of info rows."
+  },
+  "wikiInfoNo": "không",
+  "@wikiInfoNo": {
+    "description": "Negative value of info rows."
+  },
+  "userTitle": "Người dùng {idOrName}",
+  "@userTitle": {
+    "description": "Title of the user loading page. The placeholder is an id reference like '#123' or a username.",
+    "placeholders": {
+      "idOrName": {
+        "type": "String"
+      }
+    }
+  },
+  "failedToLoadUser": "Không thể tải người dùng",
+  "@failedToLoadUser": {
+    "description": "Error shown when a user failed to load."
+  },
+  "userNotFound": "Không tìm thấy người dùng",
+  "@userNotFound": {
+    "description": "Message shown when a user does not exist."
+  },
+  "userUploads": "Đăng tải",
+  "@userUploads": {
+    "description": "Label of the uploads tab on the user page."
+  },
+  "userLoginRequiredReport": "Bạn phải đăng nhập để báo cáo người dùng!",
+  "@userLoginRequiredReport": {
+    "description": "Error shown when reporting a user requires a login."
+  },
+  "userComission": "Đặt hàng",
+  "@userComission": {
+    "description": "Header of the commission info section on the user page."
+  },
+  "userId": "id",
+  "@userId": {
+    "description": "Label of the user id info row."
+  },
+  "userJoined": "tham gia",
+  "@userJoined": {
+    "description": "Label of the join date info row."
+  },
+  "userRank": "xếp hạng",
+  "@userRank": {
+    "description": "Label of the user rank info row."
+  },
+  "userPosts": "bài đăng",
+  "@userPosts": {
+    "description": "Label of the user post count info row."
+  },
+  "userEdits": "chỉnh sửa",
+  "@userEdits": {
+    "description": "Label of the user post edit count info row."
+  },
+  "userFavorites": "yêu thích",
+  "@userFavorites": {
+    "description": "Label of the user favorite count info row."
+  },
+  "userComments": "bình luận",
+  "@userComments": {
+    "description": "Label of the user comment count info row."
+  },
+  "userForum": "diễn đàn",
+  "@userForum": {
+    "description": "Label of the user forum post count info row."
+  },
+  "userCopiedId": "Đã sao chép id người dùng #{id}",
+  "@userCopiedId": {
+    "description": "Confirmation shown after copying a user id.",
+    "placeholders": {
+      "id": {
+        "type": "num"
+      }
+    }
+  },
+  "logsTitle": "Nhật ký",
+  "@logsTitle": {
+    "description": "Title of the logs page."
+  },
+  "logsTitleDate": "Nhật ký - {date}",
+  "@logsTitleDate": {
+    "description": "Title of the logs page for a specific date.",
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "selectionLogsCount": "{count, plural, other{{count} nhật ký}}",
+  "@selectionLogsCount": {
+    "description": "Number of selected log entries.",
+    "placeholders": {
+      "count": {
+        "type": "num"
+      }
+    }
+  },
+  "selectionLogsFilesCount": "{count, plural, other{{count} tệp nhật ký}}",
+  "@selectionLogsFilesCount": {
+    "description": "Number of selected log files.",
+    "placeholders": {
+      "count": {
+        "type": "num"
+      }
+    }
+  },
+  "logsLevels": "Cấp độ",
+  "@logsLevels": {
+    "description": "Header of the log level filter section."
+  },
+  "logsRecording": "Đang ghi",
+  "@logsRecording": {
+    "description": "Header of the log recording settings section."
+  },
+  "logsVerbose": "Chi tiết",
+  "@logsVerbose": {
+    "description": "Switch that records verbose logs."
+  },
+  "logsVerboseAll": "ghi tất cả cấp độ",
+  "@logsVerboseAll": {
+    "description": "Subtitle of the verbose switch when all levels are recorded."
+  },
+  "logsVerboseMinimum": "{level} và trở lên",
+  "@logsVerboseMinimum": {
+    "description": "Subtitle of the verbose switch naming the minimum recorded level.",
+    "placeholders": {
+      "level": {
+        "type": "String"
+      }
+    }
+  },
+  "logFilesTitle": "Tệp Nhật ký",
+  "@logFilesTitle": {
+    "description": "Title of the log file list page."
+  },
+  "failedToLoadLogFiles": "Không thể tải tệp nhật ký!",
+  "@failedToLoadLogFiles": {
+    "description": "Error shown when log files failed to load."
+  },
+  "noLogFiles": "Không có tệp nhật ký nào!",
+  "@noLogFiles": {
+    "description": "Message shown when there are no log files."
+  },
+  "logsLive": "Trực tiếp",
+  "@logsLive": {
+    "description": "Label of the live log source tile in the log file list."
+  },
+  "noLogs": "Không có nhật ký",
+  "@noLogs": {
+    "description": "Message shown when there are no log entries."
+  },
+  "failedToReadLog": "Không thể đọc nhật ký",
+  "@failedToReadLog": {
+    "description": "Error shown when a log file failed to read."
+  },
+  "noErrorsLogged": "Không có lỗi nào được ghi",
+  "@noErrorsLogged": {
+    "description": "Message shown when no errors have been logged."
+  },
+  "logsErrorsCount": "{count, plural, =1{1 lỗi} other{{count} lỗi}}",
+  "@logsErrorsCount": {
+    "description": "Number of errors logged in the current session.",
+    "placeholders": {
+      "count": {
+        "type": "num"
+      }
+    }
+  },
+  "logsAll": "Tất cả nhật ký",
+  "@logsAll": {
+    "description": "Button that opens the full logs page."
+  },
+  "logsDismissAll": "Loại bỏ tất cả",
+  "@logsDismissAll": {
+    "description": "Button that dismisses all logged errors."
+  },
+  "logsDeleteTitle": "Xóa {count} tệp nhật ký?",
+  "@logsDeleteTitle": {
+    "description": "Title of the log file deletion dialog.",
+    "placeholders": {
+      "count": {
+        "type": "num"
+      }
+    }
+  },
+  "identityAccounts": "Tài khoản",
+  "@identityAccounts": {
+    "description": "Header of the account list in the identity picker."
+  },
+  "identityAdd": "Thêm tài khoản",
+  "@identityAdd": {
+    "description": "Title of the page that adds an account."
+  },
+  "identityEdit": "Chỉnh sửa tài khoản",
+  "@identityEdit": {
+    "description": "Title of the page that edits an account."
+  },
+  "identityRemoveTitle": "Xóa tài khoản?",
+  "@identityRemoveTitle": {
+    "description": "Title of the account removal dialog."
+  },
+  "identityRemoveBody": "Tất cả dữ liệu của nó sẽ bị xóa vĩnh viễn, bao gồm lịch sử và theo dõi.",
+  "@identityRemoveBody": {
+    "description": "Body of the account removal dialog."
+  },
+  "identityAnonymous": "Ẩn danh",
+  "@identityAnonymous": {
+    "description": "Name shown for identities without a username."
+  },
+  "identityDuplicate": "Bạn đã có một danh tính dưới host và tên người dùng này.",
+  "@identityDuplicate": {
+    "description": "Error shown when adding a duplicate identity."
+  },
+  "identityLoginFailed": "Đăng nhập thất bại. \n{reason}",
+  "@identityLoginFailed": {
+    "description": "Error shown when logging in failed.",
+    "placeholders": {
+      "reason": {
+        "type": "String"
+      }
+    }
+  },
+  "identityLoginCheckDetails": "Kiểm tra kết nối mạng và thông tin đăng nhập",
+  "@identityLoginCheckDetails": {
+    "description": "Fallback reason shown when logging in failed without details."
+  },
+  "identitySite": "Trang web",
+  "@identitySite": {
+    "description": "Label of the account host input field."
+  },
+  "identityHostRequired": "Bạn phải cung cấp URL host.",
+  "@identityHostRequired": {
+    "description": "Error shown when the host field is empty."
+  },
+  "identityHostInvalid": "URL host không hợp lệ",
+  "@identityHostInvalid": {
+    "description": "Error shown when the host URL is invalid."
+  },
+  "identityHostReadOnly": "Không thể thay đổi trang web. Thêm tài khoản mới để sử dụng trang khác.",
+  "@identityHostReadOnly": {
+    "description": "Tooltip of the read-only host field."
+  },
+  "identityUsernameLabel": "Tên người dùng",
+  "@identityUsernameLabel": {
+    "description": "Label of the account username input field."
+  },
+  "identityUsernameRequired": "Bạn phải cung cấp tên người dùng.",
+  "@identityUsernameRequired": {
+    "description": "Error shown when the username field is empty."
+  },
+  "identityApikeyLabel": "Khóa API",
+  "@identityApikeyLabel": {
+    "description": "Label of the account api key input field."
+  },
+  "identityApikeyHelp": "Tôi tìm khóa API của mình ở đâu?",
+  "@identityApikeyHelp": {
+    "description": "Link that opens the api key page of the current site."
+  },
+  "identityApikeyRequired": "Bạn phải cung cấp khóa API.\nví dụ: 1ca1d165e973d7f8d35b7deb7a2ae54c",
+  "@identityApikeyRequired": {
+    "description": "Error shown when the api key field is empty."
+  },
+  "identityApikeyInvalid": "Khóa API là một chuỗi 24 hoặc 32 ký tự từ A-z và 0-9\nví dụ: 1ca1d165e973d7f8d35b7deb7a2ae54c",
+  "@identityApikeyInvalid": {
+    "description": "Error shown when the api key is malformed."
+  },
+  "identitySignupPrompt": "Chưa có tài khoản? Đăng ký tại đây",
+  "@identitySignupPrompt": {
+    "description": "Link that opens the registration page of the current site."
+  },
+  "identityHostHint": "Trang web lưu trữ tài khoản và bài đăng của bạn.",
+  "@identityHostHint": {
+    "description": "Hint below the account host input field."
+  },
+  "identitySignIn": "Đăng nhập",
+  "@identitySignIn": {
+    "description": "Segment that selects the sign-in mode of the account form."
+  },
+  "identityGuest": "Khách",
+  "@identityGuest": {
+    "description": "Segment that selects the guest mode of the account form."
+  },
+  "identityLogin": "Đăng nhập",
+  "@identityLogin": {
+    "description": "Button that logs in with the entered credentials."
+  },
+  "identityBrowseAnonymously": "Duyệt ẩn danh",
+  "@identityBrowseAnonymously": {
+    "description": "Button that continues without an account."
+  },
+  "identityConnecting": "Đang kết nối đến {host} với tư cách {username}…",
+  "@identityConnecting": {
+    "description": "Message of the login loading dialog.",
+    "placeholders": {
+      "host": {
+        "type": "String"
+      },
+      "username": {
+        "type": "String"
+      }
+    }
+  },
+  "identityActivateFailed": "Không thể kích hoạt danh tính: {error}",
+  "traitsActivateFailed": "Không thể kích hoạt đặc điểm: {error}",
+  "failedToLoadIdentities": "Không thể tải danh tính",
+  "@failedToLoadIdentities": {
+    "description": "Error shown when identities failed to load."
+  },
+  "onboardingSkip": "Bỏ qua",
+  "@onboardingSkip": {
+    "description": "Button that skips the onboarding."
+  },
+  "onboardingBack": "Quay lại",
+  "@onboardingBack": {
+    "description": "Button that returns to the previous onboarding step."
+  },
+  "onboardingNext": "Tiếp theo",
+  "@onboardingNext": {
+    "description": "Button that advances to the next onboarding step."
+  },
+  "onboardingWelcomeTitle": "Chào mừng đến với {app}",
+  "@onboardingWelcomeTitle": {
+    "description": "Title of the welcome onboarding step.",
+    "placeholders": {
+      "app": {
+        "type": "String"
+      }
+    }
+  },
+  "onboardingWelcomeBody": "Trình duyệt booru tinh vi.",
+  "@onboardingWelcomeBody": {
+    "description": "Body of the welcome onboarding step."
+  },
+  "onboardingThemeTitle": "Chọn giao diện",
+  "@onboardingThemeTitle": {
+    "description": "Title of the theme onboarding step."
+  },
+  "onboardingThemeBody": "Hãy thử một cái. Bạn luôn có thể thay đổi sau.",
+  "onboardingQualityTitle": "Điều chỉnh phương tiện",
+  "onboardingQualityBody": "Chọn cách tải video và hình thu nhỏ. Bạn có thể thay đổi sau trong cài đặt.",
+  "@onboardingThemeBody": {
+    "description": "Body of the theme onboarding step."
+  },
+  "onboardingLoginTitle": "Kết nối tài khoản",
+  "@onboardingLoginTitle": {
+    "description": "Title of the login onboarding step."
+  },
+  "onboardingLanguageTitle": "Chọn ngôn ngữ",
+  "@onboardingLanguageTitle": {
+    "description": "Title of the language onboarding step."
+  },
+  "followAddToSubscriptions": "Thêm vào theo dõi",
+  "@followAddToSubscriptions": {
+    "description": "Prompt title for adding a tag to the subscriptions page."
+  },
+  "followNoSubscriptions": "Không có theo dõi",
+  "@followNoSubscriptions": {
+    "description": "Empty state of the subscriptions page."
+  },
+  "followFailedToLoadSubscriptions": "Không thể tải theo dõi",
+  "@followFailedToLoadSubscriptions": {
+    "description": "Error state of the subscriptions page."
+  },
+  "followAddToBookmarks": "Thêm vào dấu trang",
+  "@followAddToBookmarks": {
+    "description": "Prompt title for adding a tag to the bookmarks page."
+  },
+  "followNoBookmarks": "Không có dấu trang",
+  "@followNoBookmarks": {
+    "description": "Empty state of the bookmarks page."
+  },
+  "followFailedToLoadBookmarks": "Không thể tải dấu trang",
+  "@followFailedToLoadBookmarks": {
+    "description": "Error state of the bookmarks page."
+  },
+  "followUnseenPosts": "bài đăng chưa xem",
+  "@followUnseenPosts": {
+    "description": "Title of the unseen posts tile in the subscriptions drawer."
+  },
+  "followMarkPostsSeen": "{count, plural, =1{đánh dấu 1 bài đã xem} other{đánh dấu {count} bài đã xem}}",
+  "@followMarkPostsSeen": {
+    "description": "Subtitle of the unseen posts tile, marking posts as seen.",
+    "placeholders": {
+      "count": {
+        "type": "num"
+      }
+    }
+  },
+  "followNoUnseenPosts": "không có bài chưa xem",
+  "@followNoUnseenPosts": {
+    "description": "Subtitle of the unseen posts tile when nothing is unseen."
+  },
+  "followShowUnseenFirst": "hiển thị bài chưa xem trước",
+  "@followShowUnseenFirst": {
+    "description": "Title of the unseen filter switch in the subscriptions drawer."
+  },
+  "followFilteringUnseen": "lọc bài chưa xem",
+  "@followFilteringUnseen": {
+    "description": "Subtitle of the unseen filter switch when filtering."
+  },
+  "followAllPostsShown": "đã hiển thị tất cả bài",
+  "@followAllPostsShown": {
+    "description": "Subtitle of the unseen filter switch when not filtering."
+  },
+  "followForceSync": "Đồng bộ buộc",
+  "@followForceSync": {
+    "description": "Title of the force sync tile in the subscriptions drawer."
+  },
+  "followSyncAllFollows": "đồng bộ tất cả theo dõi",
+  "@followSyncAllFollows": {
+    "description": "Subtitle of the force sync tile when idle."
+  },
+  "followSyncingFollows": "đang đồng bộ theo dõi... {progress}",
+  "@followSyncingFollows": {
+    "description": "Subtitle of the force sync tile while syncing, with a progress value.",
+    "placeholders": {
+      "progress": {
+        "type": "String"
+      }
+    }
+  },
+  "followEditorTitle": "Chỉnh sửa theo dõi",
+  "@followEditorTitle": {
+    "description": "Title of the follow editor page."
+  },
+  "followSubscribe": "Theo dõi",
+  "@followSubscribe": {
+    "description": "Section title of the subscription list in the follow editor."
+  },
+  "followEditPrompt": "Chỉnh sửa theo dõi",
+  "@followEditPrompt": {
+    "description": "Prompt title for editing a follow's tags."
+  },
+  "followTitlePrompt": "Tên theo dõi",
+  "@followTitlePrompt": {
+    "description": "Label of the text field renaming a follow."
+  },
+  "followMarkAsRead": "Đánh dấu đã đọc",
+  "@followMarkAsRead": {
+    "description": "Menu action marking a follow as read."
+  },
+  "followDisableNotifications": "Tắt thông báo",
+  "@followDisableNotifications": {
+    "description": "Menu action disabling notifications of a follow."
+  },
+  "followEnableNotifications": "Bật thông báo",
+  "@followEnableNotifications": {
+    "description": "Menu action enabling notifications of a follow."
+  },
+  "followRename": "Đổi tên",
+  "@followRename": {
+    "description": "Menu action renaming a follow."
+  },
+  "followNewPosts": "{count, plural, =1{1 bài mới} other{{label} bài mới}}",
+  "@followNewPosts": {
+    "description": "Unseen counter label on a follow tile.",
+    "placeholders": {
+      "count": {
+        "type": "num"
+      },
+      "label": {
+        "type": "String"
+      }
+    }
+  },
+  "followSelectionCount": "{count, plural, =1{1 theo dõi} other{{count} theo dõi}}",
+  "@followSelectionCount": {
+    "description": "Title of the follow selection app bar.",
+    "placeholders": {
+      "count": {
+        "type": "num"
+      }
+    }
+  },
+  "followAlias": "bí danh {alias}",
+  "@followAlias": {
+    "description": "Alias label on a follow tile.",
+    "placeholders": {
+      "alias": {
+        "type": "String?"
+      }
+    }
+  },
+  "historySelectionCount": "{count, plural, =1{1 mục} other{{count} mục}}",
+  "historyEntriesDeleted": "{count, plural, =1{Đã xóa 1 mục lịch sử} other{Đã xóa {count} mục lịch sử}}",
+  "@historyEntriesDeleted": {
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "required": true
+      }
+    }
+  },
+  "@historySelectionCount": {
+    "description": "Title of the history selection app bar.",
+    "placeholders": {
+      "count": {
+        "type": "num"
+      }
+    }
+  },
+  "historyClear": "Xóa lịch sử",
+  "@historyClear": {
+    "description": "Title of the clear history tile in the history drawer."
+  },
+  "historyClearSubtitle": "Xóa tất cả mục",
+  "@historyClearSubtitle": {
+    "description": "Subtitle of the clear history tile."
+  },
+  "historyClearConfirm": "Xóa lịch sử?",
+  "@historyClearConfirm": {
+    "description": "Title of the clear history confirmation dialog."
+  },
+  "historyClearConfirmBody": "Tất cả mục lịch sử sẽ bị xóa vĩnh viễn. Hành động này không thể hoàn tác.",
+  "@historyClearConfirmBody": {
+    "description": "Body of the clear history confirmation dialog."
+  },
+  "historyClearAction": "Xóa",
+  "@historyClearAction": {
+    "description": "Confirmation button of the clear history dialog."
+  },
+  "historyLimit": "Giới hạn lịch sử",
+  "@historyLimit": {
+    "description": "Title of the history limit dialog."
+  },
+  "historyLimitEnableBody": "Bật giới hạn lịch sử có nghĩa là tất cả mục lịch sử cũ hơn {months} tháng và nhiều hơn {amount} mục sẽ bị xóa tự động.",
+  "@historyLimitEnableBody": {
+    "description": "Body of the history limit dialog explaining its effects.",
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      },
+      "months": {
+        "type": "num"
+      }
+    }
+  },
+  "historyLimitTitle": "Giới hạn lịch sử",
+  "@historyLimitTitle": {
+    "description": "Title of the history limit switch in the history drawer."
+  },
+  "historyLimitOn": "Giới hạn dưới {months} tháng hoặc ít hơn {amount} mục.",
+  "@historyLimitOn": {
+    "description": "Subtitle of the history limit switch when enabled.",
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      },
+      "months": {
+        "type": "num"
+      }
+    }
+  },
+  "historyLimitOff": "lịch sử không giới hạn",
+  "@historyLimitOff": {
+    "description": "Subtitle of the history limit switch when disabled."
+  },
+  "historyEntries": "Mục",
+  "@historyEntries": {
+    "description": "Section header of the history category filters."
+  },
+  "historyType": "Loại",
+  "@historyType": {
+    "description": "Section header of the history type filters."
+  },
+  "historyItems": "Mục",
+  "@historyItems": {
+    "description": "Category filter showing visited items."
+  },
+  "historySearches": "Tìm kiếm",
+  "@historySearches": {
+    "description": "Category filter showing visited searches."
+  },
+  "historyWikis": "Wiki",
+  "@historyWikis": {
+    "description": "Type filter showing wiki history entries."
+  },
+  "historyUsers": "Người dùng",
+  "@historyUsers": {
+    "description": "Type filter showing user history entries."
+  },
+  "historyEmpty": "Lịch sử của bạn trống",
+  "@historyEmpty": {
+    "description": "Empty state of the history page."
+  },
+  "historyFailedToLoad": "Không thể tải lịch sử",
+  "@historyFailedToLoad": {
+    "description": "Error state of the history page."
+  },
+  "historyNoDescription": "không mô tả",
+  "@historyNoDescription": {
+    "description": "Placeholder shown when a history entry has no description."
+  },
+  "historyHotPosts": "Bài hot",
+  "@historyHotPosts": {
+    "description": "Name of the hot posts search in the history."
+  },
+  "historyLinkPost": "Bài #{id}",
+  "@historyLinkPost": {
+    "description": "Name of a visited post in the history.",
+    "placeholders": {
+      "id": {
+        "type": "num"
+      }
+    }
+  },
+  "historyLinkUser": "Người dùng #{id}",
+  "@historyLinkUser": {
+    "description": "Name of a visited user in the history.",
+    "placeholders": {
+      "id": {
+        "type": "num"
+      }
+    }
+  },
+  "historyLinkWiki": "Wiki #{id}",
+  "@historyLinkWiki": {
+    "description": "Name of a visited wiki page in the history.",
+    "placeholders": {
+      "id": {
+        "type": "num"
+      }
+    }
+  },
+  "historyLinkUserByName": "{id} - Người dùng",
+  "@historyLinkUserByName": {
+    "description": "Name of a visited user page in the history, looked up by name.",
+    "placeholders": {
+      "id": {
+        "type": "String"
+      }
+    }
+  },
+  "historyLinkWikiByName": "{id} - Wiki",
+  "@historyLinkWikiByName": {
+    "description": "Name of a visited wiki page in the history, looked up by title.",
+    "placeholders": {
+      "id": {
+        "type": "String"
+      }
+    }
+  },
+  "historySearchQuery": "{type} - {query}",
+  "@historySearchQuery": {
+    "description": "Name of a visited search in the history, combining its type and query.",
+    "placeholders": {
+      "type": {
+        "type": "String"
+      },
+      "query": {
+        "type": "String"
+      }
+    }
+  },
+  "historyWiki": "Wiki",
+  "@historyWiki": {
+    "description": "Menu action opening the wiki of a searched tag."
+  },
+  "poolEmpty": "Không có bộ sưu tập",
+  "@poolEmpty": {
+    "description": "Empty state of the pools page."
+  },
+  "poolFailedToLoadPools": "Không thể tải bộ sưu tập",
+  "@poolFailedToLoadPools": {
+    "description": "Error state of the pools page."
+  },
+  "poolTitle": "Tên bộ sưu tập",
+  "@poolTitle": {
+    "description": "Label of the pool title search filter."
+  },
+  "poolInfoPosts": "bài",
+  "@poolInfoPosts": {
+    "description": "Info row label of the post count of a pool."
+  },
+  "poolInfoId": "id",
+  "@poolInfoId": {
+    "description": "Info row label of the id of a pool."
+  },
+  "poolInfoActivity": "hoạt động",
+  "@poolInfoActivity": {
+    "description": "Info row label of the activity state of a pool."
+  },
+  "poolInfoActive": "hoạt động",
+  "@poolInfoActive": {
+    "description": "Info row value of an active pool."
+  },
+  "poolInfoInactive": "không hoạt động",
+  "@poolInfoInactive": {
+    "description": "Info row value of an inactive pool."
+  },
+  "poolInfoCreated": "tạo",
+  "@poolInfoCreated": {
+    "description": "Info row label of the creation date of a pool."
+  },
+  "poolInfoUpdated": "cập nhật",
+  "@poolInfoUpdated": {
+    "description": "Info row label of the last update of a pool."
+  },
+  "poolCopiedId": "Đã sao chép id bộ sưu tập #{id}",
+  "@poolCopiedId": {
+    "description": "Snackbar shown after copying the id of a pool.",
+    "placeholders": {
+      "id": {
+        "type": "num"
+      }
+    }
+  },
+  "poolLink": "Bộ sưu tập #{id}",
+  "@poolLink": {
+    "description": "Title of the pool loading page.",
+    "placeholders": {
+      "id": {
+        "type": "num"
+      }
+    }
+  },
+  "poolFailedToLoadPool": "Không thể tải bộ sưu tập",
+  "@poolFailedToLoadPool": {
+    "description": "Error state of the pool loading page."
+  },
+  "poolNotFound": "Không tìm thấy bộ sưu tập",
+  "@poolNotFound": {
+    "description": "Empty state of the pool loading page."
+  },
+  "poolOrder": "Thứ tự bộ sưu tập",
+  "@poolOrder": {
+    "description": "Title of the pool order switch in the pool drawer."
+  },
+  "poolOldestFirst": "Cũ nhất trước",
+  "@poolOldestFirst": {
+    "description": "Subtitle of the pool order switch when sorting oldest first."
+  },
+  "poolNewestFirst": "Mới nhất trước",
+  "@poolNewestFirst": {
+    "description": "Subtitle of the pool order switch when sorting newest first."
+  },
+  "poolReaderMode": "Chế độ đọc bộ sưu tập",
+  "@poolReaderMode": {
+    "description": "Title of the pool reader mode switch in the pool drawer."
+  },
+  "poolReaderLargeImages": "hình ảnh lớn",
+  "@poolReaderLargeImages": {
+    "description": "Subtitle of the pool reader mode switch when enabled."
+  },
+  "poolReaderNormalGrid": "lưới thông thường",
+  "@poolReaderNormalGrid": {
+    "description": "Subtitle of the pool reader mode switch when disabled."
+  },
+  "topicsTitle": "Chủ đề",
+  "@topicsTitle": {
+    "description": "Title of the topics page."
+  },
+  "topicHideTagEdits": "Ẩn chỉnh sửa tag",
+  "@topicHideTagEdits": {
+    "description": "Title of the tag edit switch in the topics drawer."
+  },
+  "topicTagEditsHidden": "ẩn",
+  "@topicTagEditsHidden": {
+    "description": "Subtitle of the tag edit switch when hidden."
+  },
+  "topicTagEditsVisible": "hiện",
+  "@topicTagEditsVisible": {
+    "description": "Subtitle of the tag edit switch when visible."
+  },
+  "topicLink": "Chủ đề #{id}",
+  "@topicLink": {
+    "description": "Title of the topic loading page.",
+    "placeholders": {
+      "id": {
+        "type": "num"
+      }
+    }
+  },
+  "topicFailedToLoadTopic": "Không thể tải chủ đề",
+  "@topicFailedToLoadTopic": {
+    "description": "Error state of the topic loading page."
+  },
+  "topicNotFound": "Không tìm thấy chủ đề",
+  "@topicNotFound": {
+    "description": "Empty state of the topic loading page."
+  },
+  "topicEmpty": "Không có chủ đề",
+  "@topicEmpty": {
+    "description": "Empty state of the topics page."
+  },
+  "topicFailedToLoadTopics": "Không thể tải chủ đề",
+  "@topicFailedToLoadTopics": {
+    "description": "Error state of the topics page."
+  },
+  "topicInfoReplies": "trả lời",
+  "@topicInfoReplies": {
+    "description": "Info row label of the reply count of a topic."
+  },
+  "topicInfoId": "id",
+  "@topicInfoId": {
+    "description": "Info row label of the id of a topic."
+  },
+  "topicCopiedId": "Đã sao chép id chủ đề #{id}",
+  "@topicCopiedId": {
+    "description": "Snackbar shown after copying the id of a topic.",
+    "placeholders": {
+      "id": {
+        "type": "num"
+      }
+    }
+  },
+  "topicInfoLocked": "khóa",
+  "@topicInfoLocked": {
+    "description": "Info row label of the locked state of a topic."
+  },
+  "topicInfoYes": "có",
+  "@topicInfoYes": {
+    "description": "Info row value confirming a topic state."
+  },
+  "topicInfoNo": "không",
+  "@topicInfoNo": {
+    "description": "Info row value denying a topic state."
+  },
+  "topicInfoCreated": "tạo",
+  "@topicInfoCreated": {
+    "description": "Info row label of the creation date of a topic."
+  },
+  "topicInfoUpdated": "cập nhật",
+  "@topicInfoUpdated": {
+    "description": "Info row label of the last update of a topic."
+  },
+  "filterTags": "Thẻ",
+  "@filterTags": {
+    "description": "Name of the tags filter used by the tag prompt."
+  },
+  "loginRequired": "Bạn cần đăng nhập để thực hiện hành động này.",
+  "actionChooseIdentity": "Chọn danh tính",
+  "dateToday": "Hôm nay",
+  "dateYesterday": "Hôm qua",
+  "detailCommentsButton": "BÌNH LUẬN ({count})",
+  "@detailCommentsButton": {
+    "description": "Button on the post detail page opening the comment section.",
+    "placeholders": {
+      "count": {
+        "type": "num"
+      }
+    }
+  },
+  "detailFile": "Tệp",
+  "@detailFile": {
+    "description": "Section header of the file info of a post."
+  },
+  "detailSources": "Nguồn",
+  "@detailSources": {
+    "description": "Section header of the sources of a post."
+  },
+  "detailNoSources": "không nguồn",
+  "@detailNoSources": {
+    "description": "Placeholder shown when a post has no sources."
+  },
+  "detailChildren": "Con",
+  "@detailChildren": {
+    "description": "Section header listing the child posts of a post."
+  },
+  "detailDeletion": "Xóa",
+  "@detailDeletion": {
+    "description": "Section header of the deletion flag reason of a post."
+  },
+  "detailBlacklisted": "Đen",
+  "@detailBlacklisted": {
+    "description": "Section header listing the blacklist entries that blocked a post."
+  },
+  "detailNoArtist": "không nghệ sĩ",
+  "@detailNoArtist": {
+    "description": "Placeholder shown when a post has no artist tags."
+  },
+  "detailPoolPosts": "{count, plural, =1{1 bài viết} other{{count} bài viết}}",
+  "@detailPoolPosts": {
+    "description": "Post count of a pool shown on a pool relation tile.",
+    "placeholders": {
+      "count": {
+        "type": "num"
+      }
+    }
+  },
+  "postCopiedId": "Đã sao chép ID bài viết #{id}",
+  "@postCopiedId": {
+    "description": "Snackbar shown after copying the id of a post.",
+    "placeholders": {
+      "id": {
+        "type": "num"
+      }
+    }
+  },
+  "postUpvoteFailed": "Không thể upvote bài viết #{id}",
+  "@postUpvoteFailed": {
+    "description": "Error shown when upvoting a post failed.",
+    "placeholders": {
+      "id": {
+        "type": "num"
+      }
+    }
+  },
+  "postDownvoteFailed": "Không thể downvote bài viết #{id}",
+  "@postDownvoteFailed": {
+    "description": "Error shown when downvoting a post failed.",
+    "placeholders": {
+      "id": {
+        "type": "num"
+      }
+    }
+  },
+  "postAddFavoriteFailed": "Không thể thêm bài viết #{id} vào yêu thích",
+  "@postAddFavoriteFailed": {
+    "description": "Error shown when adding a post to favorites failed.",
+    "placeholders": {
+      "id": {
+        "type": "num"
+      }
+    }
+  },
+  "postRemoveFavoriteFailed": "Không thể bỏ bài viết #{id} khỏi yêu thích",
+  "@postRemoveFavoriteFailed": {
+    "description": "Error shown when removing a post from favorites failed.",
+    "placeholders": {
+      "id": {
+        "type": "num"
+      }
+    }
+  },
+  "editorSection": "Phần",
+  "@editorSection": {
+    "description": "Tooltip of the DText editor button enclosing a section block."
+  },
+  "editorQuote": "Trích dẫn",
+  "@editorQuote": {
+    "description": "Tooltip of the DText editor button enclosing a quote block."
+  },
+  "editorCode": "Mã",
+  "@editorCode": {
+    "description": "Tooltip of the DText editor button enclosing a code block."
+  },
+  "editorSpoiler": "Tiết lộ",
+  "@editorSpoiler": {
+    "description": "Tooltip of the DText editor button enclosing a spoiler block."
+  },
+  "editorBold": "Đậm",
+  "@editorBold": {
+    "description": "Tooltip of the DText editor button enclosing bold text."
+  },
+  "editorItalic": "Nghiêng",
+  "@editorItalic": {
+    "description": "Tooltip of the DText editor button enclosing italic text."
+  },
+  "editorUnderlined": "Gạch chân",
+  "@editorUnderlined": {
+    "description": "Tooltip of the DText editor button enclosing underlined text."
+  },
+  "editorStrikethrough": "Gạch ngang",
+  "@editorStrikethrough": {
+    "description": "Tooltip of the DText editor button enclosing struck-through text."
+  },
+  "editorPreviewPlaceholder": "văn bản của bạn ở đây",
+  "@editorPreviewPlaceholder": {
+    "description": "Placeholder shown in the preview pane of the DText editor."
+  },
+  "editorWrite": "Viết",
+  "@editorWrite": {
+    "description": "Tab label of the editing pane of the text editor."
+  },
+  "editorPreview": "Xem trước",
+  "@editorPreview": {
+    "description": "Tab label of the preview pane of the text editor."
+  },
+  "editorTypeHere": "nhập ở đây...",
+  "@editorTypeHere": {
+    "description": "Hint text of the text editor input field."
+  },
+  "tagNoTags": "không thẻ",
+  "@tagNoTags": {
+    "description": "Placeholder shown when the tag counter drawer found no tags."
+  },
+  "tagFailedToLoadTags": "tải thẻ thất bại",
+  "@tagFailedToLoadTags": {
+    "description": "Error state of the tag counter drawer."
+  },
+  "tagUnableToRetrieveWiki": "không thể lấy mục wiki",
+  "@tagUnableToRetrieveWiki": {
+    "description": "Error shown when the wiki entry of a tag failed to load."
+  },
+  "tagNoWikiEntry": "không có mục wiki",
+  "@tagNoWikiEntry": {
+    "description": "Placeholder shown when a tag has no wiki entry."
+  },
+  "tagCategoryGeneral": "Chung",
+  "@tagCategoryGeneral": {
+    "description": "Name of the general tag category."
+  },
+  "tagCategorySpecies": "Loài",
+  "@tagCategorySpecies": {
+    "description": "Name of the species tag category."
+  },
+  "tagCategoryCharacter": "Nhân vật",
+  "@tagCategoryCharacter": {
+    "description": "Name of the character tag category."
+  },
+  "tagCategoryCopyright": "Bản quyền",
+  "@tagCategoryCopyright": {
+    "description": "Name of the copyright tag category."
+  },
+  "tagCategoryMeta": "Meta",
+  "@tagCategoryMeta": {
+    "description": "Name of the meta tag category."
+  },
+  "tagCategoryLore": "Lore",
+  "@tagCategoryLore": {
+    "description": "Name of the lore tag category."
+  },
+  "tagCategoryArtist": "Nghệ sĩ",
+  "@tagCategoryArtist": {
+    "description": "Name of the artist tag category."
+  },
+  "tagCategoryContributor": "Đóng góp",
+  "@tagCategoryContributor": {
+    "description": "Name of the contributor tag category."
+  },
+  "tagCategoryInvalid": "Không hợp lệ",
+  "@tagCategoryInvalid": {
+    "description": "Name of the invalid tag category."
+  },
+  "editDescriptionTitle": "Mô tả #{postId}",
+  "@editDescriptionTitle": {
+    "description": "Title of the post description editor page.",
+    "placeholders": {
+      "postId": {
+        "type": "num"
+      }
+    }
+  },
+  "editDescriptionHint": "Nhập mô tả bài viết...",
+  "@editDescriptionHint": {
+    "description": "Hint text of the post description input field."
+  },
+  "editInvalidNumber": "Định dạng số không hợp lệ",
+  "@editInvalidNumber": {
+    "description": "Error text shown when the parent id input is not a number."
+  },
+  "editInvalidParent": "Bài viết cha không hợp lệ",
+  "@editInvalidParent": {
+    "description": "Error text shown when a parent post does not exist."
+  },
+  "editParentIdLabel": "ID Cha (tùy chọn)",
+  "@editParentIdLabel": {
+    "description": "Label of the parent id input field of the post edit form."
+  },
+  "editParentIdHint": "ID bài viết cha",
+  "@editParentIdHint": {
+    "description": "Hint text of the parent id input field of the post edit form."
+  },
+  "editReasonLabel": "Lý do chỉnh sửa (tùy chọn)",
+  "@editReasonLabel": {
+    "description": "Label of the edit reason input field of the post edit form."
+  },
+  "editReasonHint": "Tại sao bạn đang chỉnh sửa bài viết này?",
+  "@editReasonHint": {
+    "description": "Hint text of the edit reason input field of the post edit form."
+  },
+  "editSourcesTitle": "Nguồn #{postId}",
+  "@editSourcesTitle": {
+    "description": "Title of the post sources editor page.",
+    "placeholders": {
+      "postId": {
+        "type": "num"
+      }
+    }
+  },
+  "editTagsHint": "các thẻ cách nhau bằng dấu cách",
+  "@editTagsHint": {
+    "description": "Hint text of the tags input field of the post edit form."
+  },
+  "editTagPreviewFailed": "Lỗi tải xem trước thẻ: {error}",
+  "@editTagPreviewFailed": {
+    "description": "Error shown when the tag preview failed to load.",
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
+  "editTagStatusNew": "mới",
+  "@editTagStatusNew": {
+    "description": "Status label of a tag that does not exist yet."
+  },
+  "editTagStatusInvalid": "không hợp lệ",
+  "@editTagStatusInvalid": {
+    "description": "Status label of a tag in the invalid category."
+  },
+  "editTagStatusEmpty": "rỗng",
+  "@editTagStatusEmpty": {
+    "description": "Status label of a tag without any posts."
+  },
+  "editTagStatusUnderused": "ít dùng",
+  "@editTagStatusUnderused": {
+    "description": "Status label of a rarely used general tag."
+  },
+  "reportCommentSuccess": "Đã báo cáo bình luận #{id}",
+  "@reportCommentSuccess": {
+    "description": "Success message after reporting a comment.",
+    "placeholders": {
+      "id": {
+        "type": "num"
+      }
+    }
+  },
+  "reportCommentFailed": "Báo cáo bình luận #{id} thất bại",
+  "@reportCommentFailed": {
+    "description": "Error message after failing to report a comment.",
+    "placeholders": {
+      "id": {
+        "type": "num"
+      }
+    }
+  },
+  "reportReplySuccess": "Đã báo cáo trả lời #{id}",
+  "@reportReplySuccess": {
+    "description": "Success message after reporting a reply.",
+    "placeholders": {
+      "id": {
+        "type": "num"
+      }
+    }
+  },
+  "reportReplyFailed": "Báo cáo trả lời #{id} thất bại",
+  "@reportReplyFailed": {
+    "description": "Error message after failing to report a reply.",
+    "placeholders": {
+      "id": {
+        "type": "num"
+      }
+    }
+  },
+  "reportUserSuccess": "Đã báo cáo người dùng #{id}",
+  "@reportUserSuccess": {
+    "description": "Success message after reporting a user.",
+    "placeholders": {
+      "id": {
+        "type": "num"
+      }
+    }
+  },
+  "reportUserFailed": "Báo cáo người dùng #{id} thất bại",
+  "@reportUserFailed": {
+    "description": "Error message after failing to report a user.",
+    "placeholders": {
+      "id": {
+        "type": "num"
+      }
+    }
+  },
+  "reportPostSuccess": "Đã báo cáo bài viết #{id}",
+  "@reportPostSuccess": {
+    "description": "Success message after reporting a post.",
+    "placeholders": {
+      "id": {
+        "type": "num"
+      }
+    }
+  },
+  "reportPostFailed": "Báo cáo bài viết #{id} thất bại",
+  "@reportPostFailed": {
+    "description": "Error message after failing to report a post.",
+    "placeholders": {
+      "id": {
+        "type": "num"
+      }
+    }
+  },
+  "reportTypeRequired": "Loại không được để trống",
+  "@reportTypeRequired": {
+    "description": "Error text shown when no report type was selected."
+  },
+  "reportReason": "Lý do",
+  "@reportReason": {
+    "description": "Label of the report reason input field."
+  },
+  "reportReasonRequired": "Lý do không được để trống",
+  "@reportReasonRequired": {
+    "description": "Error text shown when the report reason is empty."
+  },
+  "reportSubmitted": "Đã gửi báo cáo",
+  "@reportSubmitted": {
+    "description": "Success message after submitting a report."
+  },
+  "reportSubmitFailed": "Gửi báo cáo thất bại",
+  "@reportSubmitFailed": {
+    "description": "Error message after failing to submit a report."
+  },
+  "reportTypeRating": "Lạm dụng đánh giá",
+  "@reportTypeRating": {
+    "description": "Name of the rating abuse post report type."
+  },
+  "reportTypeFile": "Tệp độc hại",
+  "@reportTypeFile": {
+    "description": "Name of the malicious file post report type."
+  },
+  "reportTypeSource": "Nguồn độc hại",
+  "@reportTypeSource": {
+    "description": "Name of the malicious source post report type."
+  },
+  "reportTypeDescription": "Lạm dụng mô tả",
+  "@reportTypeDescription": {
+    "description": "Name of the description abuse post report type."
+  },
+  "reportTypeNote": "Lạm dụng ghi chú",
+  "@reportTypeNote": {
+    "description": "Name of the note abuse post report type."
+  },
+  "reportTypeTagging": "Lạm dụng thẻ",
+  "@reportTypeTagging": {
+    "description": "Name of the tagging abuse post report type."
+  },
+  "reportTypeRatingBody": "Đánh giá của bài viết đã được đặt thành điều gì đó không chính xác.",
+  "@reportTypeRatingBody": {
+    "description": "Description of the rating abuse post report type."
+  },
+  "reportTypeFileBody": "Tệp chứa mã độc hoặc chứa tệp lưu trữ ẩn. Điều này không dành cho hình ảnh được mô tả trong hình ảnh.",
+  "@reportTypeFileBody": {
+    "description": "Description of the malicious file post report type."
+  },
+  "reportTypeSourceBody": "Một hoặc nhiều nguồn được liệt kê liên kết đến trang độc hại hoặc nội dung trả phí.",
+  "@reportTypeSourceBody": {
+    "description": "Description of the malicious source post report type."
+  },
+  "reportTypeDescriptionBody": "Mô tả chứa nội dung độc hại, hoặc đã được chỉnh sửa để chứa tài liệu lạm dụng.",
+  "@reportTypeDescriptionBody": {
+    "description": "Description of the description abuse post report type."
+  },
+  "reportTypeNoteBody": "Ghi chú trên bài viết này sai, quấy rối, hoặc khác biệt lạm dụng.",
+  "@reportTypeNoteBody": {
+    "description": "Description of the note abuse post report type."
+  },
+  "reportTypeTaggingBody": "Một hoặc nhiều thẻ trên bài viết này không hợp lệ hoặc một hoặc nhiều thẻ hợp lệ đã bị xóa khỏi bài viết này.",
+  "@reportTypeTaggingBody": {
+    "description": "Description of the tagging abuse post report type."
+  },
+  "flagPostSuccess": "Đã đánh cờ bài viết #{id}",
+  "@flagPostSuccess": {
+    "description": "Success message after flagging a post.",
+    "placeholders": {
+      "id": {
+        "type": "num"
+      }
+    }
+  },
+  "flagPostFailed": "Không thể báo cáo bài #{id}",
+  "@flagPostFailed": {
+    "description": "Error message after failing to flag a post.",
+    "placeholders": {
+      "id": {
+        "type": "num"
+      }
+    }
+  },
+  "flagParentId": "ID bài gốc",
+  "@flagParentId": {
+    "description": "Label of the parent id input field of the post flag form."
+  },
+  "flagParentIdRequired": "ID bài gốc không được để trống",
+  "@flagParentIdRequired": {
+    "description": "Error text shown when the parent id of a flag is empty."
+  },
+  "flagParentIdInvalid": "ID bài gốc phải là số",
+  "@flagParentIdInvalid": {
+    "description": "Error text shown when the parent id of a flag is not a number."
+  },
+  "flagTypeUploadingGuidelines": "Không đáp ứng hướng dẫn tải lên",
+  "@flagTypeUploadingGuidelines": {
+    "description": "Name of the uploading guidelines post flag."
+  },
+  "flagTypeYoungHuman": "Nhân vật dạng người trong tình huống nhạy cảm",
+  "@flagTypeYoungHuman": {
+    "description": "Name of the young human post flag."
+  },
+  "flagTypeDnpArtist": "Nghệ sĩ của bài này nằm trong danh sách tránh đăng",
+  "@flagTypeDnpArtist": {
+    "description": "Name of the do not post artist post flag."
+  },
+  "flagTypePayContent": "Nội dung trả phí, thương mại hoặc thành viên",
+  "@flagTypePayContent": {
+    "description": "Name of the pay content post flag."
+  },
+  "flagTypeTrace": "Sao chép tác phẩm của nghệ sĩ khác",
+  "@flagTypeTrace": {
+    "description": "Name of the trace post flag."
+  },
+  "flagTypePreviouslyDeleted": "Đã bị xóa trước đó",
+  "@flagTypePreviouslyDeleted": {
+    "description": "Name of the previously deleted post flag."
+  },
+  "flagTypeRealPorn": "Phòng tình thật",
+  "@flagTypeRealPorn": {
+    "description": "Name of the real porn post flag."
+  },
+  "flagTypeCorrupt": "Tệp bị hỏng, lỗi hoặc không hoạt động",
+  "@flagTypeCorrupt": {
+    "description": "Name of the corrupt file post flag."
+  },
+  "flagTypeInferior": "Bản sao hoặc phiên bản kém hơn của bài khác",
+  "@flagTypeInferior": {
+    "description": "Name of the inferior post flag."
+  },
+  "flagTypeUploadingGuidelinesBody": "Bài này không đạt tiêu chuẩn của trang, dù về giá trị nghệ thuật, chất lượng hình ảnh, sự liên quan hoặc điều gì khác.\nLưu ý rằng sở thích cá nhân của bạn không ảnh hưởng đến việc này. Nếu bạn thấy nội dung của bài này không phù hợp, hãy thêm vào [[e621:blacklist|danh sách chặn]].",
+  "@flagTypeUploadingGuidelinesBody": {
+    "description": "Description of the uploading guidelines post flag."
+  },
+  "flagTypeYoungHumanBody": "Các bài có nhân vật dạng người được mô tả theo cách nhạy cảm hoặc khỏa thân không được chấp nhận trên trang này.",
+  "@flagTypeYoungHumanBody": {
+    "description": "Description of the young human post flag."
+  },
+  "flagTypeDnpArtistBody": "Một số nghệ sĩ đã yêu cầu không đăng tác phẩm của họ trên trang này và đã được cấp trạng thái [[avoid_posting|Không Đăng]].\nĐôi khi trạng thái đó đi kèm điều kiện; xem [[conditional_dnp]] để biết thêm thông tin",
+  "@flagTypeDnpArtistBody": {
+    "description": "Description of the do not post artist post flag."
+  },
+  "flagTypePayContentBody": "Chúng tôi không lưu trữ nội dung trả phí hoặc thương mại của bất kỳ loại nào. Điều này bao gồm rò rỉ Patreon, đăng lại từ các trang web vi phạm bản quyền, v.v.",
+  "@flagTypePayContentBody": {
+    "description": "Description of the pay content post flag."
+  },
+  "flagTypeTraceBody": "Hình ảnh sao chép từ tác phẩm của nghệ sĩ khác không được chấp nhận trên trang này. Tham khảo từ thứ gì đó là được, nhưng sao chép hoàn toàn công việc của người khác thì không.\nVui lòng để lại thêm thông tin trong bình luận, hoặc thêm tác phẩm gốc làm bài cha của bài này nếu nó được lưu trữ trên trang này.",
+  "@flagTypeTraceBody": {
+    "description": "Description of the trace post flag."
+  },
+  "flagTypePreviouslyDeletedBody": "Các bài thường bị xóa vì lý do chính đáng, và tải lại nội dung đã bị xóa là không được chấp nhận.\nVui lòng để lại thêm thông tin trong bình luận, hoặc thêm bài gốc làm bài cha của bài này.",
+  "@flagTypePreviouslyDeletedBody": {
+    "description": "Description of the previously deleted post flag."
+  },
+  "flagTypeRealPornBody": "Các bài có phòng tình thật không được chấp nhận trên trang này. Không có ngoại lệ.\nLưu ý rằng hình ảnh có ảnh chụp không nhạy cảm là được chấp nhận.",
+  "@flagTypeRealPornBody": {
+    "description": "Description of the real porn post flag."
+  },
+  "flagTypeCorruptBody": "Có điều gì đó không ổn với bài này. Có thể là video bị lỗi, hoặc hình ảnh bị hỏng.\nBất kể thế nào, để tránh nhầm lẫn, vui lòng giải thích tình huống trong bình luận.",
+  "@flagTypeCorruptBody": {
+    "description": "Description of the corrupt file post flag."
+  },
+  "flagTypeInferiorBody": "Một phiên bản tốt hơn của bài này đã có trên trang.\nĐiều này có thể bao gồm hình ảnh có chất lượng hình ảnh tốt hơn (lớn hơn, ít nén hơn), nhưng cũng có thể có các phiên bản \"sửa lỗi\", với những lỗi hình ảnh được nghệ sĩ khắc phục.\nLưu ý rằng chỉnh sửa và phiên bản thay đổi không thuộc danh mục này.",
+  "@flagTypeInferiorBody": {
+    "description": "Description of the inferior post flag."
+  },
+  "taskCancelAll": "Hủy tất cả",
+  "@taskCancelAll": {
+    "description": "Tooltip of the button which cancels all tasks."
+  },
+  "taskClearDone": "Xóa hoàn thành",
+  "@taskClearDone": {
+    "description": "Tooltip of the button which clears all finished tasks."
+  },
+  "taskClearSelection": "Xóa lựa chọn",
+  "@taskClearSelection": {
+    "description": "Tooltip of the button which clears the task selection."
+  },
+  "taskCancel": "Hủy",
+  "@taskCancel": {
+    "description": "Tooltip of the button which cancels a task."
+  },
+  "taskDismiss": "Đóng",
+  "@taskDismiss": {
+    "description": "Tooltip of the button which dismisses a task."
+  },
+  "taskNoTasks": "Không có tác vụ",
+  "@taskNoTasks": {
+    "description": "Placeholder shown when there are no tasks."
+  },
+  "taskFailedToLoadTasks": "Không thể tải tác vụ",
+  "@taskFailedToLoadTasks": {
+    "description": "Error message shown when tasks failed to load."
+  },
+  "taskSelectionCount": "{count, plural, =1{1 tác vụ} other{{count} tác vụ}}",
+  "@taskSelectionCount": {
+    "description": "Selection counter on the tasks page.",
+    "placeholders": {
+      "count": {
+        "type": "num"
+      }
+    }
+  },
+  "taskGroupActive": "Đang hoạt động",
+  "@taskGroupActive": {
+    "description": "Header of the active tasks group."
+  },
+  "taskGroupFailed": "Thất bại",
+  "@taskGroupFailed": {
+    "description": "Header of the failed tasks group."
+  },
+  "taskActionDownload": "tải xuống",
+  "@taskActionDownload": {
+    "description": "Name of the download task action."
+  },
+  "taskActionFavorite": "yêu thích",
+  "@taskActionFavorite": {
+    "description": "Name of the favorite task action."
+  },
+  "taskActionUnfavorite": "bỏ yêu thích",
+  "@taskActionUnfavorite": {
+    "description": "Name of the unfavorite task action."
+  },
+  "taskDownloadRunning": "đang tải xuống",
+  "@taskDownloadRunning": {
+    "description": "Label of a running download task."
+  },
+  "taskFavoriteRunning": "đang thêm vào yêu thích",
+  "@taskFavoriteRunning": {
+    "description": "Label of a running favorite task."
+  },
+  "taskUnfavoriteRunning": "đang bỏ yêu thích",
+  "@taskUnfavoriteRunning": {
+    "description": "Label of a running unfavorite task."
+  },
+  "taskDownloadCompleted": "đã tải xuống",
+  "@taskDownloadCompleted": {
+    "description": "Label of a completed download task."
+  },
+  "taskFavoriteCompleted": "đã thêm vào yêu thích",
+  "@taskFavoriteCompleted": {
+    "description": "Label of a completed favorite task."
+  },
+  "taskUnfavoriteCompleted": "đã bỏ yêu thích",
+  "@taskUnfavoriteCompleted": {
+    "description": "Label of a completed unfavorite task."
+  },
+  "taskQueuedTo": "đang chờ {action}",
+  "@taskQueuedTo": {
+    "description": "Label of a queued task.",
+    "placeholders": {
+      "action": {
+        "type": "String"
+      }
+    }
+  },
+  "taskFailedTo": "thất bại {action}",
+  "@taskFailedTo": {
+    "description": "Label of a failed task.",
+    "placeholders": {
+      "action": {
+        "type": "String"
+      }
+    }
+  },
+  "taskCanceledAction": "đã hủy {action}",
+  "@taskCanceledAction": {
+    "description": "Label of a canceled task.",
+    "placeholders": {
+      "action": {
+        "type": "String"
+      }
+    }
+  },
+  "taskTileTitle": "{label} bài #{id}",
+  "@taskTileTitle": {
+    "description": "Title of a task tile.",
+    "placeholders": {
+      "label": {
+        "type": "String"
+      },
+      "id": {
+        "type": "num"
+      }
+    }
+  },
+  "followNotificationBody": "{count, plural, =1{có bài mới!} other{có {count} bài mới!}}",
+  "@followNotificationBody": {
+    "description": "Body of a follow notification, shown under the follow's title.",
+    "placeholders": {
+      "count": {
+        "type": "num"
+      }
+    }
+  },
+  "followNotificationSummary": "Bài mới!",
+  "@followNotificationSummary": {
+    "description": "Title of the summary notification for multiple follows."
+  },
+  "followChannelName": "Thẻ theo dõi",
+  "@followChannelName": {
+    "description": "Name of the follow notification channel shown in the system settings."
+  },
+  "followChannelDescription": "Thông báo về các thẻ bạn đang theo dõi",
+  "@followChannelDescription": {
+    "description": "Description of the follow notification channel shown in the system settings."
+  },
+  "hostUnavailableTitle": "Máy chủ không khả dụng",
+  "@hostUnavailableTitle": {
+    "description": "Title of the host unavailable page."
+  },
+  "hostUnavailableBody": "Có vẻ như {host} không khả dụng!",
+  "@hostUnavailableBody": {
+    "description": "Body of the host unavailable page.",
+    "placeholders": {
+      "host": {
+        "type": "String"
+      }
+    }
+  },
+  "hostUnavailableResolveHint": "Vui lòng giải quyết vấn đề trong cửa sổ trình duyệt sau.\n\nCookie xác nhận Cloudflare sẽ được lưu.",
+  "@hostUnavailableResolveHint": {
+    "description": "Hint about resolving the host unavailability in a browser."
+  },
+  "hostUnavailableResolve": "Giải quyết",
+  "@hostUnavailableResolve": {
+    "description": "Button opening the browser window resolving the host unavailability."
+  },
+  "hostUnavailableWaitBody": "\nVui lòng chờ {host} giải quyết tình huống trên máy chủ của họ.",
+  "@hostUnavailableWaitBody": {
+    "description": "Body of the host unavailable page when the issue cannot be resolved by the user.",
+    "placeholders": {
+      "host": {
+        "type": "String"
+      }
+    }
+  },
+  "downloadChooseFolder": "Chọn thư mục",
+  "@downloadChooseFolder": {
+    "description": "Title of the folder picker dialog on desktop."
+  },
+  "searchFilterTitle": "Bộ lọc",
+  "@searchFilterTitle": {
+    "description": "Title of the posts search filter prompt."
+  },
+  "searchFilterQueryLabel": "Truy vấn hiện tại:",
+  "@searchFilterQueryLabel": {
+    "description": "Label of the query preview of the posts search filter prompt."
+  },
+  "filterSectionSort": "Sắp xếp",
+  "@filterSectionSort": {
+    "description": "Header of the sorting section of the posts filter prompt."
+  },
+  "filterSectionContent": "Nội dung",
+  "@filterSectionContent": {
+    "description": "Header of the content section of the posts filter prompt."
+  },
+  "filterSectionTime": "Thời gian & trạng thái",
+  "@filterSectionTime": {
+    "description": "Header of the time and status section of the posts filter prompt."
+  },
+  "filterSectionMedia": "Phương tiện",
+  "@filterSectionMedia": {
+    "description": "Header of the media section of the posts filter prompt."
+  },
+  "filterSectionOther": "Khác",
+  "@filterSectionOther": {
+    "description": "Header of the remaining filters of the posts filter prompt."
+  },
+  "searchFilterReset": "Đặt lại bộ lọc",
+  "@searchFilterReset": {
+    "description": "Button that clears every filter of the posts filter prompt."
+  },
+  "dtextParsingFailed": "Phân tích DText thất bại",
+  "filteredShow": "Hiển thị",
+  "filteredHide": "Ẩn",
+  "selectOptions": "Chọn tùy chọn...",
+  "databaseNotE1547": "Đây không phải là cơ sở dữ liệu e1547.",
+  "adultGateTitle": "Kiểm tra nhanh",
+  "@adultGateTitle": {
+    "description": "Title of the 18+ confirmation dialog shown before a login is attempted."
+  },
+  "adultGateBody": "Ứng dụng này dẫn thẳng đến e621, một cộng đồng nghệ thuật chỉ dành cho người lớn. Vui lòng xác nhận rằng bạn đã đủ tuổi pháp lý nơi bạn sống — chúng tôi tin bạn, luật sư của chúng tôi thì không.",
+  "@adultGateBody": {
+    "description": "Body of the 18+ confirmation dialog shown before a login is attempted."
+  },
+  "adultGateConfirm": "Chắc chắn rồi — tôi trên 18 tuổi",
+  "@adultGateConfirm": {
+    "description": "Confirmation action of the 18+ dialog; deliberately conversational."
+  },
+  "adultGateDeny": "Đưa tôi trở lại",
+  "@adultGateDeny": {
+    "description": "Denial action of the 18+ dialog; deliberately conversational."
+  },
+  "databaseExportPasswordLabel": "Mật khẩu (tùy chọn)",
+  "@databaseExportPasswordLabel": {
+    "description": "Label of the optional password field in the database export dialog."
+  },
+  "databaseExportPasswordHint": "Mã hóa tệp xuất. Để trống để xuất tệp văn bản thuần túy, không mã hóa.",
+  "@databaseExportPasswordHint": {
+    "description": "Helper text under the optional export password field."
+  },
+  "databaseImportEncryptedTitle": "Cơ sở dữ liệu mã hóa",
+  "@databaseImportEncryptedTitle": {
+    "description": "Title of the password prompt for encrypted database imports."
+  },
+  "databaseImportPasswordLabel": "Mật khẩu",
+  "@databaseImportPasswordLabel": {
+    "description": "Label of the password field in the encrypted import prompt."
+  },
+  "databaseImportWrongPassword": "Mật khẩu sai hoặc tệp bị hỏng.",
+  "@databaseImportWrongPassword": {
+    "description": "Shown when decryption fails, i.e. the password was wrong or the file is corrupted."
+  },
+  "actionUnlock": "MỞ KHÓA",
+  "@actionUnlock": {
+    "description": "Confirmation action of the encrypted import password prompt."
+  }
+}

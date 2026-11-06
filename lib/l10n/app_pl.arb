@@ -1,0 +1,2493 @@
+{
+  "@@locale": "pl",
+  "appName": "e1547",
+  "@appName": {
+    "description": "The app name.",
+    "placeholders": {}
+  },
+  "failedToLoad": "Nie udało się załadować",
+  "nothingToSeeHere": "Tu nic nie ma",
+  "loading": "Ładowanie...",
+  "actionCancel": "ANULUJ",
+  "actionOk": "OK",
+  "actionTryAgain": "Spróbuj ponownie",
+  "actionDownload": "POBIERZ",
+  "actionImport": "IMPORTUJ",
+  "actionExport": "EKSPORTUJ",
+  "actionUndo": "Cofnij",
+  "actionRestartNow": "URUCHOM PONOWNIE",
+  "failedToLoadSuggestions": "Nie udało się załadować sugestii",
+  "selectionItemCount": "{count, plural, one{1 element} few{{count} elementy} many{{count} elementów} other{{count} elementów}}",
+  "@selectionItemCount": {
+    "description": "Number of selected items.",
+    "placeholders": {
+      "count": {
+        "type": "num"
+      }
+    }
+  },
+  "actionAbort": "Przerwij",
+  "actionSelectAll": "Zaznacz wszystko",
+  "fileSavedAs": "Plik zapisany jako {name}",
+  "@fileSavedAs": {
+    "description": "Confirmation after saving a file.",
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "copiedToClipboard": "Skopiowano do schowka",
+  "saveFile": "Zapisz plik",
+  "filterTooltip": "Filtr",
+  "rangeInvalidFormat": "Nieprawidłowy format",
+  "itemProgress": "Element {current}/{total}",
+  "@itemProgress": {
+    "description": "Progress of processing items.",
+    "placeholders": {
+      "current": {
+        "type": "num"
+      },
+      "total": {
+        "type": "num"
+      }
+    }
+  },
+  "taskCancelled": "Zadanie anulowane",
+  "taskFailedAt": "Niepowodzenie przy elemencie {index}",
+  "@taskFailedAt": {
+    "description": "Item processing failure.",
+    "placeholders": {
+      "index": {
+        "type": "num"
+      }
+    }
+  },
+  "taskDone": "Zakończono",
+  "failedToInitialize": "Nie udało się zainicjować",
+  "navHome": "Strona główna",
+  "navHot": "Popularne",
+  "navSearch": "Szukaj",
+  "navFavorites": "Ulubione",
+  "navTimeline": "Ostatnie",
+  "navSubscriptions": "Subskrypcje",
+  "navBookmarks": "Zakładki",
+  "navPools": "Zbiory",
+  "navForum": "Forum",
+  "navHistory": "Historia",
+  "navTasks": "Zadania",
+  "navSettings": "Ustawienia",
+  "navAbout": "O aplikacji",
+  "settingsTitle": "Ustawienia",
+  "sectionAccount": "Konto",
+  "sectionUser": "Użytkownik",
+  "sectionAppearance": "Wygląd",
+  "sectionInteractions": "Interakcje",
+  "sectionSecurity": "Bezpieczeństwo",
+  "sectionDevelopment": "Rozwój",
+  "settingsBlacklist": "Czarna lista",
+  "tagsBlocked": "{count, plural, one{1 tag zablokowany} few{{count} tagi zablokowane} many{{count} tagów zablokowanych} other{{count} tagów zablokowanych}}",
+  "@tagsBlocked": {
+    "placeholders": {
+      "count": {
+        "type": "num"
+      }
+    }
+  },
+  "settingsFollows": "Obserwowane",
+  "searchesFollowed": "{count, plural, one{1 wyszukiwanie obserwowane} few{{count} wyszukiwania obserwowane} many{{count} wyszukiwań obserwowanych} other{{count} wyszukiwań obserwowanych}}",
+  "@searchesFollowed": {
+    "placeholders": {
+      "count": {
+        "type": "num"
+      }
+    }
+  },
+  "settingsHistory": "Historia",
+  "pagesVisited": "{count, plural, one{1 strona odwiedzona} few{{count} strony odwiedzone} many{{count} stron odwiedzonych} other{{count} stron odwiedzonych}}",
+  "@pagesVisited": {
+    "placeholders": {
+      "count": {
+        "type": "num"
+      }
+    }
+  },
+  "settingsTheme": "Motyw",
+  "themeDark": "ciemny",
+  "themeAmoled": "amoled",
+  "themeLight": "jasny",
+  "themeBlue": "niebieski",
+  "themeSystem": "systemowy",
+  "settingsLanguage": "Język",
+  "languageSystemDefault": "Domyślny systemu",
+  "settingsHandedness": "Preferowana ręka",
+  "handRight": "Prawa",
+  "handLeft": "Lewa",
+  "settingsHandednessHint": "Przyciski i szybkie akcje przesuwane są w zasięg tej ręki.",
+  "settingsTileSize": "Rozmiar kafelków",
+  "settingsQuilt": "Kafelki",
+  "gridTitle": "Siatka",
+  "quiltSquare": "kwadratowe kafelki",
+  "quiltVertical": "kafelki rozciągane pionowo",
+  "settingsPostInfo": "Informacje o poście",
+  "postInfoShown": "informacje na kafelkach",
+  "postInfoHidden": "tylko obrazki",
+  "settingsDownloadLocation": "Lokalizacja pobierania",
+  "settingsUpvoteFavorites": "Ocena ulubionych",
+  "upvoteFavoritesOn": "ocenianie i dodawanie do ulubionych",
+  "upvoteFavoritesOff": "tylko dodawanie do ulubionych",
+  "settingsVideoVolume": "Głośność wideo",
+  "videoMuted": "wyciszone",
+  "videoWithSound": "z dźwiękiem",
+  "videoSeekSeconds": "{seconds} sekund",
+  "videoResSource": "Źródłowa",
+  "videoResNote": "Wideo nie zawsze są dostępne w standardowych rozmiarach; używany jest najbliższy wybranemu.",
+  "qualityLow": "Niska",
+  "qualityMedium": "Średnia",
+  "qualityHigh": "Wysoka",
+  "settingsAutoLoadVideos": "Automatyczne ładowanie wideo",
+  "autoLoadVideosOn": "wideo ładują się podczas przeglądania",
+  "autoLoadVideosOff": "wideo ładują się podczas odtwarzania",
+  "autoLoadVideosDialogTitle": "Ładować wideo automatycznie?",
+  "autoLoadVideosDialogBody": "Wideo zostaną pobrane w całości podczas przeglądania i wyszukiwania. Może to zużyć dużo danych na połączeniach z limitem transferu.",
+  "videoQuality": "Jakość wideo",
+  "settingsSecureDisplay": "Bezpieczny ekran",
+  "secureDisplayOn": "ekran chroniony",
+  "secureDisplayOff": "ekran widoczny",
+  "secureDisplayCover": "Ukryto zawartość",
+  "settingsIncognitoKeyboard": "Klawiatura incognito",
+  "enabled": "włączone",
+  "disabled": "wyłączone",
+  "settingsPinLock": "Blokada PIN",
+  "pinEnabled": "PIN włączony",
+  "pinDisabled": "PIN wyłączony",
+  "settingsBiometricLock": "Blokada biometryczna",
+  "biometricsEnabled": "biometria włączona",
+  "biometricsDisabled": "biometria wyłączona",
+  "biometricsUnavailable": "na tym urządzeniu nie znaleziono biometrii",
+  "settingsUpdaterBeta": "Najnowsze aktualizacje",
+  "updaterBetaOn": "Wersje stabilne i przedpremierowe",
+  "updaterBetaOff": "Tylko wersje stabilne",
+  "settingsDeveloperMode": "Tryb deweloperski",
+  "devOptionsShown": "opcje widoczne",
+  "devOptionsHidden": "opcje ukryte",
+  "errorsLogged": "{count, plural, one{1 błąd zapisany} few{{count} błędy zapisane} many{{count} błędów zapisanych} other{{count} błędów zapisanych}}",
+  "@errorsLogged": {
+    "placeholders": {
+      "count": {
+        "type": "num"
+      }
+    }
+  },
+  "settingsDatabase": "Baza danych",
+  "databaseExporting": "Eksportowanie bazy danych...",
+  "databaseExported": "Baza danych wyeksportowana pomyślnie",
+  "databaseExportFailed": "Eksport nieudany",
+  "databaseExport": "Eksportuj",
+  "databaseImporting": "Importowanie bazy danych...",
+  "databaseInvalidFile": "Nieprawidłowy plik bazy danych: {error}",
+  "@databaseInvalidFile": {
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
+  "databaseImportFailed": "Import nieudany: {error}",
+  "@databaseImportFailed": {
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
+  "databaseImportTitle": "Importuj bazę danych",
+  "databaseRestartTitle": "Wymagane ponowne uruchomienie",
+  "databaseRestartBody": "Aplikacja musi zostać uruchomiona ponownie, aby zastosować zmiany.",
+  "databaseImport": "Importuj",
+  "lockEnterPin": "Wprowadź PIN",
+  "lockEnterNewPin": "Wprowadź nowy PIN",
+  "lockConfirmNewPin": "Potwierdź nowy PIN",
+  "lockFailedAuth": "Uwierzytelnienie nieudane",
+  "lockPleaseAuth": "Proszę uwierzytelnić się",
+  "lockRetry": "Spróbuj ponownie",
+  "lockBiometricReason": "Uwierzytelnij się, aby odblokować.",
+  "lockBiometricFailure": "Poważny błąd uwierzytelniania biometrycznego",
+  "aboutVersion": "Wersja",
+  "updaterFetching": "Sprawdzanie aktualizacji...",
+  "updaterCheckFailed": "Nie udało się sprawdzić aktualizacji",
+  "updaterNewest": "Masz najnowszą wersję",
+  "updaterNewer": "Dostępna jest nowsza wersja: {version}",
+  "@updaterNewer": {
+    "placeholders": {
+      "version": {
+        "type": "String"
+      }
+    }
+  },
+  "updaterNewerHeader": "Dostępna jest nowsza wersja: ",
+  "aboutExperimentalPlatform": "Platforma eksperymentalna",
+  "aboutExperimentalBody": "Ta platforma nie jest wspierana. Spodziewaj się błędów i brakujących funkcji.",
+  "aboutGitHub": "GitHub",
+  "aboutUpstream": "Główny projekt",
+  "aboutUpstreamBody": "Ta aplikacja to fork clragon/e1547",
+  "aboutDiscord": "Discord",
+  "aboutForum": "Forum",
+  "aboutForumTopic": "wątek e621 #{id}",
+  "@aboutForumTopic": {
+    "placeholders": {
+      "id": {
+        "type": "num"
+      }
+    }
+  },
+  "aboutWebsite": "Strona internetowa",
+  "aboutKofi": "Ko-fi",
+  "aboutEmail": "Email",
+  "aboutPlaystore": "Playstore",
+  "aboutDonors": "Darczyńcy",
+  "aboutDonorsThanks": "Dzięki za pomoc w dalszym rozwoju!",
+  "aboutNoDonors": "Brak darczyńców",
+  "aboutDonorsFailed": "Nie udało się pobrać listy darczyńców",
+  "aboutDonorsNotListed": "Nie na liście? Skontaktuj się z nami!",
+  "developerUnlocked": "Jesteś teraz deweloperem!",
+  "databaseErrorLoading": "Błąd ładowania bazy danych",
+  "databaseUnknownSize": "Nieznany",
+  "databaseExportTitle": "Eksportuj bazę danych",
+  "databaseExportSubtitle": "Zapisz kopię zapasową bazy danych",
+  "databaseImportSubtitle": "Zastąp obecną bazę danych zaimportowaną",
+  "databaseImportWarning": "To zastąpi Twoją obecną bazę danych. \nWszystkie dane zostaną utracone. Nie można tego cofnąć!",
+  "databaseExportSanitizedBody": "Wyeksportowany plik nie będzie zawierał Twoich logowań ani kluczy API.\nWszystko inne, w tym konta, hosty, historia, obserwacje i zadania, jest uwzględnione.",
+  "databaseImportNewerFile": "Ten plik został utworzony przez nowszą wersję aplikacji i nie może zostać zaimportowany.",
+  "databaseImportSanitized": "Dla bezpieczeństwa, zapisane logowania zostały usunięte z zaimportowanego pliku.",
+  "databaseImportHostsWarning": "Ostrzeżenie: zaimportowany plik zawiera konta na innych stronach: {hosts}",
+  "@databaseImportHostsWarning": {
+    "placeholders": {
+      "hosts": {
+        "type": "String",
+        "required": true
+      }
+    }
+  },
+  "databaseImportCancelled": "Import anulowany",
+  "postsTitle": "Posty",
+  "favoritesOf": "Ulubione {user}",
+  "@favoritesOf": {
+    "placeholders": {
+      "user": {
+        "type": "String"
+      }
+    }
+  },
+  "favoritesUnavailable": "Ulubione są niedostępne dla użytkowników anonimowych",
+  "favoriteOrder": "Ulubiona kolejność",
+  "orderAdded": "dodana kolejność",
+  "orderId": "id kolejności",
+  "postStateDeleted": "usunięty",
+  "postStateUnsupported": "nieobsługiwany",
+  "postStateUnavailable": "niedostępny",
+  "menuShare": "Udostępnij",
+  "menuDownload": "Pobierz",
+  "menuBrowse": "Przeglądaj",
+  "menuEdit": "Edytuj",
+  "menuComment": "Komentarz",
+  "menuReport": "Zgłoś",
+  "menuFlag": "Oznacz",
+  "actionOpen": "Otwórz",
+  "actionFollow": "Obserwuj",
+  "actionUnfollow": "Przestań obserwować",
+  "actionMute": "Wycisz",
+  "actionNotify": "Powiadom",
+  "actionBookmark": "Zakładka",
+  "actionUnbookmark": "Usuń zakładkę",
+  "actionBlock": "Zablokuj",
+  "actionUnblock": "Odblokuj",
+  "actionRemove": "Usuń",
+  "actionAdd": "Dodaj",
+  "actionSubtract": "Odejmij",
+  "selectionPost": "post #{id}",
+  "@selectionPost": {
+    "placeholders": {
+      "id": {
+        "type": "num"
+      }
+    }
+  },
+  "selectionPostsCount": "{count, plural, other{{count} postów}}",
+  "@selectionPostsCount": {
+    "placeholders": {
+      "count": {
+        "type": "num"
+      }
+    }
+  },
+  "noPosts": "Brak postów",
+  "failedToLoadPosts": "Nie udało się załadować postów",
+  "offlineBanner": "Jesteś offline. Wyświetlanie danych z pamięci podręcznej.",
+  "offlineNoData": "Jesteś offline",
+  "postListPageSummary": "Strona {page} · {count, plural, one{{count} post} other{{count} postów}}",
+  "postListPageLimit": "Osiągnięto limit stron serwera. Proszę zawęź wyszukiwanie.",
+  "postListJumpToPage": "Przejdź do strony",
+  "postListJumpPageLabel": "Numer strony",
+  "postListJumpPageRange": "Wpisz numer strony między 1 a {max}",
+  "postDeletedOverlay": "Post został usunięty",
+  "postUnavailableOverlay": "Post jest niedostępny",
+  "postBlacklistedOverlay": "Post jest na czarnej liście",
+  "unsupportedFileType": "Pliki typu {ext} nie są obsługiwane",
+  "@unsupportedFileType": {
+    "placeholders": {
+      "ext": {
+        "type": "String"
+      }
+    }
+  },
+  "loginRequiredEdit": "Musisz być zalogowany, aby edytować posty!",
+  "loginRequiredComment": "Musisz być zalogowany, aby komentować!",
+  "loginRequiredReport": "Musisz być zalogowany, aby zgłaszać posty!",
+  "loginRequiredFlag": "Musisz być zalogowany, aby oznaczać posty!",
+  "postsBlocked": "{count, plural, one{Zablokowany 1 post} other{Zablokowano {count} postów}}",
+  "@postsBlocked": {
+    "description": "Number of posts currently blocked by the blacklist.",
+    "placeholders": {
+      "count": {
+        "type": "num"
+      }
+    }
+  },
+  "blacklistUpdateFailed": "Nie udało się zaktualizować czarnej listy!",
+  "@blacklistUpdateFailed": {
+    "description": "Error shown when saving the blacklist failed."
+  },
+  "blacklistAddTag": "Dodaj tag",
+  "@blacklistAddTag": {
+    "description": "Title of the prompt that adds a tag to the blacklist."
+  },
+  "blacklistEditTag": "Edytuj tag",
+  "denylistEntryDeleted": "Usunięto wpis z czarnej listy",
+  "@blacklistEditTag": {
+    "description": "Title of the prompt that edits a blacklist entry."
+  },
+  "blacklistEmpty": "Twoja czarna lista jest pusta",
+  "@blacklistEmpty": {
+    "description": "Message shown when the blacklist contains no entries."
+  },
+  "menuDelete": "Usuń",
+  "@menuDelete": {
+    "description": "Menu item that deletes an item."
+  },
+  "filterScore": "Ocena",
+  "@filterScore": {
+    "description": "Name of the score filter."
+  },
+  "filterFavoriteCount": "Liczba ulubionych",
+  "@filterFavoriteCount": {
+    "description": "Name of the favorite count filter."
+  },
+  "filterSortBy": "Sortuj według",
+  "@filterSortBy": {
+    "description": "Name of the sort order filter."
+  },
+  "filterNew": "Nowe",
+  "@filterNew": {
+    "description": "Sort order option that sorts by newest posts."
+  },
+  "filterRank": "Ranking",
+  "@filterRank": {
+    "description": "Sort order option that sorts by rank."
+  },
+  "filterRandom": "Losowe",
+  "@filterRandom": {
+    "description": "Sort order option that sorts randomly."
+  },
+  "filterDefault": "Domyślne",
+  "@filterDefault": {
+    "description": "Choice that leaves a filter at its default."
+  },
+  "filterRating": "Ocena",
+  "@filterRating": {
+    "description": "Name of the rating filter."
+  },
+  "filterSafe": "Bezpieczne",
+  "@filterSafe": {
+    "description": "The safe rating."
+  },
+  "filterQuestionable": "Wątpliwe",
+  "@filterQuestionable": {
+    "description": "The questionable rating."
+  },
+  "filterExplicit": "Jawne",
+  "@filterExplicit": {
+    "description": "The explicit rating."
+  },
+  "filterAll": "Wszystkie",
+  "@filterAll": {
+    "description": "Choice that does not restrict a filter."
+  },
+  "filterPool": "Zbiór",
+  "@filterPool": {
+    "description": "Name of the pool filter."
+  },
+  "filterHasPool": "Ma zbiór",
+  "@filterHasPool": {
+    "description": "Description of the pool filter."
+  },
+  "filterChild": "Dziecko",
+  "@filterChild": {
+    "description": "Name of the child post filter."
+  },
+  "filterIsChildPost": "Jest postem-dzieckiem",
+  "@filterIsChildPost": {
+    "description": "Description of the child post filter."
+  },
+  "filterParent": "Rodzic",
+  "@filterParent": {
+    "description": "Name of the parent post filter."
+  },
+  "filterIsParentPost": "Jest postem-rodzicem",
+  "@filterIsParentPost": {
+    "description": "Description of the parent post filter."
+  },
+  "filterUploadDate": "Data przesłania",
+  "@filterUploadDate": {
+    "description": "Name of the upload date filter."
+  },
+  "filterLastDay": "Ostatni dzień",
+  "@filterLastDay": {
+    "description": "Upload date option for the last day."
+  },
+  "filterLastWeek": "Ostatni tydzień",
+  "@filterLastWeek": {
+    "description": "Upload date option for the last week."
+  },
+  "filterLastMonth": "Ostatni miesiąc",
+  "@filterLastMonth": {
+    "description": "Upload date option for the last month."
+  },
+  "filterLastYear": "Ostatni rok",
+  "@filterLastYear": {
+    "description": "Upload date option for the last year."
+  },
+  "filterStatus": "Status",
+  "@filterStatus": {
+    "description": "Name of the post status filter."
+  },
+  "filterActive": "Aktywne",
+  "@filterActive": {
+    "description": "The active post status."
+  },
+  "filterPending": "Oczekujące",
+  "@filterPending": {
+    "description": "The pending post status."
+  },
+  "filterDeleted": "Usunięte",
+  "@filterDeleted": {
+    "description": "The deleted post status."
+  },
+  "filterFlagged": "Oznaczone",
+  "@filterFlagged": {
+    "description": "The flagged post status."
+  },
+  "filterAny": "Dowolne",
+  "@filterAny": {
+    "description": "Post status option that allows any status."
+  },
+  "filterFileType": "Typ pliku",
+  "filterUploader": "Przesyłający",
+  "filterWidth": "Szerokość",
+  "filterHeight": "Wysokość",
+  "filterTagCount": "Liczba tagów",
+  "filterTrue": "Prawda",
+  "filterFalse": "Fałsz",
+  "filterImages": "Obrazy",
+  "filterVideos": "Wideo",
+  "filterTitleContains": "Tytuł zawiera",
+  "@filterTitleContains": {
+    "description": "Name of the topic title filter."
+  },
+  "filterCategory": "Kategoria",
+  "@filterCategory": {
+    "description": "Name of the category filter."
+  },
+  "filterGeneral": "Ogólne",
+  "@filterGeneral": {
+    "description": "The general topic category."
+  },
+  "filterSiteBugReports": "Zgłoszenia błędów i propozycje funkcji",
+  "@filterSiteBugReports": {
+    "description": "A topic category."
+  },
+  "filterTagWikiProjects": "Projekty tagów/wiki i pytania",
+  "@filterTagWikiProjects": {
+    "description": "A topic category."
+  },
+  "filterTagAliasSuggestions": "Propozycje aliasów i implikacji tagów",
+  "@filterTagAliasSuggestions": {
+    "description": "A topic category."
+  },
+  "filterArtTalk": "Rozmowy o sztuce",
+  "@filterArtTalk": {
+    "description": "A topic category."
+  },
+  "filterOffTopic": "Pozaspecjalistyczne",
+  "@filterOffTopic": {
+    "description": "A topic category."
+  },
+  "filterE621Tools": "Narzędzia i aplikacje e621",
+  "@filterE621Tools": {
+    "description": "A topic category."
+  },
+  "filterNewestFirst": "Najpierw najnowsze",
+  "@filterNewestFirst": {
+    "description": "Sort order option that sorts by newest topics first."
+  },
+  "filterOldestFirst": "Najpierw najstarsze",
+  "@filterOldestFirst": {
+    "description": "Sort order option that sorts by oldest topics first."
+  },
+  "filterSticky": "Przyklejone",
+  "@filterSticky": {
+    "description": "Name of the sticky filter."
+  },
+  "filterIsSticky": "Jest przyklejone",
+  "@filterIsSticky": {
+    "description": "Description of the sticky filter."
+  },
+  "filterLocked": "Zablokowane",
+  "@filterLocked": {
+    "description": "Name of the locked filter."
+  },
+  "filterIsLocked": "Jest zablokowane",
+  "@filterIsLocked": {
+    "description": "Description of the locked filter."
+  },
+  "filterDescription": "Opis",
+  "@filterDescription": {
+    "description": "Name of the pool description filter."
+  },
+  "filterCreator": "Twórca",
+  "@filterCreator": {
+    "description": "Name of the pool creator filter."
+  },
+  "filterIsActive": "Jest aktywne",
+  "@filterIsActive": {
+    "description": "Description of the active pool filter."
+  },
+  "filterSeries": "Seria",
+  "@filterSeries": {
+    "description": "The series pool category."
+  },
+  "filterCollection": "Kolekcja",
+  "@filterCollection": {
+    "description": "The collection pool category."
+  },
+  "filterName": "Nazwa",
+  "@filterName": {
+    "description": "Sort order option that sorts pools by name."
+  },
+  "filterCreated": "Utworzone",
+  "@filterCreated": {
+    "description": "Sort order option that sorts pools by creation date."
+  },
+  "filterUpdated": "Zaktualizowane",
+  "@filterUpdated": {
+    "description": "Sort order option that sorts pools by update date."
+  },
+  "filterPostCount": "Liczba wpisów",
+  "@filterPostCount": {
+    "description": "Sort order option that sorts pools by post count."
+  },
+  "postUpdateFailed": "Nie udało się zaktualizować wpisu #{id}",
+  "@postUpdateFailed": {
+    "description": "Error shown when updating a post failed.",
+    "placeholders": {
+      "id": {
+        "type": "num"
+      }
+    }
+  },
+  "postUpdated": "Zaktualizowano wpis #{id}",
+  "@postUpdated": {
+    "description": "Confirmation shown after updating a post.",
+    "placeholders": {
+      "id": {
+        "type": "num"
+      }
+    }
+  },
+  "failedToLoadPost": "Nie udało się załadować wpisu",
+  "@failedToLoadPost": {
+    "description": "Error shown when a single post failed to load."
+  },
+  "postNotFound": "Nie znaleziono wpisu",
+  "@postNotFound": {
+    "description": "Message shown when a post does not exist."
+  },
+  "commentsTitle": "Komentarze",
+  "@commentsTitle": {
+    "description": "Title of the comment list drawer."
+  },
+  "commentsOfPost": "Komentarze do #{postId}",
+  "@commentsOfPost": {
+    "description": "Title of a post's comment page.",
+    "placeholders": {
+      "postId": {
+        "type": "num"
+      }
+    }
+  },
+  "commentOrder": "Kolejność komentarzy",
+  "@commentOrder": {
+    "description": "Label of the comment sorting switch."
+  },
+  "noComments": "Brak komentarzy",
+  "@noComments": {
+    "description": "Message shown when there are no comments."
+  },
+  "failedToLoadComments": "Nie udało się załadować komentarzy",
+  "@failedToLoadComments": {
+    "description": "Error shown when comments failed to load."
+  },
+  "commentTitle": "Komentarz #{id}",
+  "@commentTitle": {
+    "description": "Title of the comment loading page.",
+    "placeholders": {
+      "id": {
+        "type": "num"
+      }
+    }
+  },
+  "failedToLoadComment": "Nie udało się załadować komentarza",
+  "@failedToLoadComment": {
+    "description": "Error shown when a comment failed to load."
+  },
+  "commentNotFound": "Nie znaleziono komentarza",
+  "@commentNotFound": {
+    "description": "Message shown when a comment does not exist."
+  },
+  "commentEditorTitle": "Komentarz #{postId}",
+  "@commentEditorTitle": {
+    "description": "Title of the comment editor.",
+    "placeholders": {
+      "postId": {
+        "type": "num"
+      }
+    }
+  },
+  "commentSendFailed": "Nie udało się wysłać komentarza!",
+  "@commentSendFailed": {
+    "description": "Error shown when sending a comment failed."
+  },
+  "commentSent": "Komentarz wysłany!",
+  "@commentSent": {
+    "description": "Confirmation shown after sending a comment."
+  },
+  "commentHidden": "Ten komentarz jest ukryty",
+  "@commentHidden": {
+    "description": "Tooltip of the hidden comment indicator."
+  },
+  "commentUpvoteFailed": "Nie udało się zagłosować na komentarz #{id}",
+  "@commentUpvoteFailed": {
+    "description": "Error shown when upvoting a comment failed.",
+    "placeholders": {
+      "id": {
+        "type": "num"
+      }
+    }
+  },
+  "commentDownvoteFailed": "Nie udało się zagłosować na komentarz #{id}",
+  "@commentDownvoteFailed": {
+    "description": "Error shown when downvoting a comment failed.",
+    "placeholders": {
+      "id": {
+        "type": "num"
+      }
+    }
+  },
+  "commentLoginRequiredEdit": "Musisz być zalogowany, aby edytować komentarze!",
+  "@commentLoginRequiredEdit": {
+    "description": "Error shown when editing a comment requires a login."
+  },
+  "commentLoginRequiredReply": "Musisz być zalogowany, aby odpowiadać na komentarze!",
+  "@commentLoginRequiredReply": {
+    "description": "Error shown when replying to a comment requires a login."
+  },
+  "commentLoginRequiredReport": "Musisz być zalogowany, aby zgłaszać komentarze!",
+  "@commentLoginRequiredReport": {
+    "description": "Error shown when reporting a comment requires a login."
+  },
+  "commentCopiedId": "Skopiowano ID komentarza #{id}",
+  "@commentCopiedId": {
+    "description": "Confirmation shown after copying a comment id.",
+    "placeholders": {
+      "id": {
+        "type": "num"
+      }
+    }
+  },
+  "warningUserWarned": "Użytkownik otrzymał ostrzeżenie za tę wiadomość",
+  "@warningUserWarned": {
+    "description": "Warning attached to a comment or reply whose author was warned."
+  },
+  "warningUserRecorded": "Użytkownik otrzymał notatkę za tę wiadomość",
+  "@warningUserRecorded": {
+    "description": "Warning attached to a comment or reply whose author received a record."
+  },
+  "warningUserBanned": "Użytkownik został zbanowany za tę wiadomość",
+  "@warningUserBanned": {
+    "description": "Warning attached to a comment or reply whose author was banned."
+  },
+  "repliesTitle": "Odpowiedzi",
+  "@repliesTitle": {
+    "description": "Title of the reply list drawer."
+  },
+  "replyOrder": "Kolejność odpowiedzi",
+  "@replyOrder": {
+    "description": "Label of the reply sorting switch."
+  },
+  "noReplies": "Brak odpowiedzi",
+  "@noReplies": {
+    "description": "Message shown when there are no replies."
+  },
+  "failedToLoadReplies": "Nie udało się załadować odpowiedzi",
+  "@failedToLoadReplies": {
+    "description": "Error shown when replies failed to load."
+  },
+  "replyTitle": "Odpowiedź #{id}",
+  "@replyTitle": {
+    "description": "Title of the reply loading page.",
+    "placeholders": {
+      "id": {
+        "type": "num"
+      }
+    }
+  },
+  "failedToLoadReply": "Nie udało się załadować odpowiedzi",
+  "@failedToLoadReply": {
+    "description": "Error shown when a reply failed to load."
+  },
+  "replyNotFound": "Nie znaleziono odpowiedzi",
+  "@replyNotFound": {
+    "description": "Message shown when a reply does not exist."
+  },
+  "replyEditorTitle": "Odpowiedź #{topicId}",
+  "@replyEditorTitle": {
+    "description": "Title of the reply editor.",
+    "placeholders": {
+      "topicId": {
+        "type": "num"
+      }
+    }
+  },
+  "replySendFailed": "Nie udało się wysłać odpowiedzi!",
+  "@replySendFailed": {
+    "description": "Error shown when sending a reply failed."
+  },
+  "replySent": "Odpowiedź wysłana!",
+  "@replySent": {
+    "description": "Confirmation shown after sending a reply."
+  },
+  "replyHidden": "Ta odpowiedź jest ukryta",
+  "@replyHidden": {
+    "description": "Tooltip of the hidden reply indicator."
+  },
+  "replyLoginRequiredEdit": "Musisz być zalogowany, aby edytować odpowiedzi!",
+  "@replyLoginRequiredEdit": {
+    "description": "Error shown when editing a reply requires a login."
+  },
+  "replyLoginRequiredReply": "Musisz być zalogowany, aby odpowiadać!",
+  "@replyLoginRequiredReply": {
+    "description": "Error shown when replying requires a login."
+  },
+  "replyLoginRequiredReport": "Musisz być zalogowany, aby zgłaszać odpowiedzi!",
+  "@replyLoginRequiredReport": {
+    "description": "Error shown when reporting a reply requires a login."
+  },
+  "replyCopiedId": "Skopiowano ID odpowiedzi #{id}",
+  "@replyCopiedId": {
+    "description": "Confirmation shown after copying a reply id.",
+    "placeholders": {
+      "id": {
+        "type": "num"
+      }
+    }
+  },
+  "menuReply": "Odpowiedz",
+  "@menuReply": {
+    "description": "Menu item that replies to an item."
+  },
+  "menuCopyId": "Kopiuj ID",
+  "@menuCopyId": {
+    "description": "Menu item that copies an id to the clipboard."
+  },
+  "menuRefresh": "Odśwież",
+  "@menuRefresh": {
+    "description": "Menu item that refreshes a list."
+  },
+  "actionCopy": "Kopiuj",
+  "@actionCopy": {
+    "description": "Tooltip of copy buttons."
+  },
+  "actionSave": "Zapisz",
+  "@actionSave": {
+    "description": "Button that saves changes."
+  },
+  "actionShow": "Pokaż",
+  "@actionShow": {
+    "description": "Tooltip to reveal a hidden value."
+  },
+  "actionHide": "Ukryj",
+  "@actionHide": {
+    "description": "Tooltip to hide a visible value."
+  },
+  "actionCannotBeUndone": "Tej akcji nie można cofnąć.",
+  "@actionCannotBeUndone": {
+    "description": "Warning that a destructive action is permanent."
+  },
+  "info": "Informacje",
+  "@info": {
+    "description": "Label of info buttons and sections."
+  },
+  "wikiTitle": "Wiki {idOrTitle}",
+  "@wikiTitle": {
+    "description": "Title of the wiki loading page. The placeholder is an id reference like '#123' or a wiki title.",
+    "placeholders": {
+      "idOrTitle": {
+        "type": "String"
+      }
+    }
+  },
+  "failedToLoadWiki": "Nie udało się załadować wiki",
+  "@failedToLoadWiki": {
+    "description": "Error shown when a wiki page failed to load."
+  },
+  "wikiNotFound": "Nie znaleziono wiki",
+  "@wikiNotFound": {
+    "description": "Message shown when a wiki page does not exist."
+  },
+  "wikiCopiedId": "Skopiowano ID wiki #{id}",
+  "@wikiCopiedId": {
+    "description": "Confirmation shown after copying a wiki id.",
+    "placeholders": {
+      "id": {
+        "type": "num"
+      }
+    }
+  },
+  "wikiInfoId": "id",
+  "@wikiInfoId": {
+    "description": "Label of the wiki id info row."
+  },
+  "wikiInfoAlias": "alias",
+  "@wikiInfoAlias": {
+    "description": "Label of the wiki alias info row."
+  },
+  "wikiInfoCreated": "utworzone",
+  "@wikiInfoCreated": {
+    "description": "Label of the wiki creation date info row."
+  },
+  "wikiInfoUpdated": "zaktualizowane",
+  "@wikiInfoUpdated": {
+    "description": "Label of the wiki update date info row."
+  },
+  "wikiInfoLocked": "zablokowane",
+  "@wikiInfoLocked": {
+    "description": "Label of the wiki lock info row."
+  },
+  "wikiInfoYes": "tak",
+  "@wikiInfoYes": {
+    "description": "Positive value of info rows."
+  },
+  "wikiInfoNo": "nie",
+  "@wikiInfoNo": {
+    "description": "Negative value of info rows."
+  },
+  "userTitle": "Użytkownik {idOrName}",
+  "@userTitle": {
+    "description": "Title of the user loading page. The placeholder is an id reference like '#123' or a username.",
+    "placeholders": {
+      "idOrName": {
+        "type": "String"
+      }
+    }
+  },
+  "failedToLoadUser": "Nie udało się załadować użytkownika",
+  "@failedToLoadUser": {
+    "description": "Error shown when a user failed to load."
+  },
+  "userNotFound": "Użytkownik nie znaleziony",
+  "@userNotFound": {
+    "description": "Message shown when a user does not exist."
+  },
+  "userUploads": "Przesłania",
+  "@userUploads": {
+    "description": "Label of the uploads tab on the user page."
+  },
+  "userLoginRequiredReport": "Musisz być zalogowany, aby zgłosić użytkownika!",
+  "@userLoginRequiredReport": {
+    "description": "Error shown when reporting a user requires a login."
+  },
+  "userComission": "Zlecenie",
+  "@userComission": {
+    "description": "Header of the commission info section on the user page."
+  },
+  "userId": "id",
+  "@userId": {
+    "description": "Label of the user id info row."
+  },
+  "userJoined": "dołączył",
+  "@userJoined": {
+    "description": "Label of the join date info row."
+  },
+  "userRank": "poziom",
+  "@userRank": {
+    "description": "Label of the user rank info row."
+  },
+  "userPosts": "wpisy",
+  "@userPosts": {
+    "description": "Label of the user post count info row."
+  },
+  "userEdits": "edycje",
+  "@userEdits": {
+    "description": "Label of the user post edit count info row."
+  },
+  "userFavorites": "ulubione",
+  "@userFavorites": {
+    "description": "Label of the user favorite count info row."
+  },
+  "userComments": "komentarze",
+  "@userComments": {
+    "description": "Label of the user comment count info row."
+  },
+  "userForum": "forum",
+  "@userForum": {
+    "description": "Label of the user forum post count info row."
+  },
+  "userCopiedId": "Skopiowano id użytkownika #{id}",
+  "@userCopiedId": {
+    "description": "Confirmation shown after copying a user id.",
+    "placeholders": {
+      "id": {
+        "type": "num"
+      }
+    }
+  },
+  "logsTitle": "Logi",
+  "@logsTitle": {
+    "description": "Title of the logs page."
+  },
+  "logsTitleDate": "Logi - {date}",
+  "@logsTitleDate": {
+    "description": "Title of the logs page for a specific date.",
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "selectionLogsCount": "{count, plural, other{{count} logi}}",
+  "@selectionLogsCount": {
+    "description": "Number of selected log entries.",
+    "placeholders": {
+      "count": {
+        "type": "num"
+      }
+    }
+  },
+  "selectionLogsFilesCount": "{count, plural, other{{count} plików logów}}",
+  "@selectionLogsFilesCount": {
+    "description": "Number of selected log files.",
+    "placeholders": {
+      "count": {
+        "type": "num"
+      }
+    }
+  },
+  "logsLevels": "Poziomy",
+  "@logsLevels": {
+    "description": "Header of the log level filter section."
+  },
+  "logsRecording": "Nagrywanie",
+  "@logsRecording": {
+    "description": "Header of the log recording settings section."
+  },
+  "logsVerbose": "Szczegółowość",
+  "@logsVerbose": {
+    "description": "Switch that records verbose logs."
+  },
+  "logsVerboseAll": "zapisywane wszystkie poziomy",
+  "@logsVerboseAll": {
+    "description": "Subtitle of the verbose switch when all levels are recorded."
+  },
+  "logsVerboseMinimum": "poziom {level} i wyższe",
+  "@logsVerboseMinimum": {
+    "description": "Subtitle of the verbose switch naming the minimum recorded level.",
+    "placeholders": {
+      "level": {
+        "type": "String"
+      }
+    }
+  },
+  "logFilesTitle": "Pliki logów",
+  "@logFilesTitle": {
+    "description": "Title of the log file list page."
+  },
+  "failedToLoadLogFiles": "Nie udało się załadować plików logów!",
+  "@failedToLoadLogFiles": {
+    "description": "Error shown when log files failed to load."
+  },
+  "noLogFiles": "Brak dostępnych plików logów!",
+  "@noLogFiles": {
+    "description": "Message shown when there are no log files."
+  },
+  "logsLive": "Na żywo",
+  "@logsLive": {
+    "description": "Label of the live log source tile in the log file list."
+  },
+  "noLogs": "Brak logów",
+  "@noLogs": {
+    "description": "Message shown when there are no log entries."
+  },
+  "failedToReadLog": "Nie udało się odczytać logu",
+  "@failedToReadLog": {
+    "description": "Error shown when a log file failed to read."
+  },
+  "noErrorsLogged": "Brak zapisanych błędów",
+  "@noErrorsLogged": {
+    "description": "Message shown when no errors have been logged."
+  },
+  "logsErrorsCount": "{count, plural, =1{1 błąd} other{{count} błędów}}",
+  "@logsErrorsCount": {
+    "description": "Number of errors logged in the current session.",
+    "placeholders": {
+      "count": {
+        "type": "num"
+      }
+    }
+  },
+  "logsAll": "Wszystkie logi",
+  "@logsAll": {
+    "description": "Button that opens the full logs page."
+  },
+  "logsDismissAll": "Odrzuć wszystkie",
+  "@logsDismissAll": {
+    "description": "Button that dismisses all logged errors."
+  },
+  "logsDeleteTitle": "Usunąć {count} plików logów?",
+  "@logsDeleteTitle": {
+    "description": "Title of the log file deletion dialog.",
+    "placeholders": {
+      "count": {
+        "type": "num"
+      }
+    }
+  },
+  "identityAccounts": "Konta",
+  "@identityAccounts": {
+    "description": "Header of the account list in the identity picker."
+  },
+  "identityAdd": "Dodaj konto",
+  "@identityAdd": {
+    "description": "Title of the page that adds an account."
+  },
+  "identityEdit": "Edytuj konto",
+  "@identityEdit": {
+    "description": "Title of the page that edits an account."
+  },
+  "identityRemoveTitle": "Usunąć konto?",
+  "@identityRemoveTitle": {
+    "description": "Title of the account removal dialog."
+  },
+  "identityRemoveBody": "Wszystkie jego dane zostaną trwale usunięte, w tym historia i obserwowani.",
+  "@identityRemoveBody": {
+    "description": "Body of the account removal dialog."
+  },
+  "identityAnonymous": "Anonimowy",
+  "@identityAnonymous": {
+    "description": "Name shown for identities without a username."
+  },
+  "identityDuplicate": "Masz już tożsamość dla tej domeny i nazwy użytkownika.",
+  "@identityDuplicate": {
+    "description": "Error shown when adding a duplicate identity."
+  },
+  "identityLoginFailed": "Nie udało się zalogować. \n{reason}",
+  "@identityLoginFailed": {
+    "description": "Error shown when logging in failed.",
+    "placeholders": {
+      "reason": {
+        "type": "String"
+      }
+    }
+  },
+  "identityLoginCheckDetails": "Sprawdź połączenie z siecią i dane logowania",
+  "@identityLoginCheckDetails": {
+    "description": "Fallback reason shown when logging in failed without details."
+  },
+  "identitySite": "Strona",
+  "@identitySite": {
+    "description": "Label of the account host input field."
+  },
+  "identityHostRequired": "Musisz podać adres URL strony.",
+  "@identityHostRequired": {
+    "description": "Error shown when the host field is empty."
+  },
+  "identityHostInvalid": "Nieprawidłowy adres URL",
+  "@identityHostInvalid": {
+    "description": "Error shown when the host URL is invalid."
+  },
+  "identityHostReadOnly": "Strona nie może być zmieniona. Dodaj nowe konto, aby użyć innej.",
+  "@identityHostReadOnly": {
+    "description": "Tooltip of the read-only host field."
+  },
+  "identityUsernameLabel": "Nazwa użytkownika",
+  "@identityUsernameLabel": {
+    "description": "Label of the account username input field."
+  },
+  "identityUsernameRequired": "Musisz podać nazwę użytkownika.",
+  "@identityUsernameRequired": {
+    "description": "Error shown when the username field is empty."
+  },
+  "identityApikeyLabel": "Klucz API",
+  "@identityApikeyLabel": {
+    "description": "Label of the account api key input field."
+  },
+  "identityApikeyHelp": "Gdzie mogę znaleźć swój klucz API?",
+  "@identityApikeyHelp": {
+    "description": "Link that opens the api key page of the current site."
+  },
+  "identityApikeyRequired": "Musisz podać klucz API.\nnp. 1ca1d165e973d7f8d35b7deb7a2ae54c",
+  "@identityApikeyRequired": {
+    "description": "Error shown when the api key field is empty."
+  },
+  "identityApikeyInvalid": "Klucz API to ciąg 24 lub 32 znaków A-z i 0-9\nnp. 1ca1d165e973d7f8d35b7deb7a2ae54c",
+  "@identityApikeyInvalid": {
+    "description": "Error shown when the api key is malformed."
+  },
+  "identitySignupPrompt": "Nie masz konta? Zarejestruj się tutaj",
+  "@identitySignupPrompt": {
+    "description": "Link that opens the registration page of the current site."
+  },
+  "identityHostHint": "Strona, na której znajduje się Twoje konto i wpisy.",
+  "@identityHostHint": {
+    "description": "Hint below the account host input field."
+  },
+  "identitySignIn": "Zaloguj się",
+  "@identitySignIn": {
+    "description": "Segment that selects the sign-in mode of the account form."
+  },
+  "identityGuest": "Gość",
+  "@identityGuest": {
+    "description": "Segment that selects the guest mode of the account form."
+  },
+  "identityLogin": "Logowanie",
+  "@identityLogin": {
+    "description": "Button that logs in with the entered credentials."
+  },
+  "identityBrowseAnonymously": "Przeglądaj anonimowo",
+  "@identityBrowseAnonymously": {
+    "description": "Button that continues without an account."
+  },
+  "identityConnecting": "Łączenie z {host} jako {username}…",
+  "@identityConnecting": {
+    "description": "Message of the login loading dialog.",
+    "placeholders": {
+      "host": {
+        "type": "String"
+      },
+      "username": {
+        "type": "String"
+      }
+    }
+  },
+  "identityActivateFailed": "Nie udało się aktywować tożsamości: {error}",
+  "traitsActivateFailed": "Nie udało się aktywować cech: {error}",
+  "failedToLoadIdentities": "Nie udało się załadować tożsamości",
+  "@failedToLoadIdentities": {
+    "description": "Error shown when identities failed to load."
+  },
+  "onboardingSkip": "Pomiń",
+  "@onboardingSkip": {
+    "description": "Button that skips the onboarding."
+  },
+  "onboardingBack": "Wstecz",
+  "@onboardingBack": {
+    "description": "Button that returns to the previous onboarding step."
+  },
+  "onboardingNext": "Dalej",
+  "@onboardingNext": {
+    "description": "Button that advances to the next onboarding step."
+  },
+  "onboardingWelcomeTitle": "Witaj w {app}",
+  "@onboardingWelcomeTitle": {
+    "description": "Title of the welcome onboarding step.",
+    "placeholders": {
+      "app": {
+        "type": "String"
+      }
+    }
+  },
+  "onboardingWelcomeBody": "Zaawansowana przeglądarka booru.",
+  "@onboardingWelcomeBody": {
+    "description": "Body of the welcome onboarding step."
+  },
+  "onboardingThemeTitle": "Wybierz wygląd",
+  "@onboardingThemeTitle": {
+    "description": "Title of the theme onboarding step."
+  },
+  "onboardingThemeBody": "Wybierz motyw. Zawsze możesz to zmienić później.",
+  "onboardingQualityTitle": "Dostosuj media",
+  "onboardingQualityBody": "Wybierz, jak ciężkie mają być wideo i miniatury. Możesz to zmienić później w ustawieniach.",
+  "@onboardingThemeBody": {
+    "description": "Body of the theme onboarding step."
+  },
+  "onboardingLoginTitle": "Połącz konto",
+  "@onboardingLoginTitle": {
+    "description": "Title of the login onboarding step."
+  },
+  "onboardingLanguageTitle": "Wybierz język",
+  "@onboardingLanguageTitle": {
+    "description": "Title of the language onboarding step."
+  },
+  "followAddToSubscriptions": "Dodaj do subskrypcji",
+  "@followAddToSubscriptions": {
+    "description": "Prompt title for adding a tag to the subscriptions page."
+  },
+  "followNoSubscriptions": "Brak subskrypcji",
+  "@followNoSubscriptions": {
+    "description": "Empty state of the subscriptions page."
+  },
+  "followFailedToLoadSubscriptions": "Nie udało się załadować subskrypcji",
+  "@followFailedToLoadSubscriptions": {
+    "description": "Error state of the subscriptions page."
+  },
+  "followAddToBookmarks": "Dodaj do zakładek",
+  "@followAddToBookmarks": {
+    "description": "Prompt title for adding a tag to the bookmarks page."
+  },
+  "followNoBookmarks": "Brak zakładek",
+  "@followNoBookmarks": {
+    "description": "Empty state of the bookmarks page."
+  },
+  "followFailedToLoadBookmarks": "Nie udało się załadować zakładek",
+  "@followFailedToLoadBookmarks": {
+    "description": "Error state of the bookmarks page."
+  },
+  "followUnseenPosts": "nieprzeczytane wpisy",
+  "@followUnseenPosts": {
+    "description": "Title of the unseen posts tile in the subscriptions drawer."
+  },
+  "followMarkPostsSeen": "{count, plural, one{oznacz 1 post jako przeczytany} few{oznacz {count} posty jako przeczytane} many{oznacz {count} postów jako przeczytane} other{oznacz {count} postów jako przeczytane}}",
+  "@followMarkPostsSeen": {
+    "description": "Subtitle of the unseen posts tile, marking posts as seen.",
+    "placeholders": {
+      "count": {
+        "type": "num"
+      }
+    }
+  },
+  "followNoUnseenPosts": "brak nieprzeczytanych postów",
+  "@followNoUnseenPosts": {
+    "description": "Subtitle of the unseen posts tile when nothing is unseen."
+  },
+  "followShowUnseenFirst": "pokaż nieprzeczytane jako pierwsze",
+  "@followShowUnseenFirst": {
+    "description": "Title of the unseen filter switch in the subscriptions drawer."
+  },
+  "followFilteringUnseen": "filtrowanie nieprzeczytanych",
+  "@followFilteringUnseen": {
+    "description": "Subtitle of the unseen filter switch when filtering."
+  },
+  "followAllPostsShown": "wszystkie posty wyświetlone",
+  "@followAllPostsShown": {
+    "description": "Subtitle of the unseen filter switch when not filtering."
+  },
+  "followForceSync": "Wymuś synchronizację",
+  "@followForceSync": {
+    "description": "Title of the force sync tile in the subscriptions drawer."
+  },
+  "followSyncAllFollows": "synchronizuj wszystkie obserwowane",
+  "@followSyncAllFollows": {
+    "description": "Subtitle of the force sync tile when idle."
+  },
+  "followSyncingFollows": "synchronizowanie obserwowanych... {progress}",
+  "@followSyncingFollows": {
+    "description": "Subtitle of the force sync tile while syncing, with a progress value.",
+    "placeholders": {
+      "progress": {
+        "type": "String"
+      }
+    }
+  },
+  "followEditorTitle": "Edytuj obserwowane",
+  "@followEditorTitle": {
+    "description": "Title of the follow editor page."
+  },
+  "followSubscribe": "Obserwuj",
+  "@followSubscribe": {
+    "description": "Section title of the subscription list in the follow editor."
+  },
+  "followEditPrompt": "Edytuj obserwowane",
+  "@followEditPrompt": {
+    "description": "Prompt title for editing a follow's tags."
+  },
+  "followTitlePrompt": "Tytuł obserwowanego",
+  "@followTitlePrompt": {
+    "description": "Label of the text field renaming a follow."
+  },
+  "followMarkAsRead": "Oznacz jako przeczytane",
+  "@followMarkAsRead": {
+    "description": "Menu action marking a follow as read."
+  },
+  "followDisableNotifications": "Wyłącz powiadomienia",
+  "@followDisableNotifications": {
+    "description": "Menu action disabling notifications of a follow."
+  },
+  "followEnableNotifications": "Włącz powiadomienia",
+  "@followEnableNotifications": {
+    "description": "Menu action enabling notifications of a follow."
+  },
+  "followRename": "Zmień nazwę",
+  "@followRename": {
+    "description": "Menu action renaming a follow."
+  },
+  "followNewPosts": "{count, plural, =1{1 nowy post} few{nowe posty} many{nowych postów} other{{label} nowych postów}}",
+  "@followNewPosts": {
+    "description": "Unseen counter label on a follow tile.",
+    "placeholders": {
+      "count": {
+        "type": "num"
+      },
+      "label": {
+        "type": "String"
+      }
+    }
+  },
+  "followSelectionCount": "{count, plural, one{1 obserwowane} few{{count} obserwowane} many{{count} obserwowanych} other{{count} obserwowanych}}",
+  "@followSelectionCount": {
+    "description": "Title of the follow selection app bar.",
+    "placeholders": {
+      "count": {
+        "type": "num"
+      }
+    }
+  },
+  "followAlias": "alias {alias}",
+  "@followAlias": {
+    "description": "Alias label on a follow tile.",
+    "placeholders": {
+      "alias": {
+        "type": "String?"
+      }
+    }
+  },
+  "historySelectionCount": "{count, plural, one{1 wpis} few{{count} wpisy} many{{count} wpisów} other{{count} wpisów}}",
+  "historyEntriesDeleted": "{count, plural, one{Usunięto 1 wpis} few{Usunięto {count} wpisy} many{Usunięto {count} wpisów} other{Usunięto {count} wpisów}}",
+  "@historyEntriesDeleted": {
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "required": true
+      }
+    }
+  },
+  "@historySelectionCount": {
+    "description": "Title of the history selection app bar.",
+    "placeholders": {
+      "count": {
+        "type": "num"
+      }
+    }
+  },
+  "historyClear": "Wyczyść historię",
+  "@historyClear": {
+    "description": "Title of the clear history tile in the history drawer."
+  },
+  "historyClearSubtitle": "Usuń wszystkie wpisy",
+  "@historyClearSubtitle": {
+    "description": "Subtitle of the clear history tile."
+  },
+  "historyClearConfirm": "Wyczyścić historię?",
+  "@historyClearConfirm": {
+    "description": "Title of the clear history confirmation dialog."
+  },
+  "historyClearConfirmBody": "Wszystkie wpisy w historii zostaną trwale usunięte. Tej operacji nie można cofnąć.",
+  "@historyClearConfirmBody": {
+    "description": "Body of the clear history confirmation dialog."
+  },
+  "historyClearAction": "Wyczyść",
+  "@historyClearAction": {
+    "description": "Confirmation button of the clear history dialog."
+  },
+  "historyLimit": "Limit historii",
+  "@historyLimit": {
+    "description": "Title of the history limit dialog."
+  },
+  "historyLimitEnableBody": "Włączenie limitu historii oznacza, że wszystkie wpisy starsze niż {months} miesięcy oraz wszystkie wpisy poza {amount} najnowszymi są automatycznie usuwane.",
+  "@historyLimitEnableBody": {
+    "description": "Body of the history limit dialog explaining its effects.",
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      },
+      "months": {
+        "type": "num"
+      }
+    }
+  },
+  "historyLimitTitle": "Ogranicz historię",
+  "@historyLimitTitle": {
+    "description": "Title of the history limit switch in the history drawer."
+  },
+  "historyLimitOn": "Ograniczone do nowszych niż {months} miesięcy lub mniej niż {amount} wpisów.",
+  "@historyLimitOn": {
+    "description": "Subtitle of the history limit switch when enabled.",
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      },
+      "months": {
+        "type": "num"
+      }
+    }
+  },
+  "historyLimitOff": "historia jest nieskończona",
+  "@historyLimitOff": {
+    "description": "Subtitle of the history limit switch when disabled."
+  },
+  "historyEntries": "Wpisy",
+  "@historyEntries": {
+    "description": "Section header of the history category filters."
+  },
+  "historyType": "Typ",
+  "@historyType": {
+    "description": "Section header of the history type filters."
+  },
+  "historyItems": "Elementy",
+  "@historyItems": {
+    "description": "Category filter showing visited items."
+  },
+  "historySearches": "Wyszukiwania",
+  "@historySearches": {
+    "description": "Category filter showing visited searches."
+  },
+  "historyWikis": "Wikis",
+  "@historyWikis": {
+    "description": "Type filter showing wiki history entries."
+  },
+  "historyUsers": "Użytkownicy",
+  "@historyUsers": {
+    "description": "Type filter showing user history entries."
+  },
+  "historyEmpty": "Twoja historia jest pusta",
+  "@historyEmpty": {
+    "description": "Empty state of the history page."
+  },
+  "historyFailedToLoad": "Nie udało się załadować historii",
+  "@historyFailedToLoad": {
+    "description": "Error state of the history page."
+  },
+  "historyNoDescription": "brak opisu",
+  "@historyNoDescription": {
+    "description": "Placeholder shown when a history entry has no description."
+  },
+  "historyHotPosts": "Popularne posty",
+  "@historyHotPosts": {
+    "description": "Name of the hot posts search in the history."
+  },
+  "historyLinkPost": "Post #{id}",
+  "@historyLinkPost": {
+    "description": "Name of a visited post in the history.",
+    "placeholders": {
+      "id": {
+        "type": "num"
+      }
+    }
+  },
+  "historyLinkUser": "Użytkownik #{id}",
+  "@historyLinkUser": {
+    "description": "Name of a visited user in the history.",
+    "placeholders": {
+      "id": {
+        "type": "num"
+      }
+    }
+  },
+  "historyLinkWiki": "Wiki #{id}",
+  "@historyLinkWiki": {
+    "description": "Name of a visited wiki page in the history.",
+    "placeholders": {
+      "id": {
+        "type": "num"
+      }
+    }
+  },
+  "historyLinkUserByName": "{id} - Użytkownik",
+  "@historyLinkUserByName": {
+    "description": "Name of a visited user page in the history, looked up by name.",
+    "placeholders": {
+      "id": {
+        "type": "String"
+      }
+    }
+  },
+  "historyLinkWikiByName": "{id} - Wiki",
+  "@historyLinkWikiByName": {
+    "description": "Name of a visited wiki page in the history, looked up by title.",
+    "placeholders": {
+      "id": {
+        "type": "String"
+      }
+    }
+  },
+  "historySearchQuery": "{type} - {query}",
+  "@historySearchQuery": {
+    "description": "Name of a visited search in the history, combining its type and query.",
+    "placeholders": {
+      "type": {
+        "type": "String"
+      },
+      "query": {
+        "type": "String"
+      }
+    }
+  },
+  "historyWiki": "Wiki",
+  "@historyWiki": {
+    "description": "Menu action opening the wiki of a searched tag."
+  },
+  "poolEmpty": "Brak pul",
+  "@poolEmpty": {
+    "description": "Empty state of the pools page."
+  },
+  "poolFailedToLoadPools": "Nie udało się załadować pul",
+  "@poolFailedToLoadPools": {
+    "description": "Error state of the pools page."
+  },
+  "poolTitle": "Tytuł puli",
+  "@poolTitle": {
+    "description": "Label of the pool title search filter."
+  },
+  "poolInfoPosts": "posty",
+  "@poolInfoPosts": {
+    "description": "Info row label of the post count of a pool."
+  },
+  "poolInfoId": "id",
+  "@poolInfoId": {
+    "description": "Info row label of the id of a pool."
+  },
+  "poolInfoActivity": "aktywność",
+  "@poolInfoActivity": {
+    "description": "Info row label of the activity state of a pool."
+  },
+  "poolInfoActive": "aktywna",
+  "@poolInfoActive": {
+    "description": "Info row value of an active pool."
+  },
+  "poolInfoInactive": "nieaktywna",
+  "@poolInfoInactive": {
+    "description": "Info row value of an inactive pool."
+  },
+  "poolInfoCreated": "utworzona",
+  "@poolInfoCreated": {
+    "description": "Info row label of the creation date of a pool."
+  },
+  "poolInfoUpdated": "zaktualizowana",
+  "@poolInfoUpdated": {
+    "description": "Info row label of the last update of a pool."
+  },
+  "poolCopiedId": "Skopiowano id puli #{id}",
+  "@poolCopiedId": {
+    "description": "Snackbar shown after copying the id of a pool.",
+    "placeholders": {
+      "id": {
+        "type": "num"
+      }
+    }
+  },
+  "poolLink": "Pula #{id}",
+  "@poolLink": {
+    "description": "Title of the pool loading page.",
+    "placeholders": {
+      "id": {
+        "type": "num"
+      }
+    }
+  },
+  "poolFailedToLoadPool": "Nie udało się załadować puli",
+  "@poolFailedToLoadPool": {
+    "description": "Error state of the pool loading page."
+  },
+  "poolNotFound": "Pula nie znaleziona",
+  "@poolNotFound": {
+    "description": "Empty state of the pool loading page."
+  },
+  "poolOrder": "Kolejność puli",
+  "@poolOrder": {
+    "description": "Title of the pool order switch in the pool drawer."
+  },
+  "poolOldestFirst": "Od najstarszych",
+  "@poolOldestFirst": {
+    "description": "Subtitle of the pool order switch when sorting oldest first."
+  },
+  "poolNewestFirst": "Od najnowszych",
+  "@poolNewestFirst": {
+    "description": "Subtitle of the pool order switch when sorting newest first."
+  },
+  "poolReaderMode": "Tryt czytania puli",
+  "@poolReaderMode": {
+    "description": "Title of the pool reader mode switch in the pool drawer."
+  },
+  "poolReaderLargeImages": "duże obrazy",
+  "@poolReaderLargeImages": {
+    "description": "Subtitle of the pool reader mode switch when enabled."
+  },
+  "poolReaderNormalGrid": "normalna siatka",
+  "@poolReaderNormalGrid": {
+    "description": "Subtitle of the pool reader mode switch when disabled."
+  },
+  "topicsTitle": "Tematy",
+  "@topicsTitle": {
+    "description": "Title of the topics page."
+  },
+  "topicHideTagEdits": "Ukryj edycje tagów",
+  "@topicHideTagEdits": {
+    "description": "Title of the tag edit switch in the topics drawer."
+  },
+  "topicTagEditsHidden": "ukryte",
+  "@topicTagEditsHidden": {
+    "description": "Subtitle of the tag edit switch when hidden."
+  },
+  "topicTagEditsVisible": "widoczne",
+  "@topicTagEditsVisible": {
+    "description": "Subtitle of the tag edit switch when visible."
+  },
+  "topicLink": "Temat #{id}",
+  "@topicLink": {
+    "description": "Title of the topic loading page.",
+    "placeholders": {
+      "id": {
+        "type": "num"
+      }
+    }
+  },
+  "topicFailedToLoadTopic": "Nie udało się załadować tematu",
+  "@topicFailedToLoadTopic": {
+    "description": "Error state of the topic loading page."
+  },
+  "topicNotFound": "Temat nie znaleziony",
+  "@topicNotFound": {
+    "description": "Empty state of the topic loading page."
+  },
+  "topicEmpty": "Brak tematów",
+  "@topicEmpty": {
+    "description": "Empty state of the topics page."
+  },
+  "topicFailedToLoadTopics": "Nie udało się załadować tematów",
+  "@topicFailedToLoadTopics": {
+    "description": "Error state of the topics page."
+  },
+  "topicInfoReplies": "odpowiedzi",
+  "@topicInfoReplies": {
+    "description": "Info row label of the reply count of a topic."
+  },
+  "topicInfoId": "id",
+  "@topicInfoId": {
+    "description": "Info row label of the id of a topic."
+  },
+  "topicCopiedId": "Skopiowano id tematu #{id}",
+  "@topicCopiedId": {
+    "description": "Snackbar shown after copying the id of a topic.",
+    "placeholders": {
+      "id": {
+        "type": "num"
+      }
+    }
+  },
+  "topicInfoLocked": "zablokowany",
+  "@topicInfoLocked": {
+    "description": "Info row label of the locked state of a topic."
+  },
+  "topicInfoYes": "tak",
+  "@topicInfoYes": {
+    "description": "Info row value confirming a topic state."
+  },
+  "topicInfoNo": "nie",
+  "@topicInfoNo": {
+    "description": "Info row value denying a topic state."
+  },
+  "topicInfoCreated": "utworzony",
+  "@topicInfoCreated": {
+    "description": "Info row label of the creation date of a topic."
+  },
+  "topicInfoUpdated": "zaktualizowany",
+  "@topicInfoUpdated": {
+    "description": "Info row label of the last update of a topic."
+  },
+  "filterTags": "Tagi",
+  "@filterTags": {
+    "description": "Name of the tags filter used by the tag prompt."
+  },
+  "loginRequired": "Musisz być zalogowany, aby wykonać tę akcję.",
+  "actionChooseIdentity": "Wybierz tożsamość",
+  "dateToday": "Dzisiaj",
+  "dateYesterday": "Wczoraj",
+  "detailCommentsButton": "KOMENTARZE ({count})",
+  "@detailCommentsButton": {
+    "description": "Button on the post detail page opening the comment section.",
+    "placeholders": {
+      "count": {
+        "type": "num"
+      }
+    }
+  },
+  "detailFile": "Plik",
+  "@detailFile": {
+    "description": "Section header of the file info of a post."
+  },
+  "detailSources": "Źródła",
+  "@detailSources": {
+    "description": "Section header of the sources of a post."
+  },
+  "detailNoSources": "brak źródeł",
+  "@detailNoSources": {
+    "description": "Placeholder shown when a post has no sources."
+  },
+  "detailChildren": "Dzieci",
+  "@detailChildren": {
+    "description": "Section header listing the child posts of a post."
+  },
+  "detailDeletion": "Usunięcie",
+  "@detailDeletion": {
+    "description": "Section header of the deletion flag reason of a post."
+  },
+  "detailBlacklisted": "Na czarnej liście",
+  "@detailBlacklisted": {
+    "description": "Section header listing the blacklist entries that blocked a post."
+  },
+  "detailNoArtist": "brak artysty",
+  "@detailNoArtist": {
+    "description": "Placeholder shown when a post has no artist tags."
+  },
+  "detailPoolPosts": "{count, plural, =1{1 post} few{{count} postów} many{{count} postów} other{{count} postów}}",
+  "@detailPoolPosts": {
+    "description": "Post count of a pool shown on a pool relation tile.",
+    "placeholders": {
+      "count": {
+        "type": "num"
+      }
+    }
+  },
+  "postCopiedId": "Skopiowano ID posta #{id}",
+  "@postCopiedId": {
+    "description": "Snackbar shown after copying the id of a post.",
+    "placeholders": {
+      "id": {
+        "type": "num"
+      }
+    }
+  },
+  "postUpvoteFailed": "Nie udało się zagłosować na post #{id}",
+  "@postUpvoteFailed": {
+    "description": "Error shown when upvoting a post failed.",
+    "placeholders": {
+      "id": {
+        "type": "num"
+      }
+    }
+  },
+  "postDownvoteFailed": "Nie udało się zagłosować na post #{id}",
+  "@postDownvoteFailed": {
+    "description": "Error shown when downvoting a post failed.",
+    "placeholders": {
+      "id": {
+        "type": "num"
+      }
+    }
+  },
+  "postAddFavoriteFailed": "Nie udało się dodać posta #{id} do ulubionych",
+  "@postAddFavoriteFailed": {
+    "description": "Error shown when adding a post to favorites failed.",
+    "placeholders": {
+      "id": {
+        "type": "num"
+      }
+    }
+  },
+  "postRemoveFavoriteFailed": "Nie udało się usunąć posta #{id} z ulubionych",
+  "@postRemoveFavoriteFailed": {
+    "description": "Error shown when removing a post from favorites failed.",
+    "placeholders": {
+      "id": {
+        "type": "num"
+      }
+    }
+  },
+  "editorSection": "Sekcja",
+  "@editorSection": {
+    "description": "Tooltip of the DText editor button enclosing a section block."
+  },
+  "editorQuote": "Cytat",
+  "@editorQuote": {
+    "description": "Tooltip of the DText editor button enclosing a quote block."
+  },
+  "editorCode": "Kod",
+  "@editorCode": {
+    "description": "Tooltip of the DText editor button enclosing a code block."
+  },
+  "editorSpoiler": "Spoiler",
+  "@editorSpoiler": {
+    "description": "Tooltip of the DText editor button enclosing a spoiler block."
+  },
+  "editorBold": "Pogrubienie",
+  "@editorBold": {
+    "description": "Tooltip of the DText editor button enclosing bold text."
+  },
+  "editorItalic": "Kursywa",
+  "@editorItalic": {
+    "description": "Tooltip of the DText editor button enclosing italic text."
+  },
+  "editorUnderlined": "Podkreślenie",
+  "@editorUnderlined": {
+    "description": "Tooltip of the DText editor button enclosing underlined text."
+  },
+  "editorStrikethrough": "Przekreślenie",
+  "@editorStrikethrough": {
+    "description": "Tooltip of the DText editor button enclosing struck-through text."
+  },
+  "editorPreviewPlaceholder": "tutaj twój tekst",
+  "@editorPreviewPlaceholder": {
+    "description": "Placeholder shown in the preview pane of the DText editor."
+  },
+  "editorWrite": "Pisanie",
+  "@editorWrite": {
+    "description": "Tab label of the editing pane of the text editor."
+  },
+  "editorPreview": "Podgląd",
+  "@editorPreview": {
+    "description": "Tab label of the preview pane of the text editor."
+  },
+  "editorTypeHere": "pisz tutaj...",
+  "@editorTypeHere": {
+    "description": "Hint text of the text editor input field."
+  },
+  "tagNoTags": "brak tagów",
+  "@tagNoTags": {
+    "description": "Placeholder shown when the tag counter drawer found no tags."
+  },
+  "tagFailedToLoadTags": "nie udało się załadować tagów",
+  "@tagFailedToLoadTags": {
+    "description": "Error state of the tag counter drawer."
+  },
+  "tagUnableToRetrieveWiki": "nie udało się pobrać wpisu wiki",
+  "@tagUnableToRetrieveWiki": {
+    "description": "Error shown when the wiki entry of a tag failed to load."
+  },
+  "tagNoWikiEntry": "brak wpisu wiki",
+  "@tagNoWikiEntry": {
+    "description": "Placeholder shown when a tag has no wiki entry."
+  },
+  "tagCategoryGeneral": "Ogólne",
+  "@tagCategoryGeneral": {
+    "description": "Name of the general tag category."
+  },
+  "tagCategorySpecies": "Gatunki",
+  "@tagCategorySpecies": {
+    "description": "Name of the species tag category."
+  },
+  "tagCategoryCharacter": "Postacie",
+  "@tagCategoryCharacter": {
+    "description": "Name of the character tag category."
+  },
+  "tagCategoryCopyright": "Prawa autorskie",
+  "@tagCategoryCopyright": {
+    "description": "Name of the copyright tag category."
+  },
+  "tagCategoryMeta": "Meta",
+  "@tagCategoryMeta": {
+    "description": "Name of the meta tag category."
+  },
+  "tagCategoryLore": "Lore",
+  "@tagCategoryLore": {
+    "description": "Name of the lore tag category."
+  },
+  "tagCategoryArtist": "Artysta",
+  "@tagCategoryArtist": {
+    "description": "Name of the artist tag category."
+  },
+  "tagCategoryContributor": "Współtwórca",
+  "@tagCategoryContributor": {
+    "description": "Name of the contributor tag category."
+  },
+  "tagCategoryInvalid": "Nieprawidłowe",
+  "@tagCategoryInvalid": {
+    "description": "Name of the invalid tag category."
+  },
+  "editDescriptionTitle": "Opis posta #{postId}",
+  "@editDescriptionTitle": {
+    "description": "Title of the post description editor page.",
+    "placeholders": {
+      "postId": {
+        "type": "num"
+      }
+    }
+  },
+  "editDescriptionHint": "Wprowadź opis posta...",
+  "@editDescriptionHint": {
+    "description": "Hint text of the post description input field."
+  },
+  "editInvalidNumber": "Nieprawidłowy format liczby",
+  "@editInvalidNumber": {
+    "description": "Error text shown when the parent id input is not a number."
+  },
+  "editInvalidParent": "Nieprawidłowy nadrzędny post",
+  "@editInvalidParent": {
+    "description": "Error text shown when a parent post does not exist."
+  },
+  "editParentIdLabel": "ID nadrzędnego (opcjonalnie)",
+  "@editParentIdLabel": {
+    "description": "Label of the parent id input field of the post edit form."
+  },
+  "editParentIdHint": "ID nadrzędnego posta",
+  "@editParentIdHint": {
+    "description": "Hint text of the parent id input field of the post edit form."
+  },
+  "editReasonLabel": "Powód edycji (opcjonalnie)",
+  "@editReasonLabel": {
+    "description": "Label of the edit reason input field of the post edit form."
+  },
+  "editReasonHint": "Dlaczego edytujesz ten post?",
+  "@editReasonHint": {
+    "description": "Hint text of the edit reason input field of the post edit form."
+  },
+  "editSourcesTitle": "Źródła posta #{postId}",
+  "@editSourcesTitle": {
+    "description": "Title of the post sources editor page.",
+    "placeholders": {
+      "postId": {
+        "type": "num"
+      }
+    }
+  },
+  "editTagsHint": "tagi oddzielone spacjami",
+  "@editTagsHint": {
+    "description": "Hint text of the tags input field of the post edit form."
+  },
+  "editTagPreviewFailed": "Błąd podczas ładowania podglądu tagów: {error}",
+  "@editTagPreviewFailed": {
+    "description": "Error shown when the tag preview failed to load.",
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
+  "editTagStatusNew": "nowy",
+  "@editTagStatusNew": {
+    "description": "Status label of a tag that does not exist yet."
+  },
+  "editTagStatusInvalid": "nieprawidłowy",
+  "@editTagStatusInvalid": {
+    "description": "Status label of a tag in the invalid category."
+  },
+  "editTagStatusEmpty": "pusty",
+  "@editTagStatusEmpty": {
+    "description": "Status label of a tag without any posts."
+  },
+  "editTagStatusUnderused": "rzadko używany",
+  "@editTagStatusUnderused": {
+    "description": "Status label of a rarely used general tag."
+  },
+  "reportCommentSuccess": "Zgłoszono komentarz #{id}",
+  "@reportCommentSuccess": {
+    "description": "Success message after reporting a comment.",
+    "placeholders": {
+      "id": {
+        "type": "num"
+      }
+    }
+  },
+  "reportCommentFailed": "Nie udało się zgłosić komentarza #{id}",
+  "@reportCommentFailed": {
+    "description": "Error message after failing to report a comment.",
+    "placeholders": {
+      "id": {
+        "type": "num"
+      }
+    }
+  },
+  "reportReplySuccess": "Zgłoszono odpowiedź #{id}",
+  "@reportReplySuccess": {
+    "description": "Success message after reporting a reply.",
+    "placeholders": {
+      "id": {
+        "type": "num"
+      }
+    }
+  },
+  "reportReplyFailed": "Nie udało się zgłosić odpowiedzi #{id}",
+  "@reportReplyFailed": {
+    "description": "Error message after failing to report a reply.",
+    "placeholders": {
+      "id": {
+        "type": "num"
+      }
+    }
+  },
+  "reportUserSuccess": "Zgłoszono użytkownika #{id}",
+  "@reportUserSuccess": {
+    "description": "Success message after reporting a user.",
+    "placeholders": {
+      "id": {
+        "type": "num"
+      }
+    }
+  },
+  "reportUserFailed": "Nie udało się zgłosić użytkownika #{id}",
+  "@reportUserFailed": {
+    "description": "Error message after failing to report a user.",
+    "placeholders": {
+      "id": {
+        "type": "num"
+      }
+    }
+  },
+  "reportPostSuccess": "Zgłoszono post #{id}",
+  "@reportPostSuccess": {
+    "description": "Success message after reporting a post.",
+    "placeholders": {
+      "id": {
+        "type": "num"
+      }
+    }
+  },
+  "reportPostFailed": "Nie udało się zgłosić posta #{id}",
+  "@reportPostFailed": {
+    "description": "Error message after failing to report a post.",
+    "placeholders": {
+      "id": {
+        "type": "num"
+      }
+    }
+  },
+  "reportTypeRequired": "Typ nie może być pusty",
+  "@reportTypeRequired": {
+    "description": "Error text shown when no report type was selected."
+  },
+  "reportReason": "Powód",
+  "@reportReason": {
+    "description": "Label of the report reason input field."
+  },
+  "reportReasonRequired": "Powód nie może być pusty",
+  "@reportReasonRequired": {
+    "description": "Error text shown when the report reason is empty."
+  },
+  "reportSubmitted": "Zgłoszenie przesłane",
+  "@reportSubmitted": {
+    "description": "Success message after submitting a report."
+  },
+  "reportSubmitFailed": "Nie udało się przesłać zgłoszenia",
+  "@reportSubmitFailed": {
+    "description": "Error message after failing to submit a report."
+  },
+  "reportTypeRating": "Nadużywanie ocen",
+  "@reportTypeRating": {
+    "description": "Name of the rating abuse post report type."
+  },
+  "reportTypeFile": "Złośliwy plik",
+  "@reportTypeFile": {
+    "description": "Name of the malicious file post report type."
+  },
+  "reportTypeSource": "Złośliwe źródła",
+  "@reportTypeSource": {
+    "description": "Name of the malicious source post report type."
+  },
+  "reportTypeDescription": "Nadużywanie opisu",
+  "@reportTypeDescription": {
+    "description": "Name of the description abuse post report type."
+  },
+  "reportTypeNote": "Nadużywanie notatek",
+  "@reportTypeNote": {
+    "description": "Name of the note abuse post report type."
+  },
+  "reportTypeTagging": "Nadużywanie tagów",
+  "@reportTypeTagging": {
+    "description": "Name of the tagging abuse post report type."
+  },
+  "reportTypeRatingBody": "Ocena przesłania została ustawiona na nieprawidłową.",
+  "@reportTypeRatingBody": {
+    "description": "Description of the rating abuse post report type."
+  },
+  "reportTypeFileBody": "Plik zawiera złośliwy kod lub ukryty archiwum. Nie dotyczy to obrazów przedstawionych na obrazie.",
+  "@reportTypeFileBody": {
+    "description": "Description of the malicious file post report type."
+  },
+  "reportTypeSourceBody": "Jedno lub więcej z podanych źródeł prowadzi do złośliwych stron lub treści premium.",
+  "@reportTypeSourceBody": {
+    "description": "Description of the malicious source post report type."
+  },
+  "reportTypeDescriptionBody": "Opis zawiera złośliwą treść lub został edytowany tak, by zawierał obraźliwy materiał.",
+  "@reportTypeDescriptionBody": {
+    "description": "Description of the description abuse post report type."
+  },
+  "reportTypeNoteBody": "Notatki do tego postu są nieprawidłowe, nękające lub w inny sposób obraźliwe.",
+  "@reportTypeNoteBody": {
+    "description": "Description of the note abuse post report type."
+  },
+  "reportTypeTaggingBody": "Jeden lub więcej tagów w tym poście jest nieprawidłowych lub jeden lub więcej prawidłowych tagów zostało usuniętych z tego posta.",
+  "@reportTypeTaggingBody": {
+    "description": "Description of the tagging abuse post report type."
+  },
+  "flagPostSuccess": "Oznaczono post #{id}",
+  "@flagPostSuccess": {
+    "description": "Success message after flagging a post.",
+    "placeholders": {
+      "id": {
+        "type": "num"
+      }
+    }
+  },
+  "flagPostFailed": "Nie udało się zgłosić posta #{id}",
+  "@flagPostFailed": {
+    "description": "Error message after failing to flag a post.",
+    "placeholders": {
+      "id": {
+        "type": "num"
+      }
+    }
+  },
+  "flagParentId": "ID rodzica",
+  "@flagParentId": {
+    "description": "Label of the parent id input field of the post flag form."
+  },
+  "flagParentIdRequired": "ID rodzica nie może być puste",
+  "@flagParentIdRequired": {
+    "description": "Error text shown when the parent id of a flag is empty."
+  },
+  "flagParentIdInvalid": "ID rodzica musi być liczbą",
+  "@flagParentIdInvalid": {
+    "description": "Error text shown when the parent id of a flag is not a number."
+  },
+  "flagTypeUploadingGuidelines": "Nie spełnia wytycznych dotyczących przesyłania",
+  "@flagTypeUploadingGuidelines": {
+    "description": "Name of the uploading guidelines post flag."
+  },
+  "flagTypeYoungHuman": "Młodo-ludzka postać w sytuacji o charakterze erotycznym",
+  "@flagTypeYoungHuman": {
+    "description": "Name of the young human post flag."
+  },
+  "flagTypeDnpArtist": "Twórca tego posta znajduje się na liście unikania",
+  "@flagTypeDnpArtist": {
+    "description": "Name of the do not post artist post flag."
+  },
+  "flagTypePayContent": "Treść z płatnych stron, komercyjna lub subskrypcyjna",
+  "@flagTypePayContent": {
+    "description": "Name of the pay content post flag."
+  },
+  "flagTypeTrace": "Ślad pracy innego artysty",
+  "@flagTypeTrace": {
+    "description": "Name of the trace post flag."
+  },
+  "flagTypePreviouslyDeleted": "Wcześniej usunięty",
+  "@flagTypePreviouslyDeleted": {
+    "description": "Name of the previously deleted post flag."
+  },
+  "flagTypeRealPorn": "Prawdziwa pornografia",
+  "@flagTypeRealPorn": {
+    "description": "Name of the real porn post flag."
+  },
+  "flagTypeCorrupt": "Plik jest uszkodzony, uszkodzony lub w inny sposób nie działa",
+  "@flagTypeCorrupt": {
+    "description": "Name of the corrupt file post flag."
+  },
+  "flagTypeInferior": "Duplikat lub gorsza wersja innego posta",
+  "@flagTypeInferior": {
+    "description": "Name of the inferior post flag."
+  },
+  "flagTypeUploadingGuidelinesBody": "Ten post nie spełnia standardów strony, dotyczy to wartości artystycznej, jakości obrazu, istotności lub czegoś innego.\nPamiętaj, że Twoje osobiste preferencje nie mają na to wpływu. Jeśli treść posta jest dla Ciebie nieodpowiednia, po prostu [[e621:blacklist|dodaj do czarnej listy]].",
+  "@flagTypeUploadingGuidelinesBody": {
+    "description": "Description of the uploading guidelines post flag."
+  },
+  "flagTypeYoungHumanBody": "Posty przedstawiające ludzi i podobne postacie w sposób seksualny lub nagi nie są akceptowalne na tej stronie.",
+  "@flagTypeYoungHumanBody": {
+    "description": "Description of the young human post flag."
+  },
+  "flagTypeDnpArtistBody": "Niektórzy artyści zażądali, aby ich prace nie były publikowane na tej stronie, i otrzymali status [[avoid_posting|Nie Publikuj]].\nCzasem ten status wiąże się z warunkami; zobacz [[conditional_dnp]] aby dowiedzieć się więcej.",
+  "@flagTypeDnpArtistBody": {
+    "description": "Description of the do not post artist post flag."
+  },
+  "flagTypePayContentBody": "Nie hostujemy treści z płatnych stron ani treści komercyjnych w żadnej formie. Obejmuje to wycieki z Patreona, ponowne publikacje z pirackich stron i tym podobne.",
+  "@flagTypePayContentBody": {
+    "description": "Description of the pay content post flag."
+  },
+  "flagTypeTraceBody": "Obrazy śledzone z prac innych artystów nie są akceptowalne na tej stronie. Nawiązywanie do czegoś jest w porządku, ale kopiowanie czyjejś pracy wprost nie jest.\nProszę, dodaj więcej informacji w komentarzach lub po prostu dodaj oryginalną pracę jako rodzica posta, jeśli jest hostowana na tej stronie.",
+  "@flagTypeTraceBody": {
+    "description": "Description of the trace post flag."
+  },
+  "flagTypePreviouslyDeletedBody": "Posty są zazwyczaj usuwane z dobrych powodów, a ponowne przesyłanie usuniętej treści nie jest akceptowalne.\nProszę, dodaj więcej informacji w komentarzach lub po prostu dodaj oryginalny post jako rodzica tego posta.",
+  "@flagTypePreviouslyDeletedBody": {
+    "description": "Description of the previously deleted post flag."
+  },
+  "flagTypeRealPornBody": "Posty przedstawiające prawdziwą pornografię nie są akceptowalne na tej stronie. Bez wyjątków.\nZauważ, że obrazy przedstawiające nie-erotyczne zdjęcia są akceptowalne.",
+  "@flagTypeRealPornBody": {
+    "description": "Description of the real porn post flag."
+  },
+  "flagTypeCorruptBody": "Coś jest nie tak z tym postem. Może to być uszkodzony film lub uszkodzony obraz.\nW każdym przypadku, aby uniknąć nieporozumień, wyjaśnij sytuację w komentarzach.",
+  "@flagTypeCorruptBody": {
+    "description": "Description of the corrupt file post flag."
+  },
+  "flagTypeInferiorBody": "Lepsza wersja tego posta już istnieje na stronie.\nMoże to obejmować obrazy z lepszą jakością wizualną (większe, mniej skompresowane), ale także wersje \"naprawione\", z uwzględnieniem błędów artystycznych.\nZauważ, że edycje i alternatywne wersje nie należą do tej kategorii.",
+  "@flagTypeInferiorBody": {
+    "description": "Description of the inferior post flag."
+  },
+  "taskCancelAll": "Anuluj wszystkie",
+  "@taskCancelAll": {
+    "description": "Tooltip of the button which cancels all tasks."
+  },
+  "taskClearDone": "Wyczyń zakończone",
+  "@taskClearDone": {
+    "description": "Tooltip of the button which clears all finished tasks."
+  },
+  "taskClearSelection": "Wyczyń wybór",
+  "@taskClearSelection": {
+    "description": "Tooltip of the button which clears the task selection."
+  },
+  "taskCancel": "Anuluj",
+  "@taskCancel": {
+    "description": "Tooltip of the button which cancels a task."
+  },
+  "taskDismiss": "Odrzuć",
+  "@taskDismiss": {
+    "description": "Tooltip of the button which dismisses a task."
+  },
+  "taskNoTasks": "Brak zadań",
+  "@taskNoTasks": {
+    "description": "Placeholder shown when there are no tasks."
+  },
+  "taskFailedToLoadTasks": "Nie udało się załadować zadań",
+  "@taskFailedToLoadTasks": {
+    "description": "Error message shown when tasks failed to load."
+  },
+  "taskSelectionCount": "{count, plural, =1{1 zadanie} few{{count} zadania} many{{count} zadań} other{{count} zadań}}",
+  "@taskSelectionCount": {
+    "description": "Selection counter on the tasks page.",
+    "placeholders": {
+      "count": {
+        "type": "num"
+      }
+    }
+  },
+  "taskGroupActive": "Aktywne",
+  "@taskGroupActive": {
+    "description": "Header of the active tasks group."
+  },
+  "taskGroupFailed": "Nieudane",
+  "@taskGroupFailed": {
+    "description": "Header of the failed tasks group."
+  },
+  "taskActionDownload": "pobierz",
+  "@taskActionDownload": {
+    "description": "Name of the download task action."
+  },
+  "taskActionFavorite": "ulubione",
+  "@taskActionFavorite": {
+    "description": "Name of the favorite task action."
+  },
+  "taskActionUnfavorite": "usuń z ulubionych",
+  "@taskActionUnfavorite": {
+    "description": "Name of the unfavorite task action."
+  },
+  "taskDownloadRunning": "pobieranie",
+  "@taskDownloadRunning": {
+    "description": "Label of a running download task."
+  },
+  "taskFavoriteRunning": "dodawanie do ulubionych",
+  "@taskFavoriteRunning": {
+    "description": "Label of a running favorite task."
+  },
+  "taskUnfavoriteRunning": "usuwanie z ulubionych",
+  "@taskUnfavoriteRunning": {
+    "description": "Label of a running unfavorite task."
+  },
+  "taskDownloadCompleted": "pobrano",
+  "@taskDownloadCompleted": {
+    "description": "Label of a completed download task."
+  },
+  "taskFavoriteCompleted": "dodano do ulubionych",
+  "@taskFavoriteCompleted": {
+    "description": "Label of a completed favorite task."
+  },
+  "taskUnfavoriteCompleted": "usunięto z ulubionych",
+  "@taskUnfavoriteCompleted": {
+    "description": "Label of a completed unfavorite task."
+  },
+  "taskQueuedTo": "kolejkowane do {action}",
+  "@taskQueuedTo": {
+    "description": "Label of a queued task.",
+    "placeholders": {
+      "action": {
+        "type": "String"
+      }
+    }
+  },
+  "taskFailedTo": "nie udało się {action}",
+  "@taskFailedTo": {
+    "description": "Label of a failed task.",
+    "placeholders": {
+      "action": {
+        "type": "String"
+      }
+    }
+  },
+  "taskCanceledAction": "anulowano {action}",
+  "@taskCanceledAction": {
+    "description": "Label of a canceled task.",
+    "placeholders": {
+      "action": {
+        "type": "String"
+      }
+    }
+  },
+  "taskTileTitle": "{label} post #{id}",
+  "@taskTileTitle": {
+    "description": "Title of a task tile.",
+    "placeholders": {
+      "label": {
+        "type": "String"
+      },
+      "id": {
+        "type": "num"
+      }
+    }
+  },
+  "followNotificationBody": "{count, plural, =1{ma nowy post!} few{ma {count} nowe posty!} many{ma {count} nowych postów!} other{ma {count} nowych postów!}}",
+  "@followNotificationBody": {
+    "description": "Body of a follow notification, shown under the follow's title.",
+    "placeholders": {
+      "count": {
+        "type": "num"
+      }
+    }
+  },
+  "followNotificationSummary": "Nowe posty!",
+  "@followNotificationSummary": {
+    "description": "Title of the summary notification for multiple follows."
+  },
+  "followChannelName": "Obserwowane tagi",
+  "@followChannelName": {
+    "description": "Name of the follow notification channel shown in the system settings."
+  },
+  "followChannelDescription": "Powiadomienia o tagach, które obserwujesz",
+  "@followChannelDescription": {
+    "description": "Description of the follow notification channel shown in the system settings."
+  },
+  "hostUnavailableTitle": "Host niedostępny",
+  "@hostUnavailableTitle": {
+    "description": "Title of the host unavailable page."
+  },
+  "hostUnavailableBody": "Wygląda na to, że {host} jest niedostępny!",
+  "@hostUnavailableBody": {
+    "description": "Body of the host unavailable page.",
+    "placeholders": {
+      "host": {
+        "type": "String"
+      }
+    }
+  },
+  "hostUnavailableResolveHint": "Proszę rozwiąż problem w poniższym oknie przeglądarki.\n\nCiasteczka Cloudflare captcha zostaną zapisane.",
+  "@hostUnavailableResolveHint": {
+    "description": "Hint about resolving the host unavailability in a browser."
+  },
+  "hostUnavailableResolve": "Rozwiąż",
+  "@hostUnavailableResolve": {
+    "description": "Button opening the browser window resolving the host unavailability."
+  },
+  "hostUnavailableWaitBody": "\nProszę poczekaj aż {host} rozwiąże sytuację po swojej stronie.",
+  "@hostUnavailableWaitBody": {
+    "description": "Body of the host unavailable page when the issue cannot be resolved by the user.",
+    "placeholders": {
+      "host": {
+        "type": "String"
+      }
+    }
+  },
+  "downloadChooseFolder": "Wybierz folder",
+  "@downloadChooseFolder": {
+    "description": "Title of the folder picker dialog on desktop."
+  },
+  "searchFilterTitle": "Filtry",
+  "@searchFilterTitle": {
+    "description": "Title of the posts search filter prompt."
+  },
+  "searchFilterQueryLabel": "Aktualne zapytanie:",
+  "@searchFilterQueryLabel": {
+    "description": "Label of the query preview of the posts search filter prompt."
+  },
+  "filterSectionSort": "Sortowanie",
+  "@filterSectionSort": {
+    "description": "Header of the sorting section of the posts filter prompt."
+  },
+  "filterSectionContent": "Treść",
+  "@filterSectionContent": {
+    "description": "Header of the content section of the posts filter prompt."
+  },
+  "filterSectionTime": "Czas i status",
+  "@filterSectionTime": {
+    "description": "Header of the time and status section of the posts filter prompt."
+  },
+  "filterSectionMedia": "Media",
+  "@filterSectionMedia": {
+    "description": "Header of the media section of the posts filter prompt."
+  },
+  "filterSectionOther": "Inne",
+  "@filterSectionOther": {
+    "description": "Header of the remaining filters of the posts filter prompt."
+  },
+  "searchFilterReset": "Resetuj filtry",
+  "@searchFilterReset": {
+    "description": "Button that clears every filter of the posts filter prompt."
+  },
+  "dtextParsingFailed": "Przetwarzanie DText nie powiodło się",
+  "filteredShow": "Pokaż",
+  "filteredHide": "Ukryj",
+  "selectOptions": "Wybierz opcje...",
+  "databaseNotE1547": "Ten plik nie jest bazą danych e1547.",
+  "adultGateTitle": "Szybka kontrola rzeczywistości",
+  "@adultGateTitle": {
+    "description": "Title of the 18+ confirmation dialog shown before a login is attempted."
+  },
+  "adultGateBody": "Ta aplikacja prowadzi prosto do e621, społeczności sztuki tylko dla dorosłych. Potwierdź, że jesteś pełnoletni tam, gdzie mieszkasz — ufamy Ci, nasi prawnicy już nie.",
+  "@adultGateBody": {
+    "description": "Body of the 18+ confirmation dialog shown before a login is attempted."
+  },
+  "adultGateConfirm": "Oczywiście — mam 18 lub więcej lat",
+  "@adultGateConfirm": {
+    "description": "Confirmation action of the 18+ dialog; deliberately conversational."
+  },
+  "adultGateDeny": "Cofnij mnie",
+  "@adultGateDeny": {
+    "description": "Denial action of the 18+ dialog; deliberately conversational."
+  },
+  "databaseExportPasswordLabel": "Hasło (opcjonalne)",
+  "@databaseExportPasswordLabel": {
+    "description": "Label of the optional password field in the database export dialog."
+  },
+  "databaseExportPasswordHint": "Szyfruje eksportowany plik. Pozostaw puste, aby uzyskać zwykły, nieszyfrowany plik.",
+  "@databaseExportPasswordHint": {
+    "description": "Helper text under the optional export password field."
+  },
+  "databaseImportEncryptedTitle": "Szyfrowana baza danych",
+  "@databaseImportEncryptedTitle": {
+    "description": "Title of the password prompt for encrypted database imports."
+  },
+  "databaseImportPasswordLabel": "Hasło",
+  "@databaseImportPasswordLabel": {
+    "description": "Label of the password field in the encrypted import prompt."
+  },
+  "databaseImportWrongPassword": "Nieprawidłowe hasło lub uszkodzony plik.",
+  "@databaseImportWrongPassword": {
+    "description": "Shown when decryption fails, i.e. the password was wrong or the file is corrupted."
+  },
+  "actionUnlock": "ODBLOKUJ",
+  "@actionUnlock": {
+    "description": "Confirmation action of the encrypted import password prompt."
+  }
+}
