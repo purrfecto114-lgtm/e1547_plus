@@ -1,6 +1,7 @@
 import 'package:e1547/l10n/tag_descriptions.dart';
 import 'package:e1547/l10n/tag_descriptions_ja.dart';
 import 'package:e1547/l10n/tag_descriptions_zh.dart';
+import 'package:e1547/l10n/tag_descriptions_zh_hant.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
@@ -48,7 +49,7 @@ void main() {
     );
   });
 
-  test('serves both chinese scripts from the simplified list', () {
+  test('serves each chinese script from its own list', () {
     final simplified = localizedTagDescription(
       'wolf',
       const Locale.fromSubtags(languageCode: 'zh', scriptCode: 'Hans'),
@@ -58,7 +59,33 @@ void main() {
       const Locale.fromSubtags(languageCode: 'zh', scriptCode: 'Hant'),
     );
     expect(simplified, isNotNull);
-    expect(traditional, simplified);
+    expect(traditional, isNotNull);
+    // the traditional list is generated from the simplified one, so it
+    // covers the same tags; characters that share a form stay identical
+    expect(traditional, contains('狼'));
+    // simplified entries use simplified wording
+    expect(
+      localizedTagDescription(
+        'german_shepherd',
+        const Locale.fromSubtags(languageCode: 'zh', scriptCode: 'Hans'),
+      ),
+      '德国牧羊犬。',
+    );
+    expect(
+      localizedTagDescription(
+        'german_shepherd',
+        const Locale.fromSubtags(languageCode: 'zh', scriptCode: 'Hant'),
+      ),
+      '德國牧羊犬。',
+    );
+    // a generic chinese locale is simplified by default
+    expect(
+      localizedTagDescription('wolf', const Locale('zh')),
+      localizedTagDescription(
+        'wolf',
+        const Locale.fromSubtags(languageCode: 'zh', scriptCode: 'Hans'),
+      ),
+    );
   });
 
   test('returns nothing for languages without a dictionary', () {
@@ -89,6 +116,18 @@ void main() {
         reason: '${entry.key} misses its full stop',
       );
     }
+    for (final entry in tagDescriptionsZhHant.entries) {
+      expect(entry.key, isNotEmpty);
+      expect(entry.value.length, lessThan(60));
+      expect(
+        entry.value.endsWith('。'),
+        isTrue,
+        reason: '${entry.key} misses its full stop',
+      );
+      // the traditional list covers exactly the simplified list's tags
+      expect(tagDescriptionsZh.containsKey(entry.key), isTrue);
+    }
+    expect(tagDescriptionsZhHant.length, tagDescriptionsZh.length);
     for (final entry in tagDescriptionsJa.entries) {
       expect(entry.key, isNotEmpty);
       expect(entry.value.length, lessThan(60));
