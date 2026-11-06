@@ -84,7 +84,13 @@ class ControlledTextField extends StatelessWidget {
       builder: (context, controller, submit) => TextField(
         controller: controller,
         enableIMEPersonalizedLearning: !PrivateTextFields.of(context),
-        keyboardType: keyboardType,
+        // Old keyboards ignore the learning flag; a password style
+        // keyboard is the switch they all respect. Explicit keyboard
+        // types, like numeric ones, leak nothing and stay untouched.
+        keyboardType:
+            PrivateTextFields.of(context) && keyboardType == null
+            ? TextInputType.visiblePassword
+            : keyboardType,
         autofocus: true,
         inputFormatters: inputFormatters,
         onSubmitted: submit,

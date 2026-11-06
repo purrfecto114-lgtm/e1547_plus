@@ -32,10 +32,14 @@ class _LockScreenState extends State<LockScreen> {
 
     if (pin != null) {
       lock = ScreenLock(
-        title: Text(AppLocalizations.of(context).lockEnterPin),
+        title: _LockTitle(text: AppLocalizations.of(context).lockEnterPin),
         correctString: pin!,
         customizedButtonChild: biometrics
-            ? const Icon(Icons.fingerprint)
+            ? Icon(
+                Icons.fingerprint,
+                size: 32,
+                color: Theme.of(context).colorScheme.onSurface,
+              )
             : null,
         customizedButtonTap: biometrics
             ? () => tryLocalAuth(context: context, onSuccess: unlock)
@@ -44,7 +48,41 @@ class _LockScreenState extends State<LockScreen> {
             ? () => tryLocalAuth(context: context, onSuccess: unlock)
             : null,
         onUnlocked: unlock,
-        config: ScreenLockConfig(themeData: Theme.of(context)),
+        config: _screenLockConfig(context),
+        secretsConfig: SecretsConfig(
+          spacing: 16,
+          padding: const EdgeInsets.only(top: 28, bottom: 40),
+          secretConfig: SecretConfig(
+            size: 18,
+            borderSize: 2,
+            borderColor: Theme.of(context).colorScheme.onSurfaceVariant,
+            enabledColor: Theme.of(context).colorScheme.primary,
+            disabledColor: Colors.transparent,
+            erroredColor: Theme.of(context).colorScheme.error,
+            erroredBorderColor: Theme.of(context).colorScheme.error,
+          ),
+        ),
+        keyPadConfig: KeyPadConfig(
+          buttonConfig: KeyPadButtonConfig(
+            buttonStyle: OutlinedButton.styleFrom(
+              foregroundColor: Theme.of(context).colorScheme.onSurface,
+              backgroundColor: Theme.of(context).colorScheme.surfaceContainerHighest,
+              side: BorderSide.none,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(20),
+              ),
+            ),
+          ),
+          actionButtonConfig: KeyPadButtonConfig(
+            buttonStyle: OutlinedButton.styleFrom(
+              foregroundColor: Theme.of(context).colorScheme.onSurfaceVariant,
+              side: BorderSide.none,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(20),
+              ),
+            ),
+          ),
+        ),
       );
     } else if (biometrics) {
       lock = BiometricsLockScreen(onSuccess: unlock);
@@ -81,6 +119,42 @@ class _LockScreenState extends State<LockScreen> {
   }
 }
 
+/// The look shared by the lock and PIN registration prompts.
+ScreenLockConfig _screenLockConfig(BuildContext context) {
+  final theme = Theme.of(context);
+  return ScreenLockConfig(
+    themeData: theme,
+    backgroundColor: theme.colorScheme.surface,
+    titleTextStyle: theme.textTheme.titleLarge,
+    textStyle: theme.textTheme.bodyLarge,
+  );
+}
+
+/// A lock glyph above the prompt, so the screen reads as a lock
+/// instead of a bare keypad.
+class _LockTitle extends StatelessWidget {
+  const _LockTitle({required this.text});
+
+  final String text;
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Icon(
+          Icons.lock_outline,
+          size: 36,
+          color: theme.colorScheme.onSurfaceVariant,
+        ),
+        const SizedBox(height: 12),
+        Text(text),
+      ],
+    );
+  }
+}
+
 class BiometricsLockScreen extends StatefulWidget {
   const BiometricsLockScreen({super.key, required this.onSuccess});
 
@@ -110,24 +184,38 @@ class _BiometricsLockScreenState extends State<BiometricsLockScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
     return Scaffold(
       body: Center(
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            const Icon(Icons.fingerprint, size: 60),
+            Container(
+              width: 96,
+              height: 96,
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                color: theme.colorScheme.secondaryContainer,
+              ),
+              child: Icon(
+                Icons.fingerprint,
+                size: 56,
+                color: theme.colorScheme.onSecondaryContainer,
+              ),
+            ),
             const SizedBox(height: 20),
             Text(
               failed
                   ? AppLocalizations.of(context).lockFailedAuth
                   : AppLocalizations.of(context).lockPleaseAuth,
-              style: Theme.of(context).textTheme.titleLarge,
+              style: theme.textTheme.titleLarge,
             ),
             const SizedBox(height: 8),
             if (failed)
-              TextButton(
+              FilledButton.tonalIcon(
                 onPressed: tryAuth,
-                child: Text(AppLocalizations.of(context).lockRetry),
+                icon: const Icon(Icons.refresh),
+                label: Text(AppLocalizations.of(context).lockRetry),
               ),
           ],
         ),
@@ -169,8 +257,10 @@ Future<void> tryLocalAuth({
 Future<String?> registerPin(BuildContext context) async {
   Completer<String?> completer = Completer();
   await screenLockCreate(
-    title: Text(AppLocalizations.of(context).lockEnterNewPin),
-    confirmTitle: Text(AppLocalizations.of(context).lockConfirmNewPin),
+    title: _LockTitle(text: AppLocalizations.of(context).lockEnterNewPin),
+    confirmTitle: _LockTitle(
+      text: AppLocalizations.of(context).lockConfirmNewPin,
+    ),
     context: context,
     onConfirmed: (result) {
       completer.complete(result);
@@ -180,7 +270,7 @@ Future<String?> registerPin(BuildContext context) async {
       completer.complete(null);
       Navigator.of(context).pop();
     },
-    config: ScreenLockConfig(themeData: Theme.of(context)),
+    config: _screenLockConfig(context),
   );
 
   return completer.future;

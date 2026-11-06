@@ -1,5 +1,10 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
     <uses-permission android:name="android.permission.INTERNET"/>
+    <!-- local_auth: without USE_BIOMETRIC it reports no available biometrics
+         on Android 9+, and fingerprint on older releases needs the
+         deprecated USE_FINGERPRINT permission (Android 7 and below). -->
+    <uses-permission android:name="android.permission.USE_BIOMETRIC"/>
+    <uses-permission android:name="android.permission.USE_FINGERPRINT"/>
     <application
         android:label="e1547"
         android:name="${applicationName}"

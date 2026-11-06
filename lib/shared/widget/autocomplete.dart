@@ -71,6 +71,9 @@ class AutocompleteTextField<T> extends StatelessWidget {
         textInputAction: textInputAction ?? TextInputAction.search,
         readOnly: readOnly,
         enableIMEPersonalizedLearning: !private,
+        // Old keyboards ignore the learning flag; a password style keyboard
+        // is the switch they all respect, and it drops suggestions too.
+        keyboardType: private ? TextInputType.visiblePassword : null,
         maxLines: maxLines,
       ),
       decorationBuilder: (context, child) {
