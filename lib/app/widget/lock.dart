@@ -66,7 +66,9 @@ class _LockScreenState extends State<LockScreen> {
           buttonConfig: KeyPadButtonConfig(
             buttonStyle: OutlinedButton.styleFrom(
               foregroundColor: Theme.of(context).colorScheme.onSurface,
-              backgroundColor: Theme.of(context).colorScheme.surfaceContainerHighest,
+              backgroundColor: Theme.of(
+                context,
+              ).colorScheme.surfaceContainerHighest,
               side: BorderSide.none,
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(20),

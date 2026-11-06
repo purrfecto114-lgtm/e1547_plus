@@ -87,8 +87,7 @@ class ControlledTextField extends StatelessWidget {
         // Old keyboards ignore the learning flag; a password style
         // keyboard is the switch they all respect. Explicit keyboard
         // types, like numeric ones, leak nothing and stay untouched.
-        keyboardType:
-            PrivateTextFields.of(context) && keyboardType == null
+        keyboardType: PrivateTextFields.of(context) && keyboardType == null
             ? TextInputType.visiblePassword
             : keyboardType,
         autofocus: true,

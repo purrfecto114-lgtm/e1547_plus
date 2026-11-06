@@ -5,5 +5,6 @@ export 'donations.dart';
 export 'grid.dart';
 export 'handedness.dart';
 export 'icon.dart';
+export 'sections/widget.dart';
 export 'settings.dart';
 export 'text.dart';

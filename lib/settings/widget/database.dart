@@ -2,14 +2,12 @@ import 'dart:io';
 import 'dart:typed_data';
 import 'package:cryptography/cryptography.dart'
     show SecretBoxAuthenticationError;
-import 'package:drift/drift.dart' show driftRuntimeOptions;
-import 'package:drift_flutter/drift_flutter.dart';
 import 'package:e1547/app/app.dart';
 import 'package:e1547/app/widget/initialize.dart';
-import 'package:e1547/identity/identity.dart';
 import 'package:e1547/l10n/app_localizations.dart';
 import 'package:e1547/logs/logs.dart';
 import 'package:e1547/settings/data/export_crypto.dart';
+import 'package:e1547/settings/settings.dart';
 import 'package:e1547/shared/shared.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:filesize/filesize.dart';
@@ -20,54 +18,6 @@ import 'package:path/path.dart';
 typedef DatabaseInfo = ({String name, String? size});
 
 final _logger = Logger('DbManagement');
-
-/// The schema version this build understands.
-///
-/// Files from newer versions are rejected by the import. Keep in sync with
-/// AppDatabase.schemaVersion; test/app/data/initialize_test.dart guards it.
-const int supportedSchemaVersion = 9;
-
-/// How an import candidate's schema version classifies.
-enum ImportSchemaGate { ok, tooNew, empty }
-
-/// Classifies a database file's [userVersion] (as reported by
-/// [readSqliteUserVersion]) for the import.
-///
-/// sqlite reports null for files that are no databases at all, and drift
-/// treats version 0 as brand new: opening either would run onCreate, create
-/// every app table itself, and let an empty file pass the table check —
-/// the import would then replace the user's data with an empty database.
-/// Version 0 therefore means "not an e1547 export".
-ImportSchemaGate classifyImportSchemaVersion(int? userVersion) {
-  if (userVersion == null || userVersion == 0) {
-    return ImportSchemaGate.empty;
-  }
-  if (userVersion > supportedSchemaVersion) {
-    return ImportSchemaGate.tooNew;
-  }
-  return ImportSchemaGate.ok;
-}
-
-/// The tables a complete app database must have.
-const Set<String> appTables = {
-  'identities_table',
-  'traits_table',
-  'histories_table',
-  'histories_identities_table',
-  'follows_table',
-  'follows_identities_table',
-  'tasks_table',
-  'tasks_identities_table',
-  'query_storage_table',
-  'file_cache_table',
-};
-
-/// The hosts identities are expected to live on.
-///
-/// Accounts on any other host are called out during imports: a crafted
-/// database could otherwise quietly point the app, and its login form,
-/// at a server the user never chose.
-const Set<String> defaultHosts = {'https://e621.net', 'https://e926.net'};
 
 class DatabaseManagementPage extends StatelessWidget {
   const DatabaseManagementPage({super.key});
@@ -164,14 +114,13 @@ class DatabaseExportTile extends StatelessWidget {
   ///
   /// Returns null when the export was cancelled, an empty string for a
   /// plain unencrypted file, and the password otherwise.
-  Future<String?> _showExportDialog(BuildContext context) => showDialog<String>(
-    context: context,
-    builder: (context) => Center(
-      child: ConstrainedBox(
-        constraints: const BoxConstraints(maxWidth: 600),
-        child: const _ExportOptionsDialog(),
-      ),
-    ),
+  Future<String?> _showExportDialog(BuildContext context) => showPasswordPrompt(
+    context,
+    title: AppLocalizations.of(context).databaseExportTitle,
+    body: AppLocalizations.of(context).databaseExportSanitizedBody,
+    label: AppLocalizations.of(context).databaseExportPasswordLabel,
+    helper: AppLocalizations.of(context).databaseExportPasswordHint,
+    confirm: AppLocalizations.of(context).actionExport,
   );
 
   Future<void> _exportDatabase(BuildContext context) async {
@@ -184,73 +133,17 @@ class DatabaseExportTile extends StatelessWidget {
     if (password == null) return;
     if (!context.mounted) return;
 
+    final dbPath = await getAppDatabasePath();
+    final tempPath = join(await getTemporaryAppDirectory(), 'e1547_export.db');
     File? tempFile;
     try {
-      showDialog(
-        context: context,
-        barrierDismissible: false,
-        builder: (context) => AlertDialog(
-          content: Row(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              const Padding(
-                padding: EdgeInsets.all(4),
-                child: SizedBox(
-                  height: 28,
-                  width: 28,
-                  child: CircularProgressIndicator(),
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 16),
-                child: Text(l10n.databaseExporting),
-              ),
-            ],
-          ),
-        ),
-      );
+      showBlockingProgressDialog(context, l10n.databaseExporting);
 
-      final dbPath = await getAppDatabasePath();
-      final dbFile = File(dbPath);
-      if (!dbFile.existsSync()) {
-        throw Exception('Database file does not exist');
-      }
-
-      final tempPath = join(
-        await getTemporaryAppDirectory(),
-        'e1547_export.db',
-      );
-      await Directory(dirname(tempPath)).create(recursive: true);
+      await snapshotDatabase(sqlite, dbPath, tempPath);
       tempFile = File(tempPath);
-      if (tempFile.existsSync()) await tempFile.delete();
-
-      // A consistent, compact snapshot through the live connection.
-      try {
-        await sqlite.customStatement('VACUUM INTO ?', [tempPath]);
-      } on Exception {
-        // Not worse than what a plain file copy would produce.
-        await dbFile.copy(tempPath);
-      }
-
-      driftRuntimeOptions.dontWarnAboutMultipleDatabases = true;
-      try {
-        final sanitizeDb = AppDatabase(
-          driftDatabase(
-            name: 'export-sanitize',
-            native: DriftNativeOptions(databasePath: () async => tempPath),
-          ),
-        );
-        try {
-          await IdentityRepository(sanitizeDb).removeCredentials();
-          // Rebuild so removed credentials cannot be recovered
-          // from free pages left behind by the UPDATE.
-          await sanitizeDb.customStatement('VACUUM');
-        } finally {
-          await sanitizeDb.close();
-        }
-      } finally {
-        driftRuntimeOptions.dontWarnAboutMultipleDatabases = false;
-      }
+      await withIsolatedDatabase('export-sanitize', tempPath, (db) async {
+        await sanitizeDatabase(db);
+      });
 
       final bytes = await tempFile.readAsBytes();
       await tempFile.delete();
@@ -340,9 +233,14 @@ class DatabaseImportTile extends StatelessWidget {
         bool wrongPassword = false;
         while (true) {
           if (!context.mounted) return;
-          final password = await _showPasswordPrompt(
+          final password = await showPasswordPrompt(
             context,
-            wrongPassword: wrongPassword,
+            title: AppLocalizations.of(context).databaseImportEncryptedTitle,
+            label: AppLocalizations.of(context).databaseImportPasswordLabel,
+            confirm: AppLocalizations.of(context).actionUnlock,
+            warning: wrongPassword
+                ? AppLocalizations.of(context).databaseImportWrongPassword
+                : null,
           );
           if (password == null) return;
           try {
@@ -392,72 +290,9 @@ class DatabaseImportTile extends StatelessWidget {
       }
       if (!context.mounted) return;
 
-      showDialog(
-        context: context,
-        barrierDismissible: false,
-        builder: (context) => AlertDialog(
-          content: Row(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              const Padding(
-                padding: EdgeInsets.all(4),
-                child: SizedBox(
-                  height: 28,
-                  width: 28,
-                  child: CircularProgressIndicator(),
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 16),
-                child: Text(l10n.databaseImporting),
-              ),
-            ],
-          ),
-        ),
-      );
-
-      // Copy first, the picked file itself is never modified.
-      final dbPath = await getAppDatabasePath();
-      final newDbPath = '$dbPath.new';
-      final newDbFile = File(newDbPath);
-      if (newDbFile.existsSync()) await newDbFile.delete();
-      await File(sourcePath).copy(newDbPath);
-
-      Set<String> hosts;
+      showBlockingProgressDialog(context, l10n.databaseImporting);
       try {
-        driftRuntimeOptions.dontWarnAboutMultipleDatabases = true;
-        try {
-          final importDb = AppDatabase(
-            driftDatabase(
-              name: 'import',
-              native: DriftNativeOptions(databasePath: () async => newDbPath),
-            ),
-          );
-          try {
-            await importDb.customSelect('SELECT 1').get();
-            final tables = await importDb
-                .customSelect(
-                  "SELECT name FROM sqlite_master WHERE type = 'table'",
-                )
-                .get();
-            final present = tables
-                .map((row) => row.read<String>('name'))
-                .toSet();
-            final missing = appTables.difference(present);
-            if (missing.isNotEmpty) {
-              throw Exception('Missing app tables: ${missing.join(', ')}');
-            }
-            // Strip untrusted credentials in the installed copy.
-            await IdentityRepository(importDb).removeCredentials();
-            hosts = await IdentityRepository(importDb).hosts();
-            // No free-page remnants of the stripped credentials.
-            await importDb.customStatement('VACUUM');
-          } finally {
-            await importDb.close();
-          }
-        } finally {
-          driftRuntimeOptions.dontWarnAboutMultipleDatabases = false;
-        }
+        final hosts = await stageImportCandidate(sourcePath);
         await excludeDatabaseFromBackup();
 
         navigator.pop();
@@ -465,7 +300,6 @@ class DatabaseImportTile extends StatelessWidget {
           await _showRestartDialog(context, hosts: hosts);
         }
       } on Exception catch (e) {
-        if (newDbFile.existsSync()) await newDbFile.delete();
         navigator.pop();
         messenger.showSnackBar(
           SnackBar(content: Text(l10n.databaseInvalidFile(e.toString()))),
@@ -473,10 +307,12 @@ class DatabaseImportTile extends StatelessWidget {
         _logger.warn('Database validation failed', null, e);
       }
     } on Exception catch (e) {
-      navigator.pop();
+      // Failures before the progress dialog opened only surface as a
+      // message; popping here would dismiss the page instead.
       messenger.showSnackBar(
         SnackBar(content: Text(l10n.databaseImportFailed(e.toString()))),
       );
+      _logger.warn('Database import failed', null, e);
     } finally {
       if (decryptedFile != null && decryptedFile.existsSync()) {
         try {
@@ -551,9 +387,7 @@ class DatabaseImportTile extends StatelessWidget {
                 onPressed: () async {
                   // Drop the staged import; the current database stays.
                   final messenger = ScaffoldMessenger.of(context);
-                  final dbPath = await getAppDatabasePath();
-                  final newDbFile = File('$dbPath.new');
-                  if (newDbFile.existsSync()) await newDbFile.delete();
+                  await discardStagedImport();
                   if (!context.mounted) return;
                   popDialog(context);
                   messenger.showSnackBar(
@@ -587,31 +421,88 @@ class DatabaseImportTile extends StatelessWidget {
   }
 }
 
-/// Password prompt for encrypted database imports.
-Future<String?> _showPasswordPrompt(
+/// A progress dialog that stays until its navigator pops it.
+///
+/// Both the export and the import show one while working; neither is
+/// dismissible, so the underlying action owns the dialog's lifetime.
+void showBlockingProgressDialog(BuildContext context, String message) {
+  showDialog(
+    context: context,
+    barrierDismissible: false,
+    builder: (context) => AlertDialog(
+      content: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          const Padding(
+            padding: EdgeInsets.all(4),
+            child: SizedBox(
+              height: 28,
+              width: 28,
+              child: CircularProgressIndicator(),
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16),
+            child: Text(message),
+          ),
+        ],
+      ),
+    ),
+  );
+}
+
+/// A password prompt for encrypted exports and imports.
+///
+/// The export passes a body and helper text, the import a wrong-password
+/// warning; everything else is shared.
+Future<String?> showPasswordPrompt(
   BuildContext context, {
-  required bool wrongPassword,
+  required String title,
+  required String label,
+  required String confirm,
+  String? body,
+  String? helper,
+  String? warning,
 }) => showDialog<String>(
   context: context,
   barrierDismissible: false,
   builder: (context) => Center(
     child: ConstrainedBox(
       constraints: const BoxConstraints(maxWidth: 600),
-      child: _ImportPasswordDialog(wrongPassword: wrongPassword),
+      child: _PasswordPromptDialog(
+        title: title,
+        label: label,
+        confirm: confirm,
+        body: body,
+        helper: helper,
+        warning: warning,
+      ),
     ),
   ),
 );
 
-class _ImportPasswordDialog extends StatefulWidget {
-  const _ImportPasswordDialog({required this.wrongPassword});
+class _PasswordPromptDialog extends StatefulWidget {
+  const _PasswordPromptDialog({
+    required this.title,
+    required this.label,
+    required this.confirm,
+    this.body,
+    this.helper,
+    this.warning,
+  });
 
-  final bool wrongPassword;
+  final String title;
+  final String label;
+  final String confirm;
+  final String? body;
+  final String? helper;
+  final String? warning;
 
   @override
-  State<_ImportPasswordDialog> createState() => _ImportPasswordDialogState();
+  State<_PasswordPromptDialog> createState() => _PasswordPromptDialogState();
 }
 
-class _ImportPasswordDialogState extends State<_ImportPasswordDialog> {
+class _PasswordPromptDialogState extends State<_PasswordPromptDialog> {
   final TextEditingController controller = TextEditingController();
   bool obscure = true;
 
@@ -619,12 +510,16 @@ class _ImportPasswordDialogState extends State<_ImportPasswordDialog> {
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
     return AlertDialog(
-      title: Text(l10n.databaseImportEncryptedTitle),
+      title: Text(widget.title),
       content: Column(
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          if (widget.wrongPassword) ...[
+          if (widget.body != null) ...[
+            Text(widget.body!),
+            const SizedBox(height: 16),
+          ],
+          if (widget.warning != null) ...[
             Row(
               children: [
                 Icon(
@@ -634,7 +529,7 @@ class _ImportPasswordDialogState extends State<_ImportPasswordDialog> {
                 const SizedBox(width: 8),
                 Flexible(
                   child: Text(
-                    l10n.databaseImportWrongPassword,
+                    widget.warning!,
                     style: TextStyle(
                       color: Theme.of(context).colorScheme.error,
                     ),
@@ -652,7 +547,8 @@ class _ImportPasswordDialogState extends State<_ImportPasswordDialog> {
             autofocus: true,
             onSubmitted: (_) => popDialog(context, controller.text),
             decoration: InputDecoration(
-              labelText: l10n.databaseImportPasswordLabel,
+              labelText: widget.label,
+              helperText: widget.helper,
               suffixIcon: IconButton(
                 icon: Icon(
                   obscure
@@ -672,70 +568,7 @@ class _ImportPasswordDialogState extends State<_ImportPasswordDialog> {
         ),
         TextButton(
           onPressed: () => popDialog(context, controller.text),
-          child: Text(l10n.actionUnlock),
-        ),
-      ],
-    );
-  }
-
-  @override
-  void dispose() {
-    controller.dispose();
-    super.dispose();
-  }
-}
-
-/// Export confirmation with an optional encryption password.
-class _ExportOptionsDialog extends StatefulWidget {
-  const _ExportOptionsDialog();
-
-  @override
-  State<_ExportOptionsDialog> createState() => _ExportOptionsDialogState();
-}
-
-class _ExportOptionsDialogState extends State<_ExportOptionsDialog> {
-  final TextEditingController controller = TextEditingController();
-  bool obscure = true;
-
-  @override
-  Widget build(BuildContext context) {
-    final l10n = AppLocalizations.of(context);
-    return AlertDialog(
-      title: Text(l10n.databaseExportTitle),
-      content: Column(
-        mainAxisSize: MainAxisSize.min,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(l10n.databaseExportSanitizedBody),
-          const SizedBox(height: 16),
-          TextField(
-            controller: controller,
-            obscureText: obscure,
-            autocorrect: false,
-            enableSuggestions: false,
-            decoration: InputDecoration(
-              labelText: l10n.databaseExportPasswordLabel,
-              helperText: l10n.databaseExportPasswordHint,
-              suffixIcon: IconButton(
-                icon: Icon(
-                  obscure
-                      ? Icons.visibility_off_outlined
-                      : Icons.visibility_outlined,
-                ),
-                onPressed: () => setState(() => obscure = !obscure),
-              ),
-            ),
-          ),
-        ],
-      ),
-      actions: [
-        TextButton(
-          onPressed: () => popDialog(context),
-          child: Text(l10n.actionCancel),
-        ),
-        TextButton(
-          onPressed: () => popDialog(context, controller.text),
-          child: Text(l10n.actionExport),
+          child: Text(widget.confirm),
         ),
       ],
     );
