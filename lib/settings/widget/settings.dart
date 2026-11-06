@@ -510,6 +510,22 @@ class SettingsPage extends StatelessWidget {
                   );
                 },
               ),
+              ValueListenableBuilder<bool>(
+                valueListenable: settings.updaterBeta,
+                builder: (context, value, child) => SwitchListTile(
+                  title: Text(
+                    AppLocalizations.of(context).settingsUpdaterBeta,
+                  ),
+                  subtitle: Text(
+                    value
+                        ? AppLocalizations.of(context).updaterBetaOn
+                        : AppLocalizations.of(context).updaterBetaOff,
+                  ),
+                  secondary: const Icon(Icons.update),
+                  value: value,
+                  onChanged: (value) => settings.updaterBeta.value = value,
+                ),
+              ),
               if (context.watch<Logs?>() != null) ...[
                 Consumer<LogErrors>(
                   builder: (context, errors, child) => ListTile(

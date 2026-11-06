@@ -349,6 +349,15 @@ class AppLocalizationsZh extends AppLocalizations {
   String get biometricsDisabled => '生物识别已禁用';
 
   @override
+  String get settingsUpdaterBeta => '最新更新';
+
+  @override
+  String get updaterBetaOn => '包含测试版（rc）';
+
+  @override
+  String get updaterBetaOff => '仅稳定版';
+
+  @override
   String get settingsDeveloperMode => '开发者模式';
 
   @override
@@ -2623,6 +2632,15 @@ class AppLocalizationsZhHant extends AppLocalizationsZh {
 
   @override
   String get biometricsDisabled => '生物辨識已停用';
+
+  @override
+  String get settingsUpdaterBeta => '最新更新';
+
+  @override
+  String get updaterBetaOn => '包含測試版（rc）';
+
+  @override
+  String get updaterBetaOff => '僅穩定版';
 
   @override
   String get settingsDeveloperMode => '開發者模式';

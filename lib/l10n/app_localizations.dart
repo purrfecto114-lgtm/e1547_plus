@@ -717,6 +717,24 @@ abstract class AppLocalizations {
   /// **'biometrics disabled'**
   String get biometricsDisabled;
 
+  /// No description provided for @settingsUpdaterBeta.
+  ///
+  /// In en, this message translates to:
+  /// **'Latest updates'**
+  String get settingsUpdaterBeta;
+
+  /// No description provided for @updaterBetaOn.
+  ///
+  /// In en, this message translates to:
+  /// **'Stable and pre-release versions'**
+  String get updaterBetaOn;
+
+  /// No description provided for @updaterBetaOff.
+  ///
+  /// In en, this message translates to:
+  /// **'Stable versions only'**
+  String get updaterBetaOff;
+
   /// No description provided for @settingsDeveloperMode.
   ///
   /// In en, this message translates to:

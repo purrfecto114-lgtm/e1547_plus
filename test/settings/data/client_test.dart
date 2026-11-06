@@ -141,6 +141,27 @@ void main() {
     });
   });
 
+  group('checking for updates in debug builds', () {
+    // Tests run with asserts and kDebugMode enabled, which is the mode
+    // the updater normally refuses to run in.
+    test('update checks are skipped unless beta is opted in', () async {
+      AppInfoClient client = updatableClient(
+        api: (status: 200, body: apiBody),
+        atom: (status: 500, body: ''),
+      );
+      expect(await client.getVersions(), isEmpty);
+    });
+
+    test('the beta opt-in re-enables update checks', () async {
+      AppInfoClient client = updatableClient(
+        api: (status: 200, body: apiBody),
+        atom: (status: 500, body: ''),
+      );
+      List<AppVersion> versions = await client.getVersions(beta: true);
+      expect(versions.length, 2);
+    });
+  });
+
   group('filtering new versions', () {
     final DateTime now = DateTime.parse('2026-11-06T15:00:00Z');
 

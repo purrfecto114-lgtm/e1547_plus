@@ -349,6 +349,15 @@ class AppLocalizationsJa extends AppLocalizations {
   String get biometricsDisabled => '生体認証 無効';
 
   @override
+  String get settingsUpdaterBeta => '最新のアップデート';
+
+  @override
+  String get updaterBetaOn => '安定版とプレリリースを提供';
+
+  @override
+  String get updaterBetaOff => '安定版のみ';
+
+  @override
   String get settingsDeveloperMode => '開発者モード';
 
   @override

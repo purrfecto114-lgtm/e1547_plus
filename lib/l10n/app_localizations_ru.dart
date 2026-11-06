@@ -362,6 +362,15 @@ class AppLocalizationsRu extends AppLocalizations {
   String get biometricsDisabled => 'биометрия отключена';
 
   @override
+  String get settingsUpdaterBeta => 'Последние обновления';
+
+  @override
+  String get updaterBetaOn => 'Стабильные и предрелизные версии';
+
+  @override
+  String get updaterBetaOff => 'Только стабильные версии';
+
+  @override
   String get settingsDeveloperMode => 'Режим разработчика';
 
   @override

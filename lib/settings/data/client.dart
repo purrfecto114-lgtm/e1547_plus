@@ -37,9 +37,12 @@ class AppInfoClient {
 
   /// Returns all versions released on GitHub.
   ///
-  /// Does nothing in debug mode.
-  Future<List<AppVersion>> getVersions() async {
-    if (kDebugMode) return []; // Do not check for updates in debug mode
+  /// Does nothing in debug mode, unless [beta] is set, which lets
+  /// developers exercise the updater from debug builds.
+  Future<List<AppVersion>> getVersions({bool beta = false}) async {
+    if (kDebugMode && !beta) {
+      return []; // Do not check for updates in debug mode
+    }
     return fetchVersions();
   }
 
@@ -149,7 +152,7 @@ class AppInfoClient {
   ///
   /// This is because we give the store a chance to automatically update the app.
   Future<List<AppVersion>> getNewVersions({bool beta = false}) async {
-    List<AppVersion> versions = await getVersions();
+    List<AppVersion> versions = await getVersions(beta: beta);
     AppVersion current = AppVersion(
       version: Version.parse('${info.version}+${info.buildNumber}'),
     );

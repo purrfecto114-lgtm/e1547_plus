@@ -355,6 +355,15 @@ class AppLocalizationsFr extends AppLocalizations {
   String get biometricsDisabled => 'biométrie désactivée';
 
   @override
+  String get settingsUpdaterBeta => 'Dernières mises à jour';
+
+  @override
+  String get updaterBetaOn => 'Versions stables et préliminaires';
+
+  @override
+  String get updaterBetaOff => 'Versions stables uniquement';
+
+  @override
   String get settingsDeveloperMode => 'Mode développeur';
 
   @override

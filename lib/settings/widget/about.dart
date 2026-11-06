@@ -16,7 +16,8 @@ class AboutPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final client = context.watch<AppInfoClient?>();
-    final versions = client?.useNewVersions();
+    final beta = context.watch<Settings>().updaterBeta.value;
+    final versions = client?.useNewVersions(beta: beta);
     final bundledDonors = client?.useBundledDonors();
     final donors = client?.useDonors();
 
@@ -452,7 +453,8 @@ class DrawerUpdateIcon extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final query = context.watch<AppInfoClient?>()?.useNewVersions();
+    final beta = context.watch<Settings>().updaterBeta.value;
+    final query = context.watch<AppInfoClient?>()?.useNewVersions(beta: beta);
     if (query == null) return const Icon(Icons.info);
     return QueryBuilder(
       query: query,

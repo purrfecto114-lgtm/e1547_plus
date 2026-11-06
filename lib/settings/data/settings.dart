@@ -103,8 +103,12 @@ class Settings extends NotifiedSettings {
     initialValue: false,
   );
 
-  late final ValueNotifier<bool> showBeta = createSetting<bool>(
-    key: 'showBeta',
+  /// Whether the updater offers the latest releases, including pre-releases.
+  ///
+  /// Debug builds skip update checks entirely unless this is enabled, so the
+  /// updater stays testable during development.
+  late final ValueNotifier<bool> updaterBeta = createSetting<bool>(
+    key: 'updaterBeta',
     initialValue: false,
   );
   late final ValueNotifier<bool> verboseLogs = createSetting<bool>(
