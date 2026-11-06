@@ -193,6 +193,28 @@ void main() {
     expect(find.text('标签数'), findsOneWidget);
   });
 
+  displayTest('the context drawer button lights up over blocked posts', (
+    tester,
+  ) async {
+    traits.value = traits.value.copyWith(denylist: ['tag_1']);
+    await pumpPage(tester);
+    // The blocked count lands a frame after the posts are tracked.
+    await tester.pump();
+
+    // Every loaded post carries the denied tag, so the button lights up
+    // and points at the denylist switch behind the drawer.
+    Icon tune = tester.widget<Icon>(find.byIcon(Icons.tune));
+    expect(tune.color, primaryColor(tester));
+    expect(find.byKey(const Key('ContextDrawerButton/Badge')), findsOneWidget);
+
+    // With the denylist gone, the button dims again.
+    traits.value = traits.value.copyWith(denylist: []);
+    await tester.pump();
+    tune = tester.widget<Icon>(find.byIcon(Icons.tune));
+    expect(tune.color, isNull);
+    expect(find.byKey(const Key('ContextDrawerButton/Badge')), findsNothing);
+  });
+
   displayTest('the home page offers filters in its app bar', (tester) async {
     await pumpPage(tester, home: const HomePage());
 
@@ -431,6 +453,10 @@ void main() {
     final controller = await pumpPage(tester);
 
     await openFilterPrompt(tester);
+    // The width row sits in the panel's media section, below the sheet's
+    // fold on the test surface.
+    await tester.ensureVisible(find.byKey(const Key('FilterList/width:null')));
+    await tester.pump(const Duration(milliseconds: 400));
     await tester.tap(find.byKey(const Key('FilterList/width:null')));
     await tester.pump();
     await tester.pump(const Duration(milliseconds: 200));
