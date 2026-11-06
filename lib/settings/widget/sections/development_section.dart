@@ -6,8 +6,8 @@ import 'package:flutter/material.dart';
 
 /// The tiles for developers and the curious.
 ///
-/// Most of the section stays hidden until developer mode is unlocked
-/// from the about page, mirroring how system settings hide theirs.
+/// Only the developer mode switch hides itself until it is unlocked from
+/// the about page; the rest of the section stays reachable.
 class SettingsDevelopmentSection extends StatelessWidget {
   const SettingsDevelopmentSection({super.key});
 

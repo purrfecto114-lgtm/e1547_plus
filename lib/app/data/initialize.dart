@@ -7,6 +7,7 @@ import 'package:e1547/files/files.dart';
 import 'package:e1547/identity/identity.dart';
 import 'package:e1547/logs/logs.dart';
 import 'package:e1547/query/query.dart';
+import 'package:e1547/settings/settings.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
@@ -132,8 +133,13 @@ Future<AppStorage> initializeAppStorage() async {
     ),
   );
   await discardLegacyFileCache();
+  final preferences = await SharedPreferences.getInstance();
+  // The settings assemble through their bare constructor, which skips the
+  // stored preference migrations; they run here, where the singleton is
+  // created, so every reader sees migrated values.
+  await Settings.migratePreferences(preferences);
   return AppStorage(
-    preferences: await SharedPreferences.getInstance(),
+    preferences: preferences,
     temporaryFiles: temporaryFiles,
     // TODO: query storage is disabled because a page of writes costs a frame
     queryCache: CachedQuery.asNewInstance()

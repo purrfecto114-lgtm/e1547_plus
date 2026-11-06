@@ -11,9 +11,20 @@ class Settings extends NotifiedSettings {
 
   static Future<Settings> getInstance() async {
     final prefs = await SharedPreferences.getInstance();
+    await migratePreferences(prefs);
+    return Settings(prefs);
+  }
+
+  /// Runs the stored preference migrations over [prefs].
+  ///
+  /// Production code wires this into [initializeAppStorage], where the
+  /// shared preferences singleton is created; the app assembles settings
+  /// through the bare constructor, which skips everything below, so an
+  /// un-migrated store would fall back to defaults or, worse, collide
+  /// old and new enum names.
+  static Future<void> migratePreferences(SharedPreferences prefs) async {
     await _migrateLegacyDefaults(prefs);
     await _migrateQualityTiers(prefs);
-    return Settings(prefs);
   }
 
   /// Resets settings that were persisted with outdated defaults.

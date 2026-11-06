@@ -3,7 +3,6 @@ import 'package:e1547/follow/follow.dart';
 import 'package:e1547/l10n/app_localizations.dart';
 import 'package:e1547/post/post.dart';
 import 'package:e1547/query/query.dart';
-import 'package:e1547/settings/settings.dart';
 import 'package:e1547/shared/shared.dart';
 import 'package:e1547/traits/traits.dart';
 import 'package:flutter/material.dart';
@@ -63,12 +62,8 @@ class FollowsTimelinePage extends StatelessWidget {
                 ],
               ),
               body: LimitedWidthLayout(
-                child: ListenableBuilder(
-                  listenable: context.watch<Settings>().tileSize,
-                  builder: (context, child) => TileLayout(
-                    tileSize: context.watch<Settings>().tileSize.value.pixels,
-                    child: FollowTimelinePostList(tags: followedTags),
-                  ),
+                child: TileLayout(
+                  child: FollowTimelinePostList(tags: followedTags),
                 ),
               ),
             );

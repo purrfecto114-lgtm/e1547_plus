@@ -300,6 +300,10 @@ class DatabaseImportTile extends StatelessWidget {
           await _showRestartDialog(context, hosts: hosts);
         }
       } on Exception catch (e) {
+        // The staged candidate is dropped even if it had already passed
+        // validation: a file the restart did not confirm must never be
+        // adopted by the next boot.
+        await discardStagedImport();
         navigator.pop();
         messenger.showSnackBar(
           SnackBar(content: Text(l10n.databaseInvalidFile(e.toString()))),

@@ -57,17 +57,7 @@ class HomePage extends StatelessWidget {
                       ],
                     ),
                     body: LimitedWidthLayout(
-                      child: ListenableBuilder(
-                        listenable: context.watch<Settings>().tileSize,
-                        builder: (context, child) => TileLayout(
-                          tileSize: context
-                              .watch<Settings>()
-                              .tileSize
-                              .value
-                              .pixels,
-                          child: const PostList(),
-                        ),
-                      ),
+                      child: TileLayout(child: const PostList()),
                     ),
                   ),
                 ),

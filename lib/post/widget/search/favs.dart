@@ -2,7 +2,6 @@ import 'package:e1547/client/client.dart';
 import 'package:e1547/l10n/app_localizations.dart';
 import 'package:e1547/post/post.dart';
 import 'package:e1547/query/query.dart';
-import 'package:e1547/settings/settings.dart';
 import 'package:e1547/shared/shared.dart';
 import 'package:e1547/tag/tag.dart';
 import 'package:e1547/traits/traits.dart';
@@ -57,17 +56,7 @@ class FavPage extends StatelessWidget {
                           ],
                         ),
                         body: LimitedWidthLayout(
-                          child: ListenableBuilder(
-                            listenable: context.watch<Settings>().tileSize,
-                            builder: (context, child) => TileLayout(
-                              tileSize: context
-                                  .watch<Settings>()
-                                  .tileSize
-                                  .value
-                                  .pixels,
-                              child: const PostList(),
-                            ),
-                          ),
+                          child: TileLayout(child: const PostList()),
                         ),
                       ),
                     ),
