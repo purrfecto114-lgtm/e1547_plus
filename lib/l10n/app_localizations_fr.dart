@@ -161,7 +161,7 @@ class AppLocalizationsFr extends AppLocalizations {
   String get sectionDevelopment => 'Développement';
 
   @override
-  String get settingsBlacklist => 'Blacklist';
+  String get settingsBlacklist => 'Liste noire';
 
   @override
   String tagsBlocked(num count) {

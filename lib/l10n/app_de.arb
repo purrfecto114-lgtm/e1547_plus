@@ -46,7 +46,7 @@
   "sectionInteractions": "Interaktionen",
   "sectionSecurity": "Sicherheit",
   "sectionDevelopment": "Entwicklung",
-  "settingsBlacklist": "Blacklist",
+  "settingsBlacklist": "Sperrliste",
   "tagsBlocked": "{count, plural, =1{1 Tag blockiert} other{{count} Tags blockiert}}",
   "settingsFollows": "Abos",
   "searchesFollowed": "{count, plural, =1{1 Suche abonniert} other{{count} Suchen abonniert}}",
