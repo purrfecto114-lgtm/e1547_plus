@@ -4,6 +4,25 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and this project
 adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [21.5.0-rc.1+123] - 2026-11-07
+### Added
+- korean, italian, polish and vietnamese translations of the whole interface, with plural forms following each language's own rules
+- a quality step in onboarding, picking the video and thumbnail tiers before the first search
+- the preferred hand picker explains and previews where quick actions land, in every language
+
+### Changed
+- the posts filter leads with media specs over content attributes: what a post is made of narrows a search faster than what it depicts
+- video quality and tile size collapse into shared low, medium and high tiers; stored values migrate onto their nearest tier once
+- the onboarding welcome and language pages merge into one: the introduction cross-fades through the languages as they are chosen, and an app icon entrance animation eases it in
+- the PIN lock screen gained a lock glyph, themed keypad buttons and matching secret dots
+- secure display draws a dedicated privacy cover over the app switcher on android, replacing the generic placeholder ROMs show for flag-secured windows; screenshot blocking on android is traded away for it, ios keeps its native blur
+- the settings page split into one widget per section, and the database export and import share one porter for their drift, staging and password plumbing
+
+### Fixed
+- biometric unlock works on android: the manifest now declares the USE_BIOMETRIC permission, and android 7 fingerprints additionally need the deprecated USE_FINGERPRINT one; a device without enrolled biometrics spells that out under its dead toggle
+- the incognito keyboard also switches text fields to a password style keyboard, which older keyboards that ignore the no-learning flag still respect
+- the preference migrations (muted videos, quality tiers) now run in production; they had only ever run in tests, letting old resolution names collide with new tiers
+- a database import that fails after validation drops its staged file again, so an error message can no longer coexist with a candidate the next boot silently adopts
 ## [21.4.0+122] - 2026-11-07
 ### Added
 - the context drawer button lights up while the loaded pages hold blacklisted posts, putting the denylist switch one tap away
@@ -1386,3 +1405,4 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 [21.3.0+121]: https://github.com/purrfecto114-lgtm/e1547_plus/compare/21.3.0-rc.5+120...21.3.0+121
 [21.3.0-rc.5+120]: https://github.com/purrfecto114-lgtm/e1547_plus/compare/21.3.0-rc.4+119...21.3.0-rc.5+120
 [21.4.0+122]: https://github.com/purrfecto114-lgtm/e1547_plus/compare/21.3.0+121...21.4.0+122
+[21.5.0-rc.1+123]: https://github.com/purrfecto114-lgtm/e1547_plus/compare/21.4.0+122...21.5.0-rc.1+123
