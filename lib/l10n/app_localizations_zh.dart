@@ -2243,6 +2243,24 @@ class AppLocalizationsZh extends AppLocalizations {
   String get searchFilterQueryLabel => '当前查询：';
 
   @override
+  String get filterSectionSort => '排序与热度';
+
+  @override
+  String get filterSectionContent => '内容属性';
+
+  @override
+  String get filterSectionTime => '时间与状态';
+
+  @override
+  String get filterSectionMedia => '媒体规格';
+
+  @override
+  String get filterSectionOther => '其他';
+
+  @override
+  String get searchFilterReset => '重置筛选';
+
+  @override
   String get dtextParsingFailed => 'DText 解析失败';
 
   @override
@@ -4526,6 +4544,24 @@ class AppLocalizationsZhHant extends AppLocalizationsZh {
 
   @override
   String get searchFilterQueryLabel => '當前查詢：';
+
+  @override
+  String get filterSectionSort => '排序與熱度';
+
+  @override
+  String get filterSectionContent => '內容屬性';
+
+  @override
+  String get filterSectionTime => '時間與狀態';
+
+  @override
+  String get filterSectionMedia => '媒體規格';
+
+  @override
+  String get filterSectionOther => '其他';
+
+  @override
+  String get searchFilterReset => '重置篩選';
 
   @override
   String get dtextParsingFailed => 'DText 解析失敗';

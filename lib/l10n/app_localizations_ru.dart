@@ -2333,6 +2333,24 @@ class AppLocalizationsRu extends AppLocalizations {
   String get searchFilterQueryLabel => 'Текущий запрос:';
 
   @override
+  String get filterSectionSort => 'Сортировка';
+
+  @override
+  String get filterSectionContent => 'Содержимое';
+
+  @override
+  String get filterSectionTime => 'Время и статус';
+
+  @override
+  String get filterSectionMedia => 'Медиа';
+
+  @override
+  String get filterSectionOther => 'Прочее';
+
+  @override
+  String get searchFilterReset => 'Сбросить фильтры';
+
+  @override
   String get dtextParsingFailed => 'Не удалось разобрать DText';
 
   @override

@@ -2252,6 +2252,24 @@ class AppLocalizationsJa extends AppLocalizations {
   String get searchFilterQueryLabel => '現在のクエリ：';
 
   @override
+  String get filterSectionSort => '並び替え';
+
+  @override
+  String get filterSectionContent => '内容';
+
+  @override
+  String get filterSectionTime => '日時と状態';
+
+  @override
+  String get filterSectionMedia => 'メディア';
+
+  @override
+  String get filterSectionOther => 'その他';
+
+  @override
+  String get searchFilterReset => 'フィルターをリセット';
+
+  @override
   String get dtextParsingFailed => 'DText の解析に失敗しました';
 
   @override

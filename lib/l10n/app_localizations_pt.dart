@@ -2303,6 +2303,24 @@ class AppLocalizationsPt extends AppLocalizations {
   String get searchFilterQueryLabel => 'Pesquisa atual:';
 
   @override
+  String get filterSectionSort => 'Ordenação';
+
+  @override
+  String get filterSectionContent => 'Conteúdo';
+
+  @override
+  String get filterSectionTime => 'Data e estado';
+
+  @override
+  String get filterSectionMedia => 'Mídia';
+
+  @override
+  String get filterSectionOther => 'Outros';
+
+  @override
+  String get searchFilterReset => 'Redefinir filtros';
+
+  @override
   String get dtextParsingFailed => 'Falha ao interpretar o DText';
 
   @override

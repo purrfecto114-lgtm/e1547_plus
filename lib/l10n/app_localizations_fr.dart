@@ -2314,6 +2314,24 @@ class AppLocalizationsFr extends AppLocalizations {
   String get searchFilterQueryLabel => 'Requête actuelle :';
 
   @override
+  String get filterSectionSort => 'Tri';
+
+  @override
+  String get filterSectionContent => 'Contenu';
+
+  @override
+  String get filterSectionTime => 'Date et statut';
+
+  @override
+  String get filterSectionMedia => 'Média';
+
+  @override
+  String get filterSectionOther => 'Autres';
+
+  @override
+  String get searchFilterReset => 'Réinitialiser les filtres';
+
+  @override
   String get dtextParsingFailed => 'Échec de l\'analyse DText';
 
   @override

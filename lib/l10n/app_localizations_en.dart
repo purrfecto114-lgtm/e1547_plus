@@ -2295,6 +2295,24 @@ class AppLocalizationsEn extends AppLocalizations {
   String get searchFilterQueryLabel => 'Current query:';
 
   @override
+  String get filterSectionSort => 'Sorting';
+
+  @override
+  String get filterSectionContent => 'Content';
+
+  @override
+  String get filterSectionTime => 'Time & status';
+
+  @override
+  String get filterSectionMedia => 'Media';
+
+  @override
+  String get filterSectionOther => 'Other';
+
+  @override
+  String get searchFilterReset => 'Reset filters';
+
+  @override
   String get dtextParsingFailed => 'DText parsing has failed';
 
   @override

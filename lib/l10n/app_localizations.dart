@@ -3987,6 +3987,42 @@ abstract class AppLocalizations {
   /// **'Current query:'**
   String get searchFilterQueryLabel;
 
+  /// Header of the sorting section of the posts filter prompt.
+  ///
+  /// In en, this message translates to:
+  /// **'Sorting'**
+  String get filterSectionSort;
+
+  /// Header of the content section of the posts filter prompt.
+  ///
+  /// In en, this message translates to:
+  /// **'Content'**
+  String get filterSectionContent;
+
+  /// Header of the time and status section of the posts filter prompt.
+  ///
+  /// In en, this message translates to:
+  /// **'Time & status'**
+  String get filterSectionTime;
+
+  /// Header of the media section of the posts filter prompt.
+  ///
+  /// In en, this message translates to:
+  /// **'Media'**
+  String get filterSectionMedia;
+
+  /// Header of the remaining filters of the posts filter prompt.
+  ///
+  /// In en, this message translates to:
+  /// **'Other'**
+  String get filterSectionOther;
+
+  /// Button that clears every filter of the posts filter prompt.
+  ///
+  /// In en, this message translates to:
+  /// **'Reset filters'**
+  String get searchFilterReset;
+
   /// No description provided for @dtextParsingFailed.
   ///
   /// In en, this message translates to:

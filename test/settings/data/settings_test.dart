@@ -10,7 +10,7 @@ void main() {
     final settings = await Settings.getInstance();
 
     expect(settings.muteVideos.value, isTrue);
-    expect(settings.updatePrereleases.value, isFalse);
+    expect(settings.updaterBeta.value, isFalse);
   });
 
   test('a stale unmuted leftover resets to the muted default', () async {

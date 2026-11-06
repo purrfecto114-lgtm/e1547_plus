@@ -136,6 +136,7 @@ class Settings extends NotifiedSettings {
     key: 'updaterBeta',
     initialValue: false,
   );
+
   late final ValueNotifier<bool> verboseLogs = createSetting<bool>(
     key: 'verboseLogs',
     initialValue: false,

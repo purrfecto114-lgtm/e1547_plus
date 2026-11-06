@@ -2318,6 +2318,24 @@ class AppLocalizationsDe extends AppLocalizations {
   String get searchFilterQueryLabel => 'Aktuelle Suche:';
 
   @override
+  String get filterSectionSort => 'Sortierung';
+
+  @override
+  String get filterSectionContent => 'Inhalt';
+
+  @override
+  String get filterSectionTime => 'Zeit & Status';
+
+  @override
+  String get filterSectionMedia => 'Medien';
+
+  @override
+  String get filterSectionOther => 'Sonstiges';
+
+  @override
+  String get searchFilterReset => 'Filter zurücksetzen';
+
+  @override
   String get dtextParsingFailed => 'DText konnte nicht geparst werden';
 
   @override
