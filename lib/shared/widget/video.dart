@@ -373,27 +373,27 @@ class VideoServiceVolumeControl extends StatelessWidget {
   }
 }
 
+/// The default quality tier of streamed videos.
+///
+/// A tier is a pixel target, not a hard requirement: e621 re-encodes
+/// videos into whatever sizes it sees fit, so the variant closest to
+/// the target in pixel count is played. The high tier targets source
+/// resolutions, which makes it pick the best variant a post offers.
 enum VideoResolution {
-  standard,
-  high,
-  full,
-  ultra,
-  source;
+  low,
+  medium,
+  high;
 
   /// Localized display name for pickers.
   String localizedTitle(BuildContext context) => switch (this) {
-    VideoResolution.standard => AppLocalizations.of(context).videoResStandard,
-    VideoResolution.high => AppLocalizations.of(context).videoResHigh,
-    VideoResolution.full => AppLocalizations.of(context).videoResFull,
-    VideoResolution.ultra => AppLocalizations.of(context).videoResUltra,
-    VideoResolution.source => AppLocalizations.of(context).videoResSource,
+    VideoResolution.low => AppLocalizations.of(context).qualityLow,
+    VideoResolution.medium => AppLocalizations.of(context).qualityMedium,
+    VideoResolution.high => AppLocalizations.of(context).qualityHigh,
   };
 
   int get pixels => switch (this) {
-    VideoResolution.standard => 640 * 480,
-    VideoResolution.high => 1280 * 720,
-    VideoResolution.full => 1920 * 1080,
-    VideoResolution.ultra => 3840 * 2160,
-    VideoResolution.source => 4096 * 2160,
+    VideoResolution.low => 640 * 480,
+    VideoResolution.medium => 1280 * 720,
+    VideoResolution.high => 4096 * 2160,
   };
 }

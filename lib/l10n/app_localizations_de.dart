@@ -228,6 +228,19 @@ class AppLocalizationsDe extends AppLocalizations {
   String get languageSystemDefault => 'Systemstandard';
 
   @override
+  String get settingsHandedness => 'Bevorzugte Hand';
+
+  @override
+  String get handRight => 'Rechte Hand';
+
+  @override
+  String get handLeft => 'Linke Hand';
+
+  @override
+  String get settingsHandednessHint =>
+      'Schaltflächen und Schnellaktionen rücken in Reichweite dieser Hand.';
+
+  @override
   String get settingsTileSize => 'Kachelgröße';
 
   @override
@@ -278,26 +291,20 @@ class AppLocalizationsDe extends AppLocalizations {
   }
 
   @override
-  String get settingsVideoResolution => 'Video-Auflösung';
-
-  @override
-  String get videoResStandard => '480p';
-
-  @override
-  String get videoResHigh => '720p';
-
-  @override
-  String get videoResFull => '1080p';
-
-  @override
-  String get videoResUltra => '4K';
-
-  @override
   String get videoResSource => 'Original';
 
   @override
   String get videoResNote =>
       'Videos sind nicht immer in Standardgrößen verfügbar; die Größe, die der Auswahl am nächsten kommt, wird verwendet.';
+
+  @override
+  String get qualityLow => 'Niedrig';
+
+  @override
+  String get qualityMedium => 'Mittel';
+
+  @override
+  String get qualityHigh => 'Hoch';
 
   @override
   String get settingsAutoLoadVideos => 'Videos automatisch laden';
@@ -328,6 +335,9 @@ class AppLocalizationsDe extends AppLocalizations {
   String get secureDisplayOff => 'Bildschirm sichtbar';
 
   @override
+  String get secureDisplayCover => 'Inhalt verborgen';
+
+  @override
   String get settingsIncognitoKeyboard => 'Inkognito-Tastatur';
 
   @override
@@ -353,6 +363,10 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get biometricsDisabled => 'Biometrie inaktiv';
+
+  @override
+  String get biometricsUnavailable =>
+      'auf diesem Gerät wurde keine Biometrie gefunden';
 
   @override
   String get settingsUpdaterBeta => 'Neueste Updates';
@@ -1437,6 +1451,13 @@ class AppLocalizationsDe extends AppLocalizations {
   @override
   String get onboardingThemeBody =>
       'Probiere es einfach aus. Du kannst es später jederzeit ändern.';
+
+  @override
+  String get onboardingQualityTitle => 'Medien abstimmen';
+
+  @override
+  String get onboardingQualityBody =>
+      'Wähle, wie groß Videos und Vorschaubilder geladen werden. Später in den Einstellungen änderbar.';
 
   @override
   String get onboardingLoginTitle => 'Konto verbinden';

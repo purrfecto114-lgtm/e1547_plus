@@ -244,33 +244,35 @@ class SettingsPage extends StatelessWidget {
               ),
               Column(
                 children: [
-                  ValueListenableBuilder<int>(
+                  ValueListenableBuilder<TileSize>(
                     valueListenable: settings.tileSize,
                     builder: (context, value, child) => ListTile(
                       title: Text(
                         AppLocalizations.of(context).settingsTileSize,
                       ),
-                      subtitle: Text(value.toString()),
+                      subtitle: Text(value.localizedTitle(context)),
                       leading: const Icon(Icons.crop),
                       onTap: () => showDialog(
                         context: context,
-                        builder: (context) => RangeDialog(
+                        builder: (context) => SimpleDialog(
                           title: Text(
                             AppLocalizations.of(context).settingsTileSize,
                           ),
-                          value: NumberRange(value),
-                          initialMode: RangeDialogMode.exact,
-                          enforceMax: false,
-                          canChangeMode: false,
-                          division: (300 / 50).round(),
-                          min: 100,
-                          max: 400,
-                          onSubmit: (value) {
-                            if (value == null || value.value <= 0) {
-                              return;
-                            }
-                            settings.tileSize.value = value.value;
-                          },
+                          children: [
+                            ...TileSize.values.map(
+                              (size) => ListTile(
+                                title: Text(size.localizedTitle(context)),
+                                trailing: value == size
+                                    ? const Icon(Icons.check)
+                                    : null,
+                                onTap: () {
+                                  if (popDialog(context)) {
+                                    settings.tileSize.value = size;
+                                  }
+                                },
+                              ),
+                            ),
+                          ],
                         ),
                       ),
                     ),
@@ -365,17 +367,13 @@ class SettingsPage extends StatelessWidget {
               ValueListenableBuilder<VideoResolution>(
                 valueListenable: settings.videoResolution,
                 builder: (context, value, child) => ListTile(
-                  title: Text(
-                    AppLocalizations.of(context).settingsVideoResolution,
-                  ),
+                  title: Text(AppLocalizations.of(context).videoQuality),
                   subtitle: Text(value.localizedTitle(context)),
                   leading: const Icon(Icons.video_settings),
                   onTap: () => showDialog(
                     context: context,
                     builder: (context) => SimpleDialog(
-                      title: Text(
-                        AppLocalizations.of(context).settingsVideoResolution,
-                      ),
+                      title: Text(AppLocalizations.of(context).videoQuality),
                       children: [
                         Padding(
                           padding: const EdgeInsets.fromLTRB(16, 8, 16, 8),
@@ -387,6 +385,9 @@ class SettingsPage extends StatelessWidget {
                         ...VideoResolution.values.map(
                           (resolution) => ListTile(
                             title: Text(resolution.localizedTitle(context)),
+                            trailing: value == resolution
+                                ? const Icon(Icons.check)
+                                : null,
                             onTap: () {
                               if (popDialog(context)) {
                                 settings.videoResolution.value = resolution;

@@ -471,6 +471,30 @@ abstract class AppLocalizations {
   /// **'System default'**
   String get languageSystemDefault;
 
+  /// No description provided for @settingsHandedness.
+  ///
+  /// In en, this message translates to:
+  /// **'Preferred hand'**
+  String get settingsHandedness;
+
+  /// No description provided for @handRight.
+  ///
+  /// In en, this message translates to:
+  /// **'Right hand'**
+  String get handRight;
+
+  /// No description provided for @handLeft.
+  ///
+  /// In en, this message translates to:
+  /// **'Left hand'**
+  String get handLeft;
+
+  /// No description provided for @settingsHandednessHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Buttons and quick actions move within reach of this hand.'**
+  String get settingsHandednessHint;
+
   /// No description provided for @settingsTileSize.
   ///
   /// In en, this message translates to:
@@ -567,36 +591,6 @@ abstract class AppLocalizations {
   /// **'{seconds} seconds'**
   String videoSeekSeconds(Object seconds);
 
-  /// No description provided for @settingsVideoResolution.
-  ///
-  /// In en, this message translates to:
-  /// **'Video resolution'**
-  String get settingsVideoResolution;
-
-  /// No description provided for @videoResStandard.
-  ///
-  /// In en, this message translates to:
-  /// **'480p'**
-  String get videoResStandard;
-
-  /// No description provided for @videoResHigh.
-  ///
-  /// In en, this message translates to:
-  /// **'720p'**
-  String get videoResHigh;
-
-  /// No description provided for @videoResFull.
-  ///
-  /// In en, this message translates to:
-  /// **'1080p'**
-  String get videoResFull;
-
-  /// No description provided for @videoResUltra.
-  ///
-  /// In en, this message translates to:
-  /// **'4K'**
-  String get videoResUltra;
-
   /// No description provided for @videoResSource.
   ///
   /// In en, this message translates to:
@@ -608,6 +602,24 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Videos are not always available in standard sizes; the size closest to the selection is used.'**
   String get videoResNote;
+
+  /// No description provided for @qualityLow.
+  ///
+  /// In en, this message translates to:
+  /// **'Low'**
+  String get qualityLow;
+
+  /// No description provided for @qualityMedium.
+  ///
+  /// In en, this message translates to:
+  /// **'Medium'**
+  String get qualityMedium;
+
+  /// No description provided for @qualityHigh.
+  ///
+  /// In en, this message translates to:
+  /// **'High'**
+  String get qualityHigh;
 
   /// No description provided for @settingsAutoLoadVideos.
   ///
@@ -663,6 +675,12 @@ abstract class AppLocalizations {
   /// **'screen visible'**
   String get secureDisplayOff;
 
+  /// No description provided for @secureDisplayCover.
+  ///
+  /// In en, this message translates to:
+  /// **'Content hidden'**
+  String get secureDisplayCover;
+
   /// No description provided for @settingsIncognitoKeyboard.
   ///
   /// In en, this message translates to:
@@ -716,6 +734,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'biometrics disabled'**
   String get biometricsDisabled;
+
+  /// No description provided for @biometricsUnavailable.
+  ///
+  /// In en, this message translates to:
+  /// **'no biometrics found on this device'**
+  String get biometricsUnavailable;
 
   /// No description provided for @settingsUpdaterBeta.
   ///
@@ -2570,6 +2594,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Try one on. You can always change your mind later.'**
   String get onboardingThemeBody;
+
+  /// No description provided for @onboardingQualityTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Tune your media'**
+  String get onboardingQualityTitle;
+
+  /// No description provided for @onboardingQualityBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Pick how heavy videos and thumbnails load. You can change this later in the settings.'**
+  String get onboardingQualityBody;
 
   /// Title of the login onboarding step.
   ///

@@ -235,6 +235,19 @@ class AppLocalizationsRu extends AppLocalizations {
   String get languageSystemDefault => 'Как в системе';
 
   @override
+  String get settingsHandedness => 'Рабочая рука';
+
+  @override
+  String get handRight => 'Правая рука';
+
+  @override
+  String get handLeft => 'Левая рука';
+
+  @override
+  String get settingsHandednessHint =>
+      'Кнопки и быстрые действия перемещаются в зону досягаемости этой руки.';
+
+  @override
   String get settingsTileSize => 'Размер плиток';
 
   @override
@@ -285,26 +298,20 @@ class AppLocalizationsRu extends AppLocalizations {
   }
 
   @override
-  String get settingsVideoResolution => 'Разрешение видео';
-
-  @override
-  String get videoResStandard => '480p';
-
-  @override
-  String get videoResHigh => '720p';
-
-  @override
-  String get videoResFull => '1080p';
-
-  @override
-  String get videoResUltra => '4K';
-
-  @override
   String get videoResSource => 'Оригинал';
 
   @override
   String get videoResNote =>
       'Видео доступны не во всех стандартных разрешениях; используется ближайшее к выбранному.';
+
+  @override
+  String get qualityLow => 'Низкое';
+
+  @override
+  String get qualityMedium => 'Среднее';
+
+  @override
+  String get qualityHigh => 'Высокое';
 
   @override
   String get settingsAutoLoadVideos => 'Автоматически загружать видео';
@@ -335,6 +342,9 @@ class AppLocalizationsRu extends AppLocalizations {
   String get secureDisplayOff => 'экран виден';
 
   @override
+  String get secureDisplayCover => 'Контент скрыт';
+
+  @override
   String get settingsIncognitoKeyboard => 'Клавиатура инкогнито';
 
   @override
@@ -360,6 +370,9 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get biometricsDisabled => 'биометрия отключена';
+
+  @override
+  String get biometricsUnavailable => 'на этом устройстве не найдена биометрия';
 
   @override
   String get settingsUpdaterBeta => 'Последние обновления';
@@ -1452,6 +1465,13 @@ class AppLocalizationsRu extends AppLocalizations {
   @override
   String get onboardingThemeBody =>
       'Попробуйте разные варианты. Позже их всегда можно изменить.';
+
+  @override
+  String get onboardingQualityTitle => 'Настройте медиа';
+
+  @override
+  String get onboardingQualityBody =>
+      'Выберите, насколько тяжёлыми будут видео и миниатюры. Позже это можно изменить в настройках.';
 
   @override
   String get onboardingLoginTitle => 'Подключите аккаунт';

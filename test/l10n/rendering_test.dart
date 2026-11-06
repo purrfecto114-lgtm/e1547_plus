@@ -180,7 +180,7 @@ void main() {
       '下载位置',
       '收藏时点赞',
       '视频音量',
-      '视频分辨率',
+      '视频画质',
       'PIN 锁',
       '生物识别锁',
       '布局',
@@ -198,7 +198,7 @@ void main() {
     expect(find.text('仅显示图片'), findsOneWidget);
     expect(find.text('仅收藏'), findsOneWidget);
     expect(find.text('静音'), findsOneWidget);
-    expect(find.text('原始画质'), findsOneWidget);
+    expect(find.text('高'), findsOneWidget);
     expect(find.text('PIN 已禁用'), findsOneWidget);
     expect(find.text('生物识别已禁用'), findsOneWidget);
     expect(find.text('方形格子'), findsOneWidget);
@@ -298,7 +298,7 @@ void main() {
       '下載位置',
       '收藏時按讚',
       '影片音量',
-      '影片解析度',
+      '影片畫質',
       'PIN 鎖',
       '生物辨識鎖',
       '版面',
@@ -313,7 +313,7 @@ void main() {
     expect(find.text('僅顯示圖片'), findsOneWidget);
     expect(find.text('僅收藏'), findsOneWidget);
     expect(find.text('靜音'), findsOneWidget);
-    expect(find.text('原始畫質'), findsOneWidget);
+    expect(find.text('高'), findsOneWidget);
     expect(find.text('PIN 已停用'), findsOneWidget);
     expect(find.text('生物辨識已停用'), findsOneWidget);
     expect(find.text('方形格子'), findsOneWidget);

@@ -227,6 +227,19 @@ class AppLocalizationsEn extends AppLocalizations {
   String get languageSystemDefault => 'System default';
 
   @override
+  String get settingsHandedness => 'Preferred hand';
+
+  @override
+  String get handRight => 'Right hand';
+
+  @override
+  String get handLeft => 'Left hand';
+
+  @override
+  String get settingsHandednessHint =>
+      'Buttons and quick actions move within reach of this hand.';
+
+  @override
   String get settingsTileSize => 'Tile size';
 
   @override
@@ -277,26 +290,20 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
-  String get settingsVideoResolution => 'Video resolution';
-
-  @override
-  String get videoResStandard => '480p';
-
-  @override
-  String get videoResHigh => '720p';
-
-  @override
-  String get videoResFull => '1080p';
-
-  @override
-  String get videoResUltra => '4K';
-
-  @override
   String get videoResSource => 'Source';
 
   @override
   String get videoResNote =>
       'Videos are not always available in standard sizes; the size closest to the selection is used.';
+
+  @override
+  String get qualityLow => 'Low';
+
+  @override
+  String get qualityMedium => 'Medium';
+
+  @override
+  String get qualityHigh => 'High';
 
   @override
   String get settingsAutoLoadVideos => 'Automatically load videos';
@@ -327,6 +334,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get secureDisplayOff => 'screen visible';
 
   @override
+  String get secureDisplayCover => 'Content hidden';
+
+  @override
   String get settingsIncognitoKeyboard => 'Incognito keyboard';
 
   @override
@@ -352,6 +362,9 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get biometricsDisabled => 'biometrics disabled';
+
+  @override
+  String get biometricsUnavailable => 'no biometrics found on this device';
 
   @override
   String get settingsUpdaterBeta => 'Latest updates';
@@ -1419,6 +1432,13 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get onboardingThemeBody =>
       'Try one on. You can always change your mind later.';
+
+  @override
+  String get onboardingQualityTitle => 'Tune your media';
+
+  @override
+  String get onboardingQualityBody =>
+      'Pick how heavy videos and thumbnails load. You can change this later in the settings.';
 
   @override
   String get onboardingLoginTitle => 'Connect an account';

@@ -66,7 +66,7 @@ class FollowsTimelinePage extends StatelessWidget {
                 child: ListenableBuilder(
                   listenable: context.watch<Settings>().tileSize,
                   builder: (context, child) => TileLayout(
-                    tileSize: context.watch<Settings>().tileSize.value,
+                    tileSize: context.watch<Settings>().tileSize.value.pixels,
                     child: FollowTimelinePostList(tags: followedTags),
                   ),
                 ),

@@ -223,6 +223,18 @@ class AppLocalizationsJa extends AppLocalizations {
   String get languageSystemDefault => 'システムに従う';
 
   @override
+  String get settingsHandedness => '利き手';
+
+  @override
+  String get handRight => '右手';
+
+  @override
+  String get handLeft => '左手';
+
+  @override
+  String get settingsHandednessHint => 'ボタンとクイック操作をこの手の届く位置に移動します。';
+
+  @override
   String get settingsTileSize => 'タイルのサイズ';
 
   @override
@@ -273,25 +285,19 @@ class AppLocalizationsJa extends AppLocalizations {
   }
 
   @override
-  String get settingsVideoResolution => '動画の解像度';
-
-  @override
-  String get videoResStandard => '480p';
-
-  @override
-  String get videoResHigh => '720p';
-
-  @override
-  String get videoResFull => '1080p';
-
-  @override
-  String get videoResUltra => '4K';
-
-  @override
   String get videoResSource => 'オリジナル';
 
   @override
   String get videoResNote => '動画は常に標準サイズで用意されているわけではありません。選択に最も近いサイズが使用されます。';
+
+  @override
+  String get qualityLow => '低';
+
+  @override
+  String get qualityMedium => '中';
+
+  @override
+  String get qualityHigh => '高';
 
   @override
   String get settingsAutoLoadVideos => '動画を自動的に読み込む';
@@ -322,6 +328,9 @@ class AppLocalizationsJa extends AppLocalizations {
   String get secureDisplayOff => '画面を保護しない';
 
   @override
+  String get secureDisplayCover => 'コンテンツを非表示';
+
+  @override
   String get settingsIncognitoKeyboard => 'シークレットキーボード';
 
   @override
@@ -347,6 +356,9 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get biometricsDisabled => '生体認証 無効';
+
+  @override
+  String get biometricsUnavailable => 'この端末で生体認証が見つかりません';
 
   @override
   String get settingsUpdaterBeta => '最新のアップデート';
@@ -1395,6 +1407,12 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get onboardingThemeBody => 'まずは試してみてください。あとでいつでも変更できます。';
+
+  @override
+  String get onboardingQualityTitle => 'メディアの品質を選ぶ';
+
+  @override
+  String get onboardingQualityBody => '動画とサムネイルの読み込み具合を選べます。後から設定で変更できます。';
 
   @override
   String get onboardingLoginTitle => 'アカウントを接続';

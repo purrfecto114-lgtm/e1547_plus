@@ -63,7 +63,8 @@ class FavPage extends StatelessWidget {
                               tileSize: context
                                   .watch<Settings>()
                                   .tileSize
-                                  .value,
+                                  .value
+                                  .pixels,
                               child: const PostList(),
                             ),
                           ),

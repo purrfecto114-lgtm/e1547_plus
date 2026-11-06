@@ -12,6 +12,7 @@ class Settings extends NotifiedSettings {
   static Future<Settings> getInstance() async {
     final prefs = await SharedPreferences.getInstance();
     await _migrateLegacyDefaults(prefs);
+    await _migrateQualityTiers(prefs);
     return Settings(prefs);
   }
 
@@ -28,6 +29,51 @@ class Settings extends NotifiedSettings {
     if (prefs.getBool('muteVideos') == false) {
       await prefs.remove('muteVideos');
     }
+    await prefs.setBool(marker, true);
+  }
+
+  /// Rewrites the quality settings into their tiered successors.
+  ///
+  /// The video resolution five-step enum collapsed into three tiers and
+  /// the tile size slider snapped to the same three, so values stored
+  /// under the old schemes are mapped onto their nearest tier once,
+  /// guarded by the marker key. Fresh installs store nothing under
+  /// these keys and pass through untouched.
+  static Future<void> _migrateQualityTiers(SharedPreferences prefs) async {
+    const marker = 'qualityTiersMigrated';
+    if (prefs.getBool(marker) ?? false) return;
+
+    const legacyVideoResolutions = {
+      'standard': 'low',
+      'high': 'medium',
+      'full': 'high',
+      'ultra': 'high',
+      'source': 'high',
+    };
+    final resolution = prefs.getString('videoResolution');
+    if (resolution != null && legacyVideoResolutions.containsKey(resolution)) {
+      await prefs.setString(
+        'videoResolution',
+        legacyVideoResolutions[resolution]!,
+      );
+    }
+
+    final tileSize = prefs.getInt('tileSize');
+    if (tileSize != null) {
+      final String tier;
+      if (tileSize <= 175) {
+        tier = 'small';
+      } else if (tileSize <= 250) {
+        tier = 'medium';
+      } else {
+        tier = 'large';
+      }
+      // The key changes type from a free pixel count to a tier name;
+      // removing it first keeps stores that key by type consistent.
+      await prefs.remove('tileSize');
+      await prefs.setString('tileSize', tier);
+    }
+
     await prefs.setBool(marker, true);
   }
 
@@ -60,9 +106,10 @@ class Settings extends NotifiedSettings {
     initialValue: null,
   );
 
-  late final ValueNotifier<int> tileSize = createSetting(
+  late final ValueNotifier<TileSize> tileSize = createEnumSetting(
     key: 'tileSize',
-    initialValue: 200,
+    initialValue: TileSize.medium,
+    values: TileSize.values,
   );
   late final ValueNotifier<GridQuilt> quilt = createEnumSetting(
     key: 'quilt',
@@ -148,23 +195,23 @@ class Settings extends NotifiedSettings {
   );
 }
 
-// Decoding source quality videos can push low end Android devices,
-// especially 32 bit ones, over their memory limits. iOS kills equally
-// greedy apps through Jetsam, so its 64 bit devices get the same tier as
-// Android's. Such devices get a lower default; users can still raise it in
-// the settings. Intel iOS simulators (iosX64) are a development-only
-// scenario on desktop-class hardware and keep the source default.
+// Decoding high tier videos can push low end Android devices, especially
+// 32 bit ones, over their memory limits. iOS kills equally greedy apps
+// through Jetsam, so its 64 bit devices get the same tier as Android's.
+// Such devices default to the low tier; users can still raise it in the
+// settings. Intel iOS simulators (iosX64) are a development-only
+// scenario on desktop-class hardware and keep the high tier.
 VideoResolution _defaultVideoResolution() {
   switch (Abi.current()) {
     case Abi.androidArm:
     case Abi.androidIA32:
-      return VideoResolution.standard;
+      return VideoResolution.low;
     case Abi.androidArm64:
     case Abi.androidX64:
     case Abi.androidRiscv64:
     case Abi.iosArm64:
-      return VideoResolution.high;
+      return VideoResolution.medium;
     default:
-      return VideoResolution.source;
+      return VideoResolution.high;
   }
 }

@@ -88,22 +88,26 @@ class _PostsFilterPanelState extends State<PostsFilterPanel> {
   /// Each section owns the filter tags listed here; the file type filter
   /// is owned through its `type` tag plus the group tokens it writes,
   /// which no single key carries.
+  ///
+  /// Media specs lead over content attributes: what a post is made of
+  /// narrows a search faster than what it depicts, so the file type,
+  /// size and tag count filters come first.
   static final List<_PostsFilterSection> _sections = [
     _PostsFilterSection(
       title: (l10n) => l10n.filterSectionSort,
       tags: {'order', 'score', 'favcount'},
     ),
     _PostsFilterSection(
-      title: (l10n) => l10n.filterSectionContent,
-      tags: {'rating', 'inpool', 'ischild', 'isparent'},
+      title: (l10n) => l10n.filterSectionMedia,
+      tags: {'type', 'width', 'height', 'tagcount'},
     ),
     _PostsFilterSection(
       title: (l10n) => l10n.filterSectionTime,
       tags: {'date', 'status'},
     ),
     _PostsFilterSection(
-      title: (l10n) => l10n.filterSectionMedia,
-      tags: {'type', 'width', 'height', 'tagcount'},
+      title: (l10n) => l10n.filterSectionContent,
+      tags: {'rating', 'inpool', 'ischild', 'isparent'},
     ),
     _PostsFilterSection(
       title: (l10n) => l10n.filterSectionOther,

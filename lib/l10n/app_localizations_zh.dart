@@ -223,6 +223,18 @@ class AppLocalizationsZh extends AppLocalizations {
   String get languageSystemDefault => '跟随系统';
 
   @override
+  String get settingsHandedness => '常用手';
+
+  @override
+  String get handRight => '右手';
+
+  @override
+  String get handLeft => '左手';
+
+  @override
+  String get settingsHandednessHint => '按钮和快捷操作会移到这只手方便触及的一侧。';
+
+  @override
   String get settingsTileSize => '格子大小';
 
   @override
@@ -273,25 +285,19 @@ class AppLocalizationsZh extends AppLocalizations {
   }
 
   @override
-  String get settingsVideoResolution => '视频分辨率';
-
-  @override
-  String get videoResStandard => '480p';
-
-  @override
-  String get videoResHigh => '720p';
-
-  @override
-  String get videoResFull => '1080p';
-
-  @override
-  String get videoResUltra => '4K';
-
-  @override
   String get videoResSource => '原始画质';
 
   @override
   String get videoResNote => '视频并不总有标准尺寸可选，将使用与所选档位最接近的尺寸。';
+
+  @override
+  String get qualityLow => '低';
+
+  @override
+  String get qualityMedium => '中';
+
+  @override
+  String get qualityHigh => '高';
 
   @override
   String get settingsAutoLoadVideos => '自动加载视频';
@@ -322,6 +328,9 @@ class AppLocalizationsZh extends AppLocalizations {
   String get secureDisplayOff => '不隐藏屏幕内容';
 
   @override
+  String get secureDisplayCover => '内容已隐藏';
+
+  @override
   String get settingsIncognitoKeyboard => '无痕键盘';
 
   @override
@@ -347,6 +356,9 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get biometricsDisabled => '生物识别已禁用';
+
+  @override
+  String get biometricsUnavailable => '此设备未检测到生物识别';
 
   @override
   String get settingsUpdaterBeta => '最新更新';
@@ -1390,6 +1402,12 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get onboardingThemeBody => '先试试看。以后随时可以更换。';
+
+  @override
+  String get onboardingQualityTitle => '调整媒体加载';
+
+  @override
+  String get onboardingQualityBody => '选择视频与缩略图的加载规格，稍后可在设置中更改。';
 
   @override
   String get onboardingLoginTitle => '连接账户';
@@ -2526,6 +2544,18 @@ class AppLocalizationsZhHant extends AppLocalizationsZh {
   String get languageSystemDefault => '跟隨系統';
 
   @override
+  String get settingsHandedness => '慣用手';
+
+  @override
+  String get handRight => '右手';
+
+  @override
+  String get handLeft => '左手';
+
+  @override
+  String get settingsHandednessHint => '按鈕和快捷操作會移到這隻手方便觸及的一側。';
+
+  @override
   String get settingsTileSize => '格子大小';
 
   @override
@@ -2576,25 +2606,19 @@ class AppLocalizationsZhHant extends AppLocalizationsZh {
   }
 
   @override
-  String get settingsVideoResolution => '影片解析度';
-
-  @override
-  String get videoResStandard => '480p';
-
-  @override
-  String get videoResHigh => '720p';
-
-  @override
-  String get videoResFull => '1080p';
-
-  @override
-  String get videoResUltra => '4K';
-
-  @override
   String get videoResSource => '原始畫質';
 
   @override
   String get videoResNote => '影片並非總有標準尺寸可選，將使用與所選檔位最接近的尺寸。';
+
+  @override
+  String get qualityLow => '低';
+
+  @override
+  String get qualityMedium => '中';
+
+  @override
+  String get qualityHigh => '高';
 
   @override
   String get settingsAutoLoadVideos => '自動載入影片';
@@ -2625,6 +2649,9 @@ class AppLocalizationsZhHant extends AppLocalizationsZh {
   String get secureDisplayOff => '不隱藏螢幕內容';
 
   @override
+  String get secureDisplayCover => '內容已隱藏';
+
+  @override
   String get settingsIncognitoKeyboard => '無痕鍵盤';
 
   @override
@@ -2650,6 +2677,9 @@ class AppLocalizationsZhHant extends AppLocalizationsZh {
 
   @override
   String get biometricsDisabled => '生物辨識已停用';
+
+  @override
+  String get biometricsUnavailable => '此裝置未偵測到生物辨識';
 
   @override
   String get settingsUpdaterBeta => '最新更新';
@@ -3693,6 +3723,12 @@ class AppLocalizationsZhHant extends AppLocalizationsZh {
 
   @override
   String get onboardingThemeBody => '先試試看。之後隨時可以更換。';
+
+  @override
+  String get onboardingQualityTitle => '調整媒體載入';
+
+  @override
+  String get onboardingQualityBody => '選擇影片與縮圖的載入規格，稍後可在設定中更改。';
 
   @override
   String get onboardingLoginTitle => '連結帳戶';

@@ -44,15 +44,15 @@ void main() {
 
     test('the acceptance post selects its 1280x720 mp4 variant', () {
       expect(
+        posts[2].videoUrl(VideoResolution.medium),
+        '{{host}}/data/sample/61/53/61538337061538337061538337061538.mp4',
+      );
+      expect(
         posts[2].videoUrl(VideoResolution.high),
         '{{host}}/data/sample/61/53/61538337061538337061538337061538.mp4',
       );
       expect(
-        posts[2].videoUrl(VideoResolution.source),
-        '{{host}}/data/sample/61/53/61538337061538337061538337061538.mp4',
-      );
-      expect(
-        posts[2].videoUrl(VideoResolution.standard),
+        posts[2].videoUrl(VideoResolution.low),
         '{{host}}/data/sample/19/41/19418725519418725519418725519418.mp4',
       );
     });

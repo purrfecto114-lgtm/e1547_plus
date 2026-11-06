@@ -1,10 +1,35 @@
 import 'dart:math';
 
+import 'package:e1547/l10n/app_localizations.dart';
 import 'package:e1547/settings/settings.dart';
 import 'package:e1547/shared/shared.dart';
 import 'package:flutter/material.dart';
 
 enum GridQuilt { square, vertical }
+
+/// The density tiers of the post grid.
+///
+/// A tier is a curated tile size in pixels rather than a free slider, so
+/// the grid always snaps to a layout that was actually designed and
+/// tested, and the choice stays explainable in three words.
+enum TileSize {
+  small,
+  medium,
+  large;
+
+  int get pixels => switch (this) {
+    TileSize.small => 150,
+    TileSize.medium => 200,
+    TileSize.large => 300,
+  };
+
+  /// Localized display name for pickers.
+  String localizedTitle(BuildContext context) => switch (this) {
+    TileSize.small => AppLocalizations.of(context).qualityLow,
+    TileSize.medium => AppLocalizations.of(context).qualityMedium,
+    TileSize.large => AppLocalizations.of(context).qualityHigh,
+  };
+}
 
 class TileLayoutData extends InheritedWidget {
   const TileLayoutData({
@@ -52,13 +77,13 @@ class TileLayout extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ValueListenableBuilder<int>(
+    return ValueListenableBuilder<TileSize>(
       valueListenable: context.watch<Settings>().tileSize,
-      builder: (context, tileSize, child) => ValueListenableBuilder<GridQuilt>(
+      builder: (context, tier, child) => ValueListenableBuilder<GridQuilt>(
         valueListenable: context.watch<Settings>().quilt,
         builder: (context, stagger, child) => LayoutBuilder(
           builder: (context, constraints) {
-            tileSize = this.tileSize ?? tileSize;
+            int tileSize = this.tileSize ?? tier.pixels;
             stagger = this.stagger ?? stagger;
             int crossAxisCount = max(
               1,

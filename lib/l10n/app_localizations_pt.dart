@@ -227,6 +227,19 @@ class AppLocalizationsPt extends AppLocalizations {
   String get languageSystemDefault => 'Padrão do sistema';
 
   @override
+  String get settingsHandedness => 'Mão preferida';
+
+  @override
+  String get handRight => 'Mão direita';
+
+  @override
+  String get handLeft => 'Mão esquerda';
+
+  @override
+  String get settingsHandednessHint =>
+      'Botões e ações rápidas ficam ao alcance desta mão.';
+
+  @override
   String get settingsTileSize => 'Tamanho dos mosaicos';
 
   @override
@@ -277,26 +290,20 @@ class AppLocalizationsPt extends AppLocalizations {
   }
 
   @override
-  String get settingsVideoResolution => 'Resolução do vídeo';
-
-  @override
-  String get videoResStandard => '480p';
-
-  @override
-  String get videoResHigh => '720p';
-
-  @override
-  String get videoResFull => '1080p';
-
-  @override
-  String get videoResUltra => '4K';
-
-  @override
   String get videoResSource => 'Original';
 
   @override
   String get videoResNote =>
       'Os vídeos nem sempre estão disponíveis em tamanhos padrão; é usado o tamanho mais próximo da seleção.';
+
+  @override
+  String get qualityLow => 'Baixa';
+
+  @override
+  String get qualityMedium => 'Média';
+
+  @override
+  String get qualityHigh => 'Alta';
 
   @override
   String get settingsAutoLoadVideos => 'Carregar vídeos automaticamente';
@@ -327,6 +334,9 @@ class AppLocalizationsPt extends AppLocalizations {
   String get secureDisplayOff => 'tela visível';
 
   @override
+  String get secureDisplayCover => 'Conteúdo oculto';
+
+  @override
   String get settingsIncognitoKeyboard => 'Teclado anônimo';
 
   @override
@@ -352,6 +362,10 @@ class AppLocalizationsPt extends AppLocalizations {
 
   @override
   String get biometricsDisabled => 'biometria desativada';
+
+  @override
+  String get biometricsUnavailable =>
+      'nenhuma biometria encontrada neste dispositivo';
 
   @override
   String get settingsUpdaterBeta => 'Últimas atualizações';
@@ -1428,6 +1442,13 @@ class AppLocalizationsPt extends AppLocalizations {
   @override
   String get onboardingThemeBody =>
       'Experimente. Você pode mudar de ideia quando quiser.';
+
+  @override
+  String get onboardingQualityTitle => 'Ajuste suas mídias';
+
+  @override
+  String get onboardingQualityBody =>
+      'Escolha o peso dos vídeos e das miniaturas. Você pode mudar isso depois nas configurações.';
 
   @override
   String get onboardingLoginTitle => 'Conecte uma conta';

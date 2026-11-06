@@ -227,6 +227,19 @@ class AppLocalizationsFr extends AppLocalizations {
   String get languageSystemDefault => 'Langue du système';
 
   @override
+  String get settingsHandedness => 'Main préférée';
+
+  @override
+  String get handRight => 'Main droite';
+
+  @override
+  String get handLeft => 'Main gauche';
+
+  @override
+  String get settingsHandednessHint =>
+      'Les boutons et actions rapides passent à portée de cette main.';
+
+  @override
   String get settingsTileSize => 'Taille des tuiles';
 
   @override
@@ -277,26 +290,20 @@ class AppLocalizationsFr extends AppLocalizations {
   }
 
   @override
-  String get settingsVideoResolution => 'Résolution des vidéos';
-
-  @override
-  String get videoResStandard => '480p';
-
-  @override
-  String get videoResHigh => '720p';
-
-  @override
-  String get videoResFull => '1080p';
-
-  @override
-  String get videoResUltra => '4K';
-
-  @override
   String get videoResSource => 'Source';
 
   @override
   String get videoResNote =>
       'Les vidéos ne sont pas toujours disponibles dans les tailles standard ; la taille la plus proche de la sélection est utilisée.';
+
+  @override
+  String get qualityLow => 'Basse';
+
+  @override
+  String get qualityMedium => 'Moyenne';
+
+  @override
+  String get qualityHigh => 'Haute';
 
   @override
   String get settingsAutoLoadVideos => 'Charger les vidéos automatiquement';
@@ -328,6 +335,9 @@ class AppLocalizationsFr extends AppLocalizations {
   String get secureDisplayOff => 'écran visible';
 
   @override
+  String get secureDisplayCover => 'Contenu masqué';
+
+  @override
   String get settingsIncognitoKeyboard => 'Clavier incognito';
 
   @override
@@ -353,6 +363,10 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get biometricsDisabled => 'biométrie désactivée';
+
+  @override
+  String get biometricsUnavailable =>
+      'aucune biométrie détectée sur cet appareil';
 
   @override
   String get settingsUpdaterBeta => 'Dernières mises à jour';
@@ -1435,6 +1449,13 @@ class AppLocalizationsFr extends AppLocalizations {
   @override
   String get onboardingThemeBody =>
       'Essaie-en un. Tu pourras toujours changer d\'avis plus tard.';
+
+  @override
+  String get onboardingQualityTitle => 'Ajustez vos médias';
+
+  @override
+  String get onboardingQualityBody =>
+      'Choisissez le poids des vidéos et des miniatures. Vous pourrez changer cela plus tard dans les réglages.';
 
   @override
   String get onboardingLoginTitle => 'Connecte un compte';
