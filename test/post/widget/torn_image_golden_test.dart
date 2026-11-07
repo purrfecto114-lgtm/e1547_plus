@@ -17,23 +17,33 @@ void main() {
       );
 
   Widget scaffold(AppTheme theme) => MaterialApp(
-        theme: theme.data,
-        home: Scaffold(
-          body: Center(
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                // 96 caps at 48, which exercises the size ceiling.
-                for (final size in [24.0, 48.0, 96.0])
-                  Padding(
-                    padding: const EdgeInsets.all(8),
-                    child: tile(theme, size),
-                  ),
-              ],
+    theme: theme.data,
+    home: Scaffold(
+      body: Center(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            // 96 caps at 48, which exercises the size ceiling.
+            for (final size in [24.0, 48.0, 96.0])
+              Padding(padding: const EdgeInsets.all(8), child: tile(theme, size)),
+            // A non square tile proves the placeholder stays a centered
+            // square instead of stretching with its box.
+            Padding(
+              padding: const EdgeInsets.all(8),
+              child: SizedBox(
+                width: 56,
+                height: 80,
+                child: ColoredBox(
+                  color: theme.data.cardColor,
+                  child: const TornImagePlaceholder(),
+                ),
+              ),
             ),
-          ),
+          ],
         ),
-      );
+      ),
+    ),
+  );
 
   for (final (name, theme) in [
     ('dark', AppTheme.dark),
