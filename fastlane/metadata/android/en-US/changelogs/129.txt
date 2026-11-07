@@ -1,0 +1,1 @@
+The failed image placeholder follows the app's monochrome icon language now: the torn halves visibly slide apart with ragged edges, the mountains are stroked like Material draws them, and the exclamation badge sits knocked out in the icon color instead of a hard coded red dot.

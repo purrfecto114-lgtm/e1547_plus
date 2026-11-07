@@ -4,6 +4,15 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and this project
 adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [21.7.1+129] - 2026-11-08
+### Changed
+- the torn photo placeholder follows the monochrome outlined icon
+  language now: a hard coded red badge no longer fights the themed icon
+  row, the torn halves visibly slide apart with ragged stroked edges,
+  the mountain ridge is drawn stroked like Material's image glyphs, and
+  the exclamation badge is a knocked out glyph in the icon color the way
+  Material composes badges
+
 ## [21.7.0+128] - 2026-11-08
 ### Added
 - the failed image placeholder is a torn photo with an exclamation badge
@@ -1598,3 +1607,4 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 [21.5.0+126]: https://github.com/purrfecto114-lgtm/e1547_plus/compare/21.5.0-rc.3+125...21.5.0+126
 [21.6.0+127]: https://github.com/purrfecto114-lgtm/e1547_plus/compare/21.5.0+126...21.6.0+127
 [21.7.0+128]: https://github.com/purrfecto114-lgtm/e1547_plus/compare/21.6.0+127...21.7.0+128
+[21.7.1+129]: https://github.com/purrfecto114-lgtm/e1547_plus/compare/21.7.0+128...21.7.1+129
