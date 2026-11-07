@@ -20,6 +20,67 @@ bool popDialog<T>(BuildContext context, [T? result]) {
   return false;
 }
 
+/// One selectable row of a [showPickerDialog].
+class PickerOption<T> {
+  const PickerOption({required this.value, required this.label, this.trailing});
+
+  final T value;
+  final String label;
+
+  /// Replaces the check mark that [showPickerDialog] draws for the
+  /// selected option, e.g. a color swatch or an icon preview.
+  final Widget? trailing;
+}
+
+/// A simple dialog that lets the user pick one of [options].
+///
+/// The chosen value is returned once the dialog has closed, or null when it
+/// was dismissed. [selected] marks the current choice with a check mark;
+/// pass null when the options carry their own state instead.
+Future<T?> showPickerDialog<T>({
+  required BuildContext context,
+  required String title,
+  required List<PickerOption<T>> options,
+  T? selected,
+  String? note,
+
+  /// Called with the picked value once the dialog has closed. Prefer this
+  /// over awaiting the returned future when null is a legitimate value,
+  /// because a dismissed dialog is indistinguishable from a null pick.
+  ValueChanged<T>? onSelected,
+}) {
+  return showDialog<T>(
+    context: context,
+    builder: (context) => SimpleDialog(
+      title: Text(title),
+      children: [
+        if (note != null)
+          Padding(
+            padding: const EdgeInsets.fromLTRB(16, 8, 16, 8),
+            child: Text(note, style: Theme.of(context).textTheme.bodySmall),
+          ),
+        Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            for (final option in options)
+              ListTile(
+                title: Text(option.label),
+                trailing:
+                    option.trailing ??
+                    (option.value == selected ? const Icon(Icons.check) : null),
+                onTap: () {
+                  if (popDialog(context, option.value)) {
+                    onSelected?.call(option.value);
+                  }
+                },
+              ),
+          ],
+        ),
+      ],
+    ),
+  );
+}
+
 abstract class _PromptActionRoute {
   /// Whether the dialog is open.
   bool get isOpen;

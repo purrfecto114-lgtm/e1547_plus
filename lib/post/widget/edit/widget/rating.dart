@@ -1,6 +1,5 @@
 import 'package:e1547/l10n/app_localizations.dart';
 import 'package:e1547/post/post.dart';
-import 'package:e1547/shared/shared.dart';
 import 'package:e1547/ticket/ticket.dart';
 import 'package:flutter/material.dart';
 
@@ -81,29 +80,4 @@ class RatingEditDisplay extends StatelessWidget {
       ),
     );
   }
-}
-
-Future<Rating?> showRatingDialog({
-  required BuildContext context,
-  ValueChanged<Rating>? onSelected,
-}) async {
-  return showDialog<Rating>(
-    context: context,
-    builder: (context) => SimpleDialog(
-      title: Text(AppLocalizations.of(context).filterRating),
-      children: Rating.values
-          .map(
-            (rating) => ListTile(
-              title: Text(localizedRatingName(context, rating)),
-              leading: rating.icon,
-              onTap: () {
-                if (popDialog(context, rating)) {
-                  onSelected?.call(rating);
-                }
-              },
-            ),
-          )
-          .toList(),
-    ),
-  );
 }

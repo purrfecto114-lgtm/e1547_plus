@@ -329,7 +329,7 @@ void main() {
     expect(find.text('深色'), findsOneWidget);
     expect(find.text('跟隨系統'), findsOneWidget);
     expect(find.text('已封鎖 1 個標籤'), findsOneWidget);
-    expect(find.text('僅顯示圖片'), findsOneWidget);
+    expect(find.text('僅顯示縮圖'), findsOneWidget);
     expect(find.text('僅收藏'), findsOneWidget);
     expect(find.text('靜音'), findsOneWidget);
     expect(find.text('高'), findsOneWidget);

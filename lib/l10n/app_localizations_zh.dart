@@ -2580,10 +2580,10 @@ class AppLocalizationsZhHant extends AppLocalizationsZh {
   String get settingsPostInfo => '貼文資訊';
 
   @override
-  String get postInfoShown => '在格子上顯示資訊';
+  String get postInfoShown => '在縮圖上顯示資訊';
 
   @override
-  String get postInfoHidden => '僅顯示圖片';
+  String get postInfoHidden => '僅顯示縮圖';
 
   @override
   String get settingsDownloadLocation => '下載位置';

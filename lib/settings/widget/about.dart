@@ -206,7 +206,7 @@ class AboutVersion extends StatelessWidget {
                             style: Theme.of(dialogContext).textTheme.titleLarge,
                           ),
                         ),
-                        Text(release.description!),
+                        Text(release.description ?? ''),
                       ],
                     )
                     .reduce((a, b) => [...a, ...b]),

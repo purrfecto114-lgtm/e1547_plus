@@ -24,6 +24,11 @@ enum BiometricAvailability {
 /// cross-checked against a direct FingerprintManagerCompat probe on the
 /// android side, and the most optimistic consistent answer wins.
 ///
+/// The native fallback only sees fingerprints: on a device whose sole
+/// biometric sensor is face or iris, and where the plugin probe fails as
+/// well, the answer degrades to [BiometricAvailability.unenrolled] and the
+/// switch stays off, which is safe, just conservative.
+///
 /// The [android] override exists for the tests, which run on the host
 /// platform but exercise the android fallback path.
 Future<BiometricAvailability> biometricAvailability({bool? android}) async {

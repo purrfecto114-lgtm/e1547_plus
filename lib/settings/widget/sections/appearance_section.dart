@@ -28,40 +28,28 @@ class SettingsAppearanceSection extends StatelessWidget {
             title: Text(l10n.settingsTheme),
             subtitle: Text(localizedThemeName(context, value)),
             leading: const Icon(Icons.brightness_6),
-            onTap: () {
-              showDialog(
-                context: context,
-                builder: (context) => SimpleDialog(
-                  title: Text(l10n.settingsTheme),
-                  children: [
-                    Column(
-                      mainAxisSize: MainAxisSize.min,
-                      children: AppTheme.values
-                          .map(
-                            (theme) => ListTile(
-                              title: Text(localizedThemeName(context, theme)),
-                              trailing: Container(
-                                height: 28,
-                                width: 28,
-                                decoration: theme.swatch.copyWith(
-                                  border: Border.all(
-                                    color: Theme.of(context).iconTheme.color!,
-                                  ),
-                                ),
-                              ),
-                              onTap: () {
-                                if (popDialog(context)) {
-                                  settings.theme.value = theme;
-                                }
-                              },
-                            ),
-                          )
-                          .toList(),
+            onTap: () => showPickerDialog<AppTheme>(
+              context: context,
+              title: l10n.settingsTheme,
+              // the swatches carry the state, so no check mark is drawn
+              options: [
+                for (final theme in AppTheme.values)
+                  PickerOption(
+                    value: theme,
+                    label: localizedThemeName(context, theme),
+                    trailing: Container(
+                      height: 28,
+                      width: 28,
+                      decoration: theme.swatch.copyWith(
+                        border: Border.all(
+                          color: Theme.of(context).iconTheme.color!,
+                        ),
+                      ),
                     ),
-                  ],
-                ),
-              );
-            },
+                  ),
+              ],
+              onSelected: (theme) => settings.theme.value = theme,
+            ),
           ),
         ),
         ValueListenableBuilder<String?>(
@@ -77,38 +65,21 @@ class SettingsAppearanceSection extends StatelessWidget {
                         value,
             ),
             leading: const Icon(Icons.translate),
-            onTap: () {
-              showDialog(
-                context: context,
-                builder: (context) => SimpleDialog(
-                  title: Text(l10n.settingsLanguage),
-                  children: [
-                    ListTile(
-                      title: Text(l10n.languageSystemDefault),
-                      trailing: value == null ? const Icon(Icons.check) : null,
-                      onTap: () {
-                        if (popDialog(context)) {
-                          settings.language.value = null;
-                        }
-                      },
-                    ),
-                    ...appLanguages.map(
-                      (language) => ListTile(
-                        title: Text(language.label),
-                        trailing: value == language.value
-                            ? const Icon(Icons.check)
-                            : null,
-                        onTap: () {
-                          if (popDialog(context)) {
-                            settings.language.value = language.value;
-                          }
-                        },
-                      ),
-                    ),
-                  ],
-                ),
-              );
-            },
+            onTap: () => showPickerDialog<String?>(
+              context: context,
+              title: l10n.settingsLanguage,
+              selected: value,
+              options: [
+                PickerOption(value: null, label: l10n.languageSystemDefault),
+                for (final language in appLanguages)
+                  PickerOption(value: language.value, label: language.label),
+              ],
+              // null is a legitimate pick here (system default), so the
+              // assignment rides onSelected instead of the dismissible
+              // future, where it would be indistinguishable from backing
+              // out of the dialog.
+              onSelected: (language) => settings.language.value = language,
+            ),
           ),
         ),
         ValueListenableBuilder<TileSize>(
@@ -117,24 +88,18 @@ class SettingsAppearanceSection extends StatelessWidget {
             title: Text(l10n.thumbnailQuality),
             subtitle: Text(value.localizedTitle(context)),
             leading: const Icon(Icons.image_outlined),
-            onTap: () => showDialog(
+            onTap: () => showPickerDialog<TileSize>(
               context: context,
-              builder: (context) => SimpleDialog(
-                title: Text(l10n.thumbnailQuality),
-                children: [
-                  ...TileSize.values.map(
-                    (size) => ListTile(
-                      title: Text(size.localizedTitle(context)),
-                      trailing: value == size ? const Icon(Icons.check) : null,
-                      onTap: () {
-                        if (popDialog(context)) {
-                          settings.tileSize.value = size;
-                        }
-                      },
-                    ),
+              title: l10n.thumbnailQuality,
+              selected: value,
+              options: [
+                for (final size in TileSize.values)
+                  PickerOption(
+                    value: size,
+                    label: size.localizedTitle(context),
                   ),
-                ],
-              ),
+              ],
+              onSelected: (size) => settings.tileSize.value = size,
             ),
           ),
         ),
@@ -144,33 +109,20 @@ class SettingsAppearanceSection extends StatelessWidget {
             title: Text(l10n.videoQuality),
             subtitle: Text(value.localizedTitle(context)),
             leading: const Icon(Icons.video_settings),
-            onTap: () => showDialog(
+            onTap: () => showPickerDialog<VideoResolution>(
               context: context,
-              builder: (context) => SimpleDialog(
-                title: Text(l10n.videoQuality),
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.fromLTRB(16, 8, 16, 8),
-                    child: Text(
-                      l10n.videoResNote,
-                      style: Theme.of(context).textTheme.bodySmall,
-                    ),
+              title: l10n.videoQuality,
+              note: l10n.videoResNote,
+              selected: value,
+              options: [
+                for (final resolution in VideoResolution.values)
+                  PickerOption(
+                    value: resolution,
+                    label: resolution.localizedTitle(context),
                   ),
-                  ...VideoResolution.values.map(
-                    (resolution) => ListTile(
-                      title: Text(resolution.localizedTitle(context)),
-                      trailing: value == resolution
-                          ? const Icon(Icons.check)
-                          : null,
-                      onTap: () {
-                        if (popDialog(context)) {
-                          settings.videoResolution.value = resolution;
-                        }
-                      },
-                    ),
-                  ),
-                ],
-              ),
+              ],
+              onSelected: (resolution) =>
+                  settings.videoResolution.value = resolution,
             ),
           ),
         ),

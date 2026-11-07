@@ -5,18 +5,6 @@ import 'package:e1547/post/post.dart';
 import 'package:e1547/shared/shared.dart';
 import 'package:e1547/tag/tag.dart';
 import 'package:flutter_cache_manager/flutter_cache_manager.dart';
-import 'package:path_provider/path_provider.dart';
-
-Future<String?> getDefaultDownloadPath() async =>
-    switch (Platform.operatingSystem) {
-      'android' => Uri(
-        scheme: 'content',
-        host: 'com.android.externalstorage.documents',
-        path: '/tree/primary${Uri.encodeComponent(':Pictures')}',
-      ).toString(),
-      'ios' => null,
-      _ => await getDownloadsDirectory().then((value) => value?.path),
-    };
 
 extension PostDownloading on Post {
   Future<void> download({

@@ -397,6 +397,7 @@ class _PinLockState extends State<PinLock> with SingleTickerProviderStateMixin {
                 color: scheme.onSurfaceVariant,
               ),
               onTap: entry.isEmpty ? null : backspace,
+              enabled: entry.isNotEmpty,
             ),
           ],
         ),
@@ -408,6 +409,7 @@ class _PinLockState extends State<PinLock> with SingleTickerProviderStateMixin {
     required ColorScheme scheme,
     required Widget child,
     VoidCallback? onTap,
+    bool enabled = true,
   }) {
     return Padding(
       padding: const EdgeInsets.all(6),
@@ -415,7 +417,7 @@ class _PinLockState extends State<PinLock> with SingleTickerProviderStateMixin {
         // Disabled keys keep their circle, only dimmed, so the keypad
         // silhouette stays stable instead of flashing a bare glyph.
         color: scheme.surfaceContainerHighest.withValues(
-          alpha: onTap == null && child is Icon ? 0.4 : 1,
+          alpha: enabled ? 1 : 0.4,
         ),
         shape: const CircleBorder(),
         clipBehavior: Clip.antiAlias,
@@ -509,21 +511,20 @@ Future<void> tryLocalAuth({
   ScaffoldMessengerState messenger = ScaffoldMessenger.of(context);
   final LocalAuthentication localAuth = LocalAuthentication();
   final l10n = AppLocalizations.of(context);
+  // Only the plugin boundary sits inside the guarded region: a bug in one
+  // of the callbacks below must surface as a crash, not be rebranded as
+  // a biometric failure that would also fire onFailure a second time.
+  bool success;
   try {
     // Cancelling a stale prompt belongs inside the guarded region: on a
     // handful of devices even the no-op cancellation surfaced a platform
     // error that used to escape the handler below and left the lock
     // screen waiting for a prompt that never came.
     await localAuth.stopAuthentication();
-    bool success = await localAuth.authenticate(
+    success = await localAuth.authenticate(
       localizedReason: l10n.lockBiometricReason,
       persistAcrossBackgrounding: true,
     );
-    if (success) {
-      onSuccess?.call();
-    } else {
-      onFailure?.call();
-    }
   } on Object {
     // local_auth maps its own errors onto LocalAuthException, but driver
     // level PlatformExceptions have been observed in the wild; failing
@@ -534,6 +535,12 @@ Future<void> tryLocalAuth({
         duration: const Duration(milliseconds: 300),
       ),
     );
+    onFailure?.call();
+    return;
+  }
+  if (success) {
+    onSuccess?.call();
+  } else {
     onFailure?.call();
   }
 }

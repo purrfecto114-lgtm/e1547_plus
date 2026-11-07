@@ -134,24 +134,6 @@ void main() {
     await tester.pump(const Duration(milliseconds: 300));
   }
 
-  void reportHeaders(WidgetTester tester) {
-    final headers = tester.widgetList<SectionHeader>(
-      find.byType(SectionHeader),
-    );
-    int i = 0;
-    for (final header in find.byType(SectionHeader).evaluate()) {
-      final box = header.renderObject! as RenderBox;
-      final pos = box.localToGlobal(Offset.zero);
-      // ignore: avoid_print
-      print(
-        'header[$i] "${headers.elementAt(i).title}" '
-        'left=${pos.dx.toStringAsFixed(1)} top=${pos.dy.toStringAsFixed(1)} '
-        'width=${box.size.width.toStringAsFixed(1)}',
-      );
-      i++;
-    }
-  }
-
   Future<void> golden(WidgetTester tester, String name) async {
     await expectLater(
       find.byType(RepaintBoundary).first,
@@ -166,7 +148,6 @@ void main() {
       size: const Size(1080, 1920),
       dpr: 3,
     );
-    reportHeaders(tester);
     await golden(tester, 'settings_zh_1080x1920_dpr3');
   });
 

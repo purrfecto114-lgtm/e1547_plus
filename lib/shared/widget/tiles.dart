@@ -14,7 +14,7 @@ enum GridQuilt { square, vertical }
 /// tested, and the choice stays explainable in three words.
 ///
 /// The three sizes are spaced so that the resulting column count stays
-/// distinct on any phone width: a 360dp screen divides into 3 / 2 / 1
+/// distinct on any phone width above 300dp: 360dp divides into 3 / 2 / 1
 /// columns. The previous 150/200/300 ladder collapsed the low and the
 /// medium tier onto the same two columns there, which made the middle
 /// option look like it did nothing.

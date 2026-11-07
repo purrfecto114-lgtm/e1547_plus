@@ -25,29 +25,19 @@ class GridSettingsTile extends StatelessWidget {
       title: Text(AppLocalizations.of(context).settingsQuilt),
       subtitle: Text(quiltDescription(context, state)),
       leading: Icon(state.icon),
-      onTap: () => showDialog(
+      onTap: () => showPickerDialog<GridQuilt>(
         context: context,
-        builder: (context) => SimpleDialog(
-          title: Text(AppLocalizations.of(context).gridTitle),
-          children: [
-            Column(
-              mainAxisSize: MainAxisSize.min,
-              children: GridQuilt.values
-                  .map(
-                    (state) => ListTile(
-                      trailing: Icon(state.icon),
-                      title: Text(quiltDescription(context, state)),
-                      onTap: () {
-                        if (popDialog(context)) {
-                          onChange!(state);
-                        }
-                      },
-                    ),
-                  )
-                  .toList(),
+        title: AppLocalizations.of(context).gridTitle,
+        // the icons carry the state, so no check mark is drawn
+        options: [
+          for (final state in GridQuilt.values)
+            PickerOption(
+              value: state,
+              label: quiltDescription(context, state),
+              trailing: Icon(state.icon),
             ),
-          ],
-        ),
+        ],
+        onSelected: (state) => onChange?.call(state),
       ),
     );
   }
