@@ -503,11 +503,11 @@ abstract class AppLocalizations {
   /// **'Buttons and quick actions move within reach of this hand.'**
   String get settingsHandednessHint;
 
-  /// No description provided for @settingsTileSize.
+  /// No description provided for @thumbnailQuality.
   ///
   /// In en, this message translates to:
-  /// **'Tile size'**
-  String get settingsTileSize;
+  /// **'Thumbnail quality'**
+  String get thumbnailQuality;
 
   /// No description provided for @settingsQuilt.
   ///
@@ -683,12 +683,6 @@ abstract class AppLocalizations {
   /// **'screen visible'**
   String get secureDisplayOff;
 
-  /// No description provided for @secureDisplayCover.
-  ///
-  /// In en, this message translates to:
-  /// **'Content hidden'**
-  String get secureDisplayCover;
-
   /// No description provided for @settingsIncognitoKeyboard.
   ///
   /// In en, this message translates to:
@@ -746,8 +740,14 @@ abstract class AppLocalizations {
   /// No description provided for @biometricsUnavailable.
   ///
   /// In en, this message translates to:
-  /// **'no biometrics found on this device'**
+  /// **'no biometric hardware found on this device'**
   String get biometricsUnavailable;
+
+  /// No description provided for @biometricsNotEnrolled.
+  ///
+  /// In en, this message translates to:
+  /// **'biometric hardware found, but no fingerprints are enrolled yet'**
+  String get biometricsNotEnrolled;
 
   /// No description provided for @settingsUpdaterBeta.
   ///

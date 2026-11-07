@@ -54,6 +54,15 @@ void main() {
         ),
       );
 
+  /// Whether the language chip carrying [label] is selected.
+  bool chipSelected(WidgetTester tester, String label) => tester
+      .widget<ChoiceChip>(
+        find
+            .ancestor(of: find.text(label), matching: find.byType(ChoiceChip))
+            .first,
+      )
+      .selected;
+
   testWidgets('renders welcome and language as the first page', (tester) async {
     await tester.pumpWidget(wrap(const OnboardingScreen()));
     await tester.pumpAndSettle();
@@ -71,9 +80,10 @@ void main() {
     expect(find.text('选择语言'), findsNothing);
     expect(find.text('選擇語言'), findsNothing);
 
-    // without a stored language, the system default tile is checked
+    // without a stored language, the system default chip is selected
     expect(settings.language.value, isNull);
-    expect(find.byIcon(Icons.check), findsOneWidget);
+    expect(chipSelected(tester, 'System default'), isTrue);
+    expect(chipSelected(tester, 'English'), isFalse);
   });
 
   testWidgets('selecting languages updates the setting', (tester) async {
@@ -83,12 +93,13 @@ void main() {
     await tester.tap(find.text('简体中文'));
     await tester.pumpAndSettle();
     expect(settings.language.value, 'zh');
-    expect(find.byIcon(Icons.check), findsOneWidget);
+    expect(chipSelected(tester, '简体中文'), isTrue);
+    expect(chipSelected(tester, 'System default'), isFalse);
 
     await tester.tap(find.text('System default'));
     await tester.pumpAndSettle();
     expect(settings.language.value, isNull);
-    expect(find.byIcon(Icons.check), findsOneWidget);
+    expect(chipSelected(tester, 'System default'), isTrue);
   });
 
   testWidgets('offers and selects the japanese and russian languages', (
@@ -107,13 +118,13 @@ void main() {
     await tester.tap(find.text('日本語'));
     await tester.pumpAndSettle();
     expect(settings.language.value, 'ja');
-    expect(find.byIcon(Icons.check), findsOneWidget);
+    expect(chipSelected(tester, '日本語'), isTrue);
 
     await tester.ensureVisible(find.text('Русский'));
     await tester.tap(find.text('Русский'));
     await tester.pumpAndSettle();
     expect(settings.language.value, 'ru');
-    expect(find.byIcon(Icons.check), findsOneWidget);
+    expect(chipSelected(tester, 'Русский'), isTrue);
   });
 
   testWidgets('picks the quality tiers before logging in', (tester) async {
@@ -128,7 +139,7 @@ void main() {
 
     expect(find.text('Tune your media'), findsOneWidget);
     expect(find.text('Video quality'), findsOneWidget);
-    expect(find.text('Tile size'), findsOneWidget);
+    expect(find.text('Thumbnail quality'), findsOneWidget);
 
     // three tiers per picker, one selection each
     expect(find.text('Low'), findsNWidgets(2));

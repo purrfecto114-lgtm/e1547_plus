@@ -111,13 +111,13 @@ class SettingsAppearanceSection extends StatelessWidget {
         ValueListenableBuilder<TileSize>(
           valueListenable: settings.tileSize,
           builder: (context, value, child) => ListTile(
-            title: Text(l10n.settingsTileSize),
+            title: Text(l10n.thumbnailQuality),
             subtitle: Text(value.localizedTitle(context)),
-            leading: const Icon(Icons.crop),
+            leading: const Icon(Icons.image_outlined),
             onTap: () => showDialog(
               context: context,
               builder: (context) => SimpleDialog(
-                title: Text(l10n.settingsTileSize),
+                title: Text(l10n.thumbnailQuality),
                 children: [
                   ...TileSize.values.map(
                     (size) => ListTile(

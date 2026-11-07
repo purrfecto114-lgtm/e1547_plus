@@ -235,7 +235,7 @@ class AppLocalizationsZh extends AppLocalizations {
   String get settingsHandednessHint => '按钮和快捷操作会移到这只手方便触及的一侧。';
 
   @override
-  String get settingsTileSize => '格子大小';
+  String get thumbnailQuality => '缩略图质量';
 
   @override
   String get settingsQuilt => '布局';
@@ -328,9 +328,6 @@ class AppLocalizationsZh extends AppLocalizations {
   String get secureDisplayOff => '不隐藏屏幕内容';
 
   @override
-  String get secureDisplayCover => '内容已隐藏';
-
-  @override
   String get settingsIncognitoKeyboard => '无痕键盘';
 
   @override
@@ -358,7 +355,10 @@ class AppLocalizationsZh extends AppLocalizations {
   String get biometricsDisabled => '生物识别已禁用';
 
   @override
-  String get biometricsUnavailable => '此设备未检测到生物识别';
+  String get biometricsUnavailable => '未检测到生物识别硬件';
+
+  @override
+  String get biometricsNotEnrolled => '检测到指纹硬件，请先在系统设置录入指纹';
 
   @override
   String get settingsUpdaterBeta => '最新更新';
@@ -2562,7 +2562,7 @@ class AppLocalizationsZhHant extends AppLocalizationsZh {
   String get settingsHandednessHint => '按鈕和快捷操作會移到這隻手方便觸及的一側。';
 
   @override
-  String get settingsTileSize => '格子大小';
+  String get thumbnailQuality => '縮圖品質';
 
   @override
   String get settingsQuilt => '版面';
@@ -2655,9 +2655,6 @@ class AppLocalizationsZhHant extends AppLocalizationsZh {
   String get secureDisplayOff => '不隱藏螢幕內容';
 
   @override
-  String get secureDisplayCover => '內容已隱藏';
-
-  @override
   String get settingsIncognitoKeyboard => '無痕鍵盤';
 
   @override
@@ -2685,7 +2682,10 @@ class AppLocalizationsZhHant extends AppLocalizationsZh {
   String get biometricsDisabled => '生物辨識已停用';
 
   @override
-  String get biometricsUnavailable => '此裝置未偵測到生物辨識';
+  String get biometricsUnavailable => '未偵測到生物辨識硬體';
+
+  @override
+  String get biometricsNotEnrolled => '偵測到指紋硬體，請先在系統設定錄入指紋';
 
   @override
   String get settingsUpdaterBeta => '最新更新';

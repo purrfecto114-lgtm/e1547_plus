@@ -241,7 +241,7 @@ class AppLocalizationsDe extends AppLocalizations {
       'Schaltflächen und Schnellaktionen rücken in Reichweite dieser Hand.';
 
   @override
-  String get settingsTileSize => 'Kachelgröße';
+  String get thumbnailQuality => 'Miniaturbild-Qualität';
 
   @override
   String get settingsQuilt => 'Rasterform';
@@ -335,9 +335,6 @@ class AppLocalizationsDe extends AppLocalizations {
   String get secureDisplayOff => 'Bildschirm sichtbar';
 
   @override
-  String get secureDisplayCover => 'Inhalt verborgen';
-
-  @override
   String get settingsIncognitoKeyboard => 'Inkognito-Tastatur';
 
   @override
@@ -365,8 +362,11 @@ class AppLocalizationsDe extends AppLocalizations {
   String get biometricsDisabled => 'Biometrie inaktiv';
 
   @override
-  String get biometricsUnavailable =>
-      'auf diesem Gerät wurde keine Biometrie gefunden';
+  String get biometricsUnavailable => 'keine Biometrie-Hardware gefunden';
+
+  @override
+  String get biometricsNotEnrolled =>
+      'Fingerprintsensor gefunden, aber noch keine Fingerabdrücke hinterlegt';
 
   @override
   String get settingsUpdaterBeta => 'Neueste Updates';

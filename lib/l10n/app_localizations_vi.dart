@@ -240,7 +240,7 @@ class AppLocalizationsVi extends AppLocalizations {
       'Nút và thao tác nhanh sẽ di chuyển về phía tay thuận này.';
 
   @override
-  String get settingsTileSize => 'Kích thước ô';
+  String get thumbnailQuality => 'Chất lượng hình thu nhỏ';
 
   @override
   String get settingsQuilt => 'Lưới';
@@ -334,9 +334,6 @@ class AppLocalizationsVi extends AppLocalizations {
   String get secureDisplayOff => 'màn hình hiển thị';
 
   @override
-  String get secureDisplayCover => 'Nội dung ẩn';
-
-  @override
   String get settingsIncognitoKeyboard => 'Bàn phím ẩn danh';
 
   @override
@@ -364,8 +361,11 @@ class AppLocalizationsVi extends AppLocalizations {
   String get biometricsDisabled => 'sinh trắc đã tắt';
 
   @override
-  String get biometricsUnavailable =>
-      'không tìm thấy sinh trắc trên thiết bị này';
+  String get biometricsUnavailable => 'không tìm thấy phần cứng sinh trắc học';
+
+  @override
+  String get biometricsNotEnrolled =>
+      'có cảm biến vân tay nhưng chưa đăng ký vân tay nào';
 
   @override
   String get settingsUpdaterBeta => 'Cập nhật mới nhất';

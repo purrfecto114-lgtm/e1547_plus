@@ -7,96 +7,115 @@ import 'package:flutter/material.dart';
 
 /// Introduces the app and picks its language in one step.
 ///
-/// The welcome text cross-fades through the language list below it, so
+/// The welcome text cross-fades through the language chips below it, so
 /// the choice previews itself; unsupported system languages resolve to
-/// english before this page ever renders them.
-class WelcomeLanguageStep extends StatelessWidget {
+/// english before this page ever renders them. The languages sit in a
+/// compact chip grid instead of a tall list, so all of them stay on
+/// screen instead of hiding behind the bottom bar, and a scrollbar
+/// stands by for screens that still cannot fit everything.
+class WelcomeLanguageStep extends StatefulWidget {
   const WelcomeLanguageStep({super.key});
+
+  @override
+  State<WelcomeLanguageStep> createState() => _WelcomeLanguageStepState();
+}
+
+class _WelcomeLanguageStepState extends State<WelcomeLanguageStep> {
+  final ScrollController scroll = ScrollController();
+
+  @override
+  void dispose() {
+    scroll.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
     Settings settings = context.watch<Settings>();
     final l10n = AppLocalizations.of(context);
+    final List<({String? value, String label})> choices = [
+      (value: null, label: l10n.languageSystemDefault),
+      ...appLanguages.map(
+        (language) => (value: language.value, label: language.label),
+      ),
+    ];
     return Center(
-      child: SingleChildScrollView(
-        padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            const _EntranceAnimation(child: AppIcon(radius: 56)),
-            const SizedBox(height: 24),
-            AnimatedSwitcher(
-              duration: defaultAnimationDuration,
-              child: Column(
-                // The locale keys the switch child, so a language choice
-                // fades the introduction into its new language instead
-                // of snapping.
-                key: ValueKey(Localizations.localeOf(context)),
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Text(
-                    l10n.onboardingWelcomeTitle(AppInfo.instance.appName),
-                    style: Theme.of(context).textTheme.headlineSmall,
-                    textAlign: TextAlign.center,
-                  ),
-                  const SizedBox(height: 12),
-                  Text(
-                    l10n.onboardingWelcomeBody,
-                    style: Theme.of(context).textTheme.bodyLarge,
-                    textAlign: TextAlign.center,
-                  ),
-                ],
+      child: Scrollbar(
+        controller: scroll,
+        thumbVisibility: true,
+        child: SingleChildScrollView(
+          controller: scroll,
+          padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              const _EntranceAnimation(child: AppIcon(radius: 44)),
+              const SizedBox(height: 20),
+              AnimatedSwitcher(
+                duration: defaultAnimationDuration,
+                child: Column(
+                  // The locale keys the switch child, so a language choice
+                  // fades the introduction into its new language instead
+                  // of snapping.
+                  key: ValueKey(Localizations.localeOf(context)),
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Text(
+                      l10n.onboardingWelcomeTitle(AppInfo.instance.appName),
+                      style: Theme.of(context).textTheme.headlineSmall,
+                      textAlign: TextAlign.center,
+                    ),
+                    const SizedBox(height: 12),
+                    Text(
+                      l10n.onboardingWelcomeBody,
+                      style: Theme.of(context).textTheme.bodyLarge,
+                      textAlign: TextAlign.center,
+                    ),
+                  ],
+                ),
               ),
-            ),
-            const SizedBox(height: 24),
-            Row(
-              children: [
-                Expanded(
-                  child: Divider(
-                    color: Theme.of(context).dividerColor,
-                    endIndent: 8,
-                  ),
-                ),
-                Text(
-                  l10n.onboardingLanguageTitle,
-                  style: Theme.of(context).textTheme.titleSmall?.copyWith(
-                    color: Theme.of(context).colorScheme.onSurfaceVariant,
-                  ),
-                ),
-                Expanded(
-                  child: Divider(
-                    color: Theme.of(context).dividerColor,
-                    indent: 8,
-                  ),
-                ),
-              ],
-            ),
-            const SizedBox(height: 4),
-            ValueListenableBuilder<String?>(
-              valueListenable: settings.language,
-              builder: (context, value, child) => Column(
-                mainAxisSize: MainAxisSize.min,
+              const SizedBox(height: 20),
+              Row(
                 children: [
-                  ListTile(
-                    contentPadding: const EdgeInsets.symmetric(horizontal: 8),
-                    title: Text(l10n.languageSystemDefault),
-                    trailing: value == null ? const Icon(Icons.check) : null,
-                    onTap: () => settings.language.value = null,
+                  Expanded(
+                    child: Divider(
+                      color: Theme.of(context).dividerColor,
+                      endIndent: 8,
+                    ),
                   ),
-                  ...appLanguages.map(
-                    (language) => ListTile(
-                      contentPadding: const EdgeInsets.symmetric(horizontal: 8),
-                      title: Text(language.label),
-                      trailing: value == language.value
-                          ? const Icon(Icons.check)
-                          : null,
-                      onTap: () => settings.language.value = language.value,
+                  Text(
+                    l10n.onboardingLanguageTitle,
+                    style: Theme.of(context).textTheme.titleSmall?.copyWith(
+                      color: Theme.of(context).colorScheme.onSurfaceVariant,
+                    ),
+                  ),
+                  Expanded(
+                    child: Divider(
+                      color: Theme.of(context).dividerColor,
+                      indent: 8,
                     ),
                   ),
                 ],
               ),
-            ),
-          ],
+              const SizedBox(height: 10),
+              ValueListenableBuilder<String?>(
+                valueListenable: settings.language,
+                builder: (context, value, child) => Wrap(
+                  alignment: WrapAlignment.center,
+                  spacing: 8,
+                  runSpacing: 8,
+                  children: [
+                    for (final (:value, :label) in choices)
+                      ChoiceChip(
+                        label: Text(label),
+                        selected: value == settings.language.value,
+                        onSelected: (_) => settings.language.value = value,
+                      ),
+                  ],
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );
@@ -175,7 +194,7 @@ class QualityStep extends StatelessWidget {
             ValueListenableBuilder<TileSize>(
               valueListenable: settings.tileSize,
               builder: (context, value, child) => _QualityPicker(
-                label: l10n.settingsTileSize,
+                label: l10n.thumbnailQuality,
                 options: [
                   for (final size in TileSize.values)
                     (value: size, label: size.localizedTitle(context)),

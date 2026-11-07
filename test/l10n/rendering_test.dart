@@ -11,6 +11,7 @@ import 'package:e1547/shared/shared.dart';
 import 'package:e1547/tag/tag.dart';
 import 'package:e1547/traits/traits.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -39,6 +40,24 @@ void main() {
   setUpAll(() => initializeTestApp());
 
   setUp(() async {
+    // The settings page probes the biometric state at build time; mocked
+    // channels answer "enrolled prints" here, so the security tile
+    // renders the normal enabled-device wording instead of the host
+    // platform's "no hardware" answer.
+    TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger
+        .setMockMethodCallHandler(
+          const MethodChannel('plugins.flutter.io/local_auth'),
+          (call) async => call.method == 'getAvailableBiometrics'
+              ? <String>['fingerprint']
+              : null,
+        );
+    TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger
+        .setMockMethodCallHandler(
+          const MethodChannel('e1547/biometrics'),
+          (call) async => call.method == 'fingerprintState'
+              ? {'hardware': true, 'enrolled': true}
+              : null,
+        );
     SharedPreferences.setMockInitialValues({});
     sqlite = AppDatabase(NativeDatabase.memory());
     fake = await FakeE621.start();
@@ -175,7 +194,7 @@ void main() {
       '历史',
       '主题',
       '语言',
-      '格子大小',
+      '缩略图质量',
       '帖子信息',
       '下载位置',
       '收藏时点赞',
@@ -293,7 +312,7 @@ void main() {
       '歷史',
       '主題',
       '語言',
-      '格子大小',
+      '縮圖品質',
       '貼文資訊',
       '下載位置',
       '收藏時按讚',
@@ -468,7 +487,7 @@ void main() {
     expect(find.text('调整媒体加载'), findsOneWidget);
     expect(find.text('选择视频与缩略图的加载规格，稍后可在设置中更改。'), findsOneWidget);
     expect(find.text('视频画质'), findsOneWidget);
-    expect(find.text('格子大小'), findsOneWidget);
+    expect(find.text('缩略图质量'), findsOneWidget);
     expect(find.text('低'), findsNWidgets(2));
     expect(find.text('中'), findsNWidgets(2));
     expect(find.text('高'), findsNWidgets(2));

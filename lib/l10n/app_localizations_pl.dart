@@ -248,7 +248,7 @@ class AppLocalizationsPl extends AppLocalizations {
       'Przyciski i szybkie akcje przesuwane są w zasięg tej ręki.';
 
   @override
-  String get settingsTileSize => 'Rozmiar kafelków';
+  String get thumbnailQuality => 'Jakość miniatur';
 
   @override
   String get settingsQuilt => 'Kafelki';
@@ -342,9 +342,6 @@ class AppLocalizationsPl extends AppLocalizations {
   String get secureDisplayOff => 'ekran widoczny';
 
   @override
-  String get secureDisplayCover => 'Ukryto zawartość';
-
-  @override
   String get settingsIncognitoKeyboard => 'Klawiatura incognito';
 
   @override
@@ -372,8 +369,11 @@ class AppLocalizationsPl extends AppLocalizations {
   String get biometricsDisabled => 'biometria wyłączona';
 
   @override
-  String get biometricsUnavailable =>
-      'na tym urządzeniu nie znaleziono biometrii';
+  String get biometricsUnavailable => 'nie znaleziono sprzętu biometrycznego';
+
+  @override
+  String get biometricsNotEnrolled =>
+      'czytnik odcisków palców znaleziony, ale brak zapisanych odcisków';
 
   @override
   String get settingsUpdaterBeta => 'Najnowsze aktualizacje';

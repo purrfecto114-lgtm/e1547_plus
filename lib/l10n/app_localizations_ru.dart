@@ -248,7 +248,7 @@ class AppLocalizationsRu extends AppLocalizations {
       'Кнопки и быстрые действия перемещаются в зону досягаемости этой руки.';
 
   @override
-  String get settingsTileSize => 'Размер плиток';
+  String get thumbnailQuality => 'Качество миниатюр';
 
   @override
   String get settingsQuilt => 'Вид сетки';
@@ -342,9 +342,6 @@ class AppLocalizationsRu extends AppLocalizations {
   String get secureDisplayOff => 'экран виден';
 
   @override
-  String get secureDisplayCover => 'Контент скрыт';
-
-  @override
   String get settingsIncognitoKeyboard => 'Клавиатура инкогнито';
 
   @override
@@ -372,7 +369,11 @@ class AppLocalizationsRu extends AppLocalizations {
   String get biometricsDisabled => 'биометрия отключена';
 
   @override
-  String get biometricsUnavailable => 'на этом устройстве не найдена биометрия';
+  String get biometricsUnavailable => 'биометрическое оборудование не найдено';
+
+  @override
+  String get biometricsNotEnrolled =>
+      'сканер отпечатков найден, но отпечатки ещё не добавлены';
 
   @override
   String get settingsUpdaterBeta => 'Последние обновления';

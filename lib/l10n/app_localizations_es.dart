@@ -240,7 +240,7 @@ class AppLocalizationsEs extends AppLocalizations {
       'Los botones y las acciones rápidas se acercan a esta mano.';
 
   @override
-  String get settingsTileSize => 'Tamaño de mosaico';
+  String get thumbnailQuality => 'Calidad de miniaturas';
 
   @override
   String get settingsQuilt => 'Formato de cuadrícula';
@@ -334,9 +334,6 @@ class AppLocalizationsEs extends AppLocalizations {
   String get secureDisplayOff => 'pantalla visible';
 
   @override
-  String get secureDisplayCover => 'Contenido oculto';
-
-  @override
   String get settingsIncognitoKeyboard => 'Teclado de incógnito';
 
   @override
@@ -364,8 +361,11 @@ class AppLocalizationsEs extends AppLocalizations {
   String get biometricsDisabled => 'biometría desactivada';
 
   @override
-  String get biometricsUnavailable =>
-      'no se han encontrado biométricos en este dispositivo';
+  String get biometricsUnavailable => 'no se encontró hardware biométrico';
+
+  @override
+  String get biometricsNotEnrolled =>
+      'sensor de huellas encontrado, pero aún no hay huellas registradas';
 
   @override
   String get settingsUpdaterBeta => 'Últimas actualizaciones';

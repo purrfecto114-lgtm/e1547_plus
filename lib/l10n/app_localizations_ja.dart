@@ -235,7 +235,7 @@ class AppLocalizationsJa extends AppLocalizations {
   String get settingsHandednessHint => 'ボタンとクイック操作をこの手の届く位置に移動します。';
 
   @override
-  String get settingsTileSize => 'タイルのサイズ';
+  String get thumbnailQuality => 'サムネイルの画質';
 
   @override
   String get settingsQuilt => 'グリッド形式';
@@ -328,9 +328,6 @@ class AppLocalizationsJa extends AppLocalizations {
   String get secureDisplayOff => '画面を保護しない';
 
   @override
-  String get secureDisplayCover => 'コンテンツを非表示';
-
-  @override
   String get settingsIncognitoKeyboard => 'シークレットキーボード';
 
   @override
@@ -358,7 +355,10 @@ class AppLocalizationsJa extends AppLocalizations {
   String get biometricsDisabled => '生体認証 無効';
 
   @override
-  String get biometricsUnavailable => 'この端末で生体認証が見つかりません';
+  String get biometricsUnavailable => '生体認証ハードウェアが見つかりません';
+
+  @override
+  String get biometricsNotEnrolled => '指紋センサーはありますが、指紋が登録されていません';
 
   @override
   String get settingsUpdaterBeta => '最新のアップデート';

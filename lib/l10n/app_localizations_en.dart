@@ -240,7 +240,7 @@ class AppLocalizationsEn extends AppLocalizations {
       'Buttons and quick actions move within reach of this hand.';
 
   @override
-  String get settingsTileSize => 'Tile size';
+  String get thumbnailQuality => 'Thumbnail quality';
 
   @override
   String get settingsQuilt => 'Quilt';
@@ -334,9 +334,6 @@ class AppLocalizationsEn extends AppLocalizations {
   String get secureDisplayOff => 'screen visible';
 
   @override
-  String get secureDisplayCover => 'Content hidden';
-
-  @override
   String get settingsIncognitoKeyboard => 'Incognito keyboard';
 
   @override
@@ -364,7 +361,12 @@ class AppLocalizationsEn extends AppLocalizations {
   String get biometricsDisabled => 'biometrics disabled';
 
   @override
-  String get biometricsUnavailable => 'no biometrics found on this device';
+  String get biometricsUnavailable =>
+      'no biometric hardware found on this device';
+
+  @override
+  String get biometricsNotEnrolled =>
+      'biometric hardware found, but no fingerprints are enrolled yet';
 
   @override
   String get settingsUpdaterBeta => 'Latest updates';

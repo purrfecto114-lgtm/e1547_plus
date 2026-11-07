@@ -239,7 +239,7 @@ class AppLocalizationsKo extends AppLocalizations {
   String get settingsHandednessHint => '버튼과 빠른 작업이 이 손이 닿는 범위 내로 이동합니다.';
 
   @override
-  String get settingsTileSize => '타일 크기';
+  String get thumbnailQuality => '썸네일 화질';
 
   @override
   String get settingsQuilt => '퀼트';
@@ -332,9 +332,6 @@ class AppLocalizationsKo extends AppLocalizations {
   String get secureDisplayOff => '화면 표시됨';
 
   @override
-  String get secureDisplayCover => '콘텐츠 숨겨짐';
-
-  @override
   String get settingsIncognitoKeyboard => '시크릿 키보드';
 
   @override
@@ -362,7 +359,10 @@ class AppLocalizationsKo extends AppLocalizations {
   String get biometricsDisabled => '생체 인식 비활성화됨';
 
   @override
-  String get biometricsUnavailable => '이 기기에서 생체 인식을 찾을 수 없음';
+  String get biometricsUnavailable => '생체 인식 하드웨어가 없습니다';
+
+  @override
+  String get biometricsNotEnrolled => '지문 센서가 있지만 등록된 지문이 없습니다';
 
   @override
   String get settingsUpdaterBeta => '최신 업데이트';
