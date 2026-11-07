@@ -314,9 +314,12 @@ class _ImageProgressWrapperState extends State<ImageProgressWrapper> {
 }
 
 /// A default error builder for cached network image.
-/// Shows a centered icon.
+///
+/// Shows a dedicated broken-image glyph: a generic warning exclamation
+/// read as "something went wrong somewhere", while this names the actual
+/// state of the tile it stands in.
 Widget defaultErrorBuilder(BuildContext context, String url, dynamic error) =>
-    const Center(child: Icon(Icons.warning_amber_outlined));
+    const Center(child: Icon(Icons.broken_image_outlined));
 
 /// The cache size of images shown in fullscreen views on mobile.
 ///
