@@ -46,12 +46,19 @@ Future<void> runFollowUpdates({
       ),
     );
 
-    await runClientFollowUpdate(
-      client: client,
-      database: storage.sqlite,
-      notifications: notifications,
-      cancelToken: cancelToken,
-    );
+    try {
+      await runClientFollowUpdate(
+        client: client,
+        database: storage.sqlite,
+        notifications: notifications,
+        cancelToken: cancelToken,
+      );
+    } finally {
+      // The factory hands out a full client stack per identity; without
+      // disposing it, every background run leaks its connections until
+      // the isolate dies.
+      client.dispose();
+    }
   }
 
   registerFollowBackgroundTask(

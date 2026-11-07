@@ -80,14 +80,17 @@ class VoteDisplay extends StatelessWidget {
         ),
         Padding(
           padding: padding ?? const EdgeInsets.symmetric(horizontal: 8),
-          child: Text(
-            score.toString(),
-            style: TextStyle(
-              color: isUpvoted
-                  ? Colors.deepOrange
-                  : isDownvoted
-                  ? Colors.blue
-                  : null,
+          child: FittedBox(
+            fit: BoxFit.scaleDown,
+            child: Text(
+              score.toString(),
+              style: TextStyle(
+                color: isUpvoted
+                    ? Colors.deepOrange
+                    : isDownvoted
+                    ? Colors.blue
+                    : null,
+              ),
             ),
           ),
         ),

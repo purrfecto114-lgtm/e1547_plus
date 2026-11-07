@@ -175,13 +175,18 @@ class RawPostImageWidget extends StatelessWidget {
       );
     }
 
-    String url =
+    // The list filter only guarantees that posts carry a file when they
+    // are not deleted, so a deleted post without one can slip through
+    // every branch below. Such a post has nothing to load at all: show
+    // the torn image placeholder instead of asserting into a crash.
+    String? url =
         switch (size) {
           PostImageSize.preview => post.preview,
           PostImageSize.sample => post.sample,
-          PostImageSize.file => post.file!,
+          PostImageSize.file => post.file,
         } ??
-        post.file!;
+        post.file;
+    if (url == null) return const TornImagePlaceholder();
     Size dimensions = Size(post.width.toDouble(), post.height.toDouble());
 
     double aspectRatio = dimensions.width / dimensions.height;
@@ -344,8 +349,7 @@ class TornImagePlaceholder extends StatelessWidget {
           aspectRatio: 1,
           child: CustomPaint(
             painter: _TornImagePainter(
-              color: IconTheme.of(context).color ??
-                  theme.colorScheme.onSurface,
+              color: IconTheme.of(context).color ?? theme.colorScheme.onSurface,
               badgeColor: theme.colorScheme.error,
               badgeTextColor: theme.colorScheme.onError,
             ),
@@ -443,10 +447,7 @@ class _TornImagePainter extends CustomPainter {
         fillPaint,
       );
       canvas.drawCircle(
-        Offset(
-          glyph.left + 0.27 * glyph.width,
-          glyph.top + 0.26 * glyph.width,
-        ),
+        Offset(glyph.left + 0.27 * glyph.width, glyph.top + 0.26 * glyph.width),
         0.08 * glyph.width,
         fillPaint,
       );

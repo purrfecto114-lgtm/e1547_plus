@@ -188,7 +188,7 @@ class DatabaseExportTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListTile(
-      leading: const Icon(Icons.file_download),
+      leading: const Icon(Icons.download),
       title: Text(AppLocalizations.of(context).databaseExport),
       subtitle: Text(
         AppLocalizations.of(context).databaseExportSubtitle,
@@ -431,27 +431,33 @@ class DatabaseImportTile extends StatelessWidget {
 ///
 /// Both the export and the import show one while working; neither is
 /// dismissible, so the underlying action owns the dialog's lifetime.
+/// [PopScope] keeps the system back button from dismissing it as well:
+/// the back gesture would pop the page underneath once the action
+/// finishes and pops the dialog itself.
 void showBlockingProgressDialog(BuildContext context, String message) {
   showDialog(
     context: context,
     barrierDismissible: false,
-    builder: (context) => AlertDialog(
-      content: Row(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          const Padding(
-            padding: EdgeInsets.all(4),
-            child: SizedBox(
-              height: 28,
-              width: 28,
-              child: CircularProgressIndicator(),
+    builder: (context) => PopScope(
+      canPop: false,
+      child: AlertDialog(
+        content: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            const Padding(
+              padding: EdgeInsets.all(4),
+              child: SizedBox(
+                height: 28,
+                width: 28,
+                child: CircularProgressIndicator(),
+              ),
             ),
-          ),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16),
-            child: Text(message),
-          ),
-        ],
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16),
+              child: Text(message),
+            ),
+          ],
+        ),
       ),
     ),
   );
@@ -561,6 +567,7 @@ class _PasswordPromptDialogState extends State<_PasswordPromptDialog> {
                       ? Icons.visibility_off_outlined
                       : Icons.visibility_outlined,
                 ),
+                tooltip: obscure ? l10n.actionShow : l10n.actionHide,
                 onPressed: () => setState(() => obscure = !obscure),
               ),
             ),

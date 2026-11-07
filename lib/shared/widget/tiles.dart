@@ -57,6 +57,9 @@ class TileLayoutData extends InheritedWidget {
   @override
   bool updateShouldNotify(covariant TileLayoutData oldWidget) =>
       (oldWidget.tileHeightFactor != tileHeightFactor ||
+      // The tile size feeds the image cache sizing: a tier switch that
+      // happens to keep the same column count must still rebuild.
+      oldWidget.tileSize != tileSize ||
       oldWidget.crossAxisCount != crossAxisCount ||
       oldWidget.stagger != stagger);
 }

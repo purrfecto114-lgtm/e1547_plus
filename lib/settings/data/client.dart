@@ -69,19 +69,35 @@ class AppInfoClient {
         .get('https://api.github.com/repos/${info.github}/releases')
         .then((response) {
           try {
-            return pick(response.data).asListOrEmpty(
-              (e) => pick(e.asMapOrThrow()).letOrThrow(
-                (e) => AppVersion(
-                  version: Version.parse(e('tag_name').asStringOrThrow()),
-                  name: e('name').asStringOrThrow(),
-                  description: e('body').asStringOrThrow(),
-                  date: e('published_at').asDateTimeOrThrow(),
-                  binaries: e('assets').asListOrEmpty(
-                    (e) => e('name').asStringOrThrow().split('.').last,
+            // A repository tag is not guaranteed to be a semver version
+            // ("nightly", "v2"...), and Version.parse throws a plain
+            // FormatException outside the picker's own exception type.
+            // Unparseable entries are skipped one by one, like the atom
+            // fallback below does, instead of failing the whole check.
+            final List<AppVersion> versions = [];
+            final List<dynamic> releases = pick(
+              response.data,
+            ).asListOrEmpty((e) => e.value);
+            for (final entry in releases) {
+              try {
+                versions.add(
+                  pick(entry).letOrThrow(
+                    (e) => AppVersion(
+                      version: Version.parse(e('tag_name').asStringOrThrow()),
+                      name: e('name').asStringOrThrow(),
+                      description: e('body').asStringOrThrow(),
+                      date: e('published_at').asDateTimeOrThrow(),
+                      binaries: e('assets').asListOrEmpty(
+                        (e) => e('name').asStringOrThrow().split('.').last,
+                      ),
+                    ),
                   ),
-                ),
-              ),
-            );
+                );
+              } on FormatException {
+                continue;
+              }
+            }
+            return versions;
           } on PickException catch (e) {
             throw AppUpdaterException(
               requestOptions: response.requestOptions,

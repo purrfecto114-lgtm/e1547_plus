@@ -68,7 +68,10 @@ class LikeDisplay extends StatelessWidget {
             ),
             Row(
               children: [
-                Text(post.favCount.toString()),
+                FittedBox(
+                  fit: BoxFit.scaleDown,
+                  child: Text(post.favCount.toString()),
+                ),
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 8),
                   child: Icon(

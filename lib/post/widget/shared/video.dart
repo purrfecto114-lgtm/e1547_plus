@@ -217,7 +217,14 @@ class _VideoBarState extends State<VideoBar> {
                 children: [
                   const VideoServiceVolumeControl(),
                   const SizedBox(width: 4),
-                  Text(formatVideoDuration(position)),
+                  // Long durations and large text scales overflow a
+                  // phone wide bar: the timestamps shrink instead.
+                  Flexible(
+                    child: FittedBox(
+                      fit: BoxFit.scaleDown,
+                      child: Text(formatVideoDuration(position)),
+                    ),
+                  ),
                   Flexible(
                     child: Slider(
                       max: duration.inMilliseconds.toDouble(),
@@ -234,7 +241,10 @@ class _VideoBarState extends State<VideoBar> {
                           context,
                         )?.toggleFrame(shown: true);
                       },
-                      onChanged: position.inMilliseconds > 0
+                      // A loaded video can be seeked before its first
+                      // step: gate on the known duration instead of the
+                      // playhead, which starts at zero.
+                      onChanged: duration.inMilliseconds > 0
                           ? (e) {
                               setState(() {
                                 position = Duration(milliseconds: e ~/ 1);
@@ -250,7 +260,12 @@ class _VideoBarState extends State<VideoBar> {
                       },
                     ),
                   ),
-                  Text(formatVideoDuration(duration)),
+                  Flexible(
+                    child: FittedBox(
+                      fit: BoxFit.scaleDown,
+                      child: Text(formatVideoDuration(duration)),
+                    ),
+                  ),
                   const SizedBox(width: 4),
                   // The quality picker sits at the end of the bar, next to
                   // the fullscreen button, where players conventionally
