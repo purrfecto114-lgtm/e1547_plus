@@ -1,0 +1,5 @@
+The onboarding welcome and language pages merge into one with a compact chip grid, and a quality step picks the video and thumbnail tiers before the first search. Video quality lives under appearance next to thumbnail quality, and the shared low, medium and high tiers now change the grid on every phone. Korean, italian, polish and vietnamese join the interface, and the preferred hand picker previews where quick actions land.
+
+The PIN lock screen is redesigned with steady secret dots and a cancel action that stays reachable, and secure display returns to the plain FLAG_SECURE approach that works on every android release.
+
+Fixes: biometric unlock on android gains a FingerprintManagerCompat fallback plus a three state explanation and a safe retry path; the update dialog's cancel button closes the dialog again; settings and history drawer headers align with their lists; imports keep a recoverable database backup; temporary download files are cleaned up.

@@ -4,6 +4,80 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and this project
 adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [21.5.0+126] - 2026-11-07
+### Added
+- korean, italian, polish and vietnamese translations of the whole interface,
+  with plural forms following each language's own rules
+- a quality step in onboarding, picking the video and thumbnail tiers before
+  the first search
+- the preferred hand picker explains and previews where quick actions land,
+  in every language
+
+### Changed
+- the onboarding welcome and language pages merge into one: the introduction
+  cross-fades through the languages as they are chosen, a compact chip grid
+  carries the languages with a scrollbar standing by, and an app icon
+  entrance animation eases it in
+- the settings page split into one widget per section; every section header
+  sits at the list edge, and video quality lives under appearance next to the
+  thumbnail quality where users look for it
+- video quality and tile size collapse into shared low, medium and high
+  tiers; stored values migrate onto their nearest tier once, and the tier
+  sizes space themselves so every tier changes the column count on phones
+  where the old ladder put two tiers onto the same grid
+- the posts filter leads with media specs over content attributes: what a
+  post is made of narrows a search faster than what it depicts
+- the PIN lock screen is redesigned: a small lock glyph, secret dots that
+  fill in inside reserved rows so entering digits never shifts the keypad, an
+  error line that spells itself out with a shake, haptic keys whose disabled
+  state keeps the keypad silhouette, and a cancel action pinned below the
+  content on short screens
+- secure display returns to the upstream approach: FLAG_SECURE, a window
+  flag every android release supports without any permission, hides the app's
+  content from screenshots and the app switcher
+- the settings enum pickers and the grid density picker share one dialog, and
+  a pass of dead code left by the feature churn went away with it
+
+### Fixed
+- biometric unlock works on android: the manifest declares USE_BIOMETRIC and
+  the deprecated USE_FINGERPRINT for android 7, the lock explains its three
+  states (absent hardware, hardware without an enrolled print, usable lock),
+  a direct FingerprintManagerCompat probe rescues devices whose plugin probe
+  reports "no biometrics" while the reader holds enrolled prints, and a stale
+  prompt cancellation or driver level error fails closed into the retry path
+  instead of sticking the lock screen
+- the incognito keyboard also switches text fields to a password style
+  keyboard, which older keyboards that ignore the no-learning flag still
+  respect
+- the preference migrations (muted videos, quality tiers) now run in
+  production; they had only ever run in tests, letting old resolution names
+  collide with new tiers
+- a failed thumbnail shows a dedicated broken-image glyph instead of the
+  generic warning exclamation
+- installing an import keeps the previous database as one recoverable
+  app.db.bak generation (kept out of cloud and device-transfer backups on
+  android, and out of ios backups), stale journals follow it aside, and a
+  failed swap restores it instead of leaving no database
+- a staged database import is stamped with the hash of its validated file and
+  only that candidate is adopted at the next start; imports whose tables miss
+  columns, or that smuggle triggers in, are rejected, and the sanitizer
+  disarms those triggers before stripping the credentials
+- downloads no longer leave their temporary files behind once the export
+  consumed them, and a cancellation that raced the export removes the copy it
+  actually wrote - on android through saf too - instead of guessing a path
+- the export snapshot flushes the wal before its plain-copy fallback, so a
+  fresh export cannot miss the newest committed rows
+- a failed wiki request no longer covers up the offline tag description that
+  was already available
+- switching the video quality while every player slot is taken keeps the
+  position and playing state through the retry instead of restarting
+- the update dialog's cancel button closes the dialog again: it used to check
+  the settings route instead of the dialog itself and swallowed the press
+- the section headers of the settings page and the history drawer align with
+  their lists again instead of drifting toward the center
+- releases refuse to build when the signing secrets are missing instead of
+  generating an ad-hoc keystore that could never receive an update
+
 ## [21.5.0-rc.3+125] - 2026-11-07
 ### Changed
 - the onboarding language step lays its languages out as a compact chip grid
@@ -1466,3 +1540,4 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 [21.5.0-rc.2+124]: https://github.com/purrfecto114-lgtm/e1547_plus/compare/21.5.0-rc.1+123...21.5.0-rc.2+124
 
 [21.5.0-rc.3+125]: https://github.com/purrfecto114-lgtm/e1547_plus/compare/21.5.0-rc.2+124...21.5.0-rc.3+125
+[21.5.0+126]: https://github.com/purrfecto114-lgtm/e1547_plus/compare/21.5.0-rc.3+125...21.5.0+126
