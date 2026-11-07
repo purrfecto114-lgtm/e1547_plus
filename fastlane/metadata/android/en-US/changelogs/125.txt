@@ -1,0 +1,5 @@
+The onboarding language step lays its languages out as a compact chip grid with a scrollbar standing by, and the thumbnail tier is titled "thumbnail quality" in onboarding and settings.
+
+The pin screen greets with a small lock and pins its cancel action below the content. Secure display returned to the upstream FLAG_SECURE approach, which works on every android release without any permission.
+
+Fixes: the biometric lock distinguishes absent hardware from missing enrollment and backs its probe with a direct FingerprintManagerCompat check on android; a failed thumbnail shows a dedicated broken-image glyph; imports keep the previous database as a recoverable backup; releases refuse to build without the signing secrets.

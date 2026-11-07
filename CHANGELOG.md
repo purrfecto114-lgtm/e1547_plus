@@ -4,6 +4,36 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and this project
 adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [21.5.0-rc.3+125] - 2026-11-07
+### Changed
+- the onboarding language step lays its languages out as a compact chip grid
+  with a scrollbar standing by, instead of a tall list that hid most of them
+  behind the bottom bar
+- the thumbnail tier is titled "thumbnail quality" in the onboarding step and
+  the appearance settings, no longer borrowing the grid density's title
+- the pin screen greets with a small lock glyph and pins its cancel action
+  below the content, instead of an oversized badge that pushed the keypad and
+  the cancel off short screens
+- secure display returned to the upstream approach: FLAG_SECURE, a window
+  flag every android release supports without any permission, hides the app's
+  content from screenshots and the app switcher again - the previous native
+  cover raced the switcher screenshot and lost on android 7
+
+### Fixed
+- the biometric lock explains three states (absent hardware, hardware without
+  an enrolled print, usable lock) and rescues devices whose plugin probe
+  reports "no biometrics" while the fingerprint reader holds enrolled prints:
+  a direct FingerprintManagerCompat probe backs the availability check up on
+  android
+- a failed thumbnail shows a dedicated broken-image glyph instead of the
+  generic warning exclamation
+- installing an import keeps the previous database as one recoverable
+  app.db.bak generation (kept out of cloud and device-transfer backups on
+  android, and out of ios backups), stale journals follow it aside, and a
+  failed swap restores it instead of leaving no database
+- releases refuse to build when the signing secrets are missing instead of
+  generating an ad-hoc keystore that could never receive an update
+
 ## [21.5.0-rc.2+124] - 2026-11-07
 ### Changed
 - the PIN entry screen is redesigned: a themed badge, secret dots that fill in as
@@ -1434,3 +1464,5 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 [21.4.0+122]: https://github.com/purrfecto114-lgtm/e1547_plus/compare/21.3.0+121...21.4.0+122
 [21.5.0-rc.1+123]: https://github.com/purrfecto114-lgtm/e1547_plus/compare/21.4.0+122...21.5.0-rc.1+123
 [21.5.0-rc.2+124]: https://github.com/purrfecto114-lgtm/e1547_plus/compare/21.5.0-rc.1+123...21.5.0-rc.2+124
+
+[21.5.0-rc.3+125]: https://github.com/purrfecto114-lgtm/e1547_plus/compare/21.5.0-rc.2+124...21.5.0-rc.3+125
