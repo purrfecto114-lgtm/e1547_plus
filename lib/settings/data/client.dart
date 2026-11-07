@@ -170,8 +170,12 @@ class AppInfoClient {
     } else if (Platform.isIOS) {
       binary = 'ipa';
     } else if (Platform.isWindows) {
-      // enable this when releasing windows
-      // binary = 'exe';
+      binary = 'exe';
+    } else if (Platform.isLinux) {
+      // Asset names resolve by their last extension, so the deb
+      // stands for the linux channel and tar.gz archives stay out
+      // of the comparison.
+      binary = 'deb';
     }
 
     return filterNewVersions(

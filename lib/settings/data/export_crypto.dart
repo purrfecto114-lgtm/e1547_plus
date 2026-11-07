@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:isolate';
 import 'dart:math';
 import 'dart:typed_data';
 
@@ -36,13 +37,9 @@ const int _saltLength = 16;
 const int _nonceLength = 12;
 const int _headerLength =
     databaseExportMagic.length + 1 + _saltLength + _nonceLength;
+const int _kdfIterations = 150000;
 
 final AesGcm _cipher = AesGcm.with256bits();
-final Pbkdf2 _kdf = Pbkdf2(
-  macAlgorithm: Hmac.sha256(),
-  iterations: 150000,
-  bits: 256,
-);
 
 /// Whether [bytes] starts with the encrypted database export header.
 bool hasDatabaseExportMagic(List<int> bytes) {
@@ -115,8 +112,25 @@ Future<Uint8List> decryptDatabaseExport(
   return Uint8List.fromList(plain);
 }
 
-Future<SecretKey> _deriveKey(String password, List<int> salt) =>
-    _kdf.deriveKey(secretKey: SecretKey(utf8.encode(password)), nonce: salt);
+/// Derives the export key on a background isolate: one hundred and
+/// fifty thousand PBKDF2 rounds would freeze the ui for close to a
+/// second on the phones this fork targets, long enough to look like a
+/// hang during export and import alike.
+Future<SecretKey> _deriveKey(String password, List<int> salt) async {
+  final bytes = await Isolate.run(() async {
+    final kdf = Pbkdf2(
+      macAlgorithm: Hmac.sha256(),
+      iterations: _kdfIterations,
+      bits: 256,
+    );
+    final key = await kdf.deriveKey(
+      secretKey: SecretKey(utf8.encode(password)),
+      nonce: salt,
+    );
+    return key.extractBytes();
+  });
+  return SecretKeyData(bytes);
+}
 
 /// Cryptographically secure random bytes for salts.
 Uint8List _randomBytes(int length) {

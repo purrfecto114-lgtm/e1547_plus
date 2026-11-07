@@ -6,6 +6,10 @@ import 'package:e1547/shared/shared.dart';
 import 'package:flutter/foundation.dart';
 import 'package:notified_preferences/notified_preferences.dart';
 
+/// The storage key behind `Settings.onboardingSeen`, so startup code
+/// can backfill the flag before any settings engine exists.
+const String onboardingSeenKey = 'onboardingSeen';
+
 class Settings extends NotifiedSettings {
   Settings(super.preferences);
 
@@ -94,7 +98,7 @@ class Settings extends NotifiedSettings {
   );
 
   late final ValueNotifier<bool> onboardingSeen = createSetting<bool>(
-    key: 'onboardingSeen',
+    key: onboardingSeenKey,
     initialValue: false,
   );
 

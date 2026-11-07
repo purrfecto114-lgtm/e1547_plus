@@ -40,7 +40,8 @@ abstract final class PlatformCapabilities {
       hasBackgroundWorker && [Platform.isAndroid, Platform.isIOS].any((e) => e);
 
   /// Whether this platform supports playing videos.
-  /// Platform views are not supported on desktop right now.
+  /// Renders through media_kit's texture pipeline, so desktop
+  /// builds play videos too; CI ships libmpv for them.
   static bool get hasVideos => true;
 
   /// Whether this platform supports secure display.

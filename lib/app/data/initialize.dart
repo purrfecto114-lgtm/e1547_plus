@@ -37,6 +37,13 @@ Future<String> getTemporaryAppDirectory() => getTemporaryDirectory().then(
 Future<String> getAppDatabasePath() =>
     getApplicationSupportDirectory().then((dir) => join(dir.path, 'app.db'));
 
+/// How many recent log files the startup sweep keeps.
+///
+/// The threshold and the sublist below derive from this one constant;
+/// they used to drift apart (clean above 50, keep 10), which let the
+/// directory grow in between instead of trimming steadily.
+const int maxLogFiles = 10;
+
 /// Initializes the logger used by the app with default production values.
 Future<Logs> initializeLogger({
   String? path,
@@ -94,8 +101,8 @@ File createLogFile(String directoryPath, String? postfix) {
 
   logFiles.sort((a, b) => b.date.compareTo(a.date));
 
-  if (logFiles.length > 50) {
-    for (final old in logFiles.sublist(10)) {
+  if (logFiles.length > maxLogFiles * 5) {
+    for (final old in logFiles.sublist(maxLogFiles)) {
       try {
         old.file.deleteSync();
       } on FileSystemException {
@@ -156,14 +163,14 @@ Future<AppStorage> initializeAppStorage() async {
 }
 
 Future<void> backfillOnboardingSeen(AppStorage storage) async {
-  if (storage.preferences.getBool('onboardingSeen') ?? false) return;
+  if (storage.preferences.getBool(onboardingSeenKey) ?? false) return;
   final identities = await IdentityRepository(storage.sqlite).all();
   final defaultHost = ClientFactory().createDefaultIdentity().host;
   final existing =
       identities.length > 1 ||
       identities.any((identity) => identity.host != defaultHost);
   if (existing) {
-    await storage.preferences.setBool('onboardingSeen', true);
+    await storage.preferences.setBool(onboardingSeenKey, true);
   }
 }
 

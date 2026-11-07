@@ -156,4 +156,27 @@ void main() {
     await tester.pumpAndSettle();
     expect(settings.tileSize.value, TileSize.small);
   });
+
+  testWidgets('theme step scrolls instead of overflowing on short screens', (
+    tester,
+  ) async {
+    // 640x360 with enlarged text used to throw a RenderFlex overflow:
+    // the swatch grid had no way to shrink, so the step now scrolls.
+    tester.view.physicalSize = const Size(640, 360);
+    tester.view.devicePixelRatio = 1;
+    addTearDown(tester.view.resetPhysicalSize);
+    addTearDown(tester.view.resetDevicePixelRatio);
+    tester.platformDispatcher.textScaleFactorTestValue = 1.3;
+    addTearDown(tester.platformDispatcher.clearTextScaleFactorTestValue);
+
+    await tester.pumpWidget(wrap(const OnboardingScreen()));
+    await tester.pumpAndSettle();
+    await tester.tap(find.text('Next'));
+    await tester.pumpAndSettle();
+
+    expect(find.text('Pick a look'), findsOneWidget);
+    // The swatch grid stays reachable through the scroll view.
+    expect(tester.getRect(find.text('dark')), isNotNull);
+    expect(tester.takeException(), isNull);
+  });
 }

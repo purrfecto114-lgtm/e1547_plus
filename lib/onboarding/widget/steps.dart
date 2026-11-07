@@ -283,42 +283,48 @@ class ThemeStep extends StatelessWidget {
   Widget build(BuildContext context) {
     Settings settings = context.watch<Settings>();
     final l10n = AppLocalizations.of(context);
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 24),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Text(
-            l10n.onboardingThemeTitle,
-            style: Theme.of(context).textTheme.headlineSmall,
-            textAlign: TextAlign.center,
+    // Like the other steps, the swatch grid scrolls when a short or
+    // landscape screen cannot fit it, instead of overflowing.
+    return Center(
+      child: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 24),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(
+                l10n.onboardingThemeTitle,
+                style: Theme.of(context).textTheme.headlineSmall,
+                textAlign: TextAlign.center,
+              ),
+              const SizedBox(height: 12),
+              Text(
+                l10n.onboardingThemeBody,
+                style: Theme.of(context).textTheme.bodyLarge,
+                textAlign: TextAlign.center,
+              ),
+              const SizedBox(height: 32),
+              ValueListenableBuilder(
+                valueListenable: settings.theme,
+                builder: (context, current, child) => Wrap(
+                  spacing: 16,
+                  runSpacing: 16,
+                  alignment: WrapAlignment.center,
+                  children: AppTheme.values
+                      .map(
+                        (theme) => _ThemeSwatch(
+                          theme: theme,
+                          selected: theme == current,
+                          onTap: () => settings.theme.value = theme,
+                        ),
+                      )
+                      .toList(),
+                ),
+              ),
+            ],
           ),
-          const SizedBox(height: 12),
-          Text(
-            l10n.onboardingThemeBody,
-            style: Theme.of(context).textTheme.bodyLarge,
-            textAlign: TextAlign.center,
-          ),
-          const SizedBox(height: 32),
-          ValueListenableBuilder(
-            valueListenable: settings.theme,
-            builder: (context, current, child) => Wrap(
-              spacing: 16,
-              runSpacing: 16,
-              alignment: WrapAlignment.center,
-              children: AppTheme.values
-                  .map(
-                    (theme) => _ThemeSwatch(
-                      theme: theme,
-                      selected: theme == current,
-                      onTap: () => settings.theme.value = theme,
-                    ),
-                  )
-                  .toList(),
-            ),
-          ),
-        ],
+        ),
       ),
     );
   }

@@ -1,5 +1,5 @@
 import 'dart:async';
-import 'dart:math' show pi, sin;
+import 'dart:math' show min, pi, sin;
 
 import 'package:animations/animations.dart';
 import 'package:e1547/app/data/pin.dart';
@@ -29,17 +29,28 @@ class _LockScreenState extends State<LockScreen> {
   void lock() => setState(() => locked = true);
   void unlock() => setState(() => locked = false);
 
-  /// Verifies the entry against the stored pin and upgrades legacy
-  /// plain text pins to the salted hash once they prove correct.
+  /// Verifies the entry against the stored pin and rehashes stale
+  /// storage once it proves correct: a legacy plain text pin upgrades
+  /// to the salted hash, and a hash pinned at a lower iteration count
+  /// than the current default is lifted to it, both at the cost of the
+  /// unlock the user just made.
   Future<bool> verifyPinEntry(String entry) async {
     final settings = context.read<Settings>();
     final stored = settings.appPin.value;
     if (stored == null) return false;
     final bool ok = await verifyPin(entry, stored);
-    if (ok && !isPinHash(stored)) {
+    if (!ok) return false;
+    // Defense in depth: the storage may have been rewritten while the
+    // derivation ran, and overwriting that with our own rehash would
+    // discard whatever the writer intended.
+    if (settings.appPin.value != stored) return true;
+    final int? storedIterations = pinHashIterationsOf(stored);
+    final bool stale =
+        storedIterations == null || storedIterations < pinHashIterations;
+    if (stale) {
       settings.appPin.value = await hashPin(entry);
     }
-    return ok;
+    return true;
   }
 
   @override
@@ -55,7 +66,19 @@ class _LockScreenState extends State<LockScreen> {
         biometrics: biometrics,
         autoBiometrics: biometrics,
         onBiometrics: biometrics
-            ? () => tryLocalAuth(context: context, onSuccess: unlock)
+            ? () => tryLocalAuth(
+                  context: context,
+                  // A stronger factor clears the pin backoff as well:
+                  // the owner just proved who they are, so punishing
+                  // them for earlier typos after a restart reads as a
+                  // bug rather than as a lockout.
+                  onSuccess: () {
+                    final settings = context.read<Settings>();
+                    settings.appPinFailures.value = 0;
+                    settings.appPinLockedUntil.value = 0;
+                    unlock();
+                  },
+                )
             : null,
         onCompleted: (_) => unlock(),
       );
@@ -114,7 +137,6 @@ class PinLock extends StatefulWidget {
     super.key,
     required this.title,
     this.confirmTitle,
-    this.correctString,
     this.verify,
     this.attempts,
     this.lockedUntil,
@@ -123,22 +145,13 @@ class PinLock extends StatefulWidget {
     this.autoBiometrics = false,
     this.onBiometrics,
     this.onCancelled,
-  }) : assert(
-         verify == null || correctString == null,
-         'a pin is either verified against a hash or matched locally',
-       );
+  });
 
   final String title;
 
   /// When set, the pin is collected twice: [title] prompts the first
   /// entry and [confirmTitle] the repeat, which must match.
   final String? confirmTitle;
-
-  /// When set, entries are verified against it instead of collected.
-  ///
-  /// Only used by the setup flow, where both entries are compared
-  /// locally. The unlock flow passes [verify] instead.
-  final String? correctString;
 
   /// Async verdict for an entry, used by the unlock flow against the
   /// stored pin hash. When null, entries are collected instead.
@@ -194,11 +207,21 @@ class _PinLockState extends State<PinLock> with SingleTickerProviderStateMixin {
       });
     }
     // A stored cooldown timestamp keeps its promise across restarts:
-    // killing the app mid-timeout does not reset the wait.
+    // killing the app mid-timeout does not reset the wait. The stamp is
+    // clamped to a single maximum cooldown, so a device clock set
+    // backwards stretches the wait at most to that cap instead of
+    // turning the backoff into a permanent lock.
     final int until = widget.lockedUntil?.value ?? 0;
-    if (until > DateTime.now().millisecondsSinceEpoch) {
-      cooldownUntil = DateTime.fromMillisecondsSinceEpoch(until);
-      _runCooldownTimer();
+    if (until > 0) {
+      final int now = DateTime.now().millisecondsSinceEpoch;
+      final int clamped = min(
+        until,
+        now + PinBackoff.maxDelay.inMilliseconds,
+      );
+      if (clamped > now) {
+        cooldownUntil = DateTime.fromMillisecondsSinceEpoch(clamped);
+        _runCooldownTimer();
+      }
     }
   }
 
@@ -210,7 +233,7 @@ class _PinLockState extends State<PinLock> with SingleTickerProviderStateMixin {
     super.dispose();
   }
 
-  bool get confirming => widget.correctString == null && firstEntry != null;
+  bool get confirming => firstEntry != null;
 
   void addDigit(int digit) {
     if (entry.length >= digits || awaiting) return;
@@ -238,14 +261,6 @@ class _PinLockState extends State<PinLock> with SingleTickerProviderStateMixin {
     if (!mounted || entry.length < digits || awaiting) return;
     if (widget.verify != null) {
       verifyEntry();
-      return;
-    }
-    if (widget.correctString != null) {
-      if (entry == widget.correctString) {
-        complete();
-      } else {
-        fail(AppLocalizations.of(context).lockWrongPin);
-      }
       return;
     }
     final previous = firstEntry;
@@ -302,21 +317,20 @@ class _PinLockState extends State<PinLock> with SingleTickerProviderStateMixin {
 
   void _runCooldownTimer() {
     cooldownTimer?.cancel();
-    cooldownTimer = Timer.periodic(const Duration(milliseconds: 500), (timer) {
-      if (!mounted) {
-        timer.cancel();
-        return;
-      }
-      final until = cooldownUntil;
-      if (until == null || DateTime.now().isAfter(until)) {
-        timer.cancel();
+    // One tick per second matches the resolution of the countdown
+    // text; the previous half second period rebuilt the screen twice
+    // as often for the same rendering.
+    cooldownTimer = Timer(const Duration(seconds: 1), () {
+      if (!mounted || cooldownUntil == null) return;
+      if (DateTime.now().isAfter(cooldownUntil!)) {
         setState(() {
           cooldownUntil = null;
           if (error != null) error = null;
         });
       } else {
-        // Rebuilds the countdown text twice a second.
+        // Rebuilds the countdown text once a second.
         setState(() {});
+        _runCooldownTimer();
       }
     });
   }
@@ -340,7 +354,6 @@ class _PinLockState extends State<PinLock> with SingleTickerProviderStateMixin {
     final theme = Theme.of(context);
     final scheme = theme.colorScheme;
     final l10n = AppLocalizations.of(context);
-    final bool setup = widget.correctString == null;
     final bool cooling = cooldownUntil != null;
     // The countdown replaces the wrong pin message while the backoff
     // runs, so the reserved line always explains what the keypad wants.
@@ -359,77 +372,103 @@ class _PinLockState extends State<PinLock> with SingleTickerProviderStateMixin {
           child: Column(
             children: [
               Expanded(
-                child: Center(
-                  child: SingleChildScrollView(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 32,
-                      vertical: 24,
-                    ),
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        // A small lock instead of the oversized badge the
-                        // setup screen used to carry: the glyph names the
-                        // state without pushing the keypad or the cancel
-                        // action off short screens.
-                        Icon(
-                          setup ? Icons.lock_outlined : Icons.lock_outline,
-                          size: 36,
-                          color: scheme.primary,
+                child: LayoutBuilder(
+                  builder: (context, constraints) {
+                    // On short landscape screens the keypad shrinks as
+                    // a whole instead of losing its lower rows behind
+                    // the fold; the clamp keeps the keys tappable on
+                    // any display while full size stays untouched on
+                    // phones that fit it.
+                    const reserved = 232.0;
+                    const designHeight = 4.0 * 84.0;
+                    final scale =
+                        ((constraints.maxHeight - reserved) / designHeight)
+                            .clamp(0.55, 1.0);
+                    return Center(
+                      child: SingleChildScrollView(
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 32,
+                          vertical: 24,
                         ),
-                        const SizedBox(height: 14),
-                        AnimatedSwitcher(
-                          duration: const Duration(milliseconds: 200),
-                          child: Text(
-                            confirming
-                                ? (widget.confirmTitle ?? widget.title)
-                                : widget.title,
-                            key: ValueKey(confirming),
-                            style: theme.textTheme.titleMedium,
-                            textAlign: TextAlign.center,
-                          ),
-                        ),
-                        const SizedBox(height: 10),
-                        // A reserved status line, so the layout does not jump.
-                        SizedBox(
-                          height: 20,
-                          child: AnimatedOpacity(
-                            opacity: status == null ? 0 : 1,
-                            duration: const Duration(milliseconds: 150),
-                            child: Text(
-                              status ?? '',
-                              style: theme.textTheme.bodyMedium?.copyWith(
-                                color: scheme.error,
+                        child: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            // A small lock keeps the glyph symbolic:
+                            // an oversized badge pushed the keypad and
+                            // the cancel action off short screens.
+                            Icon(
+                              Icons.lock_outlined,
+                              size: 36,
+                              color: scheme.primary,
+                            ),
+                            const SizedBox(height: 14),
+                            AnimatedSwitcher(
+                              duration: const Duration(milliseconds: 200),
+                              child: Text(
+                                confirming
+                                    ? (widget.confirmTitle ?? widget.title)
+                                    : widget.title,
+                                key: ValueKey(confirming),
+                                style: theme.textTheme.titleMedium,
+                                textAlign: TextAlign.center,
                               ),
                             ),
-                          ),
+                            const SizedBox(height: 10),
+                            // A reserved status line, so the layout
+                            // does not jump. scaleDown keeps a long
+                            // cooldown message inside its line instead
+                            // of drawing it over the dots below.
+                            SizedBox(
+                              height: 20,
+                              width: double.infinity,
+                              child: FittedBox(
+                                fit: BoxFit.scaleDown,
+                                child: AnimatedOpacity(
+                                  opacity: status == null ? 0 : 1,
+                                  duration: const Duration(
+                                    milliseconds: 150,
+                                  ),
+                                  child: Text(
+                                    status ?? '',
+                                    maxLines: 1,
+                                    style: theme.textTheme.bodyMedium
+                                        ?.copyWith(
+                                          color: scheme.error,
+                                        ),
+                                  ),
+                                ),
+                              ),
+                            ),
+                            const SizedBox(height: 12),
+                            AnimatedBuilder(
+                              animation: shake,
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.center,
+                                children: [
+                                  for (int i = 0; i < digits; i++) ...[
+                                    dot(i, scheme),
+                                    if (i < digits - 1)
+                                      const SizedBox(width: 20),
+                                  ],
+                                ],
+                              ),
+                              builder: (context, child) {
+                                double t = shake.value;
+                                double dx = sin(t * 3 * pi) * 12 * (1 - t);
+                                return Transform.translate(
+                                  offset: Offset(dx, 0),
+                                  child: child,
+                                );
+                              },
+                            ),
+                            const SizedBox(height: 20),
+                            keypad(scheme, theme.textTheme, scale),
+                          ],
                         ),
-                        const SizedBox(height: 12),
-                        AnimatedBuilder(
-                          animation: shake,
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              for (int i = 0; i < digits; i++) ...[
-                                dot(i, scheme),
-                                if (i < digits - 1) const SizedBox(width: 20),
-                              ],
-                            ],
-                          ),
-                          builder: (context, child) {
-                            double t = shake.value;
-                            double dx = sin(t * 3 * pi) * 12 * (1 - t);
-                            return Transform.translate(
-                              offset: Offset(dx, 0),
-                              child: child,
-                            );
-                          },
-                        ),
-                        const SizedBox(height: 20),
-                        keypad(scheme, theme.textTheme),
-                      ],
-                    ),
-                  ),
+                      ),
+                    );
+                  },
                 ),
               ),
               if (widget.onCancelled != null)
@@ -484,11 +523,12 @@ class _PinLockState extends State<PinLock> with SingleTickerProviderStateMixin {
     );
   }
 
-  Widget keypad(ColorScheme scheme, TextTheme textTheme) {
+  Widget keypad(ColorScheme scheme, TextTheme textTheme, double scale) {
     // While a verification is in flight or a cooldown is running the
     // keys dim and ignore presses; addDigit and backspace guard anyway.
     Widget key(int digit) => cell(
       scheme: scheme,
+      size: scale,
       child: Text(
         '$digit',
         style: textTheme.headlineMedium?.copyWith(color: scheme.onSurface),
@@ -513,17 +553,23 @@ class _PinLockState extends State<PinLock> with SingleTickerProviderStateMixin {
             if (widget.biometrics && widget.onBiometrics != null)
               cell(
                 scheme: scheme,
-                child: Icon(Icons.fingerprint, size: 30, color: scheme.primary),
+                size: scale,
+                child: Icon(
+                  Icons.fingerprint,
+                  size: 30 * scale,
+                  color: scheme.primary,
+                ),
                 onTap: widget.onBiometrics,
               )
             else
-              const SizedBox(width: 84, height: 84),
+              SizedBox(width: 84 * scale, height: 84 * scale),
             key(0),
             cell(
               scheme: scheme,
+              size: scale,
               child: Icon(
                 Icons.backspace_outlined,
-                size: 26,
+                size: 26 * scale,
                 color: scheme.onSurfaceVariant,
               ),
               onTap: entry.isEmpty || awaiting ? null : backspace,
@@ -537,12 +583,13 @@ class _PinLockState extends State<PinLock> with SingleTickerProviderStateMixin {
 
   Widget cell({
     required ColorScheme scheme,
+    required double size,
     required Widget child,
     VoidCallback? onTap,
     bool enabled = true,
   }) {
     return Padding(
-      padding: const EdgeInsets.all(6),
+      padding: EdgeInsets.all(6 * size),
       child: Material(
         // Disabled keys keep their circle, only dimmed, so the keypad
         // silhouette stays stable instead of flashing a bare glyph.
@@ -554,7 +601,11 @@ class _PinLockState extends State<PinLock> with SingleTickerProviderStateMixin {
         child: InkWell(
           onTap: onTap,
           customBorder: const CircleBorder(),
-          child: SizedBox(width: 72, height: 72, child: Center(child: child)),
+          child: SizedBox(
+            width: 72 * size,
+            height: 72 * size,
+            child: Center(child: child),
+          ),
         ),
       ),
     );

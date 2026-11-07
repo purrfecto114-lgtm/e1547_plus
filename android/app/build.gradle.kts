@@ -33,7 +33,9 @@ android {
         applicationId = "net.e1547"
         // You can update the following values to match your application needs.
         // For more information, see: https://flutter.dev/to/review-gradle-config.
-        minSdk = flutter.minSdkVersion
+        // The fork verifies its behavior against Android 7; pin the
+        // floor instead of following the flutter default.
+        minSdk = 24
         targetSdk = flutter.targetSdkVersion
         versionCode = flutter.versionCode
         versionName = flutter.versionName

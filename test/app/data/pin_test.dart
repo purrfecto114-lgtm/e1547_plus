@@ -86,15 +86,51 @@ void main() {
       );
     });
 
-    test('a different iteration count still verifies', () async {
-      // The format carries its own cost factor so a future bump does
-      // not strand stored hashes.
+    test('a mismatched iteration count fails closed', () async {
+      // The hash was derived with 30k iterations, so verifying with a
+      // 1000 iteration derivation produces a different key and fails.
       final stored = await hashPin('1234');
       final parts = stored.split(r'$');
       final lowered = [parts[0], '1000', parts[2], parts[3]].join(r'$');
-      // The hash was derived with 30k iterations, so verifying with a
-      // 1000 iteration derivation produces a different key and fails.
       expect(await verifyPin('1234', lowered), isFalse);
+    });
+
+    test('degenerate stored records never verify any pin', () async {
+      // An empty hash segment would otherwise derive an empty key and
+      // compare equal to itself: release builds run without the debug
+      // asserts that used to catch this, so the floors are load
+      // bearing. Every malformed record must fail closed.
+      const pin = '1234';
+      expect(await verifyPin(pin, '$pinHashPrefix\$30000\$AAAA\$'), isFalse);
+      expect(
+        await verifyPin(
+          pin,
+          [pinHashPrefix, '30000', 'AAAA', 'AAAA'].join(r'$'),
+        ),
+        isFalse,
+      );
+      expect(
+        await verifyPin(
+          pin,
+          [pinHashPrefix, '30000', 'AAAAAAAAAAAAAAAAAAAAAA==', 'AAAA'].join(
+            r'$',
+          ),
+        ),
+        isFalse,
+      );
+      expect(
+        await verifyPin(
+          pin,
+          [pinHashPrefix, '1', 'AAAAAAAAAAAAAAAAAAAAAA==', 'AAAA'].join(r'$'),
+        ),
+        isFalse,
+      );
+    });
+
+    test('records the iteration count for staleness checks', () async {
+      expect(pinHashIterationsOf('2468'), isNull);
+      final stored = await hashPin('1234');
+      expect(pinHashIterationsOf(stored), pinHashIterations);
     });
   });
 
@@ -111,7 +147,12 @@ void main() {
       expect(PinBackoff.delayFor(5), const Duration(seconds: 16));
       expect(PinBackoff.delayFor(6), const Duration(seconds: 32));
       expect(PinBackoff.delayFor(7), const Duration(seconds: 60));
+      // Past the doubling range every failure stays at the cap.
+      expect(PinBackoff.delayFor(8), const Duration(seconds: 60));
+      expect(PinBackoff.delayFor(9), const Duration(seconds: 60));
+      expect(PinBackoff.delayFor(10), const Duration(seconds: 60));
       expect(PinBackoff.delayFor(100), const Duration(seconds: 60));
+      expect(PinBackoff.maxDelay, const Duration(seconds: 60));
     });
   });
 }

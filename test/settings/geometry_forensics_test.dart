@@ -167,4 +167,76 @@ void main() {
     );
     await golden(tester, 'pinlock_zh_1080x1920_dpr3');
   });
+
+  testWidgets('pin lock survives a short landscape surface', (tester) async {
+    // 640x360 used to overflow the theme step and cut the keypad in
+    // half behind the fold; the shrunken keypad must fit without a
+    // RenderFlex exception and keep its first rows on screen.
+    await pumpApp(
+      tester,
+      home: Builder(
+        builder: (context) {
+          settings.appPinFailures.value = 2;
+          settings.appPinLockedUntil.value = DateTime.now()
+              .add(const Duration(seconds: 60))
+              .millisecondsSinceEpoch;
+          return PinLock(
+            title: AppLocalizations.of(context).lockEnterPin,
+            verify: (pin) async => false,
+            attempts: settings.appPinFailures,
+            lockedUntil: settings.appPinLockedUntil,
+            onCompleted: (_) {},
+            onCancelled: () {},
+          );
+        },
+      ),
+      size: const Size(640, 360),
+      dpr: 1,
+    );
+    expect(tester.takeException(), isNull);
+    // The cooldown message renders inside its reserved status line.
+    expect(find.textContaining('秒'), findsOneWidget);
+    // The top keypad rows stay within the visible surface.
+    final firstKey = tester.getRect(find.text('1'));
+    expect(firstKey.bottom, lessThanOrEqualTo(360));
+    final secondKey = tester.getRect(find.text('4'));
+    expect(secondKey.bottom, lessThanOrEqualTo(360));
+    // The cancel action stays pinned and reachable.
+    final cancel = tester.getRect(find.text('取消'));
+    expect(cancel.bottom, lessThanOrEqualTo(360));
+  });
+
+  testWidgets('a persisted cooldown survives a clock set backwards', (
+    tester,
+  ) async {
+    // A timestamp far beyond the backoff cap must clamp to one
+    // cooldown instead of stretching the wait into forever.
+    final clock = DateTime.now();
+    await pumpApp(
+      tester,
+      home: Builder(
+        builder: (context) {
+          settings.appPinFailures.value = 5;
+          settings.appPinLockedUntil.value = clock
+              .add(const Duration(days: 30))
+              .millisecondsSinceEpoch;
+          return PinLock(
+            title: AppLocalizations.of(context).lockEnterPin,
+            verify: (pin) async => false,
+            attempts: settings.appPinFailures,
+            lockedUntil: settings.appPinLockedUntil,
+            onCompleted: (_) {},
+          );
+        },
+      ),
+      size: const Size(1080, 1920),
+      dpr: 3,
+    );
+    expect(tester.takeException(), isNull);
+    // The countdown runs in seconds, not the thirty days the raw
+    // timestamp claimed; the exact number moves between pumps.
+    expect(find.textContaining('天'), findsNothing);
+    expect(find.textContaining('小时'), findsNothing);
+    expect(find.textContaining('秒后再试'), findsOneWidget);
+  });
 }

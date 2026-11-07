@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:isolate';
 import 'dart:math';
 import 'dart:typed_data';
 
@@ -27,29 +28,58 @@ const String pinHashPrefix = 'e1547pin1';
 const int pinHashIterations = 30000;
 const int _saltLength = 16;
 
-final Pbkdf2 _pinKdf = Pbkdf2(
+/// Smallest parameters a stored hash may carry and still verify.
+///
+/// A record that slips past these bounds (an empty or truncated hash
+/// segment, a near empty salt, a token iteration count) is treated as
+/// corrupt rather than trusted: without the floor an empty expected
+/// hash would verify any pin in release builds, where the package's
+/// own debug asserts no longer guard the derivation.
+const int _minIterations = 1000;
+const int _minSaltLength = 8;
+const int _minHashLength = 32;
+
+Pbkdf2 _kdfFor(int iterations, int bits) => Pbkdf2(
   macAlgorithm: Hmac.sha256(),
-  iterations: pinHashIterations,
-  bits: 256,
+  iterations: iterations,
+  bits: bits,
 );
 
 /// Whether [stored] is a hashed pin rather than a legacy plain text one.
 bool isPinHash(String stored) => stored.startsWith('$pinHashPrefix\$');
 
 /// Hashes [pin] into the versioned storage format.
+///
+/// The derivation runs on a background isolate: thirty thousand
+/// PBKDF2 rounds block the ui isolate for a visible fraction of a
+/// second on the low end hardware this fork targets.
 Future<String> hashPin(String pin) async {
   final salt = _randomBytes(_saltLength);
-  final key = await _pinKdf.deriveKey(
-    secretKey: SecretKey(utf8.encode(pin)),
-    nonce: salt,
-  );
-  final bytes = await key.extractBytes();
+  final bytes = await Isolate.run(() async {
+    final kdf = _kdfFor(pinHashIterations, 256);
+    final key = await kdf.deriveKey(
+      secretKey: SecretKey(utf8.encode(pin)),
+      nonce: salt,
+    );
+    return key.extractBytes();
+  });
   return [
     pinHashPrefix,
     '$pinHashIterations',
     base64Encode(salt),
     base64Encode(bytes),
   ].join(r'$');
+}
+
+/// The iteration count recorded in a hashed pin, or null for a legacy
+/// plain text pin.
+///
+/// Callers use this to rehash a stored pin whose cost factor has since
+/// been raised, instead of leaving old hashes at their old strength
+/// forever.
+int? pinHashIterationsOf(String stored) {
+  if (!isPinHash(stored)) return null;
+  return int.tryParse(stored.split(r'$')[1]);
 }
 
 /// Verifies [pin] against the stored value.
@@ -65,7 +95,7 @@ Future<bool> verifyPin(String pin, String stored) async {
   final parts = stored.split(r'$');
   if (parts.length != 4) return false;
   final int? iterations = int.tryParse(parts[1]);
-  if (iterations == null || iterations < 1) return false;
+  if (iterations == null || iterations < _minIterations) return false;
   final Uint8List salt;
   final Uint8List expected;
   try {
@@ -74,16 +104,20 @@ Future<bool> verifyPin(String pin, String stored) async {
   } on FormatException {
     return false;
   }
-  final kdf = Pbkdf2(
-    macAlgorithm: Hmac.sha256(),
-    iterations: iterations,
-    bits: expected.length * 8,
-  );
-  final key = await kdf.deriveKey(
-    secretKey: SecretKey(utf8.encode(pin)),
-    nonce: salt,
-  );
-  final actual = await key.extractBytes();
+  // A record below these floors is corrupt or forged, never valid:
+  // with an empty expected hash the derivation would yield an empty
+  // key and compare equal to itself, silently unlocking for any pin.
+  if (salt.length < _minSaltLength || expected.length < _minHashLength) {
+    return false;
+  }
+  final actual = await Isolate.run(() async {
+    final kdf = _kdfFor(iterations, expected.length * 8);
+    final key = await kdf.deriveKey(
+      secretKey: SecretKey(utf8.encode(pin)),
+      nonce: salt,
+    );
+    return key.extractBytes();
+  });
   return _constantTimeEquals(actual, expected);
 }
 
@@ -98,6 +132,13 @@ abstract final class PinBackoff {
   static const int freeAttempts = 2;
   static const int _baseSeconds = 4;
   static const int _capSeconds = 60;
+
+  /// The longest cooldown the policy hands out.
+  ///
+  /// Consumers clamp persisted timestamps against this, so a device
+  /// clock set backwards cannot stretch a cooldown beyond what a
+  /// correct run could have produced.
+  static const Duration maxDelay = Duration(seconds: _capSeconds);
 
   /// How long to wait after [failures] consecutive wrong pins.
   ///
@@ -121,7 +162,11 @@ Uint8List _randomBytes(int length) {
 }
 
 /// Length independent constant time comparison.
+///
+/// Empty inputs never compare equal: an empty stored hash would
+/// otherwise match an empty derivation and verify any pin.
 bool _constantTimeEquals(List<int> a, List<int> b) {
+  if (a.isEmpty || b.isEmpty) return false;
   int diff = a.length ^ b.length;
   for (int i = 0; i < a.length && i < b.length; i++) {
     diff |= a[i] ^ b[i];

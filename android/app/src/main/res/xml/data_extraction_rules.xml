@@ -10,7 +10,11 @@
         <exclude domain="file" path="app.db.bak-wal" />
         <exclude domain="file" path="app.db-shm" />
         <exclude domain="file" path="app.db.bak-shm" />
-        <!-- the shared preferences hold the screen-lock PIN in plain text -->
+        <!-- the shared preferences hold the screen-lock PIN (as a salted
+             hash plus its backoff counters); device-to-device transfer
+             keeps them so an unlocked phone stays unlocked on the new
+             device, and a legacy plain text pin upgrades itself on the
+             first successful unlock after arrival -->
         <exclude domain="sharedpref" path="FlutterSharedPreferences.xml" />
     </cloud-backup>
     <device-transfer>

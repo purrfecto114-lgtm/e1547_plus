@@ -22,7 +22,11 @@ class TagCard extends StatelessWidget {
       ),
       onLongPress: () => showTagSearchPrompt(context: context, tag: tag),
       onSecondaryTap: () => showTagSearchPrompt(context: context, tag: tag),
-      child: Text(tagToTitle(tag), overflow: TextOverflow.ellipsis),
+      child: Text(
+        tagToTitle(tag),
+        maxLines: 1,
+        overflow: TextOverflow.ellipsis,
+      ),
     );
   }
 }
@@ -62,7 +66,11 @@ class TagCounterCard extends StatelessWidget {
           ),
         ],
       ),
-      child: Text(tagToTitle(tag), overflow: TextOverflow.ellipsis),
+      child: Text(
+        tagToTitle(tag),
+        maxLines: 1,
+        overflow: TextOverflow.ellipsis,
+      ),
     );
   }
 }
@@ -93,7 +101,11 @@ class DenyListTagCard extends StatelessWidget {
       onTap: () => showTagSearchPrompt(context: context, tag: tag),
       onLongPress: () => showTagSearchPrompt(context: context, tag: tag),
       onSecondaryTap: () => showTagSearchPrompt(context: context, tag: tag),
-      child: Text(tagToTitle(tag), overflow: TextOverflow.ellipsis),
+      child: Text(
+        tagToTitle(tag),
+        maxLines: 1,
+        overflow: TextOverflow.ellipsis,
+      ),
     );
   }
 }
