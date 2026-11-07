@@ -1,6 +1,6 @@
 import 'dart:async';
 import 'dart:io' show Platform;
-import 'dart:math' show sqrt;
+import 'dart:math' show pi, sqrt;
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:e1547/post/post.dart';
@@ -321,9 +321,10 @@ class _ImageProgressWrapperState extends State<ImageProgressWrapper> {
 /// A default error builder for cached network image.
 ///
 /// Shows a dedicated torn-image glyph instead of a generic warning
-/// exclamation: the photo is ripped apart and an exclamation badge marks
-/// the bottom right corner, so the state it stands in reads at a glance
-/// even at thumbnail sizes.
+/// exclamation: the photo is ripped in half and an exclamation badge
+/// marks the bottom right corner, so the state it stands in reads at a
+/// glance even at thumbnail sizes. Like every other icon of the app the
+/// glyph is monochrome and follows the outlined Material vocabulary.
 Widget defaultErrorBuilder(BuildContext context, String url, dynamic error) =>
     const TornImagePlaceholder();
 
@@ -350,8 +351,6 @@ class TornImagePlaceholder extends StatelessWidget {
           child: CustomPaint(
             painter: _TornImagePainter(
               color: IconTheme.of(context).color ?? theme.colorScheme.onSurface,
-              badgeColor: theme.colorScheme.error,
-              badgeTextColor: theme.colorScheme.onError,
             ),
           ),
         ),
@@ -360,37 +359,48 @@ class TornImagePlaceholder extends StatelessWidget {
   }
 }
 
+/// Paints a ripped photo in the outlined Material icon language: a round
+/// edged frame torn across the middle, its halves slid apart so the tear
+/// reads at thumbnail sizes, a stroked mountain ridge and a sun dot
+/// inside, plus a solid badge with a knocked out exclamation mark in the
+/// bottom right corner, the way Material composes badges onto glyphs.
 class _TornImagePainter extends CustomPainter {
-  const _TornImagePainter({
-    required this.color,
-    required this.badgeColor,
-    required this.badgeTextColor,
-  });
+  const _TornImagePainter({required this.color});
 
   final Color color;
-  final Color badgeColor;
-  final Color badgeTextColor;
 
   /// The jagged tear crossing the photo, as fractions of the glyph square
-  /// with y measured from the top.
+  /// with y measured from the top. A shallow diagonal with small teeth:
+  /// bold zigzags would read as a second mountain ridge instead of a rip.
   static const List<Offset> tear = [
-    Offset(0, 0.660),
-    Offset(0.10, 0.690),
-    Offset(0.22, 0.539),
-    Offset(0.34, 0.623),
-    Offset(0.46, 0.462),
-    Offset(0.58, 0.546),
-    Offset(0.72, 0.389),
-    Offset(0.86, 0.452),
-    Offset(1, 0.360),
+    Offset(0, 0.40),
+    Offset(0.13, 0.44),
+    Offset(0.24, 0.38),
+    Offset(0.38, 0.46),
+    Offset(0.52, 0.41),
+    Offset(0.63, 0.47),
+    Offset(0.78, 0.42),
+    Offset(1, 0.49),
+  ];
+
+  /// The mountain ridge of the photo, a stroked polyline like the one
+  /// Material's image glyphs draw instead of a filled silhouette. It
+  /// runs to the right edge and slides beneath the badge, the way
+  /// Material lets glyphs disappear under their badge.
+  static const List<Offset> ridge = [
+    Offset(0, 0.68),
+    Offset(0.24, 0.56),
+    Offset(0.42, 0.68),
+    Offset(0.56, 0.60),
+    Offset(1, 0.72),
   ];
 
   @override
   void paint(Canvas canvas, Size size) {
-    const inset = 0.125; // keeps the slid strips inside the canvas
-    const slide = 0.055; // torn paper: the strips slide apart horizontally
-    const stroke = 0.055;
-    const radius = 0.15;
+    const inset = 0.115; // keeps the slid halves inside the canvas
+    const lift = 0.06; // torn photo: the halves slide apart vertically
+    const shear = 0.018; // ...and slightly along the tear
+    const stroke = 0.06;
 
     final square = size.width;
     final glyph = Rect.fromLTWH(
@@ -399,126 +409,150 @@ class _TornImagePainter extends CustomPainter {
       (1 - 2 * inset) * square,
       (1 - 2 * inset) * square,
     );
-    final frame = RRect.fromRectAndRadius(
-      glyph,
-      Radius.circular(radius * glyph.width),
-    );
-    final framePath = Path()..addRRect(frame);
-
-    final framePaint = Paint()
+    final line = Paint()
       ..style = PaintingStyle.stroke
       ..strokeWidth = stroke * square
       ..strokeCap = StrokeCap.round
       ..strokeJoin = StrokeJoin.round
       ..color = color;
-    final fillPaint = Paint()..color = color;
+    final fill = Paint()..color = color;
 
-    // Each strip is the frame clipped to one side of the tear. Both draw
-    // the full photo glyph, so the displaced strips carry their share of
-    // sun and mountains with them.
+    // Each half is drawn as one closed outline: the ragged tear edge plus
+    // the frame edges and rounded corners that belong to it. Stroking
+    // that single path keeps every joint round and needs no clipping,
+    // which would eat half of every stroke it touches.
     for (final upper in [true, false]) {
-      final strip = Path.combine(
-        PathOperation.intersect,
-        framePath,
-        _tearPath(size, above: upper),
-      );
       canvas.save();
-      canvas.clipPath(strip);
-      canvas.translate((upper ? -1 : 1) * slide * square, 0);
-      canvas.drawRRect(frame, framePaint);
-      final base = glyph.bottom - framePaint.strokeWidth * 1.6;
-      canvas.drawPath(
-        Path()
-          ..moveTo(glyph.left + 0.05 * glyph.width, base)
-          ..lineTo(
-            glyph.left + 0.30 * glyph.width,
-            glyph.top + 0.66 * glyph.width,
-          )
-          ..lineTo(
-            glyph.left + 0.46 * glyph.width,
-            glyph.top + 0.87 * glyph.width,
-          )
-          ..lineTo(
-            glyph.left + 0.60 * glyph.width,
-            glyph.top + 0.76 * glyph.width,
-          )
-          ..lineTo(glyph.left + 0.76 * glyph.width, base)
-          ..close(),
-        fillPaint,
+      canvas.translate(
+        (upper ? -1 : 1) * shear * square,
+        (upper ? -1 : 1) * lift * square,
       );
-      canvas.drawCircle(
-        Offset(glyph.left + 0.27 * glyph.width, glyph.top + 0.26 * glyph.width),
-        0.08 * glyph.width,
-        fillPaint,
-      );
+      canvas.drawPath(_halfBoundary(upper: upper, glyph: glyph), line);
+      if (upper) {
+        canvas.drawCircle(
+          Offset(
+            glyph.left + 0.28 * glyph.width,
+            glyph.top + 0.21 * glyph.width,
+          ),
+          0.07 * glyph.width,
+          fill,
+        );
+      } else {
+        canvas.drawPath(_polyline(ridge, glyph), line);
+      }
       canvas.restore();
     }
 
     // The badge sits in the bottom right corner and overlaps the frame,
-    // sized so the exclamation stays legible at thumbnail sizes.
-    final badgeRadius = 0.195 * square;
-    final badgeCenter = Offset(
-      square - 1.32 * badgeRadius,
-      square - 1.32 * badgeRadius,
-    );
-    canvas.drawCircle(badgeCenter, badgeRadius, Paint()..color = badgeColor);
-    final barHalf = 0.16 * badgeRadius;
-    canvas.drawRRect(
-      RRect.fromRectAndRadius(
-        Rect.fromLTRB(
-          badgeCenter.dx - barHalf,
-          badgeCenter.dy - 0.50 * badgeRadius,
-          badgeCenter.dx + barHalf,
-          badgeCenter.dy + 0.12 * badgeRadius,
+    // sized so the exclamation stays legible at thumbnail sizes. It is
+    // solid like Material's badge glyphs and keeps its exclamation
+    // knocked out, so it works on every background without a hard coded
+    // error color clashing with the monochrome icon row it appears in.
+    final badgeRadius = 0.16 * square;
+    final badgeCenter = Offset(0.82 * square, 0.82 * square);
+    final badge = Path()
+      ..addOval(Rect.fromCircle(center: badgeCenter, radius: badgeRadius));
+    final exclamation = Path()
+      ..addRRect(
+        RRect.fromRectAndRadius(
+          Rect.fromLTRB(
+            badgeCenter.dx - 0.17 * badgeRadius,
+            badgeCenter.dy - 0.52 * badgeRadius,
+            badgeCenter.dx + 0.17 * badgeRadius,
+            badgeCenter.dy + 0.10 * badgeRadius,
+          ),
+          Radius.circular(0.17 * badgeRadius),
         ),
-        Radius.circular(barHalf),
-      ),
-      Paint()..color = badgeTextColor,
-    );
-    canvas.drawCircle(
-      Offset(badgeCenter.dx, badgeCenter.dy + 0.405 * badgeRadius),
-      0.145 * badgeRadius,
-      Paint()..color = badgeTextColor,
+      )
+      ..addOval(
+        Rect.fromCircle(
+          center: Offset(badgeCenter.dx, badgeCenter.dy + 0.42 * badgeRadius),
+          radius: 0.15 * badgeRadius,
+        ),
+      );
+    canvas.drawPath(
+      Path.combine(PathOperation.difference, badge, exclamation),
+      fill,
     );
   }
 
-  /// The half plane on one side of the tear, extended far beyond the icon
-  /// so clipping cannot leak around the tear ends.
-  Path _tearPath(Size size, {required bool above}) {
-    const inset = 0.125;
-    final square = size.width;
-    final points = tear
+  /// The closed outline of one torn half: its ragged tear edge plus the
+  /// frame edges and rounded corners that belong to it.
+  Path _halfBoundary({required bool upper, required Rect glyph}) {
+    final corner = 0.11 * glyph.width;
+    Rect cornerBox(Offset center) =>
+        Rect.fromCircle(center: center, radius: corner);
+    final tearPoints = tear
         .map(
-          (fraction) => Offset(
-            inset * square + fraction.dx * (1 - 2 * inset) * square,
-            inset * square + fraction.dy * (1 - 2 * inset) * square,
+          (point) => Offset(
+            glyph.left + point.dx * glyph.width,
+            glyph.top + point.dy * glyph.width,
           ),
         )
         .toList();
-    final far = 4 * square;
-    final path = Path()..moveTo(points.first.dx, points.first.dy);
-    for (final point in points.skip(1)) {
+    final start = tearPoints.first;
+    final path = Path()..moveTo(start.dx, start.dy);
+    for (final point in tearPoints.skip(1)) {
       path.lineTo(point.dx, point.dy);
     }
-    if (above) {
+    if (upper) {
       path
-        ..lineTo(size.width + far, -far)
-        ..lineTo(-far, -far)
+        ..lineTo(glyph.right, glyph.top + corner)
+        ..arcTo(
+          cornerBox(Offset(glyph.right - corner, glyph.top + corner)),
+          0,
+          -pi / 2,
+          false,
+        )
+        ..lineTo(glyph.left + corner, glyph.top)
+        ..arcTo(
+          cornerBox(Offset(glyph.left + corner, glyph.top + corner)),
+          -pi / 2,
+          -pi / 2,
+          false,
+        )
+        ..lineTo(start.dx, start.dy)
         ..close();
     } else {
       path
-        ..lineTo(size.width + far, size.height + far)
-        ..lineTo(-far, size.height + far)
+        ..lineTo(glyph.right, glyph.bottom - corner)
+        ..arcTo(
+          cornerBox(Offset(glyph.right - corner, glyph.bottom - corner)),
+          0,
+          pi / 2,
+          false,
+        )
+        ..lineTo(glyph.left + corner, glyph.bottom)
+        ..arcTo(
+          cornerBox(Offset(glyph.left + corner, glyph.bottom - corner)),
+          pi / 2,
+          pi / 2,
+          false,
+        )
+        ..lineTo(start.dx, start.dy)
         ..close();
+    }
+    return path;
+  }
+
+  /// Maps glyph fractions onto the glyph square as an open polyline.
+  Path _polyline(List<Offset> points, Rect glyph) {
+    final path = Path();
+    for (final (index, point) in points.indexed) {
+      final vertex = Offset(
+        glyph.left + point.dx * glyph.width,
+        glyph.top + point.dy * glyph.width,
+      );
+      index == 0
+          ? path.moveTo(vertex.dx, vertex.dy)
+          : path.lineTo(vertex.dx, vertex.dy);
     }
     return path;
   }
 
   @override
   bool shouldRepaint(_TornImagePainter oldDelegate) =>
-      oldDelegate.color != color ||
-      oldDelegate.badgeColor != badgeColor ||
-      oldDelegate.badgeTextColor != badgeTextColor;
+      oldDelegate.color != color;
 }
 
 /// The cache size of images shown in fullscreen views on mobile.
