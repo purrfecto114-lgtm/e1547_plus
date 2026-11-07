@@ -112,9 +112,12 @@ void main() {
       expect(
         await verifyPin(
           pin,
-          [pinHashPrefix, '30000', 'AAAAAAAAAAAAAAAAAAAAAA==', 'AAAA'].join(
-            r'$',
-          ),
+          [
+            pinHashPrefix,
+            '30000',
+            'AAAAAAAAAAAAAAAAAAAAAA==',
+            'AAAA',
+          ].join(r'$'),
         ),
         isFalse,
       );

@@ -8,13 +8,13 @@ import 'package:flutter_test/flutter_test.dart';
 /// by pixel instead of only surfacing in device screenshots.
 void main() {
   Widget tile(AppTheme theme, double size) => SizedBox(
-        width: size,
-        height: size,
-        child: ColoredBox(
-          color: theme.data.cardColor,
-          child: const TornImagePlaceholder(),
-        ),
-      );
+    width: size,
+    height: size,
+    child: ColoredBox(
+      color: theme.data.cardColor,
+      child: const TornImagePlaceholder(),
+    ),
+  );
 
   Widget scaffold(AppTheme theme) => MaterialApp(
     theme: theme.data,
@@ -25,7 +25,10 @@ void main() {
           children: [
             // 96 caps at 48, which exercises the size ceiling.
             for (final size in [24.0, 48.0, 96.0])
-              Padding(padding: const EdgeInsets.all(8), child: tile(theme, size)),
+              Padding(
+                padding: const EdgeInsets.all(8),
+                child: tile(theme, size),
+              ),
             // A non square tile proves the placeholder stays a centered
             // square instead of stretching with its box.
             Padding(
@@ -49,8 +52,9 @@ void main() {
     ('dark', AppTheme.dark),
     ('light', AppTheme.light),
   ]) {
-    testWidgets('torn image placeholder matches geometry ($name)',
-        (tester) async {
+    testWidgets('torn image placeholder matches geometry ($name)', (
+      tester,
+    ) async {
       tester.view.physicalSize = const Size(400, 560);
       tester.view.devicePixelRatio = 1;
       addTearDown(tester.view.resetPhysicalSize);
