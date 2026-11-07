@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:e1547/l10n/app_localizations.dart';
+import 'package:e1547/settings/settings.dart';
 import 'package:e1547/shared/shared.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -85,7 +86,9 @@ class AutocompleteTextField<T> extends StatelessWidget {
 
         if (cutoutForFab && hasFab) {
           return ClipPath.shape(
-            shape: const AutocompleteCutout(),
+            shape: AutocompleteCutout(
+              right: Handedness.of(context) != Handedness.left,
+            ),
             child: result,
           );
         }
@@ -113,12 +116,17 @@ class AutocompleteTextField<T> extends StatelessWidget {
   }
 }
 
-/// A [ShapeBorder] that cuts out a half circle at the top right corner.
+/// A [ShapeBorder] that cuts out a half circle in the top corner above
+/// the [FloatingActionButton].
 ///
-/// This is used to make space for a [FloatingActionButton].
-/// This is a crude implementation and does not respect different [FloatingActionButton] positions or sizes.
+/// This is a crude implementation and does not respect different
+/// [FloatingActionButton] sizes.
 class AutocompleteCutout extends ShapeBorder {
-  const AutocompleteCutout();
+  const AutocompleteCutout({this.right = true});
+
+  /// Whether the cut out circle sits in the top right corner, matching a
+  /// right handed fab. Left handed layouts flip it to the top left.
+  final bool right;
 
   @override
   EdgeInsetsGeometry get dimensions => EdgeInsets.zero;
@@ -136,13 +144,13 @@ class AutocompleteCutout extends ShapeBorder {
     double radius = width / 2 + padding;
 
     final rectPath = Path()..addRect(rect);
+    final double centerX = right
+        ? rect.right - radius - edgeDistance + padding
+        : rect.left + radius + edgeDistance - padding;
     final notchPath = Path()
       ..addOval(
         Rect.fromCircle(
-          center: Offset(
-            rect.right - radius - edgeDistance + padding,
-            rect.bottom + offset,
-          ),
+          center: Offset(centerX, rect.bottom + offset),
           radius: radius,
         ),
       );

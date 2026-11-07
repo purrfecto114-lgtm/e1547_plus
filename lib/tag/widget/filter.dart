@@ -223,6 +223,7 @@ class PrimaryFilter extends StatelessWidget {
                     if (state.submitIcon != null) {
                       submitIcon = IconButton(
                         icon: state.submitIcon!,
+                        tooltip: AppLocalizations.of(context).actionOk,
                         onPressed: () => state.onSubmit?.call(state.tags),
                       );
                     }

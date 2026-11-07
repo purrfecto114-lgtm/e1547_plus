@@ -122,7 +122,7 @@ void main() {
   ) async {
     await pumpActions(tester, tag: 'test_tag');
 
-    doubleTap(tester, Icons.turned_in_not);
+    doubleTap(tester, Icons.bookmark_border);
     await settle(tester);
 
     final follows =
@@ -135,7 +135,7 @@ void main() {
   displayTest('double tapping the follow button follows once', (tester) async {
     await pumpActions(tester, tag: 'test_tag');
 
-    doubleTap(tester, Icons.person_add_alt_1);
+    doubleTap(tester, Icons.person_add);
     await settle(tester);
 
     final follows =

@@ -27,9 +27,11 @@ class ListMenuTile extends StatelessWidget {
       children: [
         if (leading != null) leading!,
         if (title != null)
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
-            child: title!,
+          Expanded(
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
+              child: title!,
+            ),
           ),
       ],
     );

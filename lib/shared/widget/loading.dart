@@ -141,7 +141,7 @@ class LoadingPage extends StatelessWidget {
           );
         case LoadingPageState.empty:
           return IconMessage(
-            icon: const Icon(Icons.clear),
+            icon: const Icon(Icons.hourglass_empty),
             title:
                 onEmpty ?? Text(AppLocalizations.of(context).nothingToSeeHere),
           );

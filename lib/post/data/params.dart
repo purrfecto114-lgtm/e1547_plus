@@ -143,7 +143,7 @@ abstract class PostParams with _$PostParams {
           ChoiceFilterTagValue(value: 'flagged', name: 'Flagged'),
           ChoiceFilterTagValue(value: 'any', name: 'Any'),
         ],
-        icon: Icon(Icons.help),
+        icon: Icon(Icons.flag),
       ),
       FileTypeFilterTag(),
       const TextFilterTag(

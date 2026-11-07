@@ -154,56 +154,93 @@ class QualityStep extends StatelessWidget {
   Widget build(BuildContext context) {
     Settings settings = context.watch<Settings>();
     final l10n = AppLocalizations.of(context);
+    return OnboardingScroll(
+      padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          const Icon(Icons.video_settings, size: 48),
+          const SizedBox(height: 16),
+          Text(
+            l10n.onboardingQualityTitle,
+            style: Theme.of(context).textTheme.headlineSmall,
+            textAlign: TextAlign.center,
+          ),
+          const SizedBox(height: 12),
+          Text(
+            l10n.onboardingQualityBody,
+            style: Theme.of(context).textTheme.bodyLarge,
+            textAlign: TextAlign.center,
+          ),
+          const SizedBox(height: 24),
+          ValueListenableBuilder<VideoResolution>(
+            valueListenable: settings.videoResolution,
+            builder: (context, value, child) => _QualityPicker(
+              label: l10n.videoQuality,
+              options: [
+                for (final resolution in VideoResolution.values)
+                  (
+                    value: resolution,
+                    label: resolution.localizedTitle(context),
+                  ),
+              ],
+              selected: value,
+              onSelect: (tier) =>
+                  settings.videoResolution.value = tier as VideoResolution,
+            ),
+          ),
+          const SizedBox(height: 16),
+          ValueListenableBuilder<TileSize>(
+            valueListenable: settings.tileSize,
+            builder: (context, value, child) => _QualityPicker(
+              label: l10n.thumbnailQuality,
+              options: [
+                for (final size in TileSize.values)
+                  (value: size, label: size.localizedTitle(context)),
+              ],
+              selected: value,
+              onSelect: (tier) => settings.tileSize.value = tier as TileSize,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+/// A centered scroll view with a visible thumb, like the welcome step
+/// uses one. The scrollbar gets its own controller: the onboarding page
+/// nests scroll views, and a scrollbar on the primary controller would
+/// find more than one scroll position attached to it.
+class OnboardingScroll extends StatefulWidget {
+  const OnboardingScroll({super.key, required this.child, this.padding});
+
+  final Widget child;
+  final EdgeInsetsGeometry? padding;
+
+  @override
+  State<OnboardingScroll> createState() => _OnboardingScrollState();
+}
+
+class _OnboardingScrollState extends State<OnboardingScroll> {
+  final ScrollController scroll = ScrollController();
+
+  @override
+  void dispose() {
+    scroll.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return Center(
-      child: SingleChildScrollView(
-        padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            const Icon(Icons.video_settings, size: 48),
-            const SizedBox(height: 16),
-            Text(
-              l10n.onboardingQualityTitle,
-              style: Theme.of(context).textTheme.headlineSmall,
-              textAlign: TextAlign.center,
-            ),
-            const SizedBox(height: 12),
-            Text(
-              l10n.onboardingQualityBody,
-              style: Theme.of(context).textTheme.bodyLarge,
-              textAlign: TextAlign.center,
-            ),
-            const SizedBox(height: 24),
-            ValueListenableBuilder<VideoResolution>(
-              valueListenable: settings.videoResolution,
-              builder: (context, value, child) => _QualityPicker(
-                label: l10n.videoQuality,
-                options: [
-                  for (final resolution in VideoResolution.values)
-                    (
-                      value: resolution,
-                      label: resolution.localizedTitle(context),
-                    ),
-                ],
-                selected: value,
-                onSelect: (tier) =>
-                    settings.videoResolution.value = tier as VideoResolution,
-              ),
-            ),
-            const SizedBox(height: 16),
-            ValueListenableBuilder<TileSize>(
-              valueListenable: settings.tileSize,
-              builder: (context, value, child) => _QualityPicker(
-                label: l10n.thumbnailQuality,
-                options: [
-                  for (final size in TileSize.values)
-                    (value: size, label: size.localizedTitle(context)),
-                ],
-                selected: value,
-                onSelect: (tier) => settings.tileSize.value = tier as TileSize,
-              ),
-            ),
-          ],
+      child: Scrollbar(
+        controller: scroll,
+        thumbVisibility: true,
+        child: SingleChildScrollView(
+          controller: scroll,
+          padding: widget.padding,
+          child: widget.child,
         ),
       ),
     );
@@ -285,45 +322,43 @@ class ThemeStep extends StatelessWidget {
     final l10n = AppLocalizations.of(context);
     // Like the other steps, the swatch grid scrolls when a short or
     // landscape screen cannot fit it, instead of overflowing.
-    return Center(
-      child: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 24),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Text(
-                l10n.onboardingThemeTitle,
-                style: Theme.of(context).textTheme.headlineSmall,
-                textAlign: TextAlign.center,
+    return OnboardingScroll(
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 24),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text(
+              l10n.onboardingThemeTitle,
+              style: Theme.of(context).textTheme.headlineSmall,
+              textAlign: TextAlign.center,
+            ),
+            const SizedBox(height: 12),
+            Text(
+              l10n.onboardingThemeBody,
+              style: Theme.of(context).textTheme.bodyLarge,
+              textAlign: TextAlign.center,
+            ),
+            const SizedBox(height: 32),
+            ValueListenableBuilder(
+              valueListenable: settings.theme,
+              builder: (context, current, child) => Wrap(
+                spacing: 16,
+                runSpacing: 16,
+                alignment: WrapAlignment.center,
+                children: AppTheme.values
+                    .map(
+                      (theme) => _ThemeSwatch(
+                        theme: theme,
+                        selected: theme == current,
+                        onTap: () => settings.theme.value = theme,
+                      ),
+                    )
+                    .toList(),
               ),
-              const SizedBox(height: 12),
-              Text(
-                l10n.onboardingThemeBody,
-                style: Theme.of(context).textTheme.bodyLarge,
-                textAlign: TextAlign.center,
-              ),
-              const SizedBox(height: 32),
-              ValueListenableBuilder(
-                valueListenable: settings.theme,
-                builder: (context, current, child) => Wrap(
-                  spacing: 16,
-                  runSpacing: 16,
-                  alignment: WrapAlignment.center,
-                  children: AppTheme.values
-                      .map(
-                        (theme) => _ThemeSwatch(
-                          theme: theme,
-                          selected: theme == current,
-                          onTap: () => settings.theme.value = theme,
-                        ),
-                      )
-                      .toList(),
-                ),
-              ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );
@@ -388,21 +423,19 @@ class LoginStep extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: SingleChildScrollView(
-        padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Text(
-              AppLocalizations.of(context).onboardingLoginTitle,
-              style: Theme.of(context).textTheme.headlineSmall,
-              textAlign: TextAlign.center,
-            ),
-            const SizedBox(height: 16),
-            AccountForm(initialHost: initialHost, onSubmitted: onComplete),
-          ],
-        ),
+    return OnboardingScroll(
+      padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Text(
+            AppLocalizations.of(context).onboardingLoginTitle,
+            style: Theme.of(context).textTheme.headlineSmall,
+            textAlign: TextAlign.center,
+          ),
+          const SizedBox(height: 16),
+          AccountForm(initialHost: initialHost, onSubmitted: onComplete),
+        ],
       ),
     );
   }

@@ -271,9 +271,9 @@ class AboutVersion extends StatelessWidget {
                   child: Container(
                     height: 10,
                     width: 10,
-                    decoration: const BoxDecoration(
+                    decoration: BoxDecoration(
                       shape: BoxShape.circle,
-                      color: Colors.red,
+                      color: Theme.of(context).colorScheme.error,
                     ),
                   ),
                 ),
@@ -476,9 +476,9 @@ class DrawerUpdateIcon extends StatelessWidget {
                 child: Container(
                   height: 10,
                   width: 10,
-                  decoration: const BoxDecoration(
+                  decoration: BoxDecoration(
                     shape: BoxShape.circle,
-                    color: Colors.red,
+                    color: Theme.of(context).colorScheme.error,
                   ),
                 ),
               ),

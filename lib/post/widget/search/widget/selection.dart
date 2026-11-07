@@ -27,7 +27,8 @@ class PostSelectionAppBar extends StatelessWidget with AppBarBuilderWidget {
             ),
       actionBuilder: (context, data) => [
         IconButton(
-          icon: const Icon(Icons.file_download),
+          icon: const Icon(Icons.download),
+          tooltip: AppLocalizations.of(context).menuDownload,
           onPressed: () {
             postDownloadingNotification(context, Set.from(data.selections));
             data.onChanged({});

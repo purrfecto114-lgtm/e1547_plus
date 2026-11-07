@@ -55,7 +55,7 @@ PagedChildBuilderDelegate<T> defaultPagedChildBuilderDelegate<T>({
     noItemsFoundIndicatorBuilder: (context) => pageBuilder!(
       context,
       IconMessage(
-        icon: const Icon(Icons.clear),
+        icon: const Icon(Icons.hourglass_empty),
         title: onEmpty ?? Text(AppLocalizations.of(context).nothingToSeeHere),
       ),
     ),

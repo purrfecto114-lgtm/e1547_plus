@@ -287,6 +287,7 @@ class PostFeedTile extends StatelessWidget {
               children: [
                 IconButton(
                   icon: const Icon(Icons.comment),
+                  tooltip: AppLocalizations.of(context).menuComment,
                   onPressed: () => Navigator.of(context).push(
                     MaterialPageRoute(
                       builder: (context) => PostCommentsPage(postId: post.id),
@@ -353,6 +354,7 @@ class PostFeedTile extends StatelessWidget {
             ),
             IconButton(
               icon: const Icon(Icons.share),
+              tooltip: AppLocalizations.of(context).menuShare,
               onPressed: () => Share.text(
                 context,
                 context.read<Client>().withHost(post.link),
@@ -373,7 +375,7 @@ class PostFeedTile extends StatelessWidget {
             PopupMenuTile(
               value: () => postDownloadingNotification(context, {post}),
               title: AppLocalizations.of(context).menuDownload,
-              icon: Icons.file_download,
+              icon: Icons.download,
             ),
           PopupMenuTile(
             value: () => launch(context.read<Client>().withHost(post.link)),

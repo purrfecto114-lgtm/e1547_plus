@@ -14,7 +14,7 @@ class DenyListEditor extends StatelessWidget {
       title: Text(AppLocalizations.of(context).settingsBlacklist),
       actions: [
         IconButton(
-          icon: const Icon(Icons.help_outline),
+          icon: const Icon(Icons.info_outline),
           onPressed: () =>
               showTagSearchPrompt(context: context, tag: 'e621:blacklist'),
         ),

@@ -126,8 +126,10 @@ class Avatar extends StatelessWidget {
             fit: BoxFit.cover,
             cacheManager: context.read<BaseCacheManager>(),
             placeholder: (context, url) => EmptyAvatar(radius: radius),
-            errorWidget: (context, url, error) =>
-                const Center(child: Icon(Icons.warning_amber)),
+            // A failed avatar falls back to the empty avatar instead of
+            // a warning triangle: the name next to it still identifies
+            // the user, and the placeholder matches the loading state.
+            errorWidget: (context, url, error) => EmptyAvatar(radius: radius),
             fadeInDuration: Duration.zero,
             fadeOutDuration: Duration.zero,
           ),

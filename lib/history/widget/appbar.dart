@@ -58,6 +58,7 @@ class HistorySelectionAppBar extends StatelessWidget with AppBarBuilderWidget {
       actionBuilder: (context, data) => [
         IconButton(
           icon: const Icon(Icons.delete_outline),
+          tooltip: AppLocalizations.of(context).actionRemove,
           onPressed: () async {
             final client = context.read<Client>();
             final l10n = AppLocalizations.of(context);

@@ -99,8 +99,8 @@ class _TagListActionsState extends State<TagListActions> {
                         children: [
                           ActionButton(
                             icon: following
-                                ? const Icon(Icons.person_remove_alt_1)
-                                : const Icon(Icons.person_add_alt_1),
+                                ? const Icon(Icons.person_remove)
+                                : const Icon(Icons.person_add),
                             label: following
                                 ? Text(
                                     AppLocalizations.of(context).actionUnfollow,
@@ -139,8 +139,8 @@ class _TagListActionsState extends State<TagListActions> {
                           ),
                           ActionButton(
                             icon: bookmarked
-                                ? const Icon(Icons.turned_in)
-                                : const Icon(Icons.turned_in_not),
+                                ? const Icon(Icons.bookmark)
+                                : const Icon(Icons.bookmark_border),
                             label: bookmarked
                                 ? Text(
                                     AppLocalizations.of(

@@ -62,6 +62,7 @@ class _PostPageInfoButton extends StatelessWidget {
 
     Widget button({Pool? pool}) => IconButton(
       icon: const Icon(Icons.info_outline),
+      tooltip: AppLocalizations.of(context).info,
       onPressed: () => pool != null
           ? showPoolPrompt(context: context, pool: pool)
           : showTagSearchPrompt(context: context, tag: tags),

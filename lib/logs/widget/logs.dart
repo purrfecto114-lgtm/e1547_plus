@@ -120,7 +120,7 @@ class _LogFileListState extends State<LogFileList> {
                   }
                   if (files.isEmpty) {
                     return IconMessage(
-                      icon: const Icon(Icons.close),
+                      icon: const Icon(Icons.folder_open),
                       title: Text(l10n.noLogFiles),
                     );
                   }
@@ -399,7 +399,7 @@ class _LogPageState extends State<LogPage> {
                       items.map((e) => jsonEncode(e.toJson())).join('\n'),
                       '${logFileDateFormat.format(DateTime.now())}$logFileExtension',
                     ),
-                    child: const Icon(Icons.file_download),
+                    child: const Icon(Icons.download),
                   ),
             endDrawer: LogsDrawer(
               levels: _levels,

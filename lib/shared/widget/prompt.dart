@@ -358,6 +358,7 @@ class PromptTextFieldSuffix extends StatelessWidget {
     } else {
       return IconButton(
         icon: icon ?? const Icon(Icons.check),
+        tooltip: AppLocalizations.of(context).actionOk,
         onPressed: controller.isLoading ? null : controller.action,
       );
     }

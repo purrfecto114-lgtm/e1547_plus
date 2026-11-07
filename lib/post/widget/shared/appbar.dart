@@ -23,7 +23,7 @@ List<PopupMenuItem<VoidCallback>> postMenuPostActions(
       PopupMenuTile(
         value: () => postDownloadingNotification(context, {post}),
         title: AppLocalizations.of(context).menuDownload,
-        icon: Icons.file_download,
+        icon: Icons.download,
       ),
     PopupMenuTile(
       value: () async => launch(context.read<Client>().withHost(post.link)),
