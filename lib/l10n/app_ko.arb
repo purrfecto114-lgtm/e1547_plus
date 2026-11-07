@@ -215,6 +215,7 @@
   "lockBiometricFailure": "생체 인증 심각한 오류",
   "lockWrongPin": "PIN이 올바르지 않습니다",
   "lockPinMismatch": "PIN이 일치하지 않습니다",
+  "lockPinCooldown": "시도가 너무 많습니다. {seconds}초 후 다시 시도하세요",
   "aboutVersion": "버전",
   "updaterFetching": "업데이트 확인 중...",
   "updaterCheckFailed": "업데이트 확인 실패",

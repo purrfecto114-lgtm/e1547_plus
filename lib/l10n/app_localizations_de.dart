@@ -470,6 +470,11 @@ class AppLocalizationsDe extends AppLocalizations {
   String get lockPinMismatch => 'PINs stimmen nicht überein';
 
   @override
+  String lockPinCooldown(int seconds) {
+    return 'Zu viele Versuche, bitte in $seconds s erneut versuchen';
+  }
+
+  @override
   String get aboutVersion => 'Version';
 
   @override

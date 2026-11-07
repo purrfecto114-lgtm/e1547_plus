@@ -459,6 +459,11 @@ class AppLocalizationsZh extends AppLocalizations {
   String get lockPinMismatch => '两次输入的 PIN 不一致';
 
   @override
+  String lockPinCooldown(int seconds) {
+    return '尝试次数过多，$seconds 秒后再试';
+  }
+
+  @override
   String get aboutVersion => '版本';
 
   @override
@@ -2784,6 +2789,11 @@ class AppLocalizationsZhHant extends AppLocalizationsZh {
 
   @override
   String get lockPinMismatch => '兩次輸入的 PIN 不一致';
+
+  @override
+  String lockPinCooldown(int seconds) {
+    return '嘗試次數過多，$seconds 秒後再試';
+  }
 
   @override
   String get aboutVersion => '版本';

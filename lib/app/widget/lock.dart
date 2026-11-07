@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:math' show pi, sin;
 
 import 'package:animations/animations.dart';
+import 'package:e1547/app/data/pin.dart';
 import 'package:e1547/l10n/app_localizations.dart';
 import 'package:e1547/settings/settings.dart';
 import 'package:e1547/shared/shared.dart';
@@ -28,6 +29,19 @@ class _LockScreenState extends State<LockScreen> {
   void lock() => setState(() => locked = true);
   void unlock() => setState(() => locked = false);
 
+  /// Verifies the entry against the stored pin and upgrades legacy
+  /// plain text pins to the salted hash once they prove correct.
+  Future<bool> verifyPinEntry(String entry) async {
+    final settings = context.read<Settings>();
+    final stored = settings.appPin.value;
+    if (stored == null) return false;
+    final bool ok = await verifyPin(entry, stored);
+    if (ok && !isPinHash(stored)) {
+      settings.appPin.value = await hashPin(entry);
+    }
+    return ok;
+  }
+
   @override
   Widget build(BuildContext context) {
     Widget? lock;
@@ -35,7 +49,9 @@ class _LockScreenState extends State<LockScreen> {
     if (pin != null) {
       lock = PinLock(
         title: AppLocalizations.of(context).lockEnterPin,
-        correctString: pin!,
+        verify: verifyPinEntry,
+        attempts: context.read<Settings>().appPinFailures,
+        lockedUntil: context.read<Settings>().appPinLockedUntil,
         biometrics: biometrics,
         autoBiometrics: biometrics,
         onBiometrics: biometrics
@@ -86,18 +102,31 @@ class _LockScreenState extends State<LockScreen> {
 /// backspace next to an optional biometric shortcut. A cancel action
 /// stays pinned below the scrollable content, so it remains reachable
 /// on short screens instead of being pushed out by the keypad.
+///
+/// Unlocking goes through the async [PinLock.verify] callback against
+/// the salted hash in the settings store, so the plain text pin never
+/// exists in memory longer than one entry. Consecutive failures count
+/// into a persisted backoff: from the third wrong pin onwards the
+/// keypad locks itself for a doubling cooldown, and the counter only
+/// clears on a correct entry.
 class PinLock extends StatefulWidget {
   const PinLock({
     super.key,
     required this.title,
     this.confirmTitle,
     this.correctString,
+    this.verify,
+    this.attempts,
+    this.lockedUntil,
     required this.onCompleted,
     this.biometrics = false,
     this.autoBiometrics = false,
     this.onBiometrics,
     this.onCancelled,
-  });
+  }) : assert(
+         verify == null || correctString == null,
+         'a pin is either verified against a hash or matched locally',
+       );
 
   final String title;
 
@@ -106,7 +135,20 @@ class PinLock extends StatefulWidget {
   final String? confirmTitle;
 
   /// When set, entries are verified against it instead of collected.
+  ///
+  /// Only used by the setup flow, where both entries are compared
+  /// locally. The unlock flow passes [verify] instead.
   final String? correctString;
+
+  /// Async verdict for an entry, used by the unlock flow against the
+  /// stored pin hash. When null, entries are collected instead.
+  final Future<bool> Function(String pin)? verify;
+
+  /// Persisted count of failed unlock attempts, driving the backoff.
+  final ValueNotifier<int>? attempts;
+
+  /// Persisted epoch millis until which entry stays locked out.
+  final ValueNotifier<int>? lockedUntil;
 
   final ValueChanged<String> onCompleted;
 
@@ -134,9 +176,14 @@ class _PinLockState extends State<PinLock> with SingleTickerProviderStateMixin {
     duration: const Duration(milliseconds: 400),
   );
   Timer? submitTimer;
+  Timer? cooldownTimer;
   String entry = '';
   String? firstEntry;
   String? error;
+  bool verifying = false;
+  DateTime? cooldownUntil;
+
+  bool get awaiting => verifying || cooldownUntil != null;
 
   @override
   void initState() {
@@ -146,11 +193,19 @@ class _PinLockState extends State<PinLock> with SingleTickerProviderStateMixin {
         if (mounted) widget.onBiometrics?.call();
       });
     }
+    // A stored cooldown timestamp keeps its promise across restarts:
+    // killing the app mid-timeout does not reset the wait.
+    final int until = widget.lockedUntil?.value ?? 0;
+    if (until > DateTime.now().millisecondsSinceEpoch) {
+      cooldownUntil = DateTime.fromMillisecondsSinceEpoch(until);
+      _runCooldownTimer();
+    }
   }
 
   @override
   void dispose() {
     submitTimer?.cancel();
+    cooldownTimer?.cancel();
     shake.dispose();
     super.dispose();
   }
@@ -158,7 +213,7 @@ class _PinLockState extends State<PinLock> with SingleTickerProviderStateMixin {
   bool get confirming => widget.correctString == null && firstEntry != null;
 
   void addDigit(int digit) {
-    if (entry.length >= digits) return;
+    if (entry.length >= digits || awaiting) return;
     HapticFeedback.selectionClick();
     setState(() {
       entry += '$digit';
@@ -170,7 +225,7 @@ class _PinLockState extends State<PinLock> with SingleTickerProviderStateMixin {
   }
 
   void backspace() {
-    if (entry.isEmpty) return;
+    if (entry.isEmpty || awaiting) return;
     submitTimer?.cancel();
     HapticFeedback.selectionClick();
     setState(() {
@@ -180,7 +235,11 @@ class _PinLockState extends State<PinLock> with SingleTickerProviderStateMixin {
   }
 
   void submit() {
-    if (!mounted || entry.length < digits) return;
+    if (!mounted || entry.length < digits || awaiting) return;
+    if (widget.verify != null) {
+      verifyEntry();
+      return;
+    }
     if (widget.correctString != null) {
       if (entry == widget.correctString) {
         complete();
@@ -205,6 +264,63 @@ class _PinLockState extends State<PinLock> with SingleTickerProviderStateMixin {
     }
   }
 
+  Future<void> verifyEntry() async {
+    final candidate = entry;
+    setState(() => verifying = true);
+    bool ok;
+    try {
+      ok = await widget.verify!(candidate);
+    } on Object {
+      // A hash failure must lock the user out, not crash the screen.
+      ok = false;
+    }
+    if (!mounted) return;
+    setState(() => verifying = false);
+    if (ok) {
+      widget.attempts?.value = 0;
+      widget.lockedUntil?.value = 0;
+      complete();
+    } else {
+      registerFailure();
+      fail(AppLocalizations.of(context).lockWrongPin);
+    }
+  }
+
+  void registerFailure() {
+    final attempts = widget.attempts;
+    if (attempts == null) return;
+    final failures = attempts.value + 1;
+    attempts.value = failures;
+    final delay = PinBackoff.delayFor(failures);
+    if (delay > Duration.zero) {
+      final until = DateTime.now().add(delay);
+      setState(() => cooldownUntil = until);
+      widget.lockedUntil?.value = until.millisecondsSinceEpoch;
+      _runCooldownTimer();
+    }
+  }
+
+  void _runCooldownTimer() {
+    cooldownTimer?.cancel();
+    cooldownTimer = Timer.periodic(const Duration(milliseconds: 500), (timer) {
+      if (!mounted) {
+        timer.cancel();
+        return;
+      }
+      final until = cooldownUntil;
+      if (until == null || DateTime.now().isAfter(until)) {
+        timer.cancel();
+        setState(() {
+          cooldownUntil = null;
+          if (error != null) error = null;
+        });
+      } else {
+        // Rebuilds the countdown text twice a second.
+        setState(() {});
+      }
+    });
+  }
+
   void complete() {
     HapticFeedback.mediumImpact();
     widget.onCompleted(entry);
@@ -225,6 +341,17 @@ class _PinLockState extends State<PinLock> with SingleTickerProviderStateMixin {
     final scheme = theme.colorScheme;
     final l10n = AppLocalizations.of(context);
     final bool setup = widget.correctString == null;
+    final bool cooling = cooldownUntil != null;
+    // The countdown replaces the wrong pin message while the backoff
+    // runs, so the reserved line always explains what the keypad wants.
+    String? status = error;
+    if (cooling) {
+      final int seconds = cooldownUntil!
+          .difference(DateTime.now())
+          .inSeconds
+          .clamp(1, Duration.secondsPerDay);
+      status = l10n.lockPinCooldown(seconds);
+    }
     return SizedBox.expand(
       child: Material(
         color: scheme.surface,
@@ -263,14 +390,14 @@ class _PinLockState extends State<PinLock> with SingleTickerProviderStateMixin {
                           ),
                         ),
                         const SizedBox(height: 10),
-                        // A reserved error line, so the layout does not jump.
+                        // A reserved status line, so the layout does not jump.
                         SizedBox(
                           height: 20,
                           child: AnimatedOpacity(
-                            opacity: error == null ? 0 : 1,
+                            opacity: status == null ? 0 : 1,
                             duration: const Duration(milliseconds: 150),
                             child: Text(
-                              error ?? '',
+                              status ?? '',
                               style: theme.textTheme.bodyMedium?.copyWith(
                                 color: scheme.error,
                               ),
@@ -358,13 +485,16 @@ class _PinLockState extends State<PinLock> with SingleTickerProviderStateMixin {
   }
 
   Widget keypad(ColorScheme scheme, TextTheme textTheme) {
+    // While a verification is in flight or a cooldown is running the
+    // keys dim and ignore presses; addDigit and backspace guard anyway.
     Widget key(int digit) => cell(
       scheme: scheme,
       child: Text(
         '$digit',
         style: textTheme.headlineMedium?.copyWith(color: scheme.onSurface),
       ),
-      onTap: () => addDigit(digit),
+      onTap: awaiting ? null : () => addDigit(digit),
+      enabled: !awaiting,
     );
     return Column(
       children: [
@@ -396,8 +526,8 @@ class _PinLockState extends State<PinLock> with SingleTickerProviderStateMixin {
                 size: 26,
                 color: scheme.onSurfaceVariant,
               ),
-              onTap: entry.isEmpty ? null : backspace,
-              enabled: entry.isNotEmpty,
+              onTap: entry.isEmpty || awaiting ? null : backspace,
+              enabled: entry.isNotEmpty && !awaiting,
             ),
           ],
         ),

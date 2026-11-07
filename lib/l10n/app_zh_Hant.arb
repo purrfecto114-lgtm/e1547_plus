@@ -134,6 +134,7 @@
   "lockBiometricFailure": "生物辨識驗證發生嚴重錯誤",
   "lockWrongPin": "PIN 不正確",
   "lockPinMismatch": "兩次輸入的 PIN 不一致",
+  "lockPinCooldown": "嘗試次數過多，{seconds} 秒後再試",
   "aboutVersion": "版本",
   "updaterFetching": "正在檢查更新…",
   "updaterCheckFailed": "檢查更新失敗",

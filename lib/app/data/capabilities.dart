@@ -1,22 +1,36 @@
 import 'dart:io';
 
+import 'package:flutter/foundation.dart';
+
 /// Provides information about what features are available on this Platform.
 abstract final class PlatformCapabilities {
   /// Whether this platform supports background workers.
   /// This returns false on iOS < 13 because the old API is unsupported.
   static bool get hasBackgroundWorker {
     if (Platform.isIOS) {
-      // [Platform.operatingSystemVersion] is a human readable string
-      // ("Version 17.5.1 (Build 21F90)") whose layout is not contractual.
-      // Probe it defensively: this runs during startup, and a thrown
-      // RangeError or FormatException here would keep the app from
-      // launching at all.
-      final match = RegExp(r'\d+').firstMatch(Platform.operatingSystemVersion);
-      // If the version cannot be parsed at all, assume a modern iOS:
-      // Flutter itself no longer runs on the versions worth guarding against.
-      return match == null || int.parse(match.group(1)!) >= 13;
+      return backgroundWorkerForVersion(Platform.operatingSystemVersion);
     }
     return Platform.isAndroid;
+  }
+
+  /// Decides background worker support from an operating system version
+  /// string, so the probe stays testable.
+  ///
+  /// [Platform.operatingSystemVersion] is a human readable string
+  /// ("Version 17.5.1 (Build 21F90)") whose layout is not contractual.
+  /// The probe is defensive: it runs during startup, and a thrown
+  /// RangeError or FormatException here would keep the app from
+  /// launching at all. Unparseable input counts as a modern iOS,
+  /// because Flutter itself no longer runs on the versions worth
+  /// guarding against.
+  @visibleForTesting
+  static bool backgroundWorkerForVersion(String version) {
+    // The pattern intentionally has no capture group; the match itself
+    // carries the leading integer, so group(0) is the version.
+    final match = RegExp(r'\d+').firstMatch(version);
+    if (match == null) return true;
+    final int? major = int.tryParse(match.group(0)!);
+    return major == null || major >= 13;
   }
 
   /// Whether this platform supports sending notifications.

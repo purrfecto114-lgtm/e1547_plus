@@ -59,10 +59,15 @@ class SettingsSecuritySection extends StatelessWidget {
               if (value) {
                 String? pin = await registerPin(context);
                 if (pin != null) {
-                  settings.appPin.value = pin;
+                  // Stored salted, not plain text: the settings store
+                  // must not hand out the unlock code itself.
+                  settings.appPin.value = await hashPin(pin);
                 }
               } else {
                 settings.appPin.value = null;
+                // A fresh registration starts without the old streak.
+                settings.appPinFailures.value = 0;
+                settings.appPinLockedUntil.value = 0;
               }
             },
           ),

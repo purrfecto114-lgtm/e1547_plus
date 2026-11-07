@@ -923,6 +923,12 @@ abstract class AppLocalizations {
   /// **'PINs do not match'**
   String get lockPinMismatch;
 
+  /// Cooldown message while the pin keypad waits out the backoff.
+  ///
+  /// In en, this message translates to:
+  /// **'Too many attempts, try again in {seconds}s'**
+  String lockPinCooldown(int seconds);
+
   /// No description provided for @aboutVersion.
   ///
   /// In en, this message translates to:

@@ -6,7 +6,6 @@ import 'package:e1547/app/app.dart';
 import 'package:e1547/app/widget/initialize.dart';
 import 'package:e1547/l10n/app_localizations.dart';
 import 'package:e1547/logs/logs.dart';
-import 'package:e1547/settings/data/export_crypto.dart';
 import 'package:e1547/settings/settings.dart';
 import 'package:e1547/shared/shared.dart';
 import 'package:file_picker/file_picker.dart';

@@ -1,6 +1,7 @@
 export 'client.dart';
 export 'database_porter.dart';
 export 'donations.dart';
+export 'export_crypto.dart';
 export 'info.dart';
 export 'language.dart';
 export 'query.dart';

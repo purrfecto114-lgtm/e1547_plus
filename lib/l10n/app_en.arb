@@ -215,6 +215,15 @@
   "lockBiometricFailure": "Severe failure in biometric authentication",
   "lockWrongPin": "Wrong PIN",
   "lockPinMismatch": "PINs do not match",
+  "lockPinCooldown": "Too many attempts, try again in {seconds}s",
+  "@lockPinCooldown": {
+    "description": "Cooldown message while the pin keypad waits out the backoff.",
+    "placeholders": {
+      "seconds": {
+        "type": "int"
+      }
+    }
+  },
   "aboutVersion": "Version",
   "updaterFetching": "Fetching updates...",
   "updaterCheckFailed": "Failed to check for updates",

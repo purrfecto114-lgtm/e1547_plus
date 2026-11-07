@@ -459,6 +459,11 @@ class AppLocalizationsJa extends AppLocalizations {
   String get lockPinMismatch => 'PINが一致しません';
 
   @override
+  String lockPinCooldown(int seconds) {
+    return '試行が多すぎます。$seconds秒後にもう一度お試しください';
+  }
+
+  @override
   String get aboutVersion => 'バージョン';
 
   @override

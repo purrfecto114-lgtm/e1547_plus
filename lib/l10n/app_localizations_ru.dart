@@ -479,6 +479,11 @@ class AppLocalizationsRu extends AppLocalizations {
   String get lockPinMismatch => 'PIN-коды не совпадают';
 
   @override
+  String lockPinCooldown(int seconds) {
+    return 'Слишком много попыток, повторите через $seconds с';
+  }
+
+  @override
   String get aboutVersion => 'Версия';
 
   @override

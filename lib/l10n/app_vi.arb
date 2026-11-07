@@ -215,6 +215,7 @@
   "lockBiometricFailure": "Lỗi nghiêm trọng trong xác thực sinh trắc",
   "lockWrongPin": "PIN không đúng",
   "lockPinMismatch": "PIN không khớp",
+  "lockPinCooldown": "Quá nhiều lần thử, hãy thử lại sau {seconds} giây",
   "aboutVersion": "Phiên bản",
   "updaterFetching": "Đang kiểm tra cập nhật...",
   "updaterCheckFailed": "Không thể kiểm tra cập nhật",

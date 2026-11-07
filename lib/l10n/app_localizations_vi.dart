@@ -469,6 +469,11 @@ class AppLocalizationsVi extends AppLocalizations {
   String get lockPinMismatch => 'PIN không khớp';
 
   @override
+  String lockPinCooldown(int seconds) {
+    return 'Quá nhiều lần thử, hãy thử lại sau $seconds giây';
+  }
+
+  @override
   String get aboutVersion => 'Phiên bản';
 
   @override

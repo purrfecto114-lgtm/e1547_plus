@@ -464,6 +464,11 @@ class AppLocalizationsKo extends AppLocalizations {
   String get lockPinMismatch => 'PIN이 일치하지 않습니다';
 
   @override
+  String lockPinCooldown(int seconds) {
+    return '시도가 너무 많습니다. $seconds초 후 다시 시도하세요';
+  }
+
+  @override
   String get aboutVersion => '버전';
 
   @override

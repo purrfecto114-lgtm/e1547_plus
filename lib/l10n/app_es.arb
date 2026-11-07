@@ -134,6 +134,7 @@
   "lockBiometricFailure": "Error crítico de autenticación biométrica",
   "lockWrongPin": "PIN incorrecto",
   "lockPinMismatch": "Los PIN no coinciden",
+  "lockPinCooldown": "Demasiados intentos, inténtalo de nuevo en {seconds} s",
   "aboutVersion": "Versión",
   "updaterFetching": "Buscando actualizaciones…",
   "updaterCheckFailed": "No se pudo comprobar si hay actualizaciones",

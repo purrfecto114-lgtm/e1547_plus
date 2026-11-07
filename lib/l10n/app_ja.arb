@@ -134,6 +134,7 @@
   "lockBiometricFailure": "生体認証で重大なエラーが発生しました",
   "lockWrongPin": "PINが正しくありません",
   "lockPinMismatch": "PINが一致しません",
+  "lockPinCooldown": "試行が多すぎます。{seconds}秒後にもう一度お試しください",
   "aboutVersion": "バージョン",
   "updaterFetching": "更新を確認しています…",
   "updaterCheckFailed": "更新の確認に失敗しました",

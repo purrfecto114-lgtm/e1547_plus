@@ -134,6 +134,7 @@
   "lockBiometricFailure": "Échec grave de l'authentification biométrique",
   "lockWrongPin": "Code PIN incorrect",
   "lockPinMismatch": "Les codes PIN ne correspondent pas",
+  "lockPinCooldown": "Trop de tentatives, réessayez dans {seconds} s",
   "aboutVersion": "Version",
   "updaterFetching": "Recherche de mises à jour...",
   "updaterCheckFailed": "Échec de la vérification des mises à jour",

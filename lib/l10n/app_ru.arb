@@ -134,6 +134,7 @@
   "lockBiometricFailure": "Критический сбой биометрической аутентификации",
   "lockWrongPin": "Неверный PIN-код",
   "lockPinMismatch": "PIN-коды не совпадают",
+  "lockPinCooldown": "Слишком много попыток, повторите через {seconds} с",
   "aboutVersion": "Версия",
   "updaterFetching": "Проверка обновлений…",
   "updaterCheckFailed": "Не удалось проверить обновления",

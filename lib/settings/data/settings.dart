@@ -181,6 +181,22 @@ class Settings extends NotifiedSettings {
     key: 'appPin',
     initialValue: null,
   );
+
+  /// Failed pin unlock attempts since the last success.
+  ///
+  /// Security bookkeeping for the lockout backoff: the counter persists,
+  /// so restarting the app does not reset the price of guessing. The
+  /// hash itself lives in [appPin]; these two keys hold no secret.
+  late final ValueNotifier<int> appPinFailures = createSetting<int>(
+    key: 'appPinFailures',
+    initialValue: 0,
+  );
+
+  /// Epoch milliseconds until which pin entry stays locked out.
+  late final ValueNotifier<int> appPinLockedUntil = createSetting<int>(
+    key: 'appPinLockedUntil',
+    initialValue: 0,
+  );
   late final ValueNotifier<bool> biometricAuth = createSetting<bool>(
     key: 'biometricAuth',
     initialValue: false,

@@ -479,6 +479,11 @@ class AppLocalizationsPl extends AppLocalizations {
   String get lockPinMismatch => 'Kody PIN nie są zgodne';
 
   @override
+  String lockPinCooldown(int seconds) {
+    return 'Zbyt wiele prób, spróbuj ponownie za $seconds s';
+  }
+
+  @override
   String get aboutVersion => 'Wersja';
 
   @override
