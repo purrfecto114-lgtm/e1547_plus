@@ -6,8 +6,12 @@
 <full-backup-content>
     <exclude domain="file" path="app.db" />
     <exclude domain="file" path="app.db.new" />
+    <exclude domain="file" path="app.db.bak" />
     <exclude domain="file" path="app.db-journal" />
+    <exclude domain="file" path="app.db.bak-journal" />
     <exclude domain="file" path="app.db-wal" />
+    <exclude domain="file" path="app.db.bak-wal" />
     <exclude domain="file" path="app.db-shm" />
+    <exclude domain="file" path="app.db.bak-shm" />
     <exclude domain="sharedpref" path="FlutterSharedPreferences.xml" />
 </full-backup-content>

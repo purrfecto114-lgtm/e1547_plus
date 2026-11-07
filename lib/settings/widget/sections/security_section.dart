@@ -6,7 +6,6 @@ import 'package:e1547/settings/settings.dart';
 import 'package:e1547/shared/shared.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_sub/flutter_sub.dart';
-import 'package:local_auth/local_auth.dart';
 
 /// The tiles that guard the app against curious eyes.
 class SettingsSecuritySection extends StatelessWidget {
@@ -65,30 +64,36 @@ class SettingsSecuritySection extends StatelessWidget {
             },
           ),
         ),
-        SubFuture<bool>(
-          create: () => LocalAuthentication().getAvailableBiometrics().then(
-            (e) => e.isNotEmpty,
-          ),
+        SubFuture<BiometricAvailability>(
+          create: biometricAvailability,
           builder: (context, snapshot) => ValueListenableBuilder<bool>(
             valueListenable: settings.biometricAuth,
-            builder: (context, value, child) => SwitchListTile(
-              title: Text(l10n.settingsBiometricLock),
-              subtitle: Text(
-                // Without enrolled or detectable biometrics the switch
-                // stays off and the reason is spelled out, instead of
-                // a dead toggle without explanation.
-                snapshot.data == false
-                    ? l10n.biometricsUnavailable
-                    : value
-                    ? l10n.biometricsEnabled
-                    : l10n.biometricsDisabled,
-              ),
-              secondary: const Icon(Icons.fingerprint),
-              value: value,
-              onChanged: (snapshot.data ?? false)
-                  ? (value) => settings.biometricAuth.value = value
-                  : null,
-            ),
+            builder: (context, value, child) {
+              final BiometricAvailability? availability = snapshot.data;
+              final bool ready = availability == BiometricAvailability.ready;
+              return SwitchListTile(
+                title: Text(l10n.settingsBiometricLock),
+                subtitle: Text(
+                  // The three hardware states spell out why the switch
+                  // may be dead: absent hardware, hardware without an
+                  // enrolled print, or a usable biometric lock.
+                  switch (availability) {
+                    BiometricAvailability.ready =>
+                      value ? l10n.biometricsEnabled : l10n.biometricsDisabled,
+                    BiometricAvailability.unenrolled =>
+                      l10n.biometricsNotEnrolled,
+                    BiometricAvailability.none => l10n.biometricsUnavailable,
+                    null =>
+                      value ? l10n.biometricsEnabled : l10n.biometricsDisabled,
+                  },
+                ),
+                secondary: const Icon(Icons.fingerprint),
+                value: value,
+                onChanged: ready
+                    ? (value) => settings.biometricAuth.value = value
+                    : null,
+              );
+            },
           ),
         ),
       ],

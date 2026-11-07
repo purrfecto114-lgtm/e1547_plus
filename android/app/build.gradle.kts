@@ -103,4 +103,8 @@ androidComponents {
 
 dependencies {
     coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:2.1.5")
+    // The biometric fallback probe asks the fingerprint hardware directly;
+    // FingerprintManagerCompat lives in androidx.core, so name it instead
+    // of leaning on whatever the flutter embedding happens to pull in.
+    implementation("androidx.core:core:1.13.1")
 }

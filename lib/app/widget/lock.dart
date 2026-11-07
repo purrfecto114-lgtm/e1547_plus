@@ -80,10 +80,12 @@ class _LockScreenState extends State<LockScreen> {
 
 /// The PIN entry screen shared by unlocking and registration.
 ///
-/// A badge, the prompt, four filling dots and a circular keypad replace
-/// the third party lock sheet: digits animate the dots in, a wrong pin
-/// shakes and spells out why, and the keypad offers a backspace next to
-/// an optional biometric shortcut.
+/// A small lock glyph, the prompt, four filling dots and a circular
+/// keypad replace the third party lock sheet: digits animate the dots
+/// in, a wrong pin shakes and spells out why, and the keypad offers a
+/// backspace next to an optional biometric shortcut. A cancel action
+/// stays pinned below the scrollable content, so it remains reachable
+/// on short screens instead of being pushed out by the keypad.
 class PinLock extends StatefulWidget {
   const PinLock({
     super.key,
@@ -227,85 +229,95 @@ class _PinLockState extends State<PinLock> with SingleTickerProviderStateMixin {
       child: Material(
         color: scheme.surface,
         child: SafeArea(
-          child: Center(
-            child: SingleChildScrollView(
-              padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 24),
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Container(
-                    width: 88,
-                    height: 88,
-                    decoration: BoxDecoration(
-                      shape: BoxShape.circle,
-                      color: scheme.secondaryContainer,
+          child: Column(
+            children: [
+              Expanded(
+                child: Center(
+                  child: SingleChildScrollView(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 32,
+                      vertical: 24,
                     ),
-                    child: Icon(
-                      setup ? Icons.shield_outlined : Icons.lock_outline,
-                      size: 44,
-                      color: scheme.onSecondaryContainer,
-                    ),
-                  ),
-                  const SizedBox(height: 20),
-                  AnimatedSwitcher(
-                    duration: const Duration(milliseconds: 200),
-                    child: Text(
-                      confirming
-                          ? (widget.confirmTitle ?? widget.title)
-                          : widget.title,
-                      key: ValueKey(confirming),
-                      style: theme.textTheme.titleMedium,
-                      textAlign: TextAlign.center,
-                    ),
-                  ),
-                  const SizedBox(height: 6),
-                  // A reserved error line, so the layout does not jump.
-                  SizedBox(
-                    height: 22,
-                    child: AnimatedOpacity(
-                      opacity: error == null ? 0 : 1,
-                      duration: const Duration(milliseconds: 150),
-                      child: Text(
-                        error ?? '',
-                        style: theme.textTheme.bodyMedium?.copyWith(
-                          color: scheme.error,
-                        ),
-                      ),
-                    ),
-                  ),
-                  const SizedBox(height: 18),
-                  AnimatedBuilder(
-                    animation: shake,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
                       children: [
-                        for (int i = 0; i < digits; i++) ...[
-                          dot(i, scheme),
-                          if (i < digits - 1) const SizedBox(width: 20),
-                        ],
+                        // A small lock instead of the oversized badge the
+                        // setup screen used to carry: the glyph names the
+                        // state without pushing the keypad or the cancel
+                        // action off short screens.
+                        Icon(
+                          setup ? Icons.lock_outlined : Icons.lock_outline,
+                          size: 36,
+                          color: scheme.primary,
+                        ),
+                        const SizedBox(height: 14),
+                        AnimatedSwitcher(
+                          duration: const Duration(milliseconds: 200),
+                          child: Text(
+                            confirming
+                                ? (widget.confirmTitle ?? widget.title)
+                                : widget.title,
+                            key: ValueKey(confirming),
+                            style: theme.textTheme.titleMedium,
+                            textAlign: TextAlign.center,
+                          ),
+                        ),
+                        const SizedBox(height: 6),
+                        // A reserved error line, so the layout does not jump.
+                        SizedBox(
+                          height: 20,
+                          child: AnimatedOpacity(
+                            opacity: error == null ? 0 : 1,
+                            duration: const Duration(milliseconds: 150),
+                            child: Text(
+                              error ?? '',
+                              style: theme.textTheme.bodyMedium?.copyWith(
+                                color: scheme.error,
+                              ),
+                            ),
+                          ),
+                        ),
+                        const SizedBox(height: 16),
+                        AnimatedBuilder(
+                          animation: shake,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              for (int i = 0; i < digits; i++) ...[
+                                dot(i, scheme),
+                                if (i < digits - 1) const SizedBox(width: 20),
+                              ],
+                            ],
+                          ),
+                          builder: (context, child) {
+                            double t = shake.value;
+                            double dx = sin(t * 3 * pi) * 12 * (1 - t);
+                            return Transform.translate(
+                              offset: Offset(dx, 0),
+                              child: child,
+                            );
+                          },
+                        ),
+                        const SizedBox(height: 28),
+                        keypad(scheme, theme.textTheme),
                       ],
                     ),
-                    builder: (context, child) {
-                      double t = shake.value;
-                      double dx = sin(t * 3 * pi) * 12 * (1 - t);
-                      return Transform.translate(
-                        offset: Offset(dx, 0),
-                        child: child,
-                      );
-                    },
                   ),
-                  const SizedBox(height: 36),
-                  keypad(scheme, theme.textTheme),
-                  if (widget.onCancelled != null) ...[
-                    const SizedBox(height: 12),
-                    TextButton(
-                      onPressed: widget.onCancelled,
-                      child: Text(l10n.actionCancel),
-                    ),
-                  ],
-                ],
+                ),
               ),
-            ),
+              if (widget.onCancelled != null)
+                Padding(
+                  padding: const EdgeInsets.only(
+                    left: 24,
+                    right: 24,
+                    bottom: 12,
+                  ),
+                  child: TextButton(
+                    onPressed: widget.onCancelled,
+                    child: Text(l10n.actionCancel),
+                  ),
+                ),
+            ],
           ),
         ),
       ),

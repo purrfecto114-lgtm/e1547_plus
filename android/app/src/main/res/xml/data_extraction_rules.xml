@@ -3,9 +3,13 @@
     <cloud-backup>
         <exclude domain="file" path="app.db" />
         <exclude domain="file" path="app.db.new" />
+    <exclude domain="file" path="app.db.bak" />
         <exclude domain="file" path="app.db-journal" />
+    <exclude domain="file" path="app.db.bak-journal" />
         <exclude domain="file" path="app.db-wal" />
+    <exclude domain="file" path="app.db.bak-wal" />
         <exclude domain="file" path="app.db-shm" />
+    <exclude domain="file" path="app.db.bak-shm" />
         <!-- the shared preferences hold the screen-lock PIN in plain text -->
         <exclude domain="sharedpref" path="FlutterSharedPreferences.xml" />
     </cloud-backup>
@@ -13,8 +17,12 @@
         <!-- keep app.db so direct device-to-device migration keeps logins;
              the transfer link is user-initiated and encrypted -->
         <exclude domain="file" path="app.db.new" />
+    <exclude domain="file" path="app.db.bak" />
         <exclude domain="file" path="app.db-journal" />
+    <exclude domain="file" path="app.db.bak-journal" />
         <exclude domain="file" path="app.db-wal" />
+    <exclude domain="file" path="app.db.bak-wal" />
         <exclude domain="file" path="app.db-shm" />
+    <exclude domain="file" path="app.db.bak-shm" />
     </device-transfer>
 </data-extraction-rules>

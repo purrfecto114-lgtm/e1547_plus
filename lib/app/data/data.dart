@@ -1,4 +1,5 @@
 export 'background.dart';
+export 'biometrics.dart';
 export 'capabilities.dart';
 export 'initialize.dart';
 export 'link.dart';
