@@ -214,7 +214,7 @@ void main() {
     expect(find.text('深色'), findsOneWidget);
     expect(find.text('跟随系统'), findsOneWidget);
     expect(find.text('已屏蔽 1 个标签'), findsOneWidget);
-    expect(find.text('仅显示图片'), findsOneWidget);
+    expect(find.text('仅显示缩略图'), findsOneWidget);
     expect(find.text('仅收藏'), findsOneWidget);
     expect(find.text('静音'), findsOneWidget);
     expect(find.text('高'), findsOneWidget);

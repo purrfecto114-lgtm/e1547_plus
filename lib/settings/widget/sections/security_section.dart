@@ -16,6 +16,9 @@ class SettingsSecuritySection extends StatelessWidget {
     Settings settings = context.watch<Settings>();
     final l10n = AppLocalizations.of(context);
     return Column(
+      // stretch keeps the section header pinned to the list edge instead
+      // of letting the column center its narrower children.
+      crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         SectionHeader(
           indent: SectionHeader.listTileIndent,

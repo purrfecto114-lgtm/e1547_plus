@@ -12,14 +12,20 @@ enum GridQuilt { square, vertical }
 /// A tier is a curated tile size in pixels rather than a free slider, so
 /// the grid always snaps to a layout that was actually designed and
 /// tested, and the choice stays explainable in three words.
+///
+/// The three sizes are spaced so that the resulting column count stays
+/// distinct on any phone width: a 360dp screen divides into 3 / 2 / 1
+/// columns. The previous 150/200/300 ladder collapsed the low and the
+/// medium tier onto the same two columns there, which made the middle
+/// option look like it did nothing.
 enum TileSize {
   small,
   medium,
   large;
 
   int get pixels => switch (this) {
-    TileSize.small => 150,
-    TileSize.medium => 200,
+    TileSize.small => 120,
+    TileSize.medium => 180,
     TileSize.large => 300,
   };
 

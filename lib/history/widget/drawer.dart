@@ -166,6 +166,9 @@ class HistoryCategoryFilterTile extends StatelessWidget {
     return Consumer<HistoryParamsController>(
       builder: (context, controller, _) => Column(
         mainAxisSize: MainAxisSize.min,
+        // stretch pins the section header to the drawer edge instead of
+        // letting the column center its narrower children.
+        crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           Padding(
             padding: const EdgeInsets.only(left: 12),
@@ -210,6 +213,9 @@ class HistoryTypeFilterTile extends StatelessWidget {
     return Consumer<HistoryParamsController>(
       builder: (context, controller, _) => Column(
         mainAxisSize: MainAxisSize.min,
+        // stretch pins the section header to the drawer edge instead of
+        // letting the column center its narrower children.
+        crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           Padding(
             padding: const EdgeInsets.only(left: 12),

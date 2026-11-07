@@ -262,7 +262,7 @@ class _PinLockState extends State<PinLock> with SingleTickerProviderStateMixin {
                             textAlign: TextAlign.center,
                           ),
                         ),
-                        const SizedBox(height: 6),
+                        const SizedBox(height: 10),
                         // A reserved error line, so the layout does not jump.
                         SizedBox(
                           height: 20,
@@ -277,7 +277,7 @@ class _PinLockState extends State<PinLock> with SingleTickerProviderStateMixin {
                             ),
                           ),
                         ),
-                        const SizedBox(height: 16),
+                        const SizedBox(height: 12),
                         AnimatedBuilder(
                           animation: shake,
                           child: Row(
@@ -298,7 +298,7 @@ class _PinLockState extends State<PinLock> with SingleTickerProviderStateMixin {
                             );
                           },
                         ),
-                        const SizedBox(height: 28),
+                        const SizedBox(height: 20),
                         keypad(scheme, theme.textTheme),
                       ],
                     ),
@@ -326,26 +326,34 @@ class _PinLockState extends State<PinLock> with SingleTickerProviderStateMixin {
 
   Widget dot(int index, ColorScheme scheme) {
     bool filled = index < entry.length;
-    return TweenAnimationBuilder<double>(
-      tween: Tween<double>(end: filled ? 1 : 0),
-      duration: const Duration(milliseconds: 150),
-      curve: Curves.easeOut,
-      builder: (context, value, _) {
-        double size = 14.0 + 6.0 * value;
-        Color color = error != null ? scheme.error : scheme.primary;
-        return Container(
-          width: size,
-          height: size,
-          decoration: BoxDecoration(
-            shape: BoxShape.circle,
-            color: value > 0 ? color : Colors.transparent,
-            border: Border.all(
-              width: 2,
-              color: error != null ? scheme.error : scheme.onSurfaceVariant,
-            ),
-          ),
-        );
-      },
+    // The circle grows inside a reserved box, so filling a dot never
+    // changes the row height: the old free standing container pushed the
+    // keypad and everything below it down on every keystroke.
+    return SizedBox.square(
+      dimension: 24,
+      child: Center(
+        child: TweenAnimationBuilder<double>(
+          tween: Tween<double>(end: filled ? 1 : 0),
+          duration: const Duration(milliseconds: 150),
+          curve: Curves.easeOut,
+          builder: (context, value, _) {
+            double size = 14.0 + 6.0 * value;
+            Color color = error != null ? scheme.error : scheme.primary;
+            return Container(
+              width: size,
+              height: size,
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                color: value > 0 ? color : Colors.transparent,
+                border: Border.all(
+                  width: 2,
+                  color: error != null ? scheme.error : scheme.onSurfaceVariant,
+                ),
+              ),
+            );
+          },
+        ),
+      ),
     );
   }
 
@@ -379,7 +387,7 @@ class _PinLockState extends State<PinLock> with SingleTickerProviderStateMixin {
                 onTap: widget.onBiometrics,
               )
             else
-              const SizedBox(width: 88, height: 88),
+              const SizedBox(width: 84, height: 84),
             key(0),
             cell(
               scheme: scheme,
@@ -404,15 +412,17 @@ class _PinLockState extends State<PinLock> with SingleTickerProviderStateMixin {
     return Padding(
       padding: const EdgeInsets.all(6),
       child: Material(
-        color: onTap == null && child is Icon
-            ? Colors.transparent
-            : scheme.surfaceContainerHighest,
+        // Disabled keys keep their circle, only dimmed, so the keypad
+        // silhouette stays stable instead of flashing a bare glyph.
+        color: scheme.surfaceContainerHighest.withValues(
+          alpha: onTap == null && child is Icon ? 0.4 : 1,
+        ),
         shape: const CircleBorder(),
         clipBehavior: Clip.antiAlias,
         child: InkWell(
           onTap: onTap,
           customBorder: const CircleBorder(),
-          child: SizedBox(width: 76, height: 76, child: Center(child: child)),
+          child: SizedBox(width: 72, height: 72, child: Center(child: child)),
         ),
       ),
     );
@@ -499,8 +509,12 @@ Future<void> tryLocalAuth({
   ScaffoldMessengerState messenger = ScaffoldMessenger.of(context);
   final LocalAuthentication localAuth = LocalAuthentication();
   final l10n = AppLocalizations.of(context);
-  await localAuth.stopAuthentication();
   try {
+    // Cancelling a stale prompt belongs inside the guarded region: on a
+    // handful of devices even the no-op cancellation surfaced a platform
+    // error that used to escape the handler below and left the lock
+    // screen waiting for a prompt that never came.
+    await localAuth.stopAuthentication();
     bool success = await localAuth.authenticate(
       localizedReason: l10n.lockBiometricReason,
       persistAcrossBackgrounding: true,
@@ -510,7 +524,10 @@ Future<void> tryLocalAuth({
     } else {
       onFailure?.call();
     }
-  } on LocalAuthException {
+  } on Object {
+    // local_auth maps its own errors onto LocalAuthException, but driver
+    // level PlatformExceptions have been observed in the wild; failing
+    // closed into the retry path beats crashing into a stuck lock.
     messenger.showSnackBar(
       SnackBar(
         content: Text(l10n.lockBiometricFailure),

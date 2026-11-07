@@ -12,6 +12,9 @@ class SettingsUserSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(
+      // stretch keeps the section header pinned to the list edge instead
+      // of letting the column center its narrower children.
+      crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         SectionHeader(
           indent: SectionHeader.listTileIndent,

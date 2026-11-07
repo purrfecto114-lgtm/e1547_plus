@@ -14,6 +14,9 @@ class SettingsAppearanceSection extends StatelessWidget {
     Settings settings = context.watch<Settings>();
     final l10n = AppLocalizations.of(context);
     return Column(
+      // stretch keeps the section header pinned to the list edge instead
+      // of letting the column center its narrower children.
+      crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         SectionHeader(
           indent: SectionHeader.listTileIndent,
@@ -126,6 +129,42 @@ class SettingsAppearanceSection extends StatelessWidget {
                       onTap: () {
                         if (popDialog(context)) {
                           settings.tileSize.value = size;
+                        }
+                      },
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ),
+        ValueListenableBuilder<VideoResolution>(
+          valueListenable: settings.videoResolution,
+          builder: (context, value, child) => ListTile(
+            title: Text(l10n.videoQuality),
+            subtitle: Text(value.localizedTitle(context)),
+            leading: const Icon(Icons.video_settings),
+            onTap: () => showDialog(
+              context: context,
+              builder: (context) => SimpleDialog(
+                title: Text(l10n.videoQuality),
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(16, 8, 16, 8),
+                    child: Text(
+                      l10n.videoResNote,
+                      style: Theme.of(context).textTheme.bodySmall,
+                    ),
+                  ),
+                  ...VideoResolution.values.map(
+                    (resolution) => ListTile(
+                      title: Text(resolution.localizedTitle(context)),
+                      trailing: value == resolution
+                          ? const Icon(Icons.check)
+                          : null,
+                      onTap: () {
+                        if (popDialog(context)) {
+                          settings.videoResolution.value = resolution;
                         }
                       },
                     ),

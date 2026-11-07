@@ -175,7 +175,14 @@ class AboutVersion extends StatelessWidget {
       launch(updater.latestReleaseUrl());
     }
 
-    Widget changesDialog(List<AppVersion> versions) {
+    Widget changesDialog(
+      BuildContext dialogContext,
+      List<AppVersion> versions,
+    ) {
+      // Every callback below uses the dialog's own context: capturing the
+      // page context here left [popDialog] looking at the settings route,
+      // whose [ModalRoute.isCurrent] is false while the dialog is open,
+      // which silently swallowed the cancel press.
       return AlertDialog(
         title: Text(AppInfo.instance.appName),
         content: ConstrainedBox(
@@ -186,8 +193,8 @@ class AboutVersion extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  AppLocalizations.of(context).updaterNewerHeader,
-                  style: TextStyle(color: dimTextColor(context, 0.5)),
+                  AppLocalizations.of(dialogContext).updaterNewerHeader,
+                  style: TextStyle(color: dimTextColor(dialogContext, 0.5)),
                 ),
                 ...versions
                     .map(
@@ -196,7 +203,7 @@ class AboutVersion extends StatelessWidget {
                           padding: const EdgeInsets.symmetric(vertical: 8),
                           child: Text(
                             '${release.name} (${release.version})',
-                            style: Theme.of(context).textTheme.titleLarge,
+                            style: Theme.of(dialogContext).textTheme.titleLarge,
                           ),
                         ),
                         Text(release.description!),
@@ -209,12 +216,12 @@ class AboutVersion extends StatelessWidget {
         ),
         actions: [
           TextButton(
-            onPressed: () => popDialog(context),
-            child: Text(AppLocalizations.of(context).actionCancel),
+            onPressed: () => popDialog(dialogContext),
+            child: Text(AppLocalizations.of(dialogContext).actionCancel),
           ),
           TextButton(
             onPressed: openGithub,
-            child: Text(AppLocalizations.of(context).actionDownload),
+            child: Text(AppLocalizations.of(dialogContext).actionDownload),
           ),
         ],
       );
@@ -241,7 +248,7 @@ class AboutVersion extends StatelessWidget {
         ).updaterNewer(data.first.version.toString());
         onTap = () => showDialog(
           context: context,
-          builder: (context) => changesDialog(data),
+          builder: (dialogContext) => changesDialog(dialogContext, data),
         );
         icon = const FaIcon(FontAwesomeIcons.download);
       }

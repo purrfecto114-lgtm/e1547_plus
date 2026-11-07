@@ -253,10 +253,10 @@ class AppLocalizationsZh extends AppLocalizations {
   String get settingsPostInfo => '帖子信息';
 
   @override
-  String get postInfoShown => '在格子上显示信息';
+  String get postInfoShown => '在缩略图上显示信息';
 
   @override
-  String get postInfoHidden => '仅显示图片';
+  String get postInfoHidden => '仅显示缩略图';
 
   @override
   String get settingsDownloadLocation => '下载位置';
