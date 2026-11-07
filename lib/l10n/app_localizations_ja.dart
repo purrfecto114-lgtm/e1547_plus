@@ -453,6 +453,12 @@ class AppLocalizationsJa extends AppLocalizations {
   String get lockBiometricFailure => '生体認証で重大なエラーが発生しました';
 
   @override
+  String get lockWrongPin => 'PINが正しくありません';
+
+  @override
+  String get lockPinMismatch => 'PINが一致しません';
+
+  @override
   String get aboutVersion => 'バージョン';
 
   @override

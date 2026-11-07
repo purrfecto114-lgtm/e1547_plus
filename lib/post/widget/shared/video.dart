@@ -588,6 +588,12 @@ class PostVideoRouteState extends State<PostVideoRoute> {
   bool _wasPlaying = false;
   bool _keepPlaying = false;
 
+  // The handover state of a player that had to give its slot up. The pool
+  // can refuse the successor while every player is still leased, and the
+  // retry after the released lease must not restart the video from zero.
+  Duration? _carriedPosition;
+  bool _carriedResume = false;
+
   void keepPlaying() => _keepPlaying = true;
 
   @override
@@ -610,11 +616,13 @@ class PostVideoRouteState extends State<PostVideoRoute> {
       seekTo = previous.state.position;
       resume = previous.state.playing;
       if (seekTo == Duration.zero) seekTo = null;
+      _carriedPosition = seekTo;
+      _carriedResume = resume;
     }
     VideoPlayer? next = widget.post.getVideo(
       context,
-      seekTo: seekTo,
-      resume: resume,
+      seekTo: seekTo ?? _carriedPosition,
+      resume: resume || (_carriedResume && player == null),
     );
     if (next == player) return;
     if (player case VideoPlayer previous) {
@@ -626,6 +634,9 @@ class PostVideoRouteState extends State<PostVideoRoute> {
     if (next != null) {
       _videos = context.read<VideoService>();
       _videos!.acquire(next);
+      // the successor consumed the handover state
+      _carriedPosition = null;
+      _carriedResume = false;
     }
   }
 
@@ -638,6 +649,8 @@ class PostVideoRouteState extends State<PostVideoRoute> {
     // so a following didChangeDependencies fetches the new post's player
     // from scratch instead of carrying the old one's position over.
     if (oldWidget.post.id == widget.post.id) return;
+    _carriedPosition = null;
+    _carriedResume = false;
     if (player case VideoPlayer previous) {
       if (!_keepPlaying) previous.pause();
       _keepPlaying = false;

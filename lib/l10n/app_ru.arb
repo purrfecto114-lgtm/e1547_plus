@@ -132,6 +132,8 @@
   "lockRetry": "Повторить",
   "lockBiometricReason": "Разблокируйте с помощью аутентификации.",
   "lockBiometricFailure": "Критический сбой биометрической аутентификации",
+  "lockWrongPin": "Неверный PIN-код",
+  "lockPinMismatch": "PIN-коды не совпадают",
   "aboutVersion": "Версия",
   "updaterFetching": "Проверка обновлений…",
   "updaterCheckFailed": "Не удалось проверить обновления",

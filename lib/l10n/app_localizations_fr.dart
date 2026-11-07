@@ -464,6 +464,12 @@ class AppLocalizationsFr extends AppLocalizations {
       'Échec grave de l\'authentification biométrique';
 
   @override
+  String get lockWrongPin => 'Code PIN incorrect';
+
+  @override
+  String get lockPinMismatch => 'Les codes PIN ne correspondent pas';
+
+  @override
   String get aboutVersion => 'Version';
 
   @override

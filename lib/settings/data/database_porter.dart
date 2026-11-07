@@ -1,6 +1,7 @@
 import 'dart:io';
 
-import 'package:drift/drift.dart' show driftRuntimeOptions;
+import 'package:cryptography/cryptography.dart';
+import 'package:drift/drift.dart' show TableInfo, driftRuntimeOptions;
 import 'package:drift_flutter/drift_flutter.dart';
 import 'package:e1547/app/app.dart';
 import 'package:e1547/identity/identity.dart';
@@ -60,6 +61,46 @@ const Set<String> defaultHosts = {'https://e621.net', 'https://e926.net'};
 /// dialogs can discard it again without touching the live database.
 Future<String> pendingImportPath() async => '${await getAppDatabasePath()}.new';
 
+/// The path of the marker that proves a staged import passed validation.
+Future<String> pendingImportMarkerPath() async =>
+    '${await getAppDatabasePath()}.new.ok';
+
+/// The sha256 of the file at [path], as lowercase hex.
+Future<String> fileHash(String path) async {
+  final bytes = await File(path).readAsBytes();
+  final digest = await Sha256().hash(bytes);
+  return digest.bytes
+      .map((byte) => byte.toRadixString(16).padLeft(2, '0'))
+      .join();
+}
+
+/// Stamps the staged candidate at [candidatePath] as validated by writing
+/// its hash into the marker at [markerPath].
+Future<void> stampStagedImport(String candidatePath, String markerPath) async {
+  await File(
+    markerPath,
+  ).writeAsString(await fileHash(candidatePath), flush: true);
+}
+
+/// Whether the staged candidate at [candidatePath] is the one validation
+/// stamped into [markerPath].
+///
+/// Only a marker that still matches the file proves the candidate is the
+/// fully validated one: anything else — a missing marker, an interrupted
+/// copy, a file modified after validation — must never be adopted by the
+/// boot sequence.
+Future<bool> stagedImportVerified(
+  String candidatePath,
+  String markerPath,
+) async {
+  if (!File(candidatePath).existsSync()) return false;
+  final marker = File(markerPath);
+  if (!marker.existsSync()) return false;
+  final expected = (await marker.readAsString()).trim();
+  if (expected.isEmpty) return false;
+  return await fileHash(candidatePath) == expected;
+}
+
 /// Runs [action] against a private connection of the database file at
 /// [path].
 ///
@@ -91,7 +132,21 @@ Future<T> withIsolatedDatabase<T>(
 
 /// Strips the credentials from [db] and rebuilds the file so the removed
 /// rows cannot be recovered from free pages left behind by the UPDATE.
+///
+/// Any triggers the file carries are dropped first: the app ships none,
+/// so every trigger in an import is untrusted, and one that survived the
+/// cleanup could write the credentials straight back.
 Future<void> sanitizeDatabase(AppDatabase db) async {
+  final triggers = await db
+      .customSelect("SELECT name FROM sqlite_master WHERE type = 'trigger'")
+      .get();
+  for (final row in triggers) {
+    final name = row.read<String>('name');
+    // sqlite_master names cannot contain a double quote, but a crafted
+    // file may still try; the identifier is quoted regardless.
+    final quoted = '"${name.replaceAll('"', '""')}"';
+    await db.customStatement('DROP TRIGGER IF EXISTS $quoted');
+  }
   await IdentityRepository(db).removeCredentials();
   await db.customStatement('VACUUM');
 }
@@ -116,9 +171,41 @@ Future<void> snapshotDatabase(
   try {
     await sqlite.customStatement('VACUUM INTO ?', [targetPath]);
   } on Exception {
-    // Not worse than what a plain file copy would produce.
+    // The fallback copy only sees data that has left the wal, so flush
+    // the wal into the main file first; a fresh export could otherwise
+    // miss the newest committed rows.
+    try {
+      await sqlite.customSelect('PRAGMA wal_checkpoint(TRUNCATE)').get();
+    } on Exception {
+      // a failed checkpoint is not fatal for the copy itself
+    }
     await dbFile.copy(targetPath);
   }
+}
+
+/// The columns of [db]'s tables that drift expects but the file lacks.
+///
+/// Table names alone do not make a usable database: a file with the right
+/// names but wrong columns would replace the live database and break every
+/// query touching the missing column. The comparison runs after drift's
+/// migration, so the expectations are the ones this build ships. PRAGMA
+/// table_info cannot take a bound parameter, but every compared table name
+/// comes from drift's own generated schema, never from the imported file.
+Future<List<String>> schemaMismatches(AppDatabase db) async {
+  final problems = <String>[];
+  for (final entity in db.allSchemaEntities) {
+    if (entity is! TableInfo) continue;
+    final rows = await db
+        .customSelect('PRAGMA table_info(${entity.entityName})')
+        .get();
+    final expected = entity.$columns.map((column) => column.$name).toSet();
+    final actual = rows.map((row) => row.read<String>('name')).toSet();
+    final missing = expected.difference(actual);
+    if (missing.isNotEmpty) {
+      problems.add('${entity.entityName} misses ${missing.join(', ')}');
+    }
+  }
+  return problems;
 }
 
 /// Copies the import candidate at [sourcePath] to the staging path and
@@ -131,9 +218,11 @@ Future<Set<String>> stageImportCandidate(String sourcePath) async {
   final newDbPath = await pendingImportPath();
   final newDbFile = File(newDbPath);
   if (newDbFile.existsSync()) await newDbFile.delete();
+  final markerFile = File(await pendingImportMarkerPath());
+  if (markerFile.existsSync()) await markerFile.delete();
   await File(sourcePath).copy(newDbPath);
   try {
-    return await withIsolatedDatabase('import', newDbPath, (db) async {
+    final hosts = await withIsolatedDatabase('import', newDbPath, (db) async {
       await db.customSelect('SELECT 1').get();
       final tables = await db
           .customSelect("SELECT name FROM sqlite_master WHERE type = 'table'")
@@ -143,13 +232,25 @@ Future<Set<String>> stageImportCandidate(String sourcePath) async {
       if (missing.isNotEmpty) {
         throw Exception('Missing app tables: ${missing.join(', ')}');
       }
+      // The column comparison happens after the migration drift ran while
+      // opening the candidate, so an older export measures against this
+      // build's expectations.
+      final incomplete = await schemaMismatches(db);
+      if (incomplete.isNotEmpty) {
+        throw Exception('Incomplete app schema: ${incomplete.join(', ')}');
+      }
       final hosts = await IdentityRepository(db).hosts();
       // Strip untrusted credentials in the installed copy.
       await sanitizeDatabase(db);
       return hosts;
     });
+    // Only a fully validated and sanitized candidate earns the marker the
+    // boot sequence looks for.
+    await stampStagedImport(newDbPath, await pendingImportMarkerPath());
+    return hosts;
   } on Exception {
     if (newDbFile.existsSync()) await newDbFile.delete();
+    if (markerFile.existsSync()) await markerFile.delete();
     rethrow;
   }
 }
@@ -158,4 +259,6 @@ Future<Set<String>> stageImportCandidate(String sourcePath) async {
 Future<void> discardStagedImport() async {
   final newDbFile = File(await pendingImportPath());
   if (newDbFile.existsSync()) await newDbFile.delete();
+  final markerFile = File(await pendingImportMarkerPath());
+  if (markerFile.existsSync()) await markerFile.delete();
 }

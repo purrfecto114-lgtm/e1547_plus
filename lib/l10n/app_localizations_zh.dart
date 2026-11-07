@@ -453,6 +453,12 @@ class AppLocalizationsZh extends AppLocalizations {
   String get lockBiometricFailure => '生物识别验证出现严重错误';
 
   @override
+  String get lockWrongPin => 'PIN 不正确';
+
+  @override
+  String get lockPinMismatch => '两次输入的 PIN 不一致';
+
+  @override
   String get aboutVersion => '版本';
 
   @override
@@ -2772,6 +2778,12 @@ class AppLocalizationsZhHant extends AppLocalizationsZh {
 
   @override
   String get lockBiometricFailure => '生物辨識驗證發生嚴重錯誤';
+
+  @override
+  String get lockWrongPin => 'PIN 不正確';
+
+  @override
+  String get lockPinMismatch => '兩次輸入的 PIN 不一致';
 
   @override
   String get aboutVersion => '版本';

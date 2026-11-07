@@ -70,6 +70,7 @@ class FakePlatformPlayer extends PlatformPlayer {
   Future<void> setVolume(double volume) async {}
 }
 
-VideoService fakeVideoService() => VideoService(
+VideoService fakeVideoService({int? maxLoaded}) => VideoService(
+  maxLoaded: maxLoaded,
   createPlayer: () => VideoPlayer(platformPlayer: FakePlatformPlayer()),
 );

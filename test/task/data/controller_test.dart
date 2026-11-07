@@ -280,7 +280,7 @@ void main() {
             exportStarted.complete();
             // the user cancels while the export is copying the file
             await exportResumed.future;
-            await FileDownloader.downloadImage(
+            return FileDownloader.downloadImage(
               file: file,
               directory: directory,
               folderName: folderName,
@@ -400,7 +400,6 @@ void main() {
     settings.downloadPath.value = dir.path;
 
     final source = fetchableFile('${dir.path}/source.bin');
-    addTearDown(() => source.delete());
 
     final instance = controller(
       fileFetcher: (url, token, onProgress) async {
@@ -417,6 +416,9 @@ void main() {
 
     expect(await repository.readStatus(task.id), TaskStatus.completed);
     expect(File('${dir.path}/completed.webm').existsSync(), isTrue);
+    // the temporary source file has a single owner and does not survive
+    // the completed download
+    expect(source.existsSync(), isFalse);
 
     instance.dispose();
   });
@@ -462,7 +464,6 @@ void main() {
     final dir = await Directory.systemTemp.createTemp('task-concurrency');
     addTearDown(() => dir.delete(recursive: true));
     settings.downloadPath.value = dir.path;
-    final source = fetchableFile('${dir.path}/source.bin');
 
     int active = 0;
     int peak = 0;
@@ -477,7 +478,9 @@ void main() {
         started.putIfAbsent(name, Completer.new).complete();
         await release.putIfAbsent(name, Completer.new).future;
         active--;
-        return source;
+        // every transfer fetches into its own temporary file, like the
+        // real fetcher does; a completed download consumes its source
+        return fetchableFile('${dir.path}/source-$name.bin');
       },
     );
 

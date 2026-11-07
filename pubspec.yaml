@@ -1,6 +1,6 @@
 name: e1547
 description: A sophisticated e621 browser
-version: 21.5.0-rc.1+123
+version: 21.5.0-rc.2+124
 publish_to: none
 
 environment:
@@ -26,7 +26,6 @@ dependencies:
   media_kit_libs_video: ^1.0.0
   flutter_cache_manager: ^3.4.2
   flutter_custom_tabs: ^2.0.0+1
-  flutter_screen_lock: ^9.2.2+2
   flutter_sub: ^3.0.0
   flutter_sub_provider: ^3.0.0
   flutter_staggered_grid_view: ^0.7.0

@@ -234,8 +234,13 @@ class _SearchTagDisplayState extends State<SearchTagDisplay> {
         style: FadeAnimationStyle.stacked,
         showChild: snapshot.connectionState == ConnectionState.done,
         builder: (context) {
+          // A local entry always wins: a failed wiki request must not
+          // cover up the description that is already available offline.
+          if (localized != null) {
+            return DText(localized);
+          }
           if (snapshot.hasData) {
-            return DText(localized ?? snapshot.data!.body);
+            return DText(snapshot.data!.body);
           } else if (snapshot.hasError) {
             return IconMessage(
               title: Text(AppLocalizations.of(context).tagUnableToRetrieveWiki),
@@ -243,9 +248,6 @@ class _SearchTagDisplayState extends State<SearchTagDisplay> {
               direction: Axis.horizontal,
             );
           } else {
-            if (localized != null) {
-              return DText(localized);
-            }
             return Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [

@@ -9,7 +9,6 @@ import 'package:e1547/shared/shared.dart';
 import 'package:e1547/task/task.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_cache_manager/flutter_cache_manager.dart';
-import 'package:path/path.dart';
 
 enum TaskKind { none, download, favorite, unfavorite, mixed, done }
 
@@ -17,8 +16,11 @@ const Duration _lingerAfterDone = Duration(seconds: 2);
 
 /// Exports a fetched download file into the user's gallery folder. Injectable
 /// like [DownloadFileFetcher], so tests can hold the export itself open.
+///
+/// Returns the location the export actually wrote, when it can be addressed
+/// for a later rollback; see [FileDownloader.downloadFile].
 typedef FileExporter =
-    Future<void> Function({
+    Future<String?> Function({
       required File file,
       required String? directory,
       String? folderName,
@@ -26,7 +28,7 @@ typedef FileExporter =
       void Function(String dir)? onDirectoryChanged,
     });
 
-Future<void> exportDownloadFile({
+Future<String?> exportDownloadFile({
   required File file,
   required String? directory,
   String? folderName,
@@ -353,8 +355,10 @@ class TasksController extends ChangeNotifier {
     // the controller may have been disposed while this task waited for a
     // worker; canceling right away aborts the fetch before it starts
     if (_disposed) cancelToken.cancel();
+    // A network-fetched file is a temporary artifact owned by this
+    // download; a cache hit is a shared file that must stay.
+    File? fetched;
     try {
-      bool fromCache = false;
       File file;
       // a file that is already in the cache needs no network transfer
       FileInfo? cached;
@@ -364,7 +368,6 @@ class TasksController extends ChangeNotifier {
         // cache reads are best-effort; the network path still works
       }
       if (!_disposed && cached != null && cached.file.existsSync()) {
-        fromCache = true;
         file = cached.file;
         progress?.value = 1;
         _recomputeProgress();
@@ -376,26 +379,21 @@ class TasksController extends ChangeNotifier {
           progress?.value = value;
           _recomputeProgress();
         });
+        fetched = file;
       }
       if (_disposed) {
         // the controller is gone; put the task back so the next controller
         // can pick it up again
-        if (!fromCache) {
-          _deleteQuietly(file);
-        }
         await repository.release(task.id);
         return;
       }
       final TaskStatus? status = await repository.readStatus(task.id);
       if (status == TaskStatus.canceled) {
         // a canceled download must not land in the user's gallery
-        if (!fromCache) {
-          _deleteQuietly(file);
-        }
         return;
       }
       try {
-        await exporter(
+        final String? exported = await exporter(
           file: file,
           directory: settings.downloadPath.value,
           folderName: AppInfo.instance.appName,
@@ -405,7 +403,7 @@ class TasksController extends ChangeNotifier {
         // the export itself is not cancelable; a cancel that raced it must
         // not leave the file behind
         if (await repository.readStatus(task.id) == TaskStatus.canceled) {
-          _deleteExportedQuietly(fileName);
+          FileDownloader.deleteExported(exported);
         }
       } on FileDownloadException {
         rethrow;
@@ -431,6 +429,12 @@ class TasksController extends ChangeNotifier {
       throw FileDownloadException.from(e);
     } finally {
       _cancelTokens.remove(task.id);
+      // Whether the export succeeded or threw, nothing needs the network
+      // file anymore; leaving it behind would leak disk space until the
+      // system clears its cache. Cache hits are shared and stay.
+      if (fetched != null) {
+        _deleteQuietly(fetched);
+      }
     }
   }
 
@@ -438,14 +442,6 @@ class TasksController extends ChangeNotifier {
     // the fetched file lives in a temporary directory; leaving it behind would
     // leak disk space until the system clears its cache
     file.delete().ignore();
-  }
-
-  void _deleteExportedQuietly(String fileName) {
-    // best-effort: gallery exports on Android go through SAF and are not
-    // files this process can address, so only plain directories are cleaned
-    final String? directory = settings.downloadPath.value;
-    if (directory == null) return;
-    File(join(directory, fileName)).delete().ignore();
   }
 
   Future<void> cancel(int taskId) async {

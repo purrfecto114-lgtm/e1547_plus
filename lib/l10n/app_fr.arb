@@ -132,6 +132,8 @@
   "lockRetry": "Réessayer",
   "lockBiometricReason": "Authentifie-toi pour déverrouiller.",
   "lockBiometricFailure": "Échec grave de l'authentification biométrique",
+  "lockWrongPin": "Code PIN incorrect",
+  "lockPinMismatch": "Les codes PIN ne correspondent pas",
   "aboutVersion": "Version",
   "updaterFetching": "Recherche de mises à jour...",
   "updaterCheckFailed": "Échec de la vérification des mises à jour",

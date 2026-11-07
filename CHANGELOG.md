@@ -4,6 +4,33 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and this project
 adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [21.5.0-rc.2+124] - 2026-11-07
+### Changed
+- the PIN entry screen is redesigned: a themed badge, secret dots that fill in as
+  digits arrive and shake with an error message that spells itself out, a
+  circular keypad with haptics, a backspace key and an optional biometric
+  shortcut; the third party lock sheet left the codebase with it
+
+### Fixed
+- secure display keeps its promise again: leaving the app shows a dedicated,
+  themed shield card in the app switcher instead of the system's generic
+  warning placeholder, and the app's content itself stays untouched; the
+  previous cover raced the screenshot and lost on android 7, so the cover now
+  flips natively on the user-leave hook, before the snapshot is taken
+- a failed wiki request no longer covers up the offline tag description that
+  was already available
+- downloads no longer leave their temporary files behind once the export
+  consumed them, and a cancellation that raced the export removes the copy it
+  actually wrote - on android through saf too - instead of guessing a path
+- a staged database import is stamped with the hash of its validated file and
+  only that candidate is adopted at the next start; imports whose tables miss
+  columns, or that smuggle triggers in, are rejected, and the sanitizer
+  disarms those triggers before stripping the credentials
+- switching the video quality while every player slot is taken keeps the
+  position and playing state through the retry instead of restarting
+- the export snapshot flushes the wal before its plain-copy fallback, so a
+  fresh export cannot miss the newest committed rows
+
 ## [21.5.0-rc.1+123] - 2026-11-07
 ### Added
 - korean, italian, polish and vietnamese translations of the whole interface, with plural forms following each language's own rules
@@ -1406,3 +1433,4 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 [21.3.0-rc.5+120]: https://github.com/purrfecto114-lgtm/e1547_plus/compare/21.3.0-rc.4+119...21.3.0-rc.5+120
 [21.4.0+122]: https://github.com/purrfecto114-lgtm/e1547_plus/compare/21.3.0+121...21.4.0+122
 [21.5.0-rc.1+123]: https://github.com/purrfecto114-lgtm/e1547_plus/compare/21.4.0+122...21.5.0-rc.1+123
+[21.5.0-rc.2+124]: https://github.com/purrfecto114-lgtm/e1547_plus/compare/21.5.0-rc.1+123...21.5.0-rc.2+124

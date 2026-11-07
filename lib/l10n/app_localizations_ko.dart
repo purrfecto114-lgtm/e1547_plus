@@ -458,6 +458,12 @@ class AppLocalizationsKo extends AppLocalizations {
   String get lockBiometricFailure => '생체 인증 심각한 오류';
 
   @override
+  String get lockWrongPin => 'PIN이 올바르지 않습니다';
+
+  @override
+  String get lockPinMismatch => 'PIN이 일치하지 않습니다';
+
+  @override
   String get aboutVersion => '버전';
 
   @override

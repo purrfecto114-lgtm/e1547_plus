@@ -213,6 +213,8 @@
   "lockRetry": "Retry",
   "lockBiometricReason": "Authenticate to unlock.",
   "lockBiometricFailure": "Severe failure in biometric authentication",
+  "lockWrongPin": "Wrong PIN",
+  "lockPinMismatch": "PINs do not match",
   "aboutVersion": "Version",
   "updaterFetching": "Fetching updates...",
   "updaterCheckFailed": "Failed to check for updates",

@@ -213,6 +213,8 @@
   "lockRetry": "재시도",
   "lockBiometricReason": "잠금을 해제하려면 인증해주세요.",
   "lockBiometricFailure": "생체 인증 심각한 오류",
+  "lockWrongPin": "PIN이 올바르지 않습니다",
+  "lockPinMismatch": "PIN이 일치하지 않습니다",
   "aboutVersion": "버전",
   "updaterFetching": "업데이트 확인 중...",
   "updaterCheckFailed": "업데이트 확인 실패",

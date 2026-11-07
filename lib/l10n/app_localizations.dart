@@ -911,6 +911,18 @@ abstract class AppLocalizations {
   /// **'Severe failure in biometric authentication'**
   String get lockBiometricFailure;
 
+  /// No description provided for @lockWrongPin.
+  ///
+  /// In en, this message translates to:
+  /// **'Wrong PIN'**
+  String get lockWrongPin;
+
+  /// No description provided for @lockPinMismatch.
+  ///
+  /// In en, this message translates to:
+  /// **'PINs do not match'**
+  String get lockPinMismatch;
+
   /// No description provided for @aboutVersion.
   ///
   /// In en, this message translates to:

@@ -463,6 +463,12 @@ class AppLocalizationsEs extends AppLocalizations {
       'Error crítico de autenticación biométrica';
 
   @override
+  String get lockWrongPin => 'PIN incorrecto';
+
+  @override
+  String get lockPinMismatch => 'Los PIN no coinciden';
+
+  @override
   String get aboutVersion => 'Versión';
 
   @override

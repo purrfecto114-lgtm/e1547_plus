@@ -463,6 +463,12 @@ class AppLocalizationsVi extends AppLocalizations {
       'Lỗi nghiêm trọng trong xác thực sinh trắc';
 
   @override
+  String get lockWrongPin => 'PIN không đúng';
+
+  @override
+  String get lockPinMismatch => 'PIN không khớp';
+
+  @override
   String get aboutVersion => 'Phiên bản';
 
   @override

@@ -1,5 +1,10 @@
+import 'dart:io';
+
+import 'package:drift/native.dart';
+import 'package:e1547/app/app.dart';
 import 'package:e1547/settings/settings.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:sqlite3/sqlite3.dart';
 
 void main() {
   group('classifyImportSchemaVersion', () {
@@ -31,6 +36,91 @@ void main() {
 
     test('a file that is no sqlite database at all is rejected', () {
       expect(classifyImportSchemaVersion(null), ImportSchemaGate.empty);
+    });
+  });
+
+  group('schemaMismatches', () {
+    test('a real database matches the expected columns', () async {
+      final db = AppDatabase(NativeDatabase.memory());
+      addTearDown(db.close);
+      expect(await schemaMismatches(db), isEmpty);
+    });
+
+    test('a table with the right name but wrong columns is caught', () async {
+      final dir = await Directory.systemTemp.createTemp('e1547_schema');
+      addTearDown(() => dir.delete(recursive: true));
+      final path = '${dir.path}${Platform.pathSeparator}app.db';
+
+      final db = AppDatabase(NativeDatabase(File(path)));
+      await db.customSelect('SELECT 1').get();
+      await db.close();
+
+      // Rebuild one table with only its id column, the way a synthetic
+      // file passes the table name check but fails every real query.
+      final sqlite = sqlite3.open(path);
+      sqlite.execute('ALTER TABLE histories_table RENAME TO histories_old');
+      sqlite.execute(
+        'CREATE TABLE histories_table (id INTEGER NOT NULL PRIMARY KEY)',
+      );
+      sqlite.execute('DROP TABLE histories_old');
+      sqlite.close();
+
+      final mangled = AppDatabase(NativeDatabase(File(path)));
+      addTearDown(mangled.close);
+      final problems = await schemaMismatches(mangled);
+      expect(problems, hasLength(1));
+      expect(problems.single, contains('histories_table'));
+    });
+  });
+
+  group('staged import markers', () {
+    late Directory dir;
+    late String candidatePath;
+    late String markerPath;
+
+    setUp(() async {
+      dir = await Directory.systemTemp.createTemp('e1547_marker');
+      candidatePath = '${dir.path}${Platform.pathSeparator}app.db.new';
+      markerPath = '${dir.path}${Platform.pathSeparator}app.db.new.ok';
+    });
+    tearDown(() => dir.delete(recursive: true));
+
+    test('a stamped candidate verifies', () async {
+      await File(candidatePath).writeAsString('candidate', flush: true);
+      await stampStagedImport(candidatePath, markerPath);
+      expect(await stagedImportVerified(candidatePath, markerPath), isTrue);
+    });
+
+    test('a modified candidate fails the marker check', () async {
+      await File(candidatePath).writeAsString('candidate', flush: true);
+      await stampStagedImport(candidatePath, markerPath);
+      await File(candidatePath).writeAsString('tampered', flush: true);
+      expect(await stagedImportVerified(candidatePath, markerPath), isFalse);
+    });
+
+    test('a missing or empty marker fails the check', () async {
+      await File(candidatePath).writeAsString('candidate', flush: true);
+      expect(await stagedImportVerified(candidatePath, markerPath), isFalse);
+
+      await File(markerPath).writeAsString('', flush: true);
+      expect(await stagedImportVerified(candidatePath, markerPath), isFalse);
+    });
+
+    test('sanitizeDatabase drops triggers a file carried', () async {
+      final db = AppDatabase(NativeDatabase.memory());
+      addTearDown(db.close);
+      // The app ships no triggers, so one in an import is attacker-made:
+      // a trigger that survives the cleanup could write the credentials
+      // straight back after they were stripped.
+      await db.customStatement(
+        'CREATE TRIGGER sneak AFTER UPDATE ON identities_table BEGIN '
+        'SELECT 1; END',
+      );
+      await sanitizeDatabase(db);
+      final triggers = await db
+          .customSelect("SELECT name FROM sqlite_master WHERE type = 'trigger'")
+          .get();
+      expect(triggers, isEmpty);
     });
   });
 }

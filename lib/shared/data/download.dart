@@ -49,8 +49,13 @@ abstract final class FileDownloader {
   /// Downloads a file to the specified directory.
   /// The user may choose a directory, if the parameter `directory` is null or the app does not have permission to write to the specified directory.
   ///
+  /// Returns the location the file was actually written to, when it can be
+  /// addressed for a later rollback: a plain file path on desktop, a
+  /// content uri pointing at the exact document on Android. iOS saves into
+  /// the gallery and cannot name a file.
+  ///
   /// Not supported on iOS.
-  static Future<void> downloadFile({
+  static Future<String?> downloadFile({
     required File file,
     required String? directory,
     String? folderName,
@@ -93,18 +98,19 @@ abstract final class FileDownloader {
 
         onDirectoryChanged?.call(target);
         final safStream = SafStream();
-        final mimeType =
-            lookupMimeType(fileName ?? basename(file.path)) ??
-            'application/octet-stream';
+        final String name = fileName ?? basename(file.path);
+        final mimeType = lookupMimeType(name) ?? 'application/octet-stream';
         await safStream.pasteLocalFile(
           file.path,
           target,
-          fileName ?? basename(file.path),
+          name,
           mimeType,
           overwrite: true,
         );
         // This should probably only happen in [downloadImage].
         await MediaScanner.loadMedia(path: target);
+        // The exact document lets a raced cancellation remove the copy.
+        return (await SafUtil().child(target, [name]))?.uri;
       } else {
         String directoryPath =
             directory ??
@@ -132,8 +138,13 @@ abstract final class FileDownloader {
             targetFile.existsSync() &&
             await file.resolveSymbolicLinks() ==
                 await targetFile.resolveSymbolicLinks();
-        if (sameFile) return;
+        if (sameFile) {
+          // the target already is the source; a rollback must never
+          // consider it deletable
+          return null;
+        }
         await file.copy(targetFile.path);
+        return targetFile.path;
       }
     } on Exception catch (e) {
       throw FileDownloadException.from(e);
@@ -141,7 +152,8 @@ abstract final class FileDownloader {
   }
 
   /// Downloads an image file to the device's gallery or a specified directory.
-  static Future<void> downloadImage({
+  /// Returns the written location where [downloadFile] can name one.
+  static Future<String?> downloadImage({
     required File file,
     required String? directory,
     String? folderName,
@@ -150,8 +162,9 @@ abstract final class FileDownloader {
   }) async {
     if (Platform.isIOS) {
       await ImageGallerySaverPlus.saveFile(file.path);
+      return null;
     } else {
-      await downloadFile(
+      return downloadFile(
         file: file,
         directory: directory,
         folderName: folderName,
@@ -159,6 +172,20 @@ abstract final class FileDownloader {
         onDirectoryChanged: onDirectoryChanged,
       );
     }
+  }
+
+  /// Removes an export at the location [downloadFile] reported, for a
+  /// cancellation that raced the write. Best-effort: a failed rollback
+  /// must never mask the original error.
+  static void deleteExported(String? location) {
+    if (location == null) return;
+    if (location.startsWith('content:')) {
+      // Android gallery exports are saf documents and the reported uri
+      // points at the exact file this export wrote.
+      SafUtil().delete(location, false).ignore();
+      return;
+    }
+    File(location).delete().ignore();
   }
 
   static Future<T> _throwOnNull<T>(FutureOr<T?> future, String message) async {

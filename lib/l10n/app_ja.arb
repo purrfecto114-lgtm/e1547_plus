@@ -132,6 +132,8 @@
   "lockRetry": "再試行",
   "lockBiometricReason": "ロックを解除するには認証してください。",
   "lockBiometricFailure": "生体認証で重大なエラーが発生しました",
+  "lockWrongPin": "PINが正しくありません",
+  "lockPinMismatch": "PINが一致しません",
   "aboutVersion": "バージョン",
   "updaterFetching": "更新を確認しています…",
   "updaterCheckFailed": "更新の確認に失敗しました",

@@ -1,0 +1,5 @@
+The PIN entry screen is redesigned: animated secret dots, a circular keypad with a backspace key and haptics, and an optional biometric shortcut.
+
+Secure display shows a dedicated themed shield card in the app switcher when you leave the app, replacing the system's generic warning placeholder.
+
+Fixes: a failed wiki request no longer hides the offline tag description; downloads clean up their temporary files and roll back raced exports precisely; staged database imports are hash-stamped, column-checked and trigger-disarmed; a video quality switch under a full player pool keeps its position.

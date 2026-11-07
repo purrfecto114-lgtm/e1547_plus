@@ -473,6 +473,12 @@ class AppLocalizationsPl extends AppLocalizations {
       'Poważny błąd uwierzytelniania biometrycznego';
 
   @override
+  String get lockWrongPin => 'Nieprawidłowy PIN';
+
+  @override
+  String get lockPinMismatch => 'Kody PIN nie są zgodne';
+
+  @override
   String get aboutVersion => 'Wersja';
 
   @override

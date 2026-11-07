@@ -213,6 +213,8 @@
   "lockRetry": "Thử lại",
   "lockBiometricReason": "Xác thực để mở khóa.",
   "lockBiometricFailure": "Lỗi nghiêm trọng trong xác thực sinh trắc",
+  "lockWrongPin": "PIN không đúng",
+  "lockPinMismatch": "PIN không khớp",
   "aboutVersion": "Phiên bản",
   "updaterFetching": "Đang kiểm tra cập nhật...",
   "updaterCheckFailed": "Không thể kiểm tra cập nhật",

@@ -462,6 +462,12 @@ class AppLocalizationsPt extends AppLocalizations {
   String get lockBiometricFailure => 'Falha grave na autenticação biométrica';
 
   @override
+  String get lockWrongPin => 'PIN incorreto';
+
+  @override
+  String get lockPinMismatch => 'Os PINs não coincidem';
+
+  @override
   String get aboutVersion => 'Versão';
 
   @override

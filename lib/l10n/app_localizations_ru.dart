@@ -472,6 +472,12 @@ class AppLocalizationsRu extends AppLocalizations {
       'Критический сбой биометрической аутентификации';
 
   @override
+  String get lockWrongPin => 'Неверный PIN-код';
+
+  @override
+  String get lockPinMismatch => 'PIN-коды не совпадают';
+
+  @override
   String get aboutVersion => 'Версия';
 
   @override

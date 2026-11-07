@@ -464,6 +464,12 @@ class AppLocalizationsDe extends AppLocalizations {
       'Kritischer Fehler der biometrischen Authentifizierung';
 
   @override
+  String get lockWrongPin => 'Falsche PIN';
+
+  @override
+  String get lockPinMismatch => 'PINs stimmen nicht überein';
+
+  @override
   String get aboutVersion => 'Version';
 
   @override

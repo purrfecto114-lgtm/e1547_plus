@@ -169,10 +169,20 @@ Future<void> backfillOnboardingSeen(AppStorage storage) async {
 
 Future<void> completeDbImport() async {
   final dbPath = await getAppDatabasePath();
-  final newDbPath = '$dbPath.new';
+  final newDbPath = await pendingImportPath();
+  final markerPath = await pendingImportMarkerPath();
   final newDbFile = File(newDbPath);
 
   if (newDbFile.existsSync()) {
+    // A staged import may only take over when validation stamped it: a
+    // crash during the validation, the copy or before the user confirmed
+    // otherwise leaves a file the boot sequence must not mistake for an
+    // install, and the live database stays untouched.
+    if (!await stagedImportVerified(newDbPath, markerPath)) {
+      Logger('Storage').warn('Discarded an unverified staged import');
+      await discardStagedImport();
+      return;
+    }
     final oldDbFile = File(dbPath);
     try {
       if (oldDbFile.existsSync()) {
@@ -183,6 +193,8 @@ Future<void> completeDbImport() async {
       await newDbFile.copy(dbPath);
       await newDbFile.delete();
     }
+    // the marker served its purpose once the candidate is installed
+    await discardStagedImport();
   }
 }
 

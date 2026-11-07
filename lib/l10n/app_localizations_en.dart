@@ -462,6 +462,12 @@ class AppLocalizationsEn extends AppLocalizations {
       'Severe failure in biometric authentication';
 
   @override
+  String get lockWrongPin => 'Wrong PIN';
+
+  @override
+  String get lockPinMismatch => 'PINs do not match';
+
+  @override
   String get aboutVersion => 'Version';
 
   @override

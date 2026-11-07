@@ -254,6 +254,63 @@ void main() {
     expect(switched.state.playing, isTrue);
     expect(initial.state.playing, isFalse);
   });
+
+  testWidgets('switching quality under a full pool keeps the position', (
+    tester,
+  ) async {
+    // A single pool slot is held by this route's own player: the successor
+    // is refused first, and the retry after the released lease must still
+    // carry the position and playing state over.
+    videos.dispose();
+    videos = fakeVideoService(maxLoaded: 1);
+    // Unique variant urls, so the static pool's recycled players from
+    // earlier tests cannot pollute the opened-playables assertions.
+    final post = samplePost(
+      ext: 'webm',
+      file: 'source.webm',
+      variants: const {'1280x720': 'pool-hi.mp4', '960x540': 'pool-lo.mp4'},
+    );
+    addTearDown(() {
+      videos.unloadVideo('source.webm');
+      videos.unloadVideo('pool-hi.mp4');
+      videos.unloadVideo('pool-lo.mp4');
+    });
+    settings.autoLoadVideos.value = true;
+    settings.videoResolution.value = VideoResolution.high;
+
+    Widget qualityScope(String? url) => Provider<PostVideoQuality?>.value(
+      value: url == null ? null : PostVideoQuality(url: url),
+      child: PostVideoRoute(
+        post: post,
+        stopOnDispose: false,
+        child: const SizedBox(height: 10),
+      ),
+    );
+
+    await tester.pumpWidget(app(qualityScope(null)));
+    final initial = playerOf(tester, post);
+    expect(initial.media, 'pool-hi.mp4');
+
+    await initial.play();
+    (initial.platform! as FakePlatformPlayer).setPosition(
+      const Duration(seconds: 30),
+    );
+    await tester.pump();
+
+    // the fullscreen quality picker switches to the low quality url
+    await tester.pumpWidget(app(qualityScope('pool-lo.mp4')));
+    // the refusal released the lease; the notification retries the request
+    await tester.pump();
+
+    final switched = playerOf(tester, post);
+    expect(switched.media, 'pool-lo.mp4');
+    final opened = (switched.platform! as FakePlatformPlayer).opened
+        .whereType<Media>()
+        .where((media) => media.uri == 'pool-lo.mp4')
+        .toList();
+    expect(opened.single.start, const Duration(seconds: 30));
+    expect(switched.state.playing, isTrue);
+  });
 }
 
 PostVideoRouteState? playerOfOrNull(WidgetTester tester, Post post) =>

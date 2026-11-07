@@ -132,6 +132,8 @@
   "lockRetry": "Reintentar",
   "lockBiometricReason": "Autentícate para desbloquear.",
   "lockBiometricFailure": "Error crítico de autenticación biométrica",
+  "lockWrongPin": "PIN incorrecto",
+  "lockPinMismatch": "Los PIN no coinciden",
   "aboutVersion": "Versión",
   "updaterFetching": "Buscando actualizaciones…",
   "updaterCheckFailed": "No se pudo comprobar si hay actualizaciones",
