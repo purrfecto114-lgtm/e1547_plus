@@ -4,6 +4,34 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and this project
 adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [21.7.0+128] - 2026-11-08
+### Added
+- the failed image placeholder is a torn photo with an exclamation badge
+  now, which stays readable at thumbnail sizes and no longer looks like a
+  loading glitch
+
+### Changed
+- the biometric lock demands a pin first, so a failing sensor always
+  leaves a way back into the app
+- the app re-locks itself when it returns from a real absence in the
+  background, and pauses playing videos underneath the lock
+- empty states, the status filter and several unnamed buttons carry
+  clearer icons and labels, and the onboarding steps show a scroll thumb
+
+### Fixed
+- a release tag that is not a version can no longer break the update
+  check
+- the database import progress dialog ignores the system back gesture
+  while it works
+- deleted posts without files render the placeholder instead of crashing
+  the grid
+- long video durations and large text scales no longer overflow the
+  player bar, and a loaded video can be seeked before its first step
+- the autocomplete cutout follows the fab to the left for left handed
+  users
+- the desktop escape key no longer pops routes hidden underneath the lock
+  screen
+
 ## [21.6.0+127] - 2026-11-07
 ### Added
 - the app pin is stored as a salted PBKDF2 hash instead of plain text, and
@@ -1569,3 +1597,4 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 [21.5.0-rc.3+125]: https://github.com/purrfecto114-lgtm/e1547_plus/compare/21.5.0-rc.2+124...21.5.0-rc.3+125
 [21.5.0+126]: https://github.com/purrfecto114-lgtm/e1547_plus/compare/21.5.0-rc.3+125...21.5.0+126
 [21.6.0+127]: https://github.com/purrfecto114-lgtm/e1547_plus/compare/21.5.0+126...21.6.0+127
+[21.7.0+128]: https://github.com/purrfecto114-lgtm/e1547_plus/compare/21.6.0+127...21.7.0+128

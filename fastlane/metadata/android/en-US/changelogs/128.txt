@@ -1,0 +1,3 @@
+The failed image placeholder is a torn photo with an exclamation badge now, and the app re-locks itself when it returns from the background, pausing videos underneath. The biometric lock demands a pin first, so a failing sensor always leaves a way back in.
+
+Fixes: a release tag that is not a version can no longer break the update check; the database import progress dialog ignores the back gesture; deleted posts without files no longer crash the grid; long video durations and large text no longer overflow the player bar; the autocomplete cutout follows the fab for left handed users.
