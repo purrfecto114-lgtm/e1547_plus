@@ -1,0 +1,3 @@
+The app pin now lives as a salted PBKDF2 hash instead of plain text, and legacy pins upgrade themselves on the next unlock. Consecutive wrong pins feed a persisted backoff from the third attempt onwards, and the key derivations moved onto a background isolate, so unlocking, exporting and importing no longer freeze the interface on older phones.
+
+Fixes: corrupted pin records can no longer verify any pin in release builds; a biometric success clears the pin backoff; the theme onboarding step scrolls instead of overflowing on short and landscape screens; the pin keypad shrinks as a whole on landscape phones; the update checker filters desktop release assets again.

@@ -4,6 +4,33 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and this project
 adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [21.6.0+127] - 2026-11-07
+### Added
+- the app pin is stored as a salted PBKDF2 hash instead of plain text, and
+  existing plain text pins upgrade themselves on the next successful unlock
+- consecutive wrong pins feed a persisted backoff that waits from the third
+  attempt onwards; restarting the app does not reset the wait
+
+### Changed
+- the pin and export key derivations run on a background isolate, so
+  unlocking, exporting and importing no longer freeze the interface on
+  older phones
+
+### Fixed
+- a corrupted or forged pin record can no longer verify any pin in release
+  builds
+- a biometric success clears the pin backoff, and a device clock set
+  backwards cannot stretch a cooldown beyond its cap
+- the theme onboarding step scrolls instead of overflowing on short and
+  landscape screens
+- the pin keypad shrinks as a whole on landscape phones instead of folding
+  its lower rows behind the scroll, and long cooldown messages stay inside
+  the reserved status line
+- the update checker filters desktop release assets again, so windows and
+  linux no longer light up for releases without usable binaries
+- the minimum android version is pinned to 7, the version the fork verifies
+  its behavior against
+
 ## [21.5.0+126] - 2026-11-07
 ### Added
 - korean, italian, polish and vietnamese translations of the whole interface,
@@ -1541,3 +1568,4 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 [21.5.0-rc.3+125]: https://github.com/purrfecto114-lgtm/e1547_plus/compare/21.5.0-rc.2+124...21.5.0-rc.3+125
 [21.5.0+126]: https://github.com/purrfecto114-lgtm/e1547_plus/compare/21.5.0-rc.3+125...21.5.0+126
+[21.6.0+127]: https://github.com/purrfecto114-lgtm/e1547_plus/compare/21.5.0+126...21.6.0+127
