@@ -236,7 +236,7 @@ void main() {
       'History',
       'Theme',
       'Language',
-      'Tile size',
+      'Thumbnail quality',
       'Post info',
       'Download location',
       'Upvote favorites',

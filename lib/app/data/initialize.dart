@@ -240,6 +240,16 @@ Future<void> swapDatabase(File newDbFile, String dbPath) async {
     if (!oldDbFile.existsSync() && backupFile.existsSync()) {
       try {
         await backupFile.rename(dbPath);
+        for (final suffix in companions) {
+          final companion = File('$backupPath$suffix');
+          if (companion.existsSync()) {
+            try {
+              await companion.rename('$dbPath$suffix');
+            } on FileSystemException {
+              await companion.delete();
+            }
+          }
+        }
       } on FileSystemException {
         // nothing left to restore; the error below reports the damage
       }
@@ -281,9 +291,23 @@ Future<void> excludeFileFromBackup(String path) async {
 }
 
 /// Excludes the database and its sidecar/staging files from OS backups.
+///
+/// The backup generation an import leaves behind (app.db.bak) carries the
+/// same credentials as the live database, so it is excluded just the same;
+/// the android backup rules name it in their xml.
 Future<void> excludeDatabaseFromBackup() async {
   final dbPath = await getAppDatabasePath();
-  for (final suffix in ['', '-journal', '-wal', '-shm', '.new']) {
+  for (final suffix in [
+    '',
+    '-journal',
+    '-wal',
+    '-shm',
+    '.new',
+    '.bak',
+    '.bak-journal',
+    '.bak-wal',
+    '.bak-shm',
+  ]) {
     final file = File('$dbPath$suffix');
     if (file.existsSync()) await excludeFileFromBackup(file.path);
   }
