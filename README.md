@@ -30,8 +30,9 @@ On top of upstream, this fork ships:
 - a security batch — database exports stripped of saved logins and optionally
   password-protected with AES-256-GCM (importing an encrypted export asks for
   the password and rejects wrong ones), hardened imports, a locked-down cookie
-  webview, database files excluded from OS backups, request timeouts, and a
-  biometric lock that works on Android 7's fingerprint API
+  webview, database files excluded from OS backups, request timeouts, an app
+  pin stored as a salted PBKDF2 hash with a persisted backoff against
+  guessing, and a biometric lock that works on Android 7's fingerprint API
 - an 18+ confirmation before logging in, phrased like a person and not a
   legal disclaimer
 - downloads that cancel at the network level, with a task queue that keeps
@@ -43,10 +44,9 @@ On top of upstream, this fork ships:
   every size a post provides, videos download only when played unless
   automatic loading is turned on, and the default quality follows three
   tiers (low, medium, high) picked during onboarding or in the settings
-- a secure display that draws its own privacy cover with a dedicated icon
-  in the Android app switcher, instead of the generic placeholder ROMs show
-  for flag-secured apps (note: on Android this trades away screenshot
-  blocking, which iOS keeps through its native blur)
+- a secure display that arms the system's own screenshot blocker (FLAG_SECURE
+  on Android, the native blur on iOS), so screenshots and the app switcher
+  show the platform's secured placeholder instead of the app's content
 
 The fork's changes are offered back upstream as pull requests
 ([#190](https://github.com/clynamic/e1547/pull/190)–[#193](https://github.com/clynamic/e1547/pull/193)).
@@ -73,7 +73,8 @@ see [Upgrading](#upgrading) below.
 - Language and media quality selection during onboarding and in the settings
 - Offline tag dictionaries — curated descriptions for around 4000 common tags in
   simplified chinese (plus a traditional rendering) and around 370 in japanese
-- PIN and biometric device locks, with a privacy cover over the app switcher
+- PIN and biometric device locks, with the system's screenshot blocker over
+  the app switcher
 - Password-protected database exports (AES-256-GCM), with a password prompt on
   import
 - An incognito keyboard mode that also works on older Android keyboards
@@ -81,6 +82,30 @@ see [Upgrading](#upgrading) below.
 - Stable cursor pagination with a page footer and page jumping
 - Search filters for special search terms (order, rating, file type and more),
   with metatag autocomplete in search inputs, grouped into labeled sections
+
+### Desktop notes
+
+The fork verifies its behavior against Android 7, and the desktop builds are
+compiled from the same code, but they are the younger siblings. Known gaps,
+in rough order of impact:
+
+- **Cloudflare challenges cannot be solved on desktop.** The cookie webview
+  is mobile only, so when e621/e926 serves an interstitial, Android and iOS
+  users pass it inside the app while desktop users can only retry and wait
+  for a cleaner route. Fixing this needs a desktop webview (CEF or
+  flutter_inappwebview) or a browser-assisted cookie import.
+- **No screen capture protection on Windows/Linux.** The secure display
+  setting hides itself there; Windows has a native equivalent
+  (`SetWindowDisplayAffinity`) that has not been wired up yet.
+- **No background sync or notifications on desktop.** Follow updates refresh
+  while the app is open only.
+- **The updater opens the releases page** on desktop instead of downloading
+  a binary in place; it does filter releases by platform (`.exe` on Windows,
+  `.deb` on Linux) so only usable builds light up the update badge.
+
+Everything else — browsing, videos (media\_kit ships with the desktop
+builds), the adaptive wide window layout, database import and export, the
+full interface — behaves the same as on mobile.
 
 ## Localization
 
