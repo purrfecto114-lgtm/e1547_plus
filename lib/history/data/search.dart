@@ -18,6 +18,6 @@ extension HistoryTypeFilterDisplaying on HistoryType {
     HistoryType.pools => const Icon(Icons.collections),
     HistoryType.topics => const Icon(Icons.forum),
     HistoryType.users => const Icon(Icons.person),
-    HistoryType.wikis => const Icon(Icons.info_outlined),
+    HistoryType.wikis => const Icon(Icons.info_outline),
   };
 }

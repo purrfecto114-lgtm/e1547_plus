@@ -119,7 +119,9 @@ class _HistoryTileDropdown extends StatelessWidget {
         if (entry.isSearch(LinkType.post))
           PopupMenuTile(
             title: l10n.historyWiki,
-            icon: Icons.info,
+            // The wiki icon matches the one the search history uses for
+            // wikis, so both flows read as the same thing.
+            icon: Icons.info_outline,
             value: () => showTagSearchPrompt(
               context: context,
               tag: const E621LinkParser().parse(entry.link)!.query!['tags']!,
