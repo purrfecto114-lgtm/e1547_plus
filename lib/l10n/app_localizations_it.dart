@@ -161,7 +161,7 @@ class AppLocalizationsIt extends AppLocalizations {
   String get sectionDevelopment => 'Sviluppo';
 
   @override
-  String get settingsBlacklist => 'Blacklist';
+  String get settingsBlacklist => 'Lista nera';
 
   @override
   String tagsBlocked(num count) {
@@ -243,7 +243,7 @@ class AppLocalizationsIt extends AppLocalizations {
   String get thumbnailQuality => 'Qualità delle miniature';
 
   @override
-  String get settingsQuilt => 'Quilt';
+  String get settingsQuilt => 'Mosaico';
 
   @override
   String get gridTitle => 'Griglia';
@@ -366,6 +366,10 @@ class AppLocalizationsIt extends AppLocalizations {
   @override
   String get biometricsNotEnrolled =>
       'sensore di impronte trovato, ma nessuna impronta registrata';
+
+  @override
+  String get biometricsRequiresPin =>
+      'imposta prima un PIN: il blocco biometrico lo usa come riserva se il sensore fallisce';
 
   @override
   String get settingsUpdaterBeta => 'Aggiornamenti recenti';
@@ -504,7 +508,7 @@ class AppLocalizationsIt extends AppLocalizations {
   String get aboutGitHub => 'GitHub';
 
   @override
-  String get aboutUpstream => 'Upstream';
+  String get aboutUpstream => 'Progetto originale';
 
   @override
   String get aboutUpstreamBody => 'Questa app è un fork di clragon/e1547';
@@ -1390,7 +1394,7 @@ class AppLocalizationsIt extends AppLocalizations {
 
   @override
   String get identityApikeyInvalid =>
-      'La chiave API è una sequenza di 24 o 32 caratteri A-z e 0-9\nes. 1ca1d165e973d7f8d35b7deb7a2ae54c';
+      'La chiave API è una sequenza di 24 o 32 caratteri a-z e 0-9\nes. 1ca1d165e973d7f8d35b7deb7a2ae54c';
 
   @override
   String get identitySignupPrompt => 'Non hai un account? Iscriviti qui';

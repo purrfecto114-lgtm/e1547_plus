@@ -376,6 +376,10 @@ class AppLocalizationsPl extends AppLocalizations {
       'czytnik odcisków palców znaleziony, ale brak zapisanych odcisków';
 
   @override
+  String get biometricsRequiresPin =>
+      'najpierw ustaw PIN: blokada biometryczna używa go jako zapasowej metody, gdy czujnik zawiedzie';
+
+  @override
   String get settingsUpdaterBeta => 'Najnowsze aktualizacje';
 
   @override
@@ -1400,7 +1404,7 @@ class AppLocalizationsPl extends AppLocalizations {
 
   @override
   String get identityApikeyInvalid =>
-      'Klucz API to ciąg 24 lub 32 znaków A-z i 0-9\nnp. 1ca1d165e973d7f8d35b7deb7a2ae54c';
+      'Klucz API to ciąg 24 lub 32 znaków a-z i 0-9\nnp. 1ca1d165e973d7f8d35b7deb7a2ae54c';
 
   @override
   String get identitySignupPrompt => 'Nie masz konta? Zarejestruj się tutaj';

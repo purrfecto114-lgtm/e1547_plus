@@ -368,6 +368,10 @@ class AppLocalizationsPt extends AppLocalizations {
       'sensor de digitais encontrado, mas nenhuma digital registrada';
 
   @override
+  String get biometricsRequiresPin =>
+      'defina primeiro um PIN: o bloqueio biométrico o usa como reserva se o sensor falhar';
+
+  @override
   String get settingsUpdaterBeta => 'Últimas atualizações';
 
   @override
@@ -592,7 +596,7 @@ class AppLocalizationsPt extends AppLocalizations {
   String get databaseImportCancelled => 'Importação cancelada';
 
   @override
-  String get postsTitle => 'Posts';
+  String get postsTitle => 'Publicações';
 
   @override
   String favoritesOf(String user) {
@@ -688,7 +692,7 @@ class AppLocalizationsPt extends AppLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '$count posts',
+      other: '$count publicações',
     );
     return '$_temp0';
   }
@@ -710,8 +714,8 @@ class AppLocalizationsPt extends AppLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '$count posts',
-      one: '$count post',
+      other: '$count publicações',
+      one: '$count publicação',
     );
     return 'Página $page · $_temp0';
   }
@@ -802,7 +806,7 @@ class AppLocalizationsPt extends AppLocalizations {
   String get filterNew => 'Novos';
 
   @override
-  String get filterRank => 'Rank';
+  String get filterRank => 'Posição';
 
   @override
   String get filterRandom => 'Aleatório';
@@ -880,7 +884,7 @@ class AppLocalizationsPt extends AppLocalizations {
   String get filterFileType => 'Tipo de arquivo';
 
   @override
-  String get filterUploader => 'Uploader';
+  String get filterUploader => 'Autor do envio';
 
   @override
   String get filterWidth => 'Largura';
@@ -1392,7 +1396,7 @@ class AppLocalizationsPt extends AppLocalizations {
 
   @override
   String get identityApikeyInvalid =>
-      'A chave de API é uma sequência de 24 ou 32 caracteres entre A-z e 0-9\nex.: 1ca1d165e973d7f8d35b7deb7a2ae54c';
+      'A chave de API é uma sequência de 24 ou 32 caracteres entre a-z e 0-9\nex.: 1ca1d165e973d7f8d35b7deb7a2ae54c';
 
   @override
   String get identitySignupPrompt => 'Não tem uma conta? Cadastre-se aqui';

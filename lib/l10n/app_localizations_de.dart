@@ -369,6 +369,10 @@ class AppLocalizationsDe extends AppLocalizations {
       'Fingerprintsensor gefunden, aber noch keine Fingerabdrücke hinterlegt';
 
   @override
+  String get biometricsRequiresPin =>
+      'lege zuerst eine PIN fest: die biometrische Sperre greift darauf zurück, wenn der Sensor versagt';
+
+  @override
   String get settingsUpdaterBeta => 'Neueste Updates';
 
   @override
@@ -1400,7 +1404,7 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get identityApikeyInvalid =>
-      'Ein API-Schlüssel ist eine Folge aus 24 oder 32 Zeichen aus A-z und 0-9\nz. B. 1ca1d165e973d7f8d35b7deb7a2ae54c';
+      'Ein API-Schlüssel ist eine Folge aus 24 oder 32 Zeichen aus lateinischen Buchstaben und Ziffern\nz. B. 1ca1d165e973d7f8d35b7deb7a2ae54c';
 
   @override
   String get identitySignupPrompt => 'Noch kein Konto? Hier registrieren';

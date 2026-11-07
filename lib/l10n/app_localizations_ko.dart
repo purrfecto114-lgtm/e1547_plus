@@ -365,6 +365,9 @@ class AppLocalizationsKo extends AppLocalizations {
   String get biometricsNotEnrolled => '지문 센서가 있지만 등록된 지문이 없습니다';
 
   @override
+  String get biometricsRequiresPin => '먼저 PIN을 설정하세요: 센서가 고장 나면 대체 수단으로 사용됩니다';
+
+  @override
   String get settingsUpdaterBeta => '최신 업데이트';
 
   @override
@@ -1364,7 +1367,7 @@ class AppLocalizationsKo extends AppLocalizations {
 
   @override
   String get identityApikeyInvalid =>
-      'API 키는 24 또는 32자의 A-z와 0-9 문자열입니다\n예: 1ca1d165e973d7f8d35b7deb7a2ae54c';
+      'API 키는 24 또는 32자의 a-z와 0-9 문자열입니다\n예: 1ca1d165e973d7f8d35b7deb7a2ae54c';
 
   @override
   String get identitySignupPrompt => '계정이 없으신가요? 여기서 가입하세요';

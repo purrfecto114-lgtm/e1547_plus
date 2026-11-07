@@ -212,8 +212,12 @@ class WindowShortcuts extends StatelessWidget {
   Widget build(BuildContext context) {
     return CallbackShortcuts(
       bindings: {
-        const SingleActivator(LogicalKeyboardKey.escape): () =>
-            navigatorKey.currentState!.maybePop(),
+        const SingleActivator(LogicalKeyboardKey.escape): () {
+          // The lock screen is not a route: a pop while it covers the
+          // app would rearrange the stack hidden underneath it.
+          if (appLocked.value) return;
+          navigatorKey.currentState!.maybePop();
+        },
         const SingleActivator(LogicalKeyboardKey.f11): () async {
           WindowManager? manager = context.read<WindowManager?>();
           if (manager == null) return;

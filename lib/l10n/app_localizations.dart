@@ -749,6 +749,12 @@ abstract class AppLocalizations {
   /// **'biometric hardware found, but no fingerprints are enrolled yet'**
   String get biometricsNotEnrolled;
 
+  /// No description provided for @biometricsRequiresPin.
+  ///
+  /// In en, this message translates to:
+  /// **'set a pin first: the biometric lock falls back to it when the sensor fails'**
+  String get biometricsRequiresPin;
+
   /// No description provided for @settingsUpdaterBeta.
   ///
   /// In en, this message translates to:
@@ -2516,7 +2522,7 @@ abstract class AppLocalizations {
   /// Error shown when the api key is malformed.
   ///
   /// In en, this message translates to:
-  /// **'API key is a 24 or 32-character sequence of A-z and 0-9\ne.g. 1ca1d165e973d7f8d35b7deb7a2ae54c'**
+  /// **'the API key is a sequence of 24 or 32 latin letters and digits\nfor example 1ca1d165e973d7f8d35b7deb7a2ae54c'**
   String get identityApikeyInvalid;
 
   /// Link that opens the registration page of the current site.

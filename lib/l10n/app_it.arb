@@ -85,7 +85,7 @@
   "sectionInteractions": "Interazioni",
   "sectionSecurity": "Sicurezza",
   "sectionDevelopment": "Sviluppo",
-  "settingsBlacklist": "Blacklist",
+  "settingsBlacklist": "Lista nera",
   "tagsBlocked": "{count, plural, one{1 tag bloccato} other{{count} tag bloccati}}",
   "@tagsBlocked": {
     "placeholders": {
@@ -125,7 +125,7 @@
   "handLeft": "Sinistra",
   "settingsHandednessHint": "I pulsanti e le azioni rapide si spostano nella portata di questa mano.",
   "thumbnailQuality": "Qualità delle miniature",
-  "settingsQuilt": "Quilt",
+  "settingsQuilt": "Mosaico",
   "gridTitle": "Griglia",
   "quiltSquare": "tile quadratiche",
   "quiltVertical": "tile si espandono verticalmente",
@@ -165,6 +165,7 @@
   "biometricsDisabled": "biometrie disabilitate",
   "biometricsUnavailable": "nessun hardware biometrico trovato",
   "biometricsNotEnrolled": "sensore di impronte trovato, ma nessuna impronta registrata",
+  "biometricsRequiresPin": "imposta prima un PIN: il blocco biometrico lo usa come riserva se il sensore fallisce",
   "settingsUpdaterBeta": "Aggiornamenti recenti",
   "updaterBetaOn": "Versioni stabili e pre-release",
   "updaterBetaOff": "Solo versioni stabili",
@@ -232,7 +233,7 @@
   "aboutExperimentalPlatform": "Piattaforma sperimentale",
   "aboutExperimentalBody": "Questa piattaforma non è supportata. Aspettati bug e funzionalità mancanti.",
   "aboutGitHub": "GitHub",
-  "aboutUpstream": "Upstream",
+  "aboutUpstream": "Progetto originale",
   "aboutUpstreamBody": "Questa app è un fork di clragon/e1547",
   "aboutDiscord": "Discord",
   "aboutForum": "Forum",
@@ -1161,7 +1162,7 @@
   "@identityApikeyRequired": {
     "description": "Error shown when the api key field is empty."
   },
-  "identityApikeyInvalid": "La chiave API è una sequenza di 24 o 32 caratteri A-z e 0-9\nes. 1ca1d165e973d7f8d35b7deb7a2ae54c",
+  "identityApikeyInvalid": "La chiave API è una sequenza di 24 o 32 caratteri a-z e 0-9\nes. 1ca1d165e973d7f8d35b7deb7a2ae54c",
   "@identityApikeyInvalid": {
     "description": "Error shown when the api key is malformed."
   },

@@ -361,6 +361,10 @@ class AppLocalizationsJa extends AppLocalizations {
   String get biometricsNotEnrolled => '指紋センサーはありますが、指紋が登録されていません';
 
   @override
+  String get biometricsRequiresPin =>
+      '先に PIN を設定してください：センサーが使えなくなったときの代替手段になります';
+
+  @override
   String get settingsUpdaterBeta => '最新のアップデート';
 
   @override
@@ -1358,7 +1362,7 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get identityApikeyInvalid =>
-      'API キーは A-z と 0-9 の文字で構成される 24 文字または 32 文字の列です\n例：1ca1d165e973d7f8d35b7deb7a2ae54c';
+      'API キーは a-z と 0-9 の文字で構成される 24 文字または 32 文字の列です\n例：1ca1d165e973d7f8d35b7deb7a2ae54c';
 
   @override
   String get identitySignupPrompt => 'アカウントをお持ちでないですか？こちらから登録できます';

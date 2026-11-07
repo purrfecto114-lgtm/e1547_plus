@@ -368,6 +368,10 @@ class AppLocalizationsEs extends AppLocalizations {
       'sensor de huellas encontrado, pero aún no hay huellas registradas';
 
   @override
+  String get biometricsRequiresPin =>
+      'configura primero un PIN: el bloqueo biométrico lo usa como respaldo si el sensor falla';
+
+  @override
   String get settingsUpdaterBeta => 'Últimas actualizaciones';
 
   @override
@@ -1399,7 +1403,7 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get identityApikeyInvalid =>
-      'Una clave de API es una secuencia de 24 o 32 caracteres de A-z y 0-9\np. ej. 1ca1d165e973d7f8d35b7deb7a2ae54c';
+      'Una clave de API es una secuencia de 24 o 32 caracteres de a-z y 0-9\np. ej. 1ca1d165e973d7f8d35b7deb7a2ae54c';
 
   @override
   String get identitySignupPrompt => '¿Sin cuenta? Regístrate aquí';

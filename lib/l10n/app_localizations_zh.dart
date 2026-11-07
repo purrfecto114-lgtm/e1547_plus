@@ -358,10 +358,13 @@ class AppLocalizationsZh extends AppLocalizations {
   String get biometricsUnavailable => '未检测到生物识别硬件';
 
   @override
-  String get biometricsNotEnrolled => '检测到指纹硬件，请先在系统设置录入指纹';
+  String get biometricsNotEnrolled => '检测到生物识别硬件，但尚未录入指纹或人脸';
 
   @override
-  String get settingsUpdaterBeta => '最新更新';
+  String get biometricsRequiresPin => '请先设置 PIN：生物识别锁在传感器失效时靠它作为备用验证方式';
+
+  @override
+  String get settingsUpdaterBeta => '获取最新更新';
 
   @override
   String get updaterBetaOn => '包含测试版（rc）';
@@ -559,7 +562,7 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get databaseExportSanitizedBody =>
-      '导出的文件不会包含你的登录信息和 API 密钥。\n其余内容（账号、站点、历史、关注和任务）都会包含。';
+      '导出的文件不会包含你的登录信息和 API 密钥。\n其余内容（账户、站点、历史、关注和任务）都会包含。';
 
   @override
   String get databaseImportNewerFile => '此文件由更新版本的应用创建，无法导入。';
@@ -569,7 +572,7 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String databaseImportHostsWarning(String hosts) {
-    return '警告：导入的文件包含其他站点的账号：$hosts';
+    return '警告：导入的文件包含其他站点的账户：$hosts';
   }
 
   @override
@@ -1353,7 +1356,7 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get identityApikeyInvalid =>
-      'API 密钥是由 A-z 和 0-9 中的 24 或 32 个字符组成的序列\n例如 1ca1d165e973d7f8d35b7deb7a2ae54c';
+      'API 密钥是由英文字母和数字组成的 24 或 32 个字符的序列\n例如 1ca1d165e973d7f8d35b7deb7a2ae54c';
 
   @override
   String get identitySignupPrompt => '还没有账户？在这里注册';
@@ -2690,10 +2693,13 @@ class AppLocalizationsZhHant extends AppLocalizationsZh {
   String get biometricsUnavailable => '未偵測到生物辨識硬體';
 
   @override
-  String get biometricsNotEnrolled => '偵測到指紋硬體，請先在系統設定錄入指紋';
+  String get biometricsNotEnrolled => '偵測到生物辨識硬體，但尚未錄入指紋或人臉';
 
   @override
-  String get settingsUpdaterBeta => '最新更新';
+  String get biometricsRequiresPin => '請先設定 PIN：生物辨識鎖在感應器失效時靠它作為備用驗證方式';
+
+  @override
+  String get settingsUpdaterBeta => '取得最新更新';
 
   @override
   String get updaterBetaOn => '包含測試版（rc）';
@@ -3685,7 +3691,7 @@ class AppLocalizationsZhHant extends AppLocalizationsZh {
 
   @override
   String get identityApikeyInvalid =>
-      'API 金鑰是由 A-z 和 0-9 中的 24 或 32 個字元組成的序列\n例如 1ca1d165e973d7f8d35b7deb7a2ae54c';
+      'API 金鑰是由英文字母和數字組成的 24 或 32 個字元的序列\n例如 1ca1d165e973d7f8d35b7deb7a2ae54c';
 
   @override
   String get identitySignupPrompt => '還沒有帳戶？在這裡註冊';

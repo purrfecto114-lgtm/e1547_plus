@@ -98,7 +98,21 @@ class SettingsSecuritySection extends StatelessWidget {
                 secondary: const Icon(Icons.fingerprint),
                 value: value,
                 onChanged: ready
-                    ? (value) => settings.biometricAuth.value = value
+                    ? (value) {
+                        if (value &&
+                            context.read<Settings>().appPin.value == null) {
+                          // Without a pin the biometric lock is a dead
+                          // end: the screen below only offers retries,
+                          // so a sensor that stops working locks the
+                          // user out for good. A pin always leaves a
+                          // way back in.
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(content: Text(l10n.biometricsRequiresPin)),
+                          );
+                          return;
+                        }
+                        settings.biometricAuth.value = value;
+                      }
                     : null,
               );
             },

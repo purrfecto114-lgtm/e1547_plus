@@ -370,6 +370,10 @@ class AppLocalizationsFr extends AppLocalizations {
       'capteur d\'empreintes trouvé, mais aucune empreinte enregistrée';
 
   @override
+  String get biometricsRequiresPin =>
+      'définis d\'abord un code PIN : le verrou biométrique y revient si le capteur échoue';
+
+  @override
   String get settingsUpdaterBeta => 'Dernières mises à jour';
 
   @override
@@ -597,7 +601,7 @@ class AppLocalizationsFr extends AppLocalizations {
   String get databaseImportCancelled => 'Import annulé';
 
   @override
-  String get postsTitle => 'Posts';
+  String get postsTitle => 'Publications';
 
   @override
   String favoritesOf(String user) {
@@ -693,7 +697,7 @@ class AppLocalizationsFr extends AppLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '$count posts',
+      other: '$count publications',
     );
     return '$_temp0';
   }
@@ -716,8 +720,8 @@ class AppLocalizationsFr extends AppLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '$count posts',
-      one: '$count post',
+      other: '$count publications',
+      one: '$count publication',
     );
     return 'Page $page · $_temp0';
   }
@@ -887,7 +891,7 @@ class AppLocalizationsFr extends AppLocalizations {
   String get filterFileType => 'Type de fichier';
 
   @override
-  String get filterUploader => 'Uploader';
+  String get filterUploader => 'Auteur du téléversement';
 
   @override
   String get filterWidth => 'Largeur';
@@ -1400,7 +1404,7 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get identityApikeyInvalid =>
-      'La clé API est une séquence de 24 ou 32 caractères parmi A-z et 0-9\np. ex. 1ca1d165e973d7f8d35b7deb7a2ae54c';
+      'La clé API est une séquence de 24 ou 32 caractères parmi a-z et 0-9\np. ex. 1ca1d165e973d7f8d35b7deb7a2ae54c';
 
   @override
   String get identitySignupPrompt => 'Pas encore de compte ? Inscris-toi ici';

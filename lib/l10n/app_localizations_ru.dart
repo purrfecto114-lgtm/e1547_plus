@@ -376,6 +376,10 @@ class AppLocalizationsRu extends AppLocalizations {
       'сканер отпечатков найден, но отпечатки ещё не добавлены';
 
   @override
+  String get biometricsRequiresPin =>
+      'сначала задайте PIN-код: биометрический замок использует его как запасной способ, если сканер откажет';
+
+  @override
   String get settingsUpdaterBeta => 'Последние обновления';
 
   @override
@@ -1415,7 +1419,7 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get identityApikeyInvalid =>
-      'API-ключ — это последовательность из 24 или 32 символов A-z и 0-9\nнапример 1ca1d165e973d7f8d35b7deb7a2ae54c';
+      'API-ключ — это последовательность из 24 или 32 символов латинских букв и цифр\nнапример 1ca1d165e973d7f8d35b7deb7a2ae54c';
 
   @override
   String get identitySignupPrompt => 'Нет аккаунта? Зарегистрируйтесь здесь';

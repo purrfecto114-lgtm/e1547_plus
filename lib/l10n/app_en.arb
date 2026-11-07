@@ -165,6 +165,7 @@
   "biometricsDisabled": "biometrics disabled",
   "biometricsUnavailable": "no biometric hardware found on this device",
   "biometricsNotEnrolled": "biometric hardware found, but no fingerprints are enrolled yet",
+  "biometricsRequiresPin": "set a pin first: the biometric lock falls back to it when the sensor fails",
   "settingsUpdaterBeta": "Latest updates",
   "updaterBetaOn": "Stable and pre-release versions",
   "updaterBetaOff": "Stable versions only",
@@ -1169,7 +1170,7 @@
   "@identityApikeyRequired": {
     "description": "Error shown when the api key field is empty."
   },
-  "identityApikeyInvalid": "API key is a 24 or 32-character sequence of A-z and 0-9\ne.g. 1ca1d165e973d7f8d35b7deb7a2ae54c",
+  "identityApikeyInvalid": "the API key is a sequence of 24 or 32 latin letters and digits\nfor example 1ca1d165e973d7f8d35b7deb7a2ae54c",
   "@identityApikeyInvalid": {
     "description": "Error shown when the api key is malformed."
   },

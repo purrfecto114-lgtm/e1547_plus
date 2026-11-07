@@ -369,6 +369,10 @@ class AppLocalizationsEn extends AppLocalizations {
       'biometric hardware found, but no fingerprints are enrolled yet';
 
   @override
+  String get biometricsRequiresPin =>
+      'set a pin first: the biometric lock falls back to it when the sensor fails';
+
+  @override
   String get settingsUpdaterBeta => 'Latest updates';
 
   @override
@@ -1384,7 +1388,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get identityApikeyInvalid =>
-      'API key is a 24 or 32-character sequence of A-z and 0-9\ne.g. 1ca1d165e973d7f8d35b7deb7a2ae54c';
+      'the API key is a sequence of 24 or 32 latin letters and digits\nfor example 1ca1d165e973d7f8d35b7deb7a2ae54c';
 
   @override
   String get identitySignupPrompt => 'Don\'t have an account? Sign up here';

@@ -368,6 +368,10 @@ class AppLocalizationsVi extends AppLocalizations {
       'có cảm biến vân tay nhưng chưa đăng ký vân tay nào';
 
   @override
+  String get biometricsRequiresPin =>
+      'hãy đặt mã PIN trước: khoá sinh trắc học sẽ dùng nó làm phương thức dự phòng khi cảm biến trục trặc';
+
+  @override
   String get settingsUpdaterBeta => 'Cập nhật mới nhất';
 
   @override
@@ -1386,7 +1390,7 @@ class AppLocalizationsVi extends AppLocalizations {
 
   @override
   String get identityApikeyInvalid =>
-      'Khóa API là một chuỗi 24 hoặc 32 ký tự từ A-z và 0-9\nví dụ: 1ca1d165e973d7f8d35b7deb7a2ae54c';
+      'Khóa API là một chuỗi 24 hoặc 32 ký tự từ a-z và 0-9\nví dụ: 1ca1d165e973d7f8d35b7deb7a2ae54c';
 
   @override
   String get identitySignupPrompt => 'Chưa có tài khoản? Đăng ký tại đây';

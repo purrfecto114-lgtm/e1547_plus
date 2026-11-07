@@ -1,9 +1,9 @@
 import 'dart:convert';
 import 'dart:isolate';
 import 'dart:math';
-import 'dart:typed_data';
 
 import 'package:cryptography/cryptography.dart';
+import 'package:flutter/foundation.dart';
 
 /// Salted, versioned hashing for the app pin.
 ///
@@ -24,6 +24,13 @@ import 'package:cryptography/cryptography.dart';
 /// 30k iterations cost clearly under a second even on the Android 7
 /// class of hardware this fork targets, while pushing offline guessing
 /// of a four digit pin from instant to hours per file.
+/// Whether the lock screen currently covers the app.
+///
+/// The lock screen is not a route, so shortcuts that pop routes cannot
+/// see it; they read this flag instead to stay inert while the lock is
+/// up.
+final ValueNotifier<bool> appLocked = ValueNotifier(false);
+
 const String pinHashPrefix = 'e1547pin1';
 const int pinHashIterations = 30000;
 const int _saltLength = 16;
@@ -39,11 +46,8 @@ const int _minIterations = 1000;
 const int _minSaltLength = 8;
 const int _minHashLength = 32;
 
-Pbkdf2 _kdfFor(int iterations, int bits) => Pbkdf2(
-  macAlgorithm: Hmac.sha256(),
-  iterations: iterations,
-  bits: bits,
-);
+Pbkdf2 _kdfFor(int iterations, int bits) =>
+    Pbkdf2(macAlgorithm: Hmac.sha256(), iterations: iterations, bits: bits);
 
 /// Whether [stored] is a hashed pin rather than a legacy plain text one.
 bool isPinHash(String stored) => stored.startsWith('$pinHashPrefix\$');

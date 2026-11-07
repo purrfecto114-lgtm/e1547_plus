@@ -165,6 +165,7 @@
   "biometricsDisabled": "생체 인식 비활성화됨",
   "biometricsUnavailable": "생체 인식 하드웨어가 없습니다",
   "biometricsNotEnrolled": "지문 센서가 있지만 등록된 지문이 없습니다",
+  "biometricsRequiresPin": "먼저 PIN을 설정하세요: 센서가 고장 나면 대체 수단으로 사용됩니다",
   "settingsUpdaterBeta": "최신 업데이트",
   "updaterBetaOn": "안정판 및 프리릴리스 버전",
   "updaterBetaOff": "안정판만",
@@ -1161,7 +1162,7 @@
   "@identityApikeyRequired": {
     "description": "Error shown when the api key field is empty."
   },
-  "identityApikeyInvalid": "API 키는 24 또는 32자의 A-z와 0-9 문자열입니다\n예: 1ca1d165e973d7f8d35b7deb7a2ae54c",
+  "identityApikeyInvalid": "API 키는 24 또는 32자의 a-z와 0-9 문자열입니다\n예: 1ca1d165e973d7f8d35b7deb7a2ae54c",
   "@identityApikeyInvalid": {
     "description": "Error shown when the api key is malformed."
   },

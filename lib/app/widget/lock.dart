@@ -26,8 +26,55 @@ class _LockScreenState extends State<LockScreen> {
   bool get enabled => pin != null || biometrics;
   late bool locked = enabled;
 
-  void lock() => setState(() => locked = true);
-  void unlock() => setState(() => locked = false);
+  /// When the app was last hidden, used to tell a real absence from the
+  /// brief backgrounding a biometric prompt can cause.
+  DateTime? hiddenAt;
+
+  late final AppLifecycleListener lifecycle;
+
+  @override
+  void initState() {
+    super.initState();
+    appLocked.value = enabled;
+    lifecycle = AppLifecycleListener(
+      onHide: () => hiddenAt = DateTime.now(),
+      onShow: () {
+        final DateTime? hidden = hiddenAt;
+        hiddenAt = null;
+        // Returning after a real absence re-arms the lock: whatever the
+        // user left behind must not stay openable by anyone picking the
+        // device up. The short backgrounding a biometric prompt can
+        // cause is exempt, or every successful unlock would instantly
+        // lock the app again.
+        if (hidden != null &&
+            enabled &&
+            !locked &&
+            DateTime.now().difference(hidden) > const Duration(seconds: 10)) {
+          lock();
+        }
+      },
+    );
+  }
+
+  @override
+  void dispose() {
+    lifecycle.dispose();
+    super.dispose();
+  }
+
+  void lock() {
+    // The lock screen covers the app, but does not stop it: whatever
+    // plays keeps playing underneath, and an armed lock must also end
+    // the sound it left running.
+    VideoService.pauseAll();
+    appLocked.value = true;
+    setState(() => locked = true);
+  }
+
+  void unlock() {
+    appLocked.value = false;
+    setState(() => locked = false);
+  }
 
   /// Verifies the entry against the stored pin and rehashes stale
   /// storage once it proves correct: a legacy plain text pin upgrades
@@ -67,18 +114,18 @@ class _LockScreenState extends State<LockScreen> {
         autoBiometrics: biometrics,
         onBiometrics: biometrics
             ? () => tryLocalAuth(
-                  context: context,
-                  // A stronger factor clears the pin backoff as well:
-                  // the owner just proved who they are, so punishing
-                  // them for earlier typos after a restart reads as a
-                  // bug rather than as a lockout.
-                  onSuccess: () {
-                    final settings = context.read<Settings>();
-                    settings.appPinFailures.value = 0;
-                    settings.appPinLockedUntil.value = 0;
-                    unlock();
-                  },
-                )
+                context: context,
+                // A stronger factor clears the pin backoff as well:
+                // the owner just proved who they are, so punishing
+                // them for earlier typos after a restart reads as a
+                // bug rather than as a lockout.
+                onSuccess: () {
+                  final settings = context.read<Settings>();
+                  settings.appPinFailures.value = 0;
+                  settings.appPinLockedUntil.value = 0;
+                  unlock();
+                },
+              )
             : null,
         onCompleted: (_) => unlock(),
       );
@@ -214,10 +261,7 @@ class _PinLockState extends State<PinLock> with SingleTickerProviderStateMixin {
     final int until = widget.lockedUntil?.value ?? 0;
     if (until > 0) {
       final int now = DateTime.now().millisecondsSinceEpoch;
-      final int clamped = min(
-        until,
-        now + PinBackoff.maxDelay.inMilliseconds,
-      );
+      final int clamped = min(until, now + PinBackoff.maxDelay.inMilliseconds);
       if (clamped > now) {
         cooldownUntil = DateTime.fromMillisecondsSinceEpoch(clamped);
         _runCooldownTimer();
@@ -425,16 +469,13 @@ class _PinLockState extends State<PinLock> with SingleTickerProviderStateMixin {
                                 fit: BoxFit.scaleDown,
                                 child: AnimatedOpacity(
                                   opacity: status == null ? 0 : 1,
-                                  duration: const Duration(
-                                    milliseconds: 150,
-                                  ),
+                                  duration: const Duration(milliseconds: 150),
                                   child: Text(
                                     status ?? '',
                                     maxLines: 1,
-                                    style: theme.textTheme.bodyMedium
-                                        ?.copyWith(
-                                          color: scheme.error,
-                                        ),
+                                    style: theme.textTheme.bodyMedium?.copyWith(
+                                      color: scheme.error,
+                                    ),
                                   ),
                                 ),
                               ),
@@ -443,8 +484,7 @@ class _PinLockState extends State<PinLock> with SingleTickerProviderStateMixin {
                             AnimatedBuilder(
                               animation: shake,
                               child: Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.center,
+                                mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
                                   for (int i = 0; i < digits; i++) ...[
                                     dot(i, scheme),

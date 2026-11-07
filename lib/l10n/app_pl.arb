@@ -165,6 +165,7 @@
   "biometricsDisabled": "biometria wyłączona",
   "biometricsUnavailable": "nie znaleziono sprzętu biometrycznego",
   "biometricsNotEnrolled": "czytnik odcisków palców znaleziony, ale brak zapisanych odcisków",
+  "biometricsRequiresPin": "najpierw ustaw PIN: blokada biometryczna używa go jako zapasowej metody, gdy czujnik zawiedzie",
   "settingsUpdaterBeta": "Najnowsze aktualizacje",
   "updaterBetaOn": "Wersje stabilne i przedpremierowe",
   "updaterBetaOff": "Tylko wersje stabilne",
@@ -1161,7 +1162,7 @@
   "@identityApikeyRequired": {
     "description": "Error shown when the api key field is empty."
   },
-  "identityApikeyInvalid": "Klucz API to ciąg 24 lub 32 znaków A-z i 0-9\nnp. 1ca1d165e973d7f8d35b7deb7a2ae54c",
+  "identityApikeyInvalid": "Klucz API to ciąg 24 lub 32 znaków a-z i 0-9\nnp. 1ca1d165e973d7f8d35b7deb7a2ae54c",
   "@identityApikeyInvalid": {
     "description": "Error shown when the api key is malformed."
   },

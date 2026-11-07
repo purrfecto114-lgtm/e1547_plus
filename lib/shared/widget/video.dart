@@ -138,6 +138,16 @@ class VideoService extends ChangeNotifier {
 
   static void ensureInitialized() => MediaKit.ensureInitialized();
 
+  /// Pauses every loaded player.
+  ///
+  /// Used when the app locks: the lock screen hides the content but does
+  /// not stop it, so whatever plays would keep playing underneath.
+  static void pauseAll() {
+    for (final VideoPlayer player in _videos.values) {
+      unawaited(player.pause());
+    }
+  }
+
   // To prevent the app from crashing due to OutOfMemoryErrors,
   // the list of all loaded videos is global.
   static final Map<String, VideoPlayer> _videos = {};
