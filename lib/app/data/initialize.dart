@@ -183,18 +183,68 @@ Future<void> completeDbImport() async {
       await discardStagedImport();
       return;
     }
-    final oldDbFile = File(dbPath);
-    try {
-      if (oldDbFile.existsSync()) {
-        await oldDbFile.delete();
+    await swapDatabase(newDbFile, dbPath);
+    // the marker served its purpose once the candidate is installed
+    await discardStagedImport();
+  }
+}
+
+/// Installs the staged import at [newDbFile] over the database at [dbPath],
+/// keeping the previous database as one recoverable generation.
+///
+/// The old database first moves aside as `app.db.bak` (its journal
+/// companions following), a stale journal next to the fresh file is
+/// removed, and only then does the candidate take the live path. Should
+/// the swap fail midway, the backup moves back, so the app keeps a
+/// working database instead of none. The backup itself stays until the
+/// next import replaces it; the backup rules keep it out of cloud backups.
+Future<void> swapDatabase(File newDbFile, String dbPath) async {
+  final logger = Logger('Storage');
+  const companions = ['-wal', '-shm', '-journal'];
+  final oldDbFile = File(dbPath);
+  final backupPath = '$dbPath.bak';
+  final backupFile = File(backupPath);
+  try {
+    if (backupFile.existsSync()) await backupFile.delete();
+    for (final suffix in companions) {
+      final stale = File('$backupPath$suffix');
+      if (stale.existsSync()) await stale.delete();
+    }
+    if (oldDbFile.existsSync()) {
+      await oldDbFile.rename(backupPath);
+      for (final suffix in companions) {
+        final companion = File('$dbPath$suffix');
+        if (!companion.existsSync()) continue;
+        try {
+          await companion.rename('$backupPath$suffix');
+        } on FileSystemException {
+          await companion.delete();
+        }
       }
+    }
+    for (final suffix in companions) {
+      final stale = File('$dbPath$suffix');
+      if (stale.existsSync()) await stale.delete();
+    }
+    try {
       await newDbFile.rename(dbPath);
     } on Exception {
+      // Cross-directory renames can fail where a copy works.
       await newDbFile.copy(dbPath);
       await newDbFile.delete();
     }
-    // the marker served its purpose once the candidate is installed
-    await discardStagedImport();
+  } on Exception catch (e, s) {
+    // The swap failed midway: put the backup back so the app keeps a
+    // working database instead of none, and leave the staged candidate
+    // for discardStagedImport to clean up.
+    if (!oldDbFile.existsSync() && backupFile.existsSync()) {
+      try {
+        await backupFile.rename(dbPath);
+      } on FileSystemException {
+        // nothing left to restore; the error below reports the damage
+      }
+    }
+    logger.warn('Failed to install the staged import', null, e, s);
   }
 }
 

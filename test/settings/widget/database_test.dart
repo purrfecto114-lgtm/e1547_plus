@@ -123,4 +123,64 @@ void main() {
       expect(triggers, isEmpty);
     });
   });
+
+  group('swapDatabase', () {
+    late Directory dir;
+    late String dbPath;
+
+    setUp(() async {
+      dir = await Directory.systemTemp.createTemp('e1547_swap');
+      dbPath = '${dir.path}${Platform.pathSeparator}app.db';
+    });
+    tearDown(() => dir.delete(recursive: true));
+
+    File file(String name) => File('${dir.path}${Platform.pathSeparator}$name');
+
+    test('the old database survives the install as one backup', () async {
+      file('app.db').writeAsStringSync('old', flush: true);
+      file('app.db.new').writeAsStringSync('new', flush: true);
+
+      await swapDatabase(file('app.db.new'), dbPath);
+
+      expect(file('app.db').readAsStringSync(), 'new');
+      expect(file('app.db.bak').readAsStringSync(), 'old');
+      expect(file('app.db.new').existsSync(), isFalse);
+    });
+
+    test('journal companions follow the old database aside', () async {
+      file('app.db').writeAsStringSync('old', flush: true);
+      file('app.db-wal').writeAsStringSync('wal', flush: true);
+      file('app.db-shm').writeAsStringSync('shm', flush: true);
+      file('app.db.new').writeAsStringSync('new', flush: true);
+
+      await swapDatabase(file('app.db.new'), dbPath);
+
+      expect(file('app.db.bak').readAsStringSync(), 'old');
+      expect(file('app.db.bak-wal').readAsStringSync(), 'wal');
+      expect(file('app.db.bak-shm').readAsStringSync(), 'shm');
+      // the live path ships without stale journals next to it
+      expect(file('app.db-wal').existsSync(), isFalse);
+      expect(file('app.db-shm').existsSync(), isFalse);
+    });
+
+    test('a failed install restores the backup', () async {
+      file('app.db').writeAsStringSync('old', flush: true);
+      // A missing candidate makes the rename and its copy fallback fail;
+      // the previous database must come back instead of leaving none.
+      await swapDatabase(file('app.db.new'), dbPath);
+
+      expect(file('app.db').readAsStringSync(), 'old');
+    });
+
+    test('a previous backup is replaced by the newest generation', () async {
+      file('app.db').writeAsStringSync('second', flush: true);
+      file('app.db.bak').writeAsStringSync('first', flush: true);
+      file('app.db.new').writeAsStringSync('third', flush: true);
+
+      await swapDatabase(file('app.db.new'), dbPath);
+
+      expect(file('app.db').readAsStringSync(), 'third');
+      expect(file('app.db.bak').readAsStringSync(), 'second');
+    });
+  });
 }
