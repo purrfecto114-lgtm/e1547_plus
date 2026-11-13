@@ -233,8 +233,13 @@ class _MultiTextEditorState extends State<MultiTextEditor> {
             return CustomScrollView(
               slivers: [
                 SliverPadding(
-                  padding: defaultActionListPadding.add(const EdgeInsets.all(8)),
-                  sliver: SliverFillRemaining(hasScrollBody: false, child: child),
+                  padding: defaultActionListPadding.add(
+                    const EdgeInsets.all(8),
+                  ),
+                  sliver: SliverFillRemaining(
+                    hasScrollBody: false,
+                    child: child,
+                  ),
                 ),
               ],
             );
@@ -258,7 +263,9 @@ class _MultiTextEditorState extends State<MultiTextEditor> {
                           keyboardType: TextInputType.multiline,
                           decoration: InputDecoration(
                             border: InputBorder.none,
-                            hintText: AppLocalizations.of(context).editorTypeHere,
+                            hintText: AppLocalizations.of(
+                              context,
+                            ).editorTypeHere,
                           ),
                           maxLines: null,
                           enabled: !actionController.isLoading,
@@ -320,8 +327,10 @@ class _MultiTextEditorState extends State<MultiTextEditor> {
                     body: NestedScrollView(
                       headerSliverBuilder: (context, innerBoxIsScrolled) => [
                         SliverOverlapAbsorber(
-                          handle: NestedScrollView
-                              .sliverOverlapAbsorberHandleFor(context),
+                          handle:
+                              NestedScrollView.sliverOverlapAbsorberHandleFor(
+                                context,
+                              ),
                           sliver: DefaultSliverAppBar(
                             pinned: true,
                             leading: ModalRoute.of(context)!.canPop

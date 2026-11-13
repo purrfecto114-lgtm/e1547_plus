@@ -74,11 +74,12 @@ class TasksListController extends ChangeNotifier {
       pages: [
         _active!,
         for (final List<Task> page in _historyPages)
-          [for (final Task task in page) if (seen.add(task.id)) task],
+          [
+            for (final Task task in page)
+              if (seen.add(task.id)) task,
+          ],
       ],
-      keys: [
-        for (int i = 0; i <= _historyPages.length; i++) i,
-      ],
+      keys: [for (int i = 0; i <= _historyPages.length; i++) i],
       error: _error,
       hasNextPage: _pagingEnabled && _hasNextHistoryPage,
       isLoading: (_active == null && _error == null) || _loadingNextPage,

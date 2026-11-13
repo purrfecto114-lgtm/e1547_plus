@@ -182,18 +182,9 @@ void main() {
     test('different links always pass', () {
       final deduplicator = LinkDeduplicator();
 
-      expect(
-        deduplicator.check(Uri.parse('https://e621.net/posts/1')),
-        isTrue,
-      );
-      expect(
-        deduplicator.check(Uri.parse('https://e621.net/posts/2')),
-        isTrue,
-      );
-      expect(
-        deduplicator.check(Uri.parse('https://e621.net/posts/3')),
-        isTrue,
-      );
+      expect(deduplicator.check(Uri.parse('https://e621.net/posts/1')), isTrue);
+      expect(deduplicator.check(Uri.parse('https://e621.net/posts/2')), isTrue);
+      expect(deduplicator.check(Uri.parse('https://e621.net/posts/3')), isTrue);
     });
 
     test('the same link passes again after the window', () {

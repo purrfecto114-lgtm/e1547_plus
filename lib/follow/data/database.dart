@@ -240,8 +240,8 @@ class FollowRepository extends DatabaseAccessor<GeneratedDatabase>
   Future<void> removeOrphans() {
     final ownerless = followsIdentitiesTable.selectOnly()
       ..addColumns([followsIdentitiesTable.follow]);
-    return (delete(followsTable)
-          ..where((tbl) => tbl.id.isNotInQuery(ownerless)))
-        .go();
+    return (delete(
+      followsTable,
+    )..where((tbl) => tbl.id.isNotInQuery(ownerless))).go();
   }
 }

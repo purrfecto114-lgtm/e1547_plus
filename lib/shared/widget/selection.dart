@@ -166,8 +166,7 @@ class _SelectionLayoutState<T> extends State<SelectionLayout<T>> {
       // Keys which left the current items drop their selection; keys whose
       // items only changed content keep theirs.
       final Map<Object, T> itemsByKey = {
-        for (final item in widget.items ?? <T>[])
-          widget.keyOf(item): item,
+        for (final item in widget.items ?? <T>[]) widget.keyOf(item): item,
       };
       final Set<Object> updated = selectedKeys
           .where(itemsByKey.containsKey)
@@ -201,9 +200,7 @@ class _SelectionLayoutState<T> extends State<SelectionLayout<T>> {
     final Set<Object> visibleKeys = selectedKeys
         .where(itemsByKey.containsKey)
         .toSet();
-    final Set<T> selections = {
-      for (final key in visibleKeys) itemsByKey[key]!,
-    };
+    final Set<T> selections = {for (final key in visibleKeys) itemsByKey[key]!};
 
     return PopScope(
       canPop: selections.isEmpty,

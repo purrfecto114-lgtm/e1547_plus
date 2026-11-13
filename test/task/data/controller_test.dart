@@ -283,8 +283,9 @@ void main() {
 
     // the first report arrived while the task was still running; its byte
     // counters must reflect the raw transfer numbers
-    final ValueListenable<TaskDownloadProgress>? progress =
-        instance.progressOf(task.id);
+    final ValueListenable<TaskDownloadProgress>? progress = instance.progressOf(
+      task.id,
+    );
     expect(progress?.value.transferred, 30);
     expect(progress?.value.total, 100);
 
@@ -709,9 +710,10 @@ void main() {
 
     // an all-duplicate batch reports its posts through the task that
     // absorbed them, without creating a second one
-    final List<Task> batch = await instance.enqueueAll(
-      [downloadRequest('dup.webm'), downloadRequest('dup.webm')],
-    );
+    final List<Task> batch = await instance.enqueueAll([
+      downloadRequest('dup.webm'),
+      downloadRequest('dup.webm'),
+    ]);
     expect(batch, hasLength(1));
     expect(batch.first.id, first.id);
 

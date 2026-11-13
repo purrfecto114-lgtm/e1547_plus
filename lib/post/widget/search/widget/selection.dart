@@ -132,11 +132,7 @@ class _PostSelectionAppBarState extends State<PostSelectionAppBar> {
       data.clear();
       return;
     }
-    _showQueueFailure(
-      messenger,
-      l10n.selectionQueueDownloadsFailed,
-      _download,
-    );
+    _showQueueFailure(messenger, l10n.selectionQueueDownloadsFailed, _download);
   }
 
   /// Enqueues favorite or unfavorite tasks for the current selection.

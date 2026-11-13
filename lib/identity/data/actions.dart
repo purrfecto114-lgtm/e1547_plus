@@ -133,16 +133,16 @@ Future<CredentialCheckResult> checkCredentials({
 }) async {
   final Dio client =
       dio ??
-      Dio(
-        BaseOptions(
-          headers: {
-            HttpHeaders.userAgentHeader: AppInfo.instance.userAgent,
-            ...?headers,
-          },
-          connectTimeout: const Duration(seconds: 15),
-          receiveTimeout: const Duration(seconds: 15),
-        ),
-      )
+            Dio(
+              BaseOptions(
+                headers: {
+                  HttpHeaders.userAgentHeader: AppInfo.instance.userAgent,
+                  ...?headers,
+                },
+                connectTimeout: const Duration(seconds: 15),
+                receiveTimeout: const Duration(seconds: 15),
+              ),
+            )
         ..httpClientAdapter = NativeAdapter();
   try {
     final Response<void> response = await client.head(

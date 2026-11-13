@@ -103,8 +103,9 @@ class _NotificationHandlerState extends State<NotificationHandler>
     // A denial from an earlier run is remembered, so the user is not
     // asked again on every cold start; only a grant — through the prompt
     // or the system settings — clears the flag again.
-    final ValueNotifier<bool> denied =
-        context.read<Settings>().deniedNotifications;
+    final ValueNotifier<bool> denied = context
+        .read<Settings>()
+        .deniedNotifications;
     final bool prompt = !wasNotifying && !denied.value;
     final FlutterLocalNotificationsPlugin plugin = await notifications;
     final bool granted = await hasNotificationPermission(
@@ -182,13 +183,11 @@ class _NotificationHandlerState extends State<NotificationHandler>
     if (follows == null) return;
     if (follows.where((e) => e.type == FollowType.notify).isEmpty) return;
     // Resolved before the awaits: contexts must not cross async gaps.
-    final ValueNotifier<bool> denied =
-        context.read<Settings>().deniedNotifications;
+    final ValueNotifier<bool> denied = context
+        .read<Settings>()
+        .deniedNotifications;
     final FlutterLocalNotificationsPlugin plugin = await notifications;
-    final bool granted = await hasNotificationPermission(
-      plugin,
-      prompt: false,
-    );
+    final bool granted = await hasNotificationPermission(plugin, prompt: false);
     if (granted == followTaskRegistered) return;
     followTaskRegistered = granted;
     if (granted) {

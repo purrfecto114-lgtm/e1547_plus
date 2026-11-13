@@ -36,9 +36,8 @@ extension PostQuerying on PostClient {
 
   CachedQuery get queryCache => dio.queryCache!;
 
-  QueryBridge<Post, int> get postCache =>
-      _postCacheBridges[this] ??=
-      queryCache.bridge(queryKey, fromJson: Post.fromJson);
+  QueryBridge<Post, int> get postCache => _postCacheBridges[this] ??= queryCache
+      .bridge(queryKey, fromJson: Post.fromJson);
 
   Query<Post> useGet({required int id, bool? vendored}) => Query(
     cache: queryCache,

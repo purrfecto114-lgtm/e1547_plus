@@ -228,10 +228,7 @@ class TasksController extends ChangeNotifier {
 
   double get progress {
     if (_runningTotal == 0) return 0;
-    return ((_runningDone + currentProgress.value) / _runningTotal).clamp(
-      0,
-      1,
-    );
+    return ((_runningDone + currentProgress.value) / _runningTotal).clamp(0, 1);
   }
 
   void _recomputeProgress() {
@@ -404,9 +401,7 @@ class TasksController extends ChangeNotifier {
   /// batch that is still running.
   void _beginBatch(int count) {
     final bool previousBatchSettled =
-        _runningTotal == _runningDone &&
-        _active.isEmpty &&
-        _runningIds.isEmpty;
+        _runningTotal == _runningDone && _active.isEmpty && _runningIds.isEmpty;
     if (previousBatchSettled) {
       // Nothing is queued or in flight anymore; the previous batch had its
       // moment on the bubble, and this one starts from a clean slate.
@@ -612,8 +607,10 @@ class TasksController extends ChangeNotifier {
       case TaskAction.unfavorite:
         final bool unfavorited = await _runApiRequest(
           task,
-          (cancelToken) =>
-              client.posts.removeFavorite(task.postId, cancelToken: cancelToken),
+          (cancelToken) => client.posts.removeFavorite(
+            task.postId,
+            cancelToken: cancelToken,
+          ),
         );
         if (!unfavorited) break;
         _favoritesDirty = true;
@@ -828,8 +825,9 @@ class TasksController extends ChangeNotifier {
   /// and no transfer that finishes behind a waiting picker. Returns null
   /// when the task was not retryable or the user canceled the
   /// directory prompt, in which case the task stays in place.
-  Future<Task?> retry(int taskId) =>
-      retryTasks([taskId]).then((queued) => queued.isEmpty ? null : queued.first);
+  Future<Task?> retry(int taskId) => retryTasks([
+    taskId,
+  ]).then((queued) => queued.isEmpty ? null : queued.first);
 
   /// Cancels the given tasks in one database write, aborting the transfers
   /// of those that are already running.
@@ -837,9 +835,7 @@ class TasksController extends ChangeNotifier {
   /// Id-based and therefore not identity-scoped; callers must pass ids
   /// taken from the current identity's list.
   Future<void> cancelTasks(Iterable<int> ids) async {
-    final List<Task> canceled = await repository.cancelTasks(
-      ids: ids.toList(),
-    );
+    final List<Task> canceled = await repository.cancelTasks(ids: ids.toList());
     _countCanceledPending(
       canceled.where((task) => task.status == TaskStatus.pending).length,
     );

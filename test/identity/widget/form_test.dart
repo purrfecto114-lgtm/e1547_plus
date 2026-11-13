@@ -81,7 +81,9 @@ void main() {
     await tester.pump(const Duration(milliseconds: 200));
   }
 
-  testWidgets('creating a guest identity confirms the age gate', (tester) async {
+  testWidgets('creating a guest identity confirms the age gate', (
+    tester,
+  ) async {
     final l10n = await pumpForm(tester);
 
     await tester.tap(find.text(l10n.identityGuest));
@@ -101,7 +103,9 @@ void main() {
     expect(await identities(tester), isEmpty);
   });
 
-  testWidgets('a confirmed gate continues into the guest login', (tester) async {
+  testWidgets('a confirmed gate continues into the guest login', (
+    tester,
+  ) async {
     var done = false;
     final l10n = await pumpForm(tester, onSubmitted: () => done = true);
 
@@ -142,7 +146,9 @@ void main() {
     expect(await identities(tester), isEmpty);
   });
 
-  testWidgets('editing an existing identity skips the age gate', (tester) async {
+  testWidgets('editing an existing identity skips the age gate', (
+    tester,
+  ) async {
     late Identity existing;
     await tester.runAsync(() async {
       existing = await client.add(const IdentityRequest(host: 'e621.net'));

@@ -36,9 +36,7 @@ class FakeE621 {
   /// Marks every response as the last one on its connection.
   static Handler _closeConnections(Handler inner) => (request) async {
     final response = await inner(request);
-    return response.change(
-      headers: {HttpHeaders.connectionHeader: 'close'},
-    );
+    return response.change(headers: {HttpHeaders.connectionHeader: 'close'});
   };
 
   Future<void> stop() => _server.close(force: true);

@@ -44,8 +44,10 @@ class TaskTile extends StatelessWidget {
         child: ExpandableNotifier(
           child: Builder(
             builder: (context) {
-              final ExpandableController expandable =
-                  ExpandableController.of(context, required: true)!;
+              final ExpandableController expandable = ExpandableController.of(
+                context,
+                required: true,
+              )!;
               return Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
@@ -180,10 +182,7 @@ class TaskErrorDetails extends StatelessWidget {
             'Failed tasks are kept for '
             '${TaskRepository.failedRetention.inDays} days '
             'before they are cleaned up.',
-            style: TextStyle(
-              color: scheme.onSurfaceVariant,
-              fontSize: 12,
-            ),
+            style: TextStyle(color: scheme.onSurfaceVariant, fontSize: 12),
           ),
         ],
       ),
@@ -193,20 +192,22 @@ class TaskErrorDetails extends StatelessWidget {
 
 /// The user-facing hint for a failed task, suggesting the next step that
 /// matches why it failed.
-String taskErrorHint(BuildContext context, TaskErrorCategory category) =>
-    switch (category) {
-      // TODO(l10n): extract
-      TaskErrorCategory.directory =>
-        'The save folder is missing or read-only. Pick the download folder again.',
-      TaskErrorCategory.auth =>
-        'The server rejected this account. Check your login, then retry.',
-      TaskErrorCategory.network =>
-        'The transfer failed. Retry once the network is back.',
-      TaskErrorCategory.saving =>
-        'Saving to the gallery failed. Check free space, then retry.',
-      TaskErrorCategory.unknown =>
-        'This task failed. Retry it, or open its details.',
-    };
+String taskErrorHint(
+  BuildContext context,
+  TaskErrorCategory category,
+) => switch (category) {
+  // TODO(l10n): extract
+  TaskErrorCategory.directory =>
+    'The save folder is missing or read-only. Pick the download folder again.',
+  TaskErrorCategory.auth =>
+    'The server rejected this account. Check your login, then retry.',
+  TaskErrorCategory.network =>
+    'The transfer failed. Retry once the network is back.',
+  TaskErrorCategory.saving =>
+    'Saving to the gallery failed. Check free space, then retry.',
+  TaskErrorCategory.unknown =>
+    'This task failed. Retry it, or open its details.',
+};
 
 String taskActionLabel(
   BuildContext context,

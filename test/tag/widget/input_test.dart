@@ -248,9 +248,7 @@ void main() {
     expect(controller.selection.extentOffset, 20);
   });
 
-  testWidgets('the tag input keeps operators on repeated tags', (
-    tester,
-  ) async {
+  testWidgets('the tag input keeps operators on repeated tags', (tester) async {
     final controller = TextEditingController();
     addTearDown(controller.dispose);
     final client = await makeClient();

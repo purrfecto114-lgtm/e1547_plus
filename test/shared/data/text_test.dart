@@ -28,10 +28,7 @@ void main() {
         selection: TextSelection.collapsed(offset: 10),
         composing: TextRange(start: 5, end: 10),
       );
-      expect(
-        formatter.formatEditUpdate(TextEditingValue.empty, value),
-        value,
-      );
+      expect(formatter.formatEditUpdate(TextEditingValue.empty, value), value);
     });
 
     test('lowercases text once its composition commits', () {

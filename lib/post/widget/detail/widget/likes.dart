@@ -128,7 +128,9 @@ class FavoriteButton extends StatelessWidget {
               ),
               likeBuilder: (isLiked) => Icon(
                 Icons.favorite,
-                color: isLiked ? Colors.pinkAccent : IconTheme.of(context).color,
+                color: isLiked
+                    ? Colors.pinkAccent
+                    : IconTheme.of(context).color,
               ),
               onTap: (isLiked) async {
                 // cached_query swallows failures into the returned state,

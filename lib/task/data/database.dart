@@ -143,9 +143,8 @@ class TaskRepository extends DatabaseAccessor<GeneratedDatabase>
   }
 
   /// Returns the tasks with the given ids.
-  Future<List<Task>> getAll(List<int> ids) => (select(
-    tasksTable,
-  )..where((tbl) => tbl.id.isIn(ids))).get();
+  Future<List<Task>> getAll(List<int> ids) =>
+      (select(tasksTable)..where((tbl) => tbl.id.isIn(ids))).get();
 
   /// Returns the active task that [request] would duplicate, if any.
   ///
@@ -153,20 +152,18 @@ class TaskRepository extends DatabaseAccessor<GeneratedDatabase>
   /// downloads the file url must match as well, so a post whose file was
   /// replaced can be downloaded again. Tasks that already reached a
   /// terminal state never block a fresh request.
-  Future<Task?> _findActiveDuplicate(
-    TaskRequest request,
-    int identity,
-  ) async {
-    final List<Task> candidates = await (select(tasksTable)
-          ..where((tbl) => _identityQuery(tbl, identity))
-          ..where((tbl) => tbl.action.equals(request.action.name))
-          ..where((tbl) => tbl.postId.equals(request.postId))
-          ..where(
-            (tbl) => tbl.status.isIn(
-              [TaskStatus.pending, TaskStatus.running].map((e) => e.name),
-            ),
-          ))
-        .get();
+  Future<Task?> _findActiveDuplicate(TaskRequest request, int identity) async {
+    final List<Task> candidates =
+        await (select(tasksTable)
+              ..where((tbl) => _identityQuery(tbl, identity))
+              ..where((tbl) => tbl.action.equals(request.action.name))
+              ..where((tbl) => tbl.postId.equals(request.postId))
+              ..where(
+                (tbl) => tbl.status.isIn(
+                  [TaskStatus.pending, TaskStatus.running].map((e) => e.name),
+                ),
+              ))
+            .get();
     for (final Task candidate in candidates) {
       if (request.action == TaskAction.download &&
           candidate.metadata?.fileUrl != request.metadata?.fileUrl) {
@@ -329,13 +326,12 @@ class TaskRepository extends DatabaseAccessor<GeneratedDatabase>
   /// write share one transaction, so a task cannot be claimed in between.
   Future<List<Task>> cancelTasks({List<int>? ids, int? identity}) =>
       transaction(() async {
-        final query = select(
-          tasksTable,
-        )..where(
-          (tbl) => tbl.status.isIn(
-            [TaskStatus.pending, TaskStatus.running].map((e) => e.name),
-          ),
-        );
+        final query = select(tasksTable)
+          ..where(
+            (tbl) => tbl.status.isIn(
+              [TaskStatus.pending, TaskStatus.running].map((e) => e.name),
+            ),
+          );
         if (ids != null) {
           query.where((tbl) => tbl.id.isIn(ids));
         } else {
@@ -343,9 +339,9 @@ class TaskRepository extends DatabaseAccessor<GeneratedDatabase>
         }
         final List<Task> active = await query.get();
         if (active.isEmpty) return const <Task>[];
-        await (update(tasksTable)
-              ..where((tbl) => tbl.id.isIn(active.map((e) => e.id))))
-            .write(
+        await (update(
+          tasksTable,
+        )..where((tbl) => tbl.id.isIn(active.map((e) => e.id)))).write(
           TaskCompanion(
             status: const Value(TaskStatus.canceled),
             error: const Value(null),
