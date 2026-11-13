@@ -1,6 +1,5 @@
 package net.e1547
 
-import android.hardware.fingerprint.FingerprintManager
 import androidx.biometric.BiometricManager
 import androidx.core.hardware.fingerprint.FingerprintManagerCompat
 import io.flutter.embedding.android.FlutterFragmentActivity
@@ -38,15 +37,6 @@ class MainActivity : FlutterFragmentActivity() {
                                 },
                                 "enrolled" to probe {
                                     FingerprintManagerCompat.from(this@MainActivity).hasEnrolledFingerprints()
-                                },
-                                "enrolledCount" to probe {
-                                    // The framework's own list of prints:
-                                    // a second opinion beside the compat
-                                    // boolean, on the same sensor.
-                                    @Suppress("DEPRECATION")
-                                    getSystemService(FingerprintManager::class.java)
-                                        ?.enrolledFingerprints
-                                        ?.size
                                 },
                                 "weak" to probe {
                                     BiometricManager.from(this@MainActivity).canAuthenticate(
