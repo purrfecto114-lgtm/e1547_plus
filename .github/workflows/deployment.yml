@@ -140,7 +140,10 @@ jobs:
           path: app-release.aab
 
   ios-build:
-    runs-on: macos-latest
+    # macos-latest was hanging in runner provisioning on 2026-11-13: three
+    # attempts in a row sat at zero steps for exactly 15 minutes and were
+    # reaped as cancelled. Pin the image until the latest pool recovers.
+    runs-on: macos-15
     steps:
       - name: setup actions
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
