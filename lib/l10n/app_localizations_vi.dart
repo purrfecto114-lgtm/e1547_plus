@@ -2395,7 +2395,7 @@ class AppLocalizationsVi extends AppLocalizations {
 
   @override
   String get adultGateBody =>
-      'Ứng dụng này dẫn thẳng đến e621, một cộng đồng nghệ thuật chỉ dành cho người lớn. Vui lòng xác nhận rằng bạn đã đủ tuổi pháp lý nơi bạn sống — chúng tôi tin bạn, luật sư của chúng tôi thì không.';
+      'Ứng dụng này dẫn thẳng đến e621 và bản mirror mọi lứa tuổi của nó là e926 — một cộng đồng nghệ thuật chỉ dành cho người lớn. Vui lòng xác nhận rằng bạn đã đủ tuổi pháp lý nơi bạn sống — chúng tôi tin bạn, luật sư của chúng tôi thì không.';
 
   @override
   String get adultGateConfirm => 'Chắc chắn rồi — tôi trên 18 tuổi';

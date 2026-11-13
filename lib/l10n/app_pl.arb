@@ -2465,7 +2465,7 @@
   "@adultGateTitle": {
     "description": "Title of the 18+ confirmation dialog shown before a new identity is created."
   },
-  "adultGateBody": "Ta aplikacja prowadzi prosto do e621, społeczności sztuki tylko dla dorosłych. Potwierdź, że jesteś pełnoletni tam, gdzie mieszkasz — ufamy Ci, nasi prawnicy już nie.",
+  "adultGateBody": "Ta aplikacja prowadzi prosto do e621 oraz jego ogólnodostępnego serwera lustrzanego e926 — społeczności sztuki tylko dla dorosłych. Potwierdź, że jesteś pełnoletni tam, gdzie mieszkasz — ufamy Ci, nasi prawnicy już nie.",
   "@adultGateBody": {
     "description": "Body of the 18+ confirmation dialog shown before a new identity is created."
   },

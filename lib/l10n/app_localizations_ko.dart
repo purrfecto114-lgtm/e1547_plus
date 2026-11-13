@@ -2360,7 +2360,7 @@ class AppLocalizationsKo extends AppLocalizations {
 
   @override
   String get adultGateBody =>
-      '이 앱은 성인만을 위한 예술 커뮤니티인 e621로 직접 연결됩니다. 거주지에서 법적 성인임을 확인해주세요 - 우리는 당신을 믿지만, 변호사들은 그렇지 않습니다.';
+      '이 앱은 성인만을 위한 예술 커뮤니티인 e621과 전체 이용가 미러 사이트인 e926으로 직접 연결됩니다. 거주지에서 법적 성인임을 확인해주세요 - 우리는 당신을 믿지만, 변호사들은 그렇지 않습니다.';
 
   @override
   String get adultGateConfirm => '물론입니다 - 저는 18세 이상입니다';

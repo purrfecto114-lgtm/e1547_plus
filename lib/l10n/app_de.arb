@@ -675,7 +675,7 @@
   "selectOptions": "Optionen auswählen...",
   "databaseNotE1547": "Diese Datei ist keine e1547-Datenbank.",
   "adultGateTitle": "Kurz nachgefragt",
-  "adultGateBody": "Diese App führt dich direkt zu e621, einer Kunst-Community ausschließlich für Erwachsene. Bitte bestätige, dass du volljährig bist, wo du wohnst. Wir vertrauen dir — unsere Anwälte nur so halb.",
+  "adultGateBody": "Diese App führt dich direkt zu e621 und seinem jugendfreien Spiegel e926 — einer Kunst-Community ausschließlich für Erwachsene. Bitte bestätige, dass du volljährig bist, wo du wohnst. Wir vertrauen dir — unsere Anwälte nur so halb.",
   "adultGateConfirm": "Aber sicher — ich bin 18 oder älter",
   "adultGateDeny": "Zurück, bitte",
   "databaseExportPasswordLabel": "Passwort (optional)",

@@ -675,7 +675,7 @@
   "selectOptions": "Seleccionar opciones...",
   "databaseNotE1547": "Este archivo no es una base de datos de e1547.",
   "adultGateTitle": "Un trámite rápido",
-  "adultGateBody": "Esta aplicación te mete de lleno en e621, una comunidad de arte solo para adultos. Confirma que tienes la edad legal donde vives. Nosotros te creemos; los abogados, no tanto.",
+  "adultGateBody": "Esta aplicación te mete de lleno en e621 y su espejo para todas las edades e926, una comunidad de arte solo para adultos. Confirma que tienes la edad legal donde vives. Nosotros te creemos; los abogados, no tanto.",
   "adultGateConfirm": "Por supuesto — tengo 18 o más",
   "adultGateDeny": "Llévame de vuelta",
   "databaseExportPasswordLabel": "Contraseña (opcional)",

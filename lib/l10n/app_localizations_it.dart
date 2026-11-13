@@ -2403,7 +2403,7 @@ class AppLocalizationsIt extends AppLocalizations {
 
   @override
   String get adultGateBody =>
-      'Questa app conduce direttamente a e621, una community artistica riservata esclusivamente ad adulti. Per favore conferma di avere l\'età legale nel tuo paese - ti fidiamo, i nostri avvocati no.';
+      'Questa app conduce direttamente a e621 e al suo specchio per tutte le età e926, una community artistica riservata esclusivamente ad adulti. Per favore conferma di avere l\'età legale nel tuo paese - ti fidiamo, i nostri avvocati no.';
 
   @override
   String get adultGateConfirm => 'Certo - ho 18 anni o più';

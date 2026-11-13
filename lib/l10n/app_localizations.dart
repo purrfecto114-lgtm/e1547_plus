@@ -4172,7 +4172,7 @@ abstract class AppLocalizations {
   /// Body of the 18+ confirmation dialog shown before a new identity is created.
   ///
   /// In en, this message translates to:
-  /// **'This app leads straight into e621, an art community strictly for adults. Please confirm that you are of legal age where you live — we trust you, our lawyers just don’t.'**
+  /// **'This app leads straight into e621 and its all-ages mirror e926 — an art community strictly for adults. Please confirm that you are of legal age where you live — we trust you, our lawyers just don’t.'**
   String get adultGateBody;
 
   /// Confirmation action of the 18+ dialog; deliberately conversational.

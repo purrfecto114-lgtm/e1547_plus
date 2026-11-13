@@ -2419,7 +2419,7 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get adultGateBody =>
-      'Diese App führt dich direkt zu e621, einer Kunst-Community ausschließlich für Erwachsene. Bitte bestätige, dass du volljährig bist, wo du wohnst. Wir vertrauen dir — unsere Anwälte nur so halb.';
+      'Diese App führt dich direkt zu e621 und seinem jugendfreien Spiegel e926 — einer Kunst-Community ausschließlich für Erwachsene. Bitte bestätige, dass du volljährig bist, wo du wohnst. Wir vertrauen dir — unsere Anwälte nur so halb.';
 
   @override
   String get adultGateConfirm => 'Aber sicher — ich bin 18 oder älter';

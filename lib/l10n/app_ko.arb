@@ -2465,7 +2465,7 @@
   "@adultGateTitle": {
     "description": "Title of the 18+ confirmation dialog shown before a new identity is created."
   },
-  "adultGateBody": "이 앱은 성인만을 위한 예술 커뮤니티인 e621로 직접 연결됩니다. 거주지에서 법적 성인임을 확인해주세요 - 우리는 당신을 믿지만, 변호사들은 그렇지 않습니다.",
+  "adultGateBody": "이 앱은 성인만을 위한 예술 커뮤니티인 e621과 전체 이용가 미러 사이트인 e926으로 직접 연결됩니다. 거주지에서 법적 성인임을 확인해주세요 - 우리는 당신을 믿지만, 변호사들은 그렇지 않습니다.",
   "@adultGateBody": {
     "description": "Body of the 18+ confirmation dialog shown before a new identity is created."
   },

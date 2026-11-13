@@ -2344,7 +2344,7 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get adultGateBody =>
-      'このアプリは成人向けアートコミュニティ「e621」への入り口です。お住まいの地域の法定年齢に達していることを確認してください。私たちは信じますが、弁護士はあまり信じてくれません。';
+      'このアプリは成人向けアートコミュニティ「e621」と、その全年齢対象ミラー「e926」への入り口です。お住まいの地域の法定年齢に達していることを確認してください。私たちは信じますが、弁護士はあまり信じてくれません。';
 
   @override
   String get adultGateConfirm => 'もちろん——18歳以上です';

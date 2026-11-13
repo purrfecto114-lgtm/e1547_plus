@@ -2333,7 +2333,7 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get adultGateBody =>
-      '这个应用会带你直接进入 e621——一个仅限成年人的艺术社区。请确认你已达到所在地区的法定年龄。我们相信你，只是律师不太信。';
+      '这个应用会带你直接进入 e621 与其全年龄镜像 e926——一个仅限成年人的艺术社区。请确认你已达到所在地区的法定年龄。我们相信你，只是律师不太信。';
 
   @override
   String get adultGateConfirm => '当然——我已满 18 岁';
@@ -4732,7 +4732,7 @@ class AppLocalizationsZhHant extends AppLocalizationsZh {
 
   @override
   String get adultGateBody =>
-      '這個應用會帶你直接進入 e621——一個僅限成年人的藝術社群。請確認你已達到所在地區的法定年齡。我們相信你，只是律師不太信。';
+      '這個應用會帶你直接進入 e621 與其全年齡鏡像 e926——一個僅限成年人的藝術社群。請確認你已達到所在地區的法定年齡。我們相信你，只是律師不太信。';
 
   @override
   String get adultGateConfirm => '當然——我已滿 18 歲';

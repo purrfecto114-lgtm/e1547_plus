@@ -2444,7 +2444,7 @@ class AppLocalizationsPl extends AppLocalizations {
 
   @override
   String get adultGateBody =>
-      'Ta aplikacja prowadzi prosto do e621, społeczności sztuki tylko dla dorosłych. Potwierdź, że jesteś pełnoletni tam, gdzie mieszkasz — ufamy Ci, nasi prawnicy już nie.';
+      'Ta aplikacja prowadzi prosto do e621 oraz jego ogólnodostępnego serwera lustrzanego e926 — społeczności sztuki tylko dla dorosłych. Potwierdź, że jesteś pełnoletni tam, gdzie mieszkasz — ufamy Ci, nasi prawnicy już nie.';
 
   @override
   String get adultGateConfirm => 'Oczywiście — mam 18 lub więcej lat';
