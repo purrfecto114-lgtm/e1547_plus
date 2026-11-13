@@ -4,7 +4,7 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and this project
 adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [21.7.3+131] - 2026-11-13
+## [22.0.0+220] - 2026-11-13
 ### Fixed
 - tag suggestions complete the word the cursor is on, keep operators and
   repeated tokens straight, and leave the cursor at the end of the
@@ -114,6 +114,9 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
   Chinese stale-identity notice matches the file's terminology
 
 ### Changed
+- every way into the app now confirms the 18+ gate once: a guest
+  identity and the onboarding skip shortcut ask for the age
+  confirmation too, since both end up browsing e621 anonymously
 - the README was condensed to half its length without losing a section,
   in both languages
 
