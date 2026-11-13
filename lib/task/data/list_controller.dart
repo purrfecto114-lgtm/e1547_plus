@@ -63,19 +63,27 @@ class TasksListController extends ChangeNotifier {
   /// The loaded history pages, in order; the page at index 0 is page 1.
   final List<List<Task>> _historyPages = <List<Task>>[];
 
-  PagingState<int, Task> get state => PagingState(
-    pages: _active == null
-        ? null
-        : [_active!, ..._historyPages],
-    keys: _active == null
-        ? null
-        : [
-            for (int i = 0; i <= _historyPages.length; i++) i,
-          ],
-    error: _error,
-    hasNextPage: _pagingEnabled && _hasNextHistoryPage,
-    isLoading: (_active == null && _error == null) || _loadingNextPage,
-  );
+  PagingState<int, Task> get state {
+    if (_active == null) return PagingState();
+    // The same id-based deduplication _rebuildItems applies: a task that
+    // settled between the live query and a history page must not show up
+    // in both, or the paged list renders one row twice while the
+    // selection works on the flattened items.
+    final Set<int> seen = _active!.map((task) => task.id).toSet();
+    return PagingState(
+      pages: [
+        _active!,
+        for (final List<Task> page in _historyPages)
+          [for (final Task task in page) if (seen.add(task.id)) task],
+      ],
+      keys: [
+        for (int i = 0; i <= _historyPages.length; i++) i,
+      ],
+      error: _error,
+      hasNextPage: _pagingEnabled && _hasNextHistoryPage,
+      isLoading: (_active == null && _error == null) || _loadingNextPage,
+    );
+  }
 
   /// Whether another history page is likely to exist: the last loaded page
   /// was full.

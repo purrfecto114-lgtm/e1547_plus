@@ -1,3 +1,4 @@
+import 'package:e1547/l10n/app_localizations.dart';
 import 'package:e1547/shared/shared.dart';
 import 'package:e1547/task/task.dart';
 import 'package:filesize/filesize.dart';
@@ -125,13 +126,16 @@ class TaskBubbleContent extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final scheme = Theme.of(context).colorScheme;
-    final String? text = statusText(controller, isDone);
+    final AppLocalizations l10n = AppLocalizations.of(context);
+    final String? text = statusText(controller, isDone, l10n);
     // The bubble's content swaps on its own while a batch runs and again
     // when it settles; a live region announces those changes with the
-    // same text the bubble shows, so assistive technologies stay in sync.
+    // phase and the outcome instead of the visual byte readout, so a
+    // transfer without a length does not spam assistive technologies
+    // with an announcement per progress tick.
     return Semantics(
       liveRegion: true,
-      label: text,
+      label: semanticLabel(controller, isDone, l10n),
       child: _content(scheme, text),
     );
   }
@@ -179,25 +183,57 @@ class TaskBubbleContent extends StatelessWidget {
     return Icon(_iconFor(kind), color: scheme.primary);
   }
 
-  /// The text the bubble currently shows, if any; it doubles as the
-  /// bubble's semantic label.
-  static String? statusText(TasksController controller, bool isDone) {
+  /// The text the bubble currently shows, if any.
+  static String? statusText(
+    TasksController controller,
+    bool isDone,
+    AppLocalizations l10n,
+  ) {
     if (isDone) {
       if (controller.runningFailed > 0) {
-        // TODO(l10n): extract
-        return '${controller.runningSucceeded} completed, '
-            '${controller.runningFailed} failed';
+        return l10n.taskBubbleFailures(
+          controller.runningSucceeded,
+          controller.runningFailed,
+        );
       }
       return null;
     }
     if (controller.runningSaving) {
-      return 'Saving'; // TODO(l10n): extract
+      return l10n.taskBubbleSaving;
     }
     if (controller.runningIndeterminate) {
-      // No length was announced; report the bytes that did arrive.
+      // No length was announced; report the bytes that did arrive. This
+      // is a visual readout only — the live region labels the phase, not
+      // the bytes, see [semanticLabel].
       return filesize(controller.runningTransferred, 1);
     }
     return null;
+  }
+
+  /// The label the live region announces: the phase the batch is in and
+  /// its outcome. Every state carries one, so a finished batch is
+  /// announced too, and the labels only change when the phase does.
+  static String semanticLabel(
+    TasksController controller,
+    bool isDone,
+    AppLocalizations l10n,
+  ) {
+    if (isDone) {
+      if (controller.runningFailed > 0) {
+        return l10n.taskBubbleFailures(
+          controller.runningSucceeded,
+          controller.runningFailed,
+        );
+      }
+      if (controller.runningCanceled > 0 && controller.runningSucceeded == 0) {
+        return l10n.taskBubbleCanceled;
+      }
+      return l10n.taskBubbleDone;
+    }
+    if (controller.runningSaving) {
+      return l10n.taskBubbleSaving;
+    }
+    return l10n.taskBubbleWorking;
   }
 
   static IconData _iconFor(TaskKind kind) => switch (kind) {

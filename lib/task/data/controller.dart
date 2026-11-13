@@ -350,11 +350,18 @@ class TasksController extends ChangeNotifier {
     }
   }
 
+  /// Queues one request. Returns the created task, or the already-queued
+  /// task that absorbed it as a duplicate.
   Future<Task> enqueue(TaskRequest request) async {
     final List<Task> queued = await _insertRequests([request]);
     return queued.first;
   }
 
+  /// Queues every request, resolving the download directory once for the
+  /// whole batch before anything is persisted: a canceled prompt aborts
+  /// the enqueue with an empty result. Returns the created tasks together
+  /// with the duplicates that were absorbed into already-queued ones, so
+  /// an all-duplicate batch still reports its posts as queued.
   Future<List<Task>> enqueueAll(Iterable<TaskRequest> requests) async {
     final List<TaskRequest> list = requests.toList();
     if (list.isEmpty) return const [];
@@ -483,8 +490,7 @@ class TasksController extends ChangeNotifier {
     if (!_favoritesDirty) return;
     _favoritesDirty = false;
     try {
-      final CachedQuery? cache = client.posts.queryCache;
-      if (cache == null) return;
+      final CachedQuery cache = client.posts.queryCache;
       await cache.invalidateKey([...client.posts.queryKey, 'favorites']);
       final String? username = client.identity.username;
       if (username != null) {
@@ -567,11 +573,15 @@ class TasksController extends ChangeNotifier {
       case TaskAction.download:
         await _runDownload(task);
       case TaskAction.favorite:
-        await _runApiRequest(
+        final bool favorited = await _runApiRequest(
           task,
           (cancelToken) =>
               client.posts.addFavorite(task.postId, cancelToken: cancelToken),
         );
+        // A canceled request must not look like a succeeded one: without
+        // this gate the cache would claim a favorite the server never
+        // made, and the optional upvote would fire for it.
+        if (!favorited) break;
         _favoritesDirty = true;
         _updatePostCache(
           task.postId,
@@ -600,11 +610,12 @@ class TasksController extends ChangeNotifier {
           }
         }
       case TaskAction.unfavorite:
-        await _runApiRequest(
+        final bool unfavorited = await _runApiRequest(
           task,
           (cancelToken) =>
               client.posts.removeFavorite(task.postId, cancelToken: cancelToken),
         );
+        if (!unfavorited) break;
         _favoritesDirty = true;
         _updatePostCache(
           task.postId,
@@ -617,7 +628,12 @@ class TasksController extends ChangeNotifier {
   /// Runs the api call of a favorite or unfavorite task on a cancel token
   /// registered like a download's, so canceling the task aborts the http
   /// request itself instead of letting it run to completion unseen.
-  Future<void> _runApiRequest(
+  ///
+  /// Returns whether the request actually reached the server and came
+  /// back successfully; a task canceled by the user or released by a
+  /// disposed controller returns false, and the caller must then leave
+  /// the post cache and the upvote alone.
+  Future<bool> _runApiRequest(
     Task task,
     Future<void> Function(CancelToken cancelToken) request,
   ) async {
@@ -635,12 +651,12 @@ class TasksController extends ChangeNotifier {
           // the request was aborted by disposal; the task goes back to the
           // queue instead of failing
           await repository.release(task.id);
-          return;
+          return false;
         }
         final TaskStatus? status = await repository.readStatus(task.id);
         if (status == TaskStatus.canceled) {
           // the user canceled; the terminal status is already set
-          return;
+          return false;
         }
         throw FileDownloadException('Favorite request was canceled');
       }
@@ -648,6 +664,7 @@ class TasksController extends ChangeNotifier {
     } finally {
       _cancelTokens.remove(task.id);
     }
+    return true;
   }
 
   /// Applies a successful task's effect to the post cache, through the same
@@ -800,23 +817,25 @@ class TasksController extends ChangeNotifier {
   Future<void> dismiss(int taskId) => repository.remove(taskId);
 
   /// Removes the given tasks in one database write.
+  ///
+  /// Like the other id-based methods, this bypasses identity scoping:
+  /// callers must pass ids they took from the current identity's list.
   Future<void> dismissTasks(Iterable<int> ids) =>
       repository.removeAll(ids.toList());
 
-  Future<Task> retry(int taskId) async {
-    final Task task = await repository.get(taskId);
-    await repository.remove(taskId);
-    return enqueue(
-      TaskRequest(
-        action: task.action,
-        postId: task.postId,
-        metadata: task.metadata,
-      ),
-    );
-  }
+  /// Requeues one terminal task through the same hardened path as
+  /// [retryTasks]: one directory preflight before anything is removed,
+  /// and no transfer that finishes behind a waiting picker. Returns null
+  /// when the task was not retryable or the user canceled the
+  /// directory prompt, in which case the task stays in place.
+  Future<Task?> retry(int taskId) =>
+      retryTasks([taskId]).then((queued) => queued.isEmpty ? null : queued.first);
 
   /// Cancels the given tasks in one database write, aborting the transfers
   /// of those that are already running.
+  ///
+  /// Id-based and therefore not identity-scoped; callers must pass ids
+  /// taken from the current identity's list.
   Future<void> cancelTasks(Iterable<int> ids) async {
     final List<Task> canceled = await repository.cancelTasks(
       ids: ids.toList(),

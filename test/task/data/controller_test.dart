@@ -7,6 +7,7 @@ import 'package:drift/native.dart';
 import 'package:e1547/app/app.dart';
 import 'package:e1547/client/client.dart';
 import 'package:e1547/identity/identity.dart';
+import 'package:e1547/post/post.dart';
 import 'package:e1547/settings/settings.dart';
 import 'package:e1547/shared/shared.dart';
 import 'package:e1547/task/task.dart';
@@ -19,6 +20,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:notified_preferences/notified_preferences.dart';
 
 import '../../_support/harness.dart';
+import '../../_support/posts.dart';
 
 class FakeCacheManager implements BaseCacheManager {
   FakeCacheManager({FileInfo? cached}) : _cached = cached;
@@ -46,6 +48,35 @@ class GatedTaskRepository extends TaskRepository {
     await gate.future;
     return super.claimNext(identity: identity, actions: actions);
   }
+}
+
+/// An adapter that mimics an in-flight favorite request: it stays put until
+/// its token is canceled, at which point it aborts with a cancel exception
+/// like a real aborted transfer.
+class GatedFavoriteAdapter implements HttpClientAdapter {
+  final Completer<void> started = Completer<void>();
+  final Completer<void> aborted = Completer<void>();
+
+  @override
+  Future<ResponseBody> fetch(
+    RequestOptions options,
+    Stream<Uint8List>? requestStream,
+    Future<void>? cancelFuture,
+  ) async {
+    if (options.path.contains('/favorites')) {
+      started.complete();
+      await cancelFuture;
+      if (!aborted.isCompleted) aborted.complete();
+      throw DioException(
+        requestOptions: options,
+        type: DioExceptionType.cancel,
+      );
+    }
+    fail('unexpected request: ${options.uri}');
+  }
+
+  @override
+  void close({bool force = false}) {}
 }
 
 /// A fetcher that mimics an in-flight network transfer: it reports progress,
@@ -455,6 +486,38 @@ void main() {
     // the task is canceled, not failed, and nothing was exported
     expect(await repository.readStatus(task.id), TaskStatus.canceled);
     expect(File('${dir.path}/abort.webm').existsSync(), isFalse);
+
+    instance.dispose();
+  });
+
+  test('canceling a favorite leaves the cache and the upvote alone', () async {
+    // Upvote-on-favorite is on: without the success gate, the canceled
+    // favorite would still flip the cached post and fire a real upvote
+    // request for a favorite the server never made.
+    settings.upvoteFavs.value = true;
+    client.posts.postCache.set(samplePost(favCount: 4));
+    final adapter = GatedFavoriteAdapter();
+    client.dio.httpClientAdapter = adapter;
+
+    final instance = controller();
+    final task = await instance.enqueue(
+      const TaskRequest(
+        action: TaskAction.favorite,
+        postId: 1,
+        metadata: TaskMetadata(previewUrl: 'https://example.com/1.jpg'),
+      ),
+    );
+    await adapter.started.future;
+
+    await instance.cancel(task.id);
+    await adapter.aborted.future;
+    await pumpEventQueue();
+    await pumpEventQueue();
+
+    expect(await repository.readStatus(task.id), TaskStatus.canceled);
+    final Post? cached = client.posts.postCache.get(1);
+    expect(cached?.isFavorited ?? false, isFalse);
+    expect(cached?.favCount ?? 0, 4);
 
     instance.dispose();
   });
