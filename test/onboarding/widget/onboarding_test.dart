@@ -179,4 +179,34 @@ void main() {
     expect(tester.getRect(find.text('dark')), isNotNull);
     expect(tester.takeException(), isNull);
   });
+
+  testWidgets('skipping confirms the age gate like a guest login', (
+    tester,
+  ) async {
+    await tester.pumpWidget(wrap(const OnboardingScreen()));
+    await tester.pumpAndSettle();
+    final l10n = AppLocalizations.of(
+      tester.element(find.text('Welcome to e1547')),
+    );
+
+    // The skip shortcut ends up browsing as a guest on an adults-only
+    // site, so it confirms the age gate like any identity creation.
+    await tester.tap(find.text('Skip'));
+    await tester.pumpAndSettle();
+    expect(find.text(l10n.adultGateTitle), findsOneWidget);
+    expect(settings.onboardingSeen.value, isFalse);
+
+    // Denying keeps the onboarding open.
+    await tester.tap(find.text(l10n.adultGateDeny));
+    await tester.pumpAndSettle();
+    expect(find.text(l10n.adultGateTitle), findsNothing);
+    expect(settings.onboardingSeen.value, isFalse);
+
+    // Confirming leaves the onboarding.
+    await tester.tap(find.text('Skip'));
+    await tester.pumpAndSettle();
+    await tester.tap(find.text(l10n.adultGateConfirm));
+    await tester.pumpAndSettle();
+    expect(settings.onboardingSeen.value, isTrue);
+  });
 }

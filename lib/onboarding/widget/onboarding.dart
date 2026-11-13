@@ -32,6 +32,15 @@ class _OnboardingPagerState extends State<_OnboardingPager> {
 
   void complete() => context.read<Settings>().onboardingSeen.value = true;
 
+  /// Skipping ends up browsing as an anonymous guest on an adults-only
+  /// site, so the shortcut confirms the age gate like any identity
+  /// creation would.
+  Future<void> skip() async {
+    final confirmed = await showAdultGate(context);
+    if (!confirmed || !mounted) return;
+    complete();
+  }
+
   void next() => controller.nextPage(
     duration: defaultAnimationDuration,
     curve: Curves.ease,
@@ -66,7 +75,7 @@ class _OnboardingPagerState extends State<_OnboardingPager> {
                       child: Padding(
                         padding: const EdgeInsets.all(8),
                         child: TextButton(
-                          onPressed: complete,
+                          onPressed: skip,
                           child: Text(l10n.onboardingSkip),
                         ),
                       ),

@@ -2492,11 +2492,11 @@
   "databaseNotE1547": "This file is not an e1547 database.",
   "adultGateTitle": "Quick reality check",
   "@adultGateTitle": {
-    "description": "Title of the 18+ confirmation dialog shown before a login is attempted."
+    "description": "Title of the 18+ confirmation dialog shown before a new identity is created."
   },
   "adultGateBody": "This app leads straight into e621, an art community strictly for adults. Please confirm that you are of legal age where you live — we trust you, our lawyers just don’t.",
   "@adultGateBody": {
-    "description": "Body of the 18+ confirmation dialog shown before a login is attempted."
+    "description": "Body of the 18+ confirmation dialog shown before a new identity is created."
   },
   "adultGateConfirm": "Of course — I’m 18 or older",
   "@adultGateConfirm": {

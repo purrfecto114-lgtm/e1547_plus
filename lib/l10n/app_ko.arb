@@ -2463,11 +2463,11 @@
   "databaseNotE1547": "이 파일은 e1547 데이터베이스가 아닙니다.",
   "adultGateTitle": "간단한 현실 확인",
   "@adultGateTitle": {
-    "description": "Title of the 18+ confirmation dialog shown before a login is attempted."
+    "description": "Title of the 18+ confirmation dialog shown before a new identity is created."
   },
   "adultGateBody": "이 앱은 성인만을 위한 예술 커뮤니티인 e621로 직접 연결됩니다. 거주지에서 법적 성인임을 확인해주세요 - 우리는 당신을 믿지만, 변호사들은 그렇지 않습니다.",
   "@adultGateBody": {
-    "description": "Body of the 18+ confirmation dialog shown before a login is attempted."
+    "description": "Body of the 18+ confirmation dialog shown before a new identity is created."
   },
   "adultGateConfirm": "물론입니다 - 저는 18세 이상입니다",
   "@adultGateConfirm": {

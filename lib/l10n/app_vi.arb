@@ -2463,11 +2463,11 @@
   "databaseNotE1547": "Đây không phải là cơ sở dữ liệu e1547.",
   "adultGateTitle": "Kiểm tra nhanh",
   "@adultGateTitle": {
-    "description": "Title of the 18+ confirmation dialog shown before a login is attempted."
+    "description": "Title of the 18+ confirmation dialog shown before a new identity is created."
   },
   "adultGateBody": "Ứng dụng này dẫn thẳng đến e621, một cộng đồng nghệ thuật chỉ dành cho người lớn. Vui lòng xác nhận rằng bạn đã đủ tuổi pháp lý nơi bạn sống — chúng tôi tin bạn, luật sư của chúng tôi thì không.",
   "@adultGateBody": {
-    "description": "Body of the 18+ confirmation dialog shown before a login is attempted."
+    "description": "Body of the 18+ confirmation dialog shown before a new identity is created."
   },
   "adultGateConfirm": "Chắc chắn rồi — tôi trên 18 tuổi",
   "@adultGateConfirm": {

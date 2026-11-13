@@ -4163,13 +4163,13 @@ abstract class AppLocalizations {
   /// **'This file is not an e1547 database.'**
   String get databaseNotE1547;
 
-  /// Title of the 18+ confirmation dialog shown before a login is attempted.
+  /// Title of the 18+ confirmation dialog shown before a new identity is created.
   ///
   /// In en, this message translates to:
   /// **'Quick reality check'**
   String get adultGateTitle;
 
-  /// Body of the 18+ confirmation dialog shown before a login is attempted.
+  /// Body of the 18+ confirmation dialog shown before a new identity is created.
   ///
   /// In en, this message translates to:
   /// **'This app leads straight into e621, an art community strictly for adults. Please confirm that you are of legal age where you live — we trust you, our lawyers just don’t.'**

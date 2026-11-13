@@ -7,6 +7,33 @@ import 'package:e1547/l10n/app_localizations.dart';
 import 'package:e1547/shared/shared.dart';
 import 'package:flutter/material.dart';
 
+/// The 18+ confirmation shown before a new identity is created.
+///
+/// Deliberately conversational: the buttons read like a person, not a
+/// legal disclaimer. Denial simply returns, no shame.
+Future<bool> showAdultGate(BuildContext context) => showDialog<bool>(
+  context: context,
+  builder: (context) => Center(
+    child: ConstrainedBox(
+      constraints: const BoxConstraints(maxWidth: 600),
+      child: AlertDialog(
+        title: Text(AppLocalizations.of(context).adultGateTitle),
+        content: Text(AppLocalizations.of(context).adultGateBody),
+        actions: [
+          TextButton(
+            onPressed: () => popDialog(context, false),
+            child: Text(AppLocalizations.of(context).adultGateDeny),
+          ),
+          TextButton(
+            onPressed: () => popDialog(context, true),
+            child: Text(AppLocalizations.of(context).adultGateConfirm),
+          ),
+        ],
+      ),
+    ),
+  ),
+).then((value) => value ?? false);
+
 class AccountForm extends StatefulWidget {
   const AccountForm({
     super.key,
@@ -68,11 +95,11 @@ class _AccountFormState extends State<AccountForm> {
     if (withAuth == null) return;
     // A double tap would stack a second loading dialog on the first one.
     if (ModalRoute.of(context)?.isCurrent == false) return;
-    // e621 is an adults-only community: first-time logins confirm the age
-    // gate before any credentials are sent. Anonymous browsing and editing
-    // an existing identity pass through.
-    if (!isEditing && withAuth!) {
-      final confirmed = await _showAdultGate(context);
+    // e621 is an adults-only community: every new identity — logged in
+    // or guest — confirms the age gate before it is created. Editing an
+    // existing identity has already passed the gate once.
+    if (!isEditing) {
+      final confirmed = await showAdultGate(context);
       if (!confirmed || !mounted) return;
       // The dialog could have been dismissed by navigation meanwhile.
       if (ModalRoute.of(context)?.isCurrent == false) return;
@@ -96,33 +123,6 @@ class _AccountFormState extends State<AccountForm> {
       ),
     );
   }
-
-  /// The 18+ confirmation before a login is attempted.
-  ///
-  /// Deliberately conversational: the buttons read like a person, not a
-  /// legal disclaimer. Denial simply returns to the form, no shame.
-  Future<bool> _showAdultGate(BuildContext context) => showDialog<bool>(
-    context: context,
-    builder: (context) => Center(
-      child: ConstrainedBox(
-        constraints: const BoxConstraints(maxWidth: 600),
-        child: AlertDialog(
-          title: Text(AppLocalizations.of(context).adultGateTitle),
-          content: Text(AppLocalizations.of(context).adultGateBody),
-          actions: [
-            TextButton(
-              onPressed: () => popDialog(context, false),
-              child: Text(AppLocalizations.of(context).adultGateDeny),
-            ),
-            TextButton(
-              onPressed: () => popDialog(context, true),
-              child: Text(AppLocalizations.of(context).adultGateConfirm),
-            ),
-          ],
-        ),
-      ),
-    ),
-  ).then((value) => value ?? false);
 
   Widget apiKeyLink() {
     return ListenableBuilder(

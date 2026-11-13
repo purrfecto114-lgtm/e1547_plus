@@ -2463,11 +2463,11 @@
   "databaseNotE1547": "Questo file non è un database e1547.",
   "adultGateTitle": "Controllo rapido",
   "@adultGateTitle": {
-    "description": "Title of the 18+ confirmation dialog shown before a login is attempted."
+    "description": "Title of the 18+ confirmation dialog shown before a new identity is created."
   },
   "adultGateBody": "Questa app conduce direttamente a e621, una community artistica riservata esclusivamente ad adulti. Per favore conferma di avere l'età legale nel tuo paese - ti fidiamo, i nostri avvocati no.",
   "@adultGateBody": {
-    "description": "Body of the 18+ confirmation dialog shown before a login is attempted."
+    "description": "Body of the 18+ confirmation dialog shown before a new identity is created."
   },
   "adultGateConfirm": "Certo - ho 18 anni o più",
   "@adultGateConfirm": {
