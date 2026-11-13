@@ -11,7 +11,7 @@ set -euo pipefail
 
 cd "$(dirname "$0")/.."
 
-BASELINE="${1:---}"
+BASELINE="${1:--}"
 if [ "$BASELINE" = "-" ]; then
   BASELINE="tool/osv_baseline.txt"
 fi
