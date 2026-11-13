@@ -41,6 +41,7 @@ class AccountForm extends StatefulWidget {
     this.initialHost,
     this.onSubmitted,
     this.verifier = checkCredentials,
+    this.confirmGate = true,
   });
 
   final Identity? identity;
@@ -55,6 +56,14 @@ class AccountForm extends StatefulWidget {
     Map<String, String>? headers,
   })
   verifier;
+
+  /// Whether creating an identity asks for the age confirmation here.
+  ///
+  /// The onboarding carries its own age confirmation page right before
+  /// the login step, so its login form runs with this off to keep from
+  /// asking twice; every other path — the identity page, and tests —
+  /// keeps the dialog.
+  final bool confirmGate;
 
   @override
   State<AccountForm> createState() => _AccountFormState();
@@ -106,9 +115,10 @@ class _AccountFormState extends State<AccountForm> {
     // A double tap would stack a second loading dialog on the first one.
     if (ModalRoute.of(context)?.isCurrent == false) return;
     // e621 is an adults-only community: every new identity — logged in
-    // or guest — confirms the age gate before it is created. Editing an
-    // existing identity has already passed the gate once.
-    if (!isEditing) {
+    // or guest — confirms the age gate before it is created, unless the
+    // surrounding flow (the onboarding's own age page) already did.
+    // Editing an existing identity has already passed the gate once.
+    if (!isEditing && widget.confirmGate) {
       final confirmed = await showAdultGate(context);
       if (!confirmed || !mounted) return;
       // The dialog could have been dismissed by navigation meanwhile.

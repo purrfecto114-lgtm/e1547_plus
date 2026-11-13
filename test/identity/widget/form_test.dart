@@ -45,6 +45,7 @@ void main() {
       Map<String, String>? headers,
     })?
     verifier,
+    bool confirmGate = true,
   }) async {
     late AppLocalizations l10n;
     await tester.pumpWidget(
@@ -66,6 +67,7 @@ void main() {
                     initialHost: initialHost,
                     onSubmitted: onSubmitted,
                     verifier: verifier ?? checkCredentials,
+                    confirmGate: confirmGate,
                   ),
                 );
               },
@@ -109,6 +111,29 @@ void main() {
     expect(find.text(l10n.adultGateTitle), findsNothing);
     expect(find.text(l10n.identityBrowseAnonymously), findsOneWidget);
     expect(await identities(tester), isEmpty);
+  });
+
+  testWidgets('a flow that already confirmed the age does not ask again', (
+    tester,
+  ) async {
+    // The onboarding's age page sits right before the login step, so
+    // its login form runs without the dialog: the confirmation must
+    // happen exactly once along the way.
+    var done = false;
+    final l10n = await pumpForm(
+      tester,
+      onSubmitted: () => done = true,
+      confirmGate: false,
+    );
+
+    await tester.tap(find.text(l10n.identityGuest));
+    await tester.pumpAndSettle();
+    await tester.tap(find.text(l10n.identityBrowseAnonymously));
+    await runLoginChain(tester);
+
+    expect(find.text(l10n.adultGateTitle), findsNothing);
+    expect(done, isTrue);
+    expect(await identities(tester), hasLength(1));
   });
 
   testWidgets('a confirmed gate continues into the guest login', (

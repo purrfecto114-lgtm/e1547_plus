@@ -501,7 +501,16 @@ void main() {
     await tester.tap(find.text('下一步'));
     await tester.pumpAndSettle();
 
-    // the fourth step connects an account
+    // the fourth step confirms the age before the login
+    expect(find.text('先做个小确认'), findsOneWidget);
+    expect(find.text('Connect an account'), findsNothing);
+    // the gate page hides the next button
+    expect(find.text('下一步'), findsNothing);
+
+    await tester.tap(find.text('当然——我已满 18 岁'));
+    await tester.pumpAndSettle();
+
+    // the fifth step connects an account
     expect(find.text('连接账户'), findsOneWidget);
     expect(find.text('站点'), findsOneWidget);
     expect(find.text('登录'), findsOneWidget);

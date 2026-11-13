@@ -28,28 +28,37 @@ class _OnboardingPager extends StatefulWidget {
 class _OnboardingPagerState extends State<_OnboardingPager> {
   final PageController controller = PageController();
   int page = 0;
-  static const int pages = 4;
+  static const int pages = 5;
+
+  /// The age confirmation page. Every way into the login step — the next
+  /// buttons, swiping, the skip shortcut — leads through it, and the
+  /// login step itself stays out of reach until it has been confirmed.
+  static const int gatePage = pages - 2;
+  bool adultConfirmed = false;
 
   void complete() => context.read<Settings>().onboardingSeen.value = true;
 
   /// Skipping ends up browsing as an anonymous guest on an adults-only
-  /// site, so the shortcut confirms the age gate like any identity
-  /// creation would.
-  Future<void> skip() async {
-    final confirmed = await showAdultGate(context);
-    if (!confirmed || !mounted) return;
-    complete();
-  }
+  /// site, so the shortcut leads onto the age confirmation page like
+  /// every other way to the login does.
+  void skip() => controller.jumpToPage(gatePage);
 
-  void next() => controller.nextPage(
-    duration: defaultAnimationDuration,
-    curve: Curves.ease,
-  );
+  void next() {
+    // The page's own buttons already hide the way forward; the pager
+    // repeats the requirement in depth.
+    if (page == gatePage && !adultConfirmed) return;
+    controller.nextPage(duration: defaultAnimationDuration, curve: Curves.ease);
+  }
 
   void back() => controller.previousPage(
     duration: defaultAnimationDuration,
     curve: Curves.ease,
   );
+
+  void confirmAge() {
+    setState(() => adultConfirmed = true);
+    next();
+  }
 
   @override
   void dispose() {
@@ -62,6 +71,7 @@ class _OnboardingPagerState extends State<_OnboardingPager> {
     final l10n = AppLocalizations.of(context);
     String host = context.watch<IdentityClient>().identity.host;
     bool isLast = page == pages - 1;
+    bool onGate = page == gatePage;
     return KeyboardDismisser(
       child: LimitedWidthLayout(
         child: Scaffold(
@@ -74,20 +84,29 @@ class _OnboardingPagerState extends State<_OnboardingPager> {
                       alignment: Alignment.centerRight,
                       child: Padding(
                         padding: const EdgeInsets.all(8),
-                        child: TextButton(
-                          onPressed: skip,
-                          child: Text(l10n.onboardingSkip),
-                        ),
+                        child: onGate || adultConfirmed
+                            ? null
+                            : TextButton(
+                                onPressed: skip,
+                                child: Text(l10n.onboardingSkip),
+                              ),
                       ),
                     ),
                     Expanded(
                       child: PageView(
                         controller: controller,
+                        // Until the age page has been confirmed the pager
+                        // only moves through its own buttons, so neither
+                        // a swipe nor a fling can slip past the gate.
+                        physics: adultConfirmed
+                            ? null
+                            : const NeverScrollableScrollPhysics(),
                         onPageChanged: (value) => setState(() => page = value),
                         children: [
                           const WelcomeLanguageStep(),
                           const ThemeStep(),
                           const QualityStep(),
+                          AdultGateStep(onConfirm: confirmAge, onDeny: back),
                           LoginStep(initialHost: host, onComplete: complete),
                         ],
                       ),
@@ -114,7 +133,7 @@ class _OnboardingPagerState extends State<_OnboardingPager> {
                             child: Text(l10n.onboardingBack),
                           ),
                         const Spacer(),
-                        if (!isLast)
+                        if (!isLast && !onGate)
                           ElevatedButton(
                             onPressed: next,
                             child: Text(l10n.onboardingNext),

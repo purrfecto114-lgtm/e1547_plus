@@ -180,9 +180,7 @@ void main() {
     expect(tester.takeException(), isNull);
   });
 
-  testWidgets('skipping confirms the age gate like a guest login', (
-    tester,
-  ) async {
+  testWidgets('skipping leads onto the age confirmation page', (tester) async {
     await tester.pumpWidget(wrap(const OnboardingScreen()));
     await tester.pumpAndSettle();
     final l10n = AppLocalizations.of(
@@ -190,24 +188,62 @@ void main() {
     );
 
     // The skip shortcut ends up browsing as a guest on an adults-only
-    // site, so it confirms the age gate like any identity creation.
+    // site, so it leads onto the age page like every other way to the
+    // login does.
     await tester.tap(find.text(l10n.onboardingSkip));
     await tester.pumpAndSettle();
     expect(find.text(l10n.adultGateTitle), findsOneWidget);
     expect(settings.onboardingSeen.value, isFalse);
 
-    // Denying keeps the onboarding open.
+    // Denying takes the user back a page; the only way past the gate is
+    // the confirmation.
     await tester.tap(find.text(l10n.adultGateDeny));
     await tester.pumpAndSettle();
     expect(find.text(l10n.adultGateTitle), findsNothing);
+    expect(find.text(l10n.onboardingSkip), findsOneWidget);
     expect(settings.onboardingSeen.value, isFalse);
 
-    // Confirming leaves the onboarding.
+    // Confirming opens the login step — still without leaving the
+    // onboarding, and without the form stacking its own dialog on top
+    // of the page the user just confirmed.
     await tester.tap(find.text(l10n.onboardingSkip));
     await tester.pumpAndSettle();
     await tester.tap(find.text(l10n.adultGateConfirm));
     await tester.pumpAndSettle();
-    expect(settings.onboardingSeen.value, isTrue);
+    expect(find.text(l10n.adultGateTitle), findsNothing);
+    expect(find.text(l10n.onboardingLoginTitle), findsOneWidget);
+    expect(find.text(l10n.identityGuest), findsOneWidget);
+    expect(settings.onboardingSeen.value, isFalse);
+  });
+
+  testWidgets('the login step stays behind the age page', (tester) async {
+    await tester.pumpWidget(wrap(const OnboardingScreen()));
+    await tester.pumpAndSettle();
+    final l10n = AppLocalizations.of(
+      tester.element(find.byType(OnboardingScreen)),
+    );
+
+    // Walk the pages to the age confirmation.
+    await tester.tap(find.text(l10n.onboardingNext));
+    await tester.pumpAndSettle();
+    await tester.tap(find.text(l10n.onboardingNext));
+    await tester.pumpAndSettle();
+    await tester.tap(find.text(l10n.onboardingNext));
+    await tester.pumpAndSettle();
+    expect(find.text(l10n.adultGateTitle), findsOneWidget);
+
+    // The pager offers no next button on the gate page, and a fling
+    // cannot carry the user past it either: the login step is only
+    // reachable through the confirmation.
+    expect(find.text(l10n.onboardingNext), findsNothing);
+    await tester.fling(find.byType(PageView), const Offset(-500, 0), 10000);
+    await tester.pumpAndSettle();
+    expect(find.text(l10n.onboardingLoginTitle), findsNothing);
+    expect(find.text(l10n.adultGateTitle), findsOneWidget);
+
+    await tester.tap(find.text(l10n.adultGateConfirm));
+    await tester.pumpAndSettle();
+    expect(find.text(l10n.onboardingLoginTitle), findsOneWidget);
   });
 
   testWidgets('the gate forces onboarding until it has been seen', (

@@ -434,7 +434,65 @@ class LoginStep extends StatelessWidget {
             textAlign: TextAlign.center,
           ),
           const SizedBox(height: 16),
-          AccountForm(initialHost: initialHost, onSubmitted: onComplete),
+          // The age page right before this step already confirmed the
+          // user, so the form must not stack its own dialog on top.
+          AccountForm(
+            initialHost: initialHost,
+            onSubmitted: onComplete,
+            confirmGate: false,
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+/// The age confirmation page the login step sits behind.
+///
+/// The whole onboarding routes through here before an identity can be
+/// created, so the confirmation happens once, on its own page, instead of
+/// a dialog stacked on top of the login form. Denying simply goes back;
+/// every way forward leads through the confirmation.
+class AdultGateStep extends StatelessWidget {
+  const AdultGateStep({
+    super.key,
+    required this.onConfirm,
+    required this.onDeny,
+  });
+
+  final VoidCallback onConfirm;
+  final VoidCallback onDeny;
+
+  @override
+  Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
+    return OnboardingScroll(
+      padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Text(
+            l10n.adultGateTitle,
+            style: Theme.of(context).textTheme.headlineSmall,
+            textAlign: TextAlign.center,
+          ),
+          const SizedBox(height: 16),
+          Text(l10n.adultGateBody, textAlign: TextAlign.center),
+          const SizedBox(height: 24),
+          // The buttons wrap instead of sharing a row: the confirmation
+          // label is long, and a narrow window must not overflow it.
+          Wrap(
+            alignment: WrapAlignment.center,
+            spacing: 16,
+            runSpacing: 12,
+            children: [
+              TextButton(onPressed: onDeny, child: Text(l10n.adultGateDeny)),
+              FilledButton(
+                onPressed: onConfirm,
+                child: Text(l10n.adultGateConfirm),
+              ),
+            ],
+          ),
         ],
       ),
     );
