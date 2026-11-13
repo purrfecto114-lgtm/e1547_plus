@@ -146,7 +146,11 @@ class _PostReportScreenState extends State<PostReportScreen> {
           ),
         );
       }
-      setState(() => isLoading = false);
+      // The awaits above may have popped this screen; the loading
+      // switch must not touch a defunct state.
+      if (mounted) {
+        setState(() => isLoading = false);
+      }
     }
   }
 

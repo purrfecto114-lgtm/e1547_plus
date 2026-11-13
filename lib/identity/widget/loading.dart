@@ -15,6 +15,7 @@ class LoginLoadingDialog extends StatefulWidget {
     required this.username,
     required this.apikey,
     this.activate = false,
+    this.verifier = checkCredentials,
     this.onError,
     this.onDone,
   });
@@ -24,6 +25,15 @@ class LoginLoadingDialog extends StatefulWidget {
   final String? username;
   final String? apikey;
   final bool activate;
+
+  /// Verifies the assembled credentials against the host before they are
+  /// stored. Injectable so tests can run the dialog without a network.
+  final Future<CredentialCheckResult> Function({
+    required String host,
+    Map<String, String>? headers,
+  })
+  verifier;
+
   final ValueSetter<String?>? onError;
   final VoidCallback? onDone;
 
@@ -68,6 +78,30 @@ class _LoginLoadingDialogState extends State<LoginLoadingDialog> {
       headers.remove(HttpHeaders.authorizationHeader);
     }
     try {
+      // Storing credentials the server rejects would show the account as
+      // logged in until a favorite, vote or sync exposes the failure, so
+      // a non-guest login is verified against its host first. Guests
+      // carry nothing to verify. A host that cannot be reached leaves
+      // the credentials unverified and the form open for a retry.
+      if (username != null && apikey != null) {
+        final CredentialCheckResult result = await widget.verifier(
+          host: host,
+          headers: headers,
+        );
+        if (!mounted) return;
+        switch (result) {
+          case CredentialCheckResult.ok:
+            break;
+          case CredentialCheckResult.rejected:
+            await navigator.maybePop();
+            widget.onError?.call(l10n.identityCredentialsRejected);
+            return;
+          case CredentialCheckResult.unavailable:
+            await navigator.maybePop();
+            widget.onError?.call(l10n.identityVerifyUnreachable);
+            return;
+        }
+      }
       if (identity != null) {
         await client.replace(
           identity.copyWith(host: host, username: username, headers: headers),

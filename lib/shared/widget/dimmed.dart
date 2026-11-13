@@ -2,12 +2,33 @@ import 'package:flutter/material.dart';
 
 double smallIconSize(BuildContext context) => 18;
 
-Color dimTextColor(BuildContext context, [double opacity = 0.35]) => Theme.of(
+/// The opacity of decorative dimming.
+///
+/// Used for content which only conveys secondary information, like
+/// dates, aliases or code block frames.
+const double dimmedOpacity = 0.35;
+
+/// The opacity of dimming for content which is still interactive.
+///
+/// Tappable controls, like the popup menu icon of a tile or a vote
+/// row, must stay recognizable as enabled, so they keep more contrast
+/// than decorative dimming.
+const double interactiveDimmedOpacity = 0.55;
+
+Color dimTextColor(
+  BuildContext context, [
+  double opacity = dimmedOpacity,
+]) => Theme.of(
   context,
 ).textTheme.bodyMedium!.color!.withAlpha((opacity * 255).ceil());
 
 class Dimmed extends StatelessWidget {
-  const Dimmed({super.key, required this.child, this.opacity = 0.35});
+  const Dimmed({super.key, required this.child, this.opacity = dimmedOpacity});
+
+  /// Dims a child which is still interactive, like a popup menu icon,
+  /// a vote row or a tappable name.
+  const Dimmed.interactive({super.key, required this.child})
+    : opacity = interactiveDimmedOpacity;
 
   final Widget child;
   final double opacity;

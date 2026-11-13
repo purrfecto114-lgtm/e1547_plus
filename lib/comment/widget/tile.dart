@@ -91,7 +91,7 @@ class CommentHeader extends StatelessWidget {
   Widget build(BuildContext context) {
     return Row(
       children: [
-        Dimmed(
+        Dimmed.interactive(
           child: InkWell(
             borderRadius: BorderRadius.circular(4),
             onTap: () => Navigator.of(context).push(
@@ -134,40 +134,46 @@ class CommentVotes extends StatelessWidget {
       mutation: client.comments.useVote(id: comment.id),
       builder: (context, state, mutate) {
         final bool enabled = client.hasLogin || state.isLoading;
-        return Dimmed(
+        return Dimmed.interactive(
           child: VoteDisplay(
             padding: EdgeInsets.zero,
             score: comment.score,
             vote: comment.vote,
             onUpvote: enabled
                 ? (isLiked) async {
-                    mutate((upvote: true, replace: !isLiked)).catchError((
-                      error,
-                    ) {
+                    // cached_query swallows failures into the returned state,
+                    // so the outcome has to be checked instead of caught.
+                    final state = await mutate((
+                      upvote: true,
+                      replace: !isLiked,
+                    ));
+                    if (state.isError) {
                       messenger.showSnackBar(
                         SnackBar(
                           duration: const Duration(seconds: 1),
                           content: Text(l10n.commentUpvoteFailed(comment.id)),
                         ),
                       );
-                      return error;
-                    });
+                      return isLiked;
+                    }
                     return !isLiked;
                   }
                 : null,
             onDownvote: enabled
                 ? (isLiked) async {
-                    mutate((upvote: false, replace: !isLiked)).catchError((
-                      error,
-                    ) {
+                    final state = await mutate((
+                      upvote: false,
+                      replace: !isLiked,
+                    ));
+                    if (state.isError) {
                       messenger.showSnackBar(
                         SnackBar(
                           duration: const Duration(seconds: 1),
                           content: Text(l10n.commentDownvoteFailed(comment.id)),
                         ),
                       );
-                      return error;
-                    });
+                      return isLiked;
+                    }
                     return !isLiked;
                   }
                 : null,
@@ -207,7 +213,7 @@ class CommentMenu extends StatelessWidget {
     final client = context.watch<Client>();
     final l10n = AppLocalizations.of(context);
     return PopupMenuButton<VoidCallback>(
-      icon: const Dimmed(child: Icon(Icons.more_vert)),
+      icon: const Dimmed.interactive(child: Icon(Icons.more_vert)),
       onSelected: (value) => value(),
       itemBuilder: (context) => [
         if (client.identity.username == comment.creatorName)

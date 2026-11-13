@@ -24,11 +24,21 @@ class _PostEditPageState extends State<PostEditPage> {
   late PostEdit _editData;
   bool _isLoading = false;
 
+  /// The rating the editor started out with, for the discard check.
+  late final Rating _initialRating;
+
+  /// The texts the editors started out with, for the discard check.
+  ///
+  /// Closing the page drops whatever the editors hold, so texts that no
+  /// longer equal these are confirmed before they are lost.
+  late final Map<TextEditingController, String> _initialTexts;
+
   @override
   void initState() {
     super.initState();
 
     _editData = PostEdit.fromPost(widget.post);
+    _initialRating = _editData.rating;
 
     _descriptionController = TextEditingController(text: _editData.description);
     _tagsController = TextEditingController(text: _editData.tags.join(' '));
@@ -41,6 +51,17 @@ class _PostEditPageState extends State<PostEditPage> {
     _editReasonController = TextEditingController(
       text: _editData.editReason ?? '',
     );
+
+    _initialTexts = {
+      for (final controller in [
+        _descriptionController,
+        _tagsController,
+        _sourcesController,
+        _parentIdController,
+        _editReasonController,
+      ])
+        controller: controller.text,
+    };
   }
 
   @override
@@ -57,6 +78,32 @@ class _PostEditPageState extends State<PostEditPage> {
     setState(() {
       _editData = _editData.copyWith(rating: rating);
     });
+  }
+
+  /// Whether the editors hold changes that closing the page would lose.
+  bool get _isDirty {
+    if (_editData.rating != _initialRating) {
+      return true;
+    }
+    return _initialTexts.entries.any((entry) => entry.key.text != entry.value);
+  }
+
+  /// Closes the editor page, confirming first when changes would be lost.
+  ///
+  /// The close button and the system back button both route through here.
+  /// A clean page closes right away.
+  Future<void> _close() async {
+    if (_isDirty) {
+      if (!await confirmDiscardText(context)) {
+        return;
+      }
+    }
+    if (!mounted) {
+      return;
+    }
+    // The pop goes straight to the navigator instead of through maybePop,
+    // which the pop scope above blocks while changes look pending.
+    Navigator.of(context).pop();
   }
 
   Future<void> _saveChanges() async {
@@ -187,22 +234,42 @@ class _PostEditPageState extends State<PostEditPage> {
 
   @override
   Widget build(BuildContext context) {
-    return PostVideoRoute(
-      post: widget.post,
-      child: KeyboardDismisser(
-        child: Scaffold(
-          extendBodyBehindAppBar: true,
-          appBar: TransparentAppBar(
-            child: AppBar(leading: const CloseButton()),
+    return ListenableBuilder(
+      // The pop scope has to follow the editors' dirty state, which only
+      // their controllers know about.
+      listenable: Listenable.merge([
+        _descriptionController,
+        _tagsController,
+        _sourcesController,
+        _parentIdController,
+        _editReasonController,
+      ]),
+      builder: (context, child) => PopScope(
+        canPop: !_isDirty,
+        onPopInvokedWithResult: (didPop, result) {
+          if (!didPop) {
+            _close();
+          }
+        },
+        child: child!,
+      ),
+      child: PostVideoRoute(
+        post: widget.post,
+        child: KeyboardDismisser(
+          child: Scaffold(
+            extendBodyBehindAppBar: true,
+            appBar: TransparentAppBar(
+              child: AppBar(leading: CloseButton(onPressed: _close)),
+            ),
+            floatingActionButtonLocation: Handedness.of(
+              context,
+            ).floatingActionButtonLocation,
+            floatingActionButton: FloatingActionButton(
+              onPressed: _isLoading ? null : _saveChanges,
+              child: const Icon(Icons.check),
+            ),
+            body: _buildLayout(context),
           ),
-          floatingActionButtonLocation: Handedness.of(
-            context,
-          ).floatingActionButtonLocation,
-          floatingActionButton: FloatingActionButton(
-            onPressed: _isLoading ? null : _saveChanges,
-            child: const Icon(Icons.check),
-          ),
-          body: _buildLayout(context),
         ),
       ),
     );

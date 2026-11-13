@@ -23,13 +23,25 @@ import 'package:flutter/foundation.dart';
 export 'package:dio/dio.dart' show CancelToken;
 
 class Client with Disposable {
-  Client({required this.identity, required this.traits, required this.storage})
-    : dio = createDefaultDio(identity, queryCache: storage.queryCache);
+  Client({
+    required this.identity,
+    required this.traits,
+    required this.storage,
+    bool ownsTraitsNotifier = false,
+  }) : _ownsTraitsNotifier = ownsTraitsNotifier,
+       dio = createDefaultDio(identity, queryCache: storage.queryCache);
 
   final Dio dio;
   final AppStorage storage;
   final Identity identity;
   final ValueNotifier<Traits> traits;
+
+  /// Whether [dispose] owns [traits].
+  ///
+  /// Factory-made clients hold the streamed traits notifier created for
+  /// them; disposing it cancels its database subscription. Clients built
+  /// directly (mostly tests) leave the notifier to their caller.
+  final bool _ownsTraitsNotifier;
 
   late final AccountClient accounts = AccountClient(
     dio: dio,
@@ -109,6 +121,9 @@ class Client with Disposable {
     ]) {
       Disposable.tryDispose(client);
     }
+    // The streamed notifier's subscription only ends with its dispose;
+    // owning it means every identity switch frees the previous one.
+    if (_ownsTraitsNotifier) traits.dispose();
     super.dispose();
   }
 }

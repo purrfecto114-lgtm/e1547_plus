@@ -202,6 +202,7 @@
       }
     }
   },
+  "databaseImportTooLarge": "Questo file è troppo grande per essere importato.",
   "databaseImportTitle": "Importa Database",
   "databaseRestartTitle": "Riavvio Richiesto",
   "databaseRestartBody": "L'applicazione deve riavviarsi per applicare le modifiche.",
@@ -1109,6 +1110,8 @@
   "@identityAnonymous": {
     "description": "Name shown for identities without a username."
   },
+  "identityCredentialsRejected": "Il sito ha rifiutato queste credenziali. Controlla nome utente e chiave API.",
+  "identityVerifyUnreachable": "Impossibile contattare il sito per verificare queste credenziali.",
   "identityDuplicate": "Hai già un identità con questo host e username.",
   "@identityDuplicate": {
     "description": "Error shown when adding a duplicate identity."
@@ -2375,6 +2378,10 @@
   "@followNotificationSummary": {
     "description": "Title of the summary notification for multiple follows."
   },
+  "followNotificationHiddenBody": "I tuoi tag seguiti hanno nuovi post.",
+  "followHideNotificationContent": "Nascondi il contenuto delle notifiche",
+  "followHideNotificationContentHint": "Titoli, anteprime e miniature delle notifiche vengono nascosti",
+  "notificationStaleIdentity": "Questa notifica appartiene a un account che non è più presente su questo dispositivo.",
   "followChannelName": "Tag seguiti",
   "@followChannelName": {
     "description": "Name of the follow notification channel shown in the system settings."

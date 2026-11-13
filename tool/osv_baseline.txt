@@ -1,0 +1,6 @@
+# Advisories the OSV scan accepts until the constraints around them
+# change. Both fixes require a fastlane major update:
+#   excon   0.112.0 -> 1.5.0   (fastlane pins excon >= 0.71, < 1.0)
+#   rubyzip 2.4.1  -> 3.4.0   (fastlane pins rubyzip >= 2.0, < 3.0)
+GHSA-48rx-c7pg-q66r
+GHSA-47m2-wp7j-p9vc

@@ -29,11 +29,12 @@ class AboutPage extends StatelessWidget {
       body: LimitedWidthLayout.builder(
         builder: (context) => PullToRefresh(
           onRefresh: () async {
-            await Future.wait([
-              ?versions?.invalidate(),
-              ?bundledDonors?.invalidate(),
-              ?donors?.invalidate(),
+            final results = await Future.wait([
+              ?versions?.revalidate(),
+              ?bundledDonors?.revalidate(),
+              ?donors?.revalidate(),
             ]);
+            return results.every((success) => success);
           },
           child: ListView(
             padding: LimitedWidthLayout.of(context).padding,

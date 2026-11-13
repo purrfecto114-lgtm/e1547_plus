@@ -75,7 +75,7 @@ class PoolGrid extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return PullToRefresh(
-      onRefresh: query.invalidate,
+      onRefresh: query.revalidate,
       child: PagedMasonryGridView<int, Pool>.count(
         primary: true,
         showNewPageProgressIndicatorAsGridChild: false,

@@ -425,6 +425,9 @@ class AppLocalizationsKo extends AppLocalizations {
   }
 
   @override
+  String get databaseImportTooLarge => '이 파일은 너무 커서 가져올 수 없습니다.';
+
+  @override
   String get databaseImportTitle => '데이터베이스 가져오기';
 
   @override
@@ -1324,6 +1327,13 @@ class AppLocalizationsKo extends AppLocalizations {
 
   @override
   String get identityAnonymous => '익명';
+
+  @override
+  String get identityCredentialsRejected =>
+      '사이트가 이 자격 증명을 거부했습니다. 사용자 이름과 API 키를 확인하세요.';
+
+  @override
+  String get identityVerifyUnreachable => '자격 증명을 확인하려는 사이트에 연결할 수 없습니다.';
 
   @override
   String get identityDuplicate => '이 호스트와 사용자 이름으로 이미 계정이 있습니다.';
@@ -2266,6 +2276,18 @@ class AppLocalizationsKo extends AppLocalizations {
   String get followNotificationSummary => '새 게시물!';
 
   @override
+  String get followNotificationHiddenBody => '팔로우 중인 태그에 새 게시물이 있습니다.';
+
+  @override
+  String get followHideNotificationContent => '알림 내용 숨기기';
+
+  @override
+  String get followHideNotificationContentHint => '알림의 제목, 미리보기, 썸네일을 숨깁니다';
+
+  @override
+  String get notificationStaleIdentity => '이 알림은 이 기기에 더 이상 없는 계정의 것입니다.';
+
+  @override
   String get followChannelName => '팔로우한 태그';
 
   @override
@@ -2364,4 +2386,30 @@ class AppLocalizationsKo extends AppLocalizations {
 
   @override
   String get actionUnlock => '잠금 해제';
+
+  @override
+  String get editorDiscardTitle => 'Discard changes?';
+
+  @override
+  String get editorDiscardBody => 'Your changes have not been submitted.';
+
+  @override
+  String get editorDiscardConfirm => 'Discard';
+
+  @override
+  String get editorContinueEditing => 'Continue editing';
+
+  @override
+  String postListGoingToPage(num page) {
+    return 'Going to page $page';
+  }
+
+  @override
+  String get actionRetry => 'Retry';
+
+  @override
+  String get selectionQueueDownloadsFailed => 'Failed to queue downloads';
+
+  @override
+  String get selectionQueueFavoritesFailed => 'Failed to queue favorites';
 }

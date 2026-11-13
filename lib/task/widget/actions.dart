@@ -21,11 +21,11 @@ List<Widget> taskBulkActions(
         tooltip: l10n.taskCancel,
         icon: const Icon(Icons.block),
         onPressed: () async {
-          for (final t in selected) {
-            if (t.status.isActive) {
-              await controller.cancel(t.id);
-            }
-          }
+          // one database write cancels the whole selection, instead of a
+          // write per selected task
+          await controller.cancelTasks(
+            selected.where((t) => t.status.isActive).map((t) => t.id),
+          );
           layoutData.clear();
         },
       ),
@@ -34,12 +34,15 @@ List<Widget> taskBulkActions(
         tooltip: l10n.lockRetry,
         icon: const Icon(Icons.refresh),
         onPressed: () async {
-          for (final t in selected) {
-            if (t.status == TaskStatus.failed ||
-                t.status == TaskStatus.canceled) {
-              await controller.retry(t.id);
-            }
-          }
+          await controller.retryTasks(
+            selected
+                .where(
+                  (t) =>
+                      t.status == TaskStatus.failed ||
+                      t.status == TaskStatus.canceled,
+                )
+                .map((t) => t.id),
+          );
           layoutData.clear();
         },
       ),
@@ -48,11 +51,9 @@ List<Widget> taskBulkActions(
         tooltip: l10n.taskDismiss,
         icon: const Icon(Icons.clear_all),
         onPressed: () async {
-          for (final t in selected) {
-            if (t.status.isTerminal) {
-              await controller.dismiss(t.id);
-            }
-          }
+          await controller.dismissTasks(
+            selected.where((t) => t.status.isTerminal).map((t) => t.id),
+          );
           layoutData.clear();
         },
       ),

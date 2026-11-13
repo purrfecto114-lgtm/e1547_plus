@@ -11,7 +11,7 @@ class TopicList extends StatelessWidget {
   @override
   Widget build(BuildContext context) => TopicPageQueryBuilder(
     builder: (context, state, query) => PullToRefresh(
-      onRefresh: query.invalidate,
+      onRefresh: query.revalidate,
       child: CustomScrollView(
         primary: true,
         slivers: [

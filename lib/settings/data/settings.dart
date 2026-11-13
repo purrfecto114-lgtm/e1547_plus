@@ -136,6 +136,32 @@ class Settings extends NotifiedSettings {
     key: 'filterUnseenFollows',
     initialValue: false,
   );
+
+  /// The storage key behind `Settings.hideNotificationContent`, so the
+  /// background follow task can read the preference without a Settings
+  /// instance.
+  static const String hideNotificationContentKey = 'hideNotificationContent';
+
+  /// Whether follow notifications hide their content.
+  ///
+  /// When enabled, notifications use a generic title and body, drop their
+  /// thumbnails and, on Android, are hidden from the lock screen. The
+  /// screen saver only covers the app window, so this is the only way to
+  /// keep followed tags off the system notification preview.
+  late final ValueNotifier<bool> hideNotificationContent = createSetting<bool>(
+    key: hideNotificationContentKey,
+    initialValue: false,
+  );
+
+  /// Whether the user declined the notification permission.
+  ///
+  /// A declined request is remembered across restarts, so a cold start
+  /// does not ask for the permission again. Any later grant — through
+  /// the prompt or the system settings — clears the flag.
+  late final ValueNotifier<bool> deniedNotifications = createSetting<bool>(
+    key: 'deniedNotifications',
+    initialValue: false,
+  );
   late final ValueNotifier<bool> showPostInfo = createSetting<bool>(
     key: 'showPostInfo',
     initialValue: false,
@@ -244,5 +270,21 @@ VideoResolution _defaultVideoResolution() {
       return VideoResolution.medium;
     default:
       return VideoResolution.high;
+  }
+}
+
+/// Reads the hide-notification-content preference from raw storage.
+///
+/// Mirrors [Settings.hideNotificationContent] for contexts without a
+/// Settings instance, like the background follow task. Missing or
+/// unreadable storage hides nothing.
+Future<bool> readHideNotificationContentPreference() async {
+  try {
+    return (await SharedPreferences.getInstance()).getBool(
+          Settings.hideNotificationContentKey,
+        ) ??
+        false;
+  } on Exception {
+    return false;
   }
 }

@@ -73,6 +73,38 @@ void main() {
 
       expect(changed, 0);
     });
+
+    test('strips legacy top-level cookie names', () async {
+      // Older capture logic stored cookies as top-level headers.
+      // A keyword blocklist misses these names, so the exporter
+      // must use an explicit allowlist instead.
+      await addIdentity('e621.net', 'tester', {
+        'cf_clearance': 'legacy-challenge-token',
+        '__cf_bm': 'legacy-bm-token',
+        '__cfduid': 'legacy-duid-token',
+        'authorization': 'Basic secret',
+        'user-agent': 'e1547/1.0',
+      });
+
+      final changed = await repository.removeCredentials();
+
+      expect(changed, 1);
+      final identity = (await repository.all()).single;
+      expect(identity.headers, {'user-agent': 'e1547/1.0'});
+    });
+
+    test('drops unknown header names by default', () async {
+      await addIdentity('e621.net', 'tester', {
+        'x-custom-session': 'a',
+        'x-future-header': 'b',
+        'accept-language': 'en',
+      });
+
+      await repository.removeCredentials();
+
+      final identity = (await repository.all()).single;
+      expect(identity.headers, {'accept-language': 'en'});
+    });
   });
 
   group('IdentityRepository.hosts', () {

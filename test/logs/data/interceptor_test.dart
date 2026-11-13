@@ -2,6 +2,39 @@ import 'package:e1547/logs/logs.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {
+  group('LoggingDioInterceptor.describePath', () {
+    test('keeps ordinary query parameters intact', () {
+      final Uri uri = Uri.parse('https://e621.net/posts.json?limit=75&page=2');
+      expect(
+        LoggingDioInterceptor.describePath(uri),
+        '/posts.json?limit=75&page=2',
+      );
+    });
+
+    test('redacts secret-named query parameters', () {
+      final Uri uri = Uri.parse(
+        'https://e621.net/session.json?login=user&api_key=hunter2',
+      );
+      expect(
+        LoggingDioInterceptor.describePath(uri),
+        '/session.json?login=[redacted]&api_key=[redacted]',
+      );
+    });
+
+    test('redacts secrets even when decoded values contain spaces', () {
+      // Decoded tag queries contain spaces, which break the string-level
+      // redactor's no-space URL regex downstream. The path description
+      // must therefore already be safe at the source.
+      final Uri uri = Uri.parse(
+        'https://e621.net/posts.json?tags=big%20cat&api_key=hunter2',
+      );
+      expect(
+        LoggingDioInterceptor.describePath(uri),
+        '/posts.json?tags=big cat&api_key=[redacted]',
+      );
+    });
+  });
+
   group('LoggingDioInterceptor.describeReason', () {
     test('reads the reason an error response gives', () {
       expect(

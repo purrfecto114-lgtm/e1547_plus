@@ -110,44 +110,54 @@ class FavoriteButton extends StatelessWidget {
       builder: (context, state, mutate) {
         return InkResponse(
           onTap: state.isLoading ? null : () {},
-          child: LikeButton(
-            isLiked: post.isFavorited,
-            circleColor: const CircleColor(start: Colors.pink, end: Colors.red),
-            bubblesColor: const BubblesColor(
-              dotPrimaryColor: Colors.pink,
-              dotSecondaryColor: Colors.red,
-            ),
-            likeBuilder: (isLiked) => Icon(
-              Icons.favorite,
-              color: isLiked ? Colors.pinkAccent : IconTheme.of(context).color,
-            ),
-            onTap: (isLiked) async {
-              try {
-                await mutate(post.id);
-                if (!isLiked && settings.upvoteFavs.value) {
-                  try {
-                    await client.posts.useVote(id: post.id).mutate((
-                      upvote: true,
-                      replace: true,
-                    ));
-                  } on Exception {
-                    // upvote is best-effort once the favorite succeeded
-                  }
-                }
-              } on Exception {
-                messenger.showSnackBar(
-                  SnackBar(
-                    duration: const Duration(seconds: 1),
-                    content: Text(
-                      isLiked
-                          ? l10n.postRemoveFavoriteFailed(post.id)
-                          : l10n.postAddFavoriteFailed(post.id),
+          child: Tooltip(
+            // Reuses the task action names, which match the action of
+            // this button, since no dedicated tooltip key exists.
+            message: post.isFavorited
+                ? l10n.taskActionUnfavorite
+                : l10n.taskActionFavorite,
+            child: LikeButton(
+              isLiked: post.isFavorited,
+              circleColor: const CircleColor(
+                start: Colors.pink,
+                end: Colors.red,
+              ),
+              bubblesColor: const BubblesColor(
+                dotPrimaryColor: Colors.pink,
+                dotSecondaryColor: Colors.red,
+              ),
+              likeBuilder: (isLiked) => Icon(
+                Icons.favorite,
+                color: isLiked ? Colors.pinkAccent : IconTheme.of(context).color,
+              ),
+              onTap: (isLiked) async {
+                // cached_query swallows failures into the returned state,
+                // so the outcome has to be checked instead of caught.
+                final state = await mutate(post.id);
+                if (state.isError) {
+                  messenger.showSnackBar(
+                    SnackBar(
+                      duration: const Duration(seconds: 1),
+                      content: Text(
+                        isLiked
+                            ? l10n.postRemoveFavoriteFailed(post.id)
+                            : l10n.postAddFavoriteFailed(post.id),
+                      ),
                     ),
-                  ),
-                );
-              }
-              return !isLiked;
-            },
+                  );
+                  return isLiked;
+                }
+                if (!isLiked && settings.upvoteFavs.value) {
+                  // upvote is best-effort once the favorite succeeded, its
+                  // failure stays silent by design
+                  await client.posts.useVote(id: post.id).mutate((
+                    upvote: true,
+                    replace: true,
+                  ));
+                }
+                return !isLiked;
+              },
+            ),
           ),
         );
       },

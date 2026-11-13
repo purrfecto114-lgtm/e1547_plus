@@ -1,22 +1,45 @@
+import 'dart:math';
+
 import 'package:e1547/l10n/app_localizations.dart';
 import 'package:e1547/post/post.dart';
 import 'package:e1547/query/query.dart';
 import 'package:e1547/shared/shared.dart';
 import 'package:flutter/material.dart';
 
+/// The resolved paged state of a posts search.
+typedef PostPageState = InfiniteQueryStatus<List<Post>, Object>;
+
+/// The id query backing a [PostPageState].
+typedef PostPageQuery = InfiniteQuery<List<Object>, Object>;
+
 class PostList extends StatelessWidget {
-  const PostList({super.key, this.displayType});
+  const PostList({super.key, this.displayType, this.state, this.query});
 
   final PostDisplayType? displayType;
 
+  /// A prebuilt resolved paged state of the posts to show.
+  ///
+  /// When this and [query] are given, they are used directly, so the route
+  /// shares a single set of query subscriptions instead of every layer
+  /// resolving its own; otherwise this widget builds its own
+  /// [PostPageQueryBuilder]. Both must be passed together.
+  final PostPageState? state;
+
+  /// The query backing [state].
+  final PostPageQuery? query;
+
   @override
-  Widget build(BuildContext context) => PostPageQueryBuilder(
-    builder: (context, state, query) {
+  Widget build(BuildContext context) {
+    Widget buildList(
+      BuildContext context,
+      PostPageState state,
+      PostPageQuery query,
+    ) {
       // The scroll view shadows the primary scroll controller from the
       // footer inside it, so it is handed in from out here.
       final scrollController = PrimaryScrollController.of(context);
       return PullToRefresh(
-        onRefresh: query.invalidate,
+        onRefresh: query.revalidate,
         child: CustomScrollView(
           primary: true,
           slivers: [
@@ -28,7 +51,11 @@ class PostList extends StatelessWidget {
               ),
             SliverPadding(
               padding: defaultListPadding,
-              sliver: SliverPostList(displayType: displayType),
+              sliver: SliverPostList(
+                displayType: displayType,
+                state: state,
+                query: query,
+              ),
             ),
             // The footer carries the bottom clearance of the list, so the
             // posts end flush above it.
@@ -47,18 +74,41 @@ class PostList extends StatelessWidget {
           ],
         ),
       );
-    },
-  );
+    }
+
+    final PostPageState? state = this.state;
+    final PostPageQuery? query = this.query;
+    if (state != null && query != null) {
+      return buildList(context, state, query);
+    }
+    return PostPageQueryBuilder(
+      builder: (context, state, query) => buildList(context, state, query),
+    );
+  }
 }
 
 class SliverPostList extends StatelessWidget {
-  const SliverPostList({super.key, this.displayType});
+  const SliverPostList({super.key, this.displayType, this.state, this.query});
 
   final PostDisplayType? displayType;
 
+  /// A prebuilt resolved paged state of the posts to show.
+  ///
+  /// When this and [query] are given, they are used directly; otherwise
+  /// this widget builds its own [PostPageQueryBuilder]. Both must be
+  /// passed together.
+  final PostPageState? state;
+
+  /// The query backing [state].
+  final PostPageQuery? query;
+
   @override
-  Widget build(BuildContext context) => PostPageQueryBuilder(
-    builder: (context, state, query) => switch (displayType ??
+  Widget build(BuildContext context) {
+    Widget buildSliver(
+      BuildContext context,
+      PostPageState state,
+      PostPageQuery query,
+    ) => switch (displayType ??
         context.watch<PostDisplayController?>()?.value ??
         PostDisplayType.grid) {
       PostDisplayType.grid => PostGridSliver(
@@ -73,8 +123,17 @@ class SliverPostList extends StatelessWidget {
         state: state.paging,
         fetchNextPage: query.getNextPage,
       ),
-    },
-  );
+    };
+
+    final PostPageState? state = this.state;
+    final PostPageQuery? query = this.query;
+    if (state != null && query != null) {
+      return buildSliver(context, state, query);
+    }
+    return PostPageQueryBuilder(
+      builder: (context, state, query) => buildSliver(context, state, query),
+    );
+  }
 }
 
 class PostGridSliver extends StatelessWidget {
@@ -104,7 +163,17 @@ class PostGridSliver extends StatelessWidget {
     );
 
     Widget itemBuilder(context, item, index) => ImageCacheSizeProvider(
-      size: TileLayout.of(context).tileSize * 2,
+      // Grid tiles decode their images at twice the tile size, which
+      // only stays sharp on high density screens when the cap also
+      // scales with the device pixel ratio. The upper bound keeps very
+      // dense screens from decoding thumbnails like fullscreen images.
+      size: min(
+        (TileLayout.of(context).tileSize *
+                2 *
+                MediaQuery.devicePixelRatioOf(context))
+            .round(),
+        1080,
+      ),
       child: PostTile(post: item),
     );
 

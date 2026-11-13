@@ -57,8 +57,11 @@ class HistoryServer with Disposable {
     if (!(traits.value.writeHistory ?? true)) return;
 
     await repository.transaction(() async {
-      // TODO: replace this with a Provider above an Area that caches history in memory in the UI
-      if (await repository.isDuplicate(request)) return;
+      // The dedup window is per identity: another account's visit of the
+      // same link must not swallow this one's history entry.
+      if (await repository.isDuplicate(request, identity: identity.id)) {
+        return;
+      }
       await repository.add(request, identity.id);
     });
 

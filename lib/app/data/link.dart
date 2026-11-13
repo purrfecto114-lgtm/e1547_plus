@@ -284,3 +284,55 @@ extension LinkOnTapExtension on LinkParser {
     return false;
   }
 }
+
+/// Deduplicates links that arrive through more than one entry point.
+///
+/// On Android, the first `uriLinkStream` subscription re-emits the link
+/// that `getInitialLink` also reports, so a cold start link would be
+/// handled twice — once per entry point — without this. A link handled
+/// within [window] of a previous handling counts as the same event;
+/// taps that arrive later are new intents and pass again.
+///
+/// Handling is a reservation protocol: [check] reserves a link for its
+/// caller, [consume] commits the reservation once the link was acted
+/// on, and [release] rolls it back when acting on it failed. A pending
+/// reservation suppresses the same link like a consumed one, which is
+/// what collapses concurrent duplicate deliveries into one handling.
+class LinkDeduplicator {
+  LinkDeduplicator({
+    this.window = const Duration(seconds: 10),
+    DateTime Function()? clock,
+  }) : _clock = clock ?? DateTime.now;
+
+  /// How long an handled link keeps suppressing the same link.
+  final Duration window;
+
+  final DateTime Function() _clock;
+  final List<(String link, DateTime at)> _recent = [];
+
+  /// Whether [url] has not been handled within the window; reserves it
+  /// when true.
+  bool check(Uri url) {
+    final now = _clock();
+    _recent.removeWhere((entry) => now.difference(entry.$2) > window);
+    final link = url.toString();
+    if (_recent.any((entry) => entry.$1 == link)) return false;
+    _recent.add((link, now));
+    return true;
+  }
+
+  /// Commits the handling of a reserved [url], restarting its window
+  /// from the moment the link was acted on.
+  void consume(Uri url) {
+    release(url);
+    _recent.add((url.toString(), _clock()));
+  }
+
+  /// Rolls back the reservation of a [url] that was never acted on.
+  ///
+  /// A dispatch that fails before opening the link must not suppress
+  /// later deliveries of it for the rest of the window.
+  void release(Uri url) {
+    _recent.removeWhere((entry) => entry.$1 == url.toString());
+  }
+}

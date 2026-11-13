@@ -20,6 +20,11 @@ class FollowTile extends StatelessWidget {
     final client = context.watch<Client>();
     PromptActionController? promptController = PromptActions.maybeOf(context);
     bool active = follow.latest != null && follow.thumbnail != null;
+    // Thumbnails render inside a grid tile, so their decode is capped
+    // like the one of post grid tiles (tileSize * 2): a thumbnail which
+    // is actually a sample or original must never decode at full size
+    // just to be cover-fitted back into a small cell.
+    final int tileSize = TileLayout.maybeOf(context)?.tileSize ?? 300;
 
     void editTitle() {
       promptController!.show(
@@ -68,7 +73,7 @@ class FollowTile extends StatelessWidget {
       final l10n = AppLocalizations.of(context);
 
       return PopupMenuButton<VoidCallback>(
-        icon: const Dimmed(child: Icon(Icons.more_vert)),
+        icon: const Dimmed.interactive(child: Icon(Icons.more_vert)),
         onSelected: (value) => value(),
         itemBuilder: (context) => [
           if ((follow.unseen ?? 0) > 0)
@@ -151,6 +156,10 @@ class FollowTile extends StatelessWidget {
                               errorWidget: defaultErrorBuilder,
                               fit: BoxFit.cover,
                               cacheManager: context.read<BaseCacheManager>(),
+                              // The tile cell is 1:1.2, so height gets 1.2
+                              // times the width cap.
+                              memCacheWidth: tileSize * 2,
+                              memCacheHeight: (tileSize * 2.4).round(),
                             ),
                           ),
                         ),

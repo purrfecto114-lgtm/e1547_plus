@@ -11,16 +11,20 @@ void main() {
   late AppDatabase sqlite;
   late DriftFileCacheStorage repository;
 
-  CacheObject object(String key, {DateTime? touched, String? path}) =>
-      CacheObject(
-        'https://example.test/data/$key.jpg',
-        key: key,
-        relativePath: path ?? '$key.jpg',
-        validTill: DateTime(2030),
-        eTag: '"$key"',
-        length: 1024,
-        touched: touched,
-      );
+  CacheObject object(
+    String key, {
+    DateTime? touched,
+    String? path,
+    int? length = 1024,
+  }) => CacheObject(
+    'https://example.test/data/$key.jpg',
+    key: key,
+    relativePath: path ?? '$key.jpg',
+    validTill: DateTime(2030),
+    eTag: '"$key"',
+    length: length,
+    touched: touched,
+  );
 
   setUp(() async {
     sqlite = AppDatabase(NativeDatabase.memory());
@@ -91,6 +95,60 @@ void main() {
       final over = await repository.getObjectsOverCapacity(2);
       expect(over.map((e) => e.key), ['old']);
     });
+
+    test('over a byte budget gives up the least recently touched', () async {
+      final budgeted = DriftFileCacheStorage(
+        repository: FileCacheRepository(database: sqlite),
+        cache: fileCacheKey,
+        // Two objects of 1024 bytes fit; the third does not.
+        maxBytes: 2048,
+        flushDelay: const Duration(milliseconds: 10),
+      );
+      await budgeted.open();
+      addTearDown(budgeted.close);
+
+      var when = DateTime(2021);
+      for (final key in ['old', 'middle', 'new']) {
+        await budgeted.insert(
+          object(key, touched: when),
+          setTouchedToNow: false,
+        );
+        when = when.add(const Duration(days: 1));
+      }
+
+      // The count budget alone is fine here; the byte budget trims the
+      // least recently touched entry.
+      final over = await budgeted.getObjectsOverCapacity(100);
+      expect(over.map((e) => e.key), ['old']);
+    });
+
+    test(
+      'entries without a length do not count against the byte budget',
+      () async {
+        final budgeted = DriftFileCacheStorage(
+          repository: FileCacheRepository(database: sqlite),
+          cache: fileCacheKey,
+          maxBytes: 4096,
+          flushDelay: const Duration(milliseconds: 10),
+        );
+        await budgeted.open();
+        addTearDown(budgeted.close);
+
+        var when = DateTime(2021);
+        for (final key in ['unknown', 'sized']) {
+          // copyWith treats null as "keep", so an unknown length has to
+          // come from the constructor.
+          final entry = key == 'unknown'
+              ? object(key, touched: when, length: null)
+              : object(key, touched: when);
+          await budgeted.insert(entry, setTouchedToNow: false);
+          when = when.add(const Duration(days: 1));
+        }
+
+        final over = await budgeted.getObjectsOverCapacity(100);
+        expect(over, isEmpty);
+      },
+    );
 
     test('old objects are the ones nothing touched', () async {
       await repository.insert(

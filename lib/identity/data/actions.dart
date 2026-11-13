@@ -1,4 +1,6 @@
 import 'dart:convert';
+
+import 'package:dio/dio.dart';
 import 'package:e1547/identity/identity.dart';
 
 String encodeBasicAuth(String username, String password) =>
@@ -21,21 +23,22 @@ String encodeBasicAuth(String username, String password) =>
   );
 }
 
-/// Mirrors LogRedactor.defaultSecrets in lib/logs/data/redact.dart.
-bool isSecretHeader(String name) {
-  final normalized = name.toLowerCase().replaceAll(RegExp(r'[-_\s]'), '');
-  return const [
-    'auth',
-    'cookie',
-    'credential',
-    'key',
-    'login',
-    'password',
-    'secret',
-    'session',
-    'token',
-  ].any(normalized.contains);
-}
+/// Headers an identity may keep through database export/import.
+///
+/// Historically, cookie capture stored cookies as top-level headers
+/// (e.g. `cf_clearance`, `__cf_bm`), which a keyword blocklist misses.
+/// An explicit allowlist treats every unknown header name as a
+/// credential, so legacy and future secret-bearing names are
+/// stripped by default.
+const Set<String> exportableHeaderAllowlist = {
+  'accept',
+  'accept-language',
+  'user-agent',
+};
+
+/// Whether [name] may travel through database export/import.
+bool isExportableHeader(String name) =>
+    exportableHeaderAllowlist.contains(name.toLowerCase());
 
 /// Returns a new URL which is guaranteed to
 /// - have a scheme (defaults to https)
@@ -87,4 +90,62 @@ extension HostedUrlsExtenstion on Identity {
 
 extension IdentityUsernaming on Identity {
   String get usernameOrAnon => username ?? 'Anonymous';
+}
+
+/// The outcome of a lightweight credential verification.
+enum CredentialCheckResult {
+  /// The server accepted the credentials.
+  ok,
+
+  /// The server rejected the credentials (401/403).
+  rejected,
+
+  /// The credentials could not be verified: network failure, timeout or
+  /// a server error.
+  unavailable,
+}
+
+/// Verifies [headers] against [host] before they are stored.
+///
+/// A login must not report success on credentials the server rejects:
+/// the identity would show as logged in until a favorite, vote or sync
+/// exposes the failure. A HEAD request to the site's status endpoint
+/// carries the assembled headers; a 2xx proves the credentials, a 401
+/// or 403 disproves them, and anything else leaves them unverified.
+///
+/// Pass [dio] to reuse an existing client; the default one is created
+/// with login-appropriate timeouts and closed afterwards.
+Future<CredentialCheckResult> checkCredentials({
+  required String host,
+  Map<String, String>? headers,
+  Dio? dio,
+}) async {
+  final Dio client =
+      dio ??
+      Dio(
+        BaseOptions(
+          connectTimeout: const Duration(seconds: 15),
+          receiveTimeout: const Duration(seconds: 15),
+        ),
+      );
+  try {
+    final Response<void> response = await client.head(
+      '${normalizeHostUrl(host)}/status.json',
+      options: Options(
+        headers: headers,
+        // A 4xx is the answer being probed for, not a transport failure.
+        validateStatus: (status) => status != null,
+        followRedirects: false,
+      ),
+    );
+    if (response.statusCode! < 300) return CredentialCheckResult.ok;
+    if (response.statusCode == 401 || response.statusCode == 403) {
+      return CredentialCheckResult.rejected;
+    }
+    return CredentialCheckResult.unavailable;
+  } on DioException {
+    return CredentialCheckResult.unavailable;
+  } finally {
+    if (dio == null) client.close();
+  }
 }

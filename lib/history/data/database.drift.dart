@@ -56,16 +56,7 @@ final class $$HistoriesTableTableReferences
         ).resultSet<i2.$HistoriesIdentitiesTableTable>(
           'histories_identities_table',
         ),
-        aliasName: i0.$_aliasNameGenerator(
-          i3.ReadDatabaseContainer(
-            db,
-          ).resultSet<i2.$HistoriesTableTable>('histories_table').id,
-          i3.ReadDatabaseContainer(db)
-              .resultSet<i2.$HistoriesIdentitiesTableTable>(
-                'histories_identities_table',
-              )
-              .history,
-        ),
+        aliasName: 'histories_table__id__histories_identities_table__history',
       );
 
   i2.$$HistoriesIdentitiesTableTableProcessedTableManager
@@ -463,16 +454,7 @@ final class $$HistoriesIdentitiesTableTableReferences
       i3.ReadDatabaseContainer(db)
           .resultSet<i4.$IdentitiesTableTable>('identities_table')
           .createAlias(
-            i0.$_aliasNameGenerator(
-              i3.ReadDatabaseContainer(db)
-                  .resultSet<i2.$HistoriesIdentitiesTableTable>(
-                    'histories_identities_table',
-                  )
-                  .identity,
-              i3.ReadDatabaseContainer(
-                db,
-              ).resultSet<i4.$IdentitiesTableTable>('identities_table').id,
-            ),
+            'histories_identities_table__identity__identities_table__id',
           );
 
   i4.$$IdentitiesTableTableProcessedTableManager get identity {
@@ -497,16 +479,7 @@ final class $$HistoriesIdentitiesTableTableReferences
       i3.ReadDatabaseContainer(db)
           .resultSet<i2.$HistoriesTableTable>('histories_table')
           .createAlias(
-            i0.$_aliasNameGenerator(
-              i3.ReadDatabaseContainer(db)
-                  .resultSet<i2.$HistoriesIdentitiesTableTable>(
-                    'histories_identities_table',
-                  )
-                  .history,
-              i3.ReadDatabaseContainer(
-                db,
-              ).resultSet<i2.$HistoriesTableTable>('histories_table').id,
-            ),
+            'histories_identities_table__history__histories_table__id',
           );
 
   i2.$$HistoriesTableTableProcessedTableManager get history {
@@ -1492,3 +1465,8 @@ class HistoryIdentityCompanion extends i0.UpdateCompanion<i2.HistoryIdentity> {
         .toString();
   }
 }
+
+i0.Index get idxHistoryVisitedAt => i0.Index(
+  'idx_history_visited_at',
+  'CREATE INDEX idx_history_visited_at ON histories_table (visited_at)',
+);

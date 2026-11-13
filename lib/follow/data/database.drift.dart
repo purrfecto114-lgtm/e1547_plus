@@ -51,16 +51,7 @@ final class $$FollowsTableTableReferences
         i3.ReadDatabaseContainer(db).resultSet<i2.$FollowsIdentitiesTableTable>(
           'follows_identities_table',
         ),
-        aliasName: i0.$_aliasNameGenerator(
-          i3.ReadDatabaseContainer(
-            db,
-          ).resultSet<i2.$FollowsTableTable>('follows_table').id,
-          i3.ReadDatabaseContainer(db)
-              .resultSet<i2.$FollowsIdentitiesTableTable>(
-                'follows_identities_table',
-              )
-              .follow,
-        ),
+        aliasName: 'follows_table__id__follows_identities_table__follow',
       );
 
   i2.$$FollowsIdentitiesTableTableProcessedTableManager
@@ -465,16 +456,7 @@ final class $$FollowsIdentitiesTableTableReferences
       i3.ReadDatabaseContainer(db)
           .resultSet<i4.$IdentitiesTableTable>('identities_table')
           .createAlias(
-            i0.$_aliasNameGenerator(
-              i3.ReadDatabaseContainer(db)
-                  .resultSet<i2.$FollowsIdentitiesTableTable>(
-                    'follows_identities_table',
-                  )
-                  .identity,
-              i3.ReadDatabaseContainer(
-                db,
-              ).resultSet<i4.$IdentitiesTableTable>('identities_table').id,
-            ),
+            'follows_identities_table__identity__identities_table__id',
           );
 
   i4.$$IdentitiesTableTableProcessedTableManager get identity {
@@ -498,18 +480,7 @@ final class $$FollowsIdentitiesTableTableReferences
   static i2.$FollowsTableTable _followTable(i0.GeneratedDatabase db) =>
       i3.ReadDatabaseContainer(db)
           .resultSet<i2.$FollowsTableTable>('follows_table')
-          .createAlias(
-            i0.$_aliasNameGenerator(
-              i3.ReadDatabaseContainer(db)
-                  .resultSet<i2.$FollowsIdentitiesTableTable>(
-                    'follows_identities_table',
-                  )
-                  .follow,
-              i3.ReadDatabaseContainer(
-                db,
-              ).resultSet<i2.$FollowsTableTable>('follows_table').id,
-            ),
-          );
+          .createAlias('follows_identities_table__follow__follows_table__id');
 
   i2.$$FollowsTableTableProcessedTableManager get follow {
     final $_column = $_itemColumn<int>('follow')!;

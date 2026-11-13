@@ -24,6 +24,13 @@ class AvailabilityCheck extends StatefulWidget {
 class _AvailabilityCheckState extends State<AvailabilityCheck> {
   final Logger logger = Logger('ClientAvailability');
 
+  /// Whether the resolver page was already offered for this client.
+  ///
+  /// The connector keys this widget by its client, so one state
+  /// checks one client; the flag keeps a repeated check from
+  /// stacking a second resolver page on top of the first.
+  bool _offeredResolver = false;
+
   @override
   void initState() {
     super.initState();
@@ -77,6 +84,11 @@ class _AvailabilityCheckState extends State<AvailabilityCheck> {
     }
 
     if (offerResolve case final bool offerResolve) {
+      // The check awaited the network; its state may have been
+      // replaced by a client switch in the meantime, and a replaced
+      // client must not push its resolver page anymore.
+      if (!mounted || _offeredResolver) return;
+      _offeredResolver = true;
       widget.navigatorKey.currentState?.push(
         MaterialPageRoute(
           builder: (context) => HostUnavailablePage(offerResolve: offerResolve),

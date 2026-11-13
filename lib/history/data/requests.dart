@@ -21,7 +21,7 @@ abstract final class PostHistoryRequest {
     link: post.link,
     category: HistoryCategory.items,
     type: HistoryType.posts,
-    subtitle: post.description.nullWhenEmpty,
+    subtitle: post.description.truncateHistorySubtitle().nullWhenEmpty,
     thumbnails: getPostHistoryThumbnails([post]),
   );
 
@@ -43,7 +43,7 @@ abstract final class PoolHistoryRequest {
         category: HistoryCategory.items,
         type: HistoryType.pools,
         title: pool.name,
-        subtitle: pool.description.nullWhenEmpty,
+        subtitle: pool.description.truncateHistorySubtitle().nullWhenEmpty,
         thumbnails: getPostHistoryThumbnails(posts),
       );
 
@@ -85,7 +85,7 @@ abstract final class TopicHistoryRequest {
         category: HistoryCategory.items,
         type: HistoryType.topics,
         title: topic.title,
-        subtitle: replies?.first.body,
+        subtitle: replies?.first.body.truncateHistorySubtitle(),
       );
 
   static HistoryRequest search({
@@ -121,7 +121,7 @@ abstract final class WikiHistoryRequest {
     link: '/wiki_pages/${wiki.title}',
     category: HistoryCategory.items,
     type: HistoryType.wikis,
-    subtitle: wiki.body.nullWhenEmpty,
+    subtitle: wiki.body.truncateHistorySubtitle().nullWhenEmpty,
   );
 
   static HistoryRequest search({required QueryMap query, List<Wiki>? wikis}) =>

@@ -56,7 +56,7 @@ class FakeTransfer {
   final Completer<void> aborted = Completer<void>();
 
   DownloadFileFetcher get fetcher => (url, token, onProgress) async {
-    onProgress?.call(0.3);
+    onProgress?.call(30, 100);
     started.complete();
     await token.whenCancel;
     if (!aborted.isCompleted) aborted.complete();
@@ -205,7 +205,7 @@ void main() {
 
     final instance = controller(
       fileFetcher: (url, token, onProgress) async {
-        onProgress?.call(0.5);
+        onProgress?.call(50, 100);
         // the transfer completes even though the task was canceled, as can
         // happen when the cancellation races a finished download
         await gate.future;
@@ -237,18 +237,25 @@ void main() {
     final disposed = Completer<void>();
     final instance = controller(
       fileFetcher: (url, token, onProgress) async {
-        onProgress?.call(0.3);
+        onProgress?.call(30, 100);
         started.complete();
         await disposed.future;
         // the notifier is gone by now; a late report must be ignored
         // instead of failing the task
-        onProgress?.call(0.7);
+        onProgress?.call(70, 100);
         return fetchableFile('${Directory.systemTemp.path}/late-progress.bin');
       },
     );
 
     final task = await instance.enqueue(downloadRequest('late-progress.webm'));
     await started.future;
+
+    // the first report arrived while the task was still running; its byte
+    // counters must reflect the raw transfer numbers
+    final ValueListenable<TaskDownloadProgress>? progress =
+        instance.progressOf(task.id);
+    expect(progress?.value.transferred, 30);
+    expect(progress?.value.total, 100);
 
     instance.dispose();
     disposed.complete();
@@ -295,15 +302,102 @@ void main() {
 
     await instance.cancel(task.id);
     exportResumed.complete();
+    // the exporter has to finish its copy before the controller can clean
+    // up after the raced cancellation, and a loaded runner needs more
+    // event queue turns and real time than a fixed count of either
+    for (int i = 0; i < 200; i++) {
+      await pumpEventQueue();
+      await Future<void>.delayed(const Duration(milliseconds: 5));
+    }
+    // the file raced its cancellation into the gallery; it must not stay
+    expect(
+      File('${dir.path}/export-race.webm').existsSync(),
+      isFalse,
+      reason: 'the raced export stayed in the gallery',
+    );
+    expect(await repository.readStatus(task.id), TaskStatus.canceled);
+
+    instance.dispose();
+  });
+
+  test('keeps the name a raced cancellation overwrote', () async {
+    final dir = await Directory.systemTemp.createTemp('task-export-overwrite');
+    addTearDown(() => dir.delete(recursive: true));
+    settings.downloadPath.value = dir.path;
+
+    // A previous download left a file under the same name.
+    final oldFile = File('${dir.path}/keep.webm')..writeAsBytesSync([9, 9, 9]);
+    final source = fetchableFile('${dir.path}/source.bin');
+    final exportStarted = Completer<void>();
+    final exportResumed = Completer<void>();
+    final instance = controller(
+      fileFetcher: (url, token, onProgress) async => source,
+      exporter:
+          ({
+            required file,
+            directory,
+            folderName,
+            fileName,
+            onDirectoryChanged,
+          }) async {
+            exportStarted.complete();
+            // the user cancels while the export is overwriting the file
+            await exportResumed.future;
+            return FileDownloader.downloadImage(
+              file: file,
+              directory: directory,
+              folderName: folderName,
+              fileName: fileName,
+              onDirectoryChanged: onDirectoryChanged,
+            );
+          },
+    );
+
+    final task = await instance.enqueue(downloadRequest('keep.webm'));
+    await exportStarted.future;
+
+    await instance.cancel(task.id);
+    exportResumed.complete();
     await pumpEventQueue();
     await pumpEventQueue();
     await pumpEventQueue();
 
     expect(await repository.readStatus(task.id), TaskStatus.canceled);
-    // the file raced its cancellation into the gallery; it must not stay
-    expect(File('${dir.path}/export-race.webm').existsSync(), isFalse);
+    // The overwrite already replaced the old content; deleting the name
+    // would leave the user with no file at all, so it must stay.
+    expect(oldFile.existsSync(), isTrue);
+    expect(oldFile.readAsBytesSync(), [1, 2, 3]);
 
     instance.dispose();
+  });
+
+  test('gallery save results are checked for partial failures', () {
+    // A rejected save (unsupported format, failed callback) comes back as
+    // a plain result map, not a thrown error; treating it as success
+    // would mark the task completed without a file in the gallery.
+    FileDownloader.checkGallerySaveResult({'isSuccess': true});
+
+    expect(
+      () => FileDownloader.checkGallerySaveResult({'isSuccess': false}),
+      throwsA(isA<FileDownloadException>()),
+    );
+    expect(
+      () => FileDownloader.checkGallerySaveResult({
+        'isSuccess': false,
+        'errorMessage': 'unsupported format',
+      }),
+      throwsA(
+        isA<FileDownloadException>().having(
+          (e) => e.toString(),
+          'toString',
+          contains('unsupported format'),
+        ),
+      ),
+    );
+    expect(
+      () => FileDownloader.checkGallerySaveResult(null),
+      throwsA(isA<FileDownloadException>()),
+    );
   });
 
   test('does not revive canceled tasks when released', () async {
@@ -403,8 +497,8 @@ void main() {
 
     final instance = controller(
       fileFetcher: (url, token, onProgress) async {
-        onProgress?.call(0.5);
-        onProgress?.call(1);
+        onProgress?.call(50, 100);
+        onProgress?.call(100, 100);
         return source;
       },
     );
@@ -530,6 +624,88 @@ void main() {
     await pumpEventQueue();
 
     expect(await repository.readStatus(task.id), TaskStatus.failed);
+
+    instance.dispose();
+  });
+
+  test('duplicate downloads merge into the active task', () async {
+    final dir = await Directory.systemTemp.createTemp('task-dedup');
+    addTearDown(() => dir.delete(recursive: true));
+    settings.downloadPath.value = dir.path;
+
+    final transfer = FakeTransfer();
+    final instance = controller(fileFetcher: transfer.fetcher);
+
+    final Task first = await instance.enqueue(downloadRequest('dup.webm'));
+    await transfer.started.future;
+
+    // the same request again merges into the running task instead of
+    // queueing a second copy of it
+    final Task second = await instance.enqueue(downloadRequest('dup.webm'));
+    expect(second.id, first.id);
+
+    // an all-duplicate batch reports its posts through the task that
+    // absorbed them, without creating a second one
+    final List<Task> batch = await instance.enqueueAll(
+      [downloadRequest('dup.webm'), downloadRequest('dup.webm')],
+    );
+    expect(batch, hasLength(1));
+    expect(batch.first.id, first.id);
+
+    // no worker or byte of bandwidth is spent twice on the same goal
+    expect(await repository.all(identity: identity), hasLength(1));
+
+    await instance.cancel(first.id);
+    await transfer.aborted.future;
+
+    instance.dispose();
+  });
+
+  test('counts the outcomes of a finished batch', () async {
+    final dir = await Directory.systemTemp.createTemp('task-counters');
+    addTearDown(() => dir.delete(recursive: true));
+    settings.downloadPath.value = dir.path;
+
+    final started = <String, Completer<void>>{};
+    final release = <String, Completer<void>>{};
+    final instance = controller(
+      fileFetcher: (url, token, onProgress) async {
+        final String name = url.split('/').last;
+        started.putIfAbsent(name, Completer.new).complete();
+        await release.putIfAbsent(name, Completer.new).future;
+        if (name.contains('failing')) {
+          throw DioException(
+            requestOptions: RequestOptions(path: url),
+            type: DioExceptionType.connectionError,
+          );
+        }
+        return fetchableFile('${dir.path}/source-$name.bin');
+      },
+    );
+
+    final tasks = [
+      await instance.enqueue(downloadRequest('counted.webm')),
+      await instance.enqueue(downloadRequest('failing.webm')),
+    ];
+    // both transfers are in flight at once, so both belong to one batch
+    while (started.length < 2) {
+      await pumpEventQueue();
+    }
+    for (final Completer<void> gate in release.values) {
+      if (!gate.isCompleted) gate.complete();
+    }
+
+    while (instance.runningDone < 2 || instance.kind != TaskKind.done) {
+      await pumpEventQueue();
+    }
+
+    expect(instance.runningTotal, 2);
+    expect(instance.runningDone, 2);
+    expect(instance.runningSucceeded, 1);
+    expect(instance.runningFailed, 1);
+    expect(instance.runningCanceled, 0);
+    expect(await repository.readStatus(tasks[0].id), TaskStatus.completed);
+    expect(await repository.readStatus(tasks[1].id), TaskStatus.failed);
 
     instance.dispose();
   });

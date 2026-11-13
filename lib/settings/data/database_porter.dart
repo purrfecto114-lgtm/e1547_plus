@@ -5,13 +5,14 @@ import 'package:drift/drift.dart' show TableInfo, driftRuntimeOptions;
 import 'package:drift_flutter/drift_flutter.dart';
 import 'package:e1547/app/app.dart';
 import 'package:e1547/identity/identity.dart';
+import 'package:e1547/settings/settings.dart';
 import 'package:path/path.dart';
 
 /// The schema version this build understands.
 ///
 /// Files from newer versions are rejected by the import. Keep in sync with
 /// AppDatabase.schemaVersion; test/app/data/initialize_test.dart guards it.
-const int supportedSchemaVersion = 9;
+const int supportedSchemaVersion = 10;
 
 /// How an import candidate's schema version classifies.
 enum ImportSchemaGate { ok, tooNew, empty }
@@ -65,13 +66,81 @@ Future<String> pendingImportPath() async => '${await getAppDatabasePath()}.new';
 Future<String> pendingImportMarkerPath() async =>
     '${await getAppDatabasePath()}.new.ok';
 
+/// The path of the marker that records the user's consent to install the
+/// staged import.
+///
+/// Validation alone must never install a file: the marker proves the
+/// candidate is safe, this one proves the user chose it. A process death
+/// or a dismissed dialog before the restart leaves it unwritten, and the
+/// boot sequence then keeps the live database instead.
+Future<String> pendingImportConfirmPath() async =>
+    '${await getAppDatabasePath()}.new.confirmed';
+
+/// Records the user's consent to install the staged candidate, stamped
+/// with the same hash the validation marker carries.
+Future<void> confirmStagedImport(
+  String candidatePath,
+  String confirmPath,
+) async {
+  await File(
+    confirmPath,
+  ).writeAsString(await fileHash(candidatePath), flush: true);
+}
+
+/// Whether the staged candidate at [candidatePath] is the validated one
+/// the user consented to installing.
+///
+/// All three have to agree: the validation marker, the confirm marker and
+/// the file on disk. Anything else — a missing consent, a candidate that
+/// changed after the user pressed restart — must never be adopted by the
+/// boot sequence.
+Future<bool> stagedImportConfirmed(
+  String candidatePath,
+  String markerPath,
+  String confirmPath,
+) async {
+  final marker = File(markerPath);
+  final confirm = File(confirmPath);
+  if (!marker.existsSync()) return false;
+  if (!confirm.existsSync()) return false;
+  final validated = (await marker.readAsString()).trim();
+  final consented = (await confirm.readAsString()).trim();
+  if (validated.isEmpty || consented != validated) return false;
+  return stagedImportVerified(candidatePath, markerPath);
+}
+
 /// The sha256 of the file at [path], as lowercase hex.
+///
+/// Hashes in chunks: an import candidate can be large, and buffering it
+/// whole would peak several times its size alongside the staged copy.
 Future<String> fileHash(String path) async {
-  final bytes = await File(path).readAsBytes();
-  final digest = await Sha256().hash(bytes);
+  final sink = Sha256().newHashSink();
+  await for (final chunk in File(path).openRead()) {
+    sink.add(chunk);
+  }
+  sink.close();
+  final digest = await sink.hash();
   return digest.bytes
       .map((byte) => byte.toRadixString(16).padLeft(2, '0'))
       .join();
+}
+
+/// The largest import candidate this build is willing to buffer.
+///
+/// The encrypted v1 format must be read whole to be decrypted; without a
+/// bound, picking a multi-gigabyte file would peak at several times its
+/// size before the first format check runs.
+const int maxImportBytes = 256 * 1024 * 1024;
+
+/// Whether the export at [path] is encrypted, read from its header only.
+///
+/// The magic probe needs the first bytes, not the whole file: a picked
+/// multi-gigabyte file must not be buffered just to be classified.
+Future<bool> isEncryptedExport(String path) async {
+  final file = File(path);
+  if (await file.length() < databaseExportMagic.length) return false;
+  final header = await file.openRead(0, databaseExportMagic.length).first;
+  return hasDatabaseExportMagic(header);
 }
 
 /// Stamps the staged candidate at [candidatePath] as validated by writing
@@ -133,9 +202,15 @@ Future<T> withIsolatedDatabase<T>(
 /// Strips the credentials from [db] and rebuilds the file so the removed
 /// rows cannot be recovered from free pages left behind by the UPDATE.
 ///
-/// Any triggers the file carries are dropped first: the app ships none,
-/// so every trigger in an import is untrusted, and one that survived the
-/// cleanup could write the credentials straight back.
+/// Triggers the file carries are dropped first: one that survived the
+/// cleanup could write the credentials straight back. The cascade
+/// triggers the app itself ships are then rebuilt from this build's own
+/// DDL — trusting an imported trigger body is not an option, but without
+/// them deleting an identity fails its NO ACTION foreign keys.
+///
+/// The imported file cache index is emptied as well: its rows are
+/// rebuildable cache metadata, and a crafted one could point the cleaner
+/// outside the cache root through a relativePath like `../..`.
 Future<void> sanitizeDatabase(AppDatabase db) async {
   final triggers = await db
       .customSelect("SELECT name FROM sqlite_master WHERE type = 'trigger'")
@@ -148,14 +223,28 @@ Future<void> sanitizeDatabase(AppDatabase db) async {
     await db.customStatement('DROP TRIGGER IF EXISTS $quoted');
   }
   await IdentityRepository(db).removeCredentials();
+  await db.customStatement(identityCascadeTriggers);
+  await db.customStatement('DELETE FROM file_cache_table');
+  // Imported pending/running tasks are executable todos from another
+  // device. Their download URLs and filenames come straight from the
+  // backup's TaskMetadata, so the task controller would auto-claim
+  // them after the import and silently start transfers. Cancel them
+  // here; terminal task history stays. This also covers exports made
+  // by older builds that still carried active tasks.
+  await db.customStatement(
+    "UPDATE tasks_table SET status = 'canceled' "
+    "WHERE status IN ('pending', 'running')",
+  );
   await db.customStatement('VACUUM');
 }
 
 /// Snapshots the live database into a fresh file at [targetPath].
 ///
 /// VACUUM INTO produces a compact, consistent copy through the live
-/// connection; a plain file copy only serves as the fallback, it may
-/// catch the file mid-write.
+/// connection; there is no fallback — a plain file copy is only
+/// consistent through pure luck, and the wal_checkpoint before it cannot
+/// guarantee the newest committed rows left the wal while a reader holds
+/// it busy, so a failed snapshot reports itself and lets the caller retry.
 Future<void> snapshotDatabase(
   AppDatabase sqlite,
   String dbPath,
@@ -171,15 +260,12 @@ Future<void> snapshotDatabase(
   try {
     await sqlite.customStatement('VACUUM INTO ?', [targetPath]);
   } on Exception {
-    // The fallback copy only sees data that has left the wal, so flush
-    // the wal into the main file first; a fresh export could otherwise
-    // miss the newest committed rows.
-    try {
-      await sqlite.customSelect('PRAGMA wal_checkpoint(TRUNCATE)').get();
-    } on Exception {
-      // a failed checkpoint is not fatal for the copy itself
-    }
-    await dbFile.copy(targetPath);
+    // No fallback copy: a plain file copy is only consistent through
+    // pure luck, and the wal_checkpoint before it cannot guarantee the
+    // newest committed rows left the wal while a reader holds it busy.
+    // A failed export reports itself and lets the user retry instead.
+    if (targetFile.existsSync()) await targetFile.delete();
+    rethrow;
   }
 }
 
@@ -261,4 +347,6 @@ Future<void> discardStagedImport() async {
   if (newDbFile.existsSync()) await newDbFile.delete();
   final markerFile = File(await pendingImportMarkerPath());
   if (markerFile.existsSync()) await markerFile.delete();
+  final confirmFile = File(await pendingImportConfirmPath());
+  if (confirmFile.existsSync()) await confirmFile.delete();
 }

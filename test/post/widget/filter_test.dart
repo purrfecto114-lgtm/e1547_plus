@@ -15,6 +15,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:notified_preferences/notified_preferences.dart';
 import 'package:provider/provider.dart';
 
+import '../../_support/client.dart';
 import '../../_support/fake_e621.dart';
 import '../../_support/harness.dart';
 import '../../_support/images.dart';
@@ -62,9 +63,9 @@ void main() {
       ),
     );
     // The fake clock would otherwise leave dio's timeout timers pending
-    // on requests that are still in flight when the test ends.
-    client.dio.options.connectTimeout = null;
-    client.dio.options.receiveTimeout = null;
+    // on requests that are still in flight when the test ends, and a
+    // pooled keepalive connection outlives the test with its idle timer.
+    tuneTestClientDio(client);
     settings = Settings(await SharedPreferences.getInstance());
   });
 
@@ -133,20 +134,24 @@ void main() {
   /// Picks [option] in the dropdown of the filter with [icon].
   ///
   /// The dropdown menu opens in its own route, below the prompt's, so its
-  /// items are the last of their texts in the tree.
+  /// items are the last of their texts in the tree. Without [settle], the
+  /// pick is left pending inside the panel's debounce window.
   Future<void> pickFilterOption(
     WidgetTester tester, {
     required IconData icon,
     required String option,
+    bool settle = true,
   }) async {
     await tester.tap(find.byIcon(icon));
     await tester.pump();
     await tester.pump(const Duration(milliseconds: 200));
     await tester.tap(find.text(option).last);
     await tester.pump();
-    // The panel applies filter changes debounced, so the pick has to
-    // outlast the debounce before anything can observe it.
-    await tester.pump(const Duration(milliseconds: 400));
+    if (settle) {
+      // The panel applies filter changes debounced, so the pick has to
+      // outlast the debounce before anything can observe it.
+      await tester.pump(const Duration(milliseconds: 400));
+    }
   }
 
   Color? buttonColor(WidgetTester tester) =>
@@ -447,6 +452,56 @@ void main() {
     await tester.pump();
 
     expect(controller.value.tags, 'user:alice');
+  });
+
+  displayTest('two filter fields changed together are both applied', (
+    tester,
+  ) async {
+    final controller = await pumpPanel(tester);
+
+    // The second change lands inside the first change's debounce window.
+    await pickFilterOption(
+      tester,
+      icon: Icons.question_mark,
+      option: '露骨',
+      settle: false,
+    );
+    await tester.enterText(find.byKey(const Key('FilterList/user')), 'alice');
+
+    // The panel holds both changes at once, while neither has reached
+    // the search yet.
+    await tester.pump();
+    expect(queryPreview(tester), 'rating:e user:alice');
+    expect(controller.value.tags, isNull);
+
+    await tester.pump(const Duration(milliseconds: 400));
+
+    expect(controller.value.tags, 'rating:e user:alice');
+    expect(queryPreview(tester), 'rating:e user:alice');
+  });
+
+  displayTest('closing the prompt flushes every pending filter change', (
+    tester,
+  ) async {
+    final controller = await pumpPanel(tester);
+
+    // Two fields change inside one debounce window.
+    await pickFilterOption(
+      tester,
+      icon: Icons.question_mark,
+      option: '露骨',
+      settle: false,
+    );
+    await tester.enterText(find.byKey(const Key('FilterList/user')), 'alice');
+    await tester.pump(const Duration(milliseconds: 100));
+    expect(controller.value.tags, isNull);
+
+    // Unmounting the panel, like closing the sheet does, applies both
+    // pending changes together instead of dropping the first.
+    await tester.pumpWidget(const SizedBox.shrink());
+    await tester.pump();
+
+    expect(controller.value.tags, 'rating:e user:alice');
   });
 
   displayTest('the width filter writes a number range tag', (tester) async {

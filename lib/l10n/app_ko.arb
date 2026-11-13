@@ -202,6 +202,7 @@
       }
     }
   },
+  "databaseImportTooLarge": "이 파일은 너무 커서 가져올 수 없습니다.",
   "databaseImportTitle": "데이터베이스 가져오기",
   "databaseRestartTitle": "재시작 필요",
   "databaseRestartBody": "변경 사항을 적용하려면 앱을 다시 시작해야 합니다.",
@@ -1109,6 +1110,8 @@
   "@identityAnonymous": {
     "description": "Name shown for identities without a username."
   },
+  "identityCredentialsRejected": "사이트가 이 자격 증명을 거부했습니다. 사용자 이름과 API 키를 확인하세요.",
+  "identityVerifyUnreachable": "자격 증명을 확인하려는 사이트에 연결할 수 없습니다.",
   "identityDuplicate": "이 호스트와 사용자 이름으로 이미 계정이 있습니다.",
   "@identityDuplicate": {
     "description": "Error shown when adding a duplicate identity."
@@ -2375,6 +2378,10 @@
   "@followNotificationSummary": {
     "description": "Title of the summary notification for multiple follows."
   },
+  "followNotificationHiddenBody": "팔로우 중인 태그에 새 게시물이 있습니다.",
+  "followHideNotificationContent": "알림 내용 숨기기",
+  "followHideNotificationContentHint": "알림의 제목, 미리보기, 썸네일을 숨깁니다",
+  "notificationStaleIdentity": "이 알림은 이 기기에 더 이상 없는 계정의 것입니다.",
   "followChannelName": "팔로우한 태그",
   "@followChannelName": {
     "description": "Name of the follow notification channel shown in the system settings."

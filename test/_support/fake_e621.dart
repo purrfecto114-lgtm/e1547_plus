@@ -22,17 +22,29 @@ class FakeE621 {
   static Future<FakeE621> start({FakeE621State? state}) async {
     final fake = FakeE621._(state ?? FakeE621State.seeded());
     fake._server = await shelf_io.serve(
-      fake._route,
+      // Tests end right after their last request settled, and a pooled
+      // keepalive connection would sit on its idle timer past the end of
+      // the fake clock. Closing every response keeps clients from
+      // pooling connections at all.
+      _closeConnections(fake._route),
       InternetAddress.loopbackIPv4,
       0,
     );
     return fake;
   }
 
+  /// Marks every response as the last one on its connection.
+  static Handler _closeConnections(Handler inner) => (request) async {
+    final response = await inner(request);
+    return response.change(
+      headers: {HttpHeaders.connectionHeader: 'close'},
+    );
+  };
+
   Future<void> stop() => _server.close(force: true);
 
   late final Router _router = Router()
-    ..get('/status.json', (Request request) => _json({'online': true}))
+    ..get('/status.json', _status)
     ..get('/data/<path|.*>', _serveImage)
     ..get('/posts.json', _listPosts)
     ..get('/favorites.json', _listFavorites)
@@ -193,6 +205,30 @@ class FakeE621 {
       posts = posts.where((e) => wanted.contains(e['id'])).toList();
     }
     return _json({'posts': _paginate(posts, query)});
+  }
+
+  /// The site status. Like the real api, bad basic credentials are a 401:
+  /// the app's login verification HEADs this endpoint before storing an
+  /// identity, so it must be able to see a rejection here.
+  Response _status(Request request) {
+    final header = request.headers[HttpHeaders.authorizationHeader];
+    if (header != null) {
+      final match = RegExp(r'Basic (\S+)').firstMatch(header);
+      if (match != null) {
+        final decoded = utf8.decode(base64Decode(match.group(1)!));
+        final separator = decoded.indexOf(':');
+        final username = separator == -1
+            ? decoded
+            : decoded.substring(0, separator);
+        final password = separator == -1
+            ? ''
+            : decoded.substring(separator + 1);
+        if (username != (state.user['name'] as String?) || password != 'key') {
+          throw FakeE621Error(401, 'Invalid credentials');
+        }
+      }
+    }
+    return _json({'online': true});
   }
 
   Response _listFavorites(Request request) {

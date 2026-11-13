@@ -32,47 +32,53 @@ class PostImageTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-      clipBehavior: Clip.antiAlias,
-      child: SelectionItemOverlay(
-        item: post,
-        child: Stack(
-          fit: StackFit.passthrough,
-          clipBehavior: Clip.none,
-          children: [
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                Expanded(
-                  child: PostTileOverlay(
-                    post: post,
-                    child: ContentHero(
-                      tag: post.link,
-                      content: FittedContent(
-                        fit: fit ?? BoxFit.cover,
-                        aspectRatio: post.width / post.height,
-                      ),
-                      child: PostImageWidget(
-                        post: post,
-                        size: size ?? PostImageSize.sample,
-                        fit: fit ?? BoxFit.cover,
-                        showProgress: showProgress ?? false,
-                        withLowRes: withLowRes ?? false,
-                        cacheSize: context.watch<ImageCacheSize?>()?.size,
+    return Semantics(
+      // Tiles are pure images; naming the post reuses the selection
+      // label and gives screen readers something to announce besides
+      // the metadata of the info bar.
+      label: AppLocalizations.of(context).selectionPost(post.id),
+      child: Card(
+        clipBehavior: Clip.antiAlias,
+        child: SelectionItemOverlay(
+          item: post,
+          child: Stack(
+            fit: StackFit.passthrough,
+            clipBehavior: Clip.none,
+            children: [
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  Expanded(
+                    child: PostTileOverlay(
+                      post: post,
+                      child: ContentHero(
+                        tag: post.link,
+                        content: FittedContent(
+                          fit: fit ?? BoxFit.cover,
+                          aspectRatio: post.width / post.height,
+                        ),
+                        child: PostImageWidget(
+                          post: post,
+                          size: size ?? PostImageSize.sample,
+                          fit: fit ?? BoxFit.cover,
+                          showProgress: showProgress ?? false,
+                          withLowRes: withLowRes ?? false,
+                          cacheSize: context.watch<ImageCacheSize?>()?.size,
+                        ),
                       ),
                     ),
                   ),
-                ),
-                if (bottomBar != null) bottomBar!,
-              ],
-            ),
-            Positioned(top: 0, right: 0, child: PostImageTag(post: post)),
-            if (onTap != null)
-              Material(
-                type: MaterialType.transparency,
-                child: InkWell(onTap: onTap),
+                  if (bottomBar != null) bottomBar!,
+                ],
               ),
-          ],
+              Positioned(top: 0, right: 0, child: PostImageTag(post: post)),
+              if (onTap != null)
+                Material(
+                  type: MaterialType.transparency,
+                  child: InkWell(onTap: onTap),
+                ),
+            ],
+          ),
         ),
       ),
     );
@@ -279,7 +285,7 @@ class PostFeedTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Widget actions() {
-      return Dimmed(
+      return Dimmed.interactive(
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
@@ -311,34 +317,40 @@ class PostFeedTile extends StatelessWidget {
                   score: post.score,
                   onUpvote: enabled
                       ? (isLiked) async {
-                          mutate((upvote: true, replace: !isLiked)).catchError((
-                            error,
-                          ) {
+                          // cached_query swallows failures into the returned
+                          // state, so the outcome has to be checked instead
+                          // of caught.
+                          final state = await mutate((
+                            upvote: true,
+                            replace: !isLiked,
+                          ));
+                          if (state.isError) {
                             messenger.showSnackBar(
                               SnackBar(
                                 duration: const Duration(seconds: 1),
                                 content: Text(l10n.postUpvoteFailed(post.id)),
                               ),
                             );
-                            return error;
-                          });
+                            return isLiked;
+                          }
                           return !isLiked;
                         }
                       : null,
                   onDownvote: enabled
                       ? (isLiked) async {
-                          mutate((
+                          final state = await mutate((
                             upvote: false,
                             replace: !isLiked,
-                          )).catchError((error) {
+                          ));
+                          if (state.isError) {
                             messenger.showSnackBar(
                               SnackBar(
                                 duration: const Duration(seconds: 1),
                                 content: Text(l10n.postDownvoteFailed(post.id)),
                               ),
                             );
-                            return error;
-                          });
+                            return isLiked;
+                          }
                           return !isLiked;
                         }
                       : null,
@@ -367,7 +379,10 @@ class PostFeedTile extends StatelessWidget {
 
     Widget menu() {
       return PopupMenuButton<VoidCallback>(
-        icon: Icon(Icons.more_vert, color: dimTextColor(context)),
+        icon: Icon(
+          Icons.more_vert,
+          color: dimTextColor(context, interactiveDimmedOpacity),
+        ),
         iconSize: 18,
         onSelected: (value) => value(),
         itemBuilder: (context) => [

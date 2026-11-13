@@ -12,6 +12,7 @@ import 'package:e1547/identity/identity.dart';
 import 'package:e1547/l10n/app_localizations.dart';
 import 'package:e1547/logs/logs.dart';
 import 'package:e1547/settings/data/language.dart';
+import 'package:e1547/settings/data/settings.dart';
 import 'package:e1547/traits/traits.dart';
 import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 
@@ -86,10 +87,7 @@ Future<void> runClientFollowUpdate({
     query: FollowsQuery(types: [FollowType.notify]),
   );
 
-  final BaseCacheManager cache = createFileCache(
-    dio: client.dio,
-    database: database,
-  );
+  final BaseCacheManager cache = createFileCache(database: database);
 
   try {
     await updateFollowNotifications(
@@ -98,10 +96,46 @@ Future<void> runClientFollowUpdate({
       updated: updated,
       notifications: notifications,
       cache: cache,
+      // The background task has no Settings instance; read the
+      // preference the same way it reads the language.
+      hideContent: await readHideNotificationContentPreference(),
     );
   } finally {
     await cache.dispose();
   }
+}
+
+/// The text and media a follow notification shows.
+typedef FollowNotificationContent = ({
+  String title,
+  String body,
+  bool showThumbnail,
+});
+
+/// Describes what a follow notification shows.
+///
+/// With [hideContent], the follow's name and unseen count never reach the
+/// system notification surface: the title and body are generic and the
+/// thumbnail is dropped. The screen saver only covers the app window, so
+/// this is what keeps followed tags off the lock screen preview.
+FollowNotificationContent describeFollowNotification({
+  required Follow follow,
+  required int unseen,
+  required AppLocalizations localizations,
+  required bool hideContent,
+}) {
+  if (hideContent) {
+    return (
+      title: localizations.followNotificationSummary,
+      body: localizations.followNotificationHiddenBody,
+      showThumbnail: false,
+    );
+  }
+  return (
+    title: follow.name,
+    body: localizations.followNotificationBody(unseen),
+    showThumbnail: true,
+  );
 }
 
 Future<void> updateFollowNotifications({
@@ -110,6 +144,7 @@ Future<void> updateFollowNotifications({
   required List<Follow> updated,
   required FlutterLocalNotificationsPlugin notifications,
   required BaseCacheManager cache,
+  bool hideContent = false,
 }) async {
   final Logger logger = Logger('FollowNotifications', {'identity': identity});
 
@@ -152,7 +187,13 @@ Future<void> updateFollowNotifications({
   }
 
   for (final MapEntry(key: follow, value: unseen) in updates.entries) {
-    String? thumbnail = follow.thumbnail;
+    final FollowNotificationContent content = describeFollowNotification(
+      follow: follow,
+      unseen: unseen,
+      localizations: localizations,
+      hideContent: hideContent,
+    );
+    String? thumbnail = content.showThumbnail ? follow.thumbnail : null;
     String? picture;
     if (thumbnail != null) {
       try {
@@ -175,10 +216,11 @@ Future<void> updateFollowNotifications({
     NotificationDetails notificationDetails = _createNotificationDetails(
       thumbnailPath: picture,
       localizations: localizations,
+      hideContent: hideContent,
     );
 
-    String title = follow.name;
-    String description = localizations.followNotificationBody(unseen);
+    String title = content.title;
+    String description = content.body;
 
     await notifications.show(
       id: follow.id,
@@ -207,6 +249,7 @@ Future<void> updateFollowNotifications({
         NotificationDetails notificationDetails = _createNotificationDetails(
           summary: true,
           localizations: localizations,
+          hideContent: hideContent,
         );
         await notifications.show(
           id: followsBackgroundTaskKey.hashCode,
@@ -236,6 +279,7 @@ NotificationDetails _createNotificationDetails({
   String? thumbnailPath,
   bool? summary,
   required AppLocalizations localizations,
+  bool hideContent = false,
 }) {
   return NotificationDetails(
     android: AndroidNotificationDetails(
@@ -253,6 +297,9 @@ NotificationDetails _createNotificationDetails({
           : null,
       groupKey: followsBackgroundTaskKey,
       setAsGroupSummary: summary ?? false,
+      // Hidden content stays off the lock screen; the generic title
+      // and body keep it off the shade preview as well.
+      visibility: hideContent ? NotificationVisibility.secret : null,
     ),
     iOS: DarwinNotificationDetails(
       threadIdentifier: followsBackgroundTaskKey,

@@ -47,14 +47,19 @@ env:
   DRY_RUN: ${{ github.event.inputs.dry_run }}
 
 jobs:
+  validate:
+    # A release must not ship a ref that never passed the checks: the
+    # reusable validation runs against this dispatch's own ref.
+    uses: ./.github/workflows/validation.yml
+
   android-build:
     runs-on: ubuntu-latest
     steps:
       - name: setup actions
-        uses: actions/checkout@v7
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
 
       - name: Setup Java
-        uses: actions/setup-java@v5
+        uses: actions/setup-java@b6effb05e454b25005698d916606bdc6ffcbf961 # v5
         with:
           distribution: "temurin"
           java-version: "17"
@@ -65,13 +70,13 @@ jobs:
           echo "FLUTTER_VERSION=$FLUTTER_VERSION" >> $GITHUB_ENV
 
       - name: setup flutter
-        uses: subosito/flutter-action@v2
+        uses: subosito/flutter-action@1a449444c387b1966244ae4d4f8c696479add0b2 # v2
         with:
           flutter-version: ${{ env.FLUTTER_VERSION }}
           cache: true
 
       - name: get flutter dependencies
-        run: flutter pub get
+        run: flutter pub get --enforce-lockfile
 
       - name: bump version
         if: ${{ github.event.inputs.version != 'none' }}
@@ -111,25 +116,25 @@ jobs:
           mv build/app/outputs/bundle/release/app-release.aab app-release.aab
 
       - name: upload Universal APK to artifacts
-        uses: actions/upload-artifact@v7
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7
         with:
           name: release-apk-universal
           path: app-universal-release.apk
 
       - name: upload ARM64 APK to artifacts
-        uses: actions/upload-artifact@v7
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7
         with:
           name: release-apk-arm64
           path: app-arm64-v8a-release.apk
 
       - name: upload ARMv7 APK to artifacts
-        uses: actions/upload-artifact@v7
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7
         with:
           name: release-apk-armv7
           path: app-armeabi-v7a-release.apk
 
       - name: upload AAB to artifacts
-        uses: actions/upload-artifact@v7
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7
         with:
           name: release-aab
           path: app-release.aab
@@ -138,7 +143,7 @@ jobs:
     runs-on: macos-latest
     steps:
       - name: setup actions
-        uses: actions/checkout@v7
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
 
       - name: parse flutter version
         run: |
@@ -146,13 +151,13 @@ jobs:
           echo "FLUTTER_VERSION=$FLUTTER_VERSION" >> $GITHUB_ENV
 
       - name: setup flutter
-        uses: subosito/flutter-action@v2
+        uses: subosito/flutter-action@1a449444c387b1966244ae4d4f8c696479add0b2 # v2
         with:
           flutter-version: ${{ env.FLUTTER_VERSION }}
           cache: true
 
       - name: get flutter dependencies
-        run: flutter pub get
+        run: flutter pub get --enforce-lockfile
 
       - name: bump version
         if: ${{ github.event.inputs.version != 'none' }}
@@ -172,7 +177,7 @@ jobs:
           mv Runner.zip ../../../Runner.ipa
 
       - name: upload IPA to artifacts
-        uses: actions/upload-artifact@v7
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7
         with:
           name: release-ios
           path: Runner.ipa
@@ -181,7 +186,7 @@ jobs:
     runs-on: windows-latest
     steps:
       - name: setup actions
-        uses: actions/checkout@v7
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
 
       - name: parse flutter version
         shell: bash
@@ -190,13 +195,13 @@ jobs:
           echo "FLUTTER_VERSION=$FLUTTER_VERSION" >> $GITHUB_ENV
 
       - name: setup flutter
-        uses: subosito/flutter-action@v2
+        uses: subosito/flutter-action@1a449444c387b1966244ae4d4f8c696479add0b2 # v2
         with:
           flutter-version: ${{ env.FLUTTER_VERSION }}
           cache: true
 
       - name: get flutter dependencies
-        run: flutter pub get
+        run: flutter pub get --enforce-lockfile
 
       - name: bump version
         if: ${{ github.event.inputs.version != 'none' }}
@@ -206,7 +211,7 @@ jobs:
           dart pub global run cider bump ${{ env.VERSION_BUMP }} --bump-build
 
       - name: setup ruby
-        uses: ruby/setup-ruby@v1
+        uses: ruby/setup-ruby@b3aaceaef7e0ee231b499e7b5f49c03fc1d32199 # v1.338.0
         with:
           ruby-version: "3.3"
           bundler-cache: true
@@ -222,7 +227,7 @@ jobs:
         run: mv "$(find dist -name '*.exe' | head -1)" e1547-setup.exe
 
       - name: upload EXE to artifacts
-        uses: actions/upload-artifact@v7
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7
         with:
           name: release-exe
           path: e1547-setup.exe
@@ -231,7 +236,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: setup actions
-        uses: actions/checkout@v7
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
 
       - name: install build dependencies
         run: |
@@ -245,13 +250,13 @@ jobs:
           echo "FLUTTER_VERSION=$FLUTTER_VERSION" >> $GITHUB_ENV
 
       - name: setup flutter
-        uses: subosito/flutter-action@v2
+        uses: subosito/flutter-action@1a449444c387b1966244ae4d4f8c696479add0b2 # v2
         with:
           flutter-version: ${{ env.FLUTTER_VERSION }}
           cache: true
 
       - name: get flutter dependencies
-        run: flutter pub get
+        run: flutter pub get --enforce-lockfile
 
       - name: bump version
         if: ${{ github.event.inputs.version != 'none' }}
@@ -260,7 +265,7 @@ jobs:
           dart pub global run cider bump ${{ env.VERSION_BUMP }} --bump-build
 
       - name: setup ruby
-        uses: ruby/setup-ruby@v1
+        uses: ruby/setup-ruby@b3aaceaef7e0ee231b499e7b5f49c03fc1d32199 # v1.338.0
         with:
           ruby-version: "3.3"
           bundler-cache: true
@@ -282,19 +287,19 @@ jobs:
           tar czf e1547.tar.gz e1547
 
       - name: upload DEB to artifacts
-        uses: actions/upload-artifact@v7
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7
         with:
           name: release-deb
           path: e1547.deb
 
       - name: upload tarball to artifacts
-        uses: actions/upload-artifact@v7
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7
         with:
           name: release-tar
           path: e1547.tar.gz
 
   release:
-    needs: [android-build, ios-build, windows-build, linux-build]
+    needs: [validate, android-build, ios-build, windows-build, linux-build]
     if: ${{ github.ref == 'refs/heads/master' }}
     runs-on: ubuntu-latest
     permissions:
@@ -306,18 +311,18 @@ jobs:
       - name: mint publisher token
         id: publisher
         if: ${{ env.HAS_PUBLISHER == 'true' }}
-        uses: actions/create-github-app-token@v3
+        uses: actions/create-github-app-token@64ab729a6294000f5aa4a4bc0b73d1f32bc45510 # v3
         with:
           app-id: ${{ secrets.PUBLISHER_APP_ID }}
           private-key: ${{ secrets.PUBLISHER_PRIVATE_KEY }}
 
       - name: setup actions
-        uses: actions/checkout@v7
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
         with:
           token: ${{ steps.publisher.outputs.token || secrets.GITHUB_TOKEN }}
 
       - name: setup ruby
-        uses: ruby/setup-ruby@v1
+        uses: ruby/setup-ruby@b3aaceaef7e0ee231b499e7b5f49c03fc1d32199 # v1.338.0
         with:
           ruby-version: "3.3"
           bundler-cache: true
@@ -328,7 +333,7 @@ jobs:
           echo "FLUTTER_VERSION=$FLUTTER_VERSION" >> $GITHUB_ENV
 
       - name: setup flutter
-        uses: subosito/flutter-action@v2
+        uses: subosito/flutter-action@1a449444c387b1966244ae4d4f8c696479add0b2 # v2
         with:
           flutter-version: ${{ env.FLUTTER_VERSION }}
           cache: true
@@ -364,7 +369,7 @@ jobs:
 
       - name: commit version increase
         if: ${{ github.event.inputs.version != 'none' && github.event.inputs.dry_run != 'true' }}
-        uses: EndBug/add-and-commit@v11
+        uses: EndBug/add-and-commit@cc9c08ba6c8df3b93a8f2db63e89b98368ae2ae8 # v11
         with:
           message: increased version
           default_author: github_actions
@@ -375,42 +380,42 @@ jobs:
             fastlane
 
       - name: download Universal APK from artifacts
-        uses: actions/download-artifact@v8
+        uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8
         with:
           name: release-apk-universal
 
       - name: download ARM64 APK from artifacts
-        uses: actions/download-artifact@v8
+        uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8
         with:
           name: release-apk-arm64
 
       - name: download ARMv7 APK from artifacts
-        uses: actions/download-artifact@v8
+        uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8
         with:
           name: release-apk-armv7
 
       - name: download AAB from artifacts
-        uses: actions/download-artifact@v8
+        uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8
         with:
           name: release-aab
 
       - name: download IPA from artifacts
-        uses: actions/download-artifact@v8
+        uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8
         with:
           name: release-ios
 
       - name: download EXE from artifacts
-        uses: actions/download-artifact@v8
+        uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8
         with:
           name: release-exe
 
       - name: download DEB from artifacts
-        uses: actions/download-artifact@v8
+        uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8
         with:
           name: release-deb
 
       - name: download tarball from artifacts
-        uses: actions/download-artifact@v8
+        uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8
         with:
           name: release-tar
 
@@ -436,7 +441,7 @@ jobs:
 
       - name: create release
         if: ${{ github.event.inputs.dry_run != 'true' && github.event.inputs.skip_github_release != 'true' }}
-        uses: softprops/action-gh-release@v3
+        uses: softprops/action-gh-release@8a0cd651e5b2365bd640854a3fa5dfc70e4875f3 # v3
         with:
           token: ${{ steps.publisher.outputs.token || secrets.GITHUB_TOKEN }}
           tag_name: ${{ env.VERSION }}
@@ -453,27 +458,29 @@ jobs:
             e1547.deb
             e1547.tar.gz
 
-  forum-publish:
+  forum-prepare:
+    # The credential-free half of the forum post: extracts release
+    # metadata and converts the changelog. Only the publish half below
+    # holds the forum secrets.
     needs: [release]
     if: ${{ github.ref == 'refs/heads/master' && github.event.inputs.skip_forum != 'true' && github.event.inputs.dry_run != 'true' }}
     runs-on: ubuntu-latest
     env:
       DMARK_VERSION: '2.0.0'
-      # Secrets cannot be referenced directly in step if-conditions.
-      HAS_FORUM_SECRETS: ${{ secrets.E621_FORUM_USER != '' && secrets.E621_FORUM_API_KEY != '' }}
+      DMARK_SHA256: '6276b73349e6c3ebaf7396b1364b6f5c94fc53f8a5e15ff4f2c267d6bb23d071'
     steps:
       - name: setup actions
-        uses: actions/checkout@v7
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
         with:
           ref: master
 
       - name: setup node
-        uses: actions/setup-node@v7
+        uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7
         with:
           node-version: '24'
 
       - name: setup dart
-        uses: dart-lang/setup-dart@v1
+        uses: dart-lang/setup-dart@6afc89df92d6eb3834022f73cd65adc8cdfcb92d # v1
 
       - name: setup cider
         run: dart pub global activate cider 0.2.10
@@ -515,6 +522,9 @@ jobs:
           curl -fsSL \
             "https://libs.cdn.clynamic.net/dmark/${DMARK_VERSION}/dmark.md.js" \
             -o dmark.mjs
+          # A version-named URL does not prove the content: verify the
+          # exact bytes the converter runs from.
+          echo "${DMARK_SHA256}  dmark.mjs" | sha256sum -c -
 
       - name: convert markdown to dtext
         run: |
@@ -552,18 +562,50 @@ jobs:
             echo "Regards."
           } > body.dtext
 
+      - name: record posting metadata
+        run: |
+          {
+            echo "TOPIC_ID=${{ steps.meta.outputs.topic_id }}"
+            echo "VERSION=${{ steps.meta.outputs.version }}"
+            echo "DEVELOPER=${{ steps.meta.outputs.developer }}"
+          } > meta.env
+
+      - name: upload forum post to artifacts
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7
+        with:
+          name: forum-post
+          path: |
+            body.dtext
+            meta.env
+
+  forum-publish:
+    # The secret-holding half: nothing but the forum credentials and the
+    # prepared artifact from the credential-free job above.
+    needs: [forum-prepare]
+    if: ${{ github.ref == 'refs/heads/master' && github.event.inputs.skip_forum != 'true' && github.event.inputs.dry_run != 'true' }}
+    runs-on: ubuntu-latest
+    env:
+      # Secrets cannot be referenced directly in step if-conditions.
+      HAS_FORUM_SECRETS: ${{ secrets.E621_FORUM_USER != '' && secrets.E621_FORUM_API_KEY != '' }}
+    steps:
+      - name: download forum post from artifacts
+        uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8
+        with:
+          name: forum-post
+
       - name: post to e621 forum
         if: ${{ env.HAS_FORUM_SECRETS == 'true' }}
         env:
           E621_FORUM_USER: ${{ secrets.E621_FORUM_USER }}
           E621_FORUM_API_KEY: ${{ secrets.E621_FORUM_API_KEY }}
         run: |
+          . ./meta.env
           PAYLOAD=$(jq -n \
             --arg body "$(cat body.dtext)" \
-            --argjson topic_id ${{ steps.meta.outputs.topic_id }} \
+            --argjson topic_id "$TOPIC_ID" \
             '{forum_post: {topic_id: $topic_id, body: $body}}')
           curl -fsS -X POST 'https://e621.net/forum_posts.json' \
             -u "$E621_FORUM_USER:$E621_FORUM_API_KEY" \
-            -H "User-Agent: e1547/${{ steps.meta.outputs.version }} (${{ steps.meta.outputs.developer }})" \
+            -H "User-Agent: e1547/$VERSION ($DEVELOPER)" \
             -H "Content-Type: application/json" \
             -d "$PAYLOAD"

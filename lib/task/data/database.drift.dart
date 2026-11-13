@@ -46,16 +46,7 @@ final class $$TasksTableTableReferences
         i3.ReadDatabaseContainer(
           db,
         ).resultSet<i2.$TasksIdentitiesTableTable>('tasks_identities_table'),
-        aliasName: i0.$_aliasNameGenerator(
-          i3.ReadDatabaseContainer(
-            db,
-          ).resultSet<i2.$TasksTableTable>('tasks_table').id,
-          i3.ReadDatabaseContainer(db)
-              .resultSet<i2.$TasksIdentitiesTableTable>(
-                'tasks_identities_table',
-              )
-              .task,
-        ),
+        aliasName: 'tasks_table__id__tasks_identities_table__task',
       );
 
   i2.$$TasksIdentitiesTableTableProcessedTableManager
@@ -441,16 +432,7 @@ final class $$TasksIdentitiesTableTableReferences
       i3.ReadDatabaseContainer(db)
           .resultSet<i4.$IdentitiesTableTable>('identities_table')
           .createAlias(
-            i0.$_aliasNameGenerator(
-              i3.ReadDatabaseContainer(db)
-                  .resultSet<i2.$TasksIdentitiesTableTable>(
-                    'tasks_identities_table',
-                  )
-                  .identity,
-              i3.ReadDatabaseContainer(
-                db,
-              ).resultSet<i4.$IdentitiesTableTable>('identities_table').id,
-            ),
+            'tasks_identities_table__identity__identities_table__id',
           );
 
   i4.$$IdentitiesTableTableProcessedTableManager get identity {
@@ -474,18 +456,7 @@ final class $$TasksIdentitiesTableTableReferences
   static i2.$TasksTableTable _taskTable(i0.GeneratedDatabase db) =>
       i3.ReadDatabaseContainer(db)
           .resultSet<i2.$TasksTableTable>('tasks_table')
-          .createAlias(
-            i0.$_aliasNameGenerator(
-              i3.ReadDatabaseContainer(db)
-                  .resultSet<i2.$TasksIdentitiesTableTable>(
-                    'tasks_identities_table',
-                  )
-                  .task,
-              i3.ReadDatabaseContainer(
-                db,
-              ).resultSet<i2.$TasksTableTable>('tasks_table').id,
-            ),
-          );
+          .createAlias('tasks_identities_table__task__tasks_table__id');
 
   i2.$$TasksTableTableProcessedTableManager get task {
     final $_column = $_itemColumn<int>('task')!;

@@ -15,7 +15,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: setup actions
-        uses: actions/checkout@v7
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
 
       - name: parse flutter version
         run: |
@@ -23,13 +23,13 @@ jobs:
           echo "FLUTTER_VERSION=$FLUTTER_VERSION" >> $GITHUB_ENV
 
       - name: setup flutter
-        uses: subosito/flutter-action@v2
+        uses: subosito/flutter-action@1a449444c387b1966244ae4d4f8c696479add0b2 # v2
         with:
           flutter-version: ${{ env.FLUTTER_VERSION }}
           cache: true
 
       - name: get flutter dependencies
-        run: flutter pub get
+        run: flutter pub get --enforce-lockfile
 
       # The generated localizations are committed; regenerate them here so a
       # stale checkout (arb edits without a regeneration commit) fails
@@ -48,16 +48,22 @@ jobs:
       - name: run tests
         run: flutter test
 
+      # Scans the locked Ruby and Pub dependencies against OSV; advisories
+      # outside tool/osv_baseline.txt (known-unfixable under the current
+      # fastlane constraints) fail the validation.
+      - name: scan locked dependencies against OSV
+        run: ./tool/osv_scan.sh
+
   android-smoke:
     # Catches gradle level breakage that the dart level jobs cannot see,
     # such as AGP splits, manifest merges or native plugin changes.
     runs-on: ubuntu-latest
     steps:
       - name: setup actions
-        uses: actions/checkout@v7
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
 
       - name: Setup Java
-        uses: actions/setup-java@v5
+        uses: actions/setup-java@b6effb05e454b25005698d916606bdc6ffcbf961 # v5
         with:
           distribution: "temurin"
           java-version: "17"
@@ -68,13 +74,13 @@ jobs:
           echo "FLUTTER_VERSION=$FLUTTER_VERSION" >> $GITHUB_ENV
 
       - name: setup flutter
-        uses: subosito/flutter-action@v2
+        uses: subosito/flutter-action@1a449444c387b1966244ae4d4f8c696479add0b2 # v2
         with:
           flutter-version: ${{ env.FLUTTER_VERSION }}
           cache: true
 
       - name: get flutter dependencies
-        run: flutter pub get
+        run: flutter pub get --enforce-lockfile
 
       - name: build debug APK
         run: flutter build apk --debug

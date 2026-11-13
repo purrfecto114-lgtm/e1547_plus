@@ -22,6 +22,13 @@ const Set<String?> cursorOrders = {null, 'new', 'id', 'id_desc'};
 bool servesNewestFirst(QueryMap? query) =>
     cursorOrders.contains(TagMap(query?['tags'])['order']);
 
+/// Bridges per client, so the optimistic-mutation serialization inside
+/// [QueryBridge] spans every caller of the same client instead of only the
+/// mutations that happened to share one bridge instance — batch tasks and
+/// single-item widgets alike.
+final Expando<QueryBridge<Post, int>> _postCacheBridges =
+    Expando<QueryBridge<Post, int>>();
+
 extension PostQuerying on PostClient {
   static const queryDomain = 'posts';
 
@@ -30,6 +37,7 @@ extension PostQuerying on PostClient {
   CachedQuery get queryCache => dio.queryCache!;
 
   QueryBridge<Post, int> get postCache =>
+      _postCacheBridges[this] ??=
       queryCache.bridge(queryKey, fromJson: Post.fromJson);
 
   Query<Post> useGet({required int id, bool? vendored}) => Query(

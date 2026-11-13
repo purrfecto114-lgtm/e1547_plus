@@ -439,6 +439,10 @@ class AppLocalizationsPl extends AppLocalizations {
   }
 
   @override
+  String get databaseImportTooLarge =>
+      'Ten plik jest zbyt duży, aby go zaimportować.';
+
+  @override
   String get databaseImportTitle => 'Importuj bazę danych';
 
   @override
@@ -702,6 +706,9 @@ class AppLocalizationsPl extends AppLocalizations {
       count,
       locale: localeName,
       other: '$count postów',
+      many: '$count postów',
+      few: '$count posty',
+      one: '1 post',
     );
     return '$_temp0';
   }
@@ -725,6 +732,8 @@ class AppLocalizationsPl extends AppLocalizations {
       count,
       locale: localeName,
       other: '$count postów',
+      many: '$count postów',
+      few: '$count posty',
       one: '$count post',
     );
     return 'Strona $page · $_temp0';
@@ -778,6 +787,8 @@ class AppLocalizationsPl extends AppLocalizations {
       count,
       locale: localeName,
       other: 'Zablokowano $count postów',
+      many: 'Zablokowano $count postów',
+      few: 'Zablokowano $count posty',
       one: 'Zablokowany 1 post',
     );
     return '$_temp0';
@@ -1266,7 +1277,10 @@ class AppLocalizationsPl extends AppLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '$count logi',
+      other: '$count logów',
+      many: '$count logów',
+      few: '$count logi',
+      one: '1 log',
     );
     return '$_temp0';
   }
@@ -1277,6 +1291,9 @@ class AppLocalizationsPl extends AppLocalizations {
       count,
       locale: localeName,
       other: '$count plików logów',
+      many: '$count plików logów',
+      few: '$count pliki logów',
+      one: '1 plik logów',
     );
     return '$_temp0';
   }
@@ -1325,6 +1342,8 @@ class AppLocalizationsPl extends AppLocalizations {
       count,
       locale: localeName,
       other: '$count błędów',
+      many: '$count błędów',
+      few: '$count błędy',
       one: '1 błąd',
     );
     return '$_temp0';
@@ -1359,6 +1378,14 @@ class AppLocalizationsPl extends AppLocalizations {
 
   @override
   String get identityAnonymous => 'Anonimowy';
+
+  @override
+  String get identityCredentialsRejected =>
+      'Strona odrzuciła te dane logowania. Sprawdź nazwę użytkownika i klucz API.';
+
+  @override
+  String get identityVerifyUnreachable =>
+      'Nie udało się połączyć ze stroną, aby zweryfikować dane logowania.';
 
   @override
   String get identityDuplicate =>
@@ -1884,7 +1911,7 @@ class AppLocalizationsPl extends AppLocalizations {
       locale: localeName,
       other: '$count postów',
       many: '$count postów',
-      few: '$count postów',
+      few: '$count posty',
       one: '1 post',
     );
     return '$_temp0';
@@ -2329,6 +2356,21 @@ class AppLocalizationsPl extends AppLocalizations {
   String get followNotificationSummary => 'Nowe posty!';
 
   @override
+  String get followNotificationHiddenBody =>
+      'Twoje obserwowane tagi mają nowe posty.';
+
+  @override
+  String get followHideNotificationContent => 'Ukryj treść powiadomień';
+
+  @override
+  String get followHideNotificationContentHint =>
+      'Tytuły, podglądy i miniatury powiadomień są ukryte';
+
+  @override
+  String get notificationStaleIdentity =>
+      'To powiadomienie należy do konta, którego już nie ma na tym urządzeniu.';
+
+  @override
   String get followChannelName => 'Obserwowane tagi';
 
   @override
@@ -2429,4 +2471,30 @@ class AppLocalizationsPl extends AppLocalizations {
 
   @override
   String get actionUnlock => 'ODBLOKUJ';
+
+  @override
+  String get editorDiscardTitle => 'Discard changes?';
+
+  @override
+  String get editorDiscardBody => 'Your changes have not been submitted.';
+
+  @override
+  String get editorDiscardConfirm => 'Discard';
+
+  @override
+  String get editorContinueEditing => 'Continue editing';
+
+  @override
+  String postListGoingToPage(num page) {
+    return 'Going to page $page';
+  }
+
+  @override
+  String get actionRetry => 'Retry';
+
+  @override
+  String get selectionQueueDownloadsFailed => 'Failed to queue downloads';
+
+  @override
+  String get selectionQueueFavoritesFailed => 'Failed to queue favorites';
 }

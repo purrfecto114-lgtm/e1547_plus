@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:e1547/account/account.dart';
 import 'package:e1547/client/client.dart';
 import 'package:e1547/shared/shared.dart';
@@ -18,10 +20,17 @@ class AccountConnector extends StatelessWidget {
   Widget build(BuildContext context) {
     final client = context.watch<Client>();
     return AvailabilityCheck(
+      // Re-checking with every client switch needs a fresh state;
+      // without the key, the old state would keep its checked client
+      // and never re-run its check.
+      key: ValueKey(client),
       navigatorKey: navigatorKey,
       child: SubEffect(
         effect: () {
-          client.accounts.pull();
+          // A failed pull leaves the traits as they are until the
+          // next refresh; it must not surface as an unhandled
+          // exception at startup.
+          unawaited(client.accounts.pull().catchError((_) {}));
           return null;
         },
         keys: [client],

@@ -6,7 +6,17 @@ class LowercaseTextInputFormatter extends TextInputFormatter {
   TextEditingValue formatEditUpdate(
     TextEditingValue oldValue,
     TextEditingValue newValue,
-  ) => newValue.copyWith(text: newValue.text.toLowerCase());
+  ) {
+    // A non-empty composing region is text the keyboard has not committed
+    // yet, like a pinyin or romaji candidate mid-composition. Rewriting it
+    // would disturb the keyboard's own state, so the region is left alone;
+    // the update that commits the composition runs through the
+    // lowercasing here.
+    if (newValue.composing != TextRange.empty) {
+      return newValue;
+    }
+    return newValue.copyWith(text: newValue.text.toLowerCase());
+  }
 }
 
 extension TextEditingSelectionMovement on TextEditingController {
@@ -20,9 +30,14 @@ extension TextEditingSelectionMovement on TextEditingController {
 }
 
 extension StringEllipsing on String {
+  /// Truncates this string to [limit] code points and appends an ellipsis.
+  ///
+  /// Counting code points instead of UTF-16 code units keeps surrogate
+  /// pairs intact: cutting an emoji in half at a code unit boundary
+  /// would produce an invalid string.
   String ellipse(int limit) {
-    if (length > limit) {
-      return '${split('').take(limit).join()}...';
+    if (runes.length > limit) {
+      return '${String.fromCharCodes(runes.take(limit))}...';
     } else {
       return this;
     }

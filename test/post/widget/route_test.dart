@@ -14,6 +14,7 @@ import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:notified_preferences/notified_preferences.dart';
 
+import '../../_support/client.dart';
 import '../../_support/fake_e621.dart';
 import '../../_support/gestures.dart';
 import '../../_support/harness.dart';
@@ -67,9 +68,9 @@ void main() {
       ),
     );
     // The fake clock would otherwise leave dio's timeout timers pending
-    // on requests that are still in flight when the test ends.
-    client.dio.options.connectTimeout = null;
-    client.dio.options.receiveTimeout = null;
+    // on requests that are still in flight when the test ends, and a
+    // pooled keepalive connection outlives the test with its idle timer.
+    tuneTestClientDio(client);
   });
 
   tearDown(() async {

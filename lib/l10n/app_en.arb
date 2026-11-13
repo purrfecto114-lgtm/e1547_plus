@@ -202,6 +202,10 @@
       }
     }
   },
+  "databaseImportTooLarge": "This file is too large to import.",
+  "@databaseImportTooLarge": {
+    "description": "Shown when the picked import file exceeds the size budget."
+  },
   "databaseImportTitle": "Import Database",
   "databaseRestartTitle": "Restart Required",
   "databaseRestartBody": "The app needs to restart to apply changes.",
@@ -1116,6 +1120,14 @@
   "identityAnonymous": "Anonymous",
   "@identityAnonymous": {
     "description": "Name shown for identities without a username."
+  },
+  "identityCredentialsRejected": "The site rejected these credentials. Check your username and API key.",
+  "@identityCredentialsRejected": {
+    "description": "Reason shown when the host rejected the login credentials."
+  },
+  "identityVerifyUnreachable": "Could not reach the site to verify these credentials.",
+  "@identityVerifyUnreachable": {
+    "description": "Reason shown when the host could not be reached to verify the credentials."
   },
   "identityDuplicate": "You already have an identity under this host and username.",
   "@identityDuplicate": {
@@ -2383,6 +2395,22 @@
   "@followNotificationSummary": {
     "description": "Title of the summary notification for multiple follows."
   },
+  "followNotificationHiddenBody": "Your followed tags have new posts.",
+  "@followNotificationHiddenBody": {
+    "description": "Body of a follow notification when its content is hidden."
+  },
+  "followHideNotificationContent": "Hide notification content",
+  "@followHideNotificationContent": {
+    "description": "Title of the switch that hides notification content."
+  },
+  "followHideNotificationContentHint": "Notification titles, previews and thumbnails are hidden",
+  "@followHideNotificationContentHint": {
+    "description": "Subtitle of the switch that hides notification content."
+  },
+  "notificationStaleIdentity": "This notification belongs to an account that is no longer on this device.",
+  "@notificationStaleIdentity": {
+    "description": "Message shown when a notification's account no longer exists."
+  },
   "followChannelName": "Followed Tags",
   "@followChannelName": {
     "description": "Name of the follow notification channel shown in the system settings."
@@ -2501,5 +2529,42 @@
   "actionUnlock": "UNLOCK",
   "@actionUnlock": {
     "description": "Confirmation action of the encrypted import password prompt."
+  },
+  "editorDiscardTitle": "Discard changes?",
+  "@editorDiscardTitle": {
+    "description": "Title of the dialog confirming that unsaved editor changes are discarded."
+  },
+  "editorDiscardBody": "Your changes have not been submitted.",
+  "@editorDiscardBody": {
+    "description": "Body of the dialog confirming that unsaved editor changes are discarded."
+  },
+  "editorDiscardConfirm": "Discard",
+  "@editorDiscardConfirm": {
+    "description": "Confirms discarding unsaved editor changes."
+  },
+  "editorContinueEditing": "Continue editing",
+  "@editorContinueEditing": {
+    "description": "Declines discarding unsaved editor changes and returns to the editor."
+  },
+  "postListGoingToPage": "Going to page {page}",
+  "@postListGoingToPage": {
+    "description": "Replaces the page summary of a posts list while a page jump waits for the search's current request to settle.",
+    "placeholders": {
+      "page": {
+        "type": "num"
+      }
+    }
+  },
+  "actionRetry": "Retry",
+  "@actionRetry": {
+    "description": "Snackbar action which repeats a failed action."
+  },
+  "selectionQueueDownloadsFailed": "Failed to queue downloads",
+  "@selectionQueueDownloadsFailed": {
+    "description": "Snackbar message when queueing downloads for the post selection failed."
+  },
+  "selectionQueueFavoritesFailed": "Failed to queue favorites",
+  "@selectionQueueFavoritesFailed": {
+    "description": "Snackbar message when queueing favorites for the post selection failed."
   }
 }

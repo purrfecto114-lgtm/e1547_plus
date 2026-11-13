@@ -1,4 +1,7 @@
+import 'dart:async';
+
 import 'package:e1547/app/app.dart';
+import 'package:e1547/follow/follow.dart';
 import 'package:e1547/identity/identity.dart';
 import 'package:e1547/l10n/app_localizations.dart';
 import 'package:e1547/query/query.dart';
@@ -34,7 +37,7 @@ class IdentitiesPage extends StatelessWidget {
               }
             },
             trailing: PopupMenuButton<VoidCallback>(
-              icon: const Dimmed(child: Icon(Icons.more_vert)),
+              icon: const Dimmed.interactive(child: Icon(Icons.more_vert)),
               onSelected: (value) => value(),
               itemBuilder: (context) => [
                 PopupMenuTile(
@@ -69,6 +72,14 @@ class IdentitiesPage extends StatelessWidget {
                                 cache: storage.queryCache,
                                 database: storage.sqlite,
                                 identity: identity.id,
+                              );
+                              // Follows whose owner this identity was are
+                              // cascaded away by database triggers; this
+                              // sweeps any follow left without an owner.
+                              unawaited(
+                                FollowRepository(
+                                  database: storage.sqlite,
+                                ).removeOrphans(),
                               );
                             }
                           },

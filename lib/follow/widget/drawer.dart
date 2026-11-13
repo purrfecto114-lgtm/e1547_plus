@@ -73,6 +73,31 @@ class FollowFilterReadTile extends StatelessWidget {
   }
 }
 
+class FollowHideContentTile extends StatelessWidget {
+  const FollowHideContentTile({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return ValueListenableBuilder(
+      valueListenable: context.watch<Settings>().hideNotificationContent,
+      builder: (context, hideContent, child) => SwitchListTile(
+        value: hideContent,
+        onChanged: (value) {
+          Scaffold.of(context).closeEndDrawer();
+          context.read<Settings>().hideNotificationContent.value = value;
+        },
+        secondary: Icon(
+          hideContent ? Icons.notifications_off : Icons.notifications_active,
+        ),
+        title: Text(AppLocalizations.of(context).followHideNotificationContent),
+        subtitle: Text(
+          AppLocalizations.of(context).followHideNotificationContentHint,
+        ),
+      ),
+    );
+  }
+}
+
 class FollowEditingTile extends StatelessWidget {
   const FollowEditingTile({super.key});
 

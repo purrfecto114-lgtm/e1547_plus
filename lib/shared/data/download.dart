@@ -4,12 +4,23 @@ import 'dart:io';
 import 'package:e1547/l10n/app_localizations.dart';
 import 'package:e1547/settings/data/language.dart';
 import 'package:file_picker/file_picker.dart';
+import 'package:flutter/foundation.dart';
 import 'package:image_gallery_saver_plus/image_gallery_saver_plus.dart';
 import 'package:media_scanner/media_scanner.dart';
 import 'package:mime/mime.dart';
 import 'package:path/path.dart';
 import 'package:saf_stream/saf_stream.dart';
 import 'package:saf_util/saf_util.dart';
+
+/// The outcome of a download directory preflight.
+enum DownloadDirectoryCheck {
+  /// A writable directory is ready; none had to be picked.
+  ready,
+
+  /// The user dismissed the directory picker; the caller must not start
+  /// any transfer.
+  canceled,
+}
 
 /// A utility class for downloading files to the device.
 abstract final class FileDownloader {
@@ -35,6 +46,53 @@ abstract final class FileDownloader {
         dialogTitle: localizations.downloadChooseFolder,
         initialDirectory: initial,
       );
+    }
+  }
+
+  /// Resolves a usable download directory before a transfer starts.
+  ///
+  /// This is the picker-and-permission part of [downloadFile], without the
+  /// file: a batch of downloads can ask for its destination up front, so
+  /// no transfer finishes only to find a directory picker waiting behind
+  /// it. Android verifies the persisted write permission and prompts again
+  /// when it lapsed; desktop prompts while no directory is configured.
+  /// iOS writes to the photo gallery and needs no directory at all.
+  ///
+  /// A picked directory is reported through [onDirectoryChanged], mirroring
+  /// [downloadFile]'s callback, so callers can persist the choice.
+  static Future<DownloadDirectoryCheck> ensureDownloadDirectory({
+    String? directory,
+    void Function(String dir)? onDirectoryChanged,
+  }) async {
+    if (Platform.isIOS) {
+      return DownloadDirectoryCheck.ready;
+    }
+    try {
+      if (Platform.isAndroid) {
+        if (directory?.contains('/storage/emulated/') ?? false) {
+          directory = null;
+        }
+        if (directory != null &&
+            await SafUtil().hasPersistedPermission(
+              directory,
+              checkWrite: true,
+            )) {
+          return DownloadDirectoryCheck.ready;
+        }
+        final String? picked = await pickDirectory(initial: directory);
+        if (picked == null) return DownloadDirectoryCheck.canceled;
+        onDirectoryChanged?.call(picked);
+        return DownloadDirectoryCheck.ready;
+      }
+      if (directory != null) {
+        return DownloadDirectoryCheck.ready;
+      }
+      final String? picked = await pickDirectory();
+      if (picked == null) return DownloadDirectoryCheck.canceled;
+      onDirectoryChanged?.call(picked);
+      return DownloadDirectoryCheck.ready;
+    } on Exception catch (e) {
+      throw FileDownloadException.from(e);
     }
   }
 
@@ -98,8 +156,16 @@ abstract final class FileDownloader {
 
         onDirectoryChanged?.call(target);
         final safStream = SafStream();
-        final String name = fileName ?? basename(file.path);
+        // The name may originate from a server's post json; flatten it so
+        // a crafted name cannot smuggle path segments past the saf target.
+        final String name = basename(fileName ?? basename(file.path));
         final mimeType = lookupMimeType(name) ?? 'application/octet-stream';
+        // Whether the target name already holds a document. An overwrite
+        // replaces its content the moment the paste runs, so by the time a
+        // cancellation can race the export, deleting the name would leave
+        // the user with no file at all — the location is not rollback-safe.
+        final bool replacedExisting =
+            (await SafUtil().child(target, [name])) != null;
         await safStream.pasteLocalFile(
           file.path,
           target,
@@ -109,6 +175,7 @@ abstract final class FileDownloader {
         );
         // This should probably only happen in [downloadImage].
         await MediaScanner.loadMedia(path: target);
+        if (replacedExisting) return null;
         // The exact document lets a raced cancellation remove the copy.
         return (await SafUtil().child(target, [name]))?.uri;
       } else {
@@ -134,8 +201,9 @@ abstract final class FileDownloader {
         );
         // Copy streams in chunks instead of buffering the whole file; a
         // same-file copy must stay a no-op, though.
+        final bool existedBefore = targetFile.existsSync();
         final bool sameFile =
-            targetFile.existsSync() &&
+            existedBefore &&
             await file.resolveSymbolicLinks() ==
                 await targetFile.resolveSymbolicLinks();
         if (sameFile) {
@@ -144,6 +212,11 @@ abstract final class FileDownloader {
           return null;
         }
         await file.copy(targetFile.path);
+        // An overwrite has replaced the previous content by the time a
+        // cancellation can race the export; deleting the name would leave
+        // the user with no file at all, so only a freshly created file is
+        // rollback-safe.
+        if (existedBefore) return null;
         return targetFile.path;
       }
     } on Exception catch (e) {
@@ -161,8 +234,7 @@ abstract final class FileDownloader {
     void Function(String dir)? onDirectoryChanged,
   }) async {
     if (Platform.isIOS) {
-      await ImageGallerySaverPlus.saveFile(file.path);
-      return null;
+      return _saveToGallery(file.path);
     } else {
       return downloadFile(
         file: file,
@@ -172,6 +244,44 @@ abstract final class FileDownloader {
         onDirectoryChanged: onDirectoryChanged,
       );
     }
+  }
+
+  /// Serializes iOS gallery writes.
+  ///
+  /// The plugin's iOS instance keeps a single pending-result slot: two
+  /// overlapping saves would have the later call replace the earlier
+  /// callback, misrouting results or leaving the earlier future forever
+  /// pending. Chaining every write keeps parallel transfers intact while
+  /// the gallery commits one at a time.
+  static Future<void> _galleryWriteLock = Future.value();
+
+  static Future<String?> _saveToGallery(String path) {
+    final Future<void> write = _galleryWriteLock.then((_) async {
+      final dynamic result = await ImageGallerySaverPlus.saveFile(path);
+      checkGallerySaveResult(result);
+    });
+    // Keep the chain intact even when a write fails, so one rejected file
+    // cannot wedge every later save.
+    _galleryWriteLock = write.then<void>((_) {}, onError: (Object _) {});
+    return write.then((_) => null);
+  }
+
+  /// Throws when a gallery save reported a partial failure.
+  ///
+  /// [ImageGallerySaverPlus.saveFile] reports rejected files (unsupported
+  /// formats, failed save callbacks) through its result map instead of
+  /// throwing; treating those as success would mark tasks completed that
+  /// never landed in the gallery.
+  @visibleForTesting
+  static void checkGallerySaveResult(Object? result) {
+    final bool success = result is Map && result['isSuccess'] == true;
+    if (success) return;
+    final Object? reason = result is Map ? result['errorMessage'] : null;
+    throw FileDownloadException(
+      reason is String && reason.isNotEmpty
+          ? 'Saving to the gallery failed: $reason'
+          : 'Saving to the gallery failed',
+    );
   }
 
   /// Removes an export at the location [downloadFile] reported, for a

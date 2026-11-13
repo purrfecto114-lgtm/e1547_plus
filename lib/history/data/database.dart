@@ -7,6 +7,7 @@ import 'package:e1547/identity/identity.dart';
 import 'package:e1547/shared/shared.dart';
 
 @UseRowClass(History, generateInsertable: true)
+@TableIndex(name: 'idx_history_visited_at', columns: {#visitedAt})
 class HistoriesTable extends Table {
   IntColumn get id => integer().autoIncrement()();
   DateTimeColumn get visitedAt => dateTime()();
@@ -181,8 +182,12 @@ class HistoryRepository extends DatabaseAccessor<GeneratedDatabase>
         .future;
   }
 
-  Future<bool> isDuplicate(HistoryRequest item) =>
-      (_querySelect(limit: 1, maxAge: const Duration(minutes: 3))
+  Future<bool> isDuplicate(HistoryRequest item, {required int identity}) =>
+      (_querySelect(
+              limit: 1,
+              identity: identity,
+              maxAge: const Duration(minutes: 3),
+            )
             ..where((tbl) => tbl.link.equals(item.link))
             ..where((tbl) => tbl.title.equalsNullable(item.title))
             ..where((tbl) => tbl.category.equals(item.category.name))

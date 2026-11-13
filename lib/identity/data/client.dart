@@ -13,19 +13,26 @@ class IdentityClient extends IdentityRepository with ChangeNotifier {
 
   final FutureOr<IdentityRequest> Function()? onCreate;
 
-  bool _disposed = false;
+  /// Counts every activate and dispose.
+  ///
+  /// An activate that lost a race against a newer activate or a dispose
+  /// must not write its result back: the earlier caller's await can
+  /// resume after a later one already installed a different identity.
+  int _generation = 0;
 
   Future<void> activate(int? id) async {
+    final int generation = ++_generation;
     _subscription?.cancel();
     Identity? result;
     Stream<Identity?>? stream;
     if (id != null) {
       stream = _find(id);
       result = await stream.firstOrNull;
+      if (_generation != generation) return;
     }
     if (result == null) {
-      if (_disposed) return;
       result = (await page(page: 1, limit: 1)).singleOrNull;
+      if (_generation != generation) return;
       stream = _find(result?.id);
     }
     if (result == null) {
@@ -35,13 +42,12 @@ class IdentityClient extends IdentityRepository with ChangeNotifier {
           'was found and no onCreate callback was provided',
         );
       }
-      if (_disposed) return;
       result = await add(await onCreate!());
+      if (_generation != generation) return;
       stream = _find(result.id);
     }
     _identity = result;
     _subscription = stream!.listen(_onChanged);
-    if (_disposed) return;
     notifyListeners();
   }
 
@@ -72,7 +78,11 @@ class IdentityClient extends IdentityRepository with ChangeNotifier {
 
   @override
   void dispose() {
-    _disposed = true;
+    // Invalidate any in-flight activate: its completion must neither
+    // write the identity back nor notify disposed listeners.
+    _generation++;
+    _subscription?.cancel();
+    _subscription = null;
     super.dispose();
   }
 }

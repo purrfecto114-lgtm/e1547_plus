@@ -24,6 +24,9 @@ class ClientFactory {
     identity: config.identity,
     traits: config.traits,
     storage: config.storage,
+    // The factory hands out the streamed traits notifier created for
+    // this client; the client is its owner and frees it on dispose.
+    ownsTraitsNotifier: true,
   );
 
   IdentityRequest createDefaultIdentity() {

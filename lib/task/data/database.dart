@@ -46,17 +46,25 @@ class TaskRepository extends DatabaseAccessor<GeneratedDatabase>
     with $TaskRepositoryMixin {
   TaskRepository({required GeneratedDatabase database}) : super(database);
 
+  /// Failed tasks are retained by age instead of count: they stay
+  /// available for retry until [failedRetention] has passed since they
+  /// finished, with no limit on how many pile up within that window.
+  static const Duration failedRetention = Duration(days: 7);
+
   StreamFuture<Task> get(int id) => (select(
     tasksTable,
   )..where((tbl) => tbl.id.equals(id))).watchSingle().future;
 
   Expression<bool> _identityQuery($TasksTableTable tbl, int? identity) {
     final subQuery = tasksIdentitiesTable.selectOnly()
-      ..addColumns([tasksIdentitiesTable.task])
-      ..where(
-        Variable(identity).isNull() |
-            tasksIdentitiesTable.identity.equalsNullable(identity),
-      );
+      ..addColumns([tasksIdentitiesTable.task]);
+    if (identity != null) {
+      // A plain equality lets SQLite use the association table's composite
+      // primary key, whose identity column comes first; the previous
+      // "argument null or identity equal" shape could only scan the whole
+      // table. A null identity still matches every associated task.
+      subQuery.where(tasksIdentitiesTable.identity.equals(identity));
+    }
 
     return tbl.id.isInQuery(subQuery);
   }
@@ -134,7 +142,49 @@ class TaskRepository extends DatabaseAccessor<GeneratedDatabase>
     return selectable.map((row) => row.read(count)!).watchSingle().future;
   }
 
-  Future<Task> add(TaskRequest item, int identity) async {
+  /// Returns the tasks with the given ids.
+  Future<List<Task>> getAll(List<int> ids) => (select(
+    tasksTable,
+  )..where((tbl) => tbl.id.isIn(ids))).get();
+
+  /// Returns the active task that [request] would duplicate, if any.
+  ///
+  /// A duplicate shares the identity, action and post of the request. For
+  /// downloads the file url must match as well, so a post whose file was
+  /// replaced can be downloaded again. Tasks that already reached a
+  /// terminal state never block a fresh request.
+  Future<Task?> _findActiveDuplicate(
+    TaskRequest request,
+    int identity,
+  ) async {
+    final List<Task> candidates = await (select(tasksTable)
+          ..where((tbl) => _identityQuery(tbl, identity))
+          ..where((tbl) => tbl.action.equals(request.action.name))
+          ..where((tbl) => tbl.postId.equals(request.postId))
+          ..where(
+            (tbl) => tbl.status.isIn(
+              [TaskStatus.pending, TaskStatus.running].map((e) => e.name),
+            ),
+          ))
+        .get();
+    for (final Task candidate in candidates) {
+      if (request.action == TaskAction.download &&
+          candidate.metadata?.fileUrl != request.metadata?.fileUrl) {
+        continue;
+      }
+      return candidate;
+    }
+    return null;
+  }
+
+  /// Inserts a task, unless an identical one is already queued or running.
+  ///
+  /// A duplicate request merges into that task, which is returned instead
+  /// of a newly created one, so no worker or byte of bandwidth is spent
+  /// twice on the same goal.
+  Future<Task> add(TaskRequest item, int identity) => transaction(() async {
+    final Task? duplicate = await _findActiveDuplicate(item, identity);
+    if (duplicate != null) return duplicate;
     final Task task = await into(tasksTable).insertReturning(
       TaskCompanion(
         action: Value(item.action),
@@ -148,39 +198,58 @@ class TaskRepository extends DatabaseAccessor<GeneratedDatabase>
       TaskIdentityCompanion(identity: Value(identity), task: Value(task.id)),
     );
     return task;
-  }
+  });
 
-  Future<List<Task>> addAll(Iterable<TaskRequest> items, int identity) =>
-      transaction(() async {
-        final DateTime now = DateTime.now();
-        final List<Task> created = [];
-        for (final item in items) {
-          final Task task = await into(tasksTable).insertReturning(
-            TaskCompanion(
-              action: Value(item.action),
-              postId: Value(item.postId),
-              status: const Value(TaskStatus.pending),
-              createdAt: Value(now),
-              metadata: Value(item.metadata),
-            ),
-          );
-          created.add(task);
+  /// Inserts a batch of tasks, merging requests that duplicate an already
+  /// active task instead of inserting a second copy of it.
+  ///
+  /// Returns which tasks were newly created and which already active tasks
+  /// absorbed a duplicate request; requests within one batch also dedupe
+  /// against the tasks inserted just before them. The whole pass is one
+  /// transaction, so a concurrent enqueue either sees none or all of it.
+  Future<({List<Task> created, List<Task> merged})> addAll(
+    Iterable<TaskRequest> items,
+    int identity,
+  ) => transaction(() async {
+    final DateTime now = DateTime.now();
+    final List<Task> created = [];
+    final List<Task> merged = [];
+    final Set<int> reportedIds = {};
+    for (final item in items) {
+      final Task? duplicate = await _findActiveDuplicate(item, identity);
+      if (duplicate != null) {
+        if (reportedIds.add(duplicate.id)) {
+          merged.add(duplicate);
         }
-        await batch((b) {
-          b.insertAll(
-            tasksIdentitiesTable,
-            created
-                .map(
-                  (task) => TaskIdentityCompanion(
-                    identity: Value(identity),
-                    task: Value(task.id),
-                  ),
-                )
-                .toList(),
-          );
-        });
-        return created;
-      });
+        continue;
+      }
+      final Task task = await into(tasksTable).insertReturning(
+        TaskCompanion(
+          action: Value(item.action),
+          postId: Value(item.postId),
+          status: const Value(TaskStatus.pending),
+          createdAt: Value(now),
+          metadata: Value(item.metadata),
+        ),
+      );
+      created.add(task);
+      reportedIds.add(task.id);
+    }
+    await batch((b) {
+      b.insertAll(
+        tasksIdentitiesTable,
+        created
+            .map(
+              (task) => TaskIdentityCompanion(
+                identity: Value(identity),
+                task: Value(task.id),
+              ),
+            )
+            .toList(),
+      );
+    });
+    return (created: created, merged: merged);
+  });
 
   Future<Task?> claimNext({int? identity, Set<TaskAction>? actions}) async =>
       transaction(() async {
@@ -223,14 +292,23 @@ class TaskRepository extends DatabaseAccessor<GeneratedDatabase>
         ),
       );
 
-  Future<void> markCanceled(int id) =>
-      (update(tasksTable)..where((tbl) => tbl.id.equals(id))).write(
-        TaskCompanion(
-          status: const Value(TaskStatus.canceled),
-          error: const Value(null),
-          completedAt: Value(DateTime.now()),
-        ),
-      );
+  /// Cancels a task unless it already reached a terminal state.
+  ///
+  /// Returns the status the task had before: pending tasks never reach a
+  /// worker, so their caller counts the canceled outcome itself, while
+  /// running tasks are aborted and reported by the worker that owns them.
+  Future<TaskStatus?> markCanceled(int id) => transaction(() async {
+    final TaskStatus? status = await readStatus(id);
+    if (status == null || status.isTerminal) return status;
+    await (update(tasksTable)..where((tbl) => tbl.id.equals(id))).write(
+      TaskCompanion(
+        status: const Value(TaskStatus.canceled),
+        error: const Value(null),
+        completedAt: Value(DateTime.now()),
+      ),
+    );
+    return status;
+  });
 
   /// Returns a claimed running task to the pending queue, e.g. when the
   /// controller that claimed it is disposed. Tasks that were canceled or
@@ -241,21 +319,41 @@ class TaskRepository extends DatabaseAccessor<GeneratedDatabase>
             ..where((tbl) => tbl.status.equals(TaskStatus.running.name)))
           .write(const TaskCompanion(status: Value(TaskStatus.pending)));
 
-  Future<int> cancelAll({int? identity}) =>
-      (update(tasksTable)
-            ..where((tbl) => _identityQuery(tbl, identity))
-            ..where(
-              (tbl) => tbl.status.isIn(
-                [TaskStatus.pending, TaskStatus.running].map((e) => e.name),
-              ),
-            ))
-          .write(
-            TaskCompanion(
-              status: const Value(TaskStatus.canceled),
-              error: const Value(null),
-              completedAt: Value(DateTime.now()),
-            ),
-          );
+  /// Cancels the given tasks, or every active task of [identity] when
+  /// [ids] is null, in a single database write.
+  ///
+  /// The tasks are returned with the status they had before cancellation:
+  /// those that were still pending never reach a worker, so their caller
+  /// counts their outcome from the returned statuses itself, while running
+  /// ones are aborted and classified by their workers. The read and the
+  /// write share one transaction, so a task cannot be claimed in between.
+  Future<List<Task>> cancelTasks({List<int>? ids, int? identity}) =>
+      transaction(() async {
+        final query = select(
+          tasksTable,
+        )..where(
+          (tbl) => tbl.status.isIn(
+            [TaskStatus.pending, TaskStatus.running].map((e) => e.name),
+          ),
+        );
+        if (ids != null) {
+          query.where((tbl) => tbl.id.isIn(ids));
+        } else {
+          query.where((tbl) => _identityQuery(tbl, identity));
+        }
+        final List<Task> active = await query.get();
+        if (active.isEmpty) return const <Task>[];
+        await (update(tasksTable)
+              ..where((tbl) => tbl.id.isIn(active.map((e) => e.id))))
+            .write(
+          TaskCompanion(
+            status: const Value(TaskStatus.canceled),
+            error: const Value(null),
+            completedAt: Value(DateTime.now()),
+          ),
+        );
+        return active;
+      });
 
   Future<int> clear({required Set<TaskStatus> statuses, int? identity}) =>
       (delete(tasksTable)

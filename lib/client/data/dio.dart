@@ -32,3 +32,22 @@ Dio createDefaultDio(Identity identity, {CachedQuery? queryCache}) {
   dio.queryIdentity = identity.id;
   return dio;
 }
+
+/// Create the [Dio] instance that downloads media files.
+///
+/// It deliberately carries no identity credentials: media URLs come from
+/// API responses and may point at any host, so the account's
+/// `Authorization` header or cookies must never travel to them. Only the
+/// user agent rides along, which servers need for content negotiation.
+Dio createMediaDio() {
+  final dio = Dio(
+    BaseOptions(
+      headers: {HttpHeaders.userAgentHeader: AppInfo.instance.userAgent},
+      connectTimeout: const Duration(seconds: 30),
+      receiveTimeout: const Duration(seconds: 30),
+    ),
+  );
+  dio.httpClientAdapter = NativeAdapter();
+  dio.interceptors.add(LoggingDioInterceptor());
+  return dio;
+}

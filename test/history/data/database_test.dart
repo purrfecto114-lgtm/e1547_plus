@@ -50,4 +50,34 @@ void main() {
       expect(remaining.map((e) => e.link), [entries.last.link]);
     });
   });
+
+  group('HistoryRepository.isDuplicate', () {
+    test('the same visit in two identities is not a duplicate', () async {
+      final other = (await IdentityRepository(
+        sqlite,
+      ).add(const IdentityRequest(host: 'e621.net', username: 'other'))).id;
+      // The dedup window only spans the last three minutes, so the
+      // visit has to carry a fresh timestamp to fall inside it.
+      final request = HistoryRequest(
+        visitedAt: DateTime.now(),
+        link: '/posts/1',
+        category: HistoryCategory.items,
+        type: HistoryType.posts,
+      );
+
+      // The dedup window is per identity: another account's visit of the
+      // same link must not swallow this one's history entry.
+      expect(
+        await repository.isDuplicate(request, identity: identity),
+        isFalse,
+      );
+      await repository.add(request, identity);
+      expect(await repository.isDuplicate(request, identity: identity), isTrue);
+      expect(await repository.isDuplicate(request, identity: other), isFalse);
+
+      await repository.add(request, other);
+      expect(await repository.length(identity: identity), 1);
+      expect(await repository.length(identity: other), 1);
+    });
+  });
 }

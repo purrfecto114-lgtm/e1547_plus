@@ -29,11 +29,21 @@
               android:name="io.flutter.embedding.android.NormalTheme"
               android:resource="@style/NormalTheme"
               />
+            <!-- Deep links are handled by the app_links plugin, not by
+                 Flutter's built-in deep linking, which would race it for the
+                 same intents. -->
+            <meta-data
+              android:name="flutter_deeplinking_enabled"
+              android:value="false"
+              />
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
-            <intent-filter>
+            <!-- autoVerify asks Android to verify domain association with
+                 e621.net/e926.net; until the sites publish assetlinks.json,
+                 links keep opening through the resolver dialog. -->
+            <intent-filter android:autoVerify="true">
                 <action android:name="android.intent.action.VIEW" />
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />

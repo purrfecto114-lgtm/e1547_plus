@@ -45,15 +45,14 @@ Future<bool> writeComment({
           final messenger = ScaffoldMessenger.of(context);
           final client = context.read<Client>();
           if (text.isNotEmpty) {
-            try {
-              if (comment == null) {
-                await client.comments.useCreate(postId: postId).mutate(text);
-              } else {
-                await client.comments
-                    .useUpdate(id: comment.id, postId: postId)
-                    .mutate(text);
-              }
-            } on ClientException {
+            // cached_query swallows send failures into the returned state,
+            // so the outcome has to be checked instead of caught.
+            final state = comment == null
+                ? await client.comments.useCreate(postId: postId).mutate(text)
+                : await client.comments
+                      .useUpdate(id: comment.id, postId: postId)
+                      .mutate(text);
+            if (state.isError) {
               return l10n.commentSendFailed;
             }
             sent = true;

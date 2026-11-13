@@ -27,6 +27,7 @@ class FollowsBookmarkPage extends StatelessWidget {
           child: FollowPageQueryBuilder(
             builder: (context, state, query) => SelectionLayout<Follow>(
               items: state.data?.pages.expand((p) => p).toList(),
+              keyOf: (follow) => follow.id,
               child: PromptActions(
                 child: AdaptiveScaffold(
                   appBar: FollowSelectionAppBar(
@@ -49,7 +50,7 @@ class FollowsBookmarkPage extends StatelessWidget {
                   body: TileLayout(
                     child: Builder(
                       builder: (context) => PullToRefresh(
-                        onRefresh: query.invalidate,
+                        onRefresh: query.revalidate,
                         child: PagedAlignedGridView<int, Follow>.count(
                           primary: true,
                           padding: defaultActionListPadding,

@@ -147,13 +147,26 @@ class DatabaseExportTile extends StatelessWidget {
         await sanitizeDatabase(db);
       });
 
-      final bytes = await tempFile.readAsBytes();
-      await tempFile.delete();
-      tempFile = null;
+      // Desktop pickers only choose a path, so an unencrypted export can
+      // stream from the snapshot; the buffered path stays for mobile
+      // pickers and for the encrypted format, which is a single blob.
+      final bool desktop = [
+        Platform.isLinux,
+        Platform.isWindows,
+        Platform.isMacOS,
+      ].any((e) => e);
+      final bool streamToFile = desktop && password.isEmpty;
 
-      Uint8List outputBytes = bytes;
-      if (password.isNotEmpty) {
-        outputBytes = await encryptDatabaseExport(bytes, password);
+      Uint8List? outputBytes;
+      if (!streamToFile) {
+        final bytes = await tempFile.readAsBytes();
+        await tempFile.delete();
+        tempFile = null;
+
+        outputBytes = bytes;
+        if (password.isNotEmpty) {
+          outputBytes = await encryptDatabaseExport(bytes, password);
+        }
       }
 
       String? outputFile = await FilePicker.platform.saveFile(
@@ -163,6 +176,9 @@ class DatabaseExportTile extends StatelessWidget {
         allowedExtensions: ['db'],
         bytes: outputBytes,
       );
+      if (outputFile != null && outputBytes == null) {
+        await tempFile!.copy(outputFile);
+      }
 
       navigator.pop();
       if (outputFile != null) {
@@ -231,7 +247,16 @@ class DatabaseImportTile extends StatelessWidget {
       // the password up front, decrypt into a temporary file and let the
       // regular checks below run against that.
       String sourcePath = path;
-      if (hasDatabaseExportMagic(await File(path).readAsBytes())) {
+      if (await isEncryptedExport(path)) {
+        // The v1 format must be buffered whole to be decrypted; a bound
+        // keeps a mistakenly picked huge file from peaking several times
+        // its size before the first format check runs.
+        if (await File(path).length() > maxImportBytes) {
+          messenger.showSnackBar(
+            SnackBar(content: Text(l10n.databaseImportTooLarge)),
+          );
+          return;
+        }
         bool wrongPassword = false;
         while (true) {
           if (!context.mounted) return;
@@ -359,59 +384,82 @@ class DatabaseImportTile extends StatelessWidget {
   Future<void> _showRestartDialog(
     BuildContext context, {
     required Set<String> hosts,
-  }) => showDialog(
-    context: context,
-    barrierDismissible: false,
-    builder: (context) {
-      final l10n = AppLocalizations.of(context);
-      final foreignHosts = hosts.difference(defaultHosts);
-      return Center(
-        child: ConstrainedBox(
-          constraints: const BoxConstraints(maxWidth: 600),
-          child: AlertDialog(
-            title: Text(l10n.databaseRestartTitle),
-            content: Column(
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(l10n.databaseRestartBody),
-                const SizedBox(height: 12),
-                Text(l10n.databaseImportSanitized),
-                if (foreignHosts.isNotEmpty) ...[
+  }) async {
+    // Whether the user pressed restart. Every other exit from this
+    // dialog — the system back key popping the route, a process death —
+    // leaves the candidate unconfirmed, and the next boot must not
+    // mistake validation for consent.
+    var restarting = false;
+    await showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (context) {
+        final l10n = AppLocalizations.of(context);
+        final foreignHosts = hosts.difference(defaultHosts);
+        return Center(
+          child: ConstrainedBox(
+            constraints: const BoxConstraints(maxWidth: 600),
+            child: AlertDialog(
+              title: Text(l10n.databaseRestartTitle),
+              content: Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(l10n.databaseRestartBody),
                   const SizedBox(height: 12),
-                  Text(
-                    l10n.databaseImportHostsWarning(foreignHosts.join(', ')),
-                    style: TextStyle(
-                      color: Theme.of(context).colorScheme.error,
+                  Text(l10n.databaseImportSanitized),
+                  if (foreignHosts.isNotEmpty) ...[
+                    const SizedBox(height: 12),
+                    Text(
+                      l10n.databaseImportHostsWarning(foreignHosts.join(', ')),
+                      style: TextStyle(
+                        color: Theme.of(context).colorScheme.error,
+                      ),
                     ),
-                  ),
+                  ],
                 ],
+              ),
+              actions: [
+                TextButton(
+                  onPressed: () async {
+                    // Drop the staged import; the current database stays.
+                    final messenger = ScaffoldMessenger.of(context);
+                    await discardStagedImport();
+                    if (!context.mounted) return;
+                    popDialog(context);
+                    messenger.showSnackBar(
+                      SnackBar(content: Text(l10n.databaseImportCancelled)),
+                    );
+                  },
+                  child: Text(l10n.actionCancel),
+                ),
+                TextButton(
+                  onPressed: () async {
+                    // Record the user's consent right before the restart
+                    // adopts it; a boot that never sees this marker keeps
+                    // the live database instead.
+                    restarting = true;
+                    await confirmStagedImport(
+                      await pendingImportPath(),
+                      await pendingImportConfirmPath(),
+                    );
+                    if (!context.mounted) return;
+                    AppInit.of(context).reinitialize();
+                  },
+                  child: Text(l10n.actionRestartNow),
+                ),
               ],
             ),
-            actions: [
-              TextButton(
-                onPressed: () async {
-                  // Drop the staged import; the current database stays.
-                  final messenger = ScaffoldMessenger.of(context);
-                  await discardStagedImport();
-                  if (!context.mounted) return;
-                  popDialog(context);
-                  messenger.showSnackBar(
-                    SnackBar(content: Text(l10n.databaseImportCancelled)),
-                  );
-                },
-                child: Text(l10n.actionCancel),
-              ),
-              TextButton(
-                onPressed: () => AppInit.of(context).reinitialize(),
-                child: Text(l10n.actionRestartNow),
-              ),
-            ],
           ),
-        ),
-      );
-    },
-  );
+        );
+      },
+    );
+    if (!restarting) {
+      // The dialog went away without the restart: the staged candidate
+      // must never reach the next boot as installable.
+      await discardStagedImport();
+    }
+  }
 
   @override
   Widget build(BuildContext context) {

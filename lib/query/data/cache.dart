@@ -102,6 +102,14 @@ class QueryBridge<T, K> {
     return items.map(getId).toList();
   }
 
+  /// In-flight optimistic mutations per item.
+  ///
+  /// A failing mutation restores the state it saw at its start; without
+  /// serialization, a concurrent success on the same item would be
+  /// reverted by that rollback. Chaining mutations on the same item
+  /// keeps every rollback scoped to its own changes.
+  final Map<K, Completer<void>> _inFlight = {};
+
   Future<R> optimistic<R>(
     K id,
     T Function(T) updateFn,
@@ -110,20 +118,39 @@ class QueryBridge<T, K> {
     final itemQuery = _getQuery(id);
     if (itemQuery == null) return callback();
 
-    final current = itemQuery.state.data;
-    if (current == null) return callback();
+    final Completer<void> turn = Completer<void>();
+    final Completer<void> predecessor = _inFlight.putIfAbsent(id, () => turn);
+    if (predecessor != turn) {
+      // Claim the slot before waiting, so a third mutation chains onto
+      // this one instead of the predecessor.
+      _inFlight[id] = turn;
+      // The mutation ahead has its failure handled by its own caller;
+      // the settled chain never errors.
+      await predecessor.future;
+    }
 
-    T previous = current;
     try {
-      final updated = updateFn(current);
-      if (updated != current) {
-        itemQuery.setData(updated);
+      // The state may have moved while this mutation waited its turn.
+      final current = itemQuery.state.data;
+      if (current == null) return await callback();
+
+      T previous = current;
+      try {
+        final updated = updateFn(current);
+        if (updated != current) {
+          itemQuery.setData(updated);
+        }
+        final result = await callback();
+        return result;
+      } on Object {
+        itemQuery.setData(previous);
+        rethrow;
       }
-      final result = await callback();
-      return result;
-    } on Object {
-      itemQuery.setData(previous);
-      rethrow;
+    } finally {
+      turn.complete();
+      if (identical(_inFlight[id], turn)) {
+        _inFlight.remove(id);
+      }
     }
   }
 

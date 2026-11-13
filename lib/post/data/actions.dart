@@ -5,6 +5,14 @@ import 'package:e1547/shared/shared.dart';
 import 'package:flutter/material.dart';
 
 extension PostTagging on Post {
+  /// Whether this post can be displayed at all.
+  ///
+  /// Flash posts cannot be rendered by the app, and a post that is not
+  /// deleted but has no file is censored. Such posts stay in fetched
+  /// pages — pagination must advance on the raw response — but the
+  /// display layer drops them.
+  bool get isDisplayable => ext != 'swf' && (isDeleted || file != null);
+
   bool hasTag(String tag) {
     if (tag.trim().isEmpty) return false;
 

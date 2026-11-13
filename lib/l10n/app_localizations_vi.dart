@@ -429,6 +429,9 @@ class AppLocalizationsVi extends AppLocalizations {
   }
 
   @override
+  String get databaseImportTooLarge => 'Tệp này quá lớn để nhập.';
+
+  @override
   String get databaseImportTitle => 'Nhập Cơ sở dữ liệu';
 
   @override
@@ -1345,6 +1348,14 @@ class AppLocalizationsVi extends AppLocalizations {
 
   @override
   String get identityAnonymous => 'Ẩn danh';
+
+  @override
+  String get identityCredentialsRejected =>
+      'Trang web đã từ chối thông tin đăng nhập này. Hãy kiểm tra tên người dùng và khóa API.';
+
+  @override
+  String get identityVerifyUnreachable =>
+      'Không thể kết nối với trang web để xác minh thông tin đăng nhập.';
 
   @override
   String get identityDuplicate =>
@@ -2296,6 +2307,21 @@ class AppLocalizationsVi extends AppLocalizations {
   String get followNotificationSummary => 'Bài mới!';
 
   @override
+  String get followNotificationHiddenBody =>
+      'Các thẻ bạn theo dõi có bài đăng mới.';
+
+  @override
+  String get followHideNotificationContent => 'Ẩn nội dung thông báo';
+
+  @override
+  String get followHideNotificationContentHint =>
+      'Ẩn tiêu đề, phần xem trước và hình thu nhỏ của thông báo';
+
+  @override
+  String get notificationStaleIdentity =>
+      'Thông báo này thuộc về một tài khoản không còn trên thiết bị này.';
+
+  @override
   String get followChannelName => 'Thẻ theo dõi';
 
   @override
@@ -2395,4 +2421,30 @@ class AppLocalizationsVi extends AppLocalizations {
 
   @override
   String get actionUnlock => 'MỞ KHÓA';
+
+  @override
+  String get editorDiscardTitle => 'Discard changes?';
+
+  @override
+  String get editorDiscardBody => 'Your changes have not been submitted.';
+
+  @override
+  String get editorDiscardConfirm => 'Discard';
+
+  @override
+  String get editorContinueEditing => 'Continue editing';
+
+  @override
+  String postListGoingToPage(num page) {
+    return 'Going to page $page';
+  }
+
+  @override
+  String get actionRetry => 'Retry';
+
+  @override
+  String get selectionQueueDownloadsFailed => 'Failed to queue downloads';
+
+  @override
+  String get selectionQueueFavoritesFailed => 'Failed to queue favorites';
 }

@@ -1,6 +1,14 @@
 import 'package:e1547/l10n/app_localizations.dart';
 import 'package:e1547/shared/shared.dart';
+import 'package:flutter/foundation.dart' show setEquals;
 import 'package:flutter/material.dart';
+
+/// Returns the stable key which identifies an item of a [SelectionLayout].
+///
+/// Keys outlive content changes of their item: a selection is only dropped
+/// when its key leaves the current items, not when an equal-but-updated
+/// item replaces the selected one.
+typedef SelectionKeyOf<T> = Object Function(T item);
 
 class SelectionLayoutData<T> extends InheritedWidget {
   /// Provides selection actions for a [SelectionLayout] to its subtree.
@@ -10,20 +18,41 @@ class SelectionLayoutData<T> extends InheritedWidget {
     required this.selections,
     required this.onChanged,
     required this.items,
+    required this.keyOf,
+    required this.itemsByKey,
+    required this.selectedKeys,
   });
 
   /// All selected items.
+  ///
+  /// Resolved from stable keys against the current [items], so a selected
+  /// item stays selected while its content changes.
   final Set<T> selections;
 
   /// All items that can be selected.
   final List<T> items;
+
+  /// Returns the stable key of an item of this [SelectionLayout].
+  final SelectionKeyOf<T> keyOf;
+
+  /// All current items by their stable keys.
+  ///
+  /// Part of the key-based selection bookkeeping; widgets should prefer
+  /// [items] and [selections].
+  final Map<Object, T> itemsByKey;
+
+  /// The stable keys of all selected items.
+  ///
+  /// Part of the key-based selection bookkeeping; widgets should prefer
+  /// [selections].
+  final Set<Object> selectedKeys;
 
   /// Called when the selection is changed.
   final ValueChanged<Set<T>> onChanged;
 
   /// Ensures that an item is part of this [SelectionLayout].
   void _assertItemOwnership(T item) {
-    if (!items.contains(item)) {
+    if (!itemsByKey.containsKey(keyOf(item))) {
       throw StateError('Cannot select an item which is not part of items!');
     }
   }
@@ -35,9 +64,12 @@ class SelectionLayoutData<T> extends InheritedWidget {
   void selectAll() => onChanged(items.toSet());
 
   /// Returns whether an item is currently selected.
+  ///
+  /// Compares by stable key, so an outdated copy of a selected item still
+  /// reports as selected.
   bool isSelected(T item) {
     _assertItemOwnership(item);
-    return selections.contains(item);
+    return selectedKeys.contains(keyOf(item));
   }
 
   /// Selects an item.
@@ -53,8 +85,12 @@ class SelectionLayoutData<T> extends InheritedWidget {
   /// Does nothing if the item is not selected.
   void deselect(T item) {
     _assertItemOwnership(item);
-    if (isSelected(item)) {
-      onChanged(Set.of(selections)..remove(item));
+    final Object key = keyOf(item);
+    if (selectedKeys.contains(key)) {
+      onChanged({
+        for (final selection in selections)
+          if (keyOf(selection) != key) selection,
+      });
     }
   }
 
@@ -73,7 +109,8 @@ class SelectionLayoutData<T> extends InheritedWidget {
 
   @override
   bool updateShouldNotify(covariant SelectionLayoutData<T> oldWidget) =>
-      (oldWidget.selections != selections || oldWidget.onChanged != onChanged);
+      !setEquals(oldWidget.selections, selections) ||
+      oldWidget.onChanged != onChanged;
 }
 
 class SelectionLayout<T> extends StatefulWidget {
@@ -82,6 +119,7 @@ class SelectionLayout<T> extends StatefulWidget {
     super.key,
     required this.child,
     required this.items,
+    required this.keyOf,
     this.enabled = true,
   });
 
@@ -90,6 +128,12 @@ class SelectionLayout<T> extends StatefulWidget {
 
   /// All items which can be selected.
   final List<T>? items;
+
+  /// Returns the stable key of an item.
+  ///
+  /// The same item must keep the same key while its content changes; a
+  /// selection is only dropped when its key leaves [items].
+  final SelectionKeyOf<T> keyOf;
 
   /// Whether items can currently be selected.
   final bool enabled;
@@ -108,23 +152,38 @@ class SelectionLayout<T> extends StatefulWidget {
 }
 
 class _SelectionLayoutState<T> extends State<SelectionLayout<T>> {
-  Set<T> selections = {};
+  /// The stable keys of all selected items.
+  ///
+  /// Keys, not items: a task changing status or a post changing score
+  /// replaces the item instance, but keeps its key and its selection.
+  Set<Object> selectedKeys = {};
 
   @override
   void didUpdateWidget(covariant SelectionLayout<T> oldWidget) {
     super.didUpdateWidget(oldWidget);
     if (oldWidget.items != widget.items) {
-      Set<T> updated = Set.from(selections);
-      updated.removeWhere(
-        (element) => !(widget.items?.contains(element) ?? false),
-      );
-      onSelectionChanged(updated);
+      // Keys which left the current items drop their selection; keys whose
+      // items only changed content keep theirs.
+      final Map<Object, T> itemsByKey = {
+        for (final item in widget.items ?? <T>[])
+          widget.keyOf(item): item,
+      };
+      final Set<Object> updated = selectedKeys
+          .where(itemsByKey.containsKey)
+          .toSet();
+      if (updated.length != selectedKeys.length) {
+        onSelectionKeysChanged(updated);
+      }
     }
   }
 
   void onSelectionChanged(Set<T> selections) {
+    onSelectionKeysChanged(selections.map(widget.keyOf).toSet());
+  }
+
+  void onSelectionKeysChanged(Set<Object> keys) {
     setState(() {
-      this.selections = selections;
+      selectedKeys = keys;
     });
   }
 
@@ -132,15 +191,31 @@ class _SelectionLayoutState<T> extends State<SelectionLayout<T>> {
   Widget build(BuildContext context) {
     if (!widget.enabled) return widget.child;
 
+    final List<T> items = widget.items ?? <T>[];
+    final Map<Object, T> itemsByKey = {
+      for (final item in items) widget.keyOf(item): item,
+    };
+    // Resolving through keys maps a selection onto the current item which
+    // owns its key, whatever happened to the item's content.
+    final Set<Object> visibleKeys = selectedKeys
+        .where(itemsByKey.containsKey)
+        .toSet();
+    final Set<T> selections = {
+      for (final key in visibleKeys) itemsByKey[key]!,
+    };
+
     return PopScope(
       canPop: selections.isEmpty,
       onPopInvokedWithResult: (didPop, result) {
         if (!didPop) onSelectionChanged({});
       },
       child: SelectionLayoutData<T>(
-        items: widget.items ?? [],
+        items: items,
+        itemsByKey: itemsByKey,
         selections: selections,
+        selectedKeys: visibleKeys,
         onChanged: onSelectionChanged,
+        keyOf: widget.keyOf,
         child: widget.child,
       ),
     );
@@ -236,25 +311,36 @@ class SelectionItemOverlay<T> extends StatelessWidget {
         children: [
           child,
           Positioned.fill(
-            child: MouseCursorRegion(
-              behavior: HitTestBehavior.translucent,
+            child: Semantics(
+              // The overlay toggles the selection of its item. Exposing
+              // the toggled state, and the actions behind it, keeps
+              // screen readers informed and operable without gestures.
+              button: true,
+              selected: layoutData.selections.contains(item),
               onTap: layoutData.selections.isNotEmpty
                   ? () => layoutData.toggleSelection(item)
                   : null,
               onLongPress: () => layoutData.toggleSelection(item),
-              onSecondaryTap: () => layoutData.toggleSelection(item),
-              child: ExcludeFocus(
-                child: IgnorePointer(
-                  child: AnimatedOpacity(
-                    duration: defaultAnimationDuration,
-                    opacity: layoutData.selections.contains(item) ? 1 : 0,
-                    child: Container(
-                      margin: padding,
-                      color: Colors.black38,
-                      child: const Icon(
-                        Icons.check_circle_outline,
-                        color: Colors.white,
-                        size: 60,
+              child: MouseCursorRegion(
+                behavior: HitTestBehavior.translucent,
+                onTap: layoutData.selections.isNotEmpty
+                    ? () => layoutData.toggleSelection(item)
+                    : null,
+                onLongPress: () => layoutData.toggleSelection(item),
+                onSecondaryTap: () => layoutData.toggleSelection(item),
+                child: ExcludeFocus(
+                  child: IgnorePointer(
+                    child: AnimatedOpacity(
+                      duration: defaultAnimationDuration,
+                      opacity: layoutData.selections.contains(item) ? 1 : 0,
+                      child: Container(
+                        margin: padding,
+                        color: Colors.black38,
+                        child: const Icon(
+                          Icons.check_circle_outline,
+                          color: Colors.white,
+                          size: 60,
+                        ),
                       ),
                     ),
                   ),

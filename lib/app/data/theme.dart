@@ -67,6 +67,12 @@ enum AppTheme {
             accentColor: accentColor,
             cardColor: Colors.white,
             backgroundColor: Colors.grey[50],
+          ).copyWith(
+            // ColorScheme.fromSwatch hardcodes a white onPrimary, which
+            // fails WCAG AA on the amber primary (~1.9:1). Near-black
+            // keeps primary-styled controls legible (~9.8:1); the dark
+            // themes are unaffected by this.
+            onPrimary: Colors.black87,
           ),
         ).copyWith(
           floatingActionButtonTheme: const FloatingActionButtonThemeData(

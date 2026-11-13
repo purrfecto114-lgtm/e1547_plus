@@ -1,6 +1,5 @@
 import 'dart:math';
 
-import 'package:collection/collection.dart';
 import 'package:dio/dio.dart';
 import 'package:e1547/identity/identity.dart';
 import 'package:e1547/pool/pool.dart';
@@ -29,6 +28,11 @@ class PostClient {
 
   /// [page] is either a 1-based page number or a `b<id>` cursor, which the
   /// server serves with the posts before that id in descending id order.
+  ///
+  /// Returns the posts the server sends, without client-side removal:
+  /// pagination must advance on the raw response, or a page whose items
+  /// are all undisplayable would end the list early. Display filtering
+  /// happens through [PostFilter].
   Future<List<Post>> page({
     Object? page,
     int? limit,
@@ -44,17 +48,7 @@ class PostClient {
       .then(
         (response) =>
             (response.data as List).map<Post>(E621Post.fromJson).toList(),
-      )
-      .then(_filter);
-
-  /// Filters out "broken" posts.
-  /// Flash posts are considered to be broken by default, since we will not be able to display them.
-  /// Censored posts, which have contentious tags and are unavailable to anonymous users, are also considered broken.
-  /// Posts which are not deleted but have no file are censored.
-  List<Post> _filter(List<Post> posts) => posts
-      .whereNot((post) => !post.isDeleted && post.file == null)
-      .whereNot((post) => post.ext == 'swf')
-      .toList();
+      );
 
   Future<List<Post>> byIds({
     required List<int> ids,
@@ -131,33 +125,47 @@ class PostClient {
     queryParameters: {'score': upvote ? 1 : -1, 'no_unvote': replace},
   );
 
+  /// Returns the server's favorite posts as-is.
+  ///
+  /// Like [page], removal of undisplayable posts is a display concern:
+  /// filtering here would end page-number pagination early whenever a
+  /// favorites page holds only such posts.
   Future<List<Post>> favorites({
     Object? page,
     int? limit,
     QueryMap? query,
     CancelToken? cancelToken,
-  }) => dio
-      .get(
-        '/favorites.json',
-        queryParameters: {
-          'page': page,
-          'limit': limit,
-          // may not contain tags, or we get redirected to a html page
-          ...?(query?..remove('tags')),
-        },
-        cancelToken: cancelToken,
-      )
-      .then(unwrapRailsArray)
-      .then(
-        (response) => (response.data as List<dynamic>)
-            .map<Post>(E621Post.fromJson)
-            .where((post) => !post.isDeleted && post.file != null)
-            .toList(),
-      );
+  }) {
+    // The query belongs to the caller and doubles as their cache key,
+    // so the tags entry is dropped from a copy: an in-place edit
+    // would change every later request keyed by the same map.
+    final Map<String, String>? filteredQuery = query == null
+        ? null
+        : (Map<String, String>.of(query)..remove('tags'));
+    return dio
+        .get(
+          '/favorites.json',
+          queryParameters: {
+            'page': page,
+            'limit': limit,
+            // may not contain tags, or we get redirected to a html page
+            ...?filteredQuery,
+          },
+          cancelToken: cancelToken,
+        )
+        .then(unwrapRailsArray)
+        .then(
+          (response) =>
+              (response.data as List).map<Post>(E621Post.fromJson).toList(),
+        );
+  }
 
-  Future<void> addFavorite(int postId) =>
-      dio.post('/favorites.json', queryParameters: {'post_id': postId});
+  Future<void> addFavorite(int postId, {CancelToken? cancelToken}) => dio.post(
+    '/favorites.json',
+    queryParameters: {'post_id': postId},
+    cancelToken: cancelToken,
+  );
 
-  Future<void> removeFavorite(int postId) =>
-      dio.delete('/favorites/$postId.json');
+  Future<void> removeFavorite(int postId, {CancelToken? cancelToken}) =>
+      dio.delete('/favorites/$postId.json', cancelToken: cancelToken);
 }

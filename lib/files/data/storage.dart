@@ -5,6 +5,7 @@ import 'package:drift/isolate.dart' show DriftRemoteException;
 import 'package:drift/native.dart' show SqliteException;
 import 'package:e1547/logs/logs.dart';
 import 'package:flutter_cache_manager/flutter_cache_manager.dart';
+import 'package:path/path.dart' as p;
 
 // ignore: always_use_package_imports
 import 'storage.drift.dart';
@@ -59,17 +60,44 @@ class FileCacheRepository extends DatabaseAccessor<GeneratedDatabase>
   Future<int> removeCache(String cache) =>
       (delete(fileCacheTable)..where((tbl) => tbl.cache.equals(cache))).go();
 
-  Future<List<FileCacheTableData>> overCapacity(String cache, int capacity) =>
-      (select(fileCacheTable)
-            ..where((tbl) => tbl.cache.equals(cache))
-            ..orderBy([
-              (tbl) => OrderingTerm(
-                expression: tbl.touched,
-                mode: OrderingMode.desc,
-              ),
-            ])
-            ..limit(-1, offset: capacity))
-          .get();
+  Future<List<FileCacheTableData>> overCapacity(
+    String cache,
+    int capacity, {
+    int? maxBytes,
+  }) async {
+    final rows =
+        await (select(fileCacheTable)
+              ..where((tbl) => tbl.cache.equals(cache))
+              ..orderBy([
+                (tbl) => OrderingTerm(
+                  expression: tbl.touched,
+                  mode: OrderingMode.desc,
+                ),
+              ]))
+            .get();
+    // Walk newest to oldest, keeping entries until either budget busts;
+    // everything from there on is a removal, so the least recently
+    // touched entries are given up first. An entry without a length
+    // counts as zero bytes.
+    final removals = <FileCacheTableData>[];
+    var keptCount = 0;
+    var keptBytes = 0;
+    var beyondBudgets = false;
+    for (final row in rows) {
+      if (!beyondBudgets) {
+        keptCount++;
+        keptBytes += row.length ?? 0;
+        if (keptCount > capacity ||
+            (maxBytes != null && keptBytes > maxBytes)) {
+          beyondBudgets = true;
+          removals.add(row);
+        }
+      } else {
+        removals.add(row);
+      }
+    }
+    return removals;
+  }
 
   Future<List<FileCacheTableData>> touchedBefore(
     String cache,
@@ -94,12 +122,20 @@ class DriftFileCacheStorage extends CacheInfoRepository {
   DriftFileCacheStorage({
     required this.repository,
     required this.cache,
+    this.maxBytes,
     this.flushDelay = const Duration(seconds: 1),
   });
 
   final FileCacheRepository repository;
 
   final String cache;
+
+  /// How many bytes the cache may hold in total.
+  ///
+  /// A count-only budget lets a cache of large originals pile up
+  /// gigabytes; entries are given up least-recently-touched first once
+  /// the budget busts. An entry without a length counts as zero bytes.
+  final int? maxBytes;
 
   final Duration flushDelay;
 
@@ -195,7 +231,11 @@ class DriftFileCacheStorage extends CacheInfoRepository {
   CacheObject _toObject(FileCacheTableData data) => CacheObject(
     data.url,
     key: data.key,
-    relativePath: data.relativePath,
+    // The cleaner resolves this against the cache root, so it must be a
+    // bare file name: a row that traveled in through an import (the index
+    // is emptied there, this is the runtime backstop) could otherwise
+    // point at files outside the root with a `../..` relativePath.
+    relativePath: p.basename(data.relativePath),
     validTill: data.validTill,
     eTag: data.eTag,
     id: data.id,
@@ -280,7 +320,7 @@ class DriftFileCacheStorage extends CacheInfoRepository {
 
   @override
   Future<List<CacheObject>> getObjectsOverCapacity(int capacity) =>
-      _read(() => repository.overCapacity(cache, capacity));
+      _read(() => repository.overCapacity(cache, capacity, maxBytes: maxBytes));
 
   @override
   Future<List<CacheObject>> getOldObjects(Duration maxAge) => _read(

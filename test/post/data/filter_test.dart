@@ -91,4 +91,60 @@ void main() {
     expect(filter.blocks(post), true);
     expect(filter.denies(post), false);
   });
+
+  group('undisplayable posts', () {
+    test('flash posts are filtered from display', () {
+      final flash = samplePost(id: 8, ext: 'swf', file: '/file/8.swf');
+      expect(flash.isDisplayable, isFalse);
+      expect(filter.filter(flash), isFalse);
+    });
+
+    test('censored posts without a file are filtered from display', () {
+      final censored = samplePost(id: 9);
+      expect(censored.isDisplayable, isFalse);
+      expect(filter.filter(censored), isFalse);
+    });
+
+    test('deleted posts without a file stay displayable', () {
+      final deleted = samplePost(id: 10, isDeleted: true);
+      expect(deleted.isDisplayable, isTrue);
+      expect(filter.filter(deleted), isTrue);
+    });
+
+    test('undisplayable posts do not inflate the blocked count', () {
+      final flash = samplePost(id: 8, ext: 'swf', file: '/file/8.swf');
+      final denied = samplePost(
+        id: 11,
+        file: '/file/11.jpg',
+        tags: const {
+          'general': ['bad_tag'],
+        },
+      );
+      final clean = samplePost(id: 12, file: '/file/12.jpg');
+      filter.track('key', [flash, denied, clean]);
+
+      // Only the denylist block counts; the flash post is not one.
+      expect(filter.blockedCount, 1);
+    });
+
+    test('favorite filters still drop undisplayable favorites', () {
+      final favoriteFilter = FavoritePostFilter(client);
+      addTearDown(favoriteFilter.dispose);
+
+      final flashFavorite = samplePost(
+        id: 12,
+        ext: 'swf',
+        file: '/file/12.swf',
+        isFavorited: true,
+      );
+      expect(favoriteFilter.filter(flashFavorite), isFalse);
+
+      final normalFavorite = samplePost(
+        id: 13,
+        file: '/file/13.jpg',
+        isFavorited: true,
+      );
+      expect(favoriteFilter.filter(normalFavorite), isTrue);
+    });
+  });
 }

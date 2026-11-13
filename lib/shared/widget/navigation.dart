@@ -78,8 +78,21 @@ class NavigationProvider
        );
 }
 
-class RouterDrawer extends StatelessWidget {
+class RouterDrawer extends StatefulWidget {
   const RouterDrawer({super.key});
+
+  @override
+  State<RouterDrawer> createState() => _RouterDrawerState();
+}
+
+class _RouterDrawerState extends State<RouterDrawer> {
+  final ScrollController scrollController = ScrollController();
+
+  @override
+  void dispose() {
+    scrollController.dispose();
+    super.dispose();
+  }
 
   List<NamedRouterDrawerDestination> getDrawerDestinations(
     List<RouterDrawerDestination> destinations,
@@ -137,7 +150,7 @@ class RouterDrawer extends StatelessWidget {
 
     return Drawer(
       child: PrimaryScrollController(
-        controller: ScrollController(),
+        controller: scrollController,
         child: ListView(children: children),
       ),
     );

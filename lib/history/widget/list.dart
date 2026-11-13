@@ -12,7 +12,7 @@ class HistoryList extends StatelessWidget {
   Widget build(BuildContext context) => LimitedWidthLayout(
     child: HistoryPageQueryBuilder(
       builder: (context, state, query) => PullToRefresh(
-        onRefresh: query.invalidate,
+        onRefresh: query.revalidate,
         child: CustomScrollView(
           primary: true,
           slivers: [

@@ -112,7 +112,10 @@ class _HistoryTileDropdown extends StatelessWidget {
     final client = context.watch<Client>();
     final l10n = AppLocalizations.of(context);
     return PopupMenuButton<VoidCallback>(
-      icon: Icon(Icons.more_vert, color: dimTextColor(context)),
+      icon: Icon(
+        Icons.more_vert,
+        color: dimTextColor(context, interactiveDimmedOpacity),
+      ),
       iconSize: 18,
       onSelected: (value) => value(),
       itemBuilder: (context) => [

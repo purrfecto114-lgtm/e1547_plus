@@ -52,6 +52,9 @@ class FollowServer with Disposable {
     _currentSync = sync;
     _syncStream.add(sync);
     await sync.run();
+    // Dispose cancels the sync and closes the stream; resuming here
+    // after that must not write to the closed stream.
+    if (disposed) return;
     _currentSync = null;
     _syncStream.add(null);
     onSynced?.call();

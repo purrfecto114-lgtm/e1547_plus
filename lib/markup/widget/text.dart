@@ -83,24 +83,30 @@ class _DTextState extends State<DText> {
       );
     }
 
-    return LinkPreviewProvider(
-      child: SelectionArea(
-        child: SpoilerProvider(
-          builder: (context, child) => DTextBody(
-            content: _content!,
-            style: widget.style,
-            maxLines: widget.maxLines,
-            overflow: widget.overflow,
-            textAlign: widget.textAlign,
-            softWrap: widget.softWrap,
-          ),
+    Widget child = SelectionArea(
+      child: SpoilerProvider(
+        builder: (context, child) => DTextBody(
+          content: _content!,
+          style: widget.style,
+          maxLines: widget.maxLines,
+          overflow: widget.overflow,
+          textAlign: widget.textAlign,
+          softWrap: widget.softWrap,
         ),
       ),
     );
+    // Pages which host many DTexts (a post detail page and its comments)
+    // provide a LinkPreviewProvider of their own, so all of them share a
+    // single provider and overlay entry. DTexts without such an ancestor
+    // still create their own, since their links need one to show previews.
+    if (LinkPreviewProvider.maybeOf(context) == null) {
+      child = LinkPreviewProvider(child: child);
+    }
+    return child;
   }
 }
 
-class DTextBody extends StatelessWidget {
+class DTextBody extends StatefulWidget {
   const DTextBody({
     super.key,
     required this.content,
@@ -119,14 +125,47 @@ class DTextBody extends StatelessWidget {
   final bool softWrap;
 
   @override
+  State<DTextBody> createState() => _DTextBodyState();
+}
+
+class _DTextBodyState extends State<DTextBody> {
+  /// The gesture recognizers created by the current build.
+  ///
+  /// Every link span creates a fresh [TapGestureRecognizer] on each
+  /// build, so an untracked recognizer would leak once its spans are
+  /// replaced by the next build.
+  final List<GestureRecognizer> _recognizers = [];
+
+  @override
+  void dispose() {
+    for (final recognizer in _recognizers) {
+      recognizer.dispose();
+    }
+    _recognizers.clear();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
+    if (_recognizers.isNotEmpty) {
+      // Retire the recognizers of the previous build only after this
+      // frame rendered the spans of the current one, so nothing is
+      // disposed while a span still holds it for an in-flight gesture.
+      final retired = List<GestureRecognizer>.of(_recognizers);
+      _recognizers.clear();
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        for (final recognizer in retired) {
+          recognizer.dispose();
+        }
+      });
+    }
     return DefaultTextStyle.merge(
-      style: style,
+      style: widget.style,
       child: Expandables(
         child: Builder(
           builder: (context) {
             final Widget child = Builder(
-              builder: (context) => _renderNode(context, content),
+              builder: (context) => _renderNode(context, widget.content),
             );
             // Nested bodies share the outermost registry, so an anchor in a
             // quote and a link outside it still find each other.
@@ -140,11 +179,11 @@ class DTextBody extends StatelessWidget {
 
   DTextBody _nested(List<DTextBlock> children) => DTextBody(
     content: DTextDocument(children),
-    style: style,
-    maxLines: maxLines,
-    overflow: overflow,
-    textAlign: textAlign,
-    softWrap: softWrap,
+    style: widget.style,
+    maxLines: widget.maxLines,
+    overflow: widget.overflow,
+    textAlign: widget.textAlign,
+    softWrap: widget.softWrap,
   );
 
   Widget _renderNode(BuildContext context, DTextNode node) {
@@ -153,10 +192,10 @@ class DTextBody extends StatelessWidget {
       final DTextBlock block => _renderBlock(context, block),
       final DTextInline inline => Text.rich(
         _buildInline(context, [inline]),
-        maxLines: maxLines,
-        overflow: overflow,
-        textAlign: textAlign,
-        softWrap: softWrap,
+        maxLines: widget.maxLines,
+        overflow: widget.overflow,
+        textAlign: widget.textAlign,
+        softWrap: widget.softWrap,
       ),
       DTextListItem() ||
       DTextTableCell() ||
@@ -199,8 +238,8 @@ class DTextBody extends StatelessWidget {
         padding: const EdgeInsets.symmetric(vertical: 4),
         child: Text.rich(
           _buildInline(context, block.children),
-          textAlign: textAlign,
-          softWrap: softWrap,
+          textAlign: widget.textAlign,
+          softWrap: widget.softWrap,
           style: TextStyle(
             fontSize:
                 (Theme.of(context).textTheme.bodyMedium?.fontSize ?? 14) +
@@ -211,10 +250,10 @@ class DTextBody extends StatelessWidget {
       ),
       DTextParagraph() => Text.rich(
         _buildInline(context, block.children),
-        maxLines: maxLines,
-        overflow: overflow,
-        textAlign: textAlign,
-        softWrap: softWrap,
+        maxLines: widget.maxLines,
+        overflow: widget.overflow,
+        textAlign: widget.textAlign,
+        softWrap: widget.softWrap,
       ),
       DTextQuote() => QuoteWrap(child: _nested(block.children)),
       DTextSpoilerBlock() => SpoilerBlockWrap(child: _nested(block.children)),
@@ -227,7 +266,7 @@ class DTextBody extends StatelessWidget {
       DTextCodeBlock() => CodeWrap(
         child: SelectableText(
           _withoutClosingBreak(block.content),
-          textAlign: textAlign,
+          textAlign: widget.textAlign,
         ),
       ),
       DTextTable() => DTextTableWidget(children: block.children),
@@ -235,7 +274,7 @@ class DTextBody extends StatelessWidget {
       DTextList() => _renderList(context, block),
       DTextRawBlockText() => SelectableText(
         _withoutClosingBreak(block.content),
-        textAlign: textAlign,
+        textAlign: widget.textAlign,
       ),
       DTextLiteralHtml() => Text.rich(
         TextSpan(
@@ -244,8 +283,8 @@ class DTextBody extends StatelessWidget {
             ..._inlineSpans(context, block.children),
           ],
         ),
-        textAlign: textAlign,
-        softWrap: softWrap,
+        textAlign: widget.textAlign,
+        softWrap: widget.softWrap,
       ),
     };
   }
@@ -263,8 +302,8 @@ class DTextBody extends StatelessWidget {
                 ..._inlineSpans(context, item.children),
               ],
             ),
-            textAlign: textAlign,
-            softWrap: softWrap,
+            textAlign: widget.textAlign,
+            softWrap: widget.softWrap,
           ),
       ],
     );
@@ -361,10 +400,12 @@ class DTextBody extends StatelessWidget {
     final spans = children != null && children.isNotEmpty
         ? _inlineSpans(context, children)
         : [TextSpan(text: _linkDisplay(href, node.title))];
+    final recognizer = TapGestureRecognizer()..onTap = action;
+    _recognizers.add(recognizer);
     return TextSpan(
       children: _wrapWithRecognizer(
         spans,
-        TapGestureRecognizer()..onTap = action,
+        recognizer,
         onEnter: (_) => preview.showLink(previewLink),
         onExit: (_) => preview.hideLink(),
       ),

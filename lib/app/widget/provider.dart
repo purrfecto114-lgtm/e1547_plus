@@ -146,7 +146,7 @@ class FileCacheProvider
   FileCacheProvider({super.child, super.builder})
     : super(
         create: (context, client, storage) =>
-            createFileCache(dio: client.dio, database: storage.sqlite),
+            createFileCache(database: storage.sqlite),
         dispose: (context, manager) => manager.dispose(),
       );
 }

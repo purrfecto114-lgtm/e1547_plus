@@ -129,7 +129,10 @@ void main() {
     expect(posts.map((e) => e.id), ids);
   });
 
-  test('drops posts that cannot be displayed', () async {
+  test('returns undisplayable posts for the display layer to drop', () async {
+    // Pagination must advance on the raw response: a page that is fully
+    // undisplayable must still be non-empty, or the list would end early.
+    // Dropping such posts is a display concern (PostFilter).
     fake.state.posts.add({
       ...fake.state.posts.first,
       'id': 999,
@@ -141,7 +144,9 @@ void main() {
 
     final posts = await client.page();
 
-    expect(posts.map((e) => e.id), isNot(contains(999)));
+    final censored = posts.singleWhere((e) => e.id == 999);
+    expect(censored.isDisplayable, isFalse);
+    expect(posts.map((e) => e.id), contains(999));
   });
 
   test('serves recorded asset urls from itself', () async {

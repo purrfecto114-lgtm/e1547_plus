@@ -49,6 +49,11 @@ void main() {
     String? username,
     String? apikey,
     bool activate = false,
+    Future<CredentialCheckResult> Function({
+      required String host,
+      Map<String, String>? headers,
+    })?
+    verifier,
     void Function(String?)? onError,
     void Function()? onDone,
   }) async {
@@ -75,6 +80,9 @@ void main() {
             username: username,
             apikey: apikey,
             activate: activate,
+            verifier:
+                verifier ??
+                ({required host, headers}) async => CredentialCheckResult.ok,
             onError: onError,
             onDone: onDone,
           ),
@@ -136,6 +144,7 @@ void main() {
       host: 'e621.net',
       username: 'bob',
       apikey: 'key',
+      verifier: ({required host, headers}) async => CredentialCheckResult.ok,
       onError: (reason) => error = reason,
     );
 
@@ -168,6 +177,7 @@ void main() {
       // The form shows dashes instead of the saved api key; the login has
       // to recover the real credentials from the stored headers.
       apikey: OmittedPasswordTextInputFormatter.passwordOmitted,
+      verifier: ({required host, headers}) async => CredentialCheckResult.ok,
       onDone: () => done = true,
     );
 
@@ -180,5 +190,55 @@ void main() {
       saved.headers?[HttpHeaders.authorizationHeader],
       headers[HttpHeaders.authorizationHeader],
     );
+  });
+
+  testWidgets('rejected credentials are not stored', (tester) async {
+    var done = false;
+    String? error;
+    await pumpDialog(
+      tester,
+      host: 'e621.net',
+      username: 'bob',
+      apikey: 'wrong-key',
+      verifier: ({required host, headers}) async =>
+          CredentialCheckResult.rejected,
+      onDone: () => done = true,
+      onError: (reason) => error = reason,
+    );
+
+    // A rejected login must not surface as a stored identity that only
+    // fails later, on favorites, votes or syncs.
+    expect(done, isFalse);
+    final l10n = AppLocalizations.of(
+      tester.element(find.byType(Scaffold).first),
+    );
+    expect(error, l10n.identityCredentialsRejected);
+    await tester.runAsync(() async {
+      expect(await client.page(page: 1, limit: 9999), isEmpty);
+    });
+  });
+
+  testWidgets('unreachable hosts keep the form open', (tester) async {
+    var done = false;
+    String? error;
+    await pumpDialog(
+      tester,
+      host: 'e621.net',
+      username: 'bob',
+      apikey: 'key',
+      verifier: ({required host, headers}) async =>
+          CredentialCheckResult.unavailable,
+      onDone: () => done = true,
+      onError: (reason) => error = reason,
+    );
+
+    expect(done, isFalse);
+    final l10n = AppLocalizations.of(
+      tester.element(find.byType(Scaffold).first),
+    );
+    expect(error, l10n.identityVerifyUnreachable);
+    await tester.runAsync(() async {
+      expect(await client.page(page: 1, limit: 9999), isEmpty);
+    });
   });
 }

@@ -5,7 +5,7 @@ import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 export 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 
 class PagedSliverGroupedListView<PageKeyType, ItemType, SortType>
-    extends StatelessWidget {
+    extends StatefulWidget {
   const PagedSliverGroupedListView({
     super.key,
     required this.state,
@@ -59,6 +59,36 @@ class PagedSliverGroupedListView<PageKeyType, ItemType, SortType>
   final Widget separator;
 
   @override
+  State<PagedSliverGroupedListView<PageKeyType, ItemType, SortType>>
+  createState() =>
+      _PagedSliverGroupedListViewState<PageKeyType, ItemType, SortType>();
+}
+
+class _PagedSliverGroupedListViewState<PageKeyType, ItemType, SortType>
+    extends State<PagedSliverGroupedListView<PageKeyType, ItemType, SortType>> {
+  /// The items the current index map was built for.
+  List<ItemType>? _mappedItems;
+
+  /// Maps each item of the current emission to its index, so builders can
+  /// find their item in the unsorted list.
+  ///
+  /// Rebuilt only when a new emission arrives, not on every rebuild: the
+  /// list around this widget rebuilds for selection changes and status
+  /// indicators, which do not move any item.
+  Map<ItemType, int> _itemIndices = Map<ItemType, int>.identity();
+
+  Map<ItemType, int> _indicesOf(List<ItemType> items) {
+    if (!identical(_mappedItems, items)) {
+      _mappedItems = items;
+      _itemIndices = Map<ItemType, int>.identity();
+      for (int i = 0; i < items.length; i++) {
+        _itemIndices[items[i]] = i;
+      }
+    }
+    return _itemIndices;
+  }
+
+  @override
   Widget build(BuildContext context) {
     Widget buildLayout(
       IndexedWidgetBuilder itemBuilder,
@@ -69,26 +99,23 @@ class PagedSliverGroupedListView<PageKeyType, ItemType, SortType>
       // is within a sorted list, not the original list.
       // To prevent children from being confused when trying to find their item
       // in the original list, we keep a map.
-      final items = state.items!;
-      final itemIndices = Map<ItemType, int>.identity();
-      for (int i = 0; i < items.length; i++) {
-        itemIndices[items[i]] = i;
-      }
+      final items = widget.state.items!;
+      final itemIndices = _indicesOf(items);
       return SliverMainAxisGroup(
         slivers: [
           SliverGroupedListView<ItemType, SortType>(
-            key: key,
+            key: widget.key,
             elements: items,
-            groupBy: groupBy,
-            groupComparator: groupComparator,
-            groupSeparatorBuilder: groupSeparatorBuilder,
-            groupHeaderBuilder: groupHeaderBuilder,
+            groupBy: widget.groupBy,
+            groupComparator: widget.groupComparator,
+            groupSeparatorBuilder: widget.groupSeparatorBuilder,
+            groupHeaderBuilder: widget.groupHeaderBuilder,
             indexedItemBuilder: (context, item, index) =>
                 itemBuilder(context, itemIndices[item] ?? index),
-            itemComparator: itemComparator,
-            order: order,
-            sort: sort,
-            separator: separator,
+            itemComparator: widget.itemComparator,
+            order: widget.order,
+            sort: widget.sort,
+            separator: widget.separator,
           ),
           if (statusIndicatorBuilder != null)
             SliverToBoxAdapter(child: statusIndicatorBuilder(context)),
@@ -98,10 +125,10 @@ class PagedSliverGroupedListView<PageKeyType, ItemType, SortType>
 
     return PagedLayoutBuilder<PageKeyType, ItemType>(
       layoutProtocol: PagedLayoutProtocol.sliver,
-      state: state,
-      fetchNextPage: fetchNextPage,
-      builderDelegate: builderDelegate,
-      shrinkWrapFirstPageIndicators: shrinkWrapFirstPageIndicators,
+      state: widget.state,
+      fetchNextPage: widget.fetchNextPage,
+      builderDelegate: widget.builderDelegate,
+      shrinkWrapFirstPageIndicators: widget.shrinkWrapFirstPageIndicators,
       completedListingBuilder:
           (context, itemBuilder, itemCount, noMoreItemsIndicatorBuilder) =>
               buildLayout(

@@ -40,13 +40,12 @@ Future<bool> writeReply({
           final messenger = ScaffoldMessenger.of(context);
           final client = context.read<Client>();
           if (text.isNotEmpty) {
-            try {
-              if (reply == null) {
-                await client.replies.useCreate(topicId: topicId).mutate(text);
-              } else {
-                await client.replies.useUpdate(id: reply.id).mutate(text);
-              }
-            } on ClientException {
+            // cached_query swallows send failures into the returned state,
+            // so the outcome has to be checked instead of caught.
+            final state = reply == null
+                ? await client.replies.useCreate(topicId: topicId).mutate(text)
+                : await client.replies.useUpdate(id: reply.id).mutate(text);
+            if (state.isError) {
               return l10n.replySendFailed;
             }
             sent = true;

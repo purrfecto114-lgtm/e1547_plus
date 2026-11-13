@@ -17,115 +17,49 @@
 
 ## About this fork
 
-This repository is a fork of [e1547](https://github.com/clynamic/e1547) (GPL-3.0),
-maintained with a focus on stability on Android 7 and other low memory devices.
-It rebases on upstream 21.1.1 and carries its own `21.2.x` and newer release
-line — every change is listed per release in the [changelog](CHANGELOG.md).
+This repository is a fork of [e1547](https://github.com/clynamic/e1547) (GPL-3.0), maintained with a focus on stability on Android 7 and other low memory devices. It rebases on upstream 21.1.1 and carries its own `21.2.x` and newer release line — every change is listed per release in the [changelog](CHANGELOG.md).
 
 On top of upstream, this fork ships:
 
-- a stability batch for Android 7 and low memory devices — sized image caches,
-  a video player pool capped by device memory, guarded cache database access
-  and memory-adaptive defaults
-- a security batch — database exports stripped of saved logins and optionally
-  password-protected with AES-256-GCM (importing an encrypted export asks for
-  the password and rejects wrong ones), hardened imports, a locked-down cookie
-  webview, database files excluded from OS backups, request timeouts, an app
-  pin stored as a salted PBKDF2 hash with a persisted backoff against
-  guessing, and a biometric lock that works on Android 7's fingerprint API
-- an 18+ confirmation before logging in, phrased like a person and not a
-  legal disclaimer
-- downloads that cancel at the network level, with a task queue that keeps
-  its concurrency
-- a fully localized interface — thirteen languages, plus curated offline tag
-  dictionaries: around 4000 simplified chinese (and a traditional rendering)
-  and 370 japanese descriptions for common tags
-- a video quality picker with on-demand loading — fullscreen videos offer
-  every size a post provides, videos download only when played unless
-  automatic loading is turned on, and the default quality follows three
-  tiers (low, medium, high) picked during onboarding or in the settings
-- a secure display that arms the system's own screenshot blocker (FLAG_SECURE
-  on Android, the native blur on iOS), so screenshots and the app switcher
-  show the platform's secured placeholder instead of the app's content
+- a stability batch for Android 7 and low memory devices — sized image caches, a video player pool capped by device memory, guarded cache database access and memory-adaptive defaults
+- a security batch — database exports stripped of saved logins and optionally AES-256-GCM protected (with a password prompt on import), hardened imports, a locked-down cookie webview, database files excluded from OS backups, request timeouts, a salted PBKDF2 app pin with a persisted backoff against guessing, and a biometric lock that works on Android 7's fingerprint API
 
-The fork's changes are offered back upstream as pull requests
-([#190](https://github.com/clynamic/e1547/pull/190)–[#193](https://github.com/clynamic/e1547/pull/193)).
+The fork's changes are offered back upstream as pull requests ([#190](https://github.com/clynamic/e1547/pull/190)–[#193](https://github.com/clynamic/e1547/pull/193)).
 
-The app's updater checks this repository for new versions. Since the fork is
-signed with its own key, it cannot be installed over the official release —
-see [Upgrading](#upgrading) below.
+The in-app updater checks this repository for new versions; since the fork is signed with its own key, it cannot be installed over the official release — see [Upgrading](#upgrading) below.
 
 ## Features
 
 - Crossplatform (Android, iOS, Windows, Linux)
-- Browse posts and pools
-- Edit posts
-- Comment on posts
-- Download images, with mid-transfer cancellation
-- Favorite, up and down vote posts
-- Follow tags with notifications
-- Local blacklist
-- DText parsing
-- Video support
-- Multiple logins
-- Multiple app themes
-- Multilingual interface (English, 简体中文, 繁體中文, 日本語, Русский, 한국어, Deutsch, Español, Français, Italiano, Polski, Português do Brasil, Tiếng Việt)
+- Browse, edit and comment on posts, and browse pools
+- Download images with mid-transfer cancellation; favorite and vote posts
+- Follow tags with notifications, and a local blacklist
+- DText parsing, and video support with a quality picker and on-demand loading
+- Multiple logins and app themes
+- Multilingual interface — thirteen languages, plus offline tag dictionaries (around 4000 simplified chinese descriptions with a traditional rendering, around 370 japanese)
 - Language and media quality selection during onboarding and in the settings
-- Offline tag dictionaries — curated descriptions for around 4000 common tags in
-  simplified chinese (plus a traditional rendering) and around 370 in japanese
-- PIN and biometric device locks, with the system's screenshot blocker over
-  the app switcher
-- Password-protected database exports (AES-256-GCM), with a password prompt on
-  import
-- An incognito keyboard mode that also works on older Android keyboards
-- An 18+ age confirmation before logging in
+- PIN and biometric device locks, with the system's screenshot blocker over the app switcher (off by default, in the settings)
+- Password-protected database exports (AES-256-GCM), with a password prompt on import
+- An incognito keyboard mode, and an 18+ age confirmation before logging in
 - Stable cursor pagination with a page footer and page jumping
-- Search filters for special search terms (order, rating, file type and more),
-  with metatag autocomplete in search inputs, grouped into labeled sections
+- Search filters for special search terms (order, rating, file type…), with metatag autocomplete grouped into labeled sections
 
 ### Desktop notes
 
-The fork verifies its behavior against Android 7, and the desktop builds are
-compiled from the same code, but they are the younger siblings. Known gaps,
-in rough order of impact:
+The desktop builds are compiled from the same code but are the younger siblings; known gaps, in rough order of impact:
 
-- **Cloudflare challenges cannot be solved on desktop.** The cookie webview
-  is mobile only, so when e621/e926 serves an interstitial, Android and iOS
-  users pass it inside the app while desktop users can only retry and wait
-  for a cleaner route. Fixing this needs a desktop webview (CEF or
-  flutter_inappwebview) or a browser-assisted cookie import.
-- **No screen capture protection on Windows/Linux.** The secure display
-  setting hides itself there; Windows has a native equivalent
-  (`SetWindowDisplayAffinity`) that has not been wired up yet.
-- **No background sync or notifications on desktop.** Follow updates refresh
-  while the app is open only.
-- **The updater opens the releases page** on desktop instead of downloading
-  a binary in place; it does filter releases by platform (`.exe` on Windows,
-  `.deb` on Linux) so only usable builds light up the update badge.
+- **Cloudflare challenges cannot be solved on desktop** — the cookie webview is mobile only, so desktop users can only retry and wait.
+- **No screen capture protection on Windows/Linux** — the secure display setting hides itself there (Windows has a native equivalent, not yet wired up).
+- **No background sync or notifications on desktop** — follow updates refresh while the app is open only.
+- **The updater opens the releases page** on desktop, filtered by platform, instead of downloading in place.
 
-Everything else — browsing, videos (media\_kit ships with the desktop
-builds), the adaptive wide window layout, database import and export, the
-full interface — behaves the same as on mobile.
+Everything else — browsing, videos, the adaptive wide window layout, database import and export, the full interface — behaves the same as on mobile.
 
 ## Localization
 
-The app interface is available in English, Simplified and Traditional Chinese,
-Japanese, Russian, Korean, German, Spanish, French, Italian, Polish, Brazilian
-Portuguese and Vietnamese, selectable on the first-launch welcome screen or in
-the settings at any time. The Japanese and Russian translations have had a
-native review pass; Korean, Italian, Polish and Vietnamese are machine
-translated, complete but not yet reviewed by native speakers.
+The interface is available in thirteen languages, selectable on the first-launch welcome screen or in the settings at any time. Japanese and Russian have had a native review pass; Korean, Italian, Polish and Vietnamese are machine translated, not yet reviewed by native speakers.
 
-Chinese users also get an offline dictionary of short tag descriptions for the
-tags they meet most often, since the site's tag wikis are English only. It
-combines a curated core with the community dictionary of the
-[e621 标签汉化&中文搜索](https://sleazyfork.org/en/scripts/554343) userscript
-by jcjyids (GPL-3.0-or-later).
-
-To add another language, create an `app_<locale>.arb` file in `lib/l10n` with
-translations for every key of `app_en.arb`, add the language to `appLanguages`
-in `lib/settings/data/language.dart`, and run `flutter gen-l10n` — the language
-picker and onboarding step pick it up automatically.
+To add another language, create an `app_<locale>.arb` file in `lib/l10n` with translations for every key of `app_en.arb`, add the language to `appLanguages` in `lib/settings/data/language.dart`, and run `flutter gen-l10n`.
 
 ## Screenshots
 
@@ -137,16 +71,11 @@ picker and onboarding step pick it up automatically.
 
 ## Download
 
-APK, IPA, Windows and Linux packages can be found over at
-the [releases](https://github.com/purrfecto114-lgtm/e1547_plus/releases).
-Stable releases are marked "latest"; `rc` pre-releases track work in
-progress and install over previous rc builds of the same cycle.
-
-A great tool for managing updates for this app is [obtainium](https://github.com/ImranR98/Obtainium) (see [Using Obtainium](#Using-Obtainium) for a more detailed guide).
+APK, IPA, Windows and Linux packages can be found over at the [releases](https://github.com/purrfecto114-lgtm/e1547_plus/releases) page. Stable releases are marked "latest"; `rc` pre-releases track work in progress and install over previous rc builds of the same cycle. Updates can be managed with [obtainium](https://github.com/ImranR98/Obtainium), with https://github.com/purrfecto114-lgtm/e1547_plus/releases/ as the app source.
 
 ### Certificate Fingerprints
 
-To verify the authenticity of downloaded APK files, you can check the signing certificate fingerprints:
+To verify the authenticity of downloaded APK files, check the signing certificate fingerprints:
 
 - **SHA1:** `29:85:3D:AC:C5:EC:58:A2:7F:2B:AC:8D:C0:E7:5A:A6:67:7C:91:73`
 - **SHA256:** `10:71:32:BE:71:8B:99:BC:04:1B:0C:56:85:49:BB:89:26:3B:87:92:4F:67:97:FE:07:0E:F4:E0:90:E5:9F:B9`
@@ -163,72 +92,36 @@ Requires Android 7.0 or newer.
 2. Open it on your Android device with a file manager
 3. Click install
 
-#### Using Obtainium
-
-1. Install and open obtainium from [F-Droid](https://f-droid.org/en/packages/dev.imranr.obtainium.fdroid/) or from their [Github](https://github.com/ImranR98/Obtainium)
-2. Click on "Add app" on the bottom app drawer
-3. Paste https://github.com/purrfecto114-lgtm/e1547_plus/releases/ into the "App source URL*" field
-4. Hit the add button, next to the App source URL field
-5. Hit the install button in the following menu
-
 #### Which APK should I download?
 
 - Phone with 64 bit support (almost all phones from 2016 onwards) -> `e1547-arm64.apk`
 - 32 bit only phone -> `e1547-armv7.apk`
 - Doesn't work? -> `e1547-universal.apk`
 
-Prefer the arm64 build whenever your device supports it: 32 bit processes
-have a much smaller memory limit, which makes the app far more likely to
-be killed by the OS on old, low memory devices.
+Prefer the arm64 build whenever your device supports it: 32 bit processes have a much smaller memory limit, which makes the app far more likely to be killed by the OS on old, low memory devices.
 
 ### Installing on iOS
 
-The app is not available in the AppStore.
-
-- Follow the instructions on [Sideloadly](https://sideloadly.io/)
-
-or
-
-- Jailbreak your device and install the [IPA](https://github.com/purrfecto114-lgtm/e1547_plus/releases) directly
+The app is not available in the AppStore — follow the instructions on [Sideloadly](https://sideloadly.io/), or jailbreak your device and install the [IPA](https://github.com/purrfecto114-lgtm/e1547_plus/releases) directly.
 
 ### Upgrading
 
-Updates within this fork install right over older fork releases.
-
-Coming from the official release or another build with a different signing
-key, Android will refuse to install over it — the app shares its package
-name. Export your database from the old app's settings first, uninstall it,
-install this build and import the database again.
+Updates within this fork install right over older fork releases. Coming from the official release or another differently-signed build, Android will refuse to install over it — export your database from the old app's settings first, uninstall it, install this build and import the database again.
 
 ## Compilation
-
-You can compile the app from source:
 
 1. Install [Flutter](https://flutter.dev/docs/get-started/install) 3.44.9 or newer (stable)
 2. Clone this github repository
 3. Run `flutter build <file>` where `<file>` is either `apk` or `ipa`
 
-Building the desktop packages additionally needs `fastlane` (see `.github/workflows/deployment.yml`
-for the per-platform requirements, like InnoSetup on Windows or the GTK and mpv
-development libraries on Linux).
+Building the desktop packages additionally needs `fastlane` (see `.github/workflows/deployment.yml` for per-platform requirements, like InnoSetup on Windows or the GTK and mpv development libraries on Linux).
 
 ## Community
 
-Bugs and feature requests for this fork belong in its
-[issue tracker](https://github.com/purrfecto114-lgtm/e1547_plus/issues).
-
-The upstream project keeps a [Discord server](https://discord.gg/MRwKGqfmUz)
-for the app itself.
+Bugs and feature requests for this fork belong in its [issue tracker](https://github.com/purrfecto114-lgtm/e1547_plus/issues); the upstream project keeps a [Discord server](https://discord.gg/MRwKGqfmUz) for the app itself.
 
 ## Credit
 
-Based on [e1547](https://github.com/clynamic/e1547) by clragon and
-[clynamic](https://clynamic.net), originally written by
-[Perlatus](https://github.com/perlatus), with performance optimisations by
-[Miyoyo](https://github.com/miyoyo) and contributions from many others.
-
-The Chinese offline tag descriptions incorporate the community dictionary of
-the [e621 标签汉化&中文搜索](https://sleazyfork.org/en/scripts/554343)
-userscript by jcjyids, licensed GPL-3.0-or-later.
+Based on [e1547](https://github.com/clynamic/e1547) by clragon and [clynamic](https://clynamic.net), originally written by [Perlatus](https://github.com/perlatus), with performance optimisations by [Miyoyo](https://github.com/miyoyo) and contributions from many others. The Chinese offline tag descriptions incorporate the community dictionary of the [e621 标签汉化&中文搜索](https://sleazyfork.org/en/scripts/554343) userscript by jcjyids (GPL-3.0-or-later).
 
 This fork is maintained for Android 7 and low memory stability.

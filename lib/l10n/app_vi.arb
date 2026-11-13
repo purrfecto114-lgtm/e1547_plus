@@ -202,6 +202,7 @@
       }
     }
   },
+  "databaseImportTooLarge": "Tệp này quá lớn để nhập.",
   "databaseImportTitle": "Nhập Cơ sở dữ liệu",
   "databaseRestartTitle": "Cần khởi động lại",
   "databaseRestartBody": "Ứng dụng cần khởi động lại để áp dụng các thay đổi.",
@@ -1109,6 +1110,8 @@
   "@identityAnonymous": {
     "description": "Name shown for identities without a username."
   },
+  "identityCredentialsRejected": "Trang web đã từ chối thông tin đăng nhập này. Hãy kiểm tra tên người dùng và khóa API.",
+  "identityVerifyUnreachable": "Không thể kết nối với trang web để xác minh thông tin đăng nhập.",
   "identityDuplicate": "Bạn đã có một danh tính dưới host và tên người dùng này.",
   "@identityDuplicate": {
     "description": "Error shown when adding a duplicate identity."
@@ -2375,6 +2378,10 @@
   "@followNotificationSummary": {
     "description": "Title of the summary notification for multiple follows."
   },
+  "followNotificationHiddenBody": "Các thẻ bạn theo dõi có bài đăng mới.",
+  "followHideNotificationContent": "Ẩn nội dung thông báo",
+  "followHideNotificationContentHint": "Ẩn tiêu đề, phần xem trước và hình thu nhỏ của thông báo",
+  "notificationStaleIdentity": "Thông báo này thuộc về một tài khoản không còn trên thiết bị này.",
   "followChannelName": "Thẻ theo dõi",
   "@followChannelName": {
     "description": "Name of the follow notification channel shown in the system settings."

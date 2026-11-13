@@ -420,6 +420,9 @@ class AppLocalizationsZh extends AppLocalizations {
   }
 
   @override
+  String get databaseImportTooLarge => '该文件过大，无法导入。';
+
+  @override
   String get databaseImportTitle => '导入数据库';
 
   @override
@@ -1314,6 +1317,12 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get identityAnonymous => '匿名';
+
+  @override
+  String get identityCredentialsRejected => '站点拒绝了这些凭据。请检查用户名和 API 密钥。';
+
+  @override
+  String get identityVerifyUnreachable => '无法连接站点以验证这些凭据。';
 
   @override
   String get identityDuplicate => '此站点和用户名下已存在账户。';
@@ -2240,6 +2249,18 @@ class AppLocalizationsZh extends AppLocalizations {
   String get followNotificationSummary => '新帖子！';
 
   @override
+  String get followNotificationHiddenBody => '你关注的标签有新帖子。';
+
+  @override
+  String get followHideNotificationContent => '隐藏通知内容';
+
+  @override
+  String get followHideNotificationContentHint => '通知的标题、预览和缩略图将被隐藏';
+
+  @override
+  String get notificationStaleIdentity => '该通知属于一个已不存在于此设备上的账号。';
+
+  @override
   String get followChannelName => '已关注标签';
 
   @override
@@ -2337,6 +2358,32 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get actionUnlock => '解锁';
+
+  @override
+  String get editorDiscardTitle => '放弃更改？';
+
+  @override
+  String get editorDiscardBody => '你的更改尚未提交。';
+
+  @override
+  String get editorDiscardConfirm => '放弃';
+
+  @override
+  String get editorContinueEditing => '继续编辑';
+
+  @override
+  String postListGoingToPage(num page) {
+    return '正在前往第 $page 页';
+  }
+
+  @override
+  String get actionRetry => '重试';
+
+  @override
+  String get selectionQueueDownloadsFailed => '添加下载任务失败';
+
+  @override
+  String get selectionQueueFavoritesFailed => '添加收藏任务失败';
 }
 
 /// The translations for Chinese, using the Han script (`zh_Hant`).
@@ -2753,6 +2800,9 @@ class AppLocalizationsZhHant extends AppLocalizationsZh {
   String databaseImportFailed(String error) {
     return '匯入失敗：$error';
   }
+
+  @override
+  String get databaseImportTooLarge => '該檔案過大，無法匯入。';
 
   @override
   String get databaseImportTitle => '匯入資料庫';
@@ -3649,6 +3699,12 @@ class AppLocalizationsZhHant extends AppLocalizationsZh {
 
   @override
   String get identityAnonymous => '匿名';
+
+  @override
+  String get identityCredentialsRejected => '站點拒絕了這些憑證。請檢查使用者名稱和 API 金鑰。';
+
+  @override
+  String get identityVerifyUnreachable => '無法連線站點以驗證這些憑證。';
 
   @override
   String get identityDuplicate => '此網站和使用者名稱下已存在帳戶。';
@@ -4575,6 +4631,18 @@ class AppLocalizationsZhHant extends AppLocalizationsZh {
   String get followNotificationSummary => '新貼文！';
 
   @override
+  String get followNotificationHiddenBody => '你追蹤的標籤有新貼文。';
+
+  @override
+  String get followHideNotificationContent => '隱藏通知內容';
+
+  @override
+  String get followHideNotificationContentHint => '通知的標題、預覽和縮圖將被隱藏';
+
+  @override
+  String get notificationStaleIdentity => '該通知屬於一個已不存在於此裝置上的帳號。';
+
+  @override
   String get followChannelName => '已追蹤標籤';
 
   @override
@@ -4672,4 +4740,30 @@ class AppLocalizationsZhHant extends AppLocalizationsZh {
 
   @override
   String get actionUnlock => '解鎖';
+
+  @override
+  String get editorDiscardTitle => '放棄變更？';
+
+  @override
+  String get editorDiscardBody => '你的變更尚未送出。';
+
+  @override
+  String get editorDiscardConfirm => '放棄';
+
+  @override
+  String get editorContinueEditing => '繼續編輯';
+
+  @override
+  String postListGoingToPage(num page) {
+    return '正在前往第 $page 頁';
+  }
+
+  @override
+  String get actionRetry => '重試';
+
+  @override
+  String get selectionQueueDownloadsFailed => '新增下載任務失敗';
+
+  @override
+  String get selectionQueueFavoritesFailed => '新增收藏任務失敗';
 }

@@ -202,6 +202,7 @@
       }
     }
   },
+  "databaseImportTooLarge": "Ten plik jest zbyt duży, aby go zaimportować.",
   "databaseImportTitle": "Importuj bazę danych",
   "databaseRestartTitle": "Wymagane ponowne uruchomienie",
   "databaseRestartBody": "Aplikacja musi zostać uruchomiona ponownie, aby zastosować zmiany.",
@@ -317,7 +318,7 @@
       }
     }
   },
-  "selectionPostsCount": "{count, plural, other{{count} postów}}",
+  "selectionPostsCount": "{count, plural, one{1 post} few{{count} posty} many{{count} postów} other{{count} postów}}",
   "@selectionPostsCount": {
     "placeholders": {
       "count": {
@@ -329,7 +330,7 @@
   "failedToLoadPosts": "Nie udało się załadować postów",
   "offlineBanner": "Jesteś offline. Wyświetlanie danych z pamięci podręcznej.",
   "offlineNoData": "Jesteś offline",
-  "postListPageSummary": "Strona {page} · {count, plural, one{{count} post} other{{count} postów}}",
+  "postListPageSummary": "Strona {page} · {count, plural, one{{count} post} few{{count} posty} many{{count} postów} other{{count} postów}}",
   "postListPageLimit": "Osiągnięto limit stron serwera. Proszę zawęź wyszukiwanie.",
   "postListJumpToPage": "Przejdź do strony",
   "postListJumpPageLabel": "Numer strony",
@@ -349,7 +350,7 @@
   "loginRequiredComment": "Musisz być zalogowany, aby komentować!",
   "loginRequiredReport": "Musisz być zalogowany, aby zgłaszać posty!",
   "loginRequiredFlag": "Musisz być zalogowany, aby oznaczać posty!",
-  "postsBlocked": "{count, plural, one{Zablokowany 1 post} other{Zablokowano {count} postów}}",
+  "postsBlocked": "{count, plural, one{Zablokowany 1 post} few{Zablokowano {count} posty} many{Zablokowano {count} postów} other{Zablokowano {count} postów}}",
   "@postsBlocked": {
     "description": "Number of posts currently blocked by the blacklist.",
     "placeholders": {
@@ -988,7 +989,7 @@
       }
     }
   },
-  "selectionLogsCount": "{count, plural, other{{count} logi}}",
+  "selectionLogsCount": "{count, plural, one{1 log} few{{count} logi} many{{count} logów} other{{count} logów}}",
   "@selectionLogsCount": {
     "description": "Number of selected log entries.",
     "placeholders": {
@@ -997,7 +998,7 @@
       }
     }
   },
-  "selectionLogsFilesCount": "{count, plural, other{{count} plików logów}}",
+  "selectionLogsFilesCount": "{count, plural, one{1 plik logów} few{{count} pliki logów} many{{count} plików logów} other{{count} plików logów}}",
   "@selectionLogsFilesCount": {
     "description": "Number of selected log files.",
     "placeholders": {
@@ -1059,7 +1060,7 @@
   "@noErrorsLogged": {
     "description": "Message shown when no errors have been logged."
   },
-  "logsErrorsCount": "{count, plural, =1{1 błąd} other{{count} błędów}}",
+  "logsErrorsCount": "{count, plural, =1{1 błąd} few{{count} błędy} many{{count} błędów} other{{count} błędów}}",
   "@logsErrorsCount": {
     "description": "Number of errors logged in the current session.",
     "placeholders": {
@@ -1109,6 +1110,8 @@
   "@identityAnonymous": {
     "description": "Name shown for identities without a username."
   },
+  "identityCredentialsRejected": "Strona odrzuciła te dane logowania. Sprawdź nazwę użytkownika i klucz API.",
+  "identityVerifyUnreachable": "Nie udało się połączyć ze stroną, aby zweryfikować dane logowania.",
   "identityDuplicate": "Masz już tożsamość dla tej domeny i nazwy użytkownika.",
   "@identityDuplicate": {
     "description": "Error shown when adding a duplicate identity."
@@ -1771,7 +1774,7 @@
   "@detailNoArtist": {
     "description": "Placeholder shown when a post has no artist tags."
   },
-  "detailPoolPosts": "{count, plural, =1{1 post} few{{count} postów} many{{count} postów} other{{count} postów}}",
+  "detailPoolPosts": "{count, plural, =1{1 post} few{{count} posty} many{{count} postów} other{{count} postów}}",
   "@detailPoolPosts": {
     "description": "Post count of a pool shown on a pool relation tile.",
     "placeholders": {
@@ -2375,6 +2378,10 @@
   "@followNotificationSummary": {
     "description": "Title of the summary notification for multiple follows."
   },
+  "followNotificationHiddenBody": "Twoje obserwowane tagi mają nowe posty.",
+  "followHideNotificationContent": "Ukryj treść powiadomień",
+  "followHideNotificationContentHint": "Tytuły, podglądy i miniatury powiadomień są ukryte",
+  "notificationStaleIdentity": "To powiadomienie należy do konta, którego już nie ma na tym urządzeniu.",
   "followChannelName": "Obserwowane tagi",
   "@followChannelName": {
     "description": "Name of the follow notification channel shown in the system settings."

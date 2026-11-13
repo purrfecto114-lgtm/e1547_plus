@@ -39,9 +39,15 @@ class AccountClient {
         );
       }
     } on DioException {
-      this.traits.value = this.traits.value.copyWith(
-        denylist: previous.denylist,
-      );
+      // Roll back only if the local denylist is still the one this
+      // push wrote: a concurrent pull may have applied a newer server
+      // value while the request was in flight, and restoring the
+      // pre-push denylist would clobber it.
+      if (listEquals(this.traits.value.denylist, traits.denylist)) {
+        this.traits.value = this.traits.value.copyWith(
+          denylist: previous.denylist,
+        );
+      }
       rethrow;
     }
   }
@@ -52,6 +58,11 @@ class AccountClient {
   Future<Account?> get({CancelToken? cancelToken}) async {
     if (identity.username == null) return null;
 
+    // A push may change the local denylist while the request is in
+    // flight; the pulled value is stale by then and must not be
+    // applied over it.
+    List<String> denylistSnapshot = traits.value.denylist;
+
     Account result = await dio
         .get('/users/${identity.username}.json', cancelToken: cancelToken)
         .then((response) => E621Account.fromJson(response.data));
@@ -60,10 +71,18 @@ class AccountClient {
 
     if (result.avatarId != null) {
       // TODO: this shouldnt be here
-      avatar = await postsService.get(
-        id: result.avatarId!,
-        cancelToken: cancelToken,
-      );
+      try {
+        avatar = await postsService.get(
+          id: result.avatarId!,
+          cancelToken: cancelToken,
+        );
+      } on ClientException catch (e) {
+        // The avatar is supplementary: a post that cannot be fetched
+        // must not fail the whole account pull, it merely leaves the
+        // account without one. Cancellations abort the pull as usual.
+        if (CancelToken.isCancel(e)) rethrow;
+        avatar = null;
+      }
     }
 
     String? avatarUrl = avatar?.file;
@@ -82,7 +101,12 @@ class AccountClient {
 
     traits.value = traits.value.copyWith(
       // TODO: also store "id"
-      denylist: result.blacklistedTags?.split('\n').trim() ?? [],
+      // The server denylist is applied only if no push replaced the
+      // local one while the request was in flight; a slow pull must
+      // not overwrite a just-pushed value.
+      denylist: listEquals(traits.value.denylist, denylistSnapshot)
+          ? result.blacklistedTags?.split('\n').trim() ?? []
+          : traits.value.denylist,
       // TODO: also store "perPage"
       // TODO: this shouldn't be file but sample
       avatar: avatarUrl,

@@ -11,7 +11,15 @@ class PullToRefresh extends StatelessWidget {
   });
 
   final Widget child;
-  final Future<void> Function() onRefresh;
+
+  /// Refreshes the content and reports whether it succeeded.
+  ///
+  /// The boolean return value is what lets the header tell a failed
+  /// refresh from a completed one: cached_query swallows fetch errors
+  /// into the query state instead of throwing them, so a bare await
+  /// cannot signal failure and the indicator would claim success even
+  /// while offline.
+  final Future<bool> Function() onRefresh;
 
   @override
   Widget build(BuildContext context) {
@@ -22,10 +30,16 @@ class PullToRefresh extends StatelessWidget {
           bool handler(KeyEvent event) {
             if (event is KeyDownEvent &&
                 event.logicalKey == LogicalKeyboardKey.f5) {
-              refreshController.requestRefresh(
-                duration: const Duration(milliseconds: 100),
-              );
-              return true;
+              // Hardware handlers fire for every PullToRefresh in the
+              // tree, so only the top-most route's indicator may
+              // refresh; without this check, a page buried below the
+              // current one would refresh as well.
+              if (ModalRoute.of(context)?.isCurrent ?? false) {
+                refreshController.requestRefresh(
+                  duration: const Duration(milliseconds: 100),
+                );
+                return true;
+              }
             }
             return false;
           }
@@ -37,12 +51,15 @@ class PullToRefresh extends StatelessWidget {
         child: SmartRefresher(
           controller: refreshController,
           onRefresh: () async {
+            bool success = false;
             try {
-              await onRefresh();
-              refreshController.refreshCompleted();
+              success = await onRefresh();
             } on Object {
-              refreshController.refreshFailed();
+              success = false;
             }
+            success
+                ? refreshController.refreshCompleted()
+                : refreshController.refreshFailed();
           },
           header: const ClassicHeader(),
           child: child,

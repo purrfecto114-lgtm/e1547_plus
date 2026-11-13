@@ -13,27 +13,31 @@ class PostCommentsPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final client = context.watch<Client>();
-    return FilterControllerProvider(
-      create: (_) => CommentFilter(client),
-      keys: (_) => [client],
-      child: ChangeNotifierProvider(
-        create: (_) => CommentParamsController(
-          CommentParams(
-            postId: postId,
-            groupBy: CommentGroupBy.comment,
-            order: CommentOrder.oldest,
+    return LinkPreviewProvider(
+      // A comments page is one big pile of DTexts; hosting a single
+      // link preview provider keeps them from creating one each.
+      child: FilterControllerProvider(
+        create: (_) => CommentFilter(client),
+        keys: (_) => [client],
+        child: ChangeNotifierProvider(
+          create: (_) => CommentParamsController(
+            CommentParams(
+              postId: postId,
+              groupBy: CommentGroupBy.comment,
+              order: CommentOrder.oldest,
+            ),
           ),
-        ),
-        builder: (context, _) => AdaptiveScaffold(
-          appBar: DefaultAppBar(
-            title: Text(AppLocalizations.of(context).commentsOfPost(postId)),
-            actions: const [ContextDrawerButton()],
+          builder: (context, _) => AdaptiveScaffold(
+            appBar: DefaultAppBar(
+              title: Text(AppLocalizations.of(context).commentsOfPost(postId)),
+              actions: const [ContextDrawerButton()],
+            ),
+            floatingActionButton: client.hasLogin
+                ? CommentCreateFab(postId: postId)
+                : null,
+            endDrawer: const CommentListDrawer(),
+            body: const CommentList(),
           ),
-          floatingActionButton: client.hasLogin
-              ? CommentCreateFab(postId: postId)
-              : null,
-          endDrawer: const CommentListDrawer(),
-          body: const CommentList(),
         ),
       ),
     );

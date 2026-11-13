@@ -33,11 +33,16 @@ CancelToken createBackgroundCancelToken(String task) {
   return cancelToken;
 }
 
+Future<void> cancelFollowBackgroundTask() async {
+  if (!PlatformCapabilities.hasBackgroundWorker) return;
+  _logger.debug('Unregistered {task}', {'task': followsBackgroundTaskKey});
+  await Workmanager().cancelByUniqueName(followsBackgroundTaskKey);
+}
+
 Future<void> registerFollowBackgroundTask(List<Follow> follows) async {
   if (!PlatformCapabilities.hasBackgroundWorker) return;
   if (follows.where((e) => e.type == FollowType.notify).isEmpty) {
-    _logger.debug('Unregistered {task}', {'task': followsBackgroundTaskKey});
-    return Workmanager().cancelByUniqueName(followsBackgroundTaskKey);
+    return cancelFollowBackgroundTask();
   }
   if (Platform.isIOS) {
     _logger.debug('Registered {schedule} {task} on {platform}', {

@@ -98,7 +98,7 @@ void main() {
     expect(controller.text, 'order:rank ');
   });
 
-  testWidgets('the tag input ignores suggestions once a tag is picked', (
+  testWidgets('the tag input lets a second pick replace the tag', (
     tester,
   ) async {
     final controller = TextEditingController();
@@ -117,15 +117,15 @@ void main() {
     await tester.pump(const Duration(milliseconds: 400));
     await tester.pumpAndSettle();
 
-    // Picking one suggestion empties the current tag, and the suggestion
-    // list needs another debounce turn to catch up, so a second pick right
-    // after targets an empty tag.
+    // The suggestion list is still on its first debounce turn, so a
+    // second pick right after replaces the tag the first one wrote,
+    // without doubling the closing space.
     await tester.tap(find.text('order:rank'));
     await tester.tap(find.text('order:random'));
     await tester.pump();
 
     expect(tester.takeException(), isNull);
-    expect(controller.text, 'order:rank ');
+    expect(controller.text, 'order:random ');
   });
 
   testWidgets('the tag input ignores suggestions after a trailing space', (
@@ -213,6 +213,98 @@ void main() {
     await tester.pump();
 
     expect(controller.text, '-rating:s ');
+  });
+
+  testWidgets('the tag input completes the repeated tag the cursor is on', (
+    tester,
+  ) async {
+    final controller = TextEditingController();
+    addTearDown(controller.dispose);
+    final client = await makeClient();
+    addTearDown(client.dispose);
+
+    await tester.pumpWidget(
+      wrap(
+        client: client,
+        child: TagInput(controller: controller, metatagSuggestions: true),
+      ),
+    );
+
+    await tester.enterText(find.byType(TextField), 'order:r order:r');
+    // The cursor sits at the end of the text, on the second word.
+    controller.selection = TextSelection.collapsed(
+      offset: controller.text.length,
+    );
+    await tester.pump(const Duration(milliseconds: 400));
+    await tester.pumpAndSettle();
+
+    await tester.tap(find.text('order:random'));
+    await tester.pump();
+
+    // The completed word is the one the cursor is on, not the first word
+    // that equals it.
+    expect(controller.text, 'order:r order:random ');
+    // The cursor stays at the end of the completed word.
+    expect(controller.selection.extentOffset, 20);
+  });
+
+  testWidgets('the tag input keeps operators on repeated tags', (
+    tester,
+  ) async {
+    final controller = TextEditingController();
+    addTearDown(controller.dispose);
+    final client = await makeClient();
+    addTearDown(client.dispose);
+
+    await tester.pumpWidget(
+      wrap(
+        client: client,
+        child: TagInput(controller: controller, metatagSuggestions: true),
+      ),
+    );
+
+    await tester.enterText(find.byType(TextField), '-order:r -order:r');
+    controller.selection = TextSelection.collapsed(
+      offset: controller.text.length,
+    );
+    await tester.pump(const Duration(milliseconds: 400));
+    await tester.pumpAndSettle();
+
+    await tester.tap(find.text('order:random'));
+    await tester.pump();
+
+    expect(controller.text, '-order:r -order:random ');
+    expect(controller.selection.extentOffset, 22);
+  });
+
+  testWidgets('the tag input completes a word in the middle of a query', (
+    tester,
+  ) async {
+    final controller = TextEditingController();
+    addTearDown(controller.dispose);
+    final client = await makeClient();
+    addTearDown(client.dispose);
+
+    await tester.pumpWidget(
+      wrap(
+        client: client,
+        child: TagInput(controller: controller, metatagSuggestions: true),
+      ),
+    );
+
+    await tester.enterText(find.byType(TextField), 'wolf order:r bear');
+    // The cursor sits right behind the middle word.
+    controller.selection = const TextSelection.collapsed(offset: 12);
+    await tester.pump(const Duration(milliseconds: 400));
+    await tester.pumpAndSettle();
+
+    await tester.tap(find.text('order:random'));
+    await tester.pump();
+
+    // The words around the completed one are kept, and the cursor stays
+    // with it instead of jumping to the end of the text.
+    expect(controller.text, 'wolf order:random bear ');
+    expect(controller.selection.extentOffset, 17);
   });
 
   testWidgets('the tag input hides metatag suggestions by default', (

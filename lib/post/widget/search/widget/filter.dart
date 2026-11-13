@@ -69,10 +69,11 @@ class PostsPageFilterButton extends StatelessWidget {
 /// search a change touches. A reset action clears every filter owned by
 /// the panel while leaving plain search tags untouched.
 ///
-/// Changes are debounced: every filter control feeds FilterList.onChanged
-/// on each interaction, and some controls, like the uploader filter, edit
-/// free text. Feeding that straight into the controller refetches the
-/// search on every keystroke.
+/// Every control updates a local draft at once, so the controls and the
+/// query preview reflect each change immediately. Only handing the
+/// draft to the search is debounced: some controls, like the uploader
+/// filter, edit free text, and feeding that straight into the
+/// controller would refetch the search on every keystroke.
 class PostsFilterPanel extends StatefulWidget {
   const PostsFilterPanel({super.key});
 
@@ -82,6 +83,22 @@ class PostsFilterPanel extends StatefulWidget {
 
 class _PostsFilterPanelState extends State<PostsFilterPanel> {
   final Debouncer _apply = Debouncer();
+
+  /// The tag map the panel's controls are currently editing.
+  ///
+  /// The panel applies its changes debounced, so a change that has not
+  /// been applied yet lives only in this draft. Building a control's tag
+  /// map from the committed search instead would base the second change
+  /// inside one debounce window on a search without the first, losing
+  /// that first change.
+  late TagMap _draft;
+
+  /// The tag string this panel last applied to the search.
+  ///
+  /// A committed value that differs from it changed outside the panel,
+  /// which the draft then adopts — unless edits are still pending in
+  /// the debounce window, which an external change must not overwrite.
+  late String? _applied;
 
   /// The filter sections in display order.
   ///
@@ -116,6 +133,14 @@ class _PostsFilterPanelState extends State<PostsFilterPanel> {
   ];
 
   @override
+  void initState() {
+    super.initState();
+    final controller = context.read<PostParamsController>();
+    _draft = TagMap(controller.value.tags);
+    _applied = controller.value.tags;
+  }
+
+  @override
   void dispose() {
     // Closing the prompt applies whatever the user just entered,
     // keeping the panel's live apply semantics intact.
@@ -124,36 +149,63 @@ class _PostsFilterPanelState extends State<PostsFilterPanel> {
     super.dispose();
   }
 
-  /// Applies an edited tag map to the search, debounced.
+  /// Records an edited tag map as the panel's draft and schedules its apply.
   void _update(PostParamsController controller, TagMap map) {
-    final tags = map.toString();
-    _apply(
-      () => controller.update(
-        (params) => params.copyWith(tags: tags.isEmpty ? null : tags),
-      ),
+    // The draft updates at once, so the controls and the query preview
+    // reflect a change before it reaches the search.
+    setState(() => _draft = map);
+    _apply(() => _applyDraft(controller));
+  }
+
+  /// Writes the draft's tags to the search.
+  ///
+  /// The debounced action runs this with whatever the draft holds when
+  /// it fires, so one apply carries every change inside its window.
+  void _applyDraft(PostParamsController controller) {
+    final tags = _draft.toString();
+    _applied = tags.isEmpty ? null : tags;
+    controller.update(
+      (params) => params.copyWith(tags: tags.isEmpty ? null : tags),
     );
   }
 
   /// Removes every tag the filter panel owns, keeping plain search tags.
   void _reset(PostParamsController controller) {
-    // A pending change would otherwise re-add the tags this clears.
-    _apply.flush();
-    TagMap map = withFileType(TagMap(controller.value.tags), PostFileType.none);
+    // The pending write would re-apply a draft this clears; the reset
+    // applies its own result right away.
+    _apply.dispose();
+    TagMap map = withFileType(_draft, PostFileType.none);
     for (final section in _sections) {
       for (final tag in section.tags) {
         map.remove(tag);
       }
     }
-    controller.update(
-      (params) => params.copyWith(tags: map.isEmpty ? null : map.toString()),
-    );
+    setState(() => _draft = map);
+    _applyDraft(controller);
   }
 
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
     final controller = context.watch<PostParamsController>();
-    final map = TagMap(controller.value.tags);
+    // The search can change behind the prompt, like when a tag action
+    // lands. A committed value this panel did not write itself is
+    // adopted as the new draft, so the panel never overwrites it with
+    // stale edits — but only while no user edits sit unapplied in the
+    // debounce window. Adopting an external value then would throw away
+    // what the user just entered, and the pending apply would overwrite
+    // the external change right after; the draft wins until it is
+    // committed, and external changes that race it are dropped.
+    if (controller.value.tags != _applied) {
+      final String draftTags = _draft.toString();
+      final bool hasPendingDraft =
+          (draftTags.isEmpty ? null : draftTags) != _applied;
+      if (!hasPendingDraft) {
+        _applied = controller.value.tags;
+        _draft = TagMap(_applied);
+      }
+    }
+    final map = _draft;
     final query = map.toString();
     final filters = PostParams.tagsFilter.filters;
     final active = _sections.any((section) => section.activeCount(map) > 0);

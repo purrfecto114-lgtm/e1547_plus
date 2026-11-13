@@ -91,7 +91,7 @@ class ReplyHeader extends StatelessWidget {
   Widget build(BuildContext context) {
     return Row(
       children: [
-        Dimmed(
+        Dimmed.interactive(
           child: InkWell(
             borderRadius: BorderRadius.circular(4),
             child: TimedText(
@@ -105,7 +105,12 @@ class ReplyHeader extends StatelessWidget {
                     Flexible(
                       child: Text(
                         reply.creator,
-                        style: TextStyle(color: dimTextColor(context)),
+                        style: TextStyle(
+                          color: dimTextColor(
+                            context,
+                            interactiveDimmedOpacity,
+                          ),
+                        ),
                       ),
                     ),
                   ],
@@ -155,7 +160,7 @@ class ReplyMenu extends StatelessWidget {
     final client = context.watch<Client>();
     final l10n = AppLocalizations.of(context);
     return PopupMenuButton<VoidCallback>(
-      icon: const Dimmed(child: Icon(Icons.more_vert)),
+      icon: const Dimmed.interactive(child: Icon(Icons.more_vert)),
       onSelected: (value) => value(),
       itemBuilder: (context) => [
         if (client.identity.username == reply.creator)

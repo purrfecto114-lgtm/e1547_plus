@@ -93,7 +93,7 @@ class FollowTimelinePostList extends StatelessWidget {
           // footer inside it, so it is handed in from out here.
           final scrollController = PrimaryScrollController.of(context);
           return PullToRefresh(
-            onRefresh: query.invalidate,
+            onRefresh: query.revalidate,
             child: CustomScrollView(
               primary: true,
               slivers: [

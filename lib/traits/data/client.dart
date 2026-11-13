@@ -13,14 +13,21 @@ class TraitsClient extends TraitsRepository with ChangeNotifier {
 
   final FutureOr<TraitsRequest?> Function(int identity)? onCreate;
 
-  bool _disposed = false;
+  /// Counts every activate and dispose.
+  ///
+  /// An activate that lost a race against a newer activate or a dispose
+  /// must not write its result back: the earlier caller's await can
+  /// resume after a later one already installed different traits.
+  int _generation = 0;
 
   Future<void> activate(int id) async {
+    final int generation = ++_generation;
     _subscription?.cancel();
     Traits? result;
     Stream<Traits?>? stream;
     stream = _find(id);
     result = await stream.firstOrNull;
+    if (_generation != generation) return;
     if (result == null) {
       if (onCreate == null) {
         throw StateError(
@@ -28,10 +35,11 @@ class TraitsClient extends TraitsRepository with ChangeNotifier {
           'were found and no onCreate callback was provided',
         );
       }
-      if (_disposed) return;
       TraitsRequest? request = await onCreate!(id);
+      if (_generation != generation) return;
       if (request == null) return; // assuming the identity was deleted
       result = await add(request);
+      if (_generation != generation) return;
     }
     _traits = result;
     _subscription = stream.listen(_onChanged);
@@ -85,7 +93,11 @@ class TraitsClient extends TraitsRepository with ChangeNotifier {
 
   @override
   void dispose() {
-    _disposed = true;
+    // Invalidate any in-flight activate: its completion must neither
+    // write the traits back nor notify disposed listeners.
+    _generation++;
+    _subscription?.cancel();
+    _subscription = null;
     super.dispose();
   }
 }

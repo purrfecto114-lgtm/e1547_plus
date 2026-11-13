@@ -421,6 +421,9 @@ class AppLocalizationsJa extends AppLocalizations {
   }
 
   @override
+  String get databaseImportTooLarge => 'このファイルは大きすぎてインポートできません。';
+
+  @override
   String get databaseImportTitle => 'データベースのインポート';
 
   @override
@@ -1319,6 +1322,13 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get identityAnonymous => '匿名';
+
+  @override
+  String get identityCredentialsRejected =>
+      'サイトがこの認証情報を拒否しました。ユーザー名とAPIキーを確認してください。';
+
+  @override
+  String get identityVerifyUnreachable => '認証情報を検証するためにサイトへ接続できませんでした。';
 
   @override
   String get identityDuplicate => 'このサイトとユーザー名のアカウントはすでに存在します。';
@@ -2250,6 +2260,18 @@ class AppLocalizationsJa extends AppLocalizations {
   String get followNotificationSummary => '新しい投稿！';
 
   @override
+  String get followNotificationHiddenBody => 'フォロー中のタグに新しい投稿があります。';
+
+  @override
+  String get followHideNotificationContent => '通知の内容を非表示';
+
+  @override
+  String get followHideNotificationContentHint => '通知のタイトル・プレビュー・サムネイルを非表示にします';
+
+  @override
+  String get notificationStaleIdentity => 'この通知は、この端末に存在しないアカウントのものです。';
+
+  @override
   String get followChannelName => 'フォロー中のタグ';
 
   @override
@@ -2348,4 +2370,30 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get actionUnlock => 'ロック解除';
+
+  @override
+  String get editorDiscardTitle => 'Discard changes?';
+
+  @override
+  String get editorDiscardBody => 'Your changes have not been submitted.';
+
+  @override
+  String get editorDiscardConfirm => 'Discard';
+
+  @override
+  String get editorContinueEditing => 'Continue editing';
+
+  @override
+  String postListGoingToPage(num page) {
+    return 'Going to page $page';
+  }
+
+  @override
+  String get actionRetry => 'Retry';
+
+  @override
+  String get selectionQueueDownloadsFailed => 'Failed to queue downloads';
+
+  @override
+  String get selectionQueueFavoritesFailed => 'Failed to queue favorites';
 }

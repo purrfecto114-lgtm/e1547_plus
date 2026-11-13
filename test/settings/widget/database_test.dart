@@ -1,5 +1,7 @@
 import 'dart:io';
+import 'dart:typed_data';
 
+import 'package:cryptography/cryptography.dart';
 import 'package:drift/native.dart';
 import 'package:e1547/app/app.dart';
 import 'package:e1547/settings/settings.dart';
@@ -106,24 +108,172 @@ void main() {
       expect(await stagedImportVerified(candidatePath, markerPath), isFalse);
     });
 
-    test('sanitizeDatabase drops triggers a file carried', () async {
-      final db = AppDatabase(NativeDatabase.memory());
-      addTearDown(db.close);
-      // The app ships no triggers, so one in an import is attacker-made:
-      // a trigger that survives the cleanup could write the credentials
-      // straight back after they were stripped.
-      await db.customStatement(
-        'CREATE TRIGGER sneak AFTER UPDATE ON identities_table BEGIN '
-        'SELECT 1; END',
+    test('a validated candidate alone does not count as confirmed', () async {
+      await File(candidatePath).writeAsString('candidate', flush: true);
+      await stampStagedImport(candidatePath, markerPath);
+      expect(
+        await stagedImportConfirmed(
+          candidatePath,
+          markerPath,
+          '$candidatePath.confirmed',
+        ),
+        isFalse,
       );
-      await sanitizeDatabase(db);
-      final triggers = await db
-          .customSelect("SELECT name FROM sqlite_master WHERE type = 'trigger'")
-          .get();
-      expect(triggers, isEmpty);
+    });
+
+    test('a confirmed candidate installs', () async {
+      await File(candidatePath).writeAsString('candidate', flush: true);
+      await stampStagedImport(candidatePath, markerPath);
+      await confirmStagedImport(candidatePath, '$candidatePath.confirmed');
+      expect(
+        await stagedImportConfirmed(
+          candidatePath,
+          markerPath,
+          '$candidatePath.confirmed',
+        ),
+        isTrue,
+      );
+    });
+
+    test(
+      'a candidate modified after its confirmation does not install',
+      () async {
+        await File(candidatePath).writeAsString('candidate', flush: true);
+        await stampStagedImport(candidatePath, markerPath);
+        await confirmStagedImport(candidatePath, '$candidatePath.confirmed');
+        await File(candidatePath).writeAsString('tampered', flush: true);
+        expect(
+          await stagedImportConfirmed(
+            candidatePath,
+            markerPath,
+            '$candidatePath.confirmed',
+          ),
+          isFalse,
+        );
+      },
+    );
+  });
+
+  group('import probing', () {
+    late Directory dir;
+
+    setUp(() async {
+      dir = await Directory.systemTemp.createTemp('e1547_probe');
+      addTearDown(() => dir.delete(recursive: true));
+    });
+
+    File file(String name) => File('${dir.path}${Platform.pathSeparator}$name');
+
+    test('isEncryptedExport classifies by header only', () async {
+      await file('plain.db').writeAsBytes(
+        List<int>.filled(4096, 0), // a file far larger than the magic
+      );
+      expect(await isEncryptedExport(file('plain.db').path), isFalse);
+
+      final encrypted = await encryptDatabaseExport(
+        Uint8List.fromList([1, 2, 3]),
+        'password',
+      );
+      await file('encrypted.db').writeAsBytes(encrypted);
+      expect(await isEncryptedExport(file('encrypted.db').path), isTrue);
+
+      await file('short.db').writeAsBytes([69, 49]);
+      expect(await isEncryptedExport(file('short.db').path), isFalse);
+    });
+
+    test('fileHash matches a whole-file digest', () async {
+      final bytes = List<int>.generate(3 * 1024 * 1024, (i) => i % 251);
+      await file('big.db').writeAsBytes(bytes);
+
+      final digest = await Sha256().hash(bytes);
+      final expected = digest.bytes
+          .map((byte) => byte.toRadixString(16).padLeft(2, '0'))
+          .join();
+
+      expect(await fileHash(file('big.db').path), expected);
     });
   });
 
+  group('sanitizeDatabase', () {
+    test(
+      "sanitizeDatabase drops imported triggers and rebuilds the app's own",
+      () async {
+        final db = AppDatabase(NativeDatabase.memory());
+        addTearDown(db.close);
+        // A trigger in an import is attacker-made: one that survived the
+        // cleanup could write the credentials straight back. The app's own
+        // cascade triggers are then rebuilt from this build's DDL - without
+        // them, deleting an identity fails its NO ACTION foreign keys.
+        await db.customStatement(
+          'CREATE TRIGGER sneak AFTER UPDATE ON identities_table BEGIN '
+          'SELECT 1; END',
+        );
+        await sanitizeDatabase(db);
+        final triggers = await db
+            .customSelect(
+              "SELECT name FROM sqlite_master WHERE type = 'trigger'",
+            )
+            .get();
+        expect(
+          triggers.map((row) => row.read<String>('name')),
+          unorderedEquals([
+            'delete_identity_follows',
+            'delete_identity_histories',
+            'delete_identity_tasks',
+          ]),
+        );
+      },
+    );
+
+    test('sanitizeDatabase empties the imported cache index', () async {
+      final db = AppDatabase(NativeDatabase.memory());
+      addTearDown(db.close);
+      // The index is rebuildable cache metadata; a crafted row could
+      // otherwise point the cleaner outside the cache root through a
+      // relativePath like `../..`.
+      await db.customStatement(
+        'INSERT INTO file_cache_table '
+        '(cache, key, url, relative_path, valid_till, e_tag, length, touched) '
+        "VALUES ('app', 'smuggled', 'https://example.test/a.jpg', "
+        "'../outside-cache.txt', 1893456000, NULL, 1024, 1893456000)",
+      );
+      await sanitizeDatabase(db);
+      final rows = await db
+          .customSelect('SELECT COUNT(*) AS n FROM file_cache_table')
+          .getSingle();
+      expect(rows.read<int>('n'), 0);
+    });
+
+    test('sanitizeDatabase cancels imported executable tasks', () async {
+      final db = AppDatabase(NativeDatabase.memory());
+      addTearDown(db.close);
+      // Imported pending/running tasks are executable todos from another
+      // device: their download URLs and filenames come straight from the
+      // backup's TaskMetadata, and the task controller would auto-claim
+      // them after the import. Cancel them in the staging phase; terminal
+      // task history stays.
+      await db.customStatement(
+        'INSERT INTO tasks_table (action, post_id, status, created_at) VALUES '
+        "('download', 1, 'pending', 0), "
+        "('download', 2, 'running', 0), "
+        "('download', 3, 'completed', 0), "
+        "('favorite', 4, 'failed', 0), "
+        "('unfavorite', 5, 'canceled', 0)",
+      );
+      await sanitizeDatabase(db);
+      final rows = await db
+          .customSelect(
+            'SELECT post_id, status FROM tasks_table ORDER BY post_id',
+          )
+          .get();
+      expect(
+        rows.map(
+          (row) => '${row.read<int>('post_id')}:${row.read<String>('status')}',
+        ),
+        ['1:canceled', '2:canceled', '3:completed', '4:failed', '5:canceled'],
+      );
+    });
+  });
   group('swapDatabase', () {
     late Directory dir;
     late String dbPath;
@@ -181,6 +331,59 @@ void main() {
 
       expect(file('app.db').readAsStringSync(), 'third');
       expect(file('app.db.bak').readAsStringSync(), 'second');
+    });
+
+    test('an interrupted swap keeps the only old generation', () async {
+      // A first entry died after renaming the live database aside: the
+      // live path is empty and .bak holds the only copy of the old data.
+      // Retrying must not delete it ahead of installing the candidate.
+      file('app.db.bak').writeAsStringSync('old', flush: true);
+      file('app.db.new').writeAsStringSync('new', flush: true);
+
+      await swapDatabase(file('app.db.new'), dbPath);
+
+      expect(file('app.db').readAsStringSync(), 'new');
+      expect(file('app.db.bak').readAsStringSync(), 'old');
+      expect(file('app.db.new').existsSync(), isFalse);
+    });
+  });
+
+  group('snapshotDatabase', () {
+    late Directory dir;
+    late String dbPath;
+    late AppDatabase db;
+
+    setUp(() async {
+      dir = await Directory.systemTemp.createTemp('e1547_snapshot');
+      dbPath = '${dir.path}${Platform.pathSeparator}app.db';
+      db = AppDatabase(NativeDatabase(File(dbPath)));
+      await db.customSelect('SELECT 1').get();
+    });
+    tearDown(() async {
+      await db.close();
+      await dir.delete(recursive: true);
+    });
+
+    test('snapshots the live database into a fresh file', () async {
+      final target = '${dir.path}${Platform.pathSeparator}export.db';
+      await snapshotDatabase(db, dbPath, target);
+      expect(File(target).existsSync(), isTrue);
+    });
+
+    test('a failed snapshot reports itself instead of copying', () async {
+      // A read-only target directory makes VACUUM INTO fail; the export
+      // must surface that error rather than fall back to a plain copy,
+      // which cannot guarantee the newest committed rows left the wal.
+      final roDir = Directory('${dir.path}${Platform.pathSeparator}ro')
+        ..createSync();
+      final target = '${roDir.path}${Platform.pathSeparator}export.db';
+      Process.runSync('chmod', ['555', roDir.path]);
+      addTearDown(() async {
+        Process.runSync('chmod', ['755', roDir.path]);
+        await roDir.delete(recursive: true);
+      });
+      await expectLater(snapshotDatabase(db, dbPath, target), throwsException);
+      expect(File(target).existsSync(), isFalse);
     });
   });
 }

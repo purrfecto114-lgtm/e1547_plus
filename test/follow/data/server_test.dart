@@ -161,4 +161,29 @@ void main() {
       expect(updated.thumbnail, '/preview/2');
     });
   });
+
+  group('FollowServer.sync', () {
+    test('disposing mid-sync does not write to the closed stream', () async {
+      // A separate server: the shared tearDown would dispose it twice.
+      final dio = Dio();
+      final localServer = FollowServer(
+        database: sqlite,
+        identity: identity,
+        traits: traits,
+        postsClient: PostClient(
+          dio: dio,
+          pools: PoolClient(dio: dio),
+          traits: traits,
+          identity: identity,
+        ),
+      );
+
+      // sync() suspends inside its run; dispose() cancels the sync and
+      // closes the stream. Resuming the await must not add to the closed
+      // stream ("Cannot add event after closing").
+      final Future<void> sync = localServer.sync();
+      localServer.dispose();
+      await expectLater(sync, completes);
+    });
+  });
 }

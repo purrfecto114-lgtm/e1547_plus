@@ -41,6 +41,26 @@ extension PostListPaging on InfiniteQueryStatus<List<Post>, Object> {
   };
 }
 
+/// Waits out the fetch a posts search currently has in flight.
+///
+/// A fetch that is still in flight would swallow a jump's refetch, and
+/// would then overwrite the jump with a page of the search it jumped
+/// away from.
+Future<void> awaitPostsSearchSettled({
+  required InfiniteQuery<List<Object>, Object> query,
+}) async {
+  while (true) {
+    while (query.state is InfiniteQueryLoading) {
+      await query.stream.firstWhere((state) => state is! InfiniteQueryLoading);
+    }
+    // The query clears its in-flight fetch a turn of the event loop after
+    // its last state lands. Waiting out that turn lets a new fetch take
+    // the settled fetch's place instead of being swallowed by it.
+    await null;
+    if (query.state is! InfiniteQueryLoading) break;
+  }
+}
+
 /// Jumps a posts search to [page].
 ///
 /// The list is returned to the top of the page it is about to jump to.
@@ -61,16 +81,7 @@ Future<void> jumpPostsSearchToPage({
       curve: Curves.easeInOut,
     );
   }
-  while (true) {
-    while (query.state is InfiniteQueryLoading) {
-      await query.stream.firstWhere((state) => state is! InfiniteQueryLoading);
-    }
-    // The query clears its in-flight fetch a turn of the event loop after
-    // its last state lands. Waiting out that turn lets the jump's refetch
-    // take the settled fetch's place instead of being swallowed by it.
-    await null;
-    if (query.state is! InfiniteQueryLoading) break;
-  }
+  await awaitPostsSearchSettled(query: query);
   // The posts query pages over id lists, so the jump hands it the one page
   // argument its refetch restarts from.
   query.setData(
@@ -84,7 +95,12 @@ Future<void> jumpPostsSearchToPage({
 /// Reports the page and posts a search has loaded, and offers jumping to one
 /// of its pages. Nothing is shown while the search has loaded nothing yet, or
 /// when it ended without any posts.
-class PostListFooter extends StatelessWidget {
+///
+/// A jump has to wait out the request the search currently has in flight,
+/// which can take a while on a slow connection. While it does, the footer
+/// reports the page it is going to, and offers dropping that jump; picking
+/// another page in the meantime replaces the earlier intent.
+class PostListFooter extends StatefulWidget {
   const PostListFooter({
     super.key,
     required this.state,
@@ -106,14 +122,89 @@ class PostListFooter extends StatelessWidget {
   final ScrollController scrollController;
 
   @override
+  State<PostListFooter> createState() => _PostListFooterState();
+}
+
+class _PostListFooterState extends State<PostListFooter> {
+  /// The page a jump is still waiting to apply.
+  ///
+  /// The search's current request has to settle before a jump can take its
+  /// place. While it does, this holds the page that will be applied once it
+  /// has; picking another page replaces it, and canceling clears it.
+  int? _pendingPage;
+
+  /// Whether a loop is working pending page jumps off.
+  bool _isJumping = false;
+
+  /// Opens the page jump prompt and applies the page it returns.
+  Future<void> jumpToPage(BuildContext context) async {
+    final page = await showPageJumpPrompt(
+      context: context,
+      currentPage: widget.state.currentPage,
+    );
+    if (page == null || !mounted) {
+      return;
+    }
+    // A newer selection replaces the intent of an older one.
+    setState(() => _pendingPage = page);
+    _applyPendingJumps();
+  }
+
+  /// Applies the pending page jump once the search's request settles.
+  ///
+  /// One loop serves every pending selection: it waits out the request in
+  /// flight, applies the newest target once, and keeps serving selections
+  /// that arrive while it works.
+  Future<void> _applyPendingJumps() async {
+    if (_isJumping) {
+      return;
+    }
+    _isJumping = true;
+    try {
+      while (mounted) {
+        final page = _pendingPage;
+        if (page == null) {
+          return;
+        }
+        await awaitPostsSearchSettled(query: widget.query);
+        if (!mounted) {
+          return;
+        }
+        if (_pendingPage == null) {
+          // The jump was canceled while the request settled.
+          return;
+        }
+        if (_pendingPage != page) {
+          // A newer target replaced this one; it waits for the same
+          // settling, which has just finished.
+          continue;
+        }
+        setState(() => _pendingPage = null);
+        await jumpPostsSearchToPage(
+          query: widget.query,
+          page: page,
+          scrollController: widget.scrollController,
+        );
+      }
+    } finally {
+      _isJumping = false;
+    }
+  }
+
+  /// Drops the pending page jump.
+  void _cancelPendingJump() {
+    setState(() => _pendingPage = null);
+  }
+
+  @override
   Widget build(BuildContext context) {
-    final data = state.data;
+    final data = widget.state.data;
     if (data == null) return const SizedBox.shrink();
     // An ended search without posts has nothing to report or page through.
     // An empty last page counts as ended too: the query's has-next-page
     // flag lags an empty page by a fetch, and an empty search never
     // fetches again to correct it.
-    final bool ended = switch (state) {
+    final bool ended = switch (widget.state) {
       InfiniteQuerySuccess success =>
         !success.hasNextPage || success.data.pages.lastOrNull?.isEmpty == true,
       _ => false,
@@ -123,6 +214,7 @@ class PostListFooter extends StatelessWidget {
     }
 
     final l10n = AppLocalizations.of(context);
+    final pendingPage = _pendingPage;
     return Column(
       mainAxisSize: MainAxisSize.min,
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -131,14 +223,24 @@ class PostListFooter extends StatelessWidget {
           children: [
             Expanded(
               child: Dimmed(
-                child: Text(
-                  l10n.postListPageSummary(
-                    data.pages.expand((page) => page).length,
-                    state.currentPage,
-                  ),
-                ),
+                child: pendingPage != null
+                    // The jump is waiting out the search's current request;
+                    // the page it is going to takes the summary's place.
+                    ? Text(l10n.postListGoingToPage(pendingPage))
+                    : Text(
+                        l10n.postListPageSummary(
+                          data.pages.expand((page) => page).length,
+                          widget.state.currentPage,
+                        ),
+                      ),
               ),
             ),
+            if (pendingPage != null)
+              IconButton(
+                tooltip: l10n.actionCancel,
+                onPressed: _cancelPendingJump,
+                icon: const Icon(Icons.close),
+              ),
             IconButton(
               tooltip: l10n.postListJumpToPage,
               onPressed: () => jumpToPage(context),
@@ -146,26 +248,12 @@ class PostListFooter extends StatelessWidget {
             ),
           ],
         ),
-        if (state.atSitePageLimit)
+        if (widget.state.atSitePageLimit)
           Padding(
             padding: const EdgeInsets.only(top: 4),
             child: Dimmed(child: Text(l10n.postListPageLimit)),
           ),
       ],
-    );
-  }
-
-  /// Opens the page jump prompt and applies the page it returns.
-  Future<void> jumpToPage(BuildContext context) async {
-    final page = await showPageJumpPrompt(
-      context: context,
-      currentPage: state.currentPage,
-    );
-    if (page == null) return;
-    await jumpPostsSearchToPage(
-      query: query,
-      page: page,
-      scrollController: scrollController,
     );
   }
 }

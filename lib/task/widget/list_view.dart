@@ -61,7 +61,7 @@ class SliverTasksList extends StatelessWidget {
     );
     return PagedSliverGroupedListView<int, Task, String>(
       state: controller.state,
-      fetchNextPage: () {},
+      fetchNextPage: controller.fetchNextPage,
       groupBy: _groupOf,
       groupComparator: _groupComparator,
       itemComparator: _itemComparator,

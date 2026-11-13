@@ -127,6 +127,17 @@ class _ScaffoldFrameSystemUIState extends State<ScaffoldFrameSystemUI>
     with DefaultRouteAware<ScaffoldFrameSystemUI> {
   late RouterDrawerController navigation;
 
+  /// Generation token for the system UI change callback slot.
+  ///
+  /// [SystemChrome.setSystemUIChangeCallback] is one global slot: a
+  /// newer frame registering itself replaces an older one's callback,
+  /// and that older frame's dispose would then clear the newer
+  /// registration. Every registration carries the latest token; a
+  /// callback firing under a stale token is ignored, and only the
+  /// current registration may clear the slot.
+  static int _callbackToken = 0;
+  int _token = 0;
+
   Future<void> toggleFrame(bool shown) async {
     if (shown) {
       await SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
@@ -138,7 +149,11 @@ class _ScaffoldFrameSystemUIState extends State<ScaffoldFrameSystemUI>
   @override
   void initState() {
     super.initState();
+    _token = ++_callbackToken;
+    final int token = _token;
     SystemChrome.setSystemUIChangeCallback((shown) async {
+      // A newer frame took over the slot; this registration is stale.
+      if (token != _callbackToken) return;
       ScaffoldFrameController controller = ScaffoldFrame.of(context);
       if (controller.visible != shown) {
         controller.toggleFrame(shown: shown);
@@ -151,7 +166,11 @@ class _ScaffoldFrameSystemUIState extends State<ScaffoldFrameSystemUI>
 
   @override
   void dispose() {
-    SystemChrome.setSystemUIChangeCallback(null);
+    // Only the current registration may clear the slot; a stale one
+    // must not wipe the callback a newer frame installed.
+    if (_token == _callbackToken) {
+      SystemChrome.setSystemUIChangeCallback(null);
+    }
     super.dispose();
   }
 

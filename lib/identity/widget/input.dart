@@ -62,6 +62,7 @@ class _HostFormFieldState extends State<HostFormField> {
     controller.removeListener(_updateController);
     focusNode.removeListener(_showReadOnlyHint);
     focusNode.dispose();
+    controller.dispose();
     super.dispose();
   }
 

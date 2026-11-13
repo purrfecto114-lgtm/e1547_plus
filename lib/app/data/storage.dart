@@ -11,6 +11,35 @@ import 'package:notified_preferences/notified_preferences.dart';
 // ignore: always_use_package_imports
 import 'storage.drift.dart';
 
+/// The cascade triggers that keep the identity-bound tables consistent
+/// when an identity row is deleted.
+///
+/// The association tables reference identities with NO ACTION, so the
+/// triggers carry the deletion: dropping a follow/history/task row makes
+/// its CASCADE association row disappear, which is what lets the identity
+/// delete satisfy NO ACTION. database_porter.dart rebuilds these after
+/// sanitizing an import, which is why this string has to stay public.
+const String identityCascadeTriggers = '''
+    CREATE TRIGGER delete_identity_follows
+    AFTER DELETE ON identities_table
+    BEGIN
+        DELETE FROM follows_table
+        WHERE id IN (SELECT follow FROM follows_identities_table WHERE identity = OLD.id);
+    END;
+    CREATE TRIGGER delete_identity_histories
+    AFTER DELETE ON identities_table
+    BEGIN
+        DELETE FROM histories_table
+        WHERE id IN (SELECT history FROM histories_identities_table WHERE identity = OLD.id);
+    END;
+    CREATE TRIGGER delete_identity_tasks
+    AFTER DELETE ON identities_table
+    BEGIN
+        DELETE FROM tasks_table
+        WHERE id IN (SELECT task FROM tasks_identities_table WHERE identity = OLD.id);
+    END;
+''';
+
 @DriftDatabase(
   tables: [
     IdentitiesTable,
@@ -29,32 +58,13 @@ class AppDatabase extends $AppDatabase {
   AppDatabase(super.e);
 
   @override
-  int get schemaVersion => 9;
+  int get schemaVersion => 10;
 
   @override
   MigrationStrategy get migration => MigrationStrategy(
     onCreate: (m) {
       return m.createAll().then((_) async {
-        await customStatement('''
-              CREATE TRIGGER delete_identity_follows
-              AFTER DELETE ON identities_table
-              BEGIN
-                  DELETE FROM follows_table
-                  WHERE id IN (SELECT follow FROM follows_identities_table WHERE identity = OLD.id);
-              END;
-              CREATE TRIGGER delete_identity_histories
-              AFTER DELETE ON identities_table
-              BEGIN
-                  DELETE FROM histories_table
-                  WHERE id IN (SELECT history FROM histories_identities_table WHERE identity = OLD.id);
-              END;
-              CREATE TRIGGER delete_identity_tasks
-              AFTER DELETE ON identities_table
-              BEGIN
-                  DELETE FROM tasks_table
-                  WHERE id IN (SELECT task FROM tasks_identities_table WHERE identity = OLD.id);
-              END;
-            ''');
+        await customStatement(identityCascadeTriggers);
       });
     },
     onUpgrade: (m, from, to) async {
@@ -107,6 +117,16 @@ class AppDatabase extends $AppDatabase {
         // createTable does not create indexes, unlike createAll.
         await m.create(fileCacheLookup);
         await m.create(fileCacheTouched);
+      }
+      if (from < 10) {
+        // History queries order, range-filter and trim by visitedAt, so
+        // an index keeps them from scanning the whole table. Written by
+        // hand instead of m.create, because the generated index objects
+        // are only available after the next build run.
+        await customStatement(
+          'CREATE INDEX IF NOT EXISTS idx_history_visited_at '
+          'ON histories_table (visited_at)',
+        );
       }
     },
     beforeOpen: (details) => customStatement('PRAGMA foreign_keys = ON'),

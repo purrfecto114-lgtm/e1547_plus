@@ -46,6 +46,7 @@ abstract class $AppDatabase extends i0.GeneratedDatabase {
     tasksIdentitiesTable,
     queryStorageTable,
     fileCacheTable,
+    i3.idxHistoryVisitedAt,
     i7.fileCacheLookup,
     i7.fileCacheTouched,
   ];

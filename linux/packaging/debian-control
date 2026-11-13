@@ -5,4 +5,10 @@ Priority: optional
 Architecture: amd64
 Maintainer: clragon <clragon@clynamic.net>
 Depends: libgtk-3-0, libmpv2, libegl1, libgles2, hicolor-icon-theme
+Recommends: xdg-desktop-portal,
+ xdg-desktop-portal-gtk | xdg-desktop-portal-gnome | xdg-desktop-portal-kde
 Description: A sophisticated e621 browser
+ The file dialogs (database import and export, choosing the download
+ folder) go through the freedesktop portals; a desktop without a portal
+ backend can still browse, but those dialogs will fail until one is
+ installed.

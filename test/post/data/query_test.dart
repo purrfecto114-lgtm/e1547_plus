@@ -274,4 +274,72 @@ void main() {
     expect(query.state.data!.pages.last, servedIds().skip(75).take(75));
     expect(query.hasNextPage(), isTrue);
   });
+
+  group('undisplayable pages', () {
+    /// Makes every post with an id in [ids] undisplayable: flash posts the
+    /// app cannot render, or censored posts without a file.
+    void makeUndisplayable(Iterable<int> ids, {required bool flash}) {
+      final wanted = ids.toSet();
+      for (final post in fake.state.posts) {
+        if (!wanted.contains(post['id'])) continue;
+        final file = {...(post['file']! as Map)};
+        if (flash) {
+          file['ext'] = 'swf';
+        } else {
+          file['url'] = null;
+        }
+        post['file'] = file;
+      }
+    }
+
+    test('a cursor search continues past a fully undisplayable page', () async {
+      // The first page holds only flash posts; the second is normal.
+      makeUndisplayable(servedIds().take(75), flash: true);
+      final query = client.usePage(query: const PostParams().toQuery());
+      await query.fetch();
+
+      // The page keeps its raw items: pagination advances on the raw
+      // response, so the list must not end on an undisplayable page.
+      expect(query.state.data!.pages.single, servedIds().take(75));
+      expect(query.hasNextPage(), isTrue);
+
+      await query.getNextPage();
+      expect(
+        fake.requests.last.query['page'],
+        'b${servedIds().take(75).reduce(min)}',
+      );
+      expect(query.state.data!.pages.last, servedIds().skip(75).take(75));
+    });
+
+    test(
+      'a page-number search continues past a fully undisplayable page',
+      () async {
+        makeUndisplayable(servedIds().take(75), flash: false);
+        final query = client.usePage(
+          query: const PostParams(tags: 'order:score').toQuery(),
+        );
+        await query.fetch();
+
+        expect(query.state.data!.pages.single, servedIds().take(75));
+        expect(query.hasNextPage(), isTrue);
+
+        await query.getNextPage();
+        expect(fake.requests.last.query['page'], '2');
+        expect(query.state.data!.pages.last, servedIds().skip(75).take(75));
+      },
+    );
+
+    test('a pool continues past a fully undisplayable slice', () async {
+      fake.state.pools.first['post_ids'] = servedIds();
+      makeUndisplayable(servedIds().take(75), flash: true);
+      final query = client.useByPool(id: 1252);
+      await query.fetch();
+
+      expect(query.state.data!.pages.single, servedIds().take(75));
+      expect(query.hasNextPage(), isTrue);
+
+      await query.getNextPage();
+      expect(query.state.data!.pages.last, servedIds().skip(75).take(75));
+    });
+  });
 }

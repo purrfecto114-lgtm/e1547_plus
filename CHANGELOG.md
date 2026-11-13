@@ -4,6 +4,165 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and this project
 adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [21.7.3+131] - 2026-11-13
+### Fixed
+- tag suggestions complete the word the cursor is on, keep operators and
+  repeated tokens straight, and leave the cursor at the end of the
+  completed word instead of the end of the whole text; picking a second
+  suggestion right after replaces the tag without doubling the closing
+  space, and an IME composition region is left alone so lowercase
+  submission no longer tramples an unfinished phrase
+- the filter prompt keeps a local draft and hands it to the search once
+  per debounce window: keystrokes no longer refetch on every key, an
+  external change no longer throws away unapplied edits, and closing
+  the prompt still applies what was typed
+- the post editor and trait editors warn about unsaved changes when
+  leaving, and the discard confirmation is localized like the rest of
+  the interface
+- selections survive content refreshes: picking by stable keys keeps a
+  selection through reloads and item updates, the overlay reports its
+  toggled state to screen readers, and a batch whose queue refused work
+  — a canceled directory prompt or an all-duplicate batch — keeps what
+  was picked
+- the task list pages through its history: beyond the first page of
+  finished tasks, older ones load on scroll instead of becoming
+  unreachable, and a page that failed to load can be retried; the task
+  page also counts the outcomes of a finished batch separately
+- task bubbles announce their progress and outcome to screen readers,
+  and an unknown total shows an indeterminate state instead of a fake
+  zero; failed tasks are kept for seven days and then swept, with no
+  cap on how many a busy day leaves behind
+- canceling a running favorite aborts its request on the network, like
+  downloads always could, and a file that races its cancellation into
+  the gallery is removed again after the export finishes; task queue
+  results also reach the post cache reliably, so a finished task no
+  longer skips syncing back into it
+- Android file names are cleaned of path separators before they reach
+  the gallery, matching the desktop behavior
+- a racing external change to the denylist no longer rolls back over
+  it, and a slow pull no longer overwrites a push that landed first;
+  favorites requests stop mutating the caller's query map, and a post
+  with an unknown uploader or rating still parses instead of taking
+  the whole page down with it
+- account availability is rechecked per account, and a page it pushed
+  once does not come back for the same account; a login's avatar fetch
+  failing no longer takes the whole account pull down with it
+- deep links are consumed only after they are dispatched successfully:
+  a cold start whose first frame fails no longer loses its link, and
+  one link can no longer navigate twice; the F5 key refreshes the route
+  it was pressed on, not whichever page sits at the bottom of the stack
+- the fullscreen image fallback stops decoding the original file at
+  full size: the file path now carries the same decode cap as previews;
+  follow thumbnails decode at their tile size, and the search grid
+  scales its decode cap with the device pixel ratio
+- history entries get an index on their visited time, so ordering and
+  trimming no longer scan the whole table; the schema migrates in place
+  on upgrade, and history subtitles are truncated to a sensible length
+  before they reach the database, cutting at code point boundaries so
+  emoji survive
+- the light theme's on-primary color passes WCAG AA against the amber
+  primary, and interactive dimming is strong enough to read as disabled
+- DText links release their tap recognizers when their text is rebuilt:
+  scrolling comment lists no longer leaks a recognizer per link, and
+  link previews are provided once per page instead of per text
+- the Polish translation regains its plural forms: "2–4 posts" reads
+  "posty", not "postów", and the counts that were missing a few/many
+  branch get one
+- a user who declined notification permission is not asked again on
+  every cold start, and returning to the foreground rechecks the grant
+  instead of assuming it
+- hardcoded prompts (discard edits, jump to page, queue failures,
+  retry) are localized, and hosts input fields release their controllers
+### Changed
+- the README was condensed to half its length without losing a section,
+  in both languages
+
+## [21.7.2+130] - 2026-11-11
+### Fixed
+- a staged import can no longer install itself: validation needs the
+  user's explicit restart, and a dismissed confirmation dialog or a killed
+  process keeps the current database instead
+- an interrupted database swap no longer deletes the only remaining copy
+  of the old database while retrying
+- imported databases get their cascade triggers rebuilt and their file
+  cache index emptied, so deleting an identity keeps working and a
+  crafted cache row can no longer point the cleaner outside the cache
+  directory
+- media downloads travel without the account's credentials: images and
+  thumbnails from other hosts never receive the API key or cookies
+- the export reports a failed snapshot instead of quietly copying a
+  possibly incomplete database file
+- the history dedup window is per identity: another account's visit no
+  longer swallows this one's entry
+- turning the pin off also turns the biometric lock off, so a failing
+  sensor can no longer lock the user out with no way back in
+- the app no longer wraps its whole interface in ExcludeSemantics, so
+  screen readers can see and operate it again
+- a login now verifies its credentials against its host before saving
+  them: a key the server rejects no longer appears as a signed-in
+  account until a favorite or vote exposes it, and an unreachable host
+  keeps the form open for a retry
+- opening a follow notification acts on the identity that created it:
+  the app switches accounts when needed and reports a removed identity
+  instead of loading the post with whichever account happens to be
+  active
+- an Android cold start deep link is handled once: the initial link
+  that both deep link entry points report no longer races into
+  duplicate navigation
+- searches and pools no longer end early when every post on a page is
+  client-hidden (flash or fileless entries): pagination advances on the
+  raw response while display filtering keeps its own rules
+- iOS gallery saves check the plugin's success flag and run one at a
+  time: a save Photos rejected no longer completes its task, and
+  overlapping saves can no longer swallow each other's callbacks
+- cancelling a save no longer deletes a file it did not create:
+  overwriting an existing name is not rollback-safe, so only freshly
+  created files are removed on rollback
+- switching accounts or leaving the app no longer lets an older
+  activation overwrite the newer account: superseded results are
+  dropped
+- a failed optimistic update restores the state it started from
+  instead of rolling the whole item back over later successful
+  updates, and mutations of the same item now run in order instead of
+  interleaving
+- DText link previews remove their overlay again when the underlying
+  content goes away, instead of leaking on top of the app
+- imported databases arrive with their pending and running tasks
+  canceled: another device's download queue no longer resumes as
+  executable todos on a fresh install
+- database exports strip every identity header outside an explicit
+  allowlist, so legacy top-level cookie headers (cloudflare clearance
+  and bot-manager markers) no longer travel through backups
+- request logs scrub sensitive query parameters structurally before an
+  event is built: decoded tag queries with spaces can no longer smuggle
+  a following secret past the redaction
+- the Linux package recommends the xdg desktop portal services its
+  file dialogs go through, so a minimal install can no longer start
+  fine and fail at its first file dialog
+
+### Changed
+- pull-to-refresh and the optimistic mutations now report failures that
+  cached_query had swallowed into the query state; the refresh indicator
+  shows the failed state while offline
+- the Chinese readme's secure display description now matches what the
+  app actually does (FLAG_SECURE on Android, the native blur on iOS)
+- the unencrypted desktop database export streams the snapshot to the
+  picked file instead of buffering the whole database, the import
+  probes the encryption magic from the first bytes instead of reading
+  the picked file whole, and digests stream their input
+- the file cache keeps a byte budget next to its entry count: the
+  least recently touched entries are given up first, and entries
+  without a known length count as zero
+- the Ruby toolchain updates the gems with published fixes for seven
+  OSV advisories; the two that need a fastlane major upgrade (excon,
+  rubyzip) are recorded as a reviewed baseline, and the validation
+  workflow scans the locked dependencies against OSV on every run
+- the release workflow runs the reusable validation against the exact
+  ref it packages, pins its actions to commit hashes, verifies the
+  downloaded forum converter by checksum, enforces the committed
+  lockfiles, and separates the unauthenticated conversion from the
+  publishing steps
+
 ## [21.7.1+129] - 2026-11-08
 ### Changed
 - the torn photo placeholder follows the monochrome outlined icon

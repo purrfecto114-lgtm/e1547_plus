@@ -27,8 +27,18 @@ class PostFilter extends FilterController<Post>
   @override
   Object idOf(Post post) => post.id;
 
+  /// Undisplayable posts (flash or censored) never reach a tile, but they
+  /// do stay in fetched pages so pagination advances on the raw response.
   @override
-  bool filter(Post post) => !denies(post);
+  bool filter(Post post) => post.isDisplayable && !denies(post);
+
+  /// How many tracked posts the denylist currently hides.
+  ///
+  /// Undisplayable posts are not denylist blocks and must not inflate
+  /// this count.
+  @override
+  int get blockedCount =>
+      tracked.where((item) => item.isDisplayable && !filter(item)).length;
 
   @override
   PostFilterValue get value => _value;
@@ -158,6 +168,8 @@ class FavoritePostFilter extends PostFilter {
 
   @override
   bool filter(Post post) {
+    // Even favorites cannot display a flash or censored post.
+    if (!post.isDisplayable) return false;
     if (post.isFavorited) return true;
     return super.filter(post);
   }

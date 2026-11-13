@@ -179,13 +179,15 @@ class RawPostImageWidget extends StatelessWidget {
     // are not deleted, so a deleted post without one can slip through
     // every branch below. Such a post has nothing to load at all: show
     // the torn image placeholder instead of asserting into a crash.
-    String? url =
-        switch (size) {
-          PostImageSize.preview => post.preview,
-          PostImageSize.sample => post.sample,
-          PostImageSize.file => post.file,
-        } ??
-        post.file;
+    final String? preferredUrl = switch (size) {
+      PostImageSize.preview => post.preview,
+      PostImageSize.sample => post.sample,
+      PostImageSize.file => post.file,
+    };
+    // A preview or sample which fell back to the original file must not
+    // decode that original at full size just to act as a thumbnail.
+    final bool fellBackToFile = preferredUrl == null && post.file != null;
+    String? url = preferredUrl ?? post.file;
     if (url == null) return const TornImagePlaceholder();
     Size dimensions = Size(post.width.toDouble(), post.height.toDouble());
 
@@ -196,6 +198,11 @@ class RawPostImageWidget extends StatelessWidget {
 
     int? cacheSize = this.cacheSize;
     int? maxPixels = this.maxPixels;
+    if (fellBackToFile && cacheSize == null) {
+      // The same fixed cap the comic and timeline tiles decode their
+      // images with; see PostComicSliver and PostTimelineSliver.
+      cacheSize = 800;
+    }
     if (cacheSize != null || maxPixels != null) {
       double scale = 1;
       if (cacheSize != null) {
@@ -320,11 +327,11 @@ class _ImageProgressWrapperState extends State<ImageProgressWrapper> {
 
 /// A default error builder for cached network image.
 ///
-/// Shows a dedicated torn-image glyph instead of a generic warning
-/// exclamation: the photo is ripped in half and an exclamation badge
-/// marks the bottom right corner, so the state it stands in reads at a
-/// glance even at thumbnail sizes. Like every other icon of the app the
-/// glyph is monochrome and follows the outlined Material vocabulary.
+/// Shows a dedicated broken-image glyph instead of a generic warning
+/// exclamation: the photo is ripped into left and right halves that
+/// slide apart, so the state it stands in reads at a glance even at
+/// thumbnail sizes. Like every other icon of the app the glyph is
+/// monochrome and follows the outlined Material vocabulary.
 Widget defaultErrorBuilder(BuildContext context, String url, dynamic error) =>
     const TornImagePlaceholder();
 
@@ -332,8 +339,8 @@ Widget defaultErrorBuilder(BuildContext context, String url, dynamic error) =>
 /// tiles scale it down to stay inside their bounds.
 const double tornImageMaxSize = 48;
 
-/// The error placeholder of failed images: a photo torn in half with an
-/// exclamation badge in the bottom right corner.
+/// The error placeholder of failed images: a photo ripped into two
+/// halves that slide apart.
 class TornImagePlaceholder extends StatelessWidget {
   const TornImagePlaceholder({super.key});
 
@@ -359,190 +366,161 @@ class TornImagePlaceholder extends StatelessWidget {
   }
 }
 
-/// Paints a ripped photo in the outlined Material icon language: a round
-/// edged frame torn across the middle, its halves slid apart so the tear
-/// reads at thumbnail sizes, a stroked mountain ridge and a sun dot
-/// inside, plus a solid badge with a knocked out exclamation mark in the
-/// bottom right corner, the way Material composes badges onto glyphs.
+/// Paints a ripped photo in the outlined Material icon language the app
+/// draws every other glyph in: a small cornered frame ripped top to
+/// bottom into two halves that slide apart. The sun stays on the left
+/// half, the mountain ridge is torn across and survives as two stubs,
+/// so the rip reads as a broken picture instead of a decoration line.
+/// The tear is a few bold straight teeth instead of fine ragged fuzz,
+/// and nothing else piles onto the glyph, so it reads cleanly down to
+/// thumbnail sizes.
 class _TornImagePainter extends CustomPainter {
   const _TornImagePainter({required this.color});
 
   final Color color;
 
-  /// The jagged tear crossing the photo, as fractions of the glyph square
-  /// with y measured from the top. A shallow diagonal with small teeth:
-  /// bold zigzags would read as a second mountain ridge instead of a rip.
+  static const inset = 0.125;
+
+  /// The tear running top to bottom through the photo, as fractions of
+  /// the glyph square. Its ends sit on the frame's top and bottom edges
+  /// and two bold teeth slant across the middle: few, sharp teeth read
+  /// as an actual rip, while finer ragged fuzz turns into noise at
+  /// thumbnail sizes.
   static const List<Offset> tear = [
-    Offset(0, 0.40),
-    Offset(0.13, 0.44),
-    Offset(0.24, 0.38),
-    Offset(0.38, 0.46),
-    Offset(0.52, 0.41),
-    Offset(0.63, 0.47),
-    Offset(0.78, 0.42),
-    Offset(1, 0.49),
+    Offset(0.50, 0.125),
+    Offset(0.43, 0.30),
+    Offset(0.53, 0.48),
+    Offset(0.42, 0.66),
+    Offset(0.50, 0.875),
   ];
 
-  /// The mountain ridge of the photo, a stroked polyline like the one
-  /// Material's image glyphs draw instead of a filled silhouette. It
-  /// runs to the right edge and slides beneath the badge, the way
-  /// Material lets glyphs disappear under their badge.
-  static const List<Offset> ridge = [
-    Offset(0, 0.68),
-    Offset(0.24, 0.56),
-    Offset(0.42, 0.68),
-    Offset(0.56, 0.60),
-    Offset(1, 0.72),
+  /// The mountain ridge torn across by the rip, a stroked polyline like
+  /// the one Material's image glyphs draw instead of a filled
+  /// silhouette. The stubs line up across the tear like one mountain
+  /// split in two, and each slides away with its half.
+  static const List<Offset> ridgeLeft = [
+    Offset(0.145, 0.60),
+    Offset(0.28, 0.47),
+    Offset(0.39, 0.55),
   ];
+  static const List<Offset> ridgeRight = [
+    Offset(0.545, 0.51),
+    Offset(0.66, 0.44),
+    Offset(0.855, 0.55),
+  ];
+
+  /// The sun dot on the left half, filled like the one Material's image
+  /// glyphs draw. Expressed relative to the unshifted frame.
+  static const sunCenter = Offset(0.26, 0.235);
+  static const sunRadius = 0.048;
+
+  /// How far each half slides away from the tear, so the rip opens into
+  /// a visible gap with offset frame edges instead of reading as a
+  /// decoration line: the left half pulls up and out, the right one
+  /// down and out.
+  static const leftShift = Offset(-0.07, 0);
+  static const rightShift = Offset(0.07, 0);
 
   @override
   void paint(Canvas canvas, Size size) {
-    const inset = 0.115; // keeps the slid halves inside the canvas
-    const lift = 0.06; // torn photo: the halves slide apart vertically
-    const shear = 0.018; // ...and slightly along the tear
-    const stroke = 0.06;
+    const corner = 0.045; // matches the 4px rounding of the app's cards
+    const stroke = 0.0833; // the 2px stroke of Material's 24px grid
 
     final square = size.width;
-    final glyph = Rect.fromLTWH(
-      inset * square,
-      inset * square,
-      (1 - 2 * inset) * square,
-      (1 - 2 * inset) * square,
-    );
     final line = Paint()
       ..style = PaintingStyle.stroke
       ..strokeWidth = stroke * square
       ..strokeCap = StrokeCap.round
       ..strokeJoin = StrokeJoin.round
       ..color = color;
-    final fill = Paint()..color = color;
 
-    // Each half is drawn as one closed outline: the ragged tear edge plus
-    // the frame edges and rounded corners that belong to it. Stroking
-    // that single path keeps every joint round and needs no clipping,
-    // which would eat half of every stroke it touches.
-    for (final upper in [true, false]) {
-      canvas.save();
-      canvas.translate(
-        (upper ? -1 : 1) * shear * square,
-        (upper ? -1 : 1) * lift * square,
-      );
-      canvas.drawPath(_halfBoundary(upper: upper, glyph: glyph), line);
-      if (upper) {
-        canvas.drawCircle(
-          Offset(
-            glyph.left + 0.28 * glyph.width,
-            glyph.top + 0.21 * glyph.width,
-          ),
-          0.07 * glyph.width,
-          fill,
-        );
-      } else {
-        canvas.drawPath(_polyline(ridge, glyph), line);
-      }
-      canvas.restore();
-    }
-
-    // The badge sits in the bottom right corner and overlaps the frame,
-    // sized so the exclamation stays legible at thumbnail sizes. It is
-    // solid like Material's badge glyphs and keeps its exclamation
-    // knocked out, so it works on every background without a hard coded
-    // error color clashing with the monochrome icon row it appears in.
-    final badgeRadius = 0.16 * square;
-    final badgeCenter = Offset(0.82 * square, 0.82 * square);
-    final badge = Path()
-      ..addOval(Rect.fromCircle(center: badgeCenter, radius: badgeRadius));
-    final exclamation = Path()
-      ..addRRect(
-        RRect.fromRectAndRadius(
-          Rect.fromLTRB(
-            badgeCenter.dx - 0.17 * badgeRadius,
-            badgeCenter.dy - 0.52 * badgeRadius,
-            badgeCenter.dx + 0.17 * badgeRadius,
-            badgeCenter.dy + 0.10 * badgeRadius,
-          ),
-          Radius.circular(0.17 * badgeRadius),
-        ),
-      )
-      ..addOval(
-        Rect.fromCircle(
-          center: Offset(badgeCenter.dx, badgeCenter.dy + 0.42 * badgeRadius),
-          radius: 0.15 * badgeRadius,
-        ),
-      );
-    canvas.drawPath(
-      Path.combine(PathOperation.difference, badge, exclamation),
-      fill,
+    canvas.save();
+    canvas.translate(leftShift.dx * square, leftShift.dy * square);
+    canvas.drawPath(_leftHalf(square, corner), line);
+    canvas.drawPath(_polyline(ridgeLeft, square), line);
+    canvas.drawCircle(
+      Offset(sunCenter.dx * square, sunCenter.dy * square),
+      sunRadius * square,
+      Paint()..color = color,
     );
+    canvas.restore();
+    canvas.save();
+    canvas.translate(rightShift.dx * square, rightShift.dy * square);
+    canvas.drawPath(_rightHalf(square, corner), line);
+    canvas.drawPath(_polyline(ridgeRight, square), line);
+    canvas.restore();
   }
 
-  /// The closed outline of one torn half: its ragged tear edge plus the
-  /// frame edges and rounded corners that belong to it.
-  Path _halfBoundary({required bool upper, required Rect glyph}) {
-    final corner = 0.11 * glyph.width;
+  /// The closed outline of the left half: the tear edge plus the frame
+  /// edges and corners that belong to it. Every coordinate is a fraction
+  /// of the glyph square.
+  Path _leftHalf(double square, double corner) {
+    final radius = corner * square;
     Rect cornerBox(Offset center) =>
-        Rect.fromCircle(center: center, radius: corner);
+        Rect.fromCircle(center: center, radius: radius);
+    final left = inset * square;
+    final top = inset * square;
+    final bottom = (1 - inset) * square;
     final tearPoints = tear
-        .map(
-          (point) => Offset(
-            glyph.left + point.dx * glyph.width,
-            glyph.top + point.dy * glyph.width,
-          ),
-        )
+        .map((point) => Offset(point.dx * square, point.dy * square))
         .toList();
-    final start = tearPoints.first;
-    final path = Path()..moveTo(start.dx, start.dy);
+    final path = Path()..moveTo(tearPoints.first.dx, tearPoints.first.dy);
     for (final point in tearPoints.skip(1)) {
       path.lineTo(point.dx, point.dy);
     }
-    if (upper) {
-      path
-        ..lineTo(glyph.right, glyph.top + corner)
-        ..arcTo(
-          cornerBox(Offset(glyph.right - corner, glyph.top + corner)),
-          0,
-          -pi / 2,
-          false,
-        )
-        ..lineTo(glyph.left + corner, glyph.top)
-        ..arcTo(
-          cornerBox(Offset(glyph.left + corner, glyph.top + corner)),
-          -pi / 2,
-          -pi / 2,
-          false,
-        )
-        ..lineTo(start.dx, start.dy)
-        ..close();
-    } else {
-      path
-        ..lineTo(glyph.right, glyph.bottom - corner)
-        ..arcTo(
-          cornerBox(Offset(glyph.right - corner, glyph.bottom - corner)),
-          0,
-          pi / 2,
-          false,
-        )
-        ..lineTo(glyph.left + corner, glyph.bottom)
-        ..arcTo(
-          cornerBox(Offset(glyph.left + corner, glyph.bottom - corner)),
-          pi / 2,
-          pi / 2,
-          false,
-        )
-        ..lineTo(start.dx, start.dy)
-        ..close();
+    return path
+      ..lineTo(left + radius, bottom)
+      ..arcTo(
+        cornerBox(Offset(left + radius, bottom - radius)),
+        pi / 2,
+        pi / 2,
+        false,
+      )
+      ..lineTo(left, top + radius)
+      ..arcTo(cornerBox(Offset(left + radius, top + radius)), pi, pi / 2, false)
+      ..close();
+  }
+
+  /// The closed outline of the right half: the frame edges and corners
+  /// on the right plus the tear edge running back up.
+  Path _rightHalf(double square, double corner) {
+    final radius = corner * square;
+    Rect cornerBox(Offset center) =>
+        Rect.fromCircle(center: center, radius: radius);
+    final right = (1 - inset) * square;
+    final top = inset * square;
+    final bottom = (1 - inset) * square;
+    final tearPoints = tear
+        .map((point) => Offset(point.dx * square, point.dy * square))
+        .toList();
+    final path = Path()
+      ..moveTo(tearPoints.first.dx, tearPoints.first.dy)
+      ..lineTo(right - radius, top)
+      ..arcTo(
+        cornerBox(Offset(right - radius, top + radius)),
+        3 * pi / 2,
+        pi / 2,
+        false,
+      )
+      ..lineTo(right, bottom - radius)
+      ..arcTo(
+        cornerBox(Offset(right - radius, bottom - radius)),
+        0,
+        pi / 2,
+        false,
+      )
+      ..lineTo(tearPoints.last.dx, tearPoints.last.dy);
+    for (final point in tearPoints.reversed.skip(1)) {
+      path.lineTo(point.dx, point.dy);
     }
-    return path;
+    return path..close();
   }
 
   /// Maps glyph fractions onto the glyph square as an open polyline.
-  Path _polyline(List<Offset> points, Rect glyph) {
+  Path _polyline(List<Offset> points, double square) {
     final path = Path();
     for (final (index, point) in points.indexed) {
-      final vertex = Offset(
-        glyph.left + point.dx * glyph.width,
-        glyph.top + point.dy * glyph.width,
-      );
+      final vertex = Offset(point.dx * square, point.dy * square);
       index == 0
           ? path.moveTo(vertex.dx, vertex.dy)
           : path.lineTo(vertex.dx, vertex.dy);

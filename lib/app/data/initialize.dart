@@ -178,20 +178,21 @@ Future<void> completeDbImport() async {
   final dbPath = await getAppDatabasePath();
   final newDbPath = await pendingImportPath();
   final markerPath = await pendingImportMarkerPath();
+  final confirmPath = await pendingImportConfirmPath();
   final newDbFile = File(newDbPath);
 
   if (newDbFile.existsSync()) {
-    // A staged import may only take over when validation stamped it: a
-    // crash during the validation, the copy or before the user confirmed
-    // otherwise leaves a file the boot sequence must not mistake for an
-    // install, and the live database stays untouched.
-    if (!await stagedImportVerified(newDbPath, markerPath)) {
-      Logger('Storage').warn('Discarded an unverified staged import');
+    // A staged import only takes over when the user consented to it:
+    // validation alone is not consent. A crash or a dismissed dialog
+    // before the restart leaves the candidate behind, and the boot
+    // sequence then keeps the live database untouched.
+    if (!await stagedImportConfirmed(newDbPath, markerPath, confirmPath)) {
+      Logger('Storage').warn('Discarded an unconfirmed staged import');
       await discardStagedImport();
       return;
     }
     await swapDatabase(newDbFile, dbPath);
-    // the marker served its purpose once the candidate is installed
+    // the markers served their purpose once the candidate is installed
     await discardStagedImport();
   }
 }
@@ -211,21 +212,28 @@ Future<void> swapDatabase(File newDbFile, String dbPath) async {
   final oldDbFile = File(dbPath);
   final backupPath = '$dbPath.bak';
   final backupFile = File(backupPath);
+  // An earlier swap that died after renaming the live database aside
+  // left the live path empty and the old generation sitting in .bak.
+  // That backup is the only copy of the user's data, so it must survive
+  // this install: the steps below may not touch it.
+  final interrupted = !oldDbFile.existsSync() && backupFile.existsSync();
   try {
-    if (backupFile.existsSync()) await backupFile.delete();
-    for (final suffix in companions) {
-      final stale = File('$backupPath$suffix');
-      if (stale.existsSync()) await stale.delete();
-    }
-    if (oldDbFile.existsSync()) {
-      await oldDbFile.rename(backupPath);
+    if (!interrupted) {
+      if (backupFile.existsSync()) await backupFile.delete();
       for (final suffix in companions) {
-        final companion = File('$dbPath$suffix');
-        if (!companion.existsSync()) continue;
-        try {
-          await companion.rename('$backupPath$suffix');
-        } on FileSystemException {
-          await companion.delete();
+        final stale = File('$backupPath$suffix');
+        if (stale.existsSync()) await stale.delete();
+      }
+      if (oldDbFile.existsSync()) {
+        await oldDbFile.rename(backupPath);
+        for (final suffix in companions) {
+          final companion = File('$dbPath$suffix');
+          if (!companion.existsSync()) continue;
+          try {
+            await companion.rename('$backupPath$suffix');
+          } on FileSystemException {
+            await companion.delete();
+          }
         }
       }
     }

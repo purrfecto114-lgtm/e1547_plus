@@ -136,7 +136,7 @@ class IdentityRepository extends DatabaseAccessor<GeneratedDatabase>
         final headers = row.headers;
         if (headers == null) continue;
         final sanitized = Map.of(headers)
-          ..removeWhere((name, _) => isSecretHeader(name));
+          ..removeWhere((name, _) => !isExportableHeader(name));
         if (sanitized.length == headers.length) continue;
         // write '{}' rather than null: avoids the nullable-map-converter edge
         batch.update(

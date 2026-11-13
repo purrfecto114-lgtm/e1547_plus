@@ -1,7 +1,22 @@
+import 'package:e1547/shared/shared.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'history.freezed.dart';
 part 'history.g.dart';
+
+/// The maximum length of a history entry's subtitle, in code points.
+///
+/// Subtitles carry post and pool descriptions, wiki bodies and forum
+/// replies, which regularly exceed what a history tile could display;
+/// storing them whole only bloats the database. They are cut down
+/// before they are stored, counting code points so that no surrogate
+/// pair is split in half.
+const int historySubtitleLimit = 500;
+
+extension HistorySubtitleTruncating on String {
+  /// Truncates this string for use as a history entry's subtitle.
+  String truncateHistorySubtitle() => ellipse(historySubtitleLimit);
+}
 
 @freezed
 abstract class History with _$History {

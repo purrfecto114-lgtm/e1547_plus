@@ -47,7 +47,9 @@ abstract final class E621Post {
           (key, value) => MapEntry(key, List.from(value)),
         ),
       ),
-      uploaderId: post('uploader_id').asIntOrThrow(),
+      // Anonymous or unknown uploaders must not fail the whole
+      // post; 0 is no real user id on the server.
+      uploaderId: post('uploader_id').asIntOrNull() ?? 0,
       uploaderName: post('uploader_name').asStringOrNull(),
       createdAt: post('created_at').asDateTimeOrThrow(),
       updatedAt: post('updated_at').asDateTimeOrNull(),
@@ -56,9 +58,11 @@ abstract final class E621Post {
       isDeleted: post(
         'flags',
       ).letOrThrow((pick) => pick('deleted').asBoolOrThrow()),
-      rating: post(
-        'rating',
-      ).letOrThrow((pick) => Rating.values.asNameMap()[pick.asString()]!),
+      // An unknown rating must not fail the whole post; unparseable
+      // or missing values fall back to the server's upload default.
+      rating:
+          Rating.values.asNameMap()[post('rating').asStringOrNull()] ??
+          Rating.q,
       favCount: post('fav_count').asIntOrThrow(),
       isFavorited: post('is_favorited').asBoolOrThrow(),
       commentCount: post('comment_count').asIntOrThrow(),

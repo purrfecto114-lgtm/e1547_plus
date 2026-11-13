@@ -10,7 +10,7 @@ class ReplyList extends StatelessWidget {
   @override
   Widget build(BuildContext context) => ReplyPageQueryBuilder(
     builder: (context, state, query) => PullToRefresh(
-      onRefresh: query.invalidate,
+      onRefresh: query.revalidate,
       child: CustomScrollView(
         primary: true,
         slivers: [

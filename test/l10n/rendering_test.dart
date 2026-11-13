@@ -160,10 +160,15 @@ void main() {
 
   /// Lets requests and animations started by an interaction land.
   Future<void> settle(WidgetTester tester) async {
-    await tester.runAsync(() async {
-      await Future<void>.delayed(const Duration(milliseconds: 100));
-    });
-    await tester.pump();
+    // One round can race a loaded runner: give the in-flight requests a
+    // few chances to land before looking at what they produced.
+    for (int i = 0; i < 3; i++) {
+      await tester.runAsync(() async {
+        await Future<void>.delayed(const Duration(milliseconds: 100));
+      });
+      await tester.pump();
+    }
+    await tester.pumpAndSettle();
   }
 
   /// Closes the bottom sheet a prompt opened.

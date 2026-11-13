@@ -152,4 +152,63 @@ void main() {
       expect(parse('/posts/123/')?.id, 123);
     });
   });
+
+  group('LinkDeduplicator', () {
+    test('passes a link once within the window', () {
+      final deduplicator = LinkDeduplicator();
+      final url = Uri.parse('https://e621.net/posts/123');
+
+      expect(deduplicator.check(url), isTrue);
+      // The cold start link arrives through the initial-link getter and
+      // again through the first stream subscription; the reservation
+      // from check collapses them into one handling.
+      expect(deduplicator.check(url), isFalse);
+      // Consuming commits the handling.
+      deduplicator.consume(url);
+      expect(deduplicator.check(url), isFalse);
+    });
+
+    test('a released link passes again', () {
+      final deduplicator = LinkDeduplicator();
+      final url = Uri.parse('https://e621.net/posts/123');
+
+      expect(deduplicator.check(url), isTrue);
+      // A dispatch that failed before opening the link must not
+      // swallow it for the rest of the window.
+      deduplicator.release(url);
+      expect(deduplicator.check(url), isTrue);
+    });
+
+    test('different links always pass', () {
+      final deduplicator = LinkDeduplicator();
+
+      expect(
+        deduplicator.check(Uri.parse('https://e621.net/posts/1')),
+        isTrue,
+      );
+      expect(
+        deduplicator.check(Uri.parse('https://e621.net/posts/2')),
+        isTrue,
+      );
+      expect(
+        deduplicator.check(Uri.parse('https://e621.net/posts/3')),
+        isTrue,
+      );
+    });
+
+    test('the same link passes again after the window', () {
+      var now = DateTime(2026, 11, 11, 12);
+      // The default window is 10s; the clock alone is faked.
+      final deduplicator = LinkDeduplicator(clock: () => now);
+      final url = Uri.parse('https://e621.net/posts/123');
+
+      expect(deduplicator.check(url), isTrue);
+      deduplicator.consume(url);
+      expect(deduplicator.check(url), isFalse);
+
+      now = now.add(const Duration(seconds: 11));
+      // A later tap of the same link is a new intent.
+      expect(deduplicator.check(url), isTrue);
+    });
+  });
 }

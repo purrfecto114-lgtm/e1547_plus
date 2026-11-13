@@ -845,6 +845,12 @@ abstract class AppLocalizations {
   /// **'Import failed: {error}'**
   String databaseImportFailed(String error);
 
+  /// Shown when the picked import file exceeds the size budget.
+  ///
+  /// In en, this message translates to:
+  /// **'This file is too large to import.'**
+  String get databaseImportTooLarge;
+
   /// No description provided for @databaseImportTitle.
   ///
   /// In en, this message translates to:
@@ -2447,6 +2453,18 @@ abstract class AppLocalizations {
   /// **'Anonymous'**
   String get identityAnonymous;
 
+  /// Reason shown when the host rejected the login credentials.
+  ///
+  /// In en, this message translates to:
+  /// **'The site rejected these credentials. Check your username and API key.'**
+  String get identityCredentialsRejected;
+
+  /// Reason shown when the host could not be reached to verify the credentials.
+  ///
+  /// In en, this message translates to:
+  /// **'Could not reach the site to verify these credentials.'**
+  String get identityVerifyUnreachable;
+
   /// Error shown when adding a duplicate identity.
   ///
   /// In en, this message translates to:
@@ -3995,6 +4013,30 @@ abstract class AppLocalizations {
   /// **'New posts!'**
   String get followNotificationSummary;
 
+  /// Body of a follow notification when its content is hidden.
+  ///
+  /// In en, this message translates to:
+  /// **'Your followed tags have new posts.'**
+  String get followNotificationHiddenBody;
+
+  /// Title of the switch that hides notification content.
+  ///
+  /// In en, this message translates to:
+  /// **'Hide notification content'**
+  String get followHideNotificationContent;
+
+  /// Subtitle of the switch that hides notification content.
+  ///
+  /// In en, this message translates to:
+  /// **'Notification titles, previews and thumbnails are hidden'**
+  String get followHideNotificationContentHint;
+
+  /// Message shown when a notification's account no longer exists.
+  ///
+  /// In en, this message translates to:
+  /// **'This notification belongs to an account that is no longer on this device.'**
+  String get notificationStaleIdentity;
+
   /// Name of the follow notification channel shown in the system settings.
   ///
   /// In en, this message translates to:
@@ -4180,6 +4222,54 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'UNLOCK'**
   String get actionUnlock;
+
+  /// Title of the dialog confirming that unsaved editor changes are discarded.
+  ///
+  /// In en, this message translates to:
+  /// **'Discard changes?'**
+  String get editorDiscardTitle;
+
+  /// Body of the dialog confirming that unsaved editor changes are discarded.
+  ///
+  /// In en, this message translates to:
+  /// **'Your changes have not been submitted.'**
+  String get editorDiscardBody;
+
+  /// Confirms discarding unsaved editor changes.
+  ///
+  /// In en, this message translates to:
+  /// **'Discard'**
+  String get editorDiscardConfirm;
+
+  /// Declines discarding unsaved editor changes and returns to the editor.
+  ///
+  /// In en, this message translates to:
+  /// **'Continue editing'**
+  String get editorContinueEditing;
+
+  /// Replaces the page summary of a posts list while a page jump waits for the search's current request to settle.
+  ///
+  /// In en, this message translates to:
+  /// **'Going to page {page}'**
+  String postListGoingToPage(num page);
+
+  /// Snackbar action which repeats a failed action.
+  ///
+  /// In en, this message translates to:
+  /// **'Retry'**
+  String get actionRetry;
+
+  /// Snackbar message when queueing downloads for the post selection failed.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to queue downloads'**
+  String get selectionQueueDownloadsFailed;
+
+  /// Snackbar message when queueing favorites for the post selection failed.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to queue favorites'**
+  String get selectionQueueFavoritesFailed;
 }
 
 class _AppLocalizationsDelegate

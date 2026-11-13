@@ -98,6 +98,7 @@ class _LogFileListState extends State<LogFileList> {
               .toList();
           return SelectionLayout<LogFileInfo>(
             items: files,
+            keyOf: (file) => file.path,
             child: Scaffold(
               appBar: LogFileSelectionAppBar(
                 child: DefaultAppBar(title: Text(l10n.logFilesTitle)),
@@ -329,6 +330,11 @@ class _LogPageState extends State<LogPage> {
       final DateTime? date = widget.source.date;
       return SelectionLayout<LogEntry>(
         items: items,
+        // Live entries carry no id; they never change once recorded, so the
+        // entry itself identifies them. File entries are keyed alongside
+        // their source, since ids are line numbers which repeat across
+        // files.
+        keyOf: (entry) => (date, entry.id ?? entry),
         child: Expandables(
           child: Scaffold(
             appBar: LogSelectionAppBar(

@@ -180,36 +180,41 @@ class FollowRepository extends DatabaseAccessor<GeneratedDatabase>
         identity: identity,
       )..where((tbl) => tbl.updated.isNull())).watch().future;
 
-  Future<void> add(FollowRequest item, int identity) async {
-    Follow follow;
-    Follow? existing = await _querySelect(
-      identity: identity,
-      tagRegex: r'^' + RegExp.escape(item.tags) + r'$',
-    ).getSingleOrNull();
-    if (existing != null) {
-      follow = existing.copyWith(
-        title: item.title,
-        alias: item.alias,
-        type: item.type,
-      );
-      await replace(follow);
-    } else {
-      follow = await into(followsTable).insertReturning(
-        FollowCompanion(
-          tags: Value(item.tags),
-          title: Value(item.title),
-          alias: Value(item.alias),
-          type: Value(item.type),
-        ),
-        mode: InsertMode.insertOrIgnore,
-      );
-      await into(followsIdentitiesTable).insert(
-        FollowIdentityCompanion(
-          identity: Value(identity),
-          follow: Value(follow.id),
-        ),
-      );
-    }
+  Future<void> add(FollowRequest item, int identity) {
+    // The lookup and both inserts are one transaction: two concurrent
+    // adds of the same tags (a double tap) would otherwise both see no
+    // existing follow and insert one each, and a crash between the
+    // inserts would leave an ownerless follow behind.
+    return transaction(() async {
+      Follow? existing = await _querySelect(
+        identity: identity,
+        tagRegex: r'^' + RegExp.escape(item.tags) + r'$',
+      ).getSingleOrNull();
+      if (existing != null) {
+        Follow follow = existing.copyWith(
+          title: item.title,
+          alias: item.alias,
+          type: item.type,
+        );
+        await replace(follow);
+      } else {
+        Follow follow = await into(followsTable).insertReturning(
+          FollowCompanion(
+            tags: Value(item.tags),
+            title: Value(item.title),
+            alias: Value(item.alias),
+            type: Value(item.type),
+          ),
+          mode: InsertMode.insertOrIgnore,
+        );
+        await into(followsIdentitiesTable).insert(
+          FollowIdentityCompanion(
+            identity: Value(identity),
+            follow: Value(follow.id),
+          ),
+        );
+      }
+    });
   }
 
   Future<void> markAllSeen({List<int>? ids, int? identity}) =>
@@ -225,4 +230,18 @@ class FollowRepository extends DatabaseAccessor<GeneratedDatabase>
 
   Future<void> remove(int id) =>
       (delete(followsTable)..where((tbl) => tbl.id.equals(id))).go();
+
+  /// Deletes follows that no identity links to.
+  ///
+  /// Association rows vanish with their follow or their identity, so
+  /// a follow without a link row is invisible to every query while
+  /// still being synced and exported. Sweeping them when an identity
+  /// is deleted keeps the table free of such strays.
+  Future<void> removeOrphans() {
+    final ownerless = followsIdentitiesTable.selectOnly()
+      ..addColumns([followsIdentitiesTable.follow]);
+    return (delete(followsTable)
+          ..where((tbl) => tbl.id.isNotInQuery(ownerless)))
+        .go();
+  }
 }

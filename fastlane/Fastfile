@@ -125,7 +125,7 @@ platform :windows do
 
   desc "Builds an exe installer with fastforge and InnoSetup"
     lane :build do
-      sh("flutter pub global activate fastforge")
+      sh("flutter pub global activate fastforge 0.6.14")
       Dir.chdir("../") do
         sh("fastforge package --platform=windows --targets=exe --skip-clean")
       end

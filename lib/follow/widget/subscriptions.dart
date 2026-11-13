@@ -46,6 +46,7 @@ class FollowsSubscriptionsPage extends StatelessWidget {
               }
               return SelectionLayout<Follow>(
                 items: state.data?.pages.expand((p) => p).toList(),
+                keyOf: (follow) => follow.id,
                 child: PromptActions(
                   child: AdaptiveScaffold(
                     appBar: FollowSelectionAppBar(
@@ -67,6 +68,7 @@ class FollowsSubscriptionsPage extends StatelessWidget {
                         FollowFilterReadTile(),
                         FollowMarkReadTile(),
                         Divider(),
+                        FollowHideContentTile(),
                         FollowForceSyncTile(),
                       ],
                     ),
@@ -86,7 +88,7 @@ class FollowsSubscriptionsPage extends StatelessWidget {
                     body: TileLayout(
                       child: Builder(
                         builder: (context) => PullToRefresh(
-                          onRefresh: query.invalidate,
+                          onRefresh: query.revalidate,
                           child: PagedAlignedGridView<int, Follow>.count(
                             primary: true,
                             padding: defaultActionListPadding,

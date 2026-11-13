@@ -33,6 +33,7 @@ class HomePage extends StatelessWidget {
               child: PostPageQueryBuilder(
                 builder: (context, state, query) => SelectionLayout<Post>(
                   items: state.data?.pages.expand((p) => p).toList(),
+                  keyOf: (post) => post.id,
                   child: AdaptiveScaffold(
                     appBar: const PostSelectionAppBar(
                       child: DefaultAppBar(
@@ -57,7 +58,9 @@ class HomePage extends StatelessWidget {
                       ],
                     ),
                     body: LimitedWidthLayout(
-                      child: const TileLayout(child: PostList()),
+                      child: TileLayout(
+                        child: PostList(state: state, query: query),
+                      ),
                     ),
                   ),
                 ),

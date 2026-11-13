@@ -22,11 +22,22 @@ class LoggingDioInterceptor extends Interceptor {
     });
   }
 
+  static const LogRedactor _pathRedactor = LogRedactor();
+
   static String describePath(Uri uri) {
     final Map<String, String> query = uri.queryParameters;
     if (query.isEmpty) return uri.path;
+    // Sensitive parameters are scrubbed structurally, before any log
+    // event is built: decoded values (e.g. tag queries with spaces)
+    // would defeat the string-level URL redaction downstream, letting
+    // a secret that follows them reach the log unredacted.
     final String rendered = query.entries
-        .map((e) => '${e.key}=${e.value}')
+        .map((e) {
+          final String value = _pathRedactor.isSecret(e.key)
+              ? _pathRedactor.placeholder
+              : e.value;
+          return '${e.key}=$value';
+        })
         .join('&');
     return '${uri.path}?$rendered';
   }

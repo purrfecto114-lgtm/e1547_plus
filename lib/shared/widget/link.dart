@@ -25,15 +25,19 @@ class LinkPreviewProvider extends StatefulWidget {
 class LinkPreviewProviderState extends State<LinkPreviewProvider> {
   final ValueNotifier<String?> _linkNotifier = ValueNotifier<String?>(null);
 
+  OverlayEntry? _overlayEntry;
+  bool _inserted = false;
+
   @override
   void initState() {
     super.initState();
-    OverlayEntry overlayEntry = OverlayEntry(
+    _overlayEntry = OverlayEntry(
       builder: (context) => LinkOverlay(notifier: _linkNotifier),
     );
     WidgetsBinding.instance.addPostFrameCallback((_) {
       if (!mounted) return;
-      Overlay.of(context).insert(overlayEntry);
+      Overlay.of(context).insert(_overlayEntry!);
+      _inserted = true;
     });
   }
 
@@ -46,6 +50,13 @@ class LinkPreviewProviderState extends State<LinkPreviewProvider> {
 
   @override
   void dispose() {
+    // The entry must leave the overlay with this provider: a recycled
+    // DText (comment, description, list item) would otherwise leave its
+    // preview behind for the rest of the session. An entry that was
+    // never inserted (the provider died within its first frame) has
+    // nothing to remove.
+    if (_inserted) _overlayEntry?.remove();
+    _overlayEntry = null;
     _linkNotifier.dispose();
     super.dispose();
   }
