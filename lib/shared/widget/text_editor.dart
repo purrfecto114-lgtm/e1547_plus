@@ -136,7 +136,7 @@ class _MultiTextEditorState extends State<MultiTextEditor> {
   ///
   /// Closing an editor drops whatever it holds, so texts that no longer
   /// equal these are confirmed before they are lost.
-  late Map<String, String> _initialTexts = {
+  late final Map<String, String> _initialTexts = {
     for (final content in widget.content) content.key: content.value ?? '',
   };
 
@@ -163,14 +163,28 @@ class _MultiTextEditorState extends State<MultiTextEditor> {
     }
   }
 
+  /// Whether a discard confirmation is already on screen.
+  ///
+  /// The close button and the back gesture both route through [close];
+  /// without the guard a rapid double-tap stacks two dialogs, and
+  /// confirming the top one pops the other dialog instead of the editor,
+  /// which looks like the discard did nothing.
+  bool _confirmingDiscard = false;
+
   /// Closes the editor, confirming first when edits would be lost.
   ///
   /// The close button and the system back button both route through here.
   /// A clean editor closes right away.
   Future<void> close() async {
+    if (_confirmingDiscard) return;
     if (_isDirty) {
-      if (!await confirmDiscardText(context)) {
-        return;
+      _confirmingDiscard = true;
+      try {
+        if (!await confirmDiscardText(context)) {
+          return;
+        }
+      } finally {
+        _confirmingDiscard = false;
       }
     }
     if (!mounted) {

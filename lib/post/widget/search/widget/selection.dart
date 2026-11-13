@@ -94,8 +94,11 @@ class _PostSelectionAppBarState extends State<PostSelectionAppBar> {
   /// Enqueues download tasks for the current selection.
   ///
   /// The selection survives a failed enqueue untouched, so the user can
-  /// retry the very same batch.
+  /// retry the very same batch. A canceled directory prompt is a choice,
+  /// not a failure: nothing is reported and the selection stays.
   Future<void> _download() async {
+    // A stale snackbar retry action can outlive the page that queued it.
+    if (!mounted) return;
     // Read from the layout instead of a value cached while building, so
     // this works with whatever is selected now, and building the appbar
     // stays free of side effects.
@@ -107,7 +110,7 @@ class _PostSelectionAppBarState extends State<PostSelectionAppBar> {
     final ScaffoldMessengerState messenger = ScaffoldMessenger.of(context);
     final AppLocalizations l10n = AppLocalizations.of(context);
     setState(() => _queueing = true);
-    List<Task> enqueued = const [];
+    List<Task>? enqueued;
     try {
       enqueued = await postDownloadingNotification(
         context,
@@ -120,6 +123,11 @@ class _PostSelectionAppBarState extends State<PostSelectionAppBar> {
       if (mounted) setState(() => _queueing = false);
     }
     if (!mounted) return;
+    if (enqueued == null) {
+      // The user canceled the directory prompt; nothing failed, and the
+      // selection stays so the batch can be queued again.
+      return;
+    }
     if (enqueued.isNotEmpty) {
       data.clear();
       return;
@@ -137,6 +145,8 @@ class _PostSelectionAppBarState extends State<PostSelectionAppBar> {
   /// only a batch which actually queued flips it, a failed enqueue keeps
   /// both the selection and the previous state.
   Future<bool> _favorite(bool isLiked) async {
+    // A stale snackbar retry action can outlive the page that queued it.
+    if (!mounted) return isLiked;
     // Read from the layout instead of a value cached while building, so
     // this works with whatever is selected now, and building the appbar
     // stays free of side effects.

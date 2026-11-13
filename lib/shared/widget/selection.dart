@@ -110,6 +110,7 @@ class SelectionLayoutData<T> extends InheritedWidget {
   @override
   bool updateShouldNotify(covariant SelectionLayoutData<T> oldWidget) =>
       !setEquals(oldWidget.selections, selections) ||
+      !identical(oldWidget.items, items) ||
       oldWidget.onChanged != onChanged;
 }
 
@@ -306,6 +307,15 @@ class SelectionItemOverlay<T> extends StatelessWidget {
   Widget build(BuildContext context) {
     SelectionLayoutData<T>? layoutData = SelectionLayout.maybeOf<T>(context);
     if (layoutData != null) {
+      // Resolved through the stable key instead of value equality: a
+      // tile can hold an outdated copy of its item until it rebuilds,
+      // and the checkmark must not disagree with isSelected. The raw
+      // key set is read directly because the overlay's item may also
+      // have left the current items already, which isSelected treats
+      // as an error.
+      final bool selected = layoutData.selectedKeys.contains(
+        layoutData.keyOf(item),
+      );
       return Stack(
         fit: StackFit.passthrough,
         children: [
@@ -316,7 +326,7 @@ class SelectionItemOverlay<T> extends StatelessWidget {
               // the toggled state, and the actions behind it, keeps
               // screen readers informed and operable without gestures.
               button: true,
-              selected: layoutData.selections.contains(item),
+              selected: selected,
               onTap: layoutData.selections.isNotEmpty
                   ? () => layoutData.toggleSelection(item)
                   : null,
@@ -332,7 +342,7 @@ class SelectionItemOverlay<T> extends StatelessWidget {
                   child: IgnorePointer(
                     child: AnimatedOpacity(
                       duration: defaultAnimationDuration,
-                      opacity: layoutData.selections.contains(item) ? 1 : 0,
+                      opacity: selected ? 1 : 0,
                       child: Container(
                         margin: padding,
                         color: Colors.black38,

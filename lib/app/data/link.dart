@@ -289,9 +289,11 @@ extension LinkOnTapExtension on LinkParser {
 ///
 /// On Android, the first `uriLinkStream` subscription re-emits the link
 /// that `getInitialLink` also reports, so a cold start link would be
-/// handled twice — once per entry point — without this. A link handled
-/// within [window] of a previous handling counts as the same event;
-/// taps that arrive later are new intents and pass again.
+/// handled twice — once per entry point — without this. While a link's
+/// dispatch is still undecided, a pending reservation keeps suppressing
+/// it for [window]; once it was acted on, duplicate deliveries right
+/// behind the handling stay suppressed for [consumeGrace], and a tap
+/// that arrives after that is a new intent and passes again.
 ///
 /// Handling is a reservation protocol: [check] reserves a link for its
 /// caller, [consume] commits the reservation once the link was acted
@@ -301,31 +303,41 @@ extension LinkOnTapExtension on LinkParser {
 class LinkDeduplicator {
   LinkDeduplicator({
     this.window = const Duration(seconds: 10),
+    this.consumeGrace = const Duration(seconds: 3),
     DateTime Function()? clock,
   }) : _clock = clock ?? DateTime.now;
 
-  /// How long an handled link keeps suppressing the same link.
+  /// How long a reserved link keeps suppressing the same link while its
+  /// dispatch is still undecided.
   final Duration window;
 
+  /// How long a handled link keeps suppressing duplicate deliveries of
+  /// the same link after its dispatch completed. The duplicate from the
+  /// second entry point lands within moments of the first handling, so
+  /// a short grace is enough for it; keeping the full window here would
+  /// also swallow a deliberate re-tap of the same link with no
+  /// feedback at all.
+  final Duration consumeGrace;
+
   final DateTime Function() _clock;
-  final List<(String link, DateTime at)> _recent = [];
+  final List<(String link, DateTime at, Duration window)> _recent = [];
 
   /// Whether [url] has not been handled within the window; reserves it
   /// when true.
   bool check(Uri url) {
     final now = _clock();
-    _recent.removeWhere((entry) => now.difference(entry.$2) > window);
+    _recent.removeWhere((entry) => now.difference(entry.$2) > entry.$3);
     final link = url.toString();
     if (_recent.any((entry) => entry.$1 == link)) return false;
-    _recent.add((link, now));
+    _recent.add((link, now, window));
     return true;
   }
 
-  /// Commits the handling of a reserved [url], restarting its window
-  /// from the moment the link was acted on.
+  /// Commits the handling of a reserved [url], suppressing duplicates of
+  /// it for the shorter [consumeGrace].
   void consume(Uri url) {
     release(url);
-    _recent.add((url.toString(), _clock()));
+    _recent.add((url.toString(), _clock(), consumeGrace));
   }
 
   /// Rolls back the reservation of a [url] that was never acted on.
