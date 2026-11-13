@@ -1,5 +1,6 @@
 package net.e1547
 
+import androidx.biometric.BiometricManager
 import androidx.core.hardware.fingerprint.FingerprintManagerCompat
 import io.flutter.embedding.android.FlutterFragmentActivity
 import io.flutter.embedding.engine.FlutterEngine
@@ -11,17 +12,47 @@ class MainActivity : FlutterFragmentActivity() {
         // local_auth probes biometrics through androidx.biometric, which
         // collapses several legacy failure modes into "no biometrics" and
         // can report an empty device on old android releases even when the
-        // reader holds enrolled prints. FingerprintManagerCompat asks the
-        // hardware directly, so the settings page falls back to this probe.
+        // reader holds enrolled prints. This probe asks every available
+        // signal directly, so the settings page can fall back to it.
+        //
+        // Each signal is isolated in its own runCatching: older OEM builds
+        // guard parts of the fingerprint service, and one throwing probe
+        // must not erase what the others still know. A probe that failed
+        // reports null instead of false so the Dart side can tell the
+        // answers apart.
         MethodChannel(flutterEngine.dartExecutor.binaryMessenger, "e1547/biometrics")
             .setMethodCallHandler { call, result ->
                 when (call.method) {
                     "fingerprintState" -> {
-                        val fingerprint = FingerprintManagerCompat.from(this)
+                        fun probe(block: () -> Any?): Any? =
+                            try {
+                                block()
+                            } catch (e: Exception) {
+                                null
+                            }
                         result.success(
                             mapOf(
-                                "hardware" to fingerprint.isHardwareDetected,
-                                "enrolled" to fingerprint.hasEnrolledFingerprints(),
+                                "hardware" to probe {
+                                    FingerprintManagerCompat.from(this@MainActivity).isHardwareDetected
+                                },
+                                "enrolled" to probe {
+                                    FingerprintManagerCompat.from(this@MainActivity).hasEnrolledFingerprints()
+                                },
+                                "enrolledCount" to probe {
+                                    FingerprintManagerCompat.from(this@MainActivity)
+                                        .getEnrolledFingerprints()
+                                        .size
+                                },
+                                "weak" to probe {
+                                    BiometricManager.from(this@MainActivity).canAuthenticate(
+                                        BiometricManager.Authenticators.BIOMETRIC_WEAK,
+                                    )
+                                },
+                                "strong" to probe {
+                                    BiometricManager.from(this@MainActivity).canAuthenticate(
+                                        BiometricManager.Authenticators.BIOMETRIC_STRONG,
+                                    )
+                                },
                             )
                         )
                     }

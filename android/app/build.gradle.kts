@@ -109,4 +109,8 @@ dependencies {
     // FingerprintManagerCompat lives in androidx.core, so name it instead
     // of leaning on whatever the flutter embedding happens to pull in.
     implementation("androidx.core:core:1.13.1")
+    // The fallback also cross-checks androidx BiometricManager, whose
+    // canAuthenticate answers fold hardware, enrollment and availability
+    // into one code; the version matches what local_auth itself ships.
+    implementation("androidx.biometric:biometric:1.1.0")
 }

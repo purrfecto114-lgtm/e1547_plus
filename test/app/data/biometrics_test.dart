@@ -101,6 +101,31 @@ void main() {
         BiometricAvailability.unenrolled,
       );
     });
+
+    test(
+      'enrollment is read from every native signal, not only the booleans',
+      () async {
+        // Legacy OEM builds can answer false through the compatibility
+        // booleans while the androidx codes and the enrolled count still
+        // tell the truth: the merged answer must take any one of them.
+        LocalAuthPlatform.instance = _FakeLocalAuth();
+        TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger
+            .setMockMethodCallHandler(
+              const MethodChannel('e1547/biometrics'),
+              (call) async => {
+                'hardware': false,
+                'enrolled': false,
+                'enrolledCount': 2,
+                'weak': 0,
+                'strong': 0,
+              },
+            );
+        expect(
+          await biometricAvailability(android: true),
+          BiometricAvailability.ready,
+        );
+      },
+    );
   });
 
   test('a host platform without biometrics stays unavailable', () async {
