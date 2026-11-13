@@ -73,6 +73,46 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
   instead of assuming it
 - hardcoded prompts (discard edits, jump to page, queue failures,
   retry) are localized, and hosts input fields release their controllers
+- canceling a favorite keeps the post cache and the optional upvote
+  out of it: the request aborts like a download's, and a favorite the
+  server never made no longer shows up as made
+- a canceled download-directory prompt no longer reads as a failed
+  batch: nothing is queued, nothing is reported, and the selection
+  stays
+- task bubbles announce their phase and outcome to screen readers
+  instead of a byte readout that changed many times a second, and a
+  finished batch is announced too
+- task list pages no longer render a row twice while it settles
+  between the live query and a history page
+- the file cache keeps its most recently touched entry even when it
+  alone busts the byte budget, instead of wiping itself and every
+  older entry with it
+- a failed desktop database export no longer leaves a half-written
+  file at the picked path, and the orphan follow sweep after an
+  identity deletion waits for the removal to commit so newly orphaned
+  follows cannot slip through
+- two denylist pushes sent at once no longer lose the original
+  denylist when both fail: pushes run in order and each rolls its own
+  value back
+- the login probe rides the app's native network stack and user agent,
+  and a Cloudflare challenge counts as unreachable instead of
+  rejected, so a valid key can no longer be locked out of its own
+  login form
+- an iOS user who declined notifications is no longer counted as
+  granted, a grant made in system settings is picked up on the next
+  resume, and a launch notification waits for the navigator like a
+  deep link does
+- selections mark their checkmarks by stable key, so an outdated tile
+  copy cannot disagree with the selection; the editors' discard
+  confirmation can no longer be stacked by a double tap; a deliberate
+  second tap of a deep link passes again after the duplicate grace
+  instead of staying swallowed for the whole window; and server-provided
+  artist names are cleaned of path separators before they reach a
+  download file name
+- the prompts above are translated for every language the app ships,
+  the Polish log file count regains its singular, and the simplified
+  Chinese stale-identity notice matches the file's terminology
+
 ### Changed
 - the README was condensed to half its length without losing a section,
   in both languages
@@ -1767,3 +1807,6 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 [21.6.0+127]: https://github.com/purrfecto114-lgtm/e1547_plus/compare/21.5.0+126...21.6.0+127
 [21.7.0+128]: https://github.com/purrfecto114-lgtm/e1547_plus/compare/21.6.0+127...21.7.0+128
 [21.7.1+129]: https://github.com/purrfecto114-lgtm/e1547_plus/compare/21.7.0+128...21.7.1+129
+[21.7.2+130]: https://github.com/purrfecto114-lgtm/e1547_plus/compare/21.7.1+129...21.7.2+130
+
+[21.7.3+131]: https://github.com/purrfecto114-lgtm/e1547_plus/compare/21.7.2+130...21.7.3+131
