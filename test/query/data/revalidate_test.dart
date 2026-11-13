@@ -59,4 +59,63 @@ void main() {
     expect(await query.revalidate(), isFalse);
     expect(query.state, isA<InfiniteQueryError>());
   });
+
+  test('Query.revalidate forces the refetch even without listeners', () async {
+    // A page fed through getNextPage never registers its query with the
+    // controller, so a refresh that only invalidates would skip the
+    // round trip and report the untouched initial state as a success.
+    final query = Query<int>(
+      key: 'revalidate-query-no-listener',
+      queryFn: () async => throw Exception('offline'),
+    );
+
+    expect(await query.revalidate(), isFalse);
+    expect(await query.revalidate(), isFalse);
+    expect(query.state, isA<QueryError>());
+  });
+
+  test(
+    'Query.revalidate keeps reporting the failure it actually ran',
+    () async {
+      // The page holds the subscription while it shows the data, then
+      // swaps it away: the refreshes after that must still run the
+      // network round trip instead of re-reading the cached success.
+      bool offline = false;
+      final query = Query<int>(
+        key: 'revalidate-query-flip',
+        queryFn: () async {
+          if (offline) throw Exception('offline');
+          return 42;
+        },
+      );
+      final subscription = query.stream.listen((_) {});
+      addTearDown(subscription.cancel);
+
+      expect(await query.revalidate(), isTrue);
+      offline = true;
+      // The first failing refresh is honest ...
+      expect(await query.revalidate(), isFalse);
+      // ... and the report comes from the refetch, so once the page no
+      // longer holds a subscription the refreshes keep failing too.
+      await subscription.cancel();
+      expect(await query.revalidate(), isFalse);
+      expect(await query.revalidate(), isFalse);
+      expect(query.state, isA<QueryError>());
+    },
+  );
+
+  test(
+    'InfiniteQuery.revalidate forces the refetch even without listeners',
+    () async {
+      final query = InfiniteQuery<InfiniteQueryData<List<int>, int>, int>(
+        key: 'revalidate-infinite-no-listener',
+        queryFn: (page) async => throw Exception('offline'),
+        getNextArg: (data) => (data?.args.isEmpty ?? true) ? 0 : null,
+      );
+
+      expect(await query.revalidate(), isFalse);
+      expect(await query.revalidate(), isFalse);
+      expect(query.state, isA<InfiniteQueryError>());
+    },
+  );
 }
