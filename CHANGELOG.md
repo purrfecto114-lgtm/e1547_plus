@@ -4,6 +4,31 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and this project
 adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [22.1.0+221] - 2026-11-14
+### Changed
+- the 18+ confirmation moved onto its own page inside the onboarding: a
+  dedicated age page now sits right before the login step, and every way
+  through the onboarding — the next buttons, a swipe, the skip shortcut —
+  leads through it, while the login form no longer stacks its own dialog
+  on top of the page the user just confirmed; the identity page keeps its
+  dialog for identities created later
+- the age page names both sites it reaches, e621 and the all-ages mirror
+  e926, in every language the app ships
+
+### Fixed
+- the refresh indicator reports the outcome of the refresh it actually
+  ran: a query fed through its pages never registered with the cache, so
+  invalidating it skipped the network round trip entirely and the first
+  pull reported the failure honestly while every later one claimed
+  success without reaching the network; the refresh now forces the fetch
+  and reads the verdict off the fetch itself
+- the biometric probe on old Android releases cross-checks more signals:
+  the native fallback isolates every probe so one guarded call cannot
+  erase the rest, asks the compatibility fingerprint calls and the
+  androidx biometric codes alike, and every layer's answer lands in the
+  log page, so a fingerprint that still reads as missing leaves its
+  reason behind
+
 ## [22.0.0+220] - 2026-11-13
 ### Fixed
 - tag suggestions complete the word the cursor is on, keep operators and
@@ -1814,3 +1839,4 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 [21.7.3+131]: https://github.com/purrfecto114-lgtm/e1547_plus/compare/21.7.2+130...21.7.3+131
 [22.0.0+220]: https://github.com/purrfecto114-lgtm/e1547_plus/compare/21.7.3+131...22.0.0+220
+[22.1.0+221]: https://github.com/purrfecto114-lgtm/e1547_plus/compare/22.0.0+220...22.1.0+221
