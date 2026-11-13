@@ -67,7 +67,8 @@ class IdentitiesPage extends StatelessWidget {
                           onPressed: () {
                             if (popDialog(context)) {
                               final storage = context.read<AppStorage>();
-                              context.read<IdentityClient>().remove(identity);
+                              final identities = context
+                                  .read<IdentityClient>();
                               removeIdentityQueries(
                                 cache: storage.queryCache,
                                 database: storage.sqlite,
@@ -76,10 +77,17 @@ class IdentitiesPage extends StatelessWidget {
                               // Follows whose owner this identity was are
                               // cascaded away by database triggers; this
                               // sweeps any follow left without an owner.
+                              // The sweep waits for the removal so the
+                              // triggers have committed first — a sweep
+                              // that races the delete would see the
+                              // newly orphaned follows as still owned
+                              // and let them survive.
                               unawaited(
-                                FollowRepository(
-                                  database: storage.sqlite,
-                                ).removeOrphans(),
+                                identities.remove(identity).then(
+                                  (_) => FollowRepository(
+                                    database: storage.sqlite,
+                                  ).removeOrphans(),
+                                ),
                               );
                             }
                           },

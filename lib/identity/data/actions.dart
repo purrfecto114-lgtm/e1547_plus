@@ -1,7 +1,11 @@
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:dio/dio.dart';
 import 'package:e1547/identity/identity.dart';
+import 'package:e1547/settings/settings.dart';
+import 'package:e1547/shared/shared.dart';
+import 'package:native_dio_adapter/native_dio_adapter.dart';
 
 String encodeBasicAuth(String username, String password) =>
     'Basic ${base64Encode(utf8.encode('$username:$password'))}';
@@ -113,6 +117,13 @@ enum CredentialCheckResult {
 /// carries the assembled headers; a 2xx proves the credentials, a 401
 /// or 403 disproves them, and anything else leaves them unverified.
 ///
+/// The probe rides the same stack the app's real traffic does — the
+/// native adapter and the application user agent — because a challenge
+/// or a pass from a generic Dart client proves nothing about what the
+/// app's own requests will meet. A Cloudflare challenge classifies as
+/// [CredentialCheckResult.unavailable], not as a rejection: the site
+/// never saw the credentials, so the form stays open for a retry.
+///
 /// Pass [dio] to reuse an existing client; the default one is created
 /// with login-appropriate timeouts and closed afterwards.
 Future<CredentialCheckResult> checkCredentials({
@@ -124,15 +135,20 @@ Future<CredentialCheckResult> checkCredentials({
       dio ??
       Dio(
         BaseOptions(
+          headers: {
+            HttpHeaders.userAgentHeader: AppInfo.instance.userAgent,
+            ...?headers,
+          },
           connectTimeout: const Duration(seconds: 15),
           receiveTimeout: const Duration(seconds: 15),
         ),
-      );
+      )
+        ..httpClientAdapter = NativeAdapter();
   try {
     final Response<void> response = await client.head(
       '${normalizeHostUrl(host)}/status.json',
       options: Options(
-        headers: headers,
+        headers: dio == null ? null : headers,
         // A 4xx is the answer being probed for, not a transport failure.
         validateStatus: (status) => status != null,
         followRedirects: false,
@@ -140,6 +156,12 @@ Future<CredentialCheckResult> checkCredentials({
     );
     if (response.statusCode! < 300) return CredentialCheckResult.ok;
     if (response.statusCode == 401 || response.statusCode == 403) {
+      // A Cloudflare challenge is not the site rejecting the
+      // credentials; claiming a rejection would lock a working key
+      // out of its own login form.
+      if (isCloudflareChallenge(response)) {
+        return CredentialCheckResult.unavailable;
+      }
       return CredentialCheckResult.rejected;
     }
     return CredentialCheckResult.unavailable;

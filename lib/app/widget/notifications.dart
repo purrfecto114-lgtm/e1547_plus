@@ -122,8 +122,11 @@ class _NotificationHandlerState extends State<NotificationHandler>
 
   /// Returns whether notifications may currently be shown.
   ///
-  /// The system permission state is only queried, never prompted for,
-  /// unless [prompt] is set for a user who just turned notifications on.
+  /// Android is queried directly. iOS has no query without a request;
+  /// once the follow stream has asked for the first time, a request
+  /// returns the stored decision without showing anything, so it serves
+  /// as the query there. Before that first ask, [prompt] decides whether
+  /// the system dialog may be shown at all.
   Future<bool> hasNotificationPermission(
     FlutterLocalNotificationsPlugin plugin, {
     required bool prompt,
@@ -134,10 +137,11 @@ class _NotificationHandlerState extends State<NotificationHandler>
         >();
     if (android == null) {
       // iOS has no query without a request, but it only ever shows its
-      // permission dialog once per install: a request doubles as the query
-      // once it has been answered, which the follow stream has done before
-      // any re-check runs.
-      if (!prompt) return true;
+      // permission dialog once per install: after the follow stream has
+      // asked once, every further request is answered immediately from
+      // the stored decision and doubles as the query. A bare "true"
+      // would register a background task that can never show a
+      // notification for a user who declined the prompt.
       return requestNotificationPermissions(plugin);
     }
     // Android is queried directly; only an explicit prompt shows the
@@ -177,6 +181,9 @@ class _NotificationHandlerState extends State<NotificationHandler>
     final List<Follow>? follows = previousFollows;
     if (follows == null) return;
     if (follows.where((e) => e.type == FollowType.notify).isEmpty) return;
+    // Resolved before the awaits: contexts must not cross async gaps.
+    final ValueNotifier<bool> denied =
+        context.read<Settings>().deniedNotifications;
     final FlutterLocalNotificationsPlugin plugin = await notifications;
     final bool granted = await hasNotificationPermission(
       plugin,
@@ -185,6 +192,11 @@ class _NotificationHandlerState extends State<NotificationHandler>
     if (granted == followTaskRegistered) return;
     followTaskRegistered = granted;
     if (granted) {
+      // A grant that arrived through the system settings clears a
+      // remembered denial, the same way the prompt path does; leaving
+      // it set would make the flag dead weight and suppress the only
+      // legitimate re-prompt path on iOS.
+      if (denied.value) denied.value = false;
       await registerFollowBackgroundTask(follows);
     } else {
       await cancelFollowBackgroundTask();
@@ -219,6 +231,7 @@ class _NotificationHandlerState extends State<NotificationHandler>
     // Resolved up front, contexts must not cross async gaps.
     final AppLocalizations l10n = AppLocalizations.of(context);
     final ScaffoldMessengerState messenger = ScaffoldMessenger.of(context);
+    final IdentityClient identities = context.read<IdentityClient>();
     NotificationPayload? notification;
     try {
       notification = NotificationPayload.fromJson(json.decode(payload));
@@ -227,12 +240,20 @@ class _NotificationHandlerState extends State<NotificationHandler>
       return;
     }
 
+    // A launch notification can arrive before the first frame attached
+    // the navigator; its context only exists once built. Waiting for it
+    // keeps a cold start tap from being dropped when the first frame
+    // was not enough, the same way deep links wait.
+    while (widget.navigatorKey.currentContext == null) {
+      if (!mounted) return;
+      await WidgetsBinding.instance.endOfFrame;
+    }
+
     switch (notification.type) {
       case 'follow':
         // A notification belongs to the identity that created it; opening
         // it with whichever client is active would load from the wrong
         // host when the accounts (or their hosts) differ.
-        final IdentityClient identities = context.read<IdentityClient>();
         final Identity? identity = await identities.getOrNull(
           notification.identity,
         );
