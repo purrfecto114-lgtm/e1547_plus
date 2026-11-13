@@ -40,11 +40,21 @@ class AccountForm extends StatefulWidget {
     this.identity,
     this.initialHost,
     this.onSubmitted,
+    this.verifier = checkCredentials,
   });
 
   final Identity? identity;
   final String? initialHost;
   final VoidCallback? onSubmitted;
+
+  /// Verifies the assembled credentials against the host before they are
+  /// stored. Injectable so tests can run the login without a network,
+  /// mirroring [LoginLoadingDialog].
+  final Future<CredentialCheckResult> Function({
+    required String host,
+    Map<String, String>? headers,
+  })
+  verifier;
 
   @override
   State<AccountForm> createState() => _AccountFormState();
@@ -115,6 +125,7 @@ class _AccountFormState extends State<AccountForm> {
         username: withAuth! ? usernameController.text : null,
         apikey: withAuth! ? apikeyController.text : null,
         activate: !isEditing,
+        verifier: widget.verifier,
         onError: (value) => setState(() {
           String reason = value ?? l10n.identityLoginCheckDetails;
           error = l10n.identityLoginFailed(reason);

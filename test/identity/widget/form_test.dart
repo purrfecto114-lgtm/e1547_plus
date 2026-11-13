@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:drift/native.dart';
 import 'package:e1547/app/app.dart';
 import 'package:e1547/client/client.dart';
@@ -38,6 +40,11 @@ void main() {
     Identity? identity,
     String initialHost = 'e621.net',
     VoidCallback? onSubmitted,
+    Future<CredentialCheckResult> Function({
+      required String host,
+      Map<String, String>? headers,
+    })?
+    verifier,
   }) async {
     late AppLocalizations l10n;
     await tester.pumpWidget(
@@ -58,6 +65,7 @@ void main() {
                     identity: identity,
                     initialHost: initialHost,
                     onSubmitted: onSubmitted,
+                    verifier: verifier ?? checkCredentials,
                   ),
                 );
               },
@@ -127,11 +135,16 @@ void main() {
   testWidgets('a signed-in identity confirms the age gate before its login', (
     tester,
   ) async {
-    final l10n = await pumpForm(tester);
+    var done = false;
+    final l10n = await pumpForm(
+      tester,
+      onSubmitted: () => done = true,
+      verifier: ({required host, headers}) async => CredentialCheckResult.ok,
+    );
 
     await tester.tap(find.text(l10n.identitySignIn));
     await tester.pumpAndSettle();
-    await tester.enterText(find.byType(TextFormField).at(1), 'bob');
+    await tester.enterText(find.byType(TextFormField).at(1), 'user_34');
     await tester.enterText(find.byType(TextFormField).at(2), 'a' * 24);
     await tester.pumpAndSettle();
     await tester.tap(find.text(l10n.identityLogin));
@@ -144,6 +157,19 @@ void main() {
     await tester.pumpAndSettle();
     expect(find.byType(LoginLoadingDialog), findsNothing);
     expect(await identities(tester), isEmpty);
+
+    // Confirming continues into the login and stores the credentials.
+    await tester.tap(find.text(l10n.identityLogin));
+    await tester.pumpAndSettle();
+    await tester.tap(find.text(l10n.adultGateConfirm));
+    await runLoginChain(tester);
+
+    expect(done, isTrue);
+    List<Identity> all = await identities(tester);
+    expect(all, hasLength(1));
+    expect(all.single.username, 'user_34');
+    expect(all.single.headers?[HttpHeaders.authorizationHeader], isNotNull);
+    expect(client.identity.id, all.single.id);
   });
 
   testWidgets('editing an existing identity skips the age gate', (

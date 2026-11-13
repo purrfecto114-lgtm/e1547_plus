@@ -189,6 +189,9 @@ void main() {
     final instance = controller();
     instance.dispose();
     await pumpEventQueue();
+    // The unhandled assert of a revived watch is the real tripwire above;
+    // this pins the contract it guards so a silent no-op cannot pass.
+    expect(instance.active, isEmpty);
   });
 
   test('returns claimed tasks when disposed mid-claim', () async {

@@ -186,12 +186,12 @@ void main() {
     await tester.pumpWidget(wrap(const OnboardingScreen()));
     await tester.pumpAndSettle();
     final l10n = AppLocalizations.of(
-      tester.element(find.text('Welcome to e1547')),
+      tester.element(find.byType(OnboardingScreen)),
     );
 
     // The skip shortcut ends up browsing as a guest on an adults-only
     // site, so it confirms the age gate like any identity creation.
-    await tester.tap(find.text('Skip'));
+    await tester.tap(find.text(l10n.onboardingSkip));
     await tester.pumpAndSettle();
     expect(find.text(l10n.adultGateTitle), findsOneWidget);
     expect(settings.onboardingSeen.value, isFalse);
@@ -203,10 +203,31 @@ void main() {
     expect(settings.onboardingSeen.value, isFalse);
 
     // Confirming leaves the onboarding.
-    await tester.tap(find.text('Skip'));
+    await tester.tap(find.text(l10n.onboardingSkip));
     await tester.pumpAndSettle();
     await tester.tap(find.text(l10n.adultGateConfirm));
     await tester.pumpAndSettle();
     expect(settings.onboardingSeen.value, isTrue);
+  });
+
+  testWidgets('the gate forces onboarding until it has been seen', (
+    tester,
+  ) async {
+    settings.onboardingSeen.value = false;
+    await tester.pumpWidget(
+      wrap(const OnboardingGate(child: Text('app shell'))),
+    );
+    await tester.pumpAndSettle();
+
+    // The app shell stays unreachable while onboarding has not been
+    // seen: this outer wiring is what makes every way into the app hit
+    // the onboarding — and with it the age gate — first.
+    expect(find.byType(OnboardingScreen), findsOneWidget);
+    expect(find.text('app shell'), findsNothing);
+
+    settings.onboardingSeen.value = true;
+    await tester.pumpAndSettle();
+    expect(find.byType(OnboardingScreen), findsNothing);
+    expect(find.text('app shell'), findsOneWidget);
   });
 }
