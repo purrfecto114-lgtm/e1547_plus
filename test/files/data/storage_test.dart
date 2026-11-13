@@ -122,6 +122,36 @@ void main() {
       expect(over.map((e) => e.key), ['old']);
     });
 
+    test('the newest entry survives a byte budget it busts alone', () async {
+      final budgeted = DriftFileCacheStorage(
+        repository: FileCacheRepository(database: sqlite),
+        cache: fileCacheKey,
+        maxBytes: 1024,
+        flushDelay: const Duration(milliseconds: 10),
+      );
+      await budgeted.open();
+      addTearDown(budgeted.close);
+
+      var when = DateTime(2021);
+      await budgeted.insert(
+        object('small', touched: when, length: 512),
+        setTouchedToNow: false,
+      );
+      when = when.add(const Duration(days: 1));
+      // One oversized download lands on top of the cache.
+      await budgeted.insert(
+        object('huge', touched: when, length: 4096),
+        setTouchedToNow: false,
+      );
+
+      // The oversized entry is the most recently touched one: it must
+      // not evict itself together with everything older, which would
+      // wipe the cache on every oversized fetch. The older entry gives
+      // way instead.
+      final over = await budgeted.getObjectsOverCapacity(100);
+      expect(over.map((e) => e.key), ['small']);
+    });
+
     test(
       'entries without a length do not count against the byte budget',
       () async {

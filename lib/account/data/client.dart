@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:deep_pick/deep_pick.dart';
 import 'package:dio/dio.dart';
 import 'package:e1547/account/account.dart';
@@ -22,7 +24,27 @@ class AccountClient {
 
   Future<void> available() => dio.head('/status.json');
 
-  Future<void> push({required Traits traits, CancelToken? cancelToken}) async {
+  /// The tail of the in-flight push chain; pushes run one after another
+  /// so a failing push rolls the value back before the next one starts.
+  Future<void>? _pushTail;
+
+  Future<void> push({required Traits traits, CancelToken? cancelToken}) {
+    // Concurrent pushes run in order: each one rolls its own value back
+    // before the next starts, so a chain of failed pushes unwinds to the
+    // state the first of them started from, and no rollback can clobber
+    // a value a newer push wrote. Without the order, two failing pushes
+    // would restore each other's optimistic value and silently lose the
+    // user's original denylist.
+    final Future<void> tail = _pushTail ?? Future<void>.value();
+    final Completer<void> settled = Completer<void>();
+    _pushTail = settled.future;
+    return tail.then((_) => _push(traits, cancelToken)).whenComplete(() {
+      settled.complete();
+      if (identical(_pushTail, settled.future)) _pushTail = null;
+    });
+  }
+
+  Future<void> _push(Traits traits, CancelToken? cancelToken) async {
     Traits previous = this.traits.value;
     this.traits.value = traits;
     if (identity.username == null) return;

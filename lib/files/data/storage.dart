@@ -83,7 +83,15 @@ class FileCacheRepository extends DatabaseAccessor<GeneratedDatabase>
     var keptCount = 0;
     var keptBytes = 0;
     var beyondBudgets = false;
-    for (final row in rows) {
+    for (final (index, row) in rows.indexed) {
+      // The newest entry is always kept: a single download larger than
+      // the whole byte budget must not evict itself together with every
+      // older entry, which would wipe the cache on each oversized fetch.
+      if (index == 0) {
+        keptCount++;
+        keptBytes += row.length ?? 0;
+        continue;
+      }
       if (!beyondBudgets) {
         keptCount++;
         keptBytes += row.length ?? 0;

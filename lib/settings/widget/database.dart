@@ -177,7 +177,19 @@ class DatabaseExportTile extends StatelessWidget {
         bytes: outputBytes,
       );
       if (outputFile != null && outputBytes == null) {
-        await tempFile!.copy(outputFile);
+        try {
+          await tempFile!.copy(outputFile);
+        } on Object {
+          // A failed copy must not leave a half-written file behind: a
+          // corrupt backup with a valid SQLite header is worse than no
+          // backup, because it looks trustworthy.
+          try {
+            await File(outputFile).delete();
+          } on FileSystemException {
+            // nothing was written to clean up
+          }
+          rethrow;
+        }
       }
 
       navigator.pop();
