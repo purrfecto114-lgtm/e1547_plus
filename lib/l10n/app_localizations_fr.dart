@@ -2446,28 +2446,47 @@ class AppLocalizationsFr extends AppLocalizations {
   String get actionUnlock => 'DÉVERROUILLER';
 
   @override
-  String get editorDiscardTitle => 'Discard changes?';
+  String get editorDiscardTitle => 'Abandonner les modifications ?';
 
   @override
-  String get editorDiscardBody => 'Your changes have not been submitted.';
+  String get editorDiscardBody => 'Vos modifications n\'ont pas été envoyées.';
 
   @override
-  String get editorDiscardConfirm => 'Discard';
+  String get editorDiscardConfirm => 'Abandonner';
 
   @override
-  String get editorContinueEditing => 'Continue editing';
+  String get editorContinueEditing => 'Continuer l\'édition';
 
   @override
   String postListGoingToPage(num page) {
-    return 'Going to page $page';
+    return 'Passage à la page $page';
   }
 
   @override
-  String get actionRetry => 'Retry';
+  String get actionRetry => 'Réessayer';
 
   @override
-  String get selectionQueueDownloadsFailed => 'Failed to queue downloads';
+  String get selectionQueueDownloadsFailed =>
+      'Échec de la mise en file des téléchargements';
 
   @override
-  String get selectionQueueFavoritesFailed => 'Failed to queue favorites';
+  String get selectionQueueFavoritesFailed =>
+      'Échec de la mise en file des favoris';
+
+  @override
+  String get taskBubbleDone => 'Terminé';
+
+  @override
+  String get taskBubbleCanceled => 'Annulé';
+
+  @override
+  String taskBubbleFailures(int completed, int failed) {
+    return '$completed terminées, $failed en échec';
+  }
+
+  @override
+  String get taskBubbleSaving => 'Enregistrement';
+
+  @override
+  String get taskBubbleWorking => 'En cours';
 }

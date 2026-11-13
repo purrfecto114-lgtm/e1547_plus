@@ -2461,28 +2461,47 @@ class AppLocalizationsRu extends AppLocalizations {
   String get actionUnlock => 'РАЗБЛОКИРОВАТЬ';
 
   @override
-  String get editorDiscardTitle => 'Discard changes?';
+  String get editorDiscardTitle => 'Отменить изменения?';
 
   @override
-  String get editorDiscardBody => 'Your changes have not been submitted.';
+  String get editorDiscardBody => 'Ваши изменения не были отправлены.';
 
   @override
-  String get editorDiscardConfirm => 'Discard';
+  String get editorDiscardConfirm => 'Отменить';
 
   @override
-  String get editorContinueEditing => 'Continue editing';
+  String get editorContinueEditing => 'Продолжить редактирование';
 
   @override
   String postListGoingToPage(num page) {
-    return 'Going to page $page';
+    return 'Переход на страницу $page';
   }
 
   @override
-  String get actionRetry => 'Retry';
+  String get actionRetry => 'Повторить';
 
   @override
-  String get selectionQueueDownloadsFailed => 'Failed to queue downloads';
+  String get selectionQueueDownloadsFailed =>
+      'Не удалось добавить задачи загрузки';
 
   @override
-  String get selectionQueueFavoritesFailed => 'Failed to queue favorites';
+  String get selectionQueueFavoritesFailed =>
+      'Не удалось добавить задачи в избранное';
+
+  @override
+  String get taskBubbleDone => 'Готово';
+
+  @override
+  String get taskBubbleCanceled => 'Отменено';
+
+  @override
+  String taskBubbleFailures(int completed, int failed) {
+    return 'выполнено: $completed, с ошибкой: $failed';
+  }
+
+  @override
+  String get taskBubbleSaving => 'Сохранение';
+
+  @override
+  String get taskBubbleWorking => 'Выполняется';
 }

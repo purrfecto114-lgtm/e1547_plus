@@ -2258,7 +2258,7 @@ class AppLocalizationsZh extends AppLocalizations {
   String get followHideNotificationContentHint => '通知的标题、预览和缩略图将被隐藏';
 
   @override
-  String get notificationStaleIdentity => '该通知属于一个已不存在于此设备上的账号。';
+  String get notificationStaleIdentity => '该通知属于一个已不存在于此设备上的账户。';
 
   @override
   String get followChannelName => '已关注标签';
@@ -2384,6 +2384,23 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get selectionQueueFavoritesFailed => '添加收藏任务失败';
+
+  @override
+  String get taskBubbleDone => '已完成';
+
+  @override
+  String get taskBubbleCanceled => '已取消';
+
+  @override
+  String taskBubbleFailures(int completed, int failed) {
+    return '$completed 个已完成，$failed 个失败';
+  }
+
+  @override
+  String get taskBubbleSaving => '正在保存';
+
+  @override
+  String get taskBubbleWorking => '正在进行';
 }
 
 /// The translations for Chinese, using the Han script (`zh_Hant`).
@@ -4766,4 +4783,21 @@ class AppLocalizationsZhHant extends AppLocalizationsZh {
 
   @override
   String get selectionQueueFavoritesFailed => '新增收藏任務失敗';
+
+  @override
+  String get taskBubbleDone => '已完成';
+
+  @override
+  String get taskBubbleCanceled => '已取消';
+
+  @override
+  String taskBubbleFailures(int completed, int failed) {
+    return '$completed 個已完成，$failed 個失敗';
+  }
+
+  @override
+  String get taskBubbleSaving => '正在儲存';
+
+  @override
+  String get taskBubbleWorking => '正在進行';
 }

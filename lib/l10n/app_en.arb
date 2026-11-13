@@ -2566,5 +2566,33 @@
   "selectionQueueFavoritesFailed": "Failed to queue favorites",
   "@selectionQueueFavoritesFailed": {
     "description": "Snackbar message when queueing favorites for the post selection failed."
+  },
+  "taskBubbleDone": "Done",
+  "@taskBubbleDone": {
+    "description": "Live region label for a task batch that finished without failures."
+  },
+  "taskBubbleCanceled": "Canceled",
+  "@taskBubbleCanceled": {
+    "description": "Live region label for a task batch that was canceled entirely."
+  },
+  "taskBubbleFailures": "{completed} completed, {failed} failed",
+  "@taskBubbleFailures": {
+    "description": "Live region label for a task batch that finished with failures.",
+    "placeholders": {
+      "completed": {
+        "type": "int"
+      },
+      "failed": {
+        "type": "int"
+      }
+    }
+  },
+  "taskBubbleSaving": "Saving",
+  "@taskBubbleSaving": {
+    "description": "Live region label for the phase in which finished downloads are exported."
+  },
+  "taskBubbleWorking": "Working",
+  "@taskBubbleWorking": {
+    "description": "Live region label for a running task batch, replacing the byte-level progress readout."
   }
 }

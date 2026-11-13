@@ -2500,5 +2500,18 @@
   "actionUnlock": "MỞ KHÓA",
   "@actionUnlock": {
     "description": "Confirmation action of the encrypted import password prompt."
-  }
+  },
+  "editorDiscardTitle": "Loại bỏ các thay đổi?",
+  "editorDiscardBody": "Các thay đổi của bạn chưa được gửi.",
+  "editorDiscardConfirm": "Loại bỏ",
+  "editorContinueEditing": "Tiếp tục chỉnh sửa",
+  "postListGoingToPage": "Đang chuyển đến trang {page}",
+  "actionRetry": "Thử lại",
+  "selectionQueueDownloadsFailed": "Không thể thêm tác vụ tải xuống",
+  "selectionQueueFavoritesFailed": "Không thể thêm tác vụ yêu thích",
+  "taskBubbleDone": "Hoàn tất",
+  "taskBubbleCanceled": "Đã hủy",
+  "taskBubbleFailures": "{completed} hoàn tất, {failed} thất bại",
+  "taskBubbleSaving": "Đang lưu",
+  "taskBubbleWorking": "Đang chạy"
 }

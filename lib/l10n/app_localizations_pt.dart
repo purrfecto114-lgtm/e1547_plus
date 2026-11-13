@@ -2434,28 +2434,47 @@ class AppLocalizationsPt extends AppLocalizations {
   String get actionUnlock => 'DESBLOQUEAR';
 
   @override
-  String get editorDiscardTitle => 'Discard changes?';
+  String get editorDiscardTitle => 'Descartar alterações?';
 
   @override
-  String get editorDiscardBody => 'Your changes have not been submitted.';
+  String get editorDiscardBody => 'Suas alterações não foram enviadas.';
 
   @override
-  String get editorDiscardConfirm => 'Discard';
+  String get editorDiscardConfirm => 'Descartar';
 
   @override
-  String get editorContinueEditing => 'Continue editing';
+  String get editorContinueEditing => 'Continuar editando';
 
   @override
   String postListGoingToPage(num page) {
-    return 'Going to page $page';
+    return 'Indo para a página $page';
   }
 
   @override
-  String get actionRetry => 'Retry';
+  String get actionRetry => 'Tentar novamente';
 
   @override
-  String get selectionQueueDownloadsFailed => 'Failed to queue downloads';
+  String get selectionQueueDownloadsFailed =>
+      'Falha ao adicionar tarefas de download';
 
   @override
-  String get selectionQueueFavoritesFailed => 'Failed to queue favorites';
+  String get selectionQueueFavoritesFailed =>
+      'Falha ao adicionar tarefas de favoritos';
+
+  @override
+  String get taskBubbleDone => 'Concluído';
+
+  @override
+  String get taskBubbleCanceled => 'Cancelado';
+
+  @override
+  String taskBubbleFailures(int completed, int failed) {
+    return '$completed concluídas, $failed falharam';
+  }
+
+  @override
+  String get taskBubbleSaving => 'Salvando';
+
+  @override
+  String get taskBubbleWorking => 'Em andamento';
 }

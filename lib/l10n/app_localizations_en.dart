@@ -2447,4 +2447,21 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get selectionQueueFavoritesFailed => 'Failed to queue favorites';
+
+  @override
+  String get taskBubbleDone => 'Done';
+
+  @override
+  String get taskBubbleCanceled => 'Canceled';
+
+  @override
+  String taskBubbleFailures(int completed, int failed) {
+    return '$completed completed, $failed failed';
+  }
+
+  @override
+  String get taskBubbleSaving => 'Saving';
+
+  @override
+  String get taskBubbleWorking => 'Working';
 }

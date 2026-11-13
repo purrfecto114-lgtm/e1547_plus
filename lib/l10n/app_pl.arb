@@ -998,7 +998,7 @@
       }
     }
   },
-  "selectionLogsFilesCount": "{count, plural, one{1 plik logów} few{{count} pliki logów} many{{count} plików logów} other{{count} plików logów}}",
+  "selectionLogsFilesCount": "{count, plural, one{1 plik logu} few{{count} pliki logów} many{{count} plików logów} other{{count} plików logów}}",
   "@selectionLogsFilesCount": {
     "description": "Number of selected log files.",
     "placeholders": {
@@ -2500,5 +2500,18 @@
   "actionUnlock": "ODBLOKUJ",
   "@actionUnlock": {
     "description": "Confirmation action of the encrypted import password prompt."
-  }
+  },
+  "editorDiscardTitle": "Odrzucić zmiany?",
+  "editorDiscardBody": "Twoje zmiany nie zostały wysłane.",
+  "editorDiscardConfirm": "Odrzuć",
+  "editorContinueEditing": "Kontynuuj edycję",
+  "postListGoingToPage": "Przechodzenie do strony {page}",
+  "actionRetry": "Ponów",
+  "selectionQueueDownloadsFailed": "Nie udało się dodać zadań pobierania",
+  "selectionQueueFavoritesFailed": "Nie udało się dodać zadań ulubionych",
+  "taskBubbleDone": "Gotowe",
+  "taskBubbleCanceled": "Anulowano",
+  "taskBubbleFailures": "{completed} ukończono, {failed} nieudanych",
+  "taskBubbleSaving": "Zapisywanie",
+  "taskBubbleWorking": "W toku"
 }

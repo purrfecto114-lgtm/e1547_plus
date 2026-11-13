@@ -652,7 +652,7 @@
   "followNotificationHiddenBody": "你关注的标签有新帖子。",
   "followHideNotificationContent": "隐藏通知内容",
   "followHideNotificationContentHint": "通知的标题、预览和缩略图将被隐藏",
-  "notificationStaleIdentity": "该通知属于一个已不存在于此设备上的账号。",
+  "notificationStaleIdentity": "该通知属于一个已不存在于此设备上的账户。",
   "followChannelName": "已关注标签",
   "followChannelDescription": "你关注的标签的通知",
   "hostUnavailableTitle": "站点不可用",
@@ -691,5 +691,10 @@
   "postListGoingToPage": "正在前往第 {page} 页",
   "actionRetry": "重试",
   "selectionQueueDownloadsFailed": "添加下载任务失败",
-  "selectionQueueFavoritesFailed": "添加收藏任务失败"
+  "selectionQueueFavoritesFailed": "添加收藏任务失败",
+  "taskBubbleDone": "已完成",
+  "taskBubbleCanceled": "已取消",
+  "taskBubbleFailures": "{completed} 个已完成，{failed} 个失败",
+  "taskBubbleSaving": "正在保存",
+  "taskBubbleWorking": "正在进行"
 }

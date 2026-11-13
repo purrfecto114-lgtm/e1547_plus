@@ -2500,5 +2500,18 @@
   "actionUnlock": "SBLOCCA",
   "@actionUnlock": {
     "description": "Confirmation action of the encrypted import password prompt."
-  }
+  },
+  "editorDiscardTitle": "Scartare le modifiche?",
+  "editorDiscardBody": "Le modifiche non sono state inviate.",
+  "editorDiscardConfirm": "Scarta",
+  "editorContinueEditing": "Continua a modificare",
+  "postListGoingToPage": "Passaggio alla pagina {page}",
+  "actionRetry": "Riprova",
+  "selectionQueueDownloadsFailed": "Impossibile accodare i download",
+  "selectionQueueFavoritesFailed": "Impossibile accodare i preferiti",
+  "taskBubbleDone": "Fatto",
+  "taskBubbleCanceled": "Annullato",
+  "taskBubbleFailures": "{completed} completate, {failed} fallite",
+  "taskBubbleSaving": "Salvataggio",
+  "taskBubbleWorking": "In corso"
 }

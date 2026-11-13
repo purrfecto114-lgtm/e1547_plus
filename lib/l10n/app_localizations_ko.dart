@@ -2388,28 +2388,45 @@ class AppLocalizationsKo extends AppLocalizations {
   String get actionUnlock => '잠금 해제';
 
   @override
-  String get editorDiscardTitle => 'Discard changes?';
+  String get editorDiscardTitle => '변경 사항을 버릴까요?';
 
   @override
-  String get editorDiscardBody => 'Your changes have not been submitted.';
+  String get editorDiscardBody => '변경 사항이 아직 제출되지 않았습니다.';
 
   @override
-  String get editorDiscardConfirm => 'Discard';
+  String get editorDiscardConfirm => '버리기';
 
   @override
-  String get editorContinueEditing => 'Continue editing';
+  String get editorContinueEditing => '계속 편집';
 
   @override
   String postListGoingToPage(num page) {
-    return 'Going to page $page';
+    return '$page페이지로 이동 중';
   }
 
   @override
-  String get actionRetry => 'Retry';
+  String get actionRetry => '다시 시도';
 
   @override
-  String get selectionQueueDownloadsFailed => 'Failed to queue downloads';
+  String get selectionQueueDownloadsFailed => '다운로드 작업을 추가하지 못했습니다';
 
   @override
-  String get selectionQueueFavoritesFailed => 'Failed to queue favorites';
+  String get selectionQueueFavoritesFailed => '즐겨찾기 작업을 추가하지 못했습니다';
+
+  @override
+  String get taskBubbleDone => '완료';
+
+  @override
+  String get taskBubbleCanceled => '취소됨';
+
+  @override
+  String taskBubbleFailures(int completed, int failed) {
+    return '$completed개 완료, $failed개 실패';
+  }
+
+  @override
+  String get taskBubbleSaving => '저장 중';
+
+  @override
+  String get taskBubbleWorking => '진행 중';
 }

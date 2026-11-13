@@ -2372,28 +2372,45 @@ class AppLocalizationsJa extends AppLocalizations {
   String get actionUnlock => 'ロック解除';
 
   @override
-  String get editorDiscardTitle => 'Discard changes?';
+  String get editorDiscardTitle => '変更を破棄しますか？';
 
   @override
-  String get editorDiscardBody => 'Your changes have not been submitted.';
+  String get editorDiscardBody => '変更はまだ送信されていません。';
 
   @override
-  String get editorDiscardConfirm => 'Discard';
+  String get editorDiscardConfirm => '破棄';
 
   @override
-  String get editorContinueEditing => 'Continue editing';
+  String get editorContinueEditing => '編集を続ける';
 
   @override
   String postListGoingToPage(num page) {
-    return 'Going to page $page';
+    return '$pageページへ移動中';
   }
 
   @override
-  String get actionRetry => 'Retry';
+  String get actionRetry => '再試行';
 
   @override
-  String get selectionQueueDownloadsFailed => 'Failed to queue downloads';
+  String get selectionQueueDownloadsFailed => 'ダウンロードタスクの追加に失敗しました';
 
   @override
-  String get selectionQueueFavoritesFailed => 'Failed to queue favorites';
+  String get selectionQueueFavoritesFailed => 'お気に入りタスクの追加に失敗しました';
+
+  @override
+  String get taskBubbleDone => '完了';
+
+  @override
+  String get taskBubbleCanceled => 'キャンセルされました';
+
+  @override
+  String taskBubbleFailures(int completed, int failed) {
+    return '$completed件完了、$failed件失敗';
+  }
+
+  @override
+  String get taskBubbleSaving => '保存中';
+
+  @override
+  String get taskBubbleWorking => '処理中';
 }

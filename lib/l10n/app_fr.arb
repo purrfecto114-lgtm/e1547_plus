@@ -683,5 +683,18 @@
   "databaseImportEncryptedTitle": "Base de données chiffrée",
   "databaseImportPasswordLabel": "Mot de passe",
   "databaseImportWrongPassword": "Mot de passe incorrect ou fichier corrompu.",
-  "actionUnlock": "DÉVERROUILLER"
+  "actionUnlock": "DÉVERROUILLER",
+  "editorDiscardTitle": "Abandonner les modifications ?",
+  "editorDiscardBody": "Vos modifications n'ont pas été envoyées.",
+  "editorDiscardConfirm": "Abandonner",
+  "editorContinueEditing": "Continuer l'édition",
+  "postListGoingToPage": "Passage à la page {page}",
+  "actionRetry": "Réessayer",
+  "selectionQueueDownloadsFailed": "Échec de la mise en file des téléchargements",
+  "selectionQueueFavoritesFailed": "Échec de la mise en file des favoris",
+  "taskBubbleDone": "Terminé",
+  "taskBubbleCanceled": "Annulé",
+  "taskBubbleFailures": "{completed} terminées, {failed} en échec",
+  "taskBubbleSaving": "Enregistrement",
+  "taskBubbleWorking": "En cours"
 }

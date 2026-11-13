@@ -2423,28 +2423,45 @@ class AppLocalizationsVi extends AppLocalizations {
   String get actionUnlock => 'MỞ KHÓA';
 
   @override
-  String get editorDiscardTitle => 'Discard changes?';
+  String get editorDiscardTitle => 'Loại bỏ các thay đổi?';
 
   @override
-  String get editorDiscardBody => 'Your changes have not been submitted.';
+  String get editorDiscardBody => 'Các thay đổi của bạn chưa được gửi.';
 
   @override
-  String get editorDiscardConfirm => 'Discard';
+  String get editorDiscardConfirm => 'Loại bỏ';
 
   @override
-  String get editorContinueEditing => 'Continue editing';
+  String get editorContinueEditing => 'Tiếp tục chỉnh sửa';
 
   @override
   String postListGoingToPage(num page) {
-    return 'Going to page $page';
+    return 'Đang chuyển đến trang $page';
   }
 
   @override
-  String get actionRetry => 'Retry';
+  String get actionRetry => 'Thử lại';
 
   @override
-  String get selectionQueueDownloadsFailed => 'Failed to queue downloads';
+  String get selectionQueueDownloadsFailed => 'Không thể thêm tác vụ tải xuống';
 
   @override
-  String get selectionQueueFavoritesFailed => 'Failed to queue favorites';
+  String get selectionQueueFavoritesFailed => 'Không thể thêm tác vụ yêu thích';
+
+  @override
+  String get taskBubbleDone => 'Hoàn tất';
+
+  @override
+  String get taskBubbleCanceled => 'Đã hủy';
+
+  @override
+  String taskBubbleFailures(int completed, int failed) {
+    return '$completed hoàn tất, $failed thất bại';
+  }
+
+  @override
+  String get taskBubbleSaving => 'Đang lưu';
+
+  @override
+  String get taskBubbleWorking => 'Đang chạy';
 }

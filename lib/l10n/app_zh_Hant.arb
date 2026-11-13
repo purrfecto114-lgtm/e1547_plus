@@ -691,5 +691,10 @@
   "postListGoingToPage": "正在前往第 {page} 頁",
   "actionRetry": "重試",
   "selectionQueueDownloadsFailed": "新增下載任務失敗",
-  "selectionQueueFavoritesFailed": "新增收藏任務失敗"
+  "selectionQueueFavoritesFailed": "新增收藏任務失敗",
+  "taskBubbleDone": "已完成",
+  "taskBubbleCanceled": "已取消",
+  "taskBubbleFailures": "{completed} 個已完成，{failed} 個失敗",
+  "taskBubbleSaving": "正在儲存",
+  "taskBubbleWorking": "正在進行"
 }

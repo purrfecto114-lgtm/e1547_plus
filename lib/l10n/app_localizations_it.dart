@@ -2431,28 +2431,46 @@ class AppLocalizationsIt extends AppLocalizations {
   String get actionUnlock => 'SBLOCCA';
 
   @override
-  String get editorDiscardTitle => 'Discard changes?';
+  String get editorDiscardTitle => 'Scartare le modifiche?';
 
   @override
-  String get editorDiscardBody => 'Your changes have not been submitted.';
+  String get editorDiscardBody => 'Le modifiche non sono state inviate.';
 
   @override
-  String get editorDiscardConfirm => 'Discard';
+  String get editorDiscardConfirm => 'Scarta';
 
   @override
-  String get editorContinueEditing => 'Continue editing';
+  String get editorContinueEditing => 'Continua a modificare';
 
   @override
   String postListGoingToPage(num page) {
-    return 'Going to page $page';
+    return 'Passaggio alla pagina $page';
   }
 
   @override
-  String get actionRetry => 'Retry';
+  String get actionRetry => 'Riprova';
 
   @override
-  String get selectionQueueDownloadsFailed => 'Failed to queue downloads';
+  String get selectionQueueDownloadsFailed => 'Impossibile accodare i download';
 
   @override
-  String get selectionQueueFavoritesFailed => 'Failed to queue favorites';
+  String get selectionQueueFavoritesFailed =>
+      'Impossibile accodare i preferiti';
+
+  @override
+  String get taskBubbleDone => 'Fatto';
+
+  @override
+  String get taskBubbleCanceled => 'Annullato';
+
+  @override
+  String taskBubbleFailures(int completed, int failed) {
+    return '$completed completate, $failed fallite';
+  }
+
+  @override
+  String get taskBubbleSaving => 'Salvataggio';
+
+  @override
+  String get taskBubbleWorking => 'In corso';
 }

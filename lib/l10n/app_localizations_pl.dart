@@ -1293,7 +1293,7 @@ class AppLocalizationsPl extends AppLocalizations {
       other: '$count plików logów',
       many: '$count plików logów',
       few: '$count pliki logów',
-      one: '1 plik logów',
+      one: '1 plik logu',
     );
     return '$_temp0';
   }
@@ -2473,28 +2473,47 @@ class AppLocalizationsPl extends AppLocalizations {
   String get actionUnlock => 'ODBLOKUJ';
 
   @override
-  String get editorDiscardTitle => 'Discard changes?';
+  String get editorDiscardTitle => 'Odrzucić zmiany?';
 
   @override
-  String get editorDiscardBody => 'Your changes have not been submitted.';
+  String get editorDiscardBody => 'Twoje zmiany nie zostały wysłane.';
 
   @override
-  String get editorDiscardConfirm => 'Discard';
+  String get editorDiscardConfirm => 'Odrzuć';
 
   @override
-  String get editorContinueEditing => 'Continue editing';
+  String get editorContinueEditing => 'Kontynuuj edycję';
 
   @override
   String postListGoingToPage(num page) {
-    return 'Going to page $page';
+    return 'Przechodzenie do strony $page';
   }
 
   @override
-  String get actionRetry => 'Retry';
+  String get actionRetry => 'Ponów';
 
   @override
-  String get selectionQueueDownloadsFailed => 'Failed to queue downloads';
+  String get selectionQueueDownloadsFailed =>
+      'Nie udało się dodać zadań pobierania';
 
   @override
-  String get selectionQueueFavoritesFailed => 'Failed to queue favorites';
+  String get selectionQueueFavoritesFailed =>
+      'Nie udało się dodać zadań ulubionych';
+
+  @override
+  String get taskBubbleDone => 'Gotowe';
+
+  @override
+  String get taskBubbleCanceled => 'Anulowano';
+
+  @override
+  String taskBubbleFailures(int completed, int failed) {
+    return '$completed ukończono, $failed nieudanych';
+  }
+
+  @override
+  String get taskBubbleSaving => 'Zapisywanie';
+
+  @override
+  String get taskBubbleWorking => 'W toku';
 }

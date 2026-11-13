@@ -2500,5 +2500,18 @@
   "actionUnlock": "잠금 해제",
   "@actionUnlock": {
     "description": "Confirmation action of the encrypted import password prompt."
-  }
+  },
+  "editorDiscardTitle": "변경 사항을 버릴까요?",
+  "editorDiscardBody": "변경 사항이 아직 제출되지 않았습니다.",
+  "editorDiscardConfirm": "버리기",
+  "editorContinueEditing": "계속 편집",
+  "postListGoingToPage": "{page}페이지로 이동 중",
+  "actionRetry": "다시 시도",
+  "selectionQueueDownloadsFailed": "다운로드 작업을 추가하지 못했습니다",
+  "selectionQueueFavoritesFailed": "즐겨찾기 작업을 추가하지 못했습니다",
+  "taskBubbleDone": "완료",
+  "taskBubbleCanceled": "취소됨",
+  "taskBubbleFailures": "{completed}개 완료, {failed}개 실패",
+  "taskBubbleSaving": "저장 중",
+  "taskBubbleWorking": "진행 중"
 }

@@ -4270,6 +4270,36 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Failed to queue favorites'**
   String get selectionQueueFavoritesFailed;
+
+  /// Live region label for a task batch that finished without failures.
+  ///
+  /// In en, this message translates to:
+  /// **'Done'**
+  String get taskBubbleDone;
+
+  /// Live region label for a task batch that was canceled entirely.
+  ///
+  /// In en, this message translates to:
+  /// **'Canceled'**
+  String get taskBubbleCanceled;
+
+  /// Live region label for a task batch that finished with failures.
+  ///
+  /// In en, this message translates to:
+  /// **'{completed} completed, {failed} failed'**
+  String taskBubbleFailures(int completed, int failed);
+
+  /// Live region label for the phase in which finished downloads are exported.
+  ///
+  /// In en, this message translates to:
+  /// **'Saving'**
+  String get taskBubbleSaving;
+
+  /// Live region label for a running task batch, replacing the byte-level progress readout.
+  ///
+  /// In en, this message translates to:
+  /// **'Working'**
+  String get taskBubbleWorking;
 }
 
 class _AppLocalizationsDelegate
