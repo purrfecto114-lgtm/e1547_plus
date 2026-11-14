@@ -140,12 +140,10 @@ jobs:
           path: app-release.aab
 
   ios-build:
-    # On 2026-11-13 the macOS orchestration had a broken window: the same
-    # macos-15 pool finished the ios build at 15:49 UTC and sat at zero
-    # steps from 17:35 UTC on, across latest, 15, 14 and 13 alike, each
-    # reaped after exactly 15 minutes. macos-15 is the pool with proven
-    # capacity; the label is not the variable, the clock is.
-    runs-on: macos-15
+    # Back on the rolling latest pool: the 2026-11-13 zero-step window is
+    # over, and latest resolves to the same macos-15 image the outage pin
+    # used, so the toolchain is unchanged.
+    runs-on: macos-latest
     steps:
       - name: setup actions
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
