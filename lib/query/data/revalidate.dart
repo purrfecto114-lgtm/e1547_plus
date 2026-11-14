@@ -13,12 +13,25 @@ extension QueryRevalidate<T> on Query<T> {
   /// round trip for a query whose controller holds no registered
   /// listeners — the common case for a page fed through `getNextPage` —
   /// and then a read of the untouched state reports a success that never
-  /// reached the network. The first refresh may still land on a live
-  /// registration and fail honestly, while every later one silently
-  /// claims success. Reading the state the refetch itself returned also
-  /// keeps another concurrent event from repainting the verdict.
+  /// reached the network.
+  ///
+  /// A refetch can also land on a fetch that has already settled: a
+  /// subscription that re-arms the query, a connectivity refetch or a
+  /// pagination, any fetch whose future finished between its own
+  /// completion and the controller releasing the slot it occupies. The
+  /// pull would await that settled future, skip the round trip and read
+  /// a success whose data was never refreshed off the network. A verdict
+  /// whose success predates the refresh itself is exactly that, so it is
+  /// re-run; the first await guarantees the slot is free, so the re-run
+  /// performs a round trip of its own.
   Future<bool> revalidate() async {
-    final QueryStatus<T> state = await refetch();
+    final DateTime started = DateTime.now();
+    QueryStatus<T> state = await refetch();
+    for (var attempt = 0; attempt < 2; attempt++) {
+      if (state is! QuerySuccess<T>) break;
+      if (!state.timeCreated.isBefore(started)) break;
+      state = await refetch();
+    }
     return state is! QueryError<T>;
   }
 }
@@ -27,9 +40,16 @@ extension InfiniteQueryRevalidate<T, Arg> on InfiniteQuery<T, Arg> {
   /// Forces a refetch and reports whether it ended in a success state.
   ///
   /// See [QueryRevalidate.revalidate] for why this goes through [refetch]
-  /// instead of [invalidate].
+  /// instead of [invalidate], and for how a settled fetch that the
+  /// refetch would otherwise adopt is detected and re-run.
   Future<bool> revalidate() async {
-    final InfiniteQueryStatus<T, Arg> state = await refetch();
+    final DateTime started = DateTime.now();
+    InfiniteQueryStatus<T, Arg> state = await refetch();
+    for (var attempt = 0; attempt < 2; attempt++) {
+      if (state is! InfiniteQuerySuccess<T, Arg>) break;
+      if (!state.timeCreated.isBefore(started)) break;
+      state = await refetch();
+    }
     return state is! InfiniteQueryError<T, Arg>;
   }
 }

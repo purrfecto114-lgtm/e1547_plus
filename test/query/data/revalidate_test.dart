@@ -118,4 +118,137 @@ void main() {
       expect(query.state, isA<InfiniteQueryError>());
     },
   );
+
+  // The pull below races a fetch that has already settled but whose slot
+  // the controller has not released yet — a re-armed subscription while
+  // the data is fresh, exactly like a page that is left and re-entered.
+  // The settled fetch reports a success whose data was never refreshed
+  // off the network, which the pull would adopt as its own verdict.
+  group('a pull racing a settled fetch', () {
+    CachedQuery appCache() {
+      final cache = CachedQuery.asNewInstance();
+      cache.config(
+        config: const GlobalQueryConfig(
+          staleDuration: Duration(minutes: 5),
+          refetchOnResume: false,
+          cacheDuration: Duration(milliseconds: 1),
+        ),
+      );
+      return cache;
+    }
+
+    test(
+      'Query.revalidate re-runs the refresh it did not run itself',
+      () async {
+        final cache = appCache();
+        bool offline = false;
+        int networkCalls = 0;
+
+        final query = Query<List<int>>(
+          cache: cache,
+          key: 'revalidate-query-race',
+          queryFn: () async {
+            networkCalls++;
+            if (offline) throw Exception('offline');
+            return [1, 2, 3];
+          },
+        );
+
+        final subscription = query.stream.listen((_) {});
+        addTearDown(subscription.cancel);
+        await Future<void>.delayed(Duration.zero);
+        await Future<void>.delayed(Duration.zero);
+        expect(query.state, isA<QuerySuccess>());
+
+        offline = true;
+
+        // Re-arming the subscription settles a fetch without a round trip
+        // while the data is fresh; the pull starts inside the window before
+        // the controller releases that fetch's slot.
+        await subscription.cancel();
+        final resubscription = query.stream.listen((_) {});
+        final Future<bool> verdict = query.revalidate();
+        await resubscription.cancel();
+
+        expect(
+          await verdict,
+          isFalse,
+          reason: 'the pull must report the failure of its own round trip',
+        );
+        expect(networkCalls, 2, reason: 'the pull must reach the network');
+      },
+    );
+
+    test(
+      'InfiniteQuery.revalidate re-runs the refresh it did not run itself',
+      () async {
+        final cache = appCache();
+        bool offline = false;
+        int networkCalls = 0;
+
+        final query = InfiniteQuery<List<int>, Object>(
+          cache: cache,
+          key: 'revalidate-infinite-race',
+          config: pagedObjectIdConfig(),
+          getNextArg: (state) => state.nextCursorPage(),
+          queryFn: (page) async {
+            networkCalls++;
+            if (offline) throw Exception('offline');
+            return [1, 2, 3];
+          },
+        );
+
+        final subscription = query.stream.listen((_) {});
+        addTearDown(subscription.cancel);
+        await Future<void>.delayed(Duration.zero);
+        await Future<void>.delayed(Duration.zero);
+        expect(query.state, isA<InfiniteQuerySuccess>());
+
+        offline = true;
+
+        await subscription.cancel();
+        final resubscription = query.stream.listen((_) {});
+        final Future<bool> verdict = query.revalidate();
+        await resubscription.cancel();
+
+        expect(
+          await verdict,
+          isFalse,
+          reason: 'the pull must report the failure of its own round trip',
+        );
+        expect(networkCalls, 2, reason: 'the pull must reach the network');
+      },
+    );
+
+    test('a pull that runs its own refresh reports it directly', () async {
+      final cache = appCache();
+      int networkCalls = 0;
+
+      final query = InfiniteQuery<List<int>, Object>(
+        cache: cache,
+        key: 'revalidate-infinite-race-ok',
+        config: pagedObjectIdConfig(),
+        getNextArg: (state) => state.nextCursorPage(),
+        queryFn: (page) async {
+          networkCalls++;
+          return [1, 2, 3];
+        },
+      );
+
+      final subscription = query.stream.listen((_) {});
+      addTearDown(subscription.cancel);
+      await Future<void>.delayed(Duration.zero);
+      await Future<void>.delayed(Duration.zero);
+      expect(query.state, isA<InfiniteQuerySuccess>());
+
+      // The refresh runs undisturbed: one round trip, one verdict.
+      final int callsBefore = networkCalls;
+      expect(await query.revalidate(), isTrue);
+      expect(
+        networkCalls,
+        callsBefore + 1,
+        reason: 'an honest success costs exactly one round trip',
+      );
+    });
+  });
 }
