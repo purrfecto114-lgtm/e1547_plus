@@ -1,0 +1,3 @@
+Offline refreshes are honest again beyond the first failure.
+
+The query layer had a flaw where a resubscription could flip a failed refresh back to "success" without ever reaching the network, and the pull verdict accepted any non-error state, including half-finished ones. The query package is now vendored with those structural issues fixed, a failed fetch no longer counts as fresh data, and a 300-scenario fuzz test now holds every offline verdict at failure.

@@ -4,6 +4,22 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and this project
 adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [22.3.0+223] - 2026-11-14
+### Fixed
+- offline refreshes are honest again beyond the first failure: the query
+  package is now vendored (vendor/cached_query) with three structural
+  fixes. A resubscribe used to bypass the staleness check and could flip
+  an Error state back to a Success with no round trip in flight, and the
+  pull verdict accepted anything that was not an Error, so a verdict that
+  landed on a non-terminal Loading passed as a success. A failed fetch
+  also kept the pre-failure freshness, so a later resubscribe within the
+  staleness window reported the cache as fresh. All four are gone; a
+  300-seed interleaving fuzz over pulls, page fetches, resubscribes and
+  resumes while offline now holds every verdict at failure.
+- the vendored package drops the fake in-flight Success that the fetch
+  gate used to emit when it declined the round trip, and marks failed
+  fetches as stale for every staleness duration, so retries actually retry.
+
 ## [22.2.0+222] - 2026-11-14
 ### Fixed
 - the refresh indicator no longer claims success for a refresh it never
@@ -1861,3 +1877,4 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 [22.0.0+220]: https://github.com/purrfecto114-lgtm/e1547_plus/compare/21.7.3+131...22.0.0+220
 [22.2.0+222]: https://github.com/purrfecto114-lgtm/e1547_plus/compare/22.1.0+221...22.2.0+222
 [22.1.0+221]: https://github.com/purrfecto114-lgtm/e1547_plus/compare/22.0.0+220...22.1.0+221
+[22.3.0+223]: https://github.com/purrfecto114-lgtm/e1547_plus/compare/22.2.0+222...22.3.0+223
