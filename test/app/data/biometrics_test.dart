@@ -126,6 +126,63 @@ void main() {
         );
       },
     );
+
+    test(
+      'the framework manager rescues the probe when compat answers nothing',
+      () async {
+        // androidx.core 1.18 turned FingerprintManagerCompat into a no-op
+        // that always reports false, which also feeds androidx.biometric's
+        // codes on android 9 and older: every compat-based signal answers
+        // an empty device while the reader holds enrolled prints. The
+        // framework manager still asks the hardware directly, and its
+        // answer must carry the toggle on its own.
+        LocalAuthPlatform.instance = _FakeLocalAuth();
+        TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger
+            .setMockMethodCallHandler(
+              const MethodChannel('e1547/biometrics'),
+              (call) async => {
+                'hardware': false,
+                'enrolled': false,
+                'frameworkHardware': true,
+                'frameworkEnrolled': true,
+                // An OEM build can guard the enrolled print list while the
+                // booleans still answer, so the count may stay unknown.
+                'enrolledCount': 0,
+                // No biometrics / hardware unavailable.
+                'weak': 12,
+                'strong': 12,
+              },
+            );
+        expect(
+          await biometricAvailability(android: true),
+          BiometricAvailability.ready,
+        );
+      },
+    );
+
+    test(
+      'framework hardware without enrollment still asks for a print',
+      () async {
+        LocalAuthPlatform.instance = _FakeLocalAuth();
+        TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger
+            .setMockMethodCallHandler(
+              const MethodChannel('e1547/biometrics'),
+              (call) async => {
+                'hardware': false,
+                'enrolled': false,
+                'frameworkHardware': true,
+                'frameworkEnrolled': false,
+                'enrolledCount': 0,
+                'weak': 12,
+                'strong': 12,
+              },
+            );
+        expect(
+          await biometricAvailability(android: true),
+          BiometricAvailability.unenrolled,
+        );
+      },
+    );
   });
 
   test('a host platform without biometrics stays unavailable', () async {

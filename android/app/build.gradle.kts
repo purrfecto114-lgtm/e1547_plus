@@ -114,3 +114,17 @@ dependencies {
     // into one code; the version matches what local_auth itself ships.
     implementation("androidx.biometric:biometric:1.1.0")
 }
+
+// androidx.core 1.18 turned FingerprintManagerCompat into a no-op that
+// always reports false, which silently disabled every fingerprint probe —
+// local_auth's included — on android releases that route through the
+// fingerprint service (android 9 and older). local_auth pulls core 1.18
+// transitively; holding the line at 1.17, where the compatibility
+// manager still asks the hardware, keeps those devices working. The app's
+// own probe asks the framework manager directly as well, so detection
+// survives even without this pin, but local_auth's own answers need it.
+configurations.all {
+    resolutionStrategy {
+        force("androidx.core:core:1.17.0")
+    }
+}

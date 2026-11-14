@@ -42,6 +42,14 @@ const int _biometricSuccess = 0;
 ///
 /// The [android] override exists for the tests, which run on the host
 /// platform but exercise the android fallback path.
+///
+/// The merge takes the most optimistic answer of every signal: the
+/// plugin's, the compatibility booleans', the androidx codes' and the
+/// framework manager's. The framework signals matter because the
+/// compatibility layer can stop answering entirely — androidx.core turned
+/// FingerprintManagerCompat into a no-op that always reports false, which
+/// disabled every compat-based probe, local_auth's included, on the old
+/// releases that still route through the fingerprint service.
 Future<BiometricAvailability> biometricAvailability({bool? android}) async {
   final Logger log = Logger('biometrics');
   final bool onAndroid = android ?? Platform.isAndroid;
@@ -79,13 +87,18 @@ Future<BiometricAvailability> biometricAvailability({bool? android}) async {
         final int enrolledCount = code('enrolledCount') ?? 0;
         final int weak = code('weak') ?? -1;
         final int strong = code('strong') ?? -1;
+        final bool frameworkHardware = flag('frameworkHardware') == true;
+        final bool frameworkEnrolled = flag('frameworkEnrolled') == true;
         final bool nativeHardware =
-            flag('hardware') == true || weak == _biometricSuccess;
+            flag('hardware') == true ||
+            weak == _biometricSuccess ||
+            frameworkHardware;
         final bool nativeEnrolled =
             flag('enrolled') == true ||
             enrolledCount > 0 ||
             weak == _biometricSuccess ||
-            strong == _biometricSuccess;
+            strong == _biometricSuccess ||
+            frameworkEnrolled;
         hardware = hardware || nativeHardware;
         enrolled = enrolled || nativeEnrolled;
         log.info('the native fingerprint probe answered', {
@@ -93,6 +106,8 @@ Future<BiometricAvailability> biometricAvailability({bool? android}) async {
           'enrolled': enrolled,
           'nativeHardware': nativeHardware,
           'nativeEnrolled': nativeEnrolled,
+          'frameworkHardware': frameworkHardware,
+          'frameworkEnrolled': frameworkEnrolled,
           'enrolledCount': enrolledCount,
           'weak': weak,
           'strong': strong,
