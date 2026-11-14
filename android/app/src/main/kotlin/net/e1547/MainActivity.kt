@@ -68,9 +68,6 @@ class MainActivity : FlutterFragmentActivity() {
                                 "frameworkEnrolled" to probe {
                                     framework?.hasEnrolledFingerprints()
                                 },
-                                "enrolledCount" to probe {
-                                    framework?.enrolledFingerprints?.size
-                                },
                                 "weak" to probe {
                                     BiometricManager.from(this@MainActivity).canAuthenticate(
                                         BiometricManager.Authenticators.BIOMETRIC_WEAK,
