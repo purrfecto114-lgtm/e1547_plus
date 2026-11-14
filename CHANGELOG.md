@@ -4,6 +4,26 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and this project
 adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [22.2.0+222] - 2026-11-14
+### Fixed
+- the refresh indicator no longer claims success for a refresh it never
+  ran: a pull that landed on a fetch which had just settled — a
+  re-armed subscription, a connectivity refetch, a pagination — awaited
+  that fetch's outcome instead of starting its own round trip, so after
+  the first honest failure every later pull read a success whose data
+  was never refreshed off the network; a verdict whose success predates
+  the refresh itself is now detected and re-run, and the pull reports
+  what its own round trip answered
+- the fingerprint sensor is found again on android 9 and older:
+  androidx.core turned FingerprintManagerCompat into a no-op that
+  always answers false, which silently disabled every compat-based
+  probe — local_auth's included, so the settings page reported no
+  biometric hardware on devices whose reader held enrolled prints; the
+  app now asks the framework's fingerprint manager directly on those
+  releases and holds androidx.core at the last version whose
+  compatibility manager still asks the hardware, restoring local_auth's
+  own answers with it
+
 ## [22.1.0+221] - 2026-11-14
 ### Changed
 - the 18+ confirmation moved onto its own page inside the onboarding: a
@@ -1839,4 +1859,5 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 [21.7.3+131]: https://github.com/purrfecto114-lgtm/e1547_plus/compare/21.7.2+130...21.7.3+131
 [22.0.0+220]: https://github.com/purrfecto114-lgtm/e1547_plus/compare/21.7.3+131...22.0.0+220
+[22.2.0+222]: https://github.com/purrfecto114-lgtm/e1547_plus/compare/22.1.0+221...22.2.0+222
 [22.1.0+221]: https://github.com/purrfecto114-lgtm/e1547_plus/compare/22.0.0+220...22.1.0+221
