@@ -32,7 +32,10 @@ extension QueryRevalidate<T> on Query<T> {
       if (!state.timeCreated.isBefore(started)) break;
       state = await refetch();
     }
-    return state is! QueryError<T>;
+    // Whitelist, not "anything but Error": a fetch adopted from another
+    // caller can end non-terminal (Loading) or even Initial; those used
+    // to pass as successes here. Only a success state is a success.
+    return state is QuerySuccess<T>;
   }
 }
 
@@ -50,6 +53,7 @@ extension InfiniteQueryRevalidate<T, Arg> on InfiniteQuery<T, Arg> {
       if (!state.timeCreated.isBefore(started)) break;
       state = await refetch();
     }
-    return state is! InfiniteQueryError<T, Arg>;
+    // Whitelist, see QueryRevalidate.revalidate.
+    return state is InfiniteQuerySuccess<T, Arg>;
   }
 }
