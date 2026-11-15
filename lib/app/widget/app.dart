@@ -28,6 +28,7 @@ class App extends StatelessWidget {
           AppInfoClientProvider(),
           ClientFactoryProvider(),
           SettingsProvider(),
+          BiometricsWatcherProvider(),
           VideoServiceProvider(),
           AdaptiveScaffoldScope(),
           DefaultRouteObserver(),

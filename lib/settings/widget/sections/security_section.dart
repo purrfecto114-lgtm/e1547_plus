@@ -5,7 +5,6 @@ import 'package:e1547/l10n/app_localizations.dart';
 import 'package:e1547/settings/settings.dart';
 import 'package:e1547/shared/shared.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_sub/flutter_sub.dart';
 
 /// The tiles that guard the app against curious eyes.
 class SettingsSecuritySection extends StatelessWidget {
@@ -76,51 +75,54 @@ class SettingsSecuritySection extends StatelessWidget {
             },
           ),
         ),
-        SubFuture<BiometricAvailability>(
-          create: biometricAvailability,
-          builder: (context, snapshot) => ValueListenableBuilder<bool>(
-            valueListenable: settings.biometricAuth,
-            builder: (context, value, child) {
-              final BiometricAvailability? availability = snapshot.data;
-              final bool ready = availability == BiometricAvailability.ready;
-              return SwitchListTile(
-                title: Text(l10n.settingsBiometricLock),
-                subtitle: Text(
-                  // The three hardware states spell out why the switch
-                  // may be dead: absent hardware, hardware without an
-                  // enrolled print, or a usable biometric lock.
-                  switch (availability) {
-                    BiometricAvailability.ready =>
-                      value ? l10n.biometricsEnabled : l10n.biometricsDisabled,
-                    BiometricAvailability.unenrolled =>
-                      l10n.biometricsNotEnrolled,
-                    BiometricAvailability.none => l10n.biometricsUnavailable,
-                    null =>
-                      value ? l10n.biometricsEnabled : l10n.biometricsDisabled,
-                  },
-                ),
-                secondary: const Icon(Icons.fingerprint),
-                value: value,
-                onChanged: ready
-                    ? (value) {
-                        if (value &&
-                            context.read<Settings>().appPin.value == null) {
-                          // Without a pin the biometric lock is a dead
-                          // end: the screen below only offers retries,
-                          // so a sensor that stops working locks the
-                          // user out for good. A pin always leaves a
-                          // way back in.
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(content: Text(l10n.biometricsRequiresPin)),
-                          );
-                          return;
-                        }
-                        settings.biometricAuth.value = value;
+        ValueListenableBuilder<bool>(
+          valueListenable: settings.biometricAuth,
+          builder: (context, value, child) {
+            // The probe answer is watched live: enrollment changes in
+            // the system settings while the app sits in the background,
+            // and a snapshot taken at page mount used to stick until the
+            // whole section was rebuilt from scratch.
+            final BiometricAvailability? availability = context
+                .watch<BiometricsWatcher>()
+                .value;
+            final bool ready = availability == BiometricAvailability.ready;
+            return SwitchListTile(
+              title: Text(l10n.settingsBiometricLock),
+              subtitle: Text(
+                // The three hardware states spell out why the switch
+                // may be dead: absent hardware, hardware without an
+                // enrolled print, or a usable biometric lock.
+                switch (availability) {
+                  BiometricAvailability.ready =>
+                    value ? l10n.biometricsEnabled : l10n.biometricsDisabled,
+                  BiometricAvailability.unenrolled =>
+                    l10n.biometricsNotEnrolled,
+                  BiometricAvailability.none => l10n.biometricsUnavailable,
+                  null =>
+                    value ? l10n.biometricsEnabled : l10n.biometricsDisabled,
+                },
+              ),
+              secondary: const Icon(Icons.fingerprint),
+              value: value,
+              onChanged: ready
+                  ? (value) {
+                      if (value &&
+                          context.read<Settings>().appPin.value == null) {
+                        // Without a pin the biometric lock is a dead
+                        // end: the screen below only offers retries,
+                        // so a sensor that stops working locks the
+                        // user out for good. A pin always leaves a
+                        // way back in.
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(content: Text(l10n.biometricsRequiresPin)),
+                        );
+                        return;
                       }
-                    : null,
-              );
-            },
-          ),
+                      settings.biometricAuth.value = value;
+                    }
+                  : null,
+            );
+          },
         ),
       ],
     );

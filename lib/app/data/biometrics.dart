@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:e1547/logs/logs.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter/widgets.dart';
 import 'package:local_auth/local_auth.dart';
 
 /// The state of the device's biometric hardware.
@@ -128,4 +129,54 @@ Future<BiometricAvailability> biometricAvailability({bool? android}) async {
     'availability': availability.name,
   });
   return availability;
+}
+
+/// Keeps the biometric state current over the app's whole lifetime.
+///
+/// Enrollment lives in the system settings, so it changes behind the
+/// app's back: prints removed (or added) while the app sat in the
+/// background used to leave a stale answer in place, and the lock screen
+/// went on offering a shortcut the sensor could no longer honor. The
+/// answer is therefore re-probed when the app returns to the foreground,
+/// the one moment the change can have happened.
+///
+/// The value starts at null, which reads as "unknown" rather than
+/// "absent": consumers treat it as the conservative answer until the
+/// first probe lands.
+///
+/// The `probe` override exists for the tests, which cannot reach a
+/// fingerprint sensor from the host platform.
+class BiometricsWatcher extends ValueNotifier<BiometricAvailability?>
+    with WidgetsBindingObserver {
+  BiometricsWatcher({Future<BiometricAvailability> Function()? probe})
+    : _probe = probe ?? biometricAvailability,
+      super(null) {
+    WidgetsBinding.instance.addObserver(this);
+    refresh();
+  }
+
+  final Future<BiometricAvailability> Function() _probe;
+
+  int _pending = 0;
+
+  /// Probes the device again and publishes the answer.
+  ///
+  /// A probe that lands after a newer one started still carries the
+  /// older answer, so it must not overwrite the fresher one.
+  Future<void> refresh() async {
+    final int stamp = ++_pending;
+    final BiometricAvailability availability = await _probe();
+    if (stamp == _pending) value = availability;
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    if (state == AppLifecycleState.resumed) refresh();
+  }
+
+  @override
+  void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
+    super.dispose();
+  }
 }

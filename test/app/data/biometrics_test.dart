@@ -1,5 +1,8 @@
+import 'dart:async';
+
 import 'package:e1547/app/app.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:local_auth_platform_interface/local_auth_platform_interface.dart';
 
@@ -192,5 +195,71 @@ void main() {
       await biometricAvailability(android: false),
       BiometricAvailability.none,
     );
+  });
+
+  group('BiometricsWatcher', () {
+    testWidgets(
+      'the watcher re-probes when the app returns to the foreground',
+      (tester) async {
+        // Enrollment changes in the system settings while the app sits
+        // in the background: the foreground return is the moment the
+        // stored answer can have gone stale, so it must be re-probed.
+        int calls = 0;
+        final watcher = BiometricsWatcher(
+          probe: () async => switch (calls++) {
+            0 => BiometricAvailability.none,
+            1 => BiometricAvailability.ready,
+            _ => BiometricAvailability.unenrolled,
+          },
+        );
+        addTearDown(watcher.dispose);
+
+        await tester.pump();
+        expect(watcher.value, BiometricAvailability.none);
+        expect(calls, 1);
+
+        tester.binding.handleAppLifecycleStateChanged(AppLifecycleState.paused);
+        await tester.pump();
+        expect(calls, 1, reason: 'hiding the app changes nothing');
+
+        tester.binding.handleAppLifecycleStateChanged(
+          AppLifecycleState.resumed,
+        );
+        await tester.pump();
+        expect(calls, 2);
+        expect(watcher.value, BiometricAvailability.ready);
+      },
+    );
+
+    testWidgets('a stale probe never overwrites a newer answer', (
+      tester,
+    ) async {
+      // Two probes in flight at once: the foreground return fires a
+      // second probe while the first one is still waiting, and the
+      // slower older answer must lose.
+      final pending = <Completer<BiometricAvailability>>[];
+      final watcher = BiometricsWatcher(
+        probe: () {
+          final completer = Completer<BiometricAvailability>();
+          pending.add(completer);
+          return completer.future;
+        },
+      );
+      addTearDown(watcher.dispose);
+
+      expect(watcher.value, isNull);
+
+      tester.binding.handleAppLifecycleStateChanged(AppLifecycleState.paused);
+      tester.binding.handleAppLifecycleStateChanged(AppLifecycleState.resumed);
+      expect(pending.length, 2);
+
+      pending.first.complete(BiometricAvailability.ready);
+      await tester.pump();
+      expect(watcher.value, isNull, reason: 'the newer probe is still out');
+
+      pending.last.complete(BiometricAvailability.unenrolled);
+      await tester.pump();
+      expect(watcher.value, BiometricAvailability.unenrolled);
+    });
   });
 }

@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:e1547/app/app.dart';
 import 'package:e1547/l10n/app_localizations.dart';
 import 'package:e1547/settings/settings.dart';
@@ -12,16 +14,28 @@ import 'package:provider/provider.dart';
 /// hash derivation instead of stubs.
 void main() {
   late Settings settings;
+  late BiometricsWatcher watcher;
 
   setUp(() async {
     SharedPreferences.setMockInitialValues({});
     settings = Settings(await SharedPreferences.getInstance());
+    // The host has no fingerprint sensor and no plugin behind the probe,
+    // so the watcher gets a scripted answer the tests can overwrite.
+    watcher = BiometricsWatcher(probe: () async => BiometricAvailability.none);
   });
 
-  Future<void> pumpLock(WidgetTester tester) async {
+  Future<void> pumpLock(
+    WidgetTester tester, [
+    BiometricsWatcher? pending,
+  ]) async {
     await tester.pumpWidget(
       MultiProvider(
-        providers: [Provider<Settings>.value(value: settings)],
+        providers: [
+          Provider<Settings>.value(value: settings),
+          ListenableProvider<BiometricsWatcher>.value(
+            value: pending ?? watcher,
+          ),
+        ],
         child: const MaterialApp(
           locale: Locale('zh'),
           localizationsDelegates: AppLocalizations.localizationsDelegates,
@@ -113,5 +127,51 @@ void main() {
     expect(settings.appPin.value, '2468');
     expect(settings.appPinFailures.value, 1);
     expect(find.text('unlocked content'), findsNothing);
+  });
+
+  testWidgets('the fingerprint shortcut follows the live probe answer', (
+    tester,
+  ) async {
+    settings.appPin.value = await tester.runAsync(() => hashPin('2468'));
+    settings.biometricAuth.value = true;
+    await pumpLock(tester);
+
+    // The setting alone decides nothing: the shortcut only shows while
+    // the watcher still believes the sensor carries prints.
+    expect(find.byIcon(Icons.fingerprint), findsNothing);
+    watcher.value = BiometricAvailability.ready;
+    await tester.pump();
+    expect(find.byIcon(Icons.fingerprint), findsOneWidget);
+
+    // Prints removed in the system settings while the app sat in the
+    // background: the watcher answers again, and the dead shortcut must
+    // vanish without waiting for a restart. The pin pad stays, so the
+    // way back in survives.
+    watcher.value = BiometricAvailability.unenrolled;
+    await tester.pump();
+    expect(find.byIcon(Icons.fingerprint), findsNothing);
+
+    await enter(tester, '2468');
+    expect(find.text('unlocked content'), findsOneWidget);
+  });
+
+  testWidgets('a probe that never answers keeps the shortcut off', (
+    tester,
+  ) async {
+    // The watcher publishes null until its first probe lands: the lock
+    // screen must read that as "not usable", not as "usable".
+    final pending = BiometricsWatcher(
+      probe: () => Completer<BiometricAvailability>().future,
+    );
+    settings.appPin.value = await tester.runAsync(() => hashPin('2468'));
+    settings.biometricAuth.value = true;
+    await pumpLock(tester, pending);
+
+    expect(pending.value, isNull);
+    expect(find.byIcon(Icons.fingerprint), findsNothing);
+
+    // The watcher listens for its own disposal; without a frame tree
+    // owning it the test unmounts it by hand.
+    pending.dispose();
   });
 }

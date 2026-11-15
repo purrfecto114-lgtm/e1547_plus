@@ -34,6 +34,7 @@ void main() {
   late ValueNotifier<Traits> traits;
   late AppDatabase sqlite;
   late Settings settings;
+  late BiometricsWatcher biometrics;
   late IdentityClient identities;
   late TraitsClient identityTraits;
 
@@ -95,10 +96,15 @@ void main() {
     client.dio.options.connectTimeout = null;
     client.dio.options.receiveTimeout = null;
     settings = Settings(await SharedPreferences.getInstance());
+    // The security section reads the watcher instead of probing at
+    // mount; the channel mocks above answer an enrolled device, so
+    // the tile renders its normal enabled wording here.
+    biometrics = BiometricsWatcher();
   });
 
   tearDown(() async {
     traits.dispose();
+    biometrics.dispose();
     identities.dispose();
     identityTraits.dispose();
     client.dispose();
@@ -131,6 +137,7 @@ void main() {
           providers: [
             Provider<Client>.value(value: client),
             Provider<Settings>.value(value: settings),
+            ListenableProvider<BiometricsWatcher>.value(value: biometrics),
             ChangeNotifierProvider<IdentityClient>.value(value: identities),
             ChangeNotifierProvider<TraitsClient>.value(value: identityTraits),
             Provider<BaseCacheManager>.value(

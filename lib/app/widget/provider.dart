@@ -113,6 +113,15 @@ class ClientFactoryProvider extends SubProvider0<ClientFactory> {
     : super(create: (context) => ClientFactory());
 }
 
+class BiometricsWatcherProvider
+    extends SubListenableProvider0<BiometricsWatcher> {
+  BiometricsWatcherProvider({super.child, super.builder})
+    : super(
+        create: (context) => BiometricsWatcher(),
+        dispose: (context, watcher) => watcher.dispose(),
+      );
+}
+
 class ClientProvider
     extends
         SubProvider4<

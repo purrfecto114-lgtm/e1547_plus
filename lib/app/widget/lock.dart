@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:math' show min, pi, sin;
 
 import 'package:animations/animations.dart';
+import 'package:e1547/app/data/biometrics.dart';
 import 'package:e1547/app/data/pin.dart';
 import 'package:e1547/l10n/app_localizations.dart';
 import 'package:e1547/settings/settings.dart';
@@ -21,9 +22,9 @@ class LockScreen extends StatefulWidget {
 }
 
 class _LockScreenState extends State<LockScreen> {
-  bool get biometrics => context.read<Settings>().biometricAuth.value;
+  bool get biometricSetting => context.read<Settings>().biometricAuth.value;
   String? get pin => context.read<Settings>().appPin.value;
-  bool get enabled => pin != null || biometrics;
+  bool get enabled => pin != null || biometricSetting;
   late bool locked = enabled;
 
   /// When the app was last hidden, used to tell a real absence from the
@@ -102,64 +103,77 @@ class _LockScreenState extends State<LockScreen> {
 
   @override
   Widget build(BuildContext context) {
-    Widget? lock;
+    return ValueListenableBuilder<BiometricAvailability?>(
+      valueListenable: context.watch<BiometricsWatcher>(),
+      builder: (context, availability, child) {
+        // The fingerprint shortcut only exists while the sensor actually
+        // carries prints: enrollment changes in the system settings
+        // while the app sits in the background, and the setting alone
+        // kept offering a prompt that could only ever fail. An answer
+        // that has not probed yet keeps the shortcut off as well.
+        final bool biometrics =
+            biometricSetting && availability == BiometricAvailability.ready;
+        Widget? lock;
 
-    if (pin != null) {
-      lock = PinLock(
-        title: AppLocalizations.of(context).lockEnterPin,
-        verify: verifyPinEntry,
-        attempts: context.read<Settings>().appPinFailures,
-        lockedUntil: context.read<Settings>().appPinLockedUntil,
-        biometrics: biometrics,
-        autoBiometrics: biometrics,
-        onBiometrics: biometrics
-            ? () => tryLocalAuth(
-                context: context,
-                // A stronger factor clears the pin backoff as well:
-                // the owner just proved who they are, so punishing
-                // them for earlier typos after a restart reads as a
-                // bug rather than as a lockout.
-                onSuccess: () {
-                  final settings = context.read<Settings>();
-                  settings.appPinFailures.value = 0;
-                  settings.appPinLockedUntil.value = 0;
-                  unlock();
-                },
-              )
-            : null,
-        onCompleted: (_) => unlock(),
-      );
-    } else if (biometrics) {
-      lock = BiometricsLockScreen(onSuccess: unlock);
-    }
+        if (pin != null) {
+          lock = PinLock(
+            title: AppLocalizations.of(context).lockEnterPin,
+            verify: verifyPinEntry,
+            attempts: context.read<Settings>().appPinFailures,
+            lockedUntil: context.read<Settings>().appPinLockedUntil,
+            biometrics: biometrics,
+            autoBiometrics: biometrics,
+            onBiometrics: biometrics
+                ? () => tryLocalAuth(
+                    context: context,
+                    // A stronger factor clears the pin backoff as well:
+                    // the owner just proved who they are, so punishing
+                    // them for earlier typos after a restart reads as a
+                    // bug rather than as a lockout.
+                    onSuccess: () {
+                      final settings = context.read<Settings>();
+                      settings.appPinFailures.value = 0;
+                      settings.appPinLockedUntil.value = 0;
+                      unlock();
+                    },
+                  )
+                : null,
+            onCompleted: (_) => unlock(),
+          );
+        } else if (biometrics) {
+          lock = BiometricsLockScreen(onSuccess: unlock);
+        }
 
-    bool showLock = lock != null && enabled && locked;
+        bool showLock = lock != null && enabled && locked;
 
-    return SubListener(
-      listener: this.lock,
-      listenable: Listenable.merge([
-        context.read<Settings>().appPin,
-        context.read<Settings>().biometricAuth,
-      ]),
-      builder: (context) => Stack(
-        fit: StackFit.passthrough,
-        children: [
-          Visibility(
-            visible: !showLock,
-            maintainState: true,
-            child: widget.child,
+        return SubListener(
+          listener: this.lock,
+          listenable: Listenable.merge([
+            context.read<Settings>().appPin,
+            context.read<Settings>().biometricAuth,
+          ]),
+          builder: (context) => Stack(
+            fit: StackFit.passthrough,
+            children: [
+              Visibility(
+                visible: !showLock,
+                maintainState: true,
+                child: widget.child,
+              ),
+              PageTransitionSwitcher(
+                transitionBuilder:
+                    (child, primaryAnimation, secondaryAnimation) =>
+                        FadeThroughTransition(
+                          animation: primaryAnimation,
+                          secondaryAnimation: secondaryAnimation,
+                          child: child,
+                        ),
+                child: showLock ? lock! : null,
+              ),
+            ],
           ),
-          PageTransitionSwitcher(
-            transitionBuilder: (child, primaryAnimation, secondaryAnimation) =>
-                FadeThroughTransition(
-                  animation: primaryAnimation,
-                  secondaryAnimation: secondaryAnimation,
-                  child: child,
-                ),
-            child: showLock ? lock! : null,
-          ),
-        ],
-      ),
+        );
+      },
     );
   }
 }
