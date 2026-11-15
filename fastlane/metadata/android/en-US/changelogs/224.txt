@@ -1,0 +1,1 @@
+The biometric lock now follows the system: removing the fingerprints in the device settings while the app is in the background no longer leaves the lock screen offering a prompt that can only fail. The sensor state is re-probed on every return to the foreground, the fingerprint shortcut only shows while prints are enrolled, and the pin pad always stays as the way back in.

@@ -4,6 +4,16 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and this project
 adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [22.4.0+224] - 2026-11-15
+### Fixed
+- the app now follows biometric enrollment live: enabling the biometric
+  lock, then removing the fingerprints in the system settings while the
+  app sits in the background used to leave both the lock screen and the
+  settings switch with a stale answer, and the lock screen kept firing a
+  prompt that could only ever fail. A shared watcher re-probes the
+  sensor whenever the app returns to the foreground, the fingerprint
+  shortcut only shows while prints are actually enrolled, and the pin
+  pad always stays as the way back in.
 ## [22.3.0+223] - 2026-11-14
 ### Fixed
 - offline refreshes are honest again beyond the first failure: the query
@@ -1878,3 +1888,4 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 [22.2.0+222]: https://github.com/purrfecto114-lgtm/e1547_plus/compare/22.1.0+221...22.2.0+222
 [22.1.0+221]: https://github.com/purrfecto114-lgtm/e1547_plus/compare/22.0.0+220...22.1.0+221
 [22.3.0+223]: https://github.com/purrfecto114-lgtm/e1547_plus/compare/22.2.0+222...22.3.0+223
+[22.4.0+224]: https://github.com/purrfecto114-lgtm/e1547_plus/compare/22.3.0+223...22.4.0+224
