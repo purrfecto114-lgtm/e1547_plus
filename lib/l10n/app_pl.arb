@@ -373,6 +373,8 @@
     "description": "Title of the prompt that edits a blacklist entry."
   },
   "blacklistEmpty": "Twoja czarna lista jest pusta",
+  "blacklistFilterHint": "Filtruj czarną listę",
+  "blacklistNoMatch": "Brak wpisów pasujących do filtra",
   "@blacklistEmpty": {
     "description": "Message shown when the blacklist contains no entries."
   },
@@ -2421,6 +2423,7 @@
     }
   },
   "downloadChooseFolder": "Wybierz folder",
+  "downloadGalleryUnsupportedFormat": "Biblioteka zdjęć nie obsługuje plików {format}; nie można zapisać tego pliku",
   "@downloadChooseFolder": {
     "description": "Title of the folder picker dialog on desktop."
   },

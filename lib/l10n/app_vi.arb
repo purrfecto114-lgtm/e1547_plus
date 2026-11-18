@@ -373,6 +373,8 @@
     "description": "Title of the prompt that edits a blacklist entry."
   },
   "blacklistEmpty": "Danh sách chặn của bạn trống",
+  "blacklistFilterHint": "Lọc danh sách đen",
+  "blacklistNoMatch": "Không có mục nào khớp bộ lọc",
   "@blacklistEmpty": {
     "description": "Message shown when the blacklist contains no entries."
   },
@@ -2421,6 +2423,7 @@
     }
   },
   "downloadChooseFolder": "Chọn thư mục",
+  "downloadGalleryUnsupportedFormat": "Thư viện ảnh không hỗ trợ tệp {format}; không thể lưu tệp này",
   "@downloadChooseFolder": {
     "description": "Title of the folder picker dialog on desktop."
   },

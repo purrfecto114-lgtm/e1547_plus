@@ -791,6 +791,12 @@ class AppLocalizationsVi extends AppLocalizations {
   String get blacklistEmpty => 'Danh sách chặn của bạn trống';
 
   @override
+  String get blacklistFilterHint => 'Lọc danh sách đen';
+
+  @override
+  String get blacklistNoMatch => 'Không có mục nào khớp bộ lọc';
+
+  @override
   String get menuDelete => 'Xóa';
 
   @override
@@ -2350,6 +2356,11 @@ class AppLocalizationsVi extends AppLocalizations {
 
   @override
   String get downloadChooseFolder => 'Chọn thư mục';
+
+  @override
+  String downloadGalleryUnsupportedFormat(String format) {
+    return 'Thư viện ảnh không hỗ trợ tệp $format; không thể lưu tệp này';
+  }
 
   @override
   String get searchFilterTitle => 'Bộ lọc';

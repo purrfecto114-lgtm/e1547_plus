@@ -791,6 +791,12 @@ class AppLocalizationsEn extends AppLocalizations {
   String get blacklistEmpty => 'Your blacklist is empty';
 
   @override
+  String get blacklistFilterHint => 'Filter blacklist';
+
+  @override
+  String get blacklistNoMatch => 'No entries match the filter';
+
+  @override
   String get menuDelete => 'Delete';
 
   @override
@@ -2350,6 +2356,11 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get downloadChooseFolder => 'Choose a folder';
+
+  @override
+  String downloadGalleryUnsupportedFormat(String format) {
+    return 'The photo library cannot store $format files; this file cannot be saved';
+  }
 
   @override
   String get searchFilterTitle => 'Filters';

@@ -811,6 +811,12 @@ class AppLocalizationsPl extends AppLocalizations {
   String get blacklistEmpty => 'Twoja czarna lista jest pusta';
 
   @override
+  String get blacklistFilterHint => 'Filtruj czarną listę';
+
+  @override
+  String get blacklistNoMatch => 'Brak wpisów pasujących do filtra';
+
+  @override
   String get menuDelete => 'Usuń';
 
   @override
@@ -2399,6 +2405,11 @@ class AppLocalizationsPl extends AppLocalizations {
 
   @override
   String get downloadChooseFolder => 'Wybierz folder';
+
+  @override
+  String downloadGalleryUnsupportedFormat(String format) {
+    return 'Biblioteka zdjęć nie obsługuje plików $format; nie można zapisać tego pliku';
+  }
 
   @override
   String get searchFilterTitle => 'Filtry';

@@ -779,6 +779,12 @@ class AppLocalizationsKo extends AppLocalizations {
   String get blacklistEmpty => '차단 목록이 비어 있습니다';
 
   @override
+  String get blacklistFilterHint => '블랙리스트 필터';
+
+  @override
+  String get blacklistNoMatch => '필터와 일치하는 항목이 없습니다';
+
+  @override
   String get menuDelete => '삭제';
 
   @override
@@ -2315,6 +2321,11 @@ class AppLocalizationsKo extends AppLocalizations {
 
   @override
   String get downloadChooseFolder => '폴더 선택';
+
+  @override
+  String downloadGalleryUnsupportedFormat(String format) {
+    return '사진 보관함은 $format 형식을 저장할 수 없어 이 파일을 저장하지 못했습니다';
+  }
 
   @override
   String get searchFilterTitle => '필터';

@@ -1469,6 +1469,18 @@ abstract class AppLocalizations {
   /// **'Your blacklist is empty'**
   String get blacklistEmpty;
 
+  /// Hint text of the filter field on the blacklist page.
+  ///
+  /// In en, this message translates to:
+  /// **'Filter blacklist'**
+  String get blacklistFilterHint;
+
+  /// Message shown when the filter matches no blacklist entries.
+  ///
+  /// In en, this message translates to:
+  /// **'No entries match the filter'**
+  String get blacklistNoMatch;
+
   /// Menu item that deletes an item.
   ///
   /// In en, this message translates to:
@@ -4084,6 +4096,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Choose a folder'**
   String get downloadChooseFolder;
+
+  /// Error shown when a file in a format the photo library cannot store fails to save to the iOS gallery.
+  ///
+  /// In en, this message translates to:
+  /// **'The photo library cannot store {format} files; this file cannot be saved'**
+  String downloadGalleryUnsupportedFormat(String format);
 
   /// Title of the posts search filter prompt.
   ///

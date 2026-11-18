@@ -384,6 +384,14 @@
     "description": "Title of the prompt that edits a blacklist entry."
   },
   "blacklistEmpty": "Your blacklist is empty",
+  "blacklistFilterHint": "Filter blacklist",
+  "@blacklistFilterHint": {
+    "description": "Hint text of the filter field on the blacklist page."
+  },
+  "blacklistNoMatch": "No entries match the filter",
+  "@blacklistNoMatch": {
+    "description": "Message shown when the filter matches no blacklist entries."
+  },
   "@blacklistEmpty": {
     "description": "Message shown when the blacklist contains no entries."
   },
@@ -2450,6 +2458,16 @@
     }
   },
   "downloadChooseFolder": "Choose a folder",
+  "downloadGalleryUnsupportedFormat": "The photo library cannot store {format} files; this file cannot be saved",
+  "@downloadGalleryUnsupportedFormat": {
+    "description": "Error shown when a file in a format the photo library cannot store fails to save to the iOS gallery.",
+    "placeholders": {
+      "format": {
+        "type": "String",
+        "example": "webm"
+      }
+    }
+  },
   "@downloadChooseFolder": {
     "description": "Title of the folder picker dialog on desktop."
   },

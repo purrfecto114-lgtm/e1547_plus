@@ -799,6 +799,12 @@ class AppLocalizationsEs extends AppLocalizations {
   String get blacklistEmpty => 'Tu lista negra está vacía';
 
   @override
+  String get blacklistFilterHint => 'Filtrar la lista negra';
+
+  @override
+  String get blacklistNoMatch => 'Ninguna entrada coincide con el filtro';
+
+  @override
   String get menuDelete => 'Eliminar';
 
   @override
@@ -2367,6 +2373,11 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get downloadChooseFolder => 'Elegir carpeta';
+
+  @override
+  String downloadGalleryUnsupportedFormat(String format) {
+    return 'La fototeca no admite archivos $format; este archivo no se puede guardar';
+  }
 
   @override
   String get searchFilterTitle => 'Filtros';

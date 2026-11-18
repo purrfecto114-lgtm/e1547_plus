@@ -373,6 +373,8 @@
     "description": "Title of the prompt that edits a blacklist entry."
   },
   "blacklistEmpty": "차단 목록이 비어 있습니다",
+  "blacklistFilterHint": "블랙리스트 필터",
+  "blacklistNoMatch": "필터와 일치하는 항목이 없습니다",
   "@blacklistEmpty": {
     "description": "Message shown when the blacklist contains no entries."
   },
@@ -2421,6 +2423,7 @@
     }
   },
   "downloadChooseFolder": "폴더 선택",
+  "downloadGalleryUnsupportedFormat": "사진 보관함은 {format} 형식을 저장할 수 없어 이 파일을 저장하지 못했습니다",
   "@downloadChooseFolder": {
     "description": "Title of the folder picker dialog on desktop."
   },

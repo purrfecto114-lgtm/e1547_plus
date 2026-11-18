@@ -800,6 +800,12 @@ class AppLocalizationsDe extends AppLocalizations {
   String get blacklistEmpty => 'Deine Blacklist ist leer';
 
   @override
+  String get blacklistFilterHint => 'Blacklist filtern';
+
+  @override
+  String get blacklistNoMatch => 'Keine Einträge entsprechen dem Filter';
+
+  @override
   String get menuDelete => 'Löschen';
 
   @override
@@ -2374,6 +2380,11 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get downloadChooseFolder => 'Ordner wählen';
+
+  @override
+  String downloadGalleryUnsupportedFormat(String format) {
+    return 'Die Fotomediathek kann $format-Dateien nicht speichern; diese Datei konnte nicht gespeichert werden';
+  }
 
   @override
   String get searchFilterTitle => 'Filter';

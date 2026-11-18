@@ -770,6 +770,12 @@ class AppLocalizationsZh extends AppLocalizations {
   String get blacklistEmpty => '你的黑名单为空';
 
   @override
+  String get blacklistFilterHint => '筛选黑名单';
+
+  @override
+  String get blacklistNoMatch => '没有符合筛选的条目';
+
+  @override
   String get menuDelete => '删除';
 
   @override
@@ -2290,6 +2296,11 @@ class AppLocalizationsZh extends AppLocalizations {
   String get downloadChooseFolder => '选择文件夹';
 
   @override
+  String downloadGalleryUnsupportedFormat(String format) {
+    return '相册不支持 $format 格式，无法保存此文件';
+  }
+
+  @override
   String get searchFilterTitle => '筛选';
 
   @override
@@ -3167,6 +3178,12 @@ class AppLocalizationsZhHant extends AppLocalizationsZh {
 
   @override
   String get blacklistEmpty => '你的黑名單是空的';
+
+  @override
+  String get blacklistFilterHint => '篩選黑名單';
+
+  @override
+  String get blacklistNoMatch => '沒有符合篩選的條目';
 
   @override
   String get menuDelete => '刪除';
@@ -4687,6 +4704,11 @@ class AppLocalizationsZhHant extends AppLocalizationsZh {
 
   @override
   String get downloadChooseFolder => '選擇資料夾';
+
+  @override
+  String downloadGalleryUnsupportedFormat(String format) {
+    return '相簿不支援 $format 格式，無法儲存此檔案';
+  }
 
   @override
   String get searchFilterTitle => '篩選';

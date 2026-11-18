@@ -162,4 +162,46 @@ void main() {
 
     expect(client.traits.value.denylist, ['a']);
   });
+
+  testWidgets('the filter narrows the list without moving the entries', (
+    tester,
+  ) async {
+    traits.value = traits.value.copyWith(
+      denylist: ['wolf', 'wolf_spider', 'cat'],
+    );
+    await pumpPage(tester);
+
+    await tester.enterText(find.byType(TextField), 'wolf');
+    await tester.pump();
+
+    // Tile assertions key on the tile widgets themselves and use the
+    // display name (underscores render as spaces): the filter field's
+    // own editable text also carries the query.
+    expect(find.widgetWithText(DenylistTile, 'wolf'), findsOneWidget);
+    expect(find.widgetWithText(DenylistTile, 'wolf spider'), findsOneWidget);
+    expect(find.widgetWithText(DenylistTile, 'cat'), findsNothing);
+
+    // Deleting still addresses the full list, not the filtered view:
+    // the first visible tile is the first denylist entry, so undoing
+    // must reinsert it at its original position.
+    await deleteEntry(tester, 0);
+    expect(client.traits.value.denylist, ['wolf_spider', 'cat']);
+
+    // Clearing the filter brings the hidden entries back.
+    await tester.enterText(find.byType(TextField), '');
+    await tester.pump();
+    expect(find.widgetWithText(DenylistTile, 'wolf spider'), findsOneWidget);
+    expect(find.widgetWithText(DenylistTile, 'cat'), findsOneWidget);
+  });
+
+  testWidgets('a filter matching nothing says so', (tester) async {
+    traits.value = traits.value.copyWith(denylist: ['cat']);
+    await pumpPage(tester);
+
+    await tester.enterText(find.byType(TextField), 'dragon');
+    await tester.pump();
+
+    expect(find.text('cat'), findsNothing);
+    expect(find.text('No entries match the filter'), findsOneWidget);
+  });
 }

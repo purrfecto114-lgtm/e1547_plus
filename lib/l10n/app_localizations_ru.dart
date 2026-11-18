@@ -811,6 +811,12 @@ class AppLocalizationsRu extends AppLocalizations {
   String get blacklistEmpty => 'Ваш чёрный список пуст';
 
   @override
+  String get blacklistFilterHint => 'Фильтр чёрного списка';
+
+  @override
+  String get blacklistNoMatch => 'Нет записей, соответствующих фильтру';
+
+  @override
   String get menuDelete => 'Удалить';
 
   @override
@@ -2387,6 +2393,11 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get downloadChooseFolder => 'Выберите папку';
+
+  @override
+  String downloadGalleryUnsupportedFormat(String format) {
+    return 'Медиатека не поддерживает файлы $format; этот файл нельзя сохранить';
+  }
 
   @override
   String get searchFilterTitle => 'Фильтры';
