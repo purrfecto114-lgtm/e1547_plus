@@ -5,6 +5,7 @@ import 'package:e1547/l10n/app_localizations.dart';
 import 'package:e1547/settings/data/language.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/foundation.dart';
+import 'package:flutter/services.dart';
 import 'package:image_gallery_saver_plus/image_gallery_saver_plus.dart';
 import 'package:media_scanner/media_scanner.dart';
 import 'package:mime/mime.dart';
@@ -255,10 +256,57 @@ abstract final class FileDownloader {
   /// the gallery commits one at a time.
   static Future<void> _galleryWriteLock = Future.value();
 
+  /// What the iOS photo library can do with a file of this kind.
+  @visibleForTesting
+  static IosGalleryKind iosGalleryKindFor(String path) {
+    final String ext = extension(path).toLowerCase().replaceFirst('.', '');
+    const Set<String> images = {
+      'jpg',
+      'jpeg',
+      'png',
+      'webp',
+      'heic',
+      'bmp',
+      'tif',
+      'tiff',
+    };
+    const Set<String> videos = {'mp4', 'mov', 'm4v'};
+    if (ext == 'gif') return IosGalleryKind.gif;
+    if (videos.contains(ext)) return IosGalleryKind.video;
+    if (images.contains(ext)) return IosGalleryKind.image;
+    return IosGalleryKind.unsupported;
+  }
+
   static Future<String?> _saveToGallery(String path) {
     final Future<void> write = _galleryWriteLock.then((_) async {
-      final dynamic result = await ImageGallerySaverPlus.saveFile(path);
-      checkGallerySaveResult(result);
+      switch (iosGalleryKindFor(path)) {
+        case IosGalleryKind.unsupported:
+          // The photo library cannot store the container at all — webm
+          // among them, since iOS ships no decoder for it. Asking the
+          // plugin anyway reported success while nothing ever landed in
+          // the gallery, so the save refuses up front instead of lying.
+          final localizations = await loadPreferenceLocalizations();
+          final String format = extension(path).replaceFirst('.', '');
+          throw FileDownloadException(
+            localizations.downloadGalleryUnsupportedFormat(
+              format.toUpperCase(),
+            ),
+          );
+        case IosGalleryKind.gif:
+          // The plugin saves GIFs through UIImageWriteToSavedPhotosAlbum,
+          // which keeps only the first frame; the gallery then shows a
+          // still where the user downloaded an animation. The app's own
+          // creation request carries the GIF's type identifier, so the
+          // photo library stores and plays the whole animation.
+          final dynamic result = await const MethodChannel(
+            'e1547/gallery',
+          ).invokeMethod('saveGif', path);
+          checkGallerySaveResult(result);
+        case IosGalleryKind.image:
+        case IosGalleryKind.video:
+          final dynamic result = await ImageGallerySaverPlus.saveFile(path);
+          checkGallerySaveResult(result);
+      }
     });
     // Keep the chain intact even when a write fails, so one rejected file
     // cannot wedge every later save.
@@ -322,10 +370,32 @@ class FileDownloadException implements Exception {
     }
     if (inner != null) {
       if (inner is FileDownloadException) {
-        return inner.toString();
+        return '$runtimeType: $inner';
       }
       return '$runtimeType: $inner';
     }
     return '$runtimeType: unknown cause!';
   }
+}
+
+/// What the iOS photo library can do with a file of this kind.
+///
+/// The library stores QuickTime containers and still images natively,
+/// animated GIFs only through an explicit creation request that names
+/// the GIF's type, and nothing else — most notably no webm, for which
+/// iOS ships no decoder at all.
+enum IosGalleryKind {
+  /// An animated GIF, saved through the app's own creation request so
+  /// the animation survives.
+  gif,
+
+  /// A QuickTime container the photo library accepts as is.
+  video,
+
+  /// A still image the gallery plugin handles natively.
+  image,
+
+  /// A format the photo library cannot store; saving refuses up front
+  /// instead of reporting a success that wrote nothing.
+  unsupported,
 }

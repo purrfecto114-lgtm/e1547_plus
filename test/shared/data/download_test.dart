@@ -70,4 +70,63 @@ void main() {
     expect(File('${dir.path}/7.evil').existsSync(), isTrue);
     expect(File('${outer.path}/evil').existsSync(), isFalse);
   });
+
+  group('ios gallery routing', () {
+    test('classifies what the photo library can store', () {
+      // webm has no iOS decoder: saving used to report success while
+      // nothing landed in the gallery.
+      expect(
+        FileDownloader.iosGalleryKindFor('a/video.webm'),
+        IosGalleryKind.unsupported,
+      );
+      expect(
+        FileDownloader.iosGalleryKindFor('a/clip.MP4'),
+        IosGalleryKind.video,
+      );
+      expect(
+        FileDownloader.iosGalleryKindFor('a/clip.mov'),
+        IosGalleryKind.video,
+      );
+      expect(
+        FileDownloader.iosGalleryKindFor('a/picture.png'),
+        IosGalleryKind.image,
+      );
+      expect(
+        FileDownloader.iosGalleryKindFor('a/picture.JPEG'),
+        IosGalleryKind.image,
+      );
+      expect(
+        FileDownloader.iosGalleryKindFor('a/loop.GIF'),
+        IosGalleryKind.gif,
+      );
+      expect(
+        FileDownloader.iosGalleryKindFor('a/archive.zip'),
+        IosGalleryKind.unsupported,
+      );
+      expect(
+        FileDownloader.iosGalleryKindFor('a/no-extension'),
+        IosGalleryKind.unsupported,
+      );
+    });
+
+    test('a rejected gallery save throws instead of passing', () {
+      expect(
+        () => FileDownloader.checkGallerySaveResult({
+          'isSuccess': false,
+          'errorMessage': 'nope',
+        }),
+        throwsA(
+          isA<FileDownloadException>().having(
+            (e) => e.message,
+            'message',
+            contains('nope'),
+          ),
+        ),
+      );
+      expect(
+        () => FileDownloader.checkGallerySaveResult({'isSuccess': true}),
+        returnsNormally,
+      );
+    });
+  });
 }

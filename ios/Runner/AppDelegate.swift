@@ -1,5 +1,6 @@
 import UIKit
 import Flutter
+import Photos
 import workmanager_apple
 
 @UIApplicationMain
@@ -35,6 +36,50 @@ import workmanager_apple
             result(true)
           } catch {
             result(FlutterError(code: "io_error", message: error.localizedDescription, details: nil))
+          }
+        default:
+          result(FlutterMethodNotImplemented)
+        }
+      }
+
+      // Animated GIFs must enter the photo library through an asset
+      // creation request that names the GIF's type: the gallery plugin
+      // saves them with UIImageWriteToSavedPhotosAlbum, which keeps only
+      // the first frame and leaves a still in the gallery. Naming the
+      // type identifier stores and plays the whole animation.
+      let galleryChannel = FlutterMethodChannel(
+        name: "e1547/gallery",
+        binaryMessenger: controller.binaryMessenger
+      )
+      galleryChannel.setMethodCallHandler { call, result in
+        switch call.method {
+        case "saveGif":
+          guard let path = call.arguments as? String else {
+            result(FlutterError(code: "bad_args", message: "path required", details: nil))
+            return
+          }
+          let url = URL(fileURLWithPath: path)
+          let options = PHAssetResourceCreationOptions()
+          options.uniformTypeIdentifier = "com.compuserve.gif"
+          PHPhotoLibrary.requestAuthorization(for: .addOnly) { status in
+            guard status == .authorized || status == .limited else {
+              DispatchQueue.main.async {
+                result(["isSuccess": false, "errorMessage": "photo library access denied"])
+              }
+              return
+            }
+            PHPhotoLibrary.shared().performChanges {
+              let request = PHAssetCreationRequest.forAsset()
+              request.addResource(with: .photo, fileURL: url, options: options)
+            } completionHandler: { success, error in
+              DispatchQueue.main.async {
+                if success {
+                  result(["isSuccess": true])
+                } else {
+                  result(["isSuccess": false, "errorMessage": error?.localizedDescription ?? "saving failed"])
+                }
+              }
+            }
           }
         default:
           result(FlutterMethodNotImplemented)
