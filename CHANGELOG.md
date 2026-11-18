@@ -4,6 +4,34 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and this project
 adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [22.5.0-rc.1+225] - 2026-11-17
+### Added
+- the blacklist page carries a filter field: typing narrows the tiles to
+  the entries containing the query, so finding one entry no longer means
+  scrolling the whole list, and a filter matching nothing says so instead
+  of showing a bare page (upstream issue #155)
+### Changed
+- the app follows Material 3 (upstream issue #170)
+### Fixed
+- the pin pad keeps its nerve: keys register the moment the finger
+  touches down anywhere on the cell — waiting for the lift dropped
+  presses whenever the finger drifted, and the padding ring between the
+  circles ate grazing taps — while a short scale-down answers the press,
+  the keys and their gaps breathe wider, and the unlock derivation
+  starts on the fourth tap instead of after a fixed beat, with only the
+  verdict held back until the last dot has drawn
+- presses typed while a verification is still running are buffered and
+  replayed into the fresh entry, so re-entering the pin the instant a
+  wrong verdict appears no longer loses the leading digits to the
+  derivation window
+- on iOS the gallery save no longer lies: webm (and every other container
+  the photo library cannot store) refuses up front with a message naming
+  the format instead of reporting a success that wrote nothing, and
+  animated GIFs reach the gallery through their own creation request, so
+  they save as animations instead of a still first frame (upstream
+  issue #196)
+- the readme states plainly that the app is not on F-Droid (upstream
+  issue #182) and points at releases and Obtainium instead
 ## [22.4.0+224] - 2026-11-15
 ### Fixed
 - the app now follows biometric enrollment live: enabling the biometric
@@ -1889,3 +1917,4 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 [22.1.0+221]: https://github.com/purrfecto114-lgtm/e1547_plus/compare/22.0.0+220...22.1.0+221
 [22.3.0+223]: https://github.com/purrfecto114-lgtm/e1547_plus/compare/22.2.0+222...22.3.0+223
 [22.4.0+224]: https://github.com/purrfecto114-lgtm/e1547_plus/compare/22.3.0+223...22.4.0+224
+[22.5.0-rc.1+225]: https://github.com/purrfecto114-lgtm/e1547_plus/compare/22.4.0+224...22.5.0-rc.1+225
