@@ -249,7 +249,7 @@ class _PinLockState extends State<PinLock> with SingleTickerProviderStateMixin {
     vsync: this,
     duration: const Duration(milliseconds: 400),
   );
-  Timer? submitTimer;
+  Timer? settleTimer;
   Timer? cooldownTimer;
   String entry = '';
   String? firstEntry;
@@ -257,7 +257,20 @@ class _PinLockState extends State<PinLock> with SingleTickerProviderStateMixin {
   bool verifying = false;
   DateTime? cooldownUntil;
 
-  bool get awaiting => verifying || cooldownUntil != null;
+  /// When the fourth dot's entrance has drawn; the verdict waits for
+  /// it (see [dotSettle]).
+  DateTime? settleBy;
+
+  /// Digits typed while a verification is still in flight, replayed
+  /// into the fresh entry once the verdict lands.
+  String buffer = '';
+
+  bool get cooling => cooldownUntil != null;
+
+  /// The fourth dot takes this long to grow in. A verdict that lands
+  /// earlier waits for the entrance, so the dots never vanish mid
+  /// growth while the derivation already ran underneath it.
+  static const Duration dotSettle = Duration(milliseconds: 150);
 
   @override
   void initState() {
@@ -285,7 +298,7 @@ class _PinLockState extends State<PinLock> with SingleTickerProviderStateMixin {
 
   @override
   void dispose() {
-    submitTimer?.cancel();
+    settleTimer?.cancel();
     cooldownTimer?.cancel();
     shake.dispose();
     super.dispose();
@@ -294,20 +307,53 @@ class _PinLockState extends State<PinLock> with SingleTickerProviderStateMixin {
   bool get confirming => firstEntry != null;
 
   void addDigit(int digit) {
-    if (entry.length >= digits || awaiting) return;
+    if (cooling) return;
+    if (verifying) {
+      // The keypad never drops a press: digits typed while a verdict is
+      // still in flight are buffered and replayed into the fresh entry
+      // once the verdict lands, so re-entering the pin the instant a
+      // wrong verdict appears does not lose the leading digits to the
+      // derivation window. The cooldown keeps swallowing input: the
+      // backoff exists to make the keypad inert.
+      if (buffer.length < digits) {
+        HapticFeedback.selectionClick();
+        setState(() => buffer += '$digit');
+      }
+      return;
+    }
+    if (entry.length >= digits) return;
     HapticFeedback.selectionClick();
     setState(() {
       entry += '$digit';
       error = null;
     });
     if (entry.length == digits) {
-      submitTimer = Timer(const Duration(milliseconds: 220), submit);
+      if (widget.verify != null) {
+        // The derivation starts now and overlaps the dot entrance; only
+        // the verdict itself waits for the entrance (see verifyEntry).
+        // The old fixed beat in front of the derivation added its whole
+        // duration to every unlock instead of hiding behind it.
+        settleBy = DateTime.now().add(dotSettle);
+        verifyEntry();
+      } else {
+        settleTimer = Timer(dotSettle, submit);
+      }
     }
   }
 
   void backspace() {
-    if (entry.isEmpty || awaiting) return;
-    submitTimer?.cancel();
+    if (cooling) return;
+    if (verifying) {
+      // The in flight entry is frozen, so a correction trims the buffer
+      // instead; with nothing buffered there is nothing to reach.
+      if (buffer.isNotEmpty) {
+        HapticFeedback.selectionClick();
+        setState(() => buffer = buffer.substring(0, buffer.length - 1));
+      }
+      return;
+    }
+    if (entry.isEmpty) return;
+    settleTimer?.cancel();
     HapticFeedback.selectionClick();
     setState(() {
       entry = entry.substring(0, entry.length - 1);
@@ -316,7 +362,7 @@ class _PinLockState extends State<PinLock> with SingleTickerProviderStateMixin {
   }
 
   void submit() {
-    if (!mounted || entry.length < digits || awaiting) return;
+    if (!mounted || entry.length < digits || cooling) return;
     if (widget.verify != null) {
       verifyEntry();
       return;
@@ -348,14 +394,37 @@ class _PinLockState extends State<PinLock> with SingleTickerProviderStateMixin {
       ok = false;
     }
     if (!mounted) return;
+    // The derivation can beat the dot entrance; hold the verdict until
+    // the entrance has drawn so the dots never vanish mid growth.
+    final Duration? remaining = settleBy?.difference(DateTime.now());
+    if (remaining != null && remaining > Duration.zero) {
+      await Future<void>.delayed(remaining);
+    }
+    if (!mounted) return;
     setState(() => verifying = false);
     if (ok) {
       widget.attempts?.value = 0;
       widget.lockedUntil?.value = 0;
       complete();
-    } else {
-      registerFailure();
-      fail(AppLocalizations.of(context).lockWrongPin);
+      return;
+    }
+    registerFailure();
+    fail(AppLocalizations.of(context).lockWrongPin);
+    replayBuffer();
+  }
+
+  /// Pours the presses captured during the verification into the fresh
+  /// entry. The error line stays up: the dots refill in its color and
+  /// the next verdict replaces it. A replayed full entry starts its own
+  /// verification right away, settling its dots from the verdict time.
+  void replayBuffer() {
+    if (buffer.isEmpty) return;
+    final String replayed = buffer.substring(0, min(buffer.length, digits));
+    buffer = '';
+    setState(() => entry = replayed);
+    if (entry.length == digits) {
+      settleBy = DateTime.now().add(dotSettle);
+      verifyEntry();
     }
   }
 
@@ -437,8 +506,8 @@ class _PinLockState extends State<PinLock> with SingleTickerProviderStateMixin {
                     // the fold; the clamp keeps the keys tappable on
                     // any display while full size stays untouched on
                     // phones that fit it.
-                    const reserved = 232.0;
-                    const designHeight = 4.0 * 84.0;
+                    const reserved = 224.0;
+                    const designHeight = 4.0 * 94.0;
                     final scale =
                         ((constraints.maxHeight - reserved) / designHeight)
                             .clamp(0.55, 1.0);
@@ -459,7 +528,7 @@ class _PinLockState extends State<PinLock> with SingleTickerProviderStateMixin {
                               size: 36,
                               color: scheme.primary,
                             ),
-                            const SizedBox(height: 14),
+                            const SizedBox(height: 16),
                             AnimatedSwitcher(
                               duration: const Duration(milliseconds: 200),
                               child: Text(
@@ -471,7 +540,7 @@ class _PinLockState extends State<PinLock> with SingleTickerProviderStateMixin {
                                 textAlign: TextAlign.center,
                               ),
                             ),
-                            const SizedBox(height: 10),
+                            const SizedBox(height: 12),
                             // A reserved status line, so the layout
                             // does not jump. scaleDown keeps a long
                             // cooldown message inside its line instead
@@ -494,7 +563,7 @@ class _PinLockState extends State<PinLock> with SingleTickerProviderStateMixin {
                                 ),
                               ),
                             ),
-                            const SizedBox(height: 12),
+                            const SizedBox(height: 16),
                             AnimatedBuilder(
                               animation: shake,
                               child: Row(
@@ -503,7 +572,7 @@ class _PinLockState extends State<PinLock> with SingleTickerProviderStateMixin {
                                   for (int i = 0; i < digits; i++) ...[
                                     dot(i, scheme),
                                     if (i < digits - 1)
-                                      const SizedBox(width: 20),
+                                      const SizedBox(width: 24),
                                   ],
                                 ],
                               ),
@@ -516,7 +585,7 @@ class _PinLockState extends State<PinLock> with SingleTickerProviderStateMixin {
                                 );
                               },
                             ),
-                            const SizedBox(height: 20),
+                            const SizedBox(height: 24),
                             keypad(scheme, theme.textTheme, scale),
                           ],
                         ),
@@ -578,17 +647,32 @@ class _PinLockState extends State<PinLock> with SingleTickerProviderStateMixin {
   }
 
   Widget keypad(ColorScheme scheme, TextTheme textTheme, double scale) {
-    // While a verification is in flight or a cooldown is running the
-    // keys dim and ignore presses; addDigit and backspace guard anyway.
-    Widget key(int digit) => cell(
-      scheme: scheme,
+    // While a cooldown is running the keys dim and ignore presses; the
+    // digit guard checks anyway. During a verification the keys stay
+    // live: presses land in the buffer instead of being dropped.
+    Widget key(int digit) => _KeyCell(
       size: scale,
+      onPress: () => addDigit(digit),
+      enabled: !cooling,
       child: Text(
         '$digit',
         style: textTheme.headlineMedium?.copyWith(color: scheme.onSurface),
       ),
-      onTap: awaiting ? null : () => addDigit(digit),
-      enabled: !awaiting,
+    );
+    Widget backspaceKey() => _KeyCell(
+      size: scale,
+      onPress: backspace,
+      enabled: !cooling && (verifying ? buffer.isNotEmpty : entry.isNotEmpty),
+      child: Icon(
+        Icons.backspace_outlined,
+        size: 28 * scale,
+        color: scheme.onSurfaceVariant,
+      ),
+    );
+    Widget biometricsKey() => _KeyCell(
+      size: scale,
+      onPress: widget.onBiometrics,
+      child: Icon(Icons.fingerprint, size: 32 * scale, color: scheme.primary),
     );
     return Column(
       children: [
@@ -605,60 +689,85 @@ class _PinLockState extends State<PinLock> with SingleTickerProviderStateMixin {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             if (widget.biometrics && widget.onBiometrics != null)
-              cell(
-                scheme: scheme,
-                size: scale,
-                child: Icon(
-                  Icons.fingerprint,
-                  size: 30 * scale,
-                  color: scheme.primary,
-                ),
-                onTap: widget.onBiometrics,
-              )
+              biometricsKey()
             else
-              SizedBox(width: 84 * scale, height: 84 * scale),
+              SizedBox.square(dimension: 94 * scale),
             key(0),
-            cell(
-              scheme: scheme,
-              size: scale,
-              child: Icon(
-                Icons.backspace_outlined,
-                size: 26 * scale,
-                color: scheme.onSurfaceVariant,
-              ),
-              onTap: entry.isEmpty || awaiting ? null : backspace,
-              enabled: entry.isNotEmpty && !awaiting,
-            ),
+            backspaceKey(),
           ],
         ),
       ],
     );
   }
+}
 
-  Widget cell({
-    required ColorScheme scheme,
-    required double size,
-    required Widget child,
-    VoidCallback? onTap,
-    bool enabled = true,
-  }) {
-    return Padding(
-      padding: EdgeInsets.all(6 * size),
-      child: Material(
-        // Disabled keys keep their circle, only dimmed, so the keypad
-        // silhouette stays stable instead of flashing a bare glyph.
-        color: scheme.surfaceContainerHighest.withValues(
-          alpha: enabled ? 1 : 0.4,
-        ),
-        shape: const CircleBorder(),
-        clipBehavior: Clip.antiAlias,
-        child: InkWell(
-          onTap: onTap,
-          customBorder: const CircleBorder(),
-          child: SizedBox(
-            width: 72 * size,
-            height: 72 * size,
-            child: Center(child: child),
+/// One circular keypad key.
+///
+/// The digit registers the moment the finger touches down anywhere on
+/// the cell: waiting for the lift dropped presses whenever the finger
+/// drifted past the gesture slop before it came up, and the ring of
+/// padding between the circles was dead space that ate grazing taps.
+/// The press answers with a short scale down, so the key feels like it
+/// fires instantly instead of waiting for a ripple to appear.
+class _KeyCell extends StatefulWidget {
+  const _KeyCell({
+    required this.size,
+    required this.child,
+    this.onPress,
+    this.enabled = true,
+  });
+
+  final double size;
+  final Widget child;
+  final VoidCallback? onPress;
+  final bool enabled;
+
+  @override
+  State<_KeyCell> createState() => _KeyCellState();
+}
+
+class _KeyCellState extends State<_KeyCell> {
+  bool pressed = false;
+
+  @override
+  Widget build(BuildContext context) {
+    final scheme = Theme.of(context).colorScheme;
+    return AnimatedScale(
+      scale: pressed ? 0.93 : 1.0,
+      duration: const Duration(milliseconds: 80),
+      curve: Curves.easeOut,
+      child: GestureDetector(
+        // Opaque covers the whole cell including the padding ring, so
+        // the gap between two circles still belongs to one of them.
+        behavior: HitTestBehavior.opaque,
+        onTapDown: widget.enabled
+            ? (_) {
+                setState(() => pressed = true);
+                widget.onPress?.call();
+              }
+            : null,
+        onTapUp: widget.enabled ? (_) => setState(() => pressed = false) : null,
+        onTapCancel: widget.enabled
+            ? () => setState(() => pressed = false)
+            : null,
+        child: Padding(
+          padding: EdgeInsets.all(7 * widget.size),
+          child: Material(
+            // Disabled keys keep their circle, only dimmed, so the
+            // keypad silhouette stays stable instead of flashing a bare
+            // glyph. A press tints the circle, which reads as the key
+            // taking the finger.
+            color: Color.lerp(
+              scheme.surfaceContainerHighest,
+              scheme.onSurface,
+              pressed ? 0.08 : 0,
+            )!.withValues(alpha: widget.enabled ? 1 : 0.4),
+            shape: const CircleBorder(),
+            clipBehavior: Clip.antiAlias,
+            child: SizedBox.square(
+              dimension: 80 * widget.size,
+              child: Center(child: widget.child),
+            ),
           ),
         ),
       ),
