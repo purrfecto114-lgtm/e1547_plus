@@ -140,7 +140,7 @@ extension M2ThemeData on ThemeData {
         dialogBackgroundColor: colorScheme.background,
         tabBarTheme: TabBarThemeData(indicatorColor: onPrimarySurfaceColor),
         applyElevationOverlayColor: isDark,
-        useMaterial3: false,
+        useMaterial3: true,
       ),
     );
   }
