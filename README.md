@@ -73,6 +73,8 @@ To add another language, create an `app_<locale>.arb` file in `lib/l10n` with tr
 
 APK, IPA, Windows and Linux packages can be found over at the [releases](https://github.com/purrfecto114-lgtm/e1547_plus/releases) page. Stable releases are marked "latest"; `rc` pre-releases track work in progress and install over previous rc builds of the same cycle. Updates can be managed with [obtainium](https://github.com/ImranR98/Obtainium), with https://github.com/purrfecto114-lgtm/e1547_plus/releases/ as the app source.
 
+**Not on F-Droid:** F-Droid removed the app as part of its NSFW purge (upstream [issue #182](https://github.com/clynamic/e1547/issues/182)), so there is no F-Droid package to install or update from — neither for upstream nor for this fork. Get the builds from the [releases](https://github.com/purrfecto114-lgtm/e1547_plus/releases) page or manage updates with [obtainium](https://github.com/ImranR98/Obtainium). Upstream is considering a re-submission; if the app returns to F-Droid it would carry the upstream build, while this fork's releases always land here first.
+
 ### Certificate Fingerprints
 
 To verify the authenticity of downloaded APK files, check the signing certificate fingerprints:

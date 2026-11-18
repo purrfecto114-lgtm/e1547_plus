@@ -73,6 +73,8 @@
 
 APK、IPA、Windows 与 Linux 安装包可在 [releases](https://github.com/purrfecto114-lgtm/e1547_plus/releases) 页面获取。稳定版标记为“最新”；`rc` 预发布版跟踪开发进展，可在同一周期内覆盖安装。更新可用 [obtainium](https://github.com/ImranR98/Obtainium) 管理，应用源填 https://github.com/purrfecto114-lgtm/e1547_plus/releases/。
 
+**不在 F-Droid 上架：** F-Droid 已在 NSFW 清理中下架本应用（上游 [issue #182](https://github.com/clynamic/e1547/issues/182)），因此无论上游还是本分支，都没有 F-Droid 包可安装或更新。请从 [releases](https://github.com/purrfecto114-lgtm/e1547_plus/releases) 页面获取安装包，或用 [obtainium](https://github.com/ImranR98/Obtainium) 管理更新。上游正在考虑重新提交 F-Droid；若重新上架，其携带的也是上游构建，而本分支的发布始终第一时间出现在这里。
+
 ### 证书指纹
 
 如需验证下载的 APK 文件的真实性，可以核对签名证书指纹：
