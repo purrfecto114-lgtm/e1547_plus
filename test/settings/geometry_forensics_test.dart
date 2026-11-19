@@ -168,6 +168,35 @@ void main() {
     await golden(tester, 'pinlock_zh_1080x1920_dpr3');
   });
 
+  testWidgets('the setup pad keeps the unlock pad key size', (tester) async {
+    // The setup flow adds a cancel button below the keypad, which used
+    // to eat into the height budget the scale baseline was tuned for:
+    // on a 640dp screen the setup keys shrank back to the pre rework
+    // size while the unlock pad kept its full size.
+    Future<double> backspaceSize(bool cancel) async {
+      await pumpApp(
+        tester,
+        home: Builder(
+          builder: (context) => PinLock(
+            title: AppLocalizations.of(context).lockEnterPin,
+            onCompleted: (_) {},
+            onCancelled: cancel ? () {} : null,
+          ),
+        ),
+        size: const Size(1080, 1920),
+        dpr: 3,
+      );
+      return tester.getSize(find.byIcon(Icons.backspace_outlined)).width;
+    }
+
+    final unlock = await backspaceSize(false);
+    final setup = await backspaceSize(true);
+
+    // The backspace icon rides on 28 * scale, so full size reads 28.
+    expect(unlock, 28.0);
+    expect(setup, unlock);
+  });
+
   testWidgets('pin lock survives a short landscape surface', (tester) async {
     // 640x360 used to overflow the theme step and cut the keypad in
     // half behind the fold; the shrunken keypad must fit without a

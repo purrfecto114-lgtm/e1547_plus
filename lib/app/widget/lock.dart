@@ -505,8 +505,14 @@ class _PinLockState extends State<PinLock> with SingleTickerProviderStateMixin {
                     // a whole instead of losing its lower rows behind
                     // the fold; the clamp keeps the keys tappable on
                     // any display while full size stays untouched on
-                    // phones that fit it.
-                    const reserved = 224.0;
+                    // phones that fit it. The budget covers the icon,
+                    // title, status line and dots plus the surface
+                    // padding around them; the cancel button below
+                    // sits outside this box, so the measured height
+                    // already comes without it — the tightened budget
+                    // is what lets the setup pad keep the unlock pad's
+                    // full size on a 640dp screen.
+                    const int reserved = 184;
                     const designHeight = 4.0 * 94.0;
                     final scale =
                         ((constraints.maxHeight - reserved) / designHeight)
@@ -515,7 +521,7 @@ class _PinLockState extends State<PinLock> with SingleTickerProviderStateMixin {
                       child: SingleChildScrollView(
                         padding: const EdgeInsets.symmetric(
                           horizontal: 32,
-                          vertical: 24,
+                          vertical: 16,
                         ),
                         child: Column(
                           mainAxisSize: MainAxisSize.min,
@@ -525,10 +531,10 @@ class _PinLockState extends State<PinLock> with SingleTickerProviderStateMixin {
                             // the cancel action off short screens.
                             Icon(
                               Icons.lock_outlined,
-                              size: 36,
+                              size: 28,
                               color: scheme.primary,
                             ),
-                            const SizedBox(height: 16),
+                            const SizedBox(height: 12),
                             AnimatedSwitcher(
                               duration: const Duration(milliseconds: 200),
                               child: Text(
@@ -563,7 +569,7 @@ class _PinLockState extends State<PinLock> with SingleTickerProviderStateMixin {
                                 ),
                               ),
                             ),
-                            const SizedBox(height: 16),
+                            const SizedBox(height: 12),
                             AnimatedBuilder(
                               animation: shake,
                               child: Row(
@@ -585,7 +591,7 @@ class _PinLockState extends State<PinLock> with SingleTickerProviderStateMixin {
                                 );
                               },
                             ),
-                            const SizedBox(height: 24),
+                            const SizedBox(height: 16),
                             keypad(scheme, theme.textTheme, scale),
                           ],
                         ),
@@ -595,17 +601,19 @@ class _PinLockState extends State<PinLock> with SingleTickerProviderStateMixin {
                 ),
               ),
               if (widget.onCancelled != null)
-                Padding(
-                  padding: const EdgeInsets.only(
-                    left: 24,
-                    right: 24,
-                    bottom: 12,
-                  ),
-                  child: TextButton(
-                    onPressed: widget.onCancelled,
-                    child: Text(l10n.actionCancel),
+                // The fixed height is the 56dp the scale budget above
+                // reserves for this button.
+                SizedBox(
+                  height: 48,
+                  child: Padding(
+                    padding: const EdgeInsets.only(left: 24, right: 24),
+                    child: TextButton(
+                      onPressed: widget.onCancelled,
+                      child: Text(l10n.actionCancel),
+                    ),
                   ),
                 ),
+              if (widget.onCancelled != null) const SizedBox(height: 8),
             ],
           ),
         ),
