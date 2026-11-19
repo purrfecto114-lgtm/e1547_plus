@@ -4,7 +4,7 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and this project
 adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [22.5.0-rc.1+225] - 2026-11-17
+## [22.5.0+226] - 2026-11-19
 ### Added
 - the blacklist page carries a filter field: typing narrows the tiles to
   the entries containing the query, so finding one entry no longer means
@@ -32,6 +32,23 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
   issue #196)
 - the readme states plainly that the app is not on F-Droid (upstream
   issue #182) and points at releases and Obtainium instead
+- the app loads posts again: on november 19th the server replaced the
+  post payload — the file moved under `files`, scores, votes and
+  favorites under `stats`, the children flags under `has`, and tags
+  arrived as one flat list without their categories — so every post
+  list, search and detail answered "cannot load posts"; the parser
+  reads the new shape now, and since the payload no longer says
+  whether a tag is an artist, a character or plain general, the post
+  client asks for the categories of a page's tags in one bulk lookup
+  (cached for the session, chunked at a hundred names) and lets
+  unresolvable tags stay general instead of failing the posts they
+  belong to
+- setting a pin now keeps the keys the rework promised: the cancel
+  button under the setup keypad ate into the height budget the scale
+  baseline was tuned for, so on a 640dp screen the setup pad shrank
+  back to the pre rework size while the unlock pad stayed full — the
+  surface now spends its height tighter and the setup pad renders the
+  same full size keys as the unlock pad
 ## [22.4.0+224] - 2026-11-15
 ### Fixed
 - the app now follows biometric enrollment live: enabling the biometric
@@ -1917,4 +1934,4 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 [22.1.0+221]: https://github.com/purrfecto114-lgtm/e1547_plus/compare/22.0.0+220...22.1.0+221
 [22.3.0+223]: https://github.com/purrfecto114-lgtm/e1547_plus/compare/22.2.0+222...22.3.0+223
 [22.4.0+224]: https://github.com/purrfecto114-lgtm/e1547_plus/compare/22.3.0+223...22.4.0+224
-[22.5.0-rc.1+225]: https://github.com/purrfecto114-lgtm/e1547_plus/compare/22.4.0+224...22.5.0-rc.1+225
+[22.5.0+226]: https://github.com/purrfecto114-lgtm/e1547_plus/compare/22.4.0+224...22.5.0+226
