@@ -72,7 +72,7 @@ class FakeE621 {
       '/pools/<id|[0-9]+>.json',
       (Request request, String id) => _json(_find(state.pools, id)),
     )
-    ..get('/tags.json', (Request request) => _list(state.tags, request))
+    ..get('/tags.json', _listTags)
     ..get(
       '/tag_aliases.json',
       (Request request) => _list(state.tagAliases, request),
@@ -87,6 +87,19 @@ class FakeE621 {
 
   Response _list(List<Map<String, Object?>> items, Request request) =>
       _json(_paginate(items, request.url.queryParameters));
+
+  /// Like the real api since its 2026-11 schema change: the exact,
+  /// comma-separated `search[name]` lookup returns every tag whose name is
+  /// listed; other queries return all tags unfiltered.
+  Response _listTags(Request request) {
+    final query = request.url.queryParameters;
+    final names = query['search[name]']?.split(',');
+    var tags = state.tags;
+    if (names != null) {
+      tags = tags.where((e) => names.contains(e['name'])).toList();
+    }
+    return _json(_paginate(tags, query));
+  }
 
   Map<String, Object?> _find(List<Map<String, Object?>> items, String id) =>
       items.firstWhere(
@@ -202,7 +215,7 @@ class FakeE621 {
       final wanted = ids.group(1)!.split(',').map(int.parse).toSet();
       posts = posts.where((e) => wanted.contains(e['id'])).toList();
     }
-    return _json({'posts': _paginate(posts, query)});
+    return _json(_paginate(posts, query));
   }
 
   /// The site status. Like the real api, bad basic credentials are a 401:
@@ -237,7 +250,7 @@ class FakeE621 {
     final favorites = state.posts
         .where((e) => state.favorites.contains(e['id']))
         .toList();
-    return _json({'posts': _paginate(favorites, query)});
+    return _json(_paginate(favorites, query));
   }
 
   String? _username(Request request) {
@@ -256,7 +269,7 @@ class FakeE621 {
       (e) => e['id'] == int.parse(id),
       orElse: () => throw FakeE621Error(404, 'Not found'),
     );
-    return _json({'post': post});
+    return _json(post);
   }
 
   Response _votePost(Request request, String id) {
@@ -278,7 +291,7 @@ class FakeE621 {
       (e) => e['id'] == int.parse(id),
       orElse: () => throw FakeE621Error(404, 'Not found'),
     );
-    final total = (post['score']! as Map)['total']! as int;
+    final total = ((post['stats']! as Map)['score']! as Map)['total']! as int;
     return _json({'score': total + score!, 'our_score': score});
   }
 

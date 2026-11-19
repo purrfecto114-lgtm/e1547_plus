@@ -5,6 +5,7 @@ import 'package:e1547/identity/identity.dart';
 import 'package:e1547/pool/pool.dart';
 import 'package:e1547/post/post.dart';
 import 'package:e1547/shared/shared.dart';
+import 'package:e1547/tag/tag.dart';
 import 'package:e1547/traits/traits.dart';
 import 'package:flutter/foundation.dart';
 
@@ -12,19 +13,23 @@ class PostClient {
   PostClient({
     required this.dio,
     required this.pools,
+    required this.tags,
     required this.traits,
     required this.identity,
   });
 
   final Dio dio;
   final PoolClient pools;
+  final TagClient tags;
   final ValueNotifier<Traits> traits;
   final Identity identity;
 
-  Future<Post> get({required int id, CancelToken? cancelToken}) => dio
-      .get('/posts/$id.json', cancelToken: cancelToken)
-      .then(unwrapRailsArray)
-      .then((response) => E621Post.fromJson(response.data));
+  Future<Post> get({required int id, CancelToken? cancelToken}) async {
+    final response = await dio.get('/posts/$id.json', cancelToken: cancelToken);
+    return (await _parse([
+      unwrapRailsArray(response).data!,
+    ], cancelToken: cancelToken)).single;
+  }
 
   /// [page] is either a 1-based page number or a `b<id>` cursor, which the
   /// server serves with the posts before that id in descending id order.
@@ -38,17 +43,45 @@ class PostClient {
     int? limit,
     QueryMap? query,
     CancelToken? cancelToken,
-  }) => dio
-      .get(
-        '/posts.json',
-        queryParameters: {'page': page, 'limit': limit, ...?query}.toQuery(),
-        cancelToken: cancelToken,
-      )
-      .then(unwrapRailsArray)
-      .then(
-        (response) =>
-            (response.data as List).map<Post>(E621Post.fromJson).toList(),
-      );
+  }) async {
+    final response = await dio.get(
+      '/posts.json',
+      queryParameters: {'page': page, 'limit': limit, ...?query}.toQuery(),
+      cancelToken: cancelToken,
+    );
+    return _parse(
+      unwrapRailsArray(response).data! as List<dynamic>,
+      cancelToken: cancelToken,
+    );
+  }
+
+  /// Parses post payloads and groups their tags by category.
+  ///
+  /// The post payload lists tag names without categories, so the tag
+  /// client classifies them in bulk. Names it cannot resolve (a failed
+  /// lookup, unknown tags) stay general: loading posts must not hinge on
+  /// the category lookup.
+  Future<List<Post>> _parse(
+    List<dynamic> raw, {
+    CancelToken? cancelToken,
+  }) async {
+    final posts = raw.map<Post>((post) => E621Post.fromJson(post)).toList();
+    if (posts.isEmpty) return posts;
+    final names =
+        posts.expand((post) => post.tags.values).expand((tags) => tags).toList()
+          ..sort();
+    final categories = await tags.categories(names, cancelToken: cancelToken);
+    if (categories.isEmpty) return posts;
+    return [
+      for (final post in posts)
+        post.copyWith(
+          tags: E621Post.groupTags(
+            post.tags.values.expand((tags) => tags).toList(),
+            categories,
+          ),
+        ),
+    ];
+  }
 
   Future<List<Post>> byIds({
     required List<int> ids,
@@ -135,29 +168,27 @@ class PostClient {
     int? limit,
     QueryMap? query,
     CancelToken? cancelToken,
-  }) {
+  }) async {
     // The query belongs to the caller and doubles as their cache key,
     // so the tags entry is dropped from a copy: an in-place edit
     // would change every later request keyed by the same map.
     final Map<String, String>? filteredQuery = query == null
         ? null
         : (Map<String, String>.of(query)..remove('tags'));
-    return dio
-        .get(
-          '/favorites.json',
-          queryParameters: {
-            'page': page,
-            'limit': limit,
-            // may not contain tags, or we get redirected to a html page
-            ...?filteredQuery,
-          },
-          cancelToken: cancelToken,
-        )
-        .then(unwrapRailsArray)
-        .then(
-          (response) =>
-              (response.data as List).map<Post>(E621Post.fromJson).toList(),
-        );
+    final response = await dio.get(
+      '/favorites.json',
+      queryParameters: {
+        'page': page,
+        'limit': limit,
+        // may not contain tags, or we get redirected to a html page
+        ...?filteredQuery,
+      },
+      cancelToken: cancelToken,
+    );
+    return _parse(
+      unwrapRailsArray(response).data! as List<dynamic>,
+      cancelToken: cancelToken,
+    );
   }
 
   Future<void> addFavorite(int postId, {CancelToken? cancelToken}) => dio.post(

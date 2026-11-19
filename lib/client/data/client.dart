@@ -54,6 +54,7 @@ class Client with Disposable {
   late final PostClient posts = PostClient(
     dio: dio,
     pools: pools,
+    tags: tags,
     traits: traits,
     identity: identity,
   );

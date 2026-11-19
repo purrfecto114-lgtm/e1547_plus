@@ -5,6 +5,7 @@ import 'package:e1547/client/client.dart';
 import 'package:e1547/identity/identity.dart';
 import 'package:e1547/pool/pool.dart';
 import 'package:e1547/post/post.dart';
+import 'package:e1547/tag/tag.dart';
 import 'package:e1547/traits/traits.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -31,6 +32,7 @@ void main() {
     client = PostClient(
       dio: dio,
       pools: PoolClient(dio: dio),
+      tags: TagClient(dio: dio),
       traits: ValueNotifier(
         const Traits(
           id: 1,
@@ -51,27 +53,81 @@ void main() {
 
   test('maps a recorded post onto the model', () async {
     final recorded = loadFixtureList('posts.json').first;
-    final file = recorded['file']! as Map<String, Object?>;
+    final files = recorded['files']! as Map<String, Object?>;
+    final original = files['original']! as Map<String, Object?>;
+    final meta = files['meta']! as Map<String, Object?>;
+    final stats = recorded['stats']! as Map<String, Object?>;
 
     final post = (await client.page()).first;
 
     expect(post.id, recorded['id']);
-    expect(post.ext, file['ext']);
-    expect(post.width, file['width']);
-    expect(post.height, file['height']);
-    expect(post.size, file['size']);
-    expect(post.file, served(file['url']! as String));
-    expect(
-      post.preview,
-      served((recorded['preview']! as Map)['url'] as String),
-    );
+    expect(post.ext, meta['ext']);
+    expect(post.width, original['width']);
+    expect(post.height, original['height']);
+    expect(post.size, meta['size']);
+    expect(post.file, served(original['url']! as String));
+    expect(post.preview, served((files['preview']! as Map)['jpg'] as String));
     expect(post.uploaderId, recorded['uploader_id']);
-    expect(post.favCount, recorded['fav_count']);
-    expect(post.commentCount, recorded['comment_count']);
+    expect(post.favCount, stats['fav_count']);
+    expect(post.commentCount, stats['comment_count']);
     expect(post.rating.name, recorded['rating']);
-    expect(post.score, (recorded['score']! as Map)['total']);
+    expect(post.score, (stats['score']! as Map)['total']);
     expect(post.isDeleted, (recorded['flags']! as Map)['deleted']);
-    expect(post.tags.keys, (recorded['tags']! as Map).keys);
+  });
+
+  test('groups flat tags by the category lookup', () async {
+    final recorded = loadFixtureList('posts.json').first;
+    final tags = (recorded['tags']! as List).cast<String>();
+
+    final post = (await client.page()).first;
+
+    expect(post.tags.keys, ['general', 'artist', 'species', 'meta']);
+    expect(post.tags.values.expand((e) => e), tags); // same names, same order
+  });
+
+  test('classifies tags in bulk through one cached lookup', () async {
+    await client.page();
+
+    final before = fake.requests.where((e) => e.path == '/tags.json').length;
+    await client.page();
+    final after = fake.requests.where((e) => e.path == '/tags.json').length;
+
+    expect(after, before);
+  });
+
+  test('chunks the bulk lookup at 100 names', () async {
+    fake.state.tags.addAll([
+      for (var i = 0; i < 150; i++)
+        {
+          'id': 10000 + i,
+          'name': 'chunk_tag_$i',
+          'post_count': 1,
+          'related_tags': '',
+          'category': 0,
+          'is_locked': false,
+          'created_at': '2020-03-05T05:49:37.994-05:00',
+          'updated_at': '2026-11-01T00:00:00.001-05:00',
+        },
+    ]);
+
+    final categories = await client.tags.categories([
+      for (var i = 0; i < 150; i++) 'chunk_tag_$i',
+    ]);
+
+    expect(categories.length, 150);
+    final requests = fake.requests.where((e) => e.path == '/tags.json');
+    expect(requests.length, 2);
+    expect(requests.first.query['limit'], '100');
+    expect(requests.last.query['limit'], '50');
+  });
+
+  test('leaves tags general when the category lookup fails', () async {
+    fake.state.tags.clear();
+
+    final post = (await client.page()).first;
+
+    expect(post.tags.keys, ['general']);
+    expect(post.tags['general'], isNotEmpty);
   });
 
   test('folds sample alternates into variants', () async {
@@ -103,7 +159,8 @@ void main() {
 
     await client.byIds(ids: ids);
 
-    expect(fake.requests.last.query['tags'], 'id:${ids.join(',')}');
+    final posts = fake.requests.where((e) => e.path == '/posts.json');
+    expect(posts.last.query['tags'], 'id:${ids.join(',')}');
   });
 
   test('splits ids into chunks of 320', () async {
@@ -133,12 +190,17 @@ void main() {
     // Pagination must advance on the raw response: a page that is fully
     // undisplayable must still be non-empty, or the list would end early.
     // Dropping such posts is a display concern (PostFilter).
+    final template = fake.state.posts.first;
+    final files = template['files']! as Map<String, Object?>;
     fake.state.posts.add({
-      ...fake.state.posts.first,
+      ...template,
       'id': 999,
-      'file': {
-        ...(fake.state.posts.first['file']! as Map<String, Object?>),
-        'url': null,
+      'files': {
+        ...files,
+        'original': {
+          ...(files['original']! as Map<String, Object?>),
+          'url': null,
+        },
       },
     });
 
@@ -179,21 +241,23 @@ void main() {
   test('favorites are served to a signed in user', () async {
     final id = loadFixtureList('posts.json').first['id']! as int;
     fake.state.favorites.add(id);
-    final signedIn = PostClient(
-      dio: createDefaultDio(
-        Identity(
-          id: 1,
-          host: fake.url,
-          username: 'tester',
-          headers: {
-            HttpHeaders.authorizationHeader: const Credentials(
-              username: 'tester',
-              password: 'key',
-            ).basicAuth,
-          },
-        ),
+    final dio = createDefaultDio(
+      Identity(
+        id: 1,
+        host: fake.url,
+        username: 'tester',
+        headers: {
+          HttpHeaders.authorizationHeader: const Credentials(
+            username: 'tester',
+            password: 'key',
+          ).basicAuth,
+        },
       ),
+    );
+    final signedIn = PostClient(
+      dio: dio,
       pools: client.pools,
+      tags: TagClient(dio: dio),
       traits: client.traits,
       identity: client.identity,
     );

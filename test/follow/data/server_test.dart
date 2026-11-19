@@ -5,6 +5,7 @@ import 'package:e1547/follow/follow.dart';
 import 'package:e1547/identity/identity.dart';
 import 'package:e1547/pool/pool.dart';
 import 'package:e1547/post/post.dart';
+import 'package:e1547/tag/tag.dart';
 import 'package:e1547/traits/traits.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -43,6 +44,7 @@ void main() {
       postsClient: PostClient(
         dio: dio,
         pools: PoolClient(dio: dio),
+        tags: TagClient(dio: dio),
         traits: traits,
         identity: identity,
       ),
@@ -173,6 +175,7 @@ void main() {
         postsClient: PostClient(
           dio: dio,
           pools: PoolClient(dio: dio),
+          tags: TagClient(dio: dio),
           traits: traits,
           identity: identity,
         ),

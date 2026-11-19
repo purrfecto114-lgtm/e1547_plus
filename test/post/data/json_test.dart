@@ -5,6 +5,42 @@ import 'package:flutter_test/flutter_test.dart';
 import '../../_support/fixtures.dart';
 
 void main() {
+  group('E621Post.fromJson live schema', () {
+    // Recorded straight from e621.net after its 2026-11 schema change, so
+    // the parser cannot drift away from the real payload shape.
+    final posts = loadFixtureList(
+      'posts_live.json',
+    ).map(E621Post.fromJson).toList();
+
+    test('parses a recorded video post', () {
+      final post = posts[0];
+      expect(post.ext, 'mp4');
+      expect(post.file, isNotNull);
+      expect(post.sample, isNotNull);
+      expect(post.preview, isNotNull);
+      expect(post.width, 1920);
+      expect(post.height, 1080);
+      expect(
+        post.variants!.keys,
+        containsAll(<String>{'1920x1080', '854x480', '1280x720'}),
+      );
+      expect(post.variants!['854x480'], contains('_480p.mp4'));
+      expect(post.variants!['1280x720'], contains('_720p.mp4'));
+      expect(post.score, 0);
+      expect(post.rating, Rating.e);
+    });
+
+    test('parses a recorded pooled image post', () {
+      final post = posts[1];
+      expect(post.ext, 'png');
+      expect(post.pools, isNotEmpty);
+      expect(post.variants, isNull);
+      // Without a category lookup every tag counts as general.
+      expect(post.tags.keys, ['general']);
+      expect(post.tags['general'], isNotEmpty);
+    });
+  });
+
   group('E621Post.fromJson video variants', () {
     final posts = loadFixtureList('posts.json').map(E621Post.fromJson).toList();
 

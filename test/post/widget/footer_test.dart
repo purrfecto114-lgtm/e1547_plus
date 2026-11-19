@@ -112,11 +112,15 @@ void main() {
   /// Lets requests and animations an interaction started land.
   Future<void> settle(WidgetTester tester) async {
     await tester.runAsync(() async {
-      await Future<void>.delayed(const Duration(milliseconds: 100));
+      // A page fetch spans two sequential requests (posts, then their tag
+      // categories), which a short window would cut off mid-flight.
+      await Future<void>.delayed(const Duration(milliseconds: 300));
     });
     // The requests wait on timers of the clock in addition to real time, so
     // the frame that lands their state also advances the clock for them.
-    await tester.pump(const Duration(milliseconds: 100));
+    for (var i = 0; i < 3; i++) {
+      await tester.pump(const Duration(milliseconds: 100));
+    }
   }
 
   /// The page arguments of the page list requests the fake served.

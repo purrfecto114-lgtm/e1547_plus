@@ -5,6 +5,7 @@ import 'package:e1547/identity/identity.dart';
 import 'package:e1547/pool/pool.dart';
 import 'package:e1547/post/post.dart';
 import 'package:e1547/query/query.dart';
+import 'package:e1547/tag/tag.dart';
 import 'package:e1547/traits/traits.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -42,6 +43,7 @@ void main() {
     client = PostClient(
       dio: dio,
       pools: PoolClient(dio: dio),
+      tags: TagClient(dio: dio),
       traits: ValueNotifier(
         const Traits(
           id: 1,
@@ -64,6 +66,14 @@ void main() {
   /// The post ids the fake serves, in the order it serves them.
   List<int> servedIds() =>
       fake.state.posts.map((e) => e['id']! as int).toList();
+
+  /// The list requests of one path the fake served, in order: post list
+  /// fetches now end with a tag category lookup, which these assertions
+  /// must not mistake for the list itself.
+  List<FakeRequest> listRequests(String path) => [
+    for (final request in fake.requests)
+      if (request.path == path) request,
+  ];
 
   group('order dispatch', () {
     test('id orders paginate by cursor', () {
@@ -194,12 +204,12 @@ void main() {
       await query.fetch();
 
       expect(query.state.data!.pages.single, servedIds().take(75));
-      expect(fake.requests.last.query['page'], '1');
+      expect(listRequests('/posts.json').last.query['page'], '1');
       expect(query.hasNextPage(), isTrue);
 
       await query.getNextPage();
       expect(
-        fake.requests.last.query['page'],
+        listRequests('/posts.json').last.query['page'],
         'b${servedIds().take(75).reduce(min)}',
       );
       expect(query.state.data!.pages.last, servedIds().skip(75).take(75));
@@ -246,21 +256,21 @@ void main() {
     fake.state.favorites.addAll(servedIds().take(100));
     final query = client.useFavorites();
     await query.fetch();
-    expect(fake.requests.last.path, '/favorites.json');
-    expect(fake.requests.last.query['page'], '1');
+    expect(listRequests('/favorites.json').last.path, '/favorites.json');
+    expect(listRequests('/favorites.json').last.query['page'], '1');
 
     await query.getNextPage();
-    expect(fake.requests.last.query['page'], '2');
+    expect(listRequests('/favorites.json').last.query['page'], '2');
     expect(query.state.data!.pages.last, servedIds().skip(75).take(25));
   });
 
   test('tag searches paginate by page numbers', () async {
     final query = client.useByTags(tags: ['tag_1', 'tag_2']);
     await query.fetch();
-    expect(fake.requests.last.query['page'], '1');
+    expect(listRequests('/posts.json').last.query['page'], '1');
 
     await query.getNextPage();
-    expect(fake.requests.last.query['page'], '2');
+    expect(listRequests('/posts.json').last.query['page'], '2');
     expect(query.state.data!.pages.last, servedIds().skip(75).take(75));
   });
 
@@ -282,13 +292,17 @@ void main() {
       final wanted = ids.toSet();
       for (final post in fake.state.posts) {
         if (!wanted.contains(post['id'])) continue;
-        final file = {...(post['file']! as Map)};
+        final files = {...(post['files']! as Map)};
+        final original = {...(files['original']! as Map)};
         if (flash) {
-          file['ext'] = 'swf';
+          final meta = {...(files['meta']! as Map)};
+          meta['ext'] = 'swf';
+          files['meta'] = meta;
         } else {
-          file['url'] = null;
+          original['url'] = null;
         }
-        post['file'] = file;
+        files['original'] = original;
+        post['files'] = files;
       }
     }
 

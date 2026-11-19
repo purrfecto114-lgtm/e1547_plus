@@ -20,8 +20,7 @@ void main() {
   Future<Response<Object?>> posts(Map<String, Object?> query) =>
       dio.get<Object?>('/posts.json', queryParameters: query);
 
-  List<Object?> postsOf(Response<Object?> response) =>
-      (response.data! as Map)['posts']! as List;
+  List<Object?> postsOf(Response<Object?> response) => response.data! as List;
 
   List<int> idsOf(List<Object?> posts) =>
       posts.map((e) => (e! as Map)['id']! as int).toList();
