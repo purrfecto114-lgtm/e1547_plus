@@ -1,0 +1,80 @@
+name: retry-ios-226
+
+# One shot maintenance run: the ios-build job of the 22.5.0+226
+# release starved in the macOS capacity window, and the release was
+# published manually with the six artifacts that did build. This
+# workflow fires twelve hours after that, reruns the starved build
+# (plus the release job that waits on it) until the window opens, and
+# softprops then drops the missing IPA onto the existing release.
+# The workflow deletes itself afterwards, success or not, so it stays
+# a one shot affair instead of a permanent schedule.
+
+on:
+  schedule:
+    - cron: '30 4 20 11 *' # 2026-11-20 04:30 UTC
+  workflow_dispatch: {}
+
+permissions:
+  actions: write
+  contents: write
+
+jobs:
+  rerun:
+    runs-on: ubuntu-latest
+    timeout-minutes: 330
+    steps:
+      - name: rerun the starved ios build until it lands
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          RUN_ID: 44555609802
+        run: |
+          deadline=$(( $(date +%s) + 5 * 3600 ))
+          while true; do
+            read -r status conclusion <<< "$(gh run view $RUN_ID \
+              --repo purrfecto114-lgtm/e1547_plus \
+              --json status,conclusion \
+              --jq '"\(.status) \(.conclusion // "-")"')"
+            echo "$(date -u +%H:%M) run is $status $conclusion"
+            if [ "$status" = completed ]; then
+              if [ "$conclusion" = success ]; then
+                break
+              fi
+              gh run rerun $RUN_ID \
+                --repo purrfecto114-lgtm/e1547_plus --failed \
+                && echo rerun triggered \
+                || echo rerun rejected, kept polling
+            fi
+            if [ "$(date +%s)" -ge "$deadline" ]; then
+              echo "::warning::the macOS window stayed closed for the whole budget"
+              exit 1
+            fi
+            sleep 600
+          done
+
+      - name: verify the release carries the ipa and six more
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          release=$(gh api repos/purrfecto114-lgtm/e1547_plus/releases/tags/22.5.0%2B226)
+          count=$(echo "$release" | jq '.assets | length')
+          names=$(echo "$release" | jq -r '.assets[].name')
+          target=$(echo "$release" | jq -r '.target_commitish')
+          echo "$count assets: $names"
+          echo "$names" | grep -qx 'e1547.ipa' || { echo 'missing e1547.ipa'; exit 1; }
+          [ "$count" -eq 7 ] || { echo "expected 7 assets, found $count"; exit 1; }
+          case "$target" in 0398b7ef*) ;; *) echo "tag moved to $target"; exit 1;; esac
+
+      - name: remove this one shot workflow
+        if: ${{ always() }}
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: commit the removal
+        if: ${{ always() }}
+        run: |
+          git config user.name github-actions
+          git config user.email github-actions@github.com
+          git rm .github/workflows/retry-ios-226.yml
+          git commit -m "removed the one shot ios retry workflow"
+          git push
