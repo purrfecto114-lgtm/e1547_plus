@@ -174,6 +174,17 @@ extension M2ThemeData on ThemeData {
       color: theme.cardTheme.color,
     ),
     bannerTheme: theme.bannerTheme.copyWith(backgroundColor: theme.canvasColor),
+    // A scaffold sheet left to its own devices wears the material 3
+    // defaults (a 28dp top radius over a two-tone surface), which is a
+    // different look from every other surface the theme pins down.
+    bottomSheetTheme: theme.bottomSheetTheme.copyWith(
+      backgroundColor: theme.canvasColor,
+      modalBackgroundColor: theme.canvasColor,
+      surfaceTintColor: Colors.transparent,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(4)),
+      ),
+    ),
     tooltipTheme: theme.tooltipTheme.copyWith(
       waitDuration: const Duration(milliseconds: 400),
     ),
