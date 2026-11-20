@@ -6,6 +6,9 @@ import 'package:e1547/ticket/ticket.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 class CapturingAdapter implements HttpClientAdapter {
+  CapturingAdapter({this.status = 302});
+
+  int status;
   RequestOptions? captured;
 
   @override
@@ -15,7 +18,7 @@ class CapturingAdapter implements HttpClientAdapter {
     Future<void>? cancelFuture,
   ) async {
     captured = options;
-    return ResponseBody.fromString('', 302);
+    return ResponseBody.fromString('', status);
   }
 
   @override
@@ -57,5 +60,27 @@ void main() {
     );
 
     expect(sent()['ticket[report_reason]'], '6');
+  });
+
+  test('accepts whatever success the creation answers with', () async {
+    for (final status in [200, 302, 303]) {
+      adapter.status = status;
+      await client.create(type: TicketType.forum, item: 1, reason: 'spam');
+    }
+  });
+
+  test('a rejected creation still throws', () async {
+    adapter.status = 422;
+
+    await expectLater(
+      client.create(type: TicketType.forum, item: 1, reason: 'spam'),
+      throwsA(
+        isA<DioException>().having(
+          (e) => e.response?.statusCode,
+          'statusCode',
+          422,
+        ),
+      ),
+    );
   });
 }

@@ -20,7 +20,11 @@ class TicketClient {
         'ticket[reason]': reason,
         if (postReportType != null) 'ticket[report_reason]': postReportType.id,
       },
-      options: Options(validateStatus: (status) => status == 302),
+      // A created ticket answers with a redirect to its page, but any
+      // success means the same thing to the caller: nothing to parse.
+      options: Options(
+        validateStatus: (status) => status != null && status < 400,
+      ),
     );
   }
 }
