@@ -89,6 +89,37 @@ void main() {
     await tester.pump();
   }
 
+  group('VideoButton', () {
+    testWidgets('keeps the play button at its own size inside a video', (
+      tester,
+    ) async {
+      // The icon slot of an IconButton is not tightly constrained, so
+      // the button's content must size itself: a Center there used to
+      // expand to the whole video area and drag the circle's Material
+      // along, drawing a giant translucent disc over the frame.
+      final platform = FakePlatformPlayer()..setDuration(duration);
+      await tester.pumpWidget(
+        wrap(
+          // A Center hands the button the loose constraints of a video
+          // frame; tight ones would force any child to the full size
+          // and hide the difference the test is after.
+          Center(
+            child: VideoButton(player: VideoPlayer(platformPlayer: platform)),
+          ),
+        ),
+      );
+      await tester.pumpAndSettle(const Duration(milliseconds: 16));
+
+      final RenderBox button = tester.renderObject(find.byType(IconButton));
+      // The test surface is 800x600; the button must stay near its
+      // 54dp icon plus padding instead of claiming the whole frame.
+      expect(button.size.width, lessThan(120));
+      expect(button.size.height, lessThan(120));
+      expect(button.size.width, greaterThan(48));
+      expect(button.size.height, greaterThan(48));
+    });
+  });
+
   group('VideoGesture', () {
     testWidgets('seeks by ten seconds per double tap', (tester) async {
       final platform = FakePlatformPlayer()

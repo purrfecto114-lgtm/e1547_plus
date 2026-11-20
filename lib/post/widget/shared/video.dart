@@ -62,7 +62,13 @@ class VideoButton extends StatelessWidget {
                       );
                     }
                   },
-                  icon: Center(
+                  // The icon slot is not tightly constrained, so a bare
+                  // Center would expand to the whole video and drag the
+                  // circle's Material along with it; a fixed box keeps
+                  // the button at its own size.
+                  icon: SizedBox(
+                    width: size,
+                    height: size,
                     child: CrossFade(
                       showChild: showPlayButton,
                       duration: const Duration(milliseconds: 100),
