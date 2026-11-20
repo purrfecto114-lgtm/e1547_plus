@@ -111,13 +111,15 @@ void main() {
       // Covers are previews of arbitrary aspect: capping both axes
       // would scale every source onto the tile's own ratio, stretching
       // some and squishing others. Only the width is capped, and the
-      // cover fit crops what does not fit.
+      // cover fit crops what does not fit. Like the post grid's caps,
+      // the limit follows the device pixel ratio: the test surface
+      // reports 3.0, so the 1080 bound wins over 300 * 2 * 3.
       await show(tester, sampleFollow(latest: 10, thumbnail: '/preview/10'));
 
       final image = tester.widget<CachedNetworkImage>(
         find.byType(CachedNetworkImage),
       );
-      expect(image.memCacheWidth, 600);
+      expect(image.memCacheWidth, 1080);
       expect(image.memCacheHeight, isNull);
     });
   });

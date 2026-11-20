@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:e1547/app/app.dart';
 import 'package:e1547/client/client.dart';
@@ -162,7 +164,16 @@ class FollowTile extends StatelessWidget {
                               // stretching some and squishing others.
                               // One axis keeps the source's ratio, and
                               // the cover fit crops it into the cell.
-                              memCacheWidth: tileSize * 2,
+                              // Like the post grid's caps, the limit
+                              // scales with the device pixel ratio so
+                              // covers stay sharp on dense screens.
+                              memCacheWidth: min(
+                                (tileSize *
+                                        2 *
+                                        MediaQuery.devicePixelRatioOf(context))
+                                    .round(),
+                                1080,
+                              ),
                             ),
                           ),
                         ),
