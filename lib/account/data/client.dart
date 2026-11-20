@@ -25,7 +25,11 @@ class AccountClient {
 
   late final Logger _logger = Logger('AccountClient');
 
-  Future<void> available() => dio.head('/status.json');
+  /// Probes whether the host is reachable at all.
+  ///
+  /// The november 2026 server update dropped /status.json; a bare HEAD
+  /// against the post list answers with the same meaning.
+  Future<void> available() => dio.head('/posts.json');
 
   /// The tail of the in-flight push chain; pushes run one after another
   /// so a failing push rolls the value back before the next one starts.
@@ -65,12 +69,15 @@ class AccountClient {
       }
     } on DioException catch (error, stack) {
       final int? status = error.response?.statusCode;
-      final bool refused = status != null && status >= 400 && status < 500;
+      // The november 2026 server update took the account blacklist out
+      // of the user payload, and the sync's refusal to accept the
+      // parameter is not a failed edit: the local denylist is the only
+      // copy the app can still keep, so it stands. Auth, permission and
+      // rate-limit answers stay errors — those are transient, and
+      // hiding them would strand an edit a retry could have delivered.
+      final bool refused =
+          status == 400 || status == 404 || status == 410 || status == 422;
       if (refused) {
-        // The november 2026 server update took the account blacklist
-        // out of the user payload, and a sync the server refuses is
-        // not a failed edit: the local denylist is the only copy the
-        // app can still keep, so it stands.
         _logger.warn(
           'Denylist sync was refused; keeping the local edit',
           null,
