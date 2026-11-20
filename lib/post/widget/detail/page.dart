@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:e1547/client/client.dart';
 import 'package:e1547/post/post.dart';
 import 'package:e1547/settings/settings.dart';
@@ -17,9 +15,11 @@ class PostDetail extends StatelessWidget {
     child: ConstrainedBox(
       constraints: BoxConstraints(
         minHeight: (size.height / 2),
-        maxHeight: size.width > size.height
-            ? max(400, size.height * 0.8)
-            : double.infinity,
+        // The media box must stay inside the viewport: the detail
+        // display anchors its bottom controls to the box's lower
+        // edge, and an uncapped portrait video used to push them
+        // under the fold. Tall content letterboxes inside the cap.
+        maxHeight: size.height * 0.8,
       ),
       child: AnimatedSize(
         duration: defaultAnimationDuration,
