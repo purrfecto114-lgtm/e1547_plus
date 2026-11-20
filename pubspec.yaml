@@ -93,6 +93,8 @@ dependencies:
 
 dev_dependencies:
   local_auth_platform_interface: ^1.1.0
+  # test/task/data/fetcher_test.dart fakes the temporary directory
+  path_provider_platform_interface: ^2.1.2
   flutter_test:
     sdk: flutter
   # test/files/data/storage_test.dart locks the database file to provoke

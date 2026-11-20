@@ -59,10 +59,13 @@ Future<File> fetchFileToTemp(
 }) async {
   final Dio dio = client ?? createTransferClient();
   final Directory tempDir = await getTemporaryDirectory();
+  // The url is remote, so its extension must be read from the plain
+  // path: p.fromUri rejects every scheme but file: and threw on the
+  // first download of every post.
   final File file = File(
     p.join(
       tempDir.path,
-      'e1547-task-${DateTime.now().microsecondsSinceEpoch}${p.extension(p.fromUri(url))}',
+      'e1547-task-${DateTime.now().microsecondsSinceEpoch}${p.extension(Uri.parse(url).path)}',
     ),
   );
   DateTime? lastReport;
