@@ -146,7 +146,10 @@ Future<CredentialCheckResult> checkCredentials({
         ..httpClientAdapter = NativeAdapter();
   try {
     final Response<void> response = await client.head(
-      '${normalizeHostUrl(host)}/status.json',
+      // The november 2026 server update dropped /status.json; the post
+      // list answers a bare HEAD with the same meaning — 2xx reachable,
+      // 401 rejected credentials, anything else unavailable.
+      '${normalizeHostUrl(host)}/posts.json',
       options: Options(
         headers: dio == null ? null : headers,
         // A 4xx is the answer being probed for, not a transport failure.

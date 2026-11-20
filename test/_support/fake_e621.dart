@@ -42,7 +42,9 @@ class FakeE621 {
   Future<void> stop() => _server.close(force: true);
 
   late final Router _router = Router()
-    ..get('/status.json', _status)
+    // The app's availability probe HEADs the post list; the server
+    // dropped /status.json in its november 2026 update.
+    ..head('/posts.json', _status)
     ..get('/data/<path|.*>', _serveImage)
     ..get('/posts.json', _listPosts)
     ..get('/favorites.json', _listFavorites)
