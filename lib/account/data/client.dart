@@ -4,6 +4,7 @@ import 'package:deep_pick/deep_pick.dart';
 import 'package:dio/dio.dart';
 import 'package:e1547/account/account.dart';
 import 'package:e1547/identity/identity.dart';
+import 'package:e1547/logs/logs.dart';
 import 'package:e1547/post/post.dart';
 import 'package:e1547/shared/shared.dart';
 import 'package:e1547/traits/traits.dart';
@@ -21,6 +22,8 @@ class AccountClient {
   final Identity identity;
   final ValueNotifier<Traits> traits;
   final PostClient postsService;
+
+  late final Logger _logger = Logger('AccountClient');
 
   Future<void> available() => dio.head('/status.json');
 
@@ -60,7 +63,22 @@ class AccountClient {
           cancelToken: cancelToken,
         );
       }
-    } on DioException {
+    } on DioException catch (error, stack) {
+      final int? status = error.response?.statusCode;
+      final bool refused = status != null && status >= 400 && status < 500;
+      if (refused) {
+        // The november 2026 server update took the account blacklist
+        // out of the user payload, and a sync the server refuses is
+        // not a failed edit: the local denylist is the only copy the
+        // app can still keep, so it stands.
+        _logger.warn(
+          'Denylist sync was refused; keeping the local edit',
+          null,
+          error,
+          stack,
+        );
+        return;
+      }
       // Roll back only if the local denylist is still the one this
       // push wrote: a concurrent pull may have applied a newer server
       // value while the request was in flight, and restoring the
@@ -125,9 +143,13 @@ class AccountClient {
       // TODO: also store "id"
       // The server denylist is applied only if no push replaced the
       // local one while the request was in flight; a slow pull must
-      // not overwrite a just-pushed value.
+      // not overwrite a just-pushed value. And since the november
+      // 2026 server update the payload no longer carries
+      // blacklisted_tags at all: an absent field must not read as an
+      // empty blacklist, or every pull would wipe what the user
+      // still has, taking their denylist filtering down with it.
       denylist: listEquals(traits.value.denylist, denylistSnapshot)
-          ? result.blacklistedTags?.split('\n').trim() ?? []
+          ? result.blacklistedTags?.split('\n').trim() ?? traits.value.denylist
           : traits.value.denylist,
       // TODO: also store "perPage"
       // TODO: this shouldn't be file but sample
