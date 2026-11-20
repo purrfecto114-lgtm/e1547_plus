@@ -18,6 +18,14 @@ class ActionController extends ChangeNotifier {
   bool get isError => error != null;
   Duration errorTimeout = const Duration(seconds: 3);
   Timer? errorTimer;
+  bool _disposed = false;
+
+  /// Listeners are gone once disposed, and every notification here can
+  /// land after that: an action's submit keeps running past a dispose,
+  /// and the forgive timer outlives it unless dispose cancels it first.
+  void _notify() {
+    if (!_disposed) notifyListeners();
+  }
 
   @mustCallSuper
   @protected
@@ -25,7 +33,7 @@ class ActionController extends ChangeNotifier {
     errorTimer?.cancel();
     errorTimer = Timer(errorTimeout, () {
       isForgiven = true;
-      notifyListeners();
+      _notify();
     });
   }
 
@@ -36,7 +44,7 @@ class ActionController extends ChangeNotifier {
     isForgiven = false;
     error = null;
     action = null;
-    notifyListeners();
+    _notify();
   }
 
   @mustCallSuper
@@ -45,7 +53,7 @@ class ActionController extends ChangeNotifier {
     error = null;
     isForgiven = false;
     isLoading = true;
-    notifyListeners();
+    _notify();
     try {
       await submit();
       onSuccess();
@@ -54,7 +62,7 @@ class ActionController extends ChangeNotifier {
       forgive();
     }
     isLoading = false;
-    notifyListeners();
+    _notify();
   }
 
   @protected
@@ -68,11 +76,12 @@ class ActionController extends ChangeNotifier {
     isLoading = false;
     error = null;
     action = () => execute(submit);
-    notifyListeners();
+    _notify();
   }
 
   @override
   void dispose() {
+    _disposed = true;
     errorTimer?.cancel();
     super.dispose();
   }
