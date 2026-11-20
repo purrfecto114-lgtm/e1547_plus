@@ -734,10 +734,14 @@ class TasksController extends ChangeNotifier {
       // The transfer itself is done; copying the file into the user's
       // gallery or folder is a separate phase, so the interface can tell
       // "still downloading" from "saving" instead of looking stuck at 100%.
-      progress?.value = const TaskDownloadProgress(
-        phase: TaskDownloadPhase.saving,
-      );
-      _recomputeProgress();
+      // The status read above awaited; the controller may have been
+      // disposed in that window, taking the progress notifier with it.
+      if (!_disposed) {
+        progress?.value = const TaskDownloadProgress(
+          phase: TaskDownloadPhase.saving,
+        );
+        _recomputeProgress();
+      }
       try {
         final String? exported = await exporter(
           file: file,
