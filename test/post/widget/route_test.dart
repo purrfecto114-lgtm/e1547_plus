@@ -136,9 +136,23 @@ void main() {
       await tester.pump();
       await tester.tap(find.byKey(const ValueKey('open')));
       await tester.pump();
-      // The gallery queries as it opens, so that request has to land before
-      // the tree is torn down.
-      await Future<void>.delayed(const Duration(milliseconds: 100));
+      // The gallery queries as it opens, and that request — plus the
+      // tag category lookup the post parser now needs — can outlast
+      // any fixed patience under a loaded runner. Waiting for the
+      // pager settles it; a gallery whose post never made it into the
+      // list closes itself the moment its items land, which ends the
+      // wait just as well. This whole block already runs inside one
+      // runAsync, so real time passes while polling.
+      for (int attempt = 0; attempt < 10; attempt++) {
+        await Future<void>.delayed(const Duration(milliseconds: 100));
+        if (find.byType(PagedPageView<Object, Post>).evaluate().isNotEmpty) {
+          break;
+        }
+        if (find.byType(PostDetailGallery).evaluate().isEmpty) {
+          break;
+        }
+      }
+      await tester.pump();
     });
     await tester.pump();
   }
@@ -159,7 +173,10 @@ void main() {
     final filter = PostFilter(client);
     addTearDown(filter.dispose);
 
-    await pushDetail(tester, filter);
+    // The gallery drops itself the moment its list loads without the
+    // pushed post, so the pushed post has to be one the list serves;
+    // otherwise the assertion races the route closing itself.
+    await pushDetail(tester, filter, post: samplePost(id: 1000));
 
     final gallery = tester.element(find.byType(PostDetailGallery));
     expect(gallery.read<FilterController<Post>?>(), same(filter));
