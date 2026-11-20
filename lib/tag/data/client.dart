@@ -96,30 +96,61 @@ class TagClient {
     // The exact lookup only matches what it is given, and the query url
     // must stay short: 100 names per request is a safe chunk.
     const chunkSize = 100;
-    for (var start = 0; start < missing.length; start += chunkSize) {
-      final chunk = missing.sublist(
-        start,
-        min(start + chunkSize, missing.length),
-      );
-      try {
-        final response = await dio.get(
-          '/tags.json',
-          queryParameters: {
-            'search[name]': chunk.join(','),
-            'limit': chunk.length,
-          },
-          cancelToken: cancelToken,
-        );
-        final tags = unwrapRailsArray(response).data as List<dynamic>;
-        for (final tag in tags) {
-          final parsed = E621Tag.fromJson(tag);
-          _categoryCache[parsed.name] = parsed.category;
+    final chunks = [
+      for (var start = 0; start < missing.length; start += chunkSize)
+        missing.sublist(start, min(start + chunkSize, missing.length)),
+    ];
+    // A pageful of posts easily misses a thousand distinct names: ten
+    // chunks in a row stretched every first page load by ten round
+    // trips. A few workers at a time keep the burst polite for the
+    // server's rate limit while cutting the wait down to a few.
+    const workerCount = 3;
+    DioException? cancellation;
+    var next = 0;
+    Future<void> worker() async {
+      while (next < chunks.length) {
+        final chunk = chunks[next++];
+        try {
+          final response = await dio.get(
+            '/tags.json',
+            queryParameters: {
+              'search[name]': chunk.join(','),
+              'limit': chunk.length,
+            },
+            cancelToken: cancelToken,
+          );
+          final tags = unwrapRailsArray(response).data as List<dynamic>;
+          for (final tag in tags) {
+            final parsed = E621Tag.fromJson(tag);
+            _categoryCache[parsed.name] = parsed.category;
+          }
+          // A name the lookup answered without is one the server does
+          // not know: remembering it as general keeps every later page
+          // from re-asking for the same missing tag.
+          for (final name in chunk) {
+            _categoryCache.putIfAbsent(name, () => 0);
+          }
+        } on DioException catch (error) {
+          if (CancelToken.isCancel(error)) {
+            // The cancellation is rethrown once every worker has
+            // stopped; rethrowing here directly would orphan the
+            // errors of the workers still running.
+            cancellation ??= error;
+            return;
+          }
+          // A failed lookup leaves those names uncategorized for now; a
+          // later page retries them through the cache miss.
         }
-      } on DioException catch (error) {
-        if (CancelToken.isCancel(error)) rethrow;
-        // A failed lookup leaves those names uncategorized for now; a
-        // later page retries them through the cache miss.
       }
+    }
+
+    if (chunks.isNotEmpty) {
+      await Future.wait([
+        for (var i = 0; i < min(workerCount, chunks.length); i++) worker(),
+      ]);
+    }
+    if (cancellation != null) {
+      throw cancellation!;
     }
     return {
       for (final name in wanted)

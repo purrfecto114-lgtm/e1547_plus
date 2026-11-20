@@ -117,8 +117,22 @@ void main() {
     expect(categories.length, 150);
     final requests = fake.requests.where((e) => e.path == '/tags.json');
     expect(requests.length, 2);
-    expect(requests.first.query['limit'], '100');
-    expect(requests.last.query['limit'], '50');
+    // The chunks travel on parallel workers, so the order they land in
+    // is not part of the contract; only the split itself is.
+    expect(requests.map((e) => e.query['limit']).toSet(), {'100', '50'});
+  });
+
+  test('remembers unknown names instead of re-asking for them', () async {
+    fake.state.tags.clear();
+
+    await client.tags.categories(['no_such_tag']);
+    final before = fake.requests.where((e) => e.path == '/tags.json').length;
+    await client.tags.categories(['no_such_tag']);
+    final after = fake.requests.where((e) => e.path == '/tags.json').length;
+
+    // A name the server does not know stays general — remembering it
+    // keeps every later page from re-requesting the same missing tag.
+    expect(after, before);
   });
 
   test('leaves tags general when the category lookup fails', () async {
