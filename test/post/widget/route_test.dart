@@ -132,24 +132,38 @@ void main() {
         ),
       );
 
+      final int requestsBefore = fake.requests.length;
       await Future<void>.delayed(const Duration(milliseconds: 50));
       await tester.pump();
       await tester.tap(find.byKey(const ValueKey('open')));
       await tester.pump();
-      // The gallery queries as it opens, and that request — plus the
-      // tag category lookup the post parser now needs — can outlast
+      // The pushed route queries as it opens, and that request — plus
+      // the tag category lookup the post parser now needs — can outlast
       // any fixed patience under a loaded runner. Waiting for the
-      // pager settles it; a gallery whose post never made it into the
-      // list closes itself the moment its items land, which ends the
-      // wait just as well. This whole block already runs inside one
-      // runAsync, so real time passes while polling.
+      // pager settles gallery routes; a gallery whose post never made
+      // it into the list closes itself the moment its items land, which
+      // ends the wait just as well. Routes that are no gallery at all
+      // wait for whatever request they fired to land on the fake. This
+      // whole block already runs inside one runAsync, so real time
+      // passes while polling.
+      final bool galleryRoute = find
+          .byType(PostDetailGallery)
+          .evaluate()
+          .isNotEmpty;
       for (int attempt = 0; attempt < 10; attempt++) {
         await Future<void>.delayed(const Duration(milliseconds: 100));
-        if (find.byType(PagedPageView<Object, Post>).evaluate().isNotEmpty) {
-          break;
-        }
-        if (find.byType(PostDetailGallery).evaluate().isEmpty) {
-          break;
+        if (galleryRoute) {
+          if (find.byType(PagedPageView<Object, Post>).evaluate().isNotEmpty) {
+            break;
+          }
+          if (find.byType(PostDetailGallery).evaluate().isEmpty) {
+            break;
+          }
+        } else {
+          if (fake.requests.length > requestsBefore) {
+            await Future<void>.delayed(const Duration(milliseconds: 100));
+            break;
+          }
         }
       }
       await tester.pump();
