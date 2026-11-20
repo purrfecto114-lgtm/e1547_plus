@@ -131,6 +131,12 @@ abstract class AppLocalizations {
   /// **'Failed to load'**
   String get failedToLoad;
 
+  /// A link taken from a post or a message does not parse as a url.
+  ///
+  /// In en, this message translates to:
+  /// **'This link is malformed and cannot be opened.'**
+  String get malformedLink;
+
   /// No description provided for @nothingToSeeHere.
   ///
   /// In en, this message translates to:

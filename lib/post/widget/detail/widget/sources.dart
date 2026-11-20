@@ -69,7 +69,7 @@ class SourceCard extends StatelessWidget {
       }
       return Card(
         child: InkWell(
-          onTap: enabled ? () => launch(url) : null,
+          onTap: enabled ? () => launch(url, context: context) : null,
           child: IntrinsicHeight(
             child: Row(
               mainAxisSize: MainAxisSize.min,

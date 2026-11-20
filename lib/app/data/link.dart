@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:e1547/l10n/app_localizations.dart';
 import 'package:e1547/pool/pool.dart';
 import 'package:e1547/post/post.dart';
 import 'package:e1547/reply/reply.dart';
@@ -11,12 +12,26 @@ import 'package:flutter_custom_tabs/flutter_custom_tabs.dart' as tabs;
 import 'package:path_to_regexp/path_to_regexp.dart';
 import 'package:url_launcher/url_launcher.dart' as urls;
 
-Future<void> launch(String url) async {
-  Uri uri = Uri.parse(url);
+/// Opens [url] in a custom tab on mobile and in the system browser
+/// everywhere else.
+///
+/// Post sources and markup hrefs carry whatever their author wrote, so
+/// the url can fail to parse: callers that hold a [context] get a
+/// snackbar saying so, the rest skip the launch quietly.
+Future<void> launch(String url, {BuildContext? context}) async {
+  final Uri? parsed = Uri.tryParse(url);
+  if (parsed == null) {
+    if (context != null && context.mounted) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text(AppLocalizations.of(context).malformedLink)),
+      );
+    }
+    return;
+  }
   if ((Platform.isAndroid || Platform.isIOS) &&
-      ['e621.net', 'e926.net'].contains(uri.host)) {
+      ['e621.net', 'e926.net'].contains(parsed.host)) {
     await tabs.launchUrl(
-      uri,
+      parsed,
       customTabsOptions: const tabs.CustomTabsOptions(
         browser: tabs.CustomTabsBrowserConfiguration(
           prefersDefaultBrowser: true,
@@ -24,7 +39,7 @@ Future<void> launch(String url) async {
       ),
     );
   } else {
-    await urls.launchUrl(uri, mode: urls.LaunchMode.externalApplication);
+    await urls.launchUrl(parsed, mode: urls.LaunchMode.externalApplication);
   }
 }
 

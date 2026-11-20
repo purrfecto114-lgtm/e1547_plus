@@ -15,6 +15,9 @@ class AppLocalizationsEs extends AppLocalizations {
   String get failedToLoad => 'No se pudo cargar';
 
   @override
+  String get malformedLink => 'This link is malformed and cannot be opened.';
+
+  @override
   String get nothingToSeeHere => 'Nada que ver aquí';
 
   @override

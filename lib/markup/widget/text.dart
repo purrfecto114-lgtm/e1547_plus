@@ -419,14 +419,15 @@ class _DTextBodyState extends State<DTextBody> {
     required bool local,
   }) {
     final href = node.href;
-    if (!local) return () => launch(href);
+    if (!local) return () => launch(href, context: context);
     if (href.startsWith('#')) {
       final anchor = node.anchor ?? href.substring(1);
       return () => DTextAnchors.of(context)?.reveal(normalizeAnchor(anchor));
     }
     final action = const E621LinkParser().parseOnTap(context, href);
     if (action != null) return action;
-    return () => launch(context.read<Client>().withHost(href));
+    return () =>
+        launch(context.read<Client>().withHost(href), context: context);
   }
 
   bool _isLocalLink(String href) {

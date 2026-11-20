@@ -15,6 +15,9 @@ class AppLocalizationsZh extends AppLocalizations {
   String get failedToLoad => '加载失败';
 
   @override
+  String get malformedLink => 'This link is malformed and cannot be opened.';
+
+  @override
   String get nothingToSeeHere => '这里什么都没有';
 
   @override

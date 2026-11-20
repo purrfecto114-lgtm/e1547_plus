@@ -6,6 +6,11 @@
     "placeholders": {}
   },
   "failedToLoad": "Failed to load",
+  "malformedLink": "This link is malformed and cannot be opened.",
+  "@malformedLink": {
+    "description": "A link taken from a post or a message does not parse as a url.",
+    "placeholders": {}
+  },
   "nothingToSeeHere": "Nothing to see here",
   "loading": "Loading...",
   "actionCancel": "CANCEL",

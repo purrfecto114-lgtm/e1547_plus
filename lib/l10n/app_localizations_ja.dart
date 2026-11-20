@@ -15,6 +15,9 @@ class AppLocalizationsJa extends AppLocalizations {
   String get failedToLoad => '読み込めませんでした';
 
   @override
+  String get malformedLink => 'This link is malformed and cannot be opened.';
+
+  @override
   String get nothingToSeeHere => '何もありません';
 
   @override

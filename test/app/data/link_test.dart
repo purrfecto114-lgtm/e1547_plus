@@ -202,4 +202,13 @@ void main() {
       expect(deduplicator.check(url), isTrue);
     });
   });
+
+  group('launch', () {
+    test('a malformed url skips the launch instead of throwing', () async {
+      // Post sources and markup hrefs carry whatever their author
+      // wrote; neither of these parses as a url.
+      await launch('http://[');
+      await launch('::not a url::');
+    });
+  });
 }
