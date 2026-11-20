@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:drift/native.dart';
 import 'package:e1547/app/app.dart';
 import 'package:e1547/client/client.dart';
@@ -104,6 +105,20 @@ void main() {
 
       expect(find.byIcon(Icons.image_not_supported_outlined), findsNothing);
       expect(find.byType(Hero), findsOneWidget);
+    });
+
+    displayTest('caps the cover decode on the width alone', (tester) async {
+      // Covers are previews of arbitrary aspect: capping both axes
+      // would scale every source onto the tile's own ratio, stretching
+      // some and squishing others. Only the width is capped, and the
+      // cover fit crops what does not fit.
+      await show(tester, sampleFollow(latest: 10, thumbnail: '/preview/10'));
+
+      final image = tester.widget<CachedNetworkImage>(
+        find.byType(CachedNetworkImage),
+      );
+      expect(image.memCacheWidth, 600);
+      expect(image.memCacheHeight, isNull);
     });
   });
 }

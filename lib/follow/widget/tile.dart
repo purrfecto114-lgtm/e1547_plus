@@ -156,10 +156,13 @@ class FollowTile extends StatelessWidget {
                               errorWidget: defaultErrorBuilder,
                               fit: BoxFit.cover,
                               cacheManager: context.read<BaseCacheManager>(),
-                              // The tile cell is 1:1.2, so height gets 1.2
-                              // times the width cap.
+                              // Covers are previews of arbitrary aspect:
+                              // capping both decode axes would scale
+                              // every source onto the tile's own ratio,
+                              // stretching some and squishing others.
+                              // One axis keeps the source's ratio, and
+                              // the cover fit crops it into the cell.
                               memCacheWidth: tileSize * 2,
-                              memCacheHeight: (tileSize * 2.4).round(),
                             ),
                           ),
                         ),
