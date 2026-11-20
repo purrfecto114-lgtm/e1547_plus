@@ -61,6 +61,7 @@ class FakeE621 {
       (Request request, String id) => _json(_find(state.comments, id)),
     )
     ..patch('/comments/<id|[0-9]+>.json', _updateComment)
+    ..post('/comments/<id|[0-9]+>/votes.json', _voteComment)
     ..get(
       '/forum_topics.json',
       (Request request) => _list(state.topics, request),
@@ -295,6 +296,28 @@ class FakeE621 {
     );
     final total = ((post['stats']! as Map)['score']! as Map)['total']! as int;
     return _json({'score': total + score!, 'our_score': score});
+  }
+
+  /// The vote response in the shape the server's 2026-11 schema change
+  /// moved it to: a `vote` field instead of `our_score`. A client that
+  /// consumes the response body would break on this; the app ignores it.
+  Response _voteComment(Request request, String id) {
+    final query = request.url.queryParameters;
+    final score = int.tryParse(query['score'] ?? '');
+    if (score != 1 && score != -1) {
+      throw FakeE621Error(
+        422,
+        'score must be 1 or -1, got "${query['score']}"',
+      );
+    }
+    if (!{'true', 'false'}.contains(query['no_unvote'])) {
+      throw FakeE621Error(
+        422,
+        'no_unvote must be a boolean, got "${query['no_unvote']}"',
+      );
+    }
+    final comment = _find(state.comments, id);
+    return _json({'score': (comment['score']! as int) + score!, 'vote': score});
   }
 
   Response _listReplies(Request request) {

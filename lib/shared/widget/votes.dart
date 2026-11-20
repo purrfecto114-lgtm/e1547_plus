@@ -1,9 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:like_button/like_button.dart';
-
-part 'votes.freezed.dart';
-part 'votes.g.dart';
 
 typedef VoteRequest = ({bool upvote, bool replace});
 
@@ -23,15 +19,6 @@ typedef VoteRequest = ({bool upvote, bool replace});
     return (score: score + 2 * target, vote: target);
   }
   return (score: score + target, vote: target);
-}
-
-@freezed
-abstract class VoteResult with _$VoteResult {
-  const factory VoteResult({required int score, required int ourScore}) =
-      _VoteResult;
-
-  factory VoteResult.fromJson(Map<String, dynamic> json) =>
-      _$VoteResultFromJson(json);
 }
 
 class VoteDisplay extends StatelessWidget {

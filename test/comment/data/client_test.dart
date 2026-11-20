@@ -53,6 +53,15 @@ void main() {
     expect((await client.get(id: id)).body, 'edited');
   });
 
+  test('votes a comment regardless of the response shape', () async {
+    final id = loadFixtureList('comments.json').first['id']! as int;
+
+    await client.vote(id: id, upvote: true, replace: false);
+
+    expect(fake.requests.last.path, '/comments/$id/votes.json');
+    expect(fake.requests.last.body, {'score': '1', 'no_unvote': 'false'});
+  });
+
   test('the server rejects params it does not permit', () async {
     final postId = loadFixtureList('posts.json').first['id']! as int;
 

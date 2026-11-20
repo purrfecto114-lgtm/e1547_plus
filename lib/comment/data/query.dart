@@ -59,7 +59,7 @@ extension CommentQuerying on CommentClient {
         ),
       );
 
-  Mutation<VoteResult, VoteRequest> useVote({required int id}) => Mutation(
+  Mutation<void, VoteRequest> useVote({required int id}) => Mutation(
     mutationFn: (params) {
       final (:upvote, :replace) = params;
       return commentCache.optimistic(

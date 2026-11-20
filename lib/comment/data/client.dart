@@ -46,14 +46,14 @@ class CommentClient {
     data: FormData.fromMap({'comment[body]': content}),
   );
 
-  Future<VoteResult> vote({
+  /// The vote response's shape moved with the server's schema update and
+  /// nothing consumes it: the query's optimistic update carries the change.
+  Future<void> vote({
     required int id,
     required bool upvote,
     required bool replace,
-  }) => dio
-      .post(
-        '/comments/$id/votes.json',
-        queryParameters: {'score': upvote ? 1 : -1, 'no_unvote': replace},
-      )
-      .then((response) => VoteResult.fromJson(response.data));
+  }) => dio.post(
+    '/comments/$id/votes.json',
+    queryParameters: {'score': upvote ? 1 : -1, 'no_unvote': replace},
+  );
 }
