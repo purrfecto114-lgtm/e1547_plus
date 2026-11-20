@@ -80,7 +80,12 @@ class _TagListActionsState extends State<TagListActions> {
                   await client.follows.create(tags: tag, type: type);
                   if (denied) {
                     client.traits.value = traits.copyWith(
-                      denylist: traits.denylist..remove(tag),
+                      // the denylist is an unmodifiable view; mutating it
+                      // in place threw the moment a new follow also
+                      // unblocked its tag
+                      denylist: traits.denylist
+                          .whereNot((element) => element == tag)
+                          .toList(),
                     );
                   }
                 }
