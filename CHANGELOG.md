@@ -4,6 +4,38 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and this project
 adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [22.5.1-rc.1+227] - 2026-11-20
+### Fixed
+- downloads work again: the transfer's temporary file name was derived
+  by a path helper that rejects the server's cdn urls, so no download
+  ever started; the extension now comes straight from the url. Saving
+  into the Pictures folder creates the app's subfolder again (the
+  folder check never matched the storage access framework spelling of
+  the folder), iOS gallery saves classify by the post's true file name
+  instead of whatever the temp file happens to carry, and a progress
+  update can no longer reach a controller that disposed mid-transfer
+- the blacklist survives the november server update: the user payload
+  no longer carries blacklisted_tags, and a pull used to wipe the local
+  list down to empty — it now keeps it when the field is absent, and a
+  push the server refuses to accept settles as a local edit instead of
+  rolling back. A blocked tag given its first follow no longer crashes
+  the follow sheet
+- logging in works again: the server dropped /status.json, which every
+  availability and credential check used to probe; they ask the post
+  list now
+- videos show a normally sized play button again: an unconstrained
+  icon slot let the button expand over the whole frame
+- tall media stays inside the detail page: a portrait video used to
+  push the bottom controls under the fold, the media box now caps at
+  four fifths of the screen
+- subscription covers crop instead of stretching: the decode cap
+  follows the screen density and only bounds one axis
+- a search's first page settles far sooner: the tag category lookups
+  travel on a few parallel requests instead of one long queue, names
+  the server does not know are remembered instead of re-requested on
+  every page, and extreme aspect images decode inside a pixel budget,
+  so a tall comic strip no longer holds its full height in memory
+
 ## [22.5.0+226] - 2026-11-19
 ### Added
 - the blacklist page carries a filter field: typing narrows the tiles to
@@ -1935,3 +1967,4 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 [22.3.0+223]: https://github.com/purrfecto114-lgtm/e1547_plus/compare/22.2.0+222...22.3.0+223
 [22.4.0+224]: https://github.com/purrfecto114-lgtm/e1547_plus/compare/22.3.0+223...22.4.0+224
 [22.5.0+226]: https://github.com/purrfecto114-lgtm/e1547_plus/compare/22.4.0+224...22.5.0+226
+[22.5.1-rc.1+227]: https://github.com/purrfecto114-lgtm/e1547_plus/compare/22.5.0+226...22.5.1-rc.1+227
