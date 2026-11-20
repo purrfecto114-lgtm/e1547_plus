@@ -7,7 +7,6 @@ import 'package:file_picker/file_picker.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:image_gallery_saver_plus/image_gallery_saver_plus.dart';
-import 'package:media_scanner/media_scanner.dart';
 import 'package:mime/mime.dart';
 import 'package:path/path.dart';
 import 'package:saf_stream/saf_stream.dart';
@@ -145,8 +144,13 @@ abstract final class FileDownloader {
           target = directory;
         }
 
-        String lastSegment = Uri.parse(target).pathSegments.last;
-        if (folderName != null && lastSegment == 'Pictures') {
+        // A SAF tree uri names its volume inside the last segment
+        // (primary:Pictures), so both spellings have to count.
+        final List<String> segments = Uri.parse(target).pathSegments;
+        final String? lastSegment = segments.isEmpty ? null : segments.last;
+        if (folderName != null &&
+            (lastSegment == 'Pictures' ||
+                (lastSegment?.endsWith(':Pictures') ?? false))) {
           try {
             final targetDir = await SafUtil().mkdirp(target, [folderName]);
             target = targetDir.uri;
@@ -174,8 +178,9 @@ abstract final class FileDownloader {
           mimeType,
           overwrite: true,
         );
-        // This should probably only happen in [downloadImage].
-        await MediaScanner.loadMedia(path: target);
+        // The documents provider indexes a pasted file itself; the
+        // media scanner wants a plain file path and cannot do anything
+        // with the saf directory uri this export dealt in.
         if (replacedExisting) return null;
         // The exact document lets a raced cancellation remove the copy.
         return (await SafUtil().child(target, [name]))?.uri;
@@ -235,7 +240,7 @@ abstract final class FileDownloader {
     void Function(String dir)? onDirectoryChanged,
   }) async {
     if (Platform.isIOS) {
-      return _saveToGallery(file.path);
+      return _saveToGallery(file.path, name: fileName);
     } else {
       return downloadFile(
         file: file,
@@ -257,9 +262,16 @@ abstract final class FileDownloader {
   static Future<void> _galleryWriteLock = Future.value();
 
   /// What the iOS photo library can do with a file of this kind.
+  ///
+  /// The kind comes from the intended [name] whenever there is one: a
+  /// fetched temp file or a cache artifact carries whatever extension
+  /// its own path happened to have, while the download's name already
+  /// holds the post's true format.
   @visibleForTesting
-  static IosGalleryKind iosGalleryKindFor(String path) {
-    final String ext = extension(path).toLowerCase().replaceFirst('.', '');
+  static IosGalleryKind iosGalleryKindFor(String path, {String? name}) {
+    final String ext = extension(
+      name ?? path,
+    ).toLowerCase().replaceFirst('.', '');
     const Set<String> images = {
       'jpg',
       'jpeg',
@@ -277,16 +289,16 @@ abstract final class FileDownloader {
     return IosGalleryKind.unsupported;
   }
 
-  static Future<String?> _saveToGallery(String path) {
+  static Future<String?> _saveToGallery(String path, {String? name}) {
     final Future<void> write = _galleryWriteLock.then((_) async {
-      switch (iosGalleryKindFor(path)) {
+      switch (iosGalleryKindFor(path, name: name)) {
         case IosGalleryKind.unsupported:
           // The photo library cannot store the container at all — webm
           // among them, since iOS ships no decoder for it. Asking the
           // plugin anyway reported success while nothing ever landed in
           // the gallery, so the save refuses up front instead of lying.
           final localizations = await loadPreferenceLocalizations();
-          final String format = extension(path).replaceFirst('.', '');
+          final String format = extension(name ?? path).replaceFirst('.', '');
           throw FileDownloadException(
             localizations.downloadGalleryUnsupportedFormat(
               format.toUpperCase(),

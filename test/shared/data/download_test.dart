@@ -109,6 +109,29 @@ void main() {
       );
     });
 
+    test('classifies by the intended name over the temp file path', () {
+      // A fetched temp file or cache artifact carries whatever extension
+      // its own path happened to have; the download's name holds the
+      // post's true format and must win.
+      expect(
+        FileDownloader.iosGalleryKindFor('cache/xyz.tmp', name: 'post.GIF'),
+        IosGalleryKind.gif,
+      );
+      expect(
+        FileDownloader.iosGalleryKindFor('cache/uuid', name: 'post.MP4'),
+        IosGalleryKind.video,
+      );
+      expect(
+        FileDownloader.iosGalleryKindFor('cache/xyz.tmp', name: 'post.webm'),
+        IosGalleryKind.unsupported,
+      );
+      // without a name, the path speaks for itself as before
+      expect(
+        FileDownloader.iosGalleryKindFor('cache/uuid.jpg'),
+        IosGalleryKind.image,
+      );
+    });
+
     test('a rejected gallery save throws instead of passing', () {
       expect(
         () => FileDownloader.checkGallerySaveResult({
