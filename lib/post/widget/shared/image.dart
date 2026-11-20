@@ -203,6 +203,14 @@ class RawPostImageWidget extends StatelessWidget {
       // images with; see PostComicSliver and PostTimelineSliver.
       cacheSize = 800;
     }
+    if (cacheSize != null && maxPixels == null) {
+      // The short-side cap alone lets an extreme aspect decode its
+      // full length: a 500x10000 comic strip at width 800 keeps its
+      // ten-thousand-pixel height. A pixel budget of roughly the
+      // cap's square bounds the decode without touching anything of
+      // ordinary shape, whose pixel count stays well inside it.
+      maxPixels = cacheSize * cacheSize * 2;
+    }
     if (cacheSize != null || maxPixels != null) {
       double scale = 1;
       if (cacheSize != null) {
