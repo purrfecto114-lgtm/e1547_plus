@@ -272,7 +272,7 @@ const List<(String, String, String)> _destinationNames = [
   ('Pools', '图集', '圖集'),
   ('Forum', '论坛', '論壇'),
   ('History', '历史', '歷史'),
-  ('Tasks', '任务', '任務'),
+  ('Tasks', '下载任务', '下載任務'),
   ('Settings', '设置', '設定'),
   ('About', '关于', '關於'),
 ];
