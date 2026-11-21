@@ -34,8 +34,11 @@ jobs:
       # The generated localizations are committed; regenerate them here so a
       # stale checkout (arb edits without a regeneration commit) fails
       # instead of shipping an interface that disagrees with its arbs.
+      # gen-l10n only prints untranslated messages as a warning, so the key
+      # sets are compared separately.
       - name: verify localization freshness
         run: |
+          python3 tool/check_translations.py
           flutter gen-l10n
           git diff --exit-code lib/l10n
 
