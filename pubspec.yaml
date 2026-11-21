@@ -53,6 +53,9 @@ dependencies:
   cached_query_flutter: ^3.4.0
   collection: ^1.19.0
   cryptography: ^2.7.0
+  # Platform AES for the database export: pure-dart GCM runs at ~5 MiB/s,
+  # which parked a 64 MiB export on the ui isolate for over ten seconds.
+  cryptography_flutter: ^2.3.0
   deep_pick: ^1.0.0
   dio: ^5.9.0
   native_dio_adapter: ^1.8.0

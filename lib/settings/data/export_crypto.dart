@@ -4,6 +4,7 @@ import 'dart:math';
 import 'dart:typed_data';
 
 import 'package:cryptography/cryptography.dart';
+import 'package:cryptography_flutter/cryptography_flutter.dart';
 
 /// Password-based encryption for database exports.
 ///
@@ -39,7 +40,11 @@ const int _headerLength =
     databaseExportMagic.length + 1 + _saltLength + _nonceLength;
 const int _kdfIterations = 150000;
 
-final AesGcm _cipher = AesGcm.with256bits();
+// Platform AES where the OS offers it (Android, iOS, macOS); otherwise a
+// fallback that runs the pure-dart cipher on a background isolate. Either
+// way the ~5 MiB/s of pure-dart GCM never park themselves on the ui
+// isolate, where a 64 MiB export froze the screen for over ten seconds.
+final AesGcm _cipher = FlutterAesGcm.with256bits();
 
 /// Whether [bytes] starts with the encrypted database export header.
 bool hasDatabaseExportMagic(List<int> bytes) {
