@@ -1480,9 +1480,6 @@ class AppLocalizationsPl extends AppLocalizations {
   String get failedToLoadIdentities => 'Nie udało się załadować tożsamości';
 
   @override
-  String get onboardingSkip => 'Pomiń';
-
-  @override
   String get onboardingBack => 'Wstecz';
 
   @override
@@ -2555,4 +2552,8 @@ class AppLocalizationsPl extends AppLocalizations {
   @override
   String get taskErrorHintUnknown =>
       'To zadanie nie powiodło się. Spróbuj ponownie lub otwórz szczegóły.';
+
+  @override
+  String get adultGateDeniedBody =>
+      'Ta aplikacja otwiera się tylko dla dorosłych. Bez potwierdzenia pełnoletności nic dalej nie pójdzie.';
 }

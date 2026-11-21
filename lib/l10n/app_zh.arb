@@ -416,7 +416,6 @@
   "identityActivateFailed": "激活身份失败：{error}",
   "traitsActivateFailed": "激活特性失败：{error}",
   "failedToLoadIdentities": "账户加载失败",
-  "onboardingSkip": "跳过",
   "onboardingBack": "上一步",
   "onboardingNext": "下一步",
   "onboardingWelcomeTitle": "欢迎使用 {app}",
@@ -705,5 +704,6 @@
   "taskErrorHintAuth": "服务器拒绝了这个账号，请检查登录后重试。",
   "taskErrorHintNetwork": "传输失败，等网络恢复后重试。",
   "taskErrorHintSaving": "保存到相册失败，请检查剩余空间后重试。",
-  "taskErrorHintUnknown": "此任务失败，可重试或打开详情。"
+  "taskErrorHintUnknown": "此任务失败，可重试或打开详情。",
+  "adultGateDeniedBody": "本应用仅供成年人使用。不确认法定年龄，就无法继续使用。"
 }

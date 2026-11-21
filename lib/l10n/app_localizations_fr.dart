@@ -1464,9 +1464,6 @@ class AppLocalizationsFr extends AppLocalizations {
   String get failedToLoadIdentities => 'Échec du chargement des identités';
 
   @override
-  String get onboardingSkip => 'Passer';
-
-  @override
   String get onboardingBack => 'Retour';
 
   @override
@@ -2528,4 +2525,8 @@ class AppLocalizationsFr extends AppLocalizations {
   @override
   String get taskErrorHintUnknown =>
       'Cette tâche a échoué. Réessayez ou ouvrez ses détails.';
+
+  @override
+  String get adultGateDeniedBody =>
+      'Cette application ne s\'ouvre qu\'aux adultes. Rien ne continue sans confirmer que vous avez l\'âge légal.';
 }

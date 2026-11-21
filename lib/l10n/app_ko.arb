@@ -1213,10 +1213,6 @@
   "@failedToLoadIdentities": {
     "description": "Error shown when identities failed to load."
   },
-  "onboardingSkip": "건너뛰기",
-  "@onboardingSkip": {
-    "description": "Button that skips the onboarding."
-  },
   "onboardingBack": "뒤로",
   "@onboardingBack": {
     "description": "Button that returns to the previous onboarding step."
@@ -2522,5 +2518,6 @@
   "taskErrorHintAuth": "서버가 이 계정을 거부했습니다. 로그인을 확인한 후 다시 시도하세요.",
   "taskErrorHintNetwork": "전송에 실패했습니다. 네트워크가 복구되면 다시 시도하세요.",
   "taskErrorHintSaving": "갤러리에 저장하지 못했습니다. 여유 공간을 확인한 후 다시 시도하세요.",
-  "taskErrorHintUnknown": "이 작업이 실패했습니다. 다시 시도하거나 세부 정보를 여세요."
+  "taskErrorHintUnknown": "이 작업이 실패했습니다. 다시 시도하거나 세부 정보를 여세요.",
+  "adultGateDeniedBody": "이 앱은 성인만 이용할 수 있습니다. 법적 연령을 확인하지 않으면 더 이상 진행할 수 없습니다."
 }

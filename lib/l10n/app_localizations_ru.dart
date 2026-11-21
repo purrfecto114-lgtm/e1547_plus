@@ -1479,9 +1479,6 @@ class AppLocalizationsRu extends AppLocalizations {
   String get failedToLoadIdentities => 'Не удалось загрузить аккаунты';
 
   @override
-  String get onboardingSkip => 'Пропустить';
-
-  @override
   String get onboardingBack => 'Назад';
 
   @override
@@ -2543,4 +2540,8 @@ class AppLocalizationsRu extends AppLocalizations {
   @override
   String get taskErrorHintUnknown =>
       'Эта задача не удалась. Повторите попытку или откройте подробности.';
+
+  @override
+  String get adultGateDeniedBody =>
+      'Это приложение открывается только для взрослых. Ничего не продолжится без подтверждения совершеннолетия.';
 }

@@ -1450,9 +1450,6 @@ class AppLocalizationsVi extends AppLocalizations {
   String get failedToLoadIdentities => 'Không thể tải danh tính';
 
   @override
-  String get onboardingSkip => 'Bỏ qua';
-
-  @override
   String get onboardingBack => 'Quay lại';
 
   @override
@@ -2503,4 +2500,8 @@ class AppLocalizationsVi extends AppLocalizations {
   @override
   String get taskErrorHintUnknown =>
       'Tác vụ này thất bại. Thử lại hoặc mở chi tiết.';
+
+  @override
+  String get adultGateDeniedBody =>
+      'Ứng dụng này chỉ mở cho người trưởng thành. Không gì tiếp tục được nếu chưa xác nhận độ tuổi hợp pháp.';
 }

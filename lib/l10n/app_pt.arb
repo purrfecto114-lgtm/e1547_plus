@@ -416,7 +416,6 @@
   "identityActivateFailed": "Falha ao ativar a identidade: {error}",
   "traitsActivateFailed": "Falha ao ativar as preferências: {error}",
   "failedToLoadIdentities": "Falha ao carregar as identidades",
-  "onboardingSkip": "Pular",
   "onboardingBack": "Voltar",
   "onboardingNext": "Próximo",
   "onboardingWelcomeTitle": "Bem-vindo ao {app}",
@@ -705,5 +704,6 @@
   "taskErrorHintAuth": "O servidor rejeitou esta conta. Verifique seu login e tente novamente.",
   "taskErrorHintNetwork": "A transferência falhou. Tente novamente quando a rede voltar.",
   "taskErrorHintSaving": "Falha ao salvar na galeria. Verifique o espaço livre e tente novamente.",
-  "taskErrorHintUnknown": "Esta tarefa falhou. Tente novamente ou abra os detalhes."
+  "taskErrorHintUnknown": "Esta tarefa falhou. Tente novamente ou abra os detalhes.",
+  "adultGateDeniedBody": "Este aplicativo abre apenas para adultos. Nada continua sem confirmar que você tem a idade legal."
 }

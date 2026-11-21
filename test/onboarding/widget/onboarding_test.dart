@@ -63,32 +63,43 @@ void main() {
       )
       .selected;
 
-  testWidgets('renders welcome and language as the first page', (tester) async {
+  /// The localizations of the onboarding screen under test.
+  AppLocalizations l10nOf(WidgetTester tester) =>
+      AppLocalizations.of(tester.element(find.byType(OnboardingScreen)));
+
+  /// Confirms the age gate, which opens onto the welcome page. The
+  /// gate scrolls on short viewports, so the button is brought into
+  /// view before the tap.
+  Future<void> confirmAge(WidgetTester tester) async {
+    final l10n = l10nOf(tester);
+    await tester.ensureVisible(find.text(l10n.adultGateConfirm));
+    await tester.pumpAndSettle();
+    await tester.tap(find.text(l10n.adultGateConfirm));
+    await tester.pumpAndSettle();
+  }
+
+  testWidgets('opens with the age confirmation', (tester) async {
     await tester.pumpWidget(wrap(const OnboardingScreen()));
     await tester.pumpAndSettle();
+    final l10n = l10nOf(tester);
 
-    // the introduction and the language list share the first page
-    expect(find.text('Welcome to e1547'), findsOneWidget);
-    expect(find.text('A sophisticated booru browser.'), findsOneWidget);
-    expect(find.text('Choose a language'), findsOneWidget);
-    expect(find.text('System default'), findsOneWidget);
-    expect(find.text('English'), findsOneWidget);
-    expect(find.text('简体中文'), findsOneWidget);
-    expect(find.text('繁體中文'), findsOneWidget);
+    // The gate leads: on an adults-only site nothing, not even the
+    // language picker, may come before the confirmation.
+    expect(find.text(l10n.adultGateTitle), findsOneWidget);
+    expect(find.text(l10n.adultGateDeny), findsOneWidget);
+    expect(find.text('Welcome to e1547'), findsNothing);
 
-    // the step is rendered in english, not any other locale
-    expect(find.text('选择语言'), findsNothing);
-    expect(find.text('選擇語言'), findsNothing);
-
-    // without a stored language, the system default chip is selected
-    expect(settings.language.value, isNull);
-    expect(chipSelected(tester, 'System default'), isTrue);
-    expect(chipSelected(tester, 'English'), isFalse);
+    // The skip shortcut is gone: skipping used to mean going to the
+    // gate, and the gate is now where the pager already starts. The
+    // key is deleted, so the assertion reads the old label directly.
+    expect(find.text('Skip'), findsNothing);
+    expect(settings.onboardingSeen.value, isFalse);
   });
 
   testWidgets('selecting languages updates the setting', (tester) async {
     await tester.pumpWidget(wrap(const OnboardingScreen()));
     await tester.pumpAndSettle();
+    await confirmAge(tester);
 
     await tester.tap(find.text('简体中文'));
     await tester.pumpAndSettle();
@@ -107,6 +118,7 @@ void main() {
   ) async {
     await tester.pumpWidget(wrap(const OnboardingScreen()));
     await tester.pumpAndSettle();
+    await confirmAge(tester);
 
     // both the onboarding step and the settings language dialog
     // iterate appLanguages, so these options appear in both
@@ -130,6 +142,7 @@ void main() {
   testWidgets('picks the quality tiers before logging in', (tester) async {
     await tester.pumpWidget(wrap(const OnboardingScreen()));
     await tester.pumpAndSettle();
+    await confirmAge(tester);
 
     // the quality step follows the theme step
     await tester.tap(find.text('Next'));
@@ -171,6 +184,7 @@ void main() {
 
     await tester.pumpWidget(wrap(const OnboardingScreen()));
     await tester.pumpAndSettle();
+    await confirmAge(tester);
     await tester.tap(find.text('Next'));
     await tester.pumpAndSettle();
 
@@ -180,70 +194,52 @@ void main() {
     expect(tester.takeException(), isNull);
   });
 
-  testWidgets('skipping leads onto the age confirmation page', (tester) async {
+  testWidgets('denying the age page holds it open', (tester) async {
     await tester.pumpWidget(wrap(const OnboardingScreen()));
     await tester.pumpAndSettle();
-    final l10n = AppLocalizations.of(
-      tester.element(find.byType(OnboardingScreen)),
-    );
+    final l10n = l10nOf(tester);
 
-    // The skip shortcut ends up browsing as a guest on an adults-only
-    // site, so it leads onto the age page like every other way to the
-    // login does.
-    await tester.tap(find.text(l10n.onboardingSkip));
-    await tester.pumpAndSettle();
-    expect(find.text(l10n.adultGateTitle), findsOneWidget);
-    expect(settings.onboardingSeen.value, isFalse);
-
-    // Denying takes the user back a page; the only way past the gate is
-    // the confirmation.
+    // The gate is the first page, so denying has nowhere to go back
+    // to: the step states the requirement and keeps only the
+    // confirmation, which stays the one way forward.
     await tester.tap(find.text(l10n.adultGateDeny));
     await tester.pumpAndSettle();
-    expect(find.text(l10n.adultGateTitle), findsNothing);
-    expect(find.text(l10n.onboardingSkip), findsOneWidget);
+    expect(find.text(l10n.adultGateTitle), findsOneWidget);
+    expect(find.text(l10n.adultGateDeniedBody), findsOneWidget);
+    expect(find.text(l10n.adultGateDeny), findsNothing);
     expect(settings.onboardingSeen.value, isFalse);
 
-    // Confirming opens the login step — still without leaving the
-    // onboarding, and without the form stacking its own dialog on top
-    // of the page the user just confirmed.
-    await tester.tap(find.text(l10n.onboardingSkip));
-    await tester.pumpAndSettle();
+    // The confirmation keeps working from the refused state.
     await tester.tap(find.text(l10n.adultGateConfirm));
     await tester.pumpAndSettle();
-    expect(find.text(l10n.adultGateTitle), findsNothing);
-    expect(find.text(l10n.onboardingLoginTitle), findsOneWidget);
-    expect(find.text(l10n.identityGuest), findsOneWidget);
+    expect(find.text('Welcome to e1547'), findsOneWidget);
     expect(settings.onboardingSeen.value, isFalse);
   });
 
   testWidgets('the login step stays behind the age page', (tester) async {
     await tester.pumpWidget(wrap(const OnboardingScreen()));
     await tester.pumpAndSettle();
-    final l10n = AppLocalizations.of(
-      tester.element(find.byType(OnboardingScreen)),
-    );
+    final l10n = l10nOf(tester);
 
-    // Walk the pages to the age confirmation.
-    await tester.tap(find.text(l10n.onboardingNext));
-    await tester.pumpAndSettle();
-    await tester.tap(find.text(l10n.onboardingNext));
-    await tester.pumpAndSettle();
-    await tester.tap(find.text(l10n.onboardingNext));
-    await tester.pumpAndSettle();
-    expect(find.text(l10n.adultGateTitle), findsOneWidget);
-
-    // The pager offers no next button on the gate page, and a fling
-    // cannot carry the user past it either: the login step is only
-    // reachable through the confirmation.
+    // The gate opens the pager, so nothing needs walking through to
+    // reach it; a fling still cannot carry past it to the login.
     expect(find.text(l10n.onboardingNext), findsNothing);
     await tester.fling(find.byType(PageView), const Offset(-500, 0), 10000);
     await tester.pumpAndSettle();
     expect(find.text(l10n.onboardingLoginTitle), findsNothing);
     expect(find.text(l10n.adultGateTitle), findsOneWidget);
 
+    // Confirming moves on, and the login waits behind the rest.
     await tester.tap(find.text(l10n.adultGateConfirm));
     await tester.pumpAndSettle();
+    expect(find.text('Welcome to e1547'), findsOneWidget);
+    for (int i = 0; i < 3; i++) {
+      await tester.tap(find.text(l10n.onboardingNext));
+      await tester.pumpAndSettle();
+    }
     expect(find.text(l10n.onboardingLoginTitle), findsOneWidget);
+    expect(find.text(l10n.identityGuest), findsOneWidget);
+    expect(settings.onboardingSeen.value, isFalse);
   });
 
   testWidgets('the gate forces onboarding until it has been seen', (

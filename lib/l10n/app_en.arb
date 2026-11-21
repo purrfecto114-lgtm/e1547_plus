@@ -1241,10 +1241,6 @@
   "@failedToLoadIdentities": {
     "description": "Error shown when identities failed to load."
   },
-  "onboardingSkip": "Skip",
-  "@onboardingSkip": {
-    "description": "Button that skips the onboarding."
-  },
   "onboardingBack": "Back",
   "@onboardingBack": {
     "description": "Button that returns to the previous onboarding step."
@@ -2646,5 +2642,9 @@
   },
   "@taskErrorHintUnknown": {
     "description": "A task failed for an unrecognized reason."
+  },
+  "adultGateDeniedBody": "This app opens only for adults. Nothing here continues without confirming you are of legal age.",
+  "@adultGateDeniedBody": {
+    "description": "The body of the age gate after a denial: the requirement is restated and only the confirmation remains."
   }
 }

@@ -1454,9 +1454,6 @@ class AppLocalizationsIt extends AppLocalizations {
   String get failedToLoadIdentities => 'Impossibile caricare le identità';
 
   @override
-  String get onboardingSkip => 'Salta';
-
-  @override
   String get onboardingBack => 'Indietro';
 
   @override
@@ -2512,4 +2509,8 @@ class AppLocalizationsIt extends AppLocalizations {
   @override
   String get taskErrorHintUnknown =>
       'Questa attività non è riuscita. Riprova o apri i dettagli.';
+
+  @override
+  String get adultGateDeniedBody =>
+      'Questa app si apre solo per gli adulti. Nulla continua senza confermare di avere l\'età legale.';
 }

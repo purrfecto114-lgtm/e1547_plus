@@ -1463,9 +1463,6 @@ class AppLocalizationsEs extends AppLocalizations {
   String get failedToLoadIdentities => 'No se pudieron cargar las cuentas';
 
   @override
-  String get onboardingSkip => 'Omitir';
-
-  @override
   String get onboardingBack => 'Atrás';
 
   @override
@@ -2524,4 +2521,8 @@ class AppLocalizationsEs extends AppLocalizations {
   @override
   String get taskErrorHintUnknown =>
       'La tarea falló. Reinténtalo o abre sus detalles.';
+
+  @override
+  String get adultGateDeniedBody =>
+      'Esta aplicación abre solo para adultos. Nada continúa aquí sin confirmar que tienes la edad legal.';
 }

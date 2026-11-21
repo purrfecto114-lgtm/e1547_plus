@@ -416,7 +416,6 @@
   "identityActivateFailed": "Konto konnte nicht aktiviert werden: {error}",
   "traitsActivateFailed": "Einstellungen konnten nicht aktiviert werden: {error}",
   "failedToLoadIdentities": "Konten konnten nicht geladen werden",
-  "onboardingSkip": "Überspringen",
   "onboardingBack": "Zurück",
   "onboardingNext": "Weiter",
   "onboardingWelcomeTitle": "Willkommen bei {app}",
@@ -705,5 +704,6 @@
   "taskErrorHintAuth": "Der Server hat dieses Konto abgelehnt. Prüfe deine Anmeldung und versuche es erneut.",
   "taskErrorHintNetwork": "Die Übertragung ist fehlgeschlagen. Versuche es erneut, sobald das Netz wieder da ist.",
   "taskErrorHintSaving": "Das Speichern in die Galerie ist fehlgeschlagen. Prüfe den freien Speicher und versuche es erneut.",
-  "taskErrorHintUnknown": "Diese Aufgabe ist fehlgeschlagen. Versuche es erneut oder öffne die Details."
+  "taskErrorHintUnknown": "Diese Aufgabe ist fehlgeschlagen. Versuche es erneut oder öffne die Details.",
+  "adultGateDeniedBody": "Diese App öffnet sich nur für Erwachsene. Ohne die Bestätigung der Volljährigkeit geht es nicht weiter."
 }

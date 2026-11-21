@@ -1425,9 +1425,6 @@ class AppLocalizationsKo extends AppLocalizations {
   String get failedToLoadIdentities => '계정 로드 실패';
 
   @override
-  String get onboardingSkip => '건너뛰기';
-
-  @override
   String get onboardingBack => '뒤로';
 
   @override
@@ -2464,4 +2461,8 @@ class AppLocalizationsKo extends AppLocalizations {
 
   @override
   String get taskErrorHintUnknown => '이 작업이 실패했습니다. 다시 시도하거나 세부 정보를 여세요.';
+
+  @override
+  String get adultGateDeniedBody =>
+      '이 앱은 성인만 이용할 수 있습니다. 법적 연령을 확인하지 않으면 더 이상 진행할 수 없습니다.';
 }

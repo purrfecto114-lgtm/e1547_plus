@@ -1213,10 +1213,6 @@
   "@failedToLoadIdentities": {
     "description": "Error shown when identities failed to load."
   },
-  "onboardingSkip": "Salta",
-  "@onboardingSkip": {
-    "description": "Button that skips the onboarding."
-  },
   "onboardingBack": "Indietro",
   "@onboardingBack": {
     "description": "Button that returns to the previous onboarding step."
@@ -2522,5 +2518,6 @@
   "taskErrorHintAuth": "Il server ha rifiutato questo account. Controlla l'accesso e riprova.",
   "taskErrorHintNetwork": "Il trasferimento non è riuscito. Riprova quando la rete sarà di nuovo disponibile.",
   "taskErrorHintSaving": "Il salvataggio nella galleria non è riuscito. Controlla lo spazio libero e riprova.",
-  "taskErrorHintUnknown": "Questa attività non è riuscita. Riprova o apri i dettagli."
+  "taskErrorHintUnknown": "Questa attività non è riuscita. Riprova o apri i dettagli.",
+  "adultGateDeniedBody": "Questa app si apre solo per gli adulti. Nulla continua senza confermare di avere l'età legale."
 }

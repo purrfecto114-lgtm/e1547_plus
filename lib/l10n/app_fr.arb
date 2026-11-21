@@ -416,7 +416,6 @@
   "identityActivateFailed": "Échec de l'activation de l'identité : {error}",
   "traitsActivateFailed": "Échec de l'activation des traits : {error}",
   "failedToLoadIdentities": "Échec du chargement des identités",
-  "onboardingSkip": "Passer",
   "onboardingBack": "Retour",
   "onboardingNext": "Suivant",
   "onboardingWelcomeTitle": "Bienvenue sur {app}",
@@ -705,5 +704,6 @@
   "taskErrorHintAuth": "Le serveur a rejeté ce compte. Vérifiez votre connexion, puis réessayez.",
   "taskErrorHintNetwork": "Le transfert a échoué. Réessayez une fois le réseau rétabli.",
   "taskErrorHintSaving": "L'enregistrement dans la galerie a échoué. Vérifiez l'espace libre, puis réessayez.",
-  "taskErrorHintUnknown": "Cette tâche a échoué. Réessayez ou ouvrez ses détails."
+  "taskErrorHintUnknown": "Cette tâche a échoué. Réessayez ou ouvrez ses détails.",
+  "adultGateDeniedBody": "Cette application ne s'ouvre qu'aux adultes. Rien ne continue sans confirmer que vous avez l'âge légal."
 }

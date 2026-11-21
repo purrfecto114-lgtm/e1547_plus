@@ -464,7 +464,21 @@ void main() {
       home: const OnboardingScreen(),
     );
 
-    // the first step welcomes and offers languages together
+    // the flow opens with the age gate, and nothing comes before it
+    expect(find.text('先做个小确认'), findsOneWidget);
+    expect(find.text('当然——我已满 18 岁'), findsOneWidget);
+    expect(find.text('欢迎使用 e1547'), findsNothing);
+    // the skip shortcut is gone with the gate leading the pager
+    expect(find.text('跳过'), findsNothing);
+    // the gate page hides the next button until it is confirmed
+    expect(find.text('下一步'), findsNothing);
+    expect(find.text('上一步'), findsNothing);
+    expect(find.text('Choose a language'), findsNothing);
+
+    await tester.tap(find.text('当然——我已满 18 岁'));
+    await tester.pumpAndSettle();
+
+    // the second step welcomes and offers languages together
     expect(find.text('欢迎使用 e1547'), findsOneWidget);
     expect(find.text('一款精致的 booru 浏览器。'), findsOneWidget);
     expect(find.text('选择语言'), findsOneWidget);
@@ -472,9 +486,8 @@ void main() {
     expect(find.text('English'), findsOneWidget);
     expect(find.text('简体中文'), findsOneWidget);
     expect(find.text('繁體中文'), findsOneWidget);
-    expect(find.text('跳过'), findsOneWidget);
     expect(find.text('下一步'), findsOneWidget);
-    expect(find.text('上一步'), findsNothing);
+    expect(find.text('上一步'), findsOneWidget);
     expect(find.text('Choose a language'), findsNothing);
     expect(find.text('System default'), findsNothing);
     expect(find.text('Welcome to e1547'), findsNothing);
@@ -482,7 +495,7 @@ void main() {
     await tester.tap(find.text('下一步'));
     await tester.pumpAndSettle();
 
-    // the second step offers themes
+    // the third step offers themes
     expect(find.text('选个外观'), findsOneWidget);
     expect(find.text('先试试看。以后随时可以更换。'), findsOneWidget);
     expect(find.text('深色'), findsOneWidget);
@@ -495,7 +508,7 @@ void main() {
     await tester.tap(find.text('下一步'));
     await tester.pumpAndSettle();
 
-    // the third step tunes the media tiers
+    // the fourth step tunes the media tiers
     expect(find.text('调整媒体加载'), findsOneWidget);
     expect(find.text('选择视频与缩略图的加载规格，稍后可在设置中更改。'), findsOneWidget);
     expect(find.text('视频画质'), findsOneWidget);
@@ -506,15 +519,6 @@ void main() {
     expect(find.text('Tune your media'), findsNothing);
 
     await tester.tap(find.text('下一步'));
-    await tester.pumpAndSettle();
-
-    // the fourth step confirms the age before the login
-    expect(find.text('先做个小确认'), findsOneWidget);
-    expect(find.text('Connect an account'), findsNothing);
-    // the gate page hides the next button
-    expect(find.text('下一步'), findsNothing);
-
-    await tester.tap(find.text('当然——我已满 18 岁'));
     await tester.pumpAndSettle();
 
     // the fifth step connects an account

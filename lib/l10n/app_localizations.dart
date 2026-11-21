@@ -2621,12 +2621,6 @@ abstract class AppLocalizations {
   /// **'Failed to load identities'**
   String get failedToLoadIdentities;
 
-  /// Button that skips the onboarding.
-  ///
-  /// In en, this message translates to:
-  /// **'Skip'**
-  String get onboardingSkip;
-
   /// Button that returns to the previous onboarding step.
   ///
   /// In en, this message translates to:
@@ -4360,6 +4354,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'This task failed. Retry it, or open its details.'**
   String get taskErrorHintUnknown;
+
+  /// The body of the age gate after a denial: the requirement is restated and only the confirmation remains.
+  ///
+  /// In en, this message translates to:
+  /// **'This app opens only for adults. Nothing here continues without confirming you are of legal age.'**
+  String get adultGateDeniedBody;
 }
 
 class _AppLocalizationsDelegate

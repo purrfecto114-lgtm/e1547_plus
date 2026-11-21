@@ -1213,10 +1213,6 @@
   "@failedToLoadIdentities": {
     "description": "Error shown when identities failed to load."
   },
-  "onboardingSkip": "Pomiń",
-  "@onboardingSkip": {
-    "description": "Button that skips the onboarding."
-  },
   "onboardingBack": "Wstecz",
   "@onboardingBack": {
     "description": "Button that returns to the previous onboarding step."
@@ -2522,5 +2518,6 @@
   "taskErrorHintAuth": "Serwer odrzucił to konto. Sprawdź logowanie i spróbuj ponownie.",
   "taskErrorHintNetwork": "Przesyłanie nie powiodło się. Spróbuj ponownie, gdy sieć wróci.",
   "taskErrorHintSaving": "Zapis do galerii nie powiódł się. Sprawdź wolne miejsce i spróbuj ponownie.",
-  "taskErrorHintUnknown": "To zadanie nie powiodło się. Spróbuj ponownie lub otwórz szczegóły."
+  "taskErrorHintUnknown": "To zadanie nie powiodło się. Spróbuj ponownie lub otwórz szczegóły.",
+  "adultGateDeniedBody": "Ta aplikacja otwiera się tylko dla dorosłych. Bez potwierdzenia pełnoletności nic dalej nie pójdzie."
 }

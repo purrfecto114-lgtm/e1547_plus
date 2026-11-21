@@ -416,7 +416,6 @@
   "identityActivateFailed": "アカウントの有効化に失敗しました：{error}",
   "traitsActivateFailed": "特性の有効化に失敗しました：{error}",
   "failedToLoadIdentities": "アカウントを読み込めませんでした",
-  "onboardingSkip": "スキップ",
   "onboardingBack": "戻る",
   "onboardingNext": "次へ",
   "onboardingWelcomeTitle": "{app} へようこそ",
@@ -705,5 +704,6 @@
   "taskErrorHintAuth": "サーバーがこのアカウントを拒否しました。ログインを確認してから再試行してください。",
   "taskErrorHintNetwork": "転送に失敗しました。ネットワークが復帰したら再試行してください。",
   "taskErrorHintSaving": "ギャラリーへの保存に失敗しました。空き容量を確認してから再試行してください。",
-  "taskErrorHintUnknown": "このタスクは失敗しました。再試行するか、詳細を開いてください。"
+  "taskErrorHintUnknown": "このタスクは失敗しました。再試行するか、詳細を開いてください。",
+  "adultGateDeniedBody": "このアプリは成人向けです。成年であることを確認しないと、ここから先へは進めません。"
 }

@@ -1447,9 +1447,6 @@ class AppLocalizationsEn extends AppLocalizations {
   String get failedToLoadIdentities => 'Failed to load identities';
 
   @override
-  String get onboardingSkip => 'Skip';
-
-  @override
   String get onboardingBack => 'Back';
 
   @override
@@ -2503,4 +2500,8 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get taskErrorHintUnknown =>
       'This task failed. Retry it, or open its details.';
+
+  @override
+  String get adultGateDeniedBody =>
+      'This app opens only for adults. Nothing here continues without confirming you are of legal age.';
 }

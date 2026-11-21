@@ -30,18 +30,14 @@ class _OnboardingPagerState extends State<_OnboardingPager> {
   int page = 0;
   static const int pages = 5;
 
-  /// The age confirmation page. Every way into the login step — the next
-  /// buttons, swiping, the skip shortcut — leads through it, and the
-  /// login step itself stays out of reach until it has been confirmed.
-  static const int gatePage = pages - 2;
+  /// The age confirmation page. It opens the pager: on an adults-only
+  /// site nothing, not even the language picker, may come before it,
+  /// and every way into the login step — the next buttons, swiping —
+  /// leads through it, which stays out of reach until confirmed.
+  static const int gatePage = 0;
   bool adultConfirmed = false;
 
   void complete() => context.read<Settings>().onboardingSeen.value = true;
-
-  /// Skipping ends up browsing as an anonymous guest on an adults-only
-  /// site, so the shortcut leads onto the age confirmation page like
-  /// every other way to the login does.
-  void skip() => controller.jumpToPage(gatePage);
 
   void next() {
     // The page's own buttons already hide the way forward; the pager
@@ -80,18 +76,6 @@ class _OnboardingPagerState extends State<_OnboardingPager> {
               child: LimitedWidthChild(
                 child: Column(
                   children: [
-                    Align(
-                      alignment: Alignment.centerRight,
-                      child: Padding(
-                        padding: const EdgeInsets.all(8),
-                        child: onGate || adultConfirmed
-                            ? null
-                            : TextButton(
-                                onPressed: skip,
-                                child: Text(l10n.onboardingSkip),
-                              ),
-                      ),
-                    ),
                     Expanded(
                       child: PageView(
                         controller: controller,
@@ -103,10 +87,10 @@ class _OnboardingPagerState extends State<_OnboardingPager> {
                             : const NeverScrollableScrollPhysics(),
                         onPageChanged: (value) => setState(() => page = value),
                         children: [
+                          AdultGateStep(onConfirm: confirmAge),
                           const WelcomeLanguageStep(),
                           const ThemeStep(),
                           const QualityStep(),
-                          AdultGateStep(onConfirm: confirmAge, onDeny: back),
                           LoginStep(initialHost: host, onComplete: complete),
                         ],
                       ),
@@ -133,7 +117,11 @@ class _OnboardingPagerState extends State<_OnboardingPager> {
                             child: Text(l10n.onboardingBack),
                           ),
                         const Spacer(),
-                        if (!isLast && !onGate)
+                        // The gate page keeps the next button hidden
+                        // while it is unconfirmed — its own buttons
+                        // lead the way; after confirming, the pager
+                        // button returns for users who swipe back.
+                        if (!isLast && (!onGate || adultConfirmed))
                           ElevatedButton(
                             onPressed: next,
                             child: Text(l10n.onboardingNext),

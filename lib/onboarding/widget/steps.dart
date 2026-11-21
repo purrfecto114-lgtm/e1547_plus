@@ -447,21 +447,23 @@ class LoginStep extends StatelessWidget {
   }
 }
 
-/// The age confirmation page the login step sits behind.
+/// The age confirmation page the whole onboarding opens with.
 ///
-/// The whole onboarding routes through here before an identity can be
-/// created, so the confirmation happens once, on its own page, instead of
-/// a dialog stacked on top of the login form. Denying simply goes back;
-/// every way forward leads through the confirmation.
-class AdultGateStep extends StatelessWidget {
-  const AdultGateStep({
-    super.key,
-    required this.onConfirm,
-    required this.onDeny,
-  });
+/// Nothing may come before it, and every way forward leads through the
+/// confirmation. Denying has nowhere to go back to — the gate is the
+/// first page — so the step states the requirement again and keeps
+/// only the confirmation, which stays the one honest way forward.
+class AdultGateStep extends StatefulWidget {
+  const AdultGateStep({super.key, required this.onConfirm});
 
   final VoidCallback onConfirm;
-  final VoidCallback onDeny;
+
+  @override
+  State<AdultGateStep> createState() => _AdultGateStepState();
+}
+
+class _AdultGateStepState extends State<AdultGateStep> {
+  bool refused = false;
 
   @override
   Widget build(BuildContext context) {
@@ -477,18 +479,26 @@ class AdultGateStep extends StatelessWidget {
             textAlign: TextAlign.center,
           ),
           const SizedBox(height: 16),
-          Text(l10n.adultGateBody, textAlign: TextAlign.center),
+          Text(
+            refused ? l10n.adultGateDeniedBody : l10n.adultGateBody,
+            textAlign: TextAlign.center,
+          ),
           const SizedBox(height: 24),
           // The buttons wrap instead of sharing a row: the confirmation
           // label is long, and a narrow window must not overflow it.
+          // Once refused only the confirmation remains.
           Wrap(
             alignment: WrapAlignment.center,
             spacing: 16,
             runSpacing: 12,
             children: [
-              TextButton(onPressed: onDeny, child: Text(l10n.adultGateDeny)),
+              if (!refused)
+                TextButton(
+                  onPressed: () => setState(() => refused = true),
+                  child: Text(l10n.adultGateDeny),
+                ),
               FilledButton(
-                onPressed: onConfirm,
+                onPressed: widget.onConfirm,
                 child: Text(l10n.adultGateConfirm),
               ),
             ],

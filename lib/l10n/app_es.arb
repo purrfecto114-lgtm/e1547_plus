@@ -416,7 +416,6 @@
   "identityActivateFailed": "No se pudo activar la cuenta: {error}",
   "traitsActivateFailed": "No se pudieron activar las preferencias: {error}",
   "failedToLoadIdentities": "No se pudieron cargar las cuentas",
-  "onboardingSkip": "Omitir",
   "onboardingBack": "Atrás",
   "onboardingNext": "Siguiente",
   "onboardingWelcomeTitle": "Bienvenido a {app}",
@@ -705,5 +704,6 @@
   "taskErrorHintAuth": "El servidor rechazó esta cuenta. Comprueba tu inicio de sesión e inténtalo de nuevo.",
   "taskErrorHintNetwork": "La transferencia falló. Inténtalo de nuevo cuando la red vuelva.",
   "taskErrorHintSaving": "No se pudo guardar en la galería. Comprueba el espacio libre e inténtalo de nuevo.",
-  "taskErrorHintUnknown": "La tarea falló. Reinténtalo o abre sus detalles."
+  "taskErrorHintUnknown": "La tarea falló. Reinténtalo o abre sus detalles.",
+  "adultGateDeniedBody": "Esta aplicación abre solo para adultos. Nada continúa aquí sin confirmar que tienes la edad legal."
 }

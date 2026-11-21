@@ -1420,9 +1420,6 @@ class AppLocalizationsJa extends AppLocalizations {
   String get failedToLoadIdentities => 'アカウントを読み込めませんでした';
 
   @override
-  String get onboardingSkip => 'スキップ';
-
-  @override
   String get onboardingBack => '戻る';
 
   @override
@@ -2448,4 +2445,7 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get taskErrorHintUnknown => 'このタスクは失敗しました。再試行するか、詳細を開いてください。';
+
+  @override
+  String get adultGateDeniedBody => 'このアプリは成人向けです。成年であることを確認しないと、ここから先へは進めません。';
 }

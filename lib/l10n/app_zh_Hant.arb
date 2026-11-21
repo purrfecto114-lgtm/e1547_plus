@@ -416,7 +416,6 @@
   "identityActivateFailed": "啟用身分失敗：{error}",
   "traitsActivateFailed": "啟用特性失敗：{error}",
   "failedToLoadIdentities": "帳戶載入失敗",
-  "onboardingSkip": "略過",
   "onboardingBack": "上一步",
   "onboardingNext": "下一步",
   "onboardingWelcomeTitle": "歡迎使用 {app}",
@@ -705,5 +704,6 @@
   "taskErrorHintAuth": "伺服器拒絕了這個帳號，請檢查登入後重試。",
   "taskErrorHintNetwork": "傳輸失敗，等網路恢復後重試。",
   "taskErrorHintSaving": "儲存到相簿失敗，請檢查剩餘空間後重試。",
-  "taskErrorHintUnknown": "此任務失敗，可重試或開啟詳情。"
+  "taskErrorHintUnknown": "此任務失敗，可重試或開啟詳情。",
+  "adultGateDeniedBody": "本應用僅供成年人使用。不確認法定年齡，就無法繼續使用。"
 }

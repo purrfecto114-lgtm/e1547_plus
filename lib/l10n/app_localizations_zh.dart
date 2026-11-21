@@ -1413,9 +1413,6 @@ class AppLocalizationsZh extends AppLocalizations {
   String get failedToLoadIdentities => '账户加载失败';
 
   @override
-  String get onboardingSkip => '跳过';
-
-  @override
   String get onboardingBack => '上一步';
 
   @override
@@ -2435,6 +2432,9 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get taskErrorHintUnknown => '此任务失败，可重试或打开详情。';
+
+  @override
+  String get adultGateDeniedBody => '本应用仅供成年人使用。不确认法定年龄，就无法继续使用。';
 }
 
 /// The translations for Chinese, using the Han script (`zh_Hant`).
@@ -3843,9 +3843,6 @@ class AppLocalizationsZhHant extends AppLocalizationsZh {
   String get failedToLoadIdentities => '帳戶載入失敗';
 
   @override
-  String get onboardingSkip => '略過';
-
-  @override
   String get onboardingBack => '上一步';
 
   @override
@@ -4865,4 +4862,7 @@ class AppLocalizationsZhHant extends AppLocalizationsZh {
 
   @override
   String get taskErrorHintUnknown => '此任務失敗，可重試或開啟詳情。';
+
+  @override
+  String get adultGateDeniedBody => '本應用僅供成年人使用。不確認法定年齡，就無法繼續使用。';
 }
