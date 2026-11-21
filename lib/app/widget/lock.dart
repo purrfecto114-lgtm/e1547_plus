@@ -467,7 +467,8 @@ class _PinLockState extends State<PinLock> with SingleTickerProviderStateMixin {
       // A cooldown stamped by a fake clock shrinks once the clock
       // returns to reality: inside one session too, the wait never
       // outlives the policy cap.
-      final int cap = DateTime.now().millisecondsSinceEpoch +
+      final int cap =
+          DateTime.now().millisecondsSinceEpoch +
           PinBackoff.maxDelay.inMilliseconds;
       if (cooldownUntil!.millisecondsSinceEpoch > cap) {
         setState(() {

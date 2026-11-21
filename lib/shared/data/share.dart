@@ -29,10 +29,7 @@ abstract final class Share {
       // these exports used to land) never got cleaned up. Same
       // convention as getTemporaryAppDirectory in the app package.
       final dir = Directory(
-        join(
-          (await getTemporaryDirectory()).path,
-          AppInfo.instance.appName,
-        ),
+        join((await getTemporaryDirectory()).path, AppInfo.instance.appName),
       );
       await dir.create(recursive: true);
       File file = File(join(dir.path, name));
