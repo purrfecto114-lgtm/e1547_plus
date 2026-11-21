@@ -2,6 +2,7 @@ import 'package:cached_query/cached_query.dart';
 import 'package:drift/native.dart';
 import 'package:e1547/app/app.dart';
 import 'package:e1547/client/client.dart';
+import 'package:e1547/follow/follow.dart';
 import 'package:e1547/identity/identity.dart';
 import 'package:e1547/l10n/app_localizations.dart';
 import 'package:e1547/post/post.dart';
@@ -191,5 +192,17 @@ void main() {
         await Future<void>.delayed(const Duration(milliseconds: 50));
       });
     }
+  });
+
+  displayTest('a tag followed in another case shows as followed', (
+    tester,
+  ) async {
+    await tester.runAsync(
+      () => env.client.follows.create(tags: 'Fox', type: FollowType.update),
+    );
+
+    await open(tester);
+
+    expect(find.text('Unfollow'), findsOneWidget);
   });
 }
