@@ -4,6 +4,14 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and this project
 adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [22.6.0+230] - 2026-11-21
+### Changed
+- the age gate opens the onboarding: nothing, not even the language
+  picker, comes before the confirmation anymore, and the skip
+  shortcut is gone with it — the gate is where the pager starts.
+  Denying the gate now restates the requirement instead of stepping
+  back, keeping the confirmation as the one way forward
+
 ## [22.5.2+229] - 2026-11-21
 ### Changed
 - the task list speaks every language the app carries: the hints that
@@ -2025,3 +2033,4 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 [22.5.1-rc.1+227]: https://github.com/purrfecto114-lgtm/e1547_plus/compare/22.5.0+226...22.5.1-rc.1+227
 [22.5.1+228]: https://github.com/purrfecto114-lgtm/e1547_plus/compare/22.5.0+226...22.5.1+228
 [22.5.2+229]: https://github.com/purrfecto114-lgtm/e1547_plus/compare/22.5.1+228...22.5.2+229
+[22.6.0+230]: https://github.com/purrfecto114-lgtm/e1547_plus/compare/22.5.2+229...22.6.0+230

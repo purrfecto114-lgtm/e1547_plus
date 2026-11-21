@@ -1,0 +1,1 @@
+Opening the app now confirms your age before anything else: the age gate leads the onboarding instead of waiting behind the looks and quality picks, and the skip shortcut is gone with it, since the gate is where the pager starts. Denying the gate now restates the requirement and keeps the confirmation as the only way forward.
