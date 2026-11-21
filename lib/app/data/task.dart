@@ -39,9 +39,15 @@ Future<void> cancelFollowBackgroundTask() async {
   await Workmanager().cancelByUniqueName(followsBackgroundTaskKey);
 }
 
-Future<void> registerFollowBackgroundTask(List<Follow> follows) async {
+/// Registers the follow background task from the repository itself.
+///
+/// The caller's stream only reports the follows of its own account; a
+/// registration decision based on that list unregisters the task while
+/// another account still has notification follows. The repository spans
+/// every account, so the decision covers all of them.
+Future<void> registerFollowBackgroundTask(FollowRepository follows) async {
   if (!PlatformCapabilities.hasBackgroundWorker) return;
-  if (follows.where((e) => e.type == FollowType.notify).isEmpty) {
+  if ((await follows.all(types: [FollowType.notify])).isEmpty) {
     return cancelFollowBackgroundTask();
   }
   if (Platform.isIOS) {
