@@ -39,7 +39,7 @@ The in-app updater checks this repository for new versions; since the fork is si
 - Multilingual interface — thirteen languages, plus offline tag dictionaries (around 4000 simplified chinese descriptions with a traditional rendering, around 370 japanese)
 - Language and media quality selection during onboarding and in the settings
 - PIN and biometric device locks, with the system's screenshot blocker over the app switcher (off by default, in the settings)
-- Password-protected database exports (AES-256-GCM), with a password prompt on import
+- Optionally password-protected database exports (AES-256-GCM), with a password prompt on import
 - An incognito keyboard mode, and an 18+ age confirmation before logging in
 - Stable cursor pagination with a page footer and page jumping
 - Search filters for special search terms (order, rating, file type…), with metatag autocomplete grouped into labeled sections
@@ -51,7 +51,7 @@ The desktop builds are compiled from the same code but are the younger siblings;
 - **Cloudflare challenges cannot be solved on desktop** — the cookie webview is mobile only, so desktop users can only retry and wait.
 - **No screen capture protection on Windows/Linux** — the secure display setting hides itself there (Windows has a native equivalent, not yet wired up).
 - **No background sync or notifications on desktop** — follow updates refresh while the app is open only.
-- **The updater opens the releases page** on desktop, filtered by platform, instead of downloading in place.
+- **The updater opens the releases page** on every platform, instead of downloading in place; the version list it is reached through is pre-filtered by platform.
 
 Everything else — browsing, videos, the adaptive wide window layout, database import and export, the full interface — behaves the same as on mobile.
 
