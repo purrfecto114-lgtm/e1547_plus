@@ -305,6 +305,23 @@ Future<void> excludeFileFromBackup(String path) async {
   }
 }
 
+/// Excludes the standard-defaults plist (the lock pin hash and its
+/// backoff counters) from OS backups, closing the gap the database
+/// family never had on iOS. A missing plist (nothing written yet) is a
+/// no-op on the handler side.
+Future<void> excludePreferencesFromBackup() async {
+  if (!Platform.isIOS) return;
+  try {
+    await _storageChannel.invokeMethod('excludePreferencesFromBackup');
+  } on PlatformException catch (e, s) {
+    Logger(
+      'Storage',
+    ).warn('Failed to exclude preferences from backup', {}, e, s);
+  } on MissingPluginException {
+    // platform without the handler; nothing to do
+  }
+}
+
 /// Excludes the database and its sidecar/staging files from OS backups.
 ///
 /// The backup generation an import leaves behind (app.db.bak) carries the

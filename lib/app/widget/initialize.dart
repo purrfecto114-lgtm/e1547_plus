@@ -38,8 +38,10 @@ class AppInitState extends State<AppInit> {
     final storage = await initializeAppStorage();
     await backfillOnboardingSeen(storage);
     // Re-applied on every launch, so a database imported or renamed
-    // after the last check is covered too.
+    // after the last check is covered too; the preferences plist (the
+    // pin hash) joins it for the same reason.
     await excludeDatabaseFromBackup();
+    await excludePreferencesFromBackup();
     unawaited(initializeBackgroundTasks());
     VideoService.ensureInitialized();
     return (

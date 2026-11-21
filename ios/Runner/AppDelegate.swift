@@ -37,6 +37,25 @@ import workmanager_apple
           } catch {
             result(FlutterError(code: "io_error", message: error.localizedDescription, details: nil))
           }
+        case "excludePreferencesFromBackup":
+          // The standard-defaults plist carries the lock pin hash and its
+          // backoff counters; the database family is already excluded, and
+          // this closes the asymmetry so an iCloud restore cannot hand the
+          // hash to whoever ends up with the backup file. The plist only
+          // exists after the first write, so a missing file is a no-op
+          // rather than an error.
+          do {
+            let library = FileManager.default.urls(for: .libraryDirectory, in: .userDomainMask)[0]
+            if let domain = Bundle.main.bundleIdentifier {
+              let url = library.appendingPathComponent("Preferences/\(domain).plist")
+              if FileManager.default.fileExists(atPath: url.path) {
+                try (url as NSURL).setResourceValue(true, forKey: .isExcludedFromBackupKey)
+              }
+            }
+            result(true)
+          } catch {
+            result(FlutterError(code: "io_error", message: error.localizedDescription, details: nil))
+          }
         default:
           result(FlutterMethodNotImplemented)
         }
