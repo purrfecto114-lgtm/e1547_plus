@@ -79,9 +79,9 @@ class _LockScreenState extends State<LockScreen> {
 
   /// Verifies the entry against the stored pin and rehashes stale
   /// storage once it proves correct: a legacy plain text pin upgrades
-  /// to the salted hash, and a hash pinned at a lower iteration count
-  /// than the current default is lifted to it, both at the cost of the
-  /// unlock the user just made.
+  /// to the salted hash, and a hash pinned at any other iteration
+  /// count than the current default is realigned with it, both at the
+  /// cost of the unlock the user just made.
   Future<bool> verifyPinEntry(String entry) async {
     final settings = context.read<Settings>();
     final stored = settings.appPin.value;
@@ -92,10 +92,7 @@ class _LockScreenState extends State<LockScreen> {
     // derivation ran, and overwriting that with our own rehash would
     // discard whatever the writer intended.
     if (settings.appPin.value != stored) return true;
-    final int? storedIterations = pinHashIterationsOf(stored);
-    final bool stale =
-        storedIterations == null || storedIterations < pinHashIterations;
-    if (stale) {
+    if (needsRehash(stored)) {
       settings.appPin.value = await hashPin(entry);
     }
     return true;

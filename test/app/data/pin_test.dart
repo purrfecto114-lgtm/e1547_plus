@@ -1,6 +1,8 @@
 import 'package:e1547/app/app.dart';
 import 'package:flutter_test/flutter_test.dart';
 
+import '../../_support/pin.dart';
+
 void main() {
   group('hashPin / verifyPin', () {
     test('round trip accepts the correct pin', () async {
@@ -112,6 +114,23 @@ void main() {
       final parts = stored.split(r'$');
       final lowered = [parts[0], '1000', parts[2], parts[3]].join(r'$');
       expect(await verifyPin('1234', lowered), isFalse);
+    });
+
+    test('a record from the 150k era still verifies', () async {
+      final stored = await hashPinAt('2468', iterations: 150000);
+      expect(await verifyPin('2468', stored), isTrue);
+      // and the unlock it pays realigns it with today's default
+      expect(needsRehash(stored), isTrue);
+    });
+
+    test('needsRehash realigns any cost with the current default', () async {
+      // legacy plain text values upgrade
+      expect(needsRehash('2468'), isTrue);
+      // a fresh record is left alone
+      expect(needsRehash(await hashPin('1357')), isFalse);
+      // records at any other cost, cheaper or costlier, realign
+      expect(needsRehash(await hashPinAt('1357', iterations: 1000)), isTrue);
+      expect(needsRehash(await hashPinAt('1357', iterations: 150000)), isTrue);
     });
 
     test('degenerate stored records never verify any pin', () async {

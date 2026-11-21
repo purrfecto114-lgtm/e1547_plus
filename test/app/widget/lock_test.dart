@@ -130,7 +130,6 @@ void main() {
     expect(settings.appPinFailures.value, 1);
     expect(find.text('unlocked content'), findsNothing);
   });
-
   testWidgets('a forged cooldown stamp never outlives one cap', (tester) async {
     settings.appPin.value = await tester.runAsync(() => hashPin('2468'));
     // A stamp written under a clock pushed a day ahead, then restored:

@@ -21,14 +21,15 @@ import 'package:flutter/foundation.dart';
 ///
 /// # Iteration count
 ///
-/// 150k iterations match the database export KDF and cost about a
-/// second on the low end hardware this fork targets, which is the most
-/// an unlock path can ask of a user. Against a four digit space no
-/// affordable count buys real safety: a single GPU still sweeps the
-/// whole space in seconds at this cost factor. The pin lock is a
-/// shoulder-surfing defense; the offline guesser is meant to be stopped
-/// by the hash never leaving the device (backup exclusions) and the
-/// on-screen backoff, not by the KDF alone.
+/// 30k keeps the cold-start unlock snappy: the 150k this fork briefly
+/// tried cost about a second and a half on low end hardware, and the
+/// user judged the wait not worth it. Against a four digit space no
+/// affordable count buys real safety anyway: a single GPU still sweeps
+/// the whole space in seconds at either cost factor. The pin lock is
+/// a shoulder-surfing defense; the offline guesser is meant to be
+/// stopped by the hash never leaving the device (backup exclusions)
+/// and the on-screen backoff, not by the KDF alone. Records hashed at
+/// another cost are realigned by [needsRehash] on their next verify.
 
 /// Whether the lock screen currently covers the app.
 ///
@@ -38,7 +39,7 @@ import 'package:flutter/foundation.dart';
 final ValueNotifier<bool> appLocked = ValueNotifier(false);
 
 const String pinHashPrefix = 'e1547pin1';
-const int pinHashIterations = 150000;
+const int pinHashIterations = 30000;
 const int _saltLength = 16;
 
 /// Smallest parameters a stored hash may carry and still verify.
@@ -120,14 +121,19 @@ Future<String> hashPin(String pin) async {
 
 /// The iteration count recorded in a hashed pin, or null for a legacy
 /// plain text pin.
-///
-/// Callers use this to rehash a stored pin whose cost factor has since
-/// been raised, instead of leaving old hashes at their old strength
-/// forever.
 int? pinHashIterationsOf(String stored) {
   if (!isPinHash(stored)) return null;
   return int.tryParse(stored.split(r'$')[1]);
 }
+
+/// Whether a stored pin should be rehashed once it verifies.
+///
+/// True for legacy plain text values and for any hashed record whose
+/// cost is not the current default — recentering works both ways, so
+/// a record from a costlier era of the iteration constant comes down
+/// to today's default instead of pinning its user to the old wait.
+bool needsRehash(String stored) =>
+    pinHashIterationsOf(stored) != pinHashIterations;
 
 /// Verifies [pin] against the stored value.
 ///
