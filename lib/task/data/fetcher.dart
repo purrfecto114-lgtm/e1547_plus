@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:dio/dio.dart';
 import 'package:e1547/settings/settings.dart';
+import 'package:e1547/shared/shared.dart';
 import 'package:native_dio_adapter/native_dio_adapter.dart';
 import 'package:path/path.dart' as p;
 import 'package:path_provider/path_provider.dart';
@@ -37,6 +38,7 @@ Dio createTransferClient() {
     ),
   );
   dio.httpClientAdapter = NativeAdapter();
+  dio.interceptors.add(ClientExceptionInterceptor());
   return dio;
 }
 

@@ -5,8 +5,49 @@ import 'package:e1547/query/query.dart';
 
 export 'package:dio/dio.dart' show CancelToken;
 
-// TODO: Controllers now also throw Database exceptions, so this needs to be a real class.
-typedef ClientException = DioException;
+// TODO: Controllers also throw database exceptions; those are a separate
+// failure family and still need their own handlers at the call sites.
+/// The failure type every request through this app's dio instances
+/// throws.
+///
+/// It subclasses [DioException] so existing `on DioException` handlers
+/// keep working, while `on ClientException` names the app's own network
+/// failure surface — the [ClientExceptionInterceptor] below rewraps
+/// whatever the network stack produced on its way out.
+class ClientException extends DioException {
+  ClientException({
+    required super.requestOptions,
+    super.response,
+    super.type,
+    super.error,
+    super.stackTrace,
+    super.message,
+  });
+}
+
+/// Rewraps every [DioException] leaving the network stack into a
+/// [ClientException] without touching its fields. Added by every dio
+/// factory in the app, after the interceptors that inspect the
+/// original exception.
+class ClientExceptionInterceptor extends Interceptor {
+  @override
+  void onError(DioException err, ErrorInterceptorHandler handler) {
+    if (err is ClientException) {
+      handler.next(err);
+      return;
+    }
+    handler.next(
+      ClientException(
+        requestOptions: err.requestOptions,
+        response: err.response,
+        type: err.type,
+        error: err.error,
+        stackTrace: err.stackTrace,
+        message: err.message,
+      ),
+    );
+  }
+}
 
 bool isCloudflareChallenge(Response? response) {
   if (response == null) return false;

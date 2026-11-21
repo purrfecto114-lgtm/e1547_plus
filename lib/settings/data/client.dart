@@ -6,6 +6,7 @@ import 'package:dio/dio.dart';
 import 'package:e1547/logs/logs.dart';
 import 'package:e1547/query/query.dart';
 import 'package:e1547/settings/settings.dart';
+import 'package:e1547/shared/shared.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:native_dio_adapter/native_dio_adapter.dart';
@@ -16,6 +17,7 @@ class AppInfoClient {
   AppInfoClient({required this.queryCache, Dio? dio}) : _externalDio = dio {
     _dio.httpClientAdapter = NativeAdapter();
     _dio.interceptors.add(LoggingDioInterceptor());
+    _dio.interceptors.add(ClientExceptionInterceptor());
   }
 
   /// A dio instance which is used instead of the default one when set.

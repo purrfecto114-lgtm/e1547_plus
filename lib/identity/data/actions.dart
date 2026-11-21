@@ -143,7 +143,8 @@ Future<CredentialCheckResult> checkCredentials({
                 receiveTimeout: const Duration(seconds: 15),
               ),
             )
-        ..httpClientAdapter = NativeAdapter();
+        ..httpClientAdapter = NativeAdapter()
+        ..interceptors.add(ClientExceptionInterceptor());
   try {
     final Response<void> response = await client.head(
       // The november 2026 server update dropped /status.json; the post

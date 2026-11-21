@@ -26,6 +26,7 @@ Dio createDefaultDio(Identity identity, {CachedQuery? queryCache}) {
   dio.httpClientAdapter = NativeAdapter();
   dio.interceptors.add(NewlineReplaceInterceptor());
   dio.interceptors.add(LoggingDioInterceptor());
+  dio.interceptors.add(ClientExceptionInterceptor());
   if (queryCache != null) {
     dio.queryCache = queryCache;
   }
@@ -49,5 +50,6 @@ Dio createMediaDio() {
   );
   dio.httpClientAdapter = NativeAdapter();
   dio.interceptors.add(LoggingDioInterceptor());
+  dio.interceptors.add(ClientExceptionInterceptor());
   return dio;
 }

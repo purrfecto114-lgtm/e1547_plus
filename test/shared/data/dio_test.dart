@@ -116,4 +116,40 @@ void main() {
       expect(isConnectionError(null), isFalse);
     });
   });
+
+  group('ClientException', () {
+    test('the interceptor rewraps dio failures without losing fields', () {
+      final interceptor = ClientExceptionInterceptor();
+      final handler = _RecordingHandler();
+      final original = DioException.connectionError(
+        reason: 'closed',
+        requestOptions: RequestOptions(),
+      );
+      interceptor.onError(original, handler);
+      final rewritten = handler.error!;
+      expect(rewritten, isA<ClientException>());
+      expect(rewritten, isA<DioException>());
+      expect(rewritten.type, DioExceptionType.connectionError);
+      expect(rewritten.error, original.error);
+      expect(rewritten.requestOptions, original.requestOptions);
+    });
+
+    test('the interceptor passes an already wrapped failure through', () {
+      final interceptor = ClientExceptionInterceptor();
+      final handler = _RecordingHandler();
+      final wrapped = ClientException(
+        requestOptions: RequestOptions(),
+        type: DioExceptionType.cancel,
+      );
+      interceptor.onError(wrapped, handler);
+      expect(identical(handler.error, wrapped), isTrue);
+    });
+  });
+}
+
+class _RecordingHandler extends ErrorInterceptorHandler {
+  DioException? error;
+
+  @override
+  void next(DioException err) => error = err;
 }
