@@ -281,4 +281,3 @@ void main() {
     expect(switched.state.playing, isTrue);
   });
 }
-
