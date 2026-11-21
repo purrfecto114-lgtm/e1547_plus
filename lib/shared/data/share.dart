@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:e1547/l10n/app_localizations.dart';
+import 'package:e1547/settings/settings.dart' show AppInfo;
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -23,9 +24,18 @@ abstract final class Share {
     String name,
   ) async {
     if (Platform.isAndroid || Platform.isIOS) {
-      File file = File(
-        join(await getTemporaryDirectory().then((e) => e.path), name),
+      // The app's own subdirectory of the temp dir is what the startup
+      // sweep watches; files written to the temp root itself (where
+      // these exports used to land) never got cleaned up. Same
+      // convention as getTemporaryAppDirectory in the app package.
+      final dir = Directory(
+        join(
+          (await getTemporaryDirectory()).path,
+          AppInfo.instance.appName,
+        ),
       );
+      await dir.create(recursive: true);
+      File file = File(join(dir.path, name));
       await file.writeAsString(text);
       await SharePlus.instance.share(ShareParams(files: [XFile(file.path)]));
     } else {
