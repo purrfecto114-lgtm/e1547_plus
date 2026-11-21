@@ -1,0 +1,2 @@
+Videos load when you open one instead of while you browse: an opened video always plays right away, and with the auto-loading setting on, the videos next to it are prefetched too — neighbours that are not videos, or have no file, load nothing. The setting's description now says what it actually does.
+Unlocking with the pin no longer waits for the key derivation on every attempt: the session remembers the verified pin, so repeats answer instantly while the stored hash and its cost stay untouched. Removing the pin also forgets the remembered one.

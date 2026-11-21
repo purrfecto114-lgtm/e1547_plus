@@ -4,6 +4,19 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and this project
 adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [22.7.0+232] - 2026-11-21
+### Changed
+- videos load when you open one instead of while you browse: an
+  opened video always plays right away, and with the auto-loading
+  setting on, the videos next to it are prefetched too — neighbours
+  that are not videos, or have no file, load nothing. The setting's
+  description now says what it actually does
+### Fixed
+- unlocking with the pin no longer waits for the key derivation on
+  every attempt: the session remembers the verified pin, so repeats
+  answer instantly while the stored hash and its cost stay untouched.
+  Removing the pin also forgets the remembered one
+
 ## [22.7.0+231] - 2026-11-21
 ### Changed
 - the lock's pin hash is five times harder to brute force offline: the
@@ -2065,3 +2078,4 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 [22.5.2+229]: https://github.com/purrfecto114-lgtm/e1547_plus/compare/22.5.1+228...22.5.2+229
 [22.6.0+230]: https://github.com/purrfecto114-lgtm/e1547_plus/compare/22.5.2+229...22.6.0+230
 [22.7.0+231]: https://github.com/purrfecto114-lgtm/e1547_plus/compare/22.6.0+230...22.7.0+231
+[22.7.0+232]: https://github.com/purrfecto114-lgtm/e1547_plus/compare/22.7.0+231...22.7.0+232
