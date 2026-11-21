@@ -210,5 +210,14 @@ void main() {
       await launch('http://[');
       await launch('::not a url::');
     });
+
+    test('a non-web scheme is refused instead of handed to the system', () async {
+      // market:, mailto: and friends are scheme-escape surface; in the
+      // test shell a url_launcher call would throw, so returning
+      // quietly is the proof the scheme never left the app.
+      await launch('market://details?id=example');
+      await launch('mailto:someone@example.org');
+      await launch('ftp://example.org/file');
+    });
   });
 }

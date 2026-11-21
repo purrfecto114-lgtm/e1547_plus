@@ -3,6 +3,7 @@
   "appName": "e1547",
   "failedToLoad": "加载失败",
   "malformedLink": "链接格式错误，无法打开。",
+  "blockedLink": "该链接不是网页链接，无法打开。",
   "nothingToSeeHere": "这里什么都没有",
   "loading": "加载中…",
   "actionCancel": "取消",

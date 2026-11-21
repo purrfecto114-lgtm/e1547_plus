@@ -17,13 +17,24 @@ import 'package:url_launcher/url_launcher.dart' as urls;
 ///
 /// Post sources and markup hrefs carry whatever their author wrote, so
 /// the url can fail to parse: callers that hold a [context] get a
-/// snackbar saying so, the rest skip the launch quietly.
+/// snackbar saying so, the rest skip the launch quietly. Only web
+/// links leave the app: the cookie webview already treats non-http
+/// schemes (`intent:`, `market:`, …) as phishing surface, and the same
+/// threat walks in through markup links and post sources.
 Future<void> launch(String url, {BuildContext? context}) async {
   final Uri? parsed = Uri.tryParse(url);
   if (parsed == null) {
     if (context != null && context.mounted) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text(AppLocalizations.of(context).malformedLink)),
+      );
+    }
+    return;
+  }
+  if (parsed.scheme != 'http' && parsed.scheme != 'https') {
+    if (context != null && context.mounted) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text(AppLocalizations.of(context).blockedLink)),
       );
     }
     return;

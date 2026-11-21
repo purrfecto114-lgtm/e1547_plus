@@ -19,6 +19,10 @@ class AppLocalizationsVi extends AppLocalizations {
       'Liên kết này sai định dạng nên không thể mở được.';
 
   @override
+  String get blockedLink =>
+      'Liên kết này không phải là liên kết web nên không thể mở được.';
+
+  @override
   String get nothingToSeeHere => 'Không có gì để xem ở đây';
 
   @override

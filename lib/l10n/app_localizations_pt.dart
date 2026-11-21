@@ -19,6 +19,10 @@ class AppLocalizationsPt extends AppLocalizations {
       'Este link está mal formado e não pode ser aberto.';
 
   @override
+  String get blockedLink =>
+      'Este link não é um link da web e não pode ser aberto.';
+
+  @override
   String get nothingToSeeHere => 'Nada para ver aqui';
 
   @override

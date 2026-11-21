@@ -19,6 +19,10 @@ class AppLocalizationsPl extends AppLocalizations {
       'Ten link jest nieprawidłowo zbudowany i nie można go otworzyć.';
 
   @override
+  String get blockedLink =>
+      'Ten link nie jest linkiem webowym i nie można go otworzyć.';
+
+  @override
   String get nothingToSeeHere => 'Tu nic nie ma';
 
   @override

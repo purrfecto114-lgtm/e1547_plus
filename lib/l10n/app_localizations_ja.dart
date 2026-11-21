@@ -18,6 +18,9 @@ class AppLocalizationsJa extends AppLocalizations {
   String get malformedLink => 'このリンクは不正な形式のため開けません。';
 
   @override
+  String get blockedLink => 'このリンクはウェブリンクではないため開けません。';
+
+  @override
   String get nothingToSeeHere => '何もありません';
 
   @override

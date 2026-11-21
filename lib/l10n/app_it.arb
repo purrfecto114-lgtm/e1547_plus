@@ -7,6 +7,7 @@
   },
   "failedToLoad": "Caricamento fallito",
   "malformedLink": "Questo link non è valido e non può essere aperto.",
+  "blockedLink": "Questo link non è un link web e non può essere aperto.",
   "nothingToSeeHere": "Nulla da vedere qui",
   "loading": "Caricamento...",
   "actionCancel": "ANNULLA",

@@ -7,6 +7,11 @@
   },
   "failedToLoad": "Failed to load",
   "malformedLink": "This link is malformed and cannot be opened.",
+  "blockedLink": "This link is not a web link and cannot be opened.",
+  "@blockedLink": {
+    "description": "A link taken from a post or a message does not use http or https, so the app refuses to hand it to the system.",
+    "placeholders": {}
+  },
   "@malformedLink": {
     "description": "A link taken from a post or a message does not parse as a url.",
     "placeholders": {}

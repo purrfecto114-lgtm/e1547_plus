@@ -3,6 +3,7 @@
   "appName": "e1547",
   "failedToLoad": "Échec du chargement",
   "malformedLink": "Ce lien est mal formé et ne peut pas être ouvert.",
+  "blockedLink": "Ce lien n'est pas un lien web et ne peut pas être ouvert.",
   "nothingToSeeHere": "Rien à voir ici",
   "loading": "Chargement...",
   "actionCancel": "ANNULER",

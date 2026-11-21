@@ -18,6 +18,9 @@ class AppLocalizationsZh extends AppLocalizations {
   String get malformedLink => '链接格式错误，无法打开。';
 
   @override
+  String get blockedLink => '该链接不是网页链接，无法打开。';
+
+  @override
   String get nothingToSeeHere => '这里什么都没有';
 
   @override
@@ -2449,6 +2452,9 @@ class AppLocalizationsZhHant extends AppLocalizationsZh {
 
   @override
   String get malformedLink => '連結格式錯誤，無法開啟。';
+
+  @override
+  String get blockedLink => '該連結不是網頁連結，無法開啟。';
 
   @override
   String get nothingToSeeHere => '這裡什麼都沒有';

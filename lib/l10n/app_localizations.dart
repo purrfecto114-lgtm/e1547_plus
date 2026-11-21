@@ -137,6 +137,12 @@ abstract class AppLocalizations {
   /// **'This link is malformed and cannot be opened.'**
   String get malformedLink;
 
+  /// A link taken from a post or a message does not use http or https, so the app refuses to hand it to the system.
+  ///
+  /// In en, this message translates to:
+  /// **'This link is not a web link and cannot be opened.'**
+  String get blockedLink;
+
   /// No description provided for @nothingToSeeHere.
   ///
   /// In en, this message translates to:

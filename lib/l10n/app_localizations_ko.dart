@@ -18,6 +18,9 @@ class AppLocalizationsKo extends AppLocalizations {
   String get malformedLink => '이 링크는 형식이 잘못되어 열 수 없습니다.';
 
   @override
+  String get blockedLink => '이 링크는 웹 링크가 아니어서 열 수 없습니다.';
+
+  @override
   String get nothingToSeeHere => '여기는 볼 거 없어요';
 
   @override

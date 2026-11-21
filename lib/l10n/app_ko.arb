@@ -7,6 +7,7 @@
   },
   "failedToLoad": "로드 실패",
   "malformedLink": "이 링크는 형식이 잘못되어 열 수 없습니다.",
+  "blockedLink": "이 링크는 웹 링크가 아니어서 열 수 없습니다.",
   "nothingToSeeHere": "여기는 볼 거 없어요",
   "loading": "로딩 중...",
   "actionCancel": "취소",

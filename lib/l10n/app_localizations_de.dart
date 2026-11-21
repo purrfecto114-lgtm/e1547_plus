@@ -19,6 +19,10 @@ class AppLocalizationsDe extends AppLocalizations {
       'Dieser Link ist fehlerhaft und kann nicht geöffnet werden.';
 
   @override
+  String get blockedLink =>
+      'Dieser Link ist kein Weblink und kann nicht geöffnet werden.';
+
+  @override
   String get nothingToSeeHere => 'Hier gibt es nichts zu sehen';
 
   @override

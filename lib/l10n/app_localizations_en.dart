@@ -18,6 +18,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get malformedLink => 'This link is malformed and cannot be opened.';
 
   @override
+  String get blockedLink => 'This link is not a web link and cannot be opened.';
+
+  @override
   String get nothingToSeeHere => 'Nothing to see here';
 
   @override

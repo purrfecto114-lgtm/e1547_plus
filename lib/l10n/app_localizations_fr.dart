@@ -19,6 +19,10 @@ class AppLocalizationsFr extends AppLocalizations {
       'Ce lien est mal formé et ne peut pas être ouvert.';
 
   @override
+  String get blockedLink =>
+      'Ce lien n\'est pas un lien web et ne peut pas être ouvert.';
+
+  @override
   String get nothingToSeeHere => 'Rien à voir ici';
 
   @override

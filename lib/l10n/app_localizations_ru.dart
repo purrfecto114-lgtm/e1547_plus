@@ -19,6 +19,10 @@ class AppLocalizationsRu extends AppLocalizations {
       'Эта ссылка сформирована неправильно и не может быть открыта.';
 
   @override
+  String get blockedLink =>
+      'Эта ссылка не является веб-ссылкой и не может быть открыта.';
+
+  @override
   String get nothingToSeeHere => 'Здесь ничего нет';
 
   @override
