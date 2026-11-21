@@ -60,6 +60,7 @@ class DTextGrammar {
     _supSubDepth = 0;
     _activeCloses.clear();
     _singleNewlineDepth = 0;
+    _blockDepth = 0;
     final sanitised = _hasUnencodableScalar(input) ? '' : input;
     final result = _document.parse(sanitised);
     if (result is Success<DTextDocument>) {
@@ -849,9 +850,23 @@ class DTextGrammar {
   // Pushes [names] onto [_activeCloses] for the duration of [body], then
   // pops them. Multiple names cover containers whose close has spelling
   // variants (e.g. `[/spoiler]` and `[/spoilers]` both close `[spoiler]`).
+  //
+  // Every block container ([quote], [section], [spoiler]) goes through
+  // here, so this is also where their nesting is capped: an open past
+  // [_blockMaxDepth] fails the container match and the tag degrades to
+  // paragraph text, keeping a hostile description from walking the
+  // parser's recursion past the isolate stack (probed: 2k quotes parse,
+  // 10k overflow without the cap).
+  int _blockDepth = 0;
+  static const int _blockMaxDepth = 20;
+
   Parser<T> _withActiveClose<T>(Object names, Parser<T> body) {
     final list = names is List<String> ? names : [names as String];
     return body.callCC<T>((continuation, context) {
+      if (_blockDepth >= _blockMaxDepth) {
+        return context.failure('block nested deeper than $_blockMaxDepth');
+      }
+      _blockDepth++;
       _activeCloses.addAll(list);
       try {
         return continuation(context);
@@ -859,6 +874,7 @@ class DTextGrammar {
         for (var i = 0; i < list.length; i++) {
           _activeCloses.removeLast();
         }
+        _blockDepth--;
       }
     });
   }
