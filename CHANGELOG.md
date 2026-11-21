@@ -4,6 +4,22 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and this project
 adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [22.8.0+233] - 2026-11-21
+### Changed
+- the pin derivation is back to a snappy cost: the 150k round fork
+  briefly tried made every cold unlock wait a second and a half, and
+  against a four digit pin no affordable count buys real safety —
+  the on-screen backoff and the hash never leaving the device carry
+  that defense. Records hashed at the old cost realign with the new
+  one on their next successful unlock, and the chinese interface now
+  calls the tasks panel "download tasks" and the database section
+  "personal data"
+### Fixed
+- an image that failed to load retries on the next refresh instead of
+  pinning its broken-image tile until it scrolls out of view, and the
+  about and database pages use the back arrow like every other
+  second-level page
+
 ## [22.7.0+232] - 2026-11-21
 ### Changed
 - videos load when you open one instead of while you browse: an
@@ -2078,4 +2094,5 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 [22.5.2+229]: https://github.com/purrfecto114-lgtm/e1547_plus/compare/22.5.1+228...22.5.2+229
 [22.6.0+230]: https://github.com/purrfecto114-lgtm/e1547_plus/compare/22.5.2+229...22.6.0+230
 [22.7.0+231]: https://github.com/purrfecto114-lgtm/e1547_plus/compare/22.6.0+230...22.7.0+231
+[22.8.0+233]: https://github.com/purrfecto114-lgtm/e1547_plus/compare/22.7.0+232...22.8.0+233
 [22.7.0+232]: https://github.com/purrfecto114-lgtm/e1547_plus/compare/22.7.0+231...22.7.0+232

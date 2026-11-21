@@ -1,0 +1,3 @@
+The pin derivation is back to a snappy cost: the expensive round this fork briefly tried made every cold unlock wait a second and a half, and against a four digit pin no affordable count buys real safety — the on-screen backoff and the hash never leaving the device carry that defense. Records hashed at the old cost realign with the new one on their next successful unlock.
+The chinese interface now calls the tasks panel "download tasks" and the database section "personal data".
+An image that failed to load retries on the next refresh instead of pinning its broken-image tile until it scrolls out of view, and the about and database pages use the back arrow like every other second-level page.
