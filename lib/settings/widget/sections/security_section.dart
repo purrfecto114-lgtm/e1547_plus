@@ -67,6 +67,8 @@ class SettingsSecuritySection extends StatelessWidget {
                 // A fresh registration starts without the old streak.
                 settings.appPinFailures.value = 0;
                 settings.appPinLockedUntil.value = 0;
+                // And the session cache forgets the pin with the lock.
+                clearSessionVerification();
                 // Without the pin the biometric lock is a dead end: its
                 // screen only offers retries, so a sensor that stops
                 // working would lock the user out for good.

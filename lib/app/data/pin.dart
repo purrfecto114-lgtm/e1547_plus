@@ -78,6 +78,12 @@ class _SessionVerification {
 
 _SessionVerification? _session;
 
+/// Drops the session verification cache, e.g. when the pin is removed:
+/// the remembered pin and its derivation must not outlive the lock.
+void clearSessionVerification() {
+  _session = null;
+}
+
 /// Whether [stored] is a hashed pin rather than a legacy plain text one.
 bool isPinHash(String stored) => stored.startsWith('$pinHashPrefix\$');
 

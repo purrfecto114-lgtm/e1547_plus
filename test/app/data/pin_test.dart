@@ -10,7 +10,12 @@ void main() {
 
     test('a repeat verification answers from the session cache', () async {
       final stored = await hashPin('2468');
-      // The first verification pays the full derivation...
+      // A verification against a different record pushes this session's
+      // cache aside, so the first 2468 verification below really pays
+      // the full derivation instead of answering from hashPin's write.
+      final other = await hashPin('1357');
+      expect(await verifyPin('1357', other), isTrue);
+      // The first 2468 verification pays the full derivation...
       expect(await verifyPin('2468', stored), isTrue);
       // ...the repeat answers from memory: 150k rounds cost the better
       // part of a second, the cache microseconds. The comparison still
