@@ -25,7 +25,7 @@ void main() {
   testWidgets('is off by default', (tester) async {
     await tester.pumpWidget(wrap(const AutoLoadVideosTile()));
     expect(settings.autoLoadVideos.value, isFalse);
-    expect(find.text('videos load when played'), findsOneWidget);
+    expect(find.text('videos load only when you open one'), findsOneWidget);
   });
 
   testWidgets('enabling asks for confirmation first', (tester) async {
@@ -36,7 +36,7 @@ void main() {
     expect(find.byType(AlertDialog), findsOneWidget);
     expect(
       find.text(
-        'Videos will be downloaded in full while you browse and search. '
+        'Opening a video also downloads the videos next to it in full. '
         'This can consume a lot of data on metered connections.',
       ),
       findsOneWidget,
@@ -55,7 +55,7 @@ void main() {
 
     expect(find.byType(AlertDialog), findsNothing);
     expect(settings.autoLoadVideos.value, isTrue);
-    expect(find.text('videos load while browsing'), findsOneWidget);
+    expect(find.text('the videos next to the one you open load ahead of time'), findsOneWidget);
   });
 
   testWidgets('canceling keeps auto-loading off', (tester) async {
@@ -69,7 +69,7 @@ void main() {
     expect(find.byType(AlertDialog), findsNothing);
     expect(settings.autoLoadVideos.value, isFalse);
     // the switch tile did not flip either
-    expect(find.text('videos load when played'), findsOneWidget);
+    expect(find.text('videos load only when you open one'), findsOneWidget);
   });
 
   testWidgets('disabling takes effect without a dialog', (tester) async {
