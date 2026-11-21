@@ -92,7 +92,7 @@ class AppLocalizationsZh extends AppLocalizations {
   }
 
   @override
-  String get taskCancelled => '已取消任务';
+  String get taskCancelled => '已取消下载任务';
 
   @override
   String taskFailedAt(num index) {
@@ -136,7 +136,7 @@ class AppLocalizationsZh extends AppLocalizations {
   String get navHistory => '历史';
 
   @override
-  String get navTasks => '任务';
+  String get navTasks => '下载任务';
 
   @override
   String get navSettings => '设置';
@@ -398,13 +398,13 @@ class AppLocalizationsZh extends AppLocalizations {
   }
 
   @override
-  String get settingsDatabase => '数据库';
+  String get settingsDatabase => '个人数据';
 
   @override
-  String get databaseExporting => '正在导出数据库…';
+  String get databaseExporting => '正在导出个人数据…';
 
   @override
-  String get databaseExported => '数据库导出成功';
+  String get databaseExported => '个人数据导出成功';
 
   @override
   String get databaseExportFailed => '导出失败';
@@ -413,11 +413,11 @@ class AppLocalizationsZh extends AppLocalizations {
   String get databaseExport => '导出';
 
   @override
-  String get databaseImporting => '正在导入数据库…';
+  String get databaseImporting => '正在导入个人数据…';
 
   @override
   String databaseInvalidFile(String error) {
-    return '无效的数据库文件：$error';
+    return '无效的个人数据文件：$error';
   }
 
   @override
@@ -429,7 +429,7 @@ class AppLocalizationsZh extends AppLocalizations {
   String get databaseImportTooLarge => '该文件过大，无法导入。';
 
   @override
-  String get databaseImportTitle => '导入数据库';
+  String get databaseImportTitle => '导入个人数据';
 
   @override
   String get databaseRestartTitle => '需要重启';
@@ -552,26 +552,26 @@ class AppLocalizationsZh extends AppLocalizations {
   String get developerUnlocked => '你已成为开发者！';
 
   @override
-  String get databaseErrorLoading => '数据库加载出错';
+  String get databaseErrorLoading => '个人数据加载出错';
 
   @override
   String get databaseUnknownSize => '未知';
 
   @override
-  String get databaseExportTitle => '导出数据库';
+  String get databaseExportTitle => '导出个人数据';
 
   @override
-  String get databaseExportSubtitle => '保存数据库备份副本';
+  String get databaseExportSubtitle => '保存个人数据备份副本';
 
   @override
-  String get databaseImportSubtitle => '用导入的数据库替换当前数据库';
+  String get databaseImportSubtitle => '用导入的个人数据替换当前个人数据';
 
   @override
-  String get databaseImportWarning => '这将替换你当前的数据库。\n所有数据都会丢失，且无法撤销！';
+  String get databaseImportWarning => '这将替换你当前的个人数据。\n所有数据都会丢失，且无法撤销！';
 
   @override
   String get databaseExportSanitizedBody =>
-      '导出的文件不会包含你的登录信息和 API 密钥。\n其余内容（账户、站点、历史、关注和任务）都会包含。';
+      '导出的文件不会包含你的登录信息和 API 密钥。\n其余内容（账户、站点、历史、关注和下载任务）都会包含。';
 
   @override
   String get databaseImportNewerFile => '此文件由更新版本的应用创建，无法导入。';
@@ -2176,17 +2176,17 @@ class AppLocalizationsZh extends AppLocalizations {
   String get taskDismiss => '忽略';
 
   @override
-  String get taskNoTasks => '没有任务';
+  String get taskNoTasks => '没有下载任务';
 
   @override
-  String get taskFailedToLoadTasks => '任务加载失败';
+  String get taskFailedToLoadTasks => '下载任务加载失败';
 
   @override
   String taskSelectionCount(num count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '$count 个任务',
+      other: '$count 个下载任务',
     );
     return '$_temp0';
   }
@@ -2340,7 +2340,7 @@ class AppLocalizationsZh extends AppLocalizations {
   String get selectOptions => '选择选项...';
 
   @override
-  String get databaseNotE1547 => '该文件不是 e1547 数据库。';
+  String get databaseNotE1547 => '该文件不是 e1547 个人数据。';
 
   @override
   String get adultGateTitle => '先做个小确认';
@@ -2362,7 +2362,7 @@ class AppLocalizationsZh extends AppLocalizations {
   String get databaseExportPasswordHint => '为导出的文件加密；留空则导出未加密的普通文件。';
 
   @override
-  String get databaseImportEncryptedTitle => '加密的数据库';
+  String get databaseImportEncryptedTitle => '加密的个人数据';
 
   @override
   String get databaseImportPasswordLabel => '密码';
@@ -2418,7 +2418,7 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String taskFailureRetention(int days) {
-    return '失败的任务将保留 $days 天，之后自动清理。';
+    return '失败的下载任务将保留 $days 天，之后自动清理。';
   }
 
   @override
@@ -2434,7 +2434,7 @@ class AppLocalizationsZh extends AppLocalizations {
   String get taskErrorHintSaving => '保存到相册失败，请检查剩余空间后重试。';
 
   @override
-  String get taskErrorHintUnknown => '此任务失败，可重试或打开详情。';
+  String get taskErrorHintUnknown => '此下载任务失败，可重试或打开详情。';
 
   @override
   String get adultGateDeniedBody => '本应用仅供成年人使用。不确认法定年龄，就无法继续使用。';
@@ -2528,7 +2528,7 @@ class AppLocalizationsZhHant extends AppLocalizationsZh {
   }
 
   @override
-  String get taskCancelled => '已取消任務';
+  String get taskCancelled => '已取消下載任務';
 
   @override
   String taskFailedAt(num index) {
@@ -2572,7 +2572,7 @@ class AppLocalizationsZhHant extends AppLocalizationsZh {
   String get navHistory => '歷史';
 
   @override
-  String get navTasks => '任務';
+  String get navTasks => '下載任務';
 
   @override
   String get navSettings => '設定';
@@ -2833,13 +2833,13 @@ class AppLocalizationsZhHant extends AppLocalizationsZh {
   }
 
   @override
-  String get settingsDatabase => '資料庫';
+  String get settingsDatabase => '個人資料';
 
   @override
-  String get databaseExporting => '正在匯出資料庫…';
+  String get databaseExporting => '正在匯出個人資料…';
 
   @override
-  String get databaseExported => '資料庫匯出成功';
+  String get databaseExported => '個人資料匯出成功';
 
   @override
   String get databaseExportFailed => '匯出失敗';
@@ -2848,11 +2848,11 @@ class AppLocalizationsZhHant extends AppLocalizationsZh {
   String get databaseExport => '匯出';
 
   @override
-  String get databaseImporting => '正在匯入資料庫…';
+  String get databaseImporting => '正在匯入個人資料…';
 
   @override
   String databaseInvalidFile(String error) {
-    return '無效的資料庫檔案：$error';
+    return '無效的個人資料檔案：$error';
   }
 
   @override
@@ -2864,7 +2864,7 @@ class AppLocalizationsZhHant extends AppLocalizationsZh {
   String get databaseImportTooLarge => '該檔案過大，無法匯入。';
 
   @override
-  String get databaseImportTitle => '匯入資料庫';
+  String get databaseImportTitle => '匯入個人資料';
 
   @override
   String get databaseRestartTitle => '需要重新啟動';
@@ -2987,26 +2987,26 @@ class AppLocalizationsZhHant extends AppLocalizationsZh {
   String get developerUnlocked => '你已成為開發者！';
 
   @override
-  String get databaseErrorLoading => '資料庫載入錯誤';
+  String get databaseErrorLoading => '個人資料載入錯誤';
 
   @override
   String get databaseUnknownSize => '未知';
 
   @override
-  String get databaseExportTitle => '匯出資料庫';
+  String get databaseExportTitle => '匯出個人資料';
 
   @override
-  String get databaseExportSubtitle => '儲存資料庫備份副本';
+  String get databaseExportSubtitle => '儲存個人資料備份副本';
 
   @override
-  String get databaseImportSubtitle => '以匯入的資料庫取代目前資料庫';
+  String get databaseImportSubtitle => '以匯入的個人資料取代目前個人資料';
 
   @override
-  String get databaseImportWarning => '這將取代你目前的資料庫。\n所有資料都會遺失，且無法復原！';
+  String get databaseImportWarning => '這將取代你目前的個人資料。\n所有資料都會遺失，且無法復原！';
 
   @override
   String get databaseExportSanitizedBody =>
-      '匯出的檔案不會包含你的登入資訊和 API 金鑰。\n其餘內容（帳號、網站、歷史、關注和任務）都會包含。';
+      '匯出的檔案不會包含你的登入資訊和 API 金鑰。\n其餘內容（帳號、網站、歷史、關注和下載任務）都會包含。';
 
   @override
   String get databaseImportNewerFile => '此檔案由較新版本的應用程式建立，無法匯入。';
@@ -4611,17 +4611,17 @@ class AppLocalizationsZhHant extends AppLocalizationsZh {
   String get taskDismiss => '忽略';
 
   @override
-  String get taskNoTasks => '沒有任務';
+  String get taskNoTasks => '沒有下載任務';
 
   @override
-  String get taskFailedToLoadTasks => '任務載入失敗';
+  String get taskFailedToLoadTasks => '下載任務載入失敗';
 
   @override
   String taskSelectionCount(num count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '$count 個任務',
+      other: '$count 個下載任務',
     );
     return '$_temp0';
   }
@@ -4775,7 +4775,7 @@ class AppLocalizationsZhHant extends AppLocalizationsZh {
   String get selectOptions => '選擇選項...';
 
   @override
-  String get databaseNotE1547 => '該檔案不是 e1547 資料庫。';
+  String get databaseNotE1547 => '該檔案不是 e1547 個人資料。';
 
   @override
   String get adultGateTitle => '先做個小確認';
@@ -4797,7 +4797,7 @@ class AppLocalizationsZhHant extends AppLocalizationsZh {
   String get databaseExportPasswordHint => '為匯出的檔案加密；留空則匯出未加密的普通檔案。';
 
   @override
-  String get databaseImportEncryptedTitle => '加密的資料庫';
+  String get databaseImportEncryptedTitle => '加密的個人資料';
 
   @override
   String get databaseImportPasswordLabel => '密碼';
@@ -4853,7 +4853,7 @@ class AppLocalizationsZhHant extends AppLocalizationsZh {
 
   @override
   String taskFailureRetention(int days) {
-    return '失敗的任務會保留 $days 天，之後自動清理。';
+    return '失敗的下載任務會保留 $days 天，之後自動清理。';
   }
 
   @override
@@ -4869,7 +4869,7 @@ class AppLocalizationsZhHant extends AppLocalizationsZh {
   String get taskErrorHintSaving => '儲存到相簿失敗，請檢查剩餘空間後重試。';
 
   @override
-  String get taskErrorHintUnknown => '此任務失敗，可重試或開啟詳情。';
+  String get taskErrorHintUnknown => '此下載任務失敗，可重試或開啟詳情。';
 
   @override
   String get adultGateDeniedBody => '本應用僅供成年人使用。不確認法定年齡，就無法繼續使用。';
