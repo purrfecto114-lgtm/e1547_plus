@@ -21,9 +21,15 @@ import 'package:flutter/foundation.dart';
 ///
 /// # Iteration count
 ///
-/// 30k iterations cost clearly under a second even on the Android 7
-/// class of hardware this fork targets, while pushing offline guessing
-/// of a four digit pin from instant to hours per file.
+/// 150k iterations match the database export KDF and cost about a
+/// second on the low end hardware this fork targets, which is the most
+/// an unlock path can ask of a user. Against a four digit space no
+/// affordable count buys real safety: a single GPU still sweeps the
+/// whole space in seconds at this cost factor. The pin lock is a
+/// shoulder-surfing defense; the offline guesser is meant to be stopped
+/// by the hash never leaving the device (backup exclusions) and the
+/// on-screen backoff, not by the KDF alone.
+
 /// Whether the lock screen currently covers the app.
 ///
 /// The lock screen is not a route, so shortcuts that pop routes cannot
@@ -32,7 +38,7 @@ import 'package:flutter/foundation.dart';
 final ValueNotifier<bool> appLocked = ValueNotifier(false);
 
 const String pinHashPrefix = 'e1547pin1';
-const int pinHashIterations = 30000;
+const int pinHashIterations = 150000;
 const int _saltLength = 16;
 
 /// Smallest parameters a stored hash may carry and still verify.
@@ -54,9 +60,9 @@ bool isPinHash(String stored) => stored.startsWith('$pinHashPrefix\$');
 
 /// Hashes [pin] into the versioned storage format.
 ///
-/// The derivation runs on a background isolate: thirty thousand
-/// PBKDF2 rounds block the ui isolate for a visible fraction of a
-/// second on the low end hardware this fork targets.
+/// The derivation runs on a background isolate: the PBKDF2 rounds block
+/// the ui isolate for about a second on the low end hardware this fork
+/// targets.
 Future<String> hashPin(String pin) async {
   final salt = _randomBytes(_saltLength);
   final bytes = await Isolate.run(() async {
@@ -154,6 +160,18 @@ abstract final class PinBackoff {
     final int exponent = min(failures - freeAttempts, 8);
     final seconds = _baseSeconds * (1 << (exponent - 1));
     return Duration(seconds: min(_capSeconds, seconds));
+  }
+
+  /// The wall clock stamp the [failures]-th failure should leave behind.
+  ///
+  /// The stamp is a ratchet: a previous stamp still in the future (a
+  /// clock that was pushed forward when it was written) survives the
+  /// next failure instead of being pulled back, while one already in
+  /// the past (the wait ran out) is replaced by the fresh wait.
+  static int nextUntil(int? previous, int failures, DateTime now) {
+    final fresh = now.add(delayFor(failures)).millisecondsSinceEpoch;
+    if (previous == null || previous <= 0) return fresh;
+    return previous > fresh ? previous : fresh;
   }
 }
 
