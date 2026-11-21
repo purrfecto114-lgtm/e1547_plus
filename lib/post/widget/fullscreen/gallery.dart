@@ -74,6 +74,11 @@ class _PostFullscreenGalleryState extends State<PostFullscreenGallery>
                       posts: items ?? [],
                       size: PostImageSize.file,
                     );
+                    preloadNeighborVideos(
+                      context: context,
+                      index: index,
+                      posts: items ?? [],
+                    );
                   },
                   builderDelegate: defaultPagedChildBuilderDelegate(
                     onRetry: query.getNextPage,

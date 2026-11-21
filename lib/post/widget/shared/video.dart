@@ -642,6 +642,9 @@ class PostVideoRouteState extends State<PostVideoRoute> {
     }
     VideoPlayer? next = widget.post.getVideo(
       context,
+      // The video route only exists because it was opened: watching is
+      // the intent, so its video always loads.
+      autoLoad: true,
       seekTo: seekTo ?? _carriedPosition,
       resume: resume || (_carriedResume && player == null),
     );

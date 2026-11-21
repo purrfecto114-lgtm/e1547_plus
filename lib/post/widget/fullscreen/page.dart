@@ -52,7 +52,10 @@ class PostFullscreenState extends State<PostFullscreen> {
                   case PostType.image:
                     return _PostFullscreenImage(post: widget.post);
                   case PostType.video:
-                    VideoPlayer? player = widget.post.getVideo(context);
+                    VideoPlayer? player = widget.post.getVideo(
+                      context,
+                      autoLoad: true,
+                    );
                     return Center(
                       child: ContentHero(
                         tag: widget.post.link,

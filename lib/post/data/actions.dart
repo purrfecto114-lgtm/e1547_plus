@@ -234,6 +234,7 @@ extension PostVideoPlaying on Post {
     BuildContext context, {
     Duration? seekTo,
     bool resume = false,
+    bool? autoLoad,
   }) {
     if (type == PostType.video && file != null) {
       // An inactive subtree holds no player, so that a stack of post routes
@@ -249,12 +250,41 @@ extension PostVideoPlaying on Post {
       return service.getVideo(
         url,
         // An explicit quality choice always loads: it was just requested.
-        autoLoad: quality != null || settings.autoLoadVideos.value,
+        // Browsing a detail page defers until the play button — the
+        // automatic side of loading is the neighbour prefetch, judged
+        // by [preloadNeighborVideos].
+        autoLoad: autoLoad ?? quality != null,
         seekTo: seekTo,
         resume: resume,
       );
     }
     return null;
+  }
+}
+
+/// Preloads the video neighbours of [index] in [posts] into the video
+/// pool, so stepping to them starts playing immediately.
+///
+/// This is what the auto-loading setting means now: opening a video
+/// loads the videos next to it, not every video a browse walks past.
+/// The function judges before it acts — a neighbour that is missing,
+/// not a video, or without a file is skipped — and the pool's eviction
+/// keeps a prefetch from squeezing out the video being watched.
+void preloadNeighborVideos({
+  required BuildContext context,
+  required int index,
+  required List<Post> posts,
+}) {
+  if (!context.read<Settings>().autoLoadVideos.value) return;
+  VideoService service = context.read<VideoService>();
+  Settings settings = context.read<Settings>();
+  for (final int target in [index - 1, index + 1]) {
+    // No neighbour on this side: nothing to load.
+    if (target < 0 || target >= posts.length) continue;
+    final Post post = posts[target];
+    // Not a video (or the server dropped its file): nothing to load.
+    if (post.type != PostType.video || post.file == null) continue;
+    service.getVideo(post.videoUrl(settings.videoResolution.value));
   }
 }
 

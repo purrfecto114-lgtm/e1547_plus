@@ -150,7 +150,7 @@ void main() {
     expect(player.state.playing, isTrue);
   });
 
-  testWidgets('a deferred video is loaded once auto-loading is enabled', (
+  testWidgets('an opened video route loads whatever the setting says', (
     tester,
   ) async {
     // autoLoadVideos defaults to off.
@@ -158,51 +158,20 @@ void main() {
 
     await tester.pumpWidget(
       app(
-        Builder(
-          builder: (context) => Column(
-            children: [
-              TextButton(
-                onPressed: () => Navigator.of(context).push(
-                  MaterialPageRoute(
-                    builder: (_) => Scaffold(
-                      appBar: AppBar(),
-                      body: const Text('settings'),
-                    ),
-                  ),
-                ),
-                child: const Text('cover'),
-              ),
-              PostVideoRoute(
-                post: first,
-                stopOnDispose: false,
-                child: const SizedBox(height: 10),
-              ),
-            ],
-          ),
+        PostVideoRoute(
+          post: first,
+          stopOnDispose: false,
+          child: const SizedBox(height: 10),
         ),
       ),
     );
 
     final player = playerOf(tester, first);
-    expect(player.isDeferred, isTrue);
-    expect(player.media, isNull);
-
-    // covering the route releases the player, like the settings page does
-    await tester.tap(find.text('cover'));
-    await tester.pumpAndSettle();
-    expect(playerOfOrNull(tester, first)?.player, isNull);
-
-    // the settings page turns auto-loading on
-    settings.autoLoadVideos.value = true;
-
-    // returning re-activates the route and backfills the deferred player
-    await tester.pageBack();
-    await tester.pumpAndSettle();
-
-    final reactivated = playerOf(tester, first);
-    expect(reactivated, same(player));
-    expect(reactivated.isDeferred, isFalse);
-    expect(reactivated.media, first.file);
+    // Opening the route was the intent to watch: the video loads even
+    // with the setting off. The setting now only governs the neighbour
+    // prefetch (see preload_test).
+    expect(player.isDeferred, isFalse);
+    expect(player.media, first.file);
   });
 
   testWidgets('switching quality restores the playback position', (
