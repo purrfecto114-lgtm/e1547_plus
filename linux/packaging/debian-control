@@ -3,7 +3,7 @@ Version: APPVER
 Section: web
 Priority: optional
 Architecture: amd64
-Maintainer: clragon <clragon@clynamic.net>
+Maintainer: purrfecto114-lgtm <purrfecto114-lgtm@users.noreply.github.com>
 Depends: libgtk-3-0, libmpv2, libegl1, libgles2, hicolor-icon-theme
 Recommends: xdg-desktop-portal,
  xdg-desktop-portal-gtk | xdg-desktop-portal-gnome | xdg-desktop-portal-kde

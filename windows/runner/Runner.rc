@@ -89,7 +89,7 @@ BEGIN
     BEGIN
         BLOCK "040904e4"
         BEGIN
-            VALUE "CompanyName", "net.clynamic" "\0"
+            VALUE "CompanyName", "purrfecto114-lgtm" "\0"
             VALUE "FileDescription", "e1547" "\0"
             VALUE "FileVersion", VERSION_AS_STRING "\0"
             VALUE "InternalName", "e1547" "\0"
