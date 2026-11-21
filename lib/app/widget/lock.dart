@@ -289,6 +289,10 @@ class _PinLockState extends State<PinLock> with SingleTickerProviderStateMixin {
     if (until > 0) {
       final int now = DateTime.now().millisecondsSinceEpoch;
       final int clamped = min(until, now + PinBackoff.maxDelay.inMilliseconds);
+      // The clamp is written back, not just displayed: a stamp the
+      // previous session's fake clock inflated cannot survive a restart
+      // and be resurrected by the next failure's ratchet.
+      widget.lockedUntil?.value = clamped;
       if (clamped > now) {
         cooldownUntil = DateTime.fromMillisecondsSinceEpoch(clamped);
         _runCooldownTimer();
@@ -437,10 +441,13 @@ class _PinLockState extends State<PinLock> with SingleTickerProviderStateMixin {
     if (delay > Duration.zero) {
       // The stamp only moves forward: a cooldown written under a clock
       // that was pushed into the future must survive the next failure.
-      final until = PinBackoff.nextUntil(
-        widget.lockedUntil?.value,
-        failures,
-        DateTime.now(),
+      // It is still clamped to the policy cap: a stamp an attacker
+      // wrote with a fake clock must not lock the rightful owner out
+      // for longer than one maximum cooldown.
+      final DateTime now = DateTime.now();
+      final int until = min(
+        PinBackoff.nextUntil(widget.lockedUntil?.value, failures, now),
+        now.millisecondsSinceEpoch + PinBackoff.maxDelay.inMilliseconds,
       );
       setState(
         () => cooldownUntil = DateTime.fromMillisecondsSinceEpoch(until),
@@ -457,6 +464,17 @@ class _PinLockState extends State<PinLock> with SingleTickerProviderStateMixin {
     // as often for the same rendering.
     cooldownTimer = Timer(const Duration(seconds: 1), () {
       if (!mounted || cooldownUntil == null) return;
+      // A cooldown stamped by a fake clock shrinks once the clock
+      // returns to reality: inside one session too, the wait never
+      // outlives the policy cap.
+      final int cap = DateTime.now().millisecondsSinceEpoch +
+          PinBackoff.maxDelay.inMilliseconds;
+      if (cooldownUntil!.millisecondsSinceEpoch > cap) {
+        setState(() {
+          cooldownUntil = DateTime.fromMillisecondsSinceEpoch(cap);
+          widget.lockedUntil?.value = cap;
+        });
+      }
       if (DateTime.now().isAfter(cooldownUntil!)) {
         setState(() {
           cooldownUntil = null;

@@ -131,6 +131,33 @@ void main() {
     expect(find.text('unlocked content'), findsNothing);
   });
 
+  testWidgets('a forged cooldown stamp never outlives one cap', (tester) async {
+    settings.appPin.value = await tester.runAsync(() => hashPin('2468'));
+    // A stamp written under a clock pushed a day ahead, then restored:
+    // the wait must fall back to a single maximum cooldown, not a day.
+    // initState clamps the stored stamp itself — that alone keeps the
+    // ratchet (PinBackoff.nextUntil's max) from ever seeing the forged
+    // day again, and registerFailure clamps its own write the same way.
+    // The ratchet's "never pulls back" half is locked by the pin_test
+    // unit tests; walking a live cooldown out here would need a real
+    // wall clock, which fake async cannot advance.
+    settings.appPinFailures.value = 2;
+    final int far = DateTime.now()
+        .add(const Duration(days: 1))
+        .millisecondsSinceEpoch;
+    settings.appPinLockedUntil.value = far;
+    await pumpLock(tester);
+
+    expect(
+      settings.appPinLockedUntil.value,
+      lessThanOrEqualTo(
+        DateTime.now().millisecondsSinceEpoch +
+            PinBackoff.maxDelay.inMilliseconds +
+            1000,
+      ),
+    );
+  });
+
   testWidgets('the fingerprint shortcut follows the live probe answer', (
     tester,
   ) async {
