@@ -8,6 +8,20 @@ void main() {
       expect(await verifyPin('1234', stored), isTrue);
     });
 
+    test('a repeat verification answers from the session cache', () async {
+      final stored = await hashPin('2468');
+      // The first verification pays the full derivation...
+      expect(await verifyPin('2468', stored), isTrue);
+      // ...the repeat answers from memory: 150k rounds cost the better
+      // part of a second, the cache microseconds. The comparison still
+      // runs against the stored hash, so a re-set pin (new salt) misses.
+      final sw = Stopwatch()..start();
+      expect(await verifyPin('2468', stored), isTrue);
+      sw.stop();
+      expect(sw.elapsedMilliseconds, lessThan(100));
+      expect(await verifyPin('1357', stored), isFalse);
+    });
+
     test('rejects a wrong pin', () async {
       final stored = await hashPin('1234');
       expect(await verifyPin('0000', stored), isFalse);

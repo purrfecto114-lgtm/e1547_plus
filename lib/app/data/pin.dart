@@ -55,6 +55,29 @@ const int _minHashLength = 32;
 Pbkdf2 _kdfFor(int iterations, int bits) =>
     Pbkdf2(macAlgorithm: Hmac.sha256(), iterations: iterations, bits: bits);
 
+// Session cache of the last verified derivation. Unlocks repeat within
+// one app session (resume, quick returns) without paying the derivation
+// again; the cold start still runs the full cost. The stored file does
+// not change — an offline attacker sees the same hash as before. The
+// entry carries the record's own parameters and the comparison always
+// runs against the stored hash itself, so a re-set pin (fresh salt) or
+// a forged record (tampered iteration field) misses by construction.
+class _SessionVerification {
+  const _SessionVerification(
+    this.pin,
+    this.iterations,
+    this.salt,
+    this.derivation,
+  );
+
+  final String pin;
+  final int iterations;
+  final Uint8List salt;
+  final Uint8List derivation;
+}
+
+_SessionVerification? _session;
+
 /// Whether [stored] is a hashed pin rather than a legacy plain text one.
 bool isPinHash(String stored) => stored.startsWith('$pinHashPrefix\$');
 
@@ -73,6 +96,14 @@ Future<String> hashPin(String pin) async {
     );
     return key.extractBytes();
   });
+  // Setting a pin is a verification-equivalent derivation: caching it
+  // makes the very first unlock after a change instant too.
+  _session = _SessionVerification(
+    pin,
+    pinHashIterations,
+    salt,
+    Uint8List.fromList(bytes),
+  );
   return [
     pinHashPrefix,
     '$pinHashIterations',
@@ -120,6 +151,17 @@ Future<bool> verifyPin(String pin, String stored) async {
   if (salt.length < _minSaltLength || expected.length < _minHashLength) {
     return false;
   }
+  final _SessionVerification? cached = _session;
+  if (cached != null &&
+      cached.pin == pin &&
+      cached.iterations == iterations &&
+      _constantTimeEquals(cached.salt, salt) &&
+      _constantTimeEquals(cached.derivation, expected)) {
+    // Same pin, same record parameters, same stored hash: the stored
+    // hash is part of the comparison even here, so a pin remembered
+    // under an older record never re-validates against a new one.
+    return true;
+  }
   final actual = await Isolate.run(() async {
     final kdf = _kdfFor(iterations, expected.length * 8);
     final key = await kdf.deriveKey(
@@ -128,7 +170,16 @@ Future<bool> verifyPin(String pin, String stored) async {
     );
     return key.extractBytes();
   });
-  return _constantTimeEquals(actual, expected);
+  final bool match = _constantTimeEquals(actual, expected);
+  if (match) {
+    _session = _SessionVerification(
+      pin,
+      iterations,
+      salt,
+      Uint8List.fromList(actual),
+    );
+  }
+  return match;
 }
 
 /// Lockout policy for failed pin attempts.
