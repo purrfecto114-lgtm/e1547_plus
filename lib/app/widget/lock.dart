@@ -435,9 +435,17 @@ class _PinLockState extends State<PinLock> with SingleTickerProviderStateMixin {
     attempts.value = failures;
     final delay = PinBackoff.delayFor(failures);
     if (delay > Duration.zero) {
-      final until = DateTime.now().add(delay);
-      setState(() => cooldownUntil = until);
-      widget.lockedUntil?.value = until.millisecondsSinceEpoch;
+      // The stamp only moves forward: a cooldown written under a clock
+      // that was pushed into the future must survive the next failure.
+      final until = PinBackoff.nextUntil(
+        widget.lockedUntil?.value,
+        failures,
+        DateTime.now(),
+      );
+      setState(
+        () => cooldownUntil = DateTime.fromMillisecondsSinceEpoch(until),
+      );
+      widget.lockedUntil?.value = until;
       _runCooldownTimer();
     }
   }
