@@ -371,19 +371,16 @@ void main() {
     });
 
     test('a failed snapshot reports itself instead of copying', () async {
-      // A read-only target directory makes VACUUM INTO fail; the export
-      // must surface that error rather than fall back to a plain copy,
-      // which cannot guarantee the newest committed rows left the wal.
-      final roDir = Directory('${dir.path}${Platform.pathSeparator}ro')
-        ..createSync();
-      final target = '${roDir.path}${Platform.pathSeparator}export.db';
-      Process.runSync('chmod', ['555', roDir.path]);
-      addTearDown(() async {
-        Process.runSync('chmod', ['755', roDir.path]);
-        await roDir.delete(recursive: true);
-      });
+      // A directory squatting on the target path makes VACUUM INTO fail;
+      // the export must surface that error rather than fall back to a
+      // plain copy, which cannot guarantee the newest committed rows
+      // left the wal. A directory fails for every uid — the previous
+      // read-only-directory injection silently passed under root, which
+      // bypasses the permission bits.
+      final target = '${dir.path}${Platform.pathSeparator}export.db';
+      final squatDir = Directory(target)..createSync();
+      addTearDown(squatDir.delete);
       await expectLater(snapshotDatabase(db, dbPath, target), throwsException);
-      expect(File(target).existsSync(), isFalse);
     });
   });
 }
