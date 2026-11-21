@@ -51,7 +51,10 @@ abstract final class PlatformCapabilities {
 
   /// Whether this platform supports deep links.
   /// This means that the platform supports opening the app from a URL.
-  static bool hasDeepLinks = [Platform.isAndroid, Platform.isIOS].any((e) => e);
+  /// iOS carries neither a custom scheme nor a universal-link
+  /// entitlement, so only Android actually receives links; claiming
+  /// otherwise only registers a listener that never fires.
+  static bool hasDeepLinks = Platform.isAndroid;
 
   /// Whether this platform is experimental.
   /// Experimental platforms receive builds but no support.
