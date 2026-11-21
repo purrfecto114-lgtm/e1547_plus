@@ -161,16 +161,13 @@ void main() {
     test('a new failure never pulls the cooldown back', () {
       // A stamp written while the device clock was pushed into the future
       // must not be shortened by the next failure's own recalculation.
-      final now = DateTime(2026, 1, 1);
+      final now = DateTime(2026);
       final far = now.add(const Duration(days: 1)).millisecondsSinceEpoch;
-      expect(
-        PinBackoff.nextUntil(far, 3, now),
-        greaterThanOrEqualTo(far),
-      );
+      expect(PinBackoff.nextUntil(far, 3, now), greaterThanOrEqualTo(far));
     });
 
     test('a fresh failure after an expired wait starts a new one', () {
-      final now = DateTime(2026, 1, 1);
+      final now = DateTime(2026);
       final expired = now
           .subtract(const Duration(hours: 1))
           .millisecondsSinceEpoch;
@@ -178,10 +175,14 @@ void main() {
         PinBackoff.nextUntil(expired, 3, now),
         now.add(const Duration(seconds: 4)).millisecondsSinceEpoch,
       );
-      expect(PinBackoff.nextUntil(null, 3, now),
-          now.add(const Duration(seconds: 4)).millisecondsSinceEpoch);
-      expect(PinBackoff.nextUntil(0, 3, now),
-          now.add(const Duration(seconds: 4)).millisecondsSinceEpoch);
+      expect(
+        PinBackoff.nextUntil(null, 3, now),
+        now.add(const Duration(seconds: 4)).millisecondsSinceEpoch,
+      );
+      expect(
+        PinBackoff.nextUntil(0, 3, now),
+        now.add(const Duration(seconds: 4)).millisecondsSinceEpoch,
+      );
     });
   });
 }
