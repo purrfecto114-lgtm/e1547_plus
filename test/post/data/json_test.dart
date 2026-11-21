@@ -93,4 +93,23 @@ void main() {
       );
     });
   });
+
+  group('E621Post.fromJson tolerance', () {
+    // A server that stops carrying one file tier (a post removed from the
+    // cdn, a replacement in flight) must not fail the whole page of posts.
+    test('a post whose original file is absent still parses', () {
+      final post = loadFixtureList('posts.json')[0];
+      final stripped = {
+        ...post,
+        'files': {
+          ...(post['files']! as Map<String, dynamic>)..remove('original'),
+        },
+      };
+      final parsed = E621Post.fromJson(stripped);
+      expect(parsed.file, isNull);
+      expect(parsed.width, 0);
+      expect(parsed.height, 0);
+      expect(parsed.ext, 'jpg');
+    });
+  });
 }

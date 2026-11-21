@@ -29,8 +29,11 @@ abstract final class E621Post {
       file: post('files', 'original', 'url').asStringOrNull(),
       sample: post('files', 'sample', 'jpg').asStringOrNull(),
       preview: post('files', 'preview', 'jpg').asStringOrNull(),
-      width: post('files', 'original', 'width').asIntOrThrow(),
-      height: post('files', 'original', 'height').asIntOrThrow(),
+      // A post whose original tier is gone (removed from the cdn, a
+      // replacement in flight) must not fail the whole post; 0x0 hides
+      // the broken entry until the server carries the file again.
+      width: post('files', 'original', 'width').asIntOrNull() ?? 0,
+      height: post('files', 'original', 'height').asIntOrNull() ?? 0,
       ext: post('files', 'meta', 'ext').asStringOrThrow(),
       size: post('files', 'meta', 'size').asIntOrThrow(),
       variants: post('files', 'video').letOrNull(_variants),
