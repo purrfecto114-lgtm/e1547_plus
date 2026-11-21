@@ -68,13 +68,11 @@ void main() {
     await tester.pump();
   }
 
-  Post videoPost(int id) => samplePost(
-    id: id,
-    file: 'https://cdn.example.org/$id.mp4',
-    ext: 'mp4',
-  );
+  Post videoPost(int id) =>
+      samplePost(id: id, file: 'https://cdn.example.org/$id.mp4', ext: 'mp4');
 
-  Post imagePost(int id) => samplePost(id: id, file: 'https://cdn.example.org/$id.jpg');
+  Post imagePost(int id) =>
+      samplePost(id: id, file: 'https://cdn.example.org/$id.jpg');
 
   testWidgets('video neighbours on both sides are pooled and loaded', (
     tester,
@@ -97,11 +95,7 @@ void main() {
   testWidgets('an image neighbour and a missing side load nothing', (
     tester,
   ) async {
-    await pumpPreload(
-      tester,
-      index: 0,
-      posts: [videoPost(1), imagePost(2)],
-    );
+    await pumpPreload(tester, index: 0, posts: [videoPost(1), imagePost(2)]);
     // The neighbour at index 1 is an image, the one at index -1 does
     // not exist: nothing was loaded by the prefetch. (Querying the pool
     // parks a deferred player on the url, but its media stays empty.)
@@ -127,4 +121,5 @@ void main() {
       videos.getVideo('https://cdn.example.org/2.mp4', autoLoad: false)?.media,
       isNull,
     );
-  });}
+  });
+}
