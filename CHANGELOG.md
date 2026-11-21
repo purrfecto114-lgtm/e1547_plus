@@ -4,6 +4,15 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and this project
 adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [22.5.2+229] - 2026-11-21
+### Changed
+- the task list speaks every language the app carries: the hints that
+  explain why a download failed and the notice about how long failed
+  tasks stay before cleanup were hardcoded in english and now come
+  from the translations
+- the scrim behind a dragged-down page reads as the framework's
+  standard barrier color instead of the same black spelled by hand
+
 ## [22.5.1+228] - 2026-11-20
 ### Fixed
 - downloads work again: the transfer's temporary file name was derived
@@ -2015,3 +2024,4 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 [22.5.0+226]: https://github.com/purrfecto114-lgtm/e1547_plus/compare/22.4.0+224...22.5.0+226
 [22.5.1-rc.1+227]: https://github.com/purrfecto114-lgtm/e1547_plus/compare/22.5.0+226...22.5.1-rc.1+227
 [22.5.1+228]: https://github.com/purrfecto114-lgtm/e1547_plus/compare/22.5.0+226...22.5.1+228
+[22.5.2+229]: https://github.com/purrfecto114-lgtm/e1547_plus/compare/22.5.1+228...22.5.2+229

@@ -1,0 +1,1 @@
+The task list speaks every language the app carries now: the hints that explain why a download failed and the notice about how long failed tasks stay before cleanup were hardcoded in english and go through the translations instead. The scrim behind a dragged-down page uses the framework's standard barrier color.
