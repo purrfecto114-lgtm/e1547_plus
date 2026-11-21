@@ -55,11 +55,14 @@ class FollowRepository extends DatabaseAccessor<GeneratedDatabase>
 
   Expression<bool> _identityQuery($FollowsTableTable tbl, int? identity) {
     final subQuery = followsIdentitiesTable.selectOnly()
-      ..addColumns([followsIdentitiesTable.follow])
-      ..where(
-        Variable(identity).isNull() |
-            followsIdentitiesTable.identity.equalsNullable(identity),
-      );
+      ..addColumns([followsIdentitiesTable.follow]);
+    if (identity != null) {
+      // A plain equality lets SQLite use the association table's composite
+      // primary key, whose identity column comes first; the previous
+      // "argument null or identity equal" shape could only scan the whole
+      // table. A null identity still matches every associated follow.
+      subQuery.where(followsIdentitiesTable.identity.equals(identity));
+    }
 
     return tbl.id.isInQuery(subQuery);
   }

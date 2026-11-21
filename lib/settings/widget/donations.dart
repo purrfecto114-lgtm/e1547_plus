@@ -4,6 +4,7 @@ import 'package:e1547/l10n/app_localizations.dart';
 import 'package:e1547/settings/settings.dart';
 import 'package:e1547/shared/shared.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:intl/intl.dart';
 
 extension DonationSummaryExtension on Donor {
@@ -71,6 +72,11 @@ class Donors extends StatelessWidget {
               height: 40,
               child: summary.avatar != null
                   ? CachedNetworkImage(
+                      // The default manager shares the cache key but not
+                      // the budget with the app's, so files it evicts
+                      // leave the app's index dangling; every other image
+                      // in the app goes through the injected manager.
+                      cacheManager: context.read<BaseCacheManager>(),
                       imageUrl: summary.avatar!,
                       fit: BoxFit.cover,
                       errorWidget: (context, url, error) =>

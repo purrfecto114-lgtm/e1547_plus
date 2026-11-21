@@ -51,11 +51,14 @@ class HistoryRepository extends DatabaseAccessor<GeneratedDatabase>
 
   Expression<bool> _identityQuery($HistoriesTableTable tbl, int? identity) {
     final subQuery = historiesIdentitiesTable.selectOnly()
-      ..addColumns([historiesIdentitiesTable.history])
-      ..where(
-        Variable(identity).isNull() |
-            historiesIdentitiesTable.identity.equalsNullable(identity),
-      );
+      ..addColumns([historiesIdentitiesTable.history]);
+    if (identity != null) {
+      // A plain equality lets SQLite use the association table's composite
+      // primary key, whose identity column comes first; the previous
+      // "argument null or identity equal" shape could only scan the whole
+      // table. A null identity still matches every associated history.
+      subQuery.where(historiesIdentitiesTable.identity.equals(identity));
+    }
 
     return tbl.id.isInQuery(subQuery);
   }
