@@ -54,7 +54,8 @@ class VideoPlayer extends Player {
   /// The media url this player is deferred to, if any.
   ///
   /// A deferred player holds its slot in the video pool but downloads
-  /// nothing; the media is loaded once [play] is called.
+  /// nothing; the media is loaded once [play] is called or a later
+  /// cache hit asks for an auto load.
   String? defer;
 
   bool get isDeferred => defer != null;
@@ -221,8 +222,9 @@ class VideoService extends ChangeNotifier {
     // so that eviction walks from least to most recently used.
     VideoPlayer? player = _videos.remove(key);
     if (player != null) {
-      // A deferred player is loaded once auto-loading is enabled, e.g.
-      // when the user turns the setting on and returns to a route.
+      // A deferred player is backfilled when a caller requests an auto
+      // load for its url: the fullscreen route, an explicit quality
+      // pick, or the neighbour prefetch hitting the same url.
       if (autoLoad && player.isDeferred) {
         unawaited(
           player.load(
@@ -293,7 +295,7 @@ class VideoService extends ChangeNotifier {
       _logger.debug('Loaded {video}', {'video': key});
     } else {
       // The player is parked on its url without downloading anything;
-      // a later cache hit can backfill it once auto-loading is enabled.
+      // a later cache hit that asks for an auto load backfills it.
       player.defer = key;
       _logger.debug('Deferred {video}', {'video': key});
     }

@@ -34,7 +34,7 @@ The in-app updater checks this repository for new versions; since the fork is si
 - Browse, edit and comment on posts, and browse pools
 - Download images with mid-transfer cancellation; favorite and vote posts
 - Follow tags with notifications, and a local blacklist
-- DText parsing, and video support with a quality picker and on-demand loading
+- DText parsing, and video support with a quality picker, on-demand loading, and optional prefetching of the videos next to the one you open
 - Multiple logins and app themes
 - Multilingual interface — thirteen languages, plus offline tag dictionaries (around 4000 simplified chinese descriptions with a traditional rendering, around 370 japanese)
 - Language and media quality selection during onboarding and in the settings

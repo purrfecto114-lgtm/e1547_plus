@@ -190,10 +190,11 @@ class Settings extends NotifiedSettings {
     values: VideoResolution.values,
   );
 
-  /// Whether browsing silently downloads videos.
+  /// Whether opening a video also prefetches the videos next to it.
   ///
-  /// When disabled, videos are only fetched once their play button is
-  /// pressed, so scrolling a timeline stays data-free. Defaults to off.
+  /// Opening a video always loads it; this setting only controls the
+  /// prefetch of its neighbours in the fullscreen gallery. Defaults to
+  /// off, so scrolling a timeline stays data-free.
   late final ValueNotifier<bool> autoLoadVideos = createSetting<bool>(
     key: 'autoLoadVideos',
     initialValue: false,

@@ -3,14 +3,13 @@ import 'package:e1547/settings/settings.dart';
 import 'package:e1547/shared/shared.dart';
 import 'package:flutter/material.dart';
 
-/// Lets the user toggle whether browsing silently downloads videos.
+/// Lets the user toggle whether opening a video also prefetches the
+/// videos next to it.
 ///
-/// Turning the setting on asks for confirmation first: it changes how much
-/// data the app uses while browsing. Turning it off is always safe.
-///
-/// The change reaches players without an app restart: covered routes
-/// re-activate once the settings page pops, and [VideoService.getVideo]
-/// backfills deferred players then.
+/// Turning the setting on asks for confirmation first: it downloads the
+/// neighbouring videos in full ahead of time, which changes how much
+/// data the app uses. Turning it off is always safe — videos then load
+/// only when their own route opens.
 class AutoLoadVideosTile extends StatelessWidget {
   const AutoLoadVideosTile({super.key});
 
