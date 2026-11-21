@@ -55,7 +55,10 @@ void main() {
 
     expect(find.byType(AlertDialog), findsNothing);
     expect(settings.autoLoadVideos.value, isTrue);
-    expect(find.text('the videos next to the one you open load ahead of time'), findsOneWidget);
+    expect(
+      find.text('the videos next to the one you open load ahead of time'),
+      findsOneWidget,
+    );
   });
 
   testWidgets('canceling keeps auto-loading off', (tester) async {
