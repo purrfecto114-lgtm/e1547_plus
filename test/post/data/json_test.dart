@@ -107,9 +107,26 @@ void main() {
       };
       final parsed = E621Post.fromJson(stripped);
       expect(parsed.file, isNull);
-      expect(parsed.width, 0);
-      expect(parsed.height, 0);
       expect(parsed.ext, 'jpg');
+    });
+
+    test('a missing original falls back to the sample dimensions', () {
+      // Zero dimensions divide into NaN aspect ratios, which trip the
+      // framework's own asserts in debug builds; the sample tier the
+      // post actually displays is the honest fallback.
+      final post = loadFixtureList('posts.json')[0];
+      final sample =
+          (post['files']! as Map<String, dynamic>)['sample']!
+              as Map<String, dynamic>;
+      final stripped = {
+        ...post,
+        'files': {
+          ...(post['files']! as Map<String, dynamic>)..remove('original'),
+        },
+      };
+      final parsed = E621Post.fromJson(stripped);
+      expect(parsed.width, sample['width']);
+      expect(parsed.height, sample['height']);
     });
   });
 }

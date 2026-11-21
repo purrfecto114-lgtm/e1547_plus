@@ -30,10 +30,20 @@ abstract final class E621Post {
       sample: post('files', 'sample', 'jpg').asStringOrNull(),
       preview: post('files', 'preview', 'jpg').asStringOrNull(),
       // A post whose original tier is gone (removed from the cdn, a
-      // replacement in flight) must not fail the whole post; 0x0 hides
-      // the broken entry until the server carries the file again.
-      width: post('files', 'original', 'width').asIntOrNull() ?? 0,
-      height: post('files', 'original', 'height').asIntOrNull() ?? 0,
+      // replacement in flight) must not fail the whole post. The
+      // dimensions fall back to the tiers the post actually displays,
+      // because zero would divide into a NaN aspect ratio that trips
+      // the framework's own asserts in debug builds.
+      width:
+          post('files', 'original', 'width').asIntOrNull() ??
+          post('files', 'sample', 'width').asIntOrNull() ??
+          post('files', 'preview', 'width').asIntOrNull() ??
+          0,
+      height:
+          post('files', 'original', 'height').asIntOrNull() ??
+          post('files', 'sample', 'height').asIntOrNull() ??
+          post('files', 'preview', 'height').asIntOrNull() ??
+          0,
       ext: post('files', 'meta', 'ext').asStringOrThrow(),
       size: post('files', 'meta', 'size').asIntOrThrow(),
       variants: post('files', 'video').letOrNull(_variants),

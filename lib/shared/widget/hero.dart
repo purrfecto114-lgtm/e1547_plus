@@ -11,7 +11,9 @@ class FittedContent {
 
   Rect? locate(Size box) {
     final double? aspect = aspectRatio;
-    if (aspect == null || aspect <= 0 || box.isEmpty) return null;
+    // !(x > 0) instead of x <= 0: a NaN ratio (a post with no dimensions
+    // at all) must fall through to the null branch too.
+    if (aspect == null || !(aspect > 0) || box.isEmpty) return null;
     final Size input = Size(aspect, 1);
     final FittedSizes sizes = applyBoxFit(fit, input, box);
     final Size shown = input * (sizes.destination.width / sizes.source.width);

@@ -60,7 +60,11 @@ class PostImageWidget extends StatelessWidget {
     return RepaintBoundary(
       child: Builder(
         builder: (context) {
-          double aspectRatio = post.width / post.height;
+          // A post with no dimensions at all (every tier absent) keeps a
+          // square placeholder instead of a NaN ratio.
+          double aspectRatio = post.width > 0 && post.height > 0
+              ? post.width / post.height
+              : 1;
 
           switch (size) {
             case PostImageSize.preview:
@@ -191,7 +195,11 @@ class RawPostImageWidget extends StatelessWidget {
     if (url == null) return const TornImagePlaceholder();
     Size dimensions = Size(post.width.toDouble(), post.height.toDouble());
 
-    double aspectRatio = dimensions.width / dimensions.height;
+    // A post with no dimensions at all keeps a square placeholder
+    // instead of a NaN ratio.
+    double aspectRatio = dimensions.width > 0 && dimensions.height > 0
+        ? dimensions.width / dimensions.height
+        : 1;
 
     int? memCacheWidth;
     int? memCacheHeight;
