@@ -26,7 +26,7 @@ void main() {
     TaskErrorCategory.auth: '服务器拒绝了这个账号，请检查登录后重试。',
     TaskErrorCategory.network: '传输失败，等网络恢复后重试。',
     TaskErrorCategory.saving: '保存到相册失败，请检查剩余空间后重试。',
-    TaskErrorCategory.unknown: '此任务失败，可重试或打开详情。',
+    TaskErrorCategory.unknown: '此下载任务失败，可重试或打开详情。',
   };
 
   final Map<TaskErrorCategory, String> zhHantHints = {
@@ -34,7 +34,7 @@ void main() {
     TaskErrorCategory.auth: '伺服器拒絕了這個帳號，請檢查登入後重試。',
     TaskErrorCategory.network: '傳輸失敗，等網路恢復後重試。',
     TaskErrorCategory.saving: '儲存到相簿失敗，請檢查剩餘空間後重試。',
-    TaskErrorCategory.unknown: '此任務失敗，可重試或開啟詳情。',
+    TaskErrorCategory.unknown: '此下載任務失敗，可重試或開啟詳情。',
   };
 
   /// Pumps the failure hint for every category plus the retention notice,
@@ -95,7 +95,7 @@ void main() {
     for (final MapEntry<TaskErrorCategory, String> entry in zhHints.entries) {
       expect(find.text(entry.value), findsOneWidget);
     }
-    expect(find.text('失败的任务将保留 7 天，之后自动清理。'), findsOneWidget);
+    expect(find.text('失败的下载任务将保留 7 天，之后自动清理。'), findsOneWidget);
   });
 
   testWidgets('failure hints speak traditional chinese', (tester) async {
@@ -107,6 +107,6 @@ void main() {
         in zhHantHints.entries) {
       expect(find.text(entry.value), findsOneWidget);
     }
-    expect(find.text('失敗的任務會保留 7 天，之後自動清理。'), findsOneWidget);
+    expect(find.text('失敗的下載任務會保留 7 天，之後自動清理。'), findsOneWidget);
   });
 }
