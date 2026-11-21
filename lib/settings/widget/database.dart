@@ -24,9 +24,7 @@ class DatabaseManagementPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: const TransparentAppBar(
-        child: DefaultAppBar(leading: CloseButton()),
-      ),
+      appBar: const TransparentAppBar(child: DefaultAppBar()),
       body: LimitedWidthLayout.builder(
         builder: (context) => ListView(
           padding: defaultActionListPadding.add(

@@ -23,9 +23,7 @@ class AboutPage extends StatelessWidget {
 
     return Scaffold(
       extendBodyBehindAppBar: true,
-      appBar: const TransparentAppBar(
-        child: DefaultAppBar(leading: CloseButton()),
-      ),
+      appBar: const TransparentAppBar(child: DefaultAppBar()),
       body: LimitedWidthLayout.builder(
         builder: (context) => PullToRefresh(
           onRefresh: () async {
