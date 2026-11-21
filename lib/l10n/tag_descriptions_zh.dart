@@ -3,8 +3,9 @@
 /// The site's tag wikis are English only. This offline dictionary gives
 /// Chinese users a short explanation for the tags they meet most often,
 /// without a network round trip. Keys are raw tag names, as produced by
-/// [tagToRaw]. Both chinese scripts are served from this one list; the
-/// simplified wording stays readable for traditional readers.
+/// [tagToRaw]. This list serves the simplified script only; traditional
+/// readers get their own list, generated from this one (see
+/// [tagDescriptionsZhHant]).
 ///
 /// Two sources feed this list:
 ///
