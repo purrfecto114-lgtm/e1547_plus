@@ -20,8 +20,10 @@ import '../_support/harness.dart';
 import '../_support/images.dart';
 
 /// Renders the settings page and the pin lock at a phone sized surface and
-/// stores golden images, so reported layout regressions can be compared
-/// against real device screenshots pixel by pixel.
+/// stores golden images. Everything renders with the test shell's Ahem
+/// boxes (no font is loaded), so the goldens lock layout geometry —
+/// element positions and sizes — against reported regressions; glyph
+/// shapes never enter the comparison.
 void main() {
   late FakeE621 fake;
   late Client client;

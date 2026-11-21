@@ -13,17 +13,24 @@ import '../_support/posts.dart';
 /// Loads DejaVu Sans under the families Material resolves, so goldens
 /// show real Latin glyphs with Roboto-like metrics instead of Ahem
 /// boxes. (Merging a CJK font into the same family would inflate the
-/// line height beyond what a device renders for Latin tag text.)
+/// line height beyond what a device renders for Latin tag text.) The
+/// fonts are a host dependency, not a repo asset: without them the
+/// golden would compare against tofu blocks and the test skips rather
+/// than fail on a machine that never produced the baseline.
+const List<String> _fontPaths = [
+  '/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf',
+  '/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf',
+];
+
+bool get realFontsAvailable => _fontPaths.every((p) => File(p).existsSync());
+
 Future<void> loadRealFonts() async {
-  final latin = File('/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf');
-  final latinBold = File(
-    '/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf',
-  );
   for (final family in ['Roboto', 'NotoSansSC']) {
     final loader = FontLoader(family);
-    for (final path in [latin, latinBold]) {
-      if (path.existsSync()) {
-        final bytes = path.readAsBytesSync();
+    for (final path in _fontPaths) {
+      final file = File(path);
+      if (file.existsSync()) {
+        final bytes = file.readAsBytesSync();
         loader.addFont(Future.value(bytes.buffer.asByteData()));
       }
     }
@@ -31,11 +38,18 @@ Future<void> loadRealFonts() async {
   }
 }
 
-/// Renders the tag chips of the detail page and the search drawer, so
-/// reported text alignment regressions can be compared against real
-/// device screenshots pixel by pixel.
+/// Renders the tag chips of the detail page and the search drawer. Latin
+/// text carries real glyph metrics; Chinese stays tofu (the loader ships
+/// no CJK font), so for zh the golden locks layout geometry only — the
+/// pixel-by-pixel comparison against a device screenshot holds for the
+/// Latin parts, not the glyph shapes.
 void main() {
   testWidgets('tag chips match device geometry', (tester) async {
+    if (!realFontsAvailable) {
+      // Ahem-based pixels differ from the DejaVu-based baseline on a
+      // machine without the fonts (macOS and Windows developers).
+      markTestSkipped('DejaVu fonts not installed');
+    }
     await loadRealFonts();
     tester.view.physicalSize = const Size(1080, 1920);
     tester.view.devicePixelRatio = 1;
