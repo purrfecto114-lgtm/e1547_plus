@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'dart:typed_data';
 
 import 'package:dio/dio.dart';
 import 'package:e1547/task/task.dart';
@@ -9,9 +10,31 @@ import '../../_support/fake_e621.dart';
 import '../../_support/harness.dart';
 
 class _TempPathProvider extends PathProviderPlatform {
+  String? _path;
+
   @override
   Future<String?> getTemporaryPath() async =>
-      (await Directory.systemTemp.createTemp('e1547-fetcher-test')).path;
+      _path ??= (await Directory.systemTemp.createTemp('e1547-fetcher-test'))
+          .path;
+}
+
+/// Serves a fixed body for every request, as a cdn would.
+class _ServingAdapter implements HttpClientAdapter {
+  _ServingAdapter(this.body);
+
+  final List<int> body;
+
+  @override
+  Future<ResponseBody> fetch(
+    RequestOptions options,
+    Stream<Uint8List>? requestStream,
+    Future<void>? cancelFuture,
+  ) async {
+    return ResponseBody.fromBytes(body, 200);
+  }
+
+  @override
+  void close({bool force = false}) {}
 }
 
 void main() {
@@ -52,5 +75,34 @@ void main() {
     expect(file.existsSync(), isTrue);
     expect(events, isNotEmpty);
     expect(events.last, file.lengthSync());
+  });
+
+  test('a transfer past the size cap is aborted and cleaned up', () async {
+    final dir = Directory(
+      (await PathProviderPlatform.instance.getTemporaryPath())!,
+    );
+    // Earlier tests leave their finished files behind; only files
+    // created after this point matter. FileSystemEntity has no value
+    // equality, so the sets compare paths.
+    final before = dir.listSync().map((e) => e.path).toSet();
+
+    final dio = Dio()
+      ..httpClientAdapter = _ServingAdapter(List.filled(2048, 65));
+    await expectLater(
+      fetchFileToTemp(
+        'https://cdn.example.org/file.bin',
+        CancelToken(),
+        null,
+        client: dio,
+        maxBytes: 1024,
+      ),
+      throwsA(isA<DioException>()),
+    );
+    final created = dir
+        .listSync()
+        .map((e) => e.path)
+        .toSet()
+        .difference(before);
+    expect(created, isEmpty);
   });
 }

@@ -43,6 +43,13 @@ Dio createTransferClient() {
 /// How often a running transfer refreshes its reported progress at most.
 const Duration transferProgressInterval = Duration(milliseconds: 100);
 
+/// The largest transfer [fetchFileToTemp] will accept.
+///
+/// Uploads on e621 are capped server-side, so nothing legitimate comes
+/// close; the cap only stops a hostile upload from parking an
+/// arbitrarily large file on the device.
+const int maxTransferBytes = 2 * 1024 * 1024 * 1024;
+
 /// The default [DownloadFileFetcher] used by the task controller.
 ///
 /// Downloads go straight to a temporary file with a bare CDN request,
@@ -50,12 +57,14 @@ const Duration transferProgressInterval = Duration(milliseconds: 100);
 /// complete. Passing [client] reuses a long-lived transfer client — like
 /// the one [createTransferClient] builds — instead of creating and closing
 /// one per file; the caller keeps ownership of a shared client and closes
-/// it when its downloads end.
+/// it when its downloads end. A transfer past [maxBytes] is cancelled
+/// mid-flight; the partial file never survives it.
 Future<File> fetchFileToTemp(
   String url,
   CancelToken cancelToken,
   void Function(int count, int? total)? onProgress, {
   Dio? client,
+  int maxBytes = maxTransferBytes,
 }) async {
   final Dio dio = client ?? createTransferClient();
   final Directory tempDir = await getTemporaryDirectory();
@@ -75,6 +84,13 @@ Future<File> fetchFileToTemp(
       file.path,
       cancelToken: cancelToken,
       onReceiveProgress: (int count, int total) {
+        // The cap cancels the transfer instead of waiting for its end:
+        // the size is attacker chosen, so every byte past the cap is
+        // bandwidth and disk the device is spending on an attack.
+        if (count > maxBytes) {
+          cancelToken.cancel('the file passed the transfer size cap');
+          return;
+        }
         // Transfers report at a moderate rate: often enough for the
         // progress to stay alive, rarely enough to skip rebuilding progress
         // bars for every other chunk. The first and final events always go
