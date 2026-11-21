@@ -699,5 +699,11 @@
   "taskBubbleCanceled": "Abgebrochen",
   "taskBubbleFailures": "{completed} abgeschlossen, {failed} fehlgeschlagen",
   "taskBubbleSaving": "Speichern",
-  "taskBubbleWorking": "Wird ausgeführt"
+  "taskBubbleWorking": "Wird ausgeführt",
+  "taskFailureRetention": "Fehlgeschlagene Aufgaben bleiben {days} Tage erhalten und werden danach entfernt.",
+  "taskErrorHintDirectory": "Der Speicherordner fehlt oder ist schreibgeschützt. Wähle den Download-Ordner erneut.",
+  "taskErrorHintAuth": "Der Server hat dieses Konto abgelehnt. Prüfe deine Anmeldung und versuche es erneut.",
+  "taskErrorHintNetwork": "Die Übertragung ist fehlgeschlagen. Versuche es erneut, sobald das Netz wieder da ist.",
+  "taskErrorHintSaving": "Das Speichern in die Galerie ist fehlgeschlagen. Prüfe den freien Speicher und versuche es erneut.",
+  "taskErrorHintUnknown": "Diese Aufgabe ist fehlgeschlagen. Versuche es erneut oder öffne die Details."
 }

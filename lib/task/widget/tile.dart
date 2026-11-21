@@ -166,6 +166,7 @@ class TaskErrorDetails extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final ColorScheme scheme = Theme.of(context).colorScheme;
+    final AppLocalizations l10n = AppLocalizations.of(context);
     return Padding(
       padding: const EdgeInsets.only(left: 16, right: 16, bottom: 8),
       child: Column(
@@ -178,10 +179,7 @@ class TaskErrorDetails extends StatelessWidget {
           ),
           const SizedBox(height: 4),
           Text(
-            // TODO(l10n): extract
-            'Failed tasks are kept for '
-            '${TaskRepository.failedRetention.inDays} days '
-            'before they are cleaned up.',
+            l10n.taskFailureRetention(TaskRepository.failedRetention.inDays),
             style: TextStyle(color: scheme.onSurfaceVariant, fontSize: 12),
           ),
         ],
@@ -192,22 +190,16 @@ class TaskErrorDetails extends StatelessWidget {
 
 /// The user-facing hint for a failed task, suggesting the next step that
 /// matches why it failed.
-String taskErrorHint(
-  BuildContext context,
-  TaskErrorCategory category,
-) => switch (category) {
-  // TODO(l10n): extract
-  TaskErrorCategory.directory =>
-    'The save folder is missing or read-only. Pick the download folder again.',
-  TaskErrorCategory.auth =>
-    'The server rejected this account. Check your login, then retry.',
-  TaskErrorCategory.network =>
-    'The transfer failed. Retry once the network is back.',
-  TaskErrorCategory.saving =>
-    'Saving to the gallery failed. Check free space, then retry.',
-  TaskErrorCategory.unknown =>
-    'This task failed. Retry it, or open its details.',
-};
+String taskErrorHint(BuildContext context, TaskErrorCategory category) {
+  final AppLocalizations l10n = AppLocalizations.of(context);
+  return switch (category) {
+    TaskErrorCategory.directory => l10n.taskErrorHintDirectory,
+    TaskErrorCategory.auth => l10n.taskErrorHintAuth,
+    TaskErrorCategory.network => l10n.taskErrorHintNetwork,
+    TaskErrorCategory.saving => l10n.taskErrorHintSaving,
+    TaskErrorCategory.unknown => l10n.taskErrorHintUnknown,
+  };
+}
 
 String taskActionLabel(
   BuildContext context,

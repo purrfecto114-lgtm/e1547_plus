@@ -2516,5 +2516,11 @@
   "taskBubbleCanceled": "Annullato",
   "taskBubbleFailures": "{completed} completate, {failed} fallite",
   "taskBubbleSaving": "Salvataggio",
-  "taskBubbleWorking": "In corso"
+  "taskBubbleWorking": "In corso",
+  "taskFailureRetention": "Le attività non riuscite vengono conservate per {days} giorni prima di essere rimosse.",
+  "taskErrorHintDirectory": "La cartella di salvataggio manca o è di sola lettura. Scegli di nuovo la cartella di download.",
+  "taskErrorHintAuth": "Il server ha rifiutato questo account. Controlla l'accesso e riprova.",
+  "taskErrorHintNetwork": "Il trasferimento non è riuscito. Riprova quando la rete sarà di nuovo disponibile.",
+  "taskErrorHintSaving": "Il salvataggio nella galleria non è riuscito. Controlla lo spazio libero e riprova.",
+  "taskErrorHintUnknown": "Questa attività non è riuscita. Riprova o apri i dettagli."
 }

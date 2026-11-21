@@ -2516,5 +2516,11 @@
   "taskBubbleCanceled": "Anulowano",
   "taskBubbleFailures": "{completed} ukończono, {failed} nieudanych",
   "taskBubbleSaving": "Zapisywanie",
-  "taskBubbleWorking": "W toku"
+  "taskBubbleWorking": "W toku",
+  "taskFailureRetention": "Nieudane zadania są przechowywane przez {days} dni, po czym zostają usunięte.",
+  "taskErrorHintDirectory": "Folder zapisu jest nieosiągalny lub tylko do odczytu. Wybierz ponownie folder pobierania.",
+  "taskErrorHintAuth": "Serwer odrzucił to konto. Sprawdź logowanie i spróbuj ponownie.",
+  "taskErrorHintNetwork": "Przesyłanie nie powiodło się. Spróbuj ponownie, gdy sieć wróci.",
+  "taskErrorHintSaving": "Zapis do galerii nie powiódł się. Sprawdź wolne miejsce i spróbuj ponownie.",
+  "taskErrorHintUnknown": "To zadanie nie powiodło się. Spróbuj ponownie lub otwórz szczegóły."
 }

@@ -2491,4 +2491,29 @@ class AppLocalizationsPt extends AppLocalizations {
 
   @override
   String get taskBubbleWorking => 'Em andamento';
+
+  @override
+  String taskFailureRetention(int days) {
+    return 'As tarefas com falha são mantidas por $days dias antes de serem limpas.';
+  }
+
+  @override
+  String get taskErrorHintDirectory =>
+      'A pasta de salvamento está ausente ou é somente leitura. Escolha novamente a pasta de download.';
+
+  @override
+  String get taskErrorHintAuth =>
+      'O servidor rejeitou esta conta. Verifique seu login e tente novamente.';
+
+  @override
+  String get taskErrorHintNetwork =>
+      'A transferência falhou. Tente novamente quando a rede voltar.';
+
+  @override
+  String get taskErrorHintSaving =>
+      'Falha ao salvar na galeria. Verifique o espaço livre e tente novamente.';
+
+  @override
+  String get taskErrorHintUnknown =>
+      'Esta tarefa falhou. Tente novamente ou abra os detalhes.';
 }

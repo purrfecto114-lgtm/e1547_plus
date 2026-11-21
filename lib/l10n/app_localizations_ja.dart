@@ -2427,4 +2427,25 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get taskBubbleWorking => '処理中';
+
+  @override
+  String taskFailureRetention(int days) {
+    return '失敗したタスクは $days 日間保持され、その後に削除されます。';
+  }
+
+  @override
+  String get taskErrorHintDirectory =>
+      '保存フォルダーが存在しないか読み取り専用です。ダウンロードフォルダーを選び直してください。';
+
+  @override
+  String get taskErrorHintAuth => 'サーバーがこのアカウントを拒否しました。ログインを確認してから再試行してください。';
+
+  @override
+  String get taskErrorHintNetwork => '転送に失敗しました。ネットワークが復帰したら再試行してください。';
+
+  @override
+  String get taskErrorHintSaving => 'ギャラリーへの保存に失敗しました。空き容量を確認してから再試行してください。';
+
+  @override
+  String get taskErrorHintUnknown => 'このタスクは失敗しました。再試行するか、詳細を開いてください。';
 }

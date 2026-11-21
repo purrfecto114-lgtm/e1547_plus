@@ -699,5 +699,11 @@
   "taskBubbleCanceled": "Cancelado",
   "taskBubbleFailures": "{completed} concluídas, {failed} falharam",
   "taskBubbleSaving": "Salvando",
-  "taskBubbleWorking": "Em andamento"
+  "taskBubbleWorking": "Em andamento",
+  "taskFailureRetention": "As tarefas com falha são mantidas por {days} dias antes de serem limpas.",
+  "taskErrorHintDirectory": "A pasta de salvamento está ausente ou é somente leitura. Escolha novamente a pasta de download.",
+  "taskErrorHintAuth": "O servidor rejeitou esta conta. Verifique seu login e tente novamente.",
+  "taskErrorHintNetwork": "A transferência falhou. Tente novamente quando a rede voltar.",
+  "taskErrorHintSaving": "Falha ao salvar na galeria. Verifique o espaço livre e tente novamente.",
+  "taskErrorHintUnknown": "Esta tarefa falhou. Tente novamente ou abra os detalhes."
 }

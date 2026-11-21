@@ -2499,4 +2499,29 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get taskBubbleWorking => 'En curso';
+
+  @override
+  String taskFailureRetention(int days) {
+    return 'Las tareas fallidas se conservan durante $days días antes de limpiarse.';
+  }
+
+  @override
+  String get taskErrorHintDirectory =>
+      'La carpeta de guardado no existe o es de solo lectura. Elige de nuevo la carpeta de descargas.';
+
+  @override
+  String get taskErrorHintAuth =>
+      'El servidor rechazó esta cuenta. Comprueba tu inicio de sesión e inténtalo de nuevo.';
+
+  @override
+  String get taskErrorHintNetwork =>
+      'La transferencia falló. Inténtalo de nuevo cuando la red vuelva.';
+
+  @override
+  String get taskErrorHintSaving =>
+      'No se pudo guardar en la galería. Comprueba el espacio libre e inténtalo de nuevo.';
+
+  @override
+  String get taskErrorHintUnknown =>
+      'La tarea falló. Reinténtalo o abre sus detalles.';
 }

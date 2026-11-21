@@ -2505,4 +2505,29 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get taskBubbleWorking => 'Wird ausgeführt';
+
+  @override
+  String taskFailureRetention(int days) {
+    return 'Fehlgeschlagene Aufgaben bleiben $days Tage erhalten und werden danach entfernt.';
+  }
+
+  @override
+  String get taskErrorHintDirectory =>
+      'Der Speicherordner fehlt oder ist schreibgeschützt. Wähle den Download-Ordner erneut.';
+
+  @override
+  String get taskErrorHintAuth =>
+      'Der Server hat dieses Konto abgelehnt. Prüfe deine Anmeldung und versuche es erneut.';
+
+  @override
+  String get taskErrorHintNetwork =>
+      'Die Übertragung ist fehlgeschlagen. Versuche es erneut, sobald das Netz wieder da ist.';
+
+  @override
+  String get taskErrorHintSaving =>
+      'Das Speichern in die Galerie ist fehlgeschlagen. Prüfe den freien Speicher und versuche es erneut.';
+
+  @override
+  String get taskErrorHintUnknown =>
+      'Diese Aufgabe ist fehlgeschlagen. Versuche es erneut oder öffne die Details.';
 }

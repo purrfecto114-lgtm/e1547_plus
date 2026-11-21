@@ -2487,4 +2487,29 @@ class AppLocalizationsIt extends AppLocalizations {
 
   @override
   String get taskBubbleWorking => 'In corso';
+
+  @override
+  String taskFailureRetention(int days) {
+    return 'Le attività non riuscite vengono conservate per $days giorni prima di essere rimosse.';
+  }
+
+  @override
+  String get taskErrorHintDirectory =>
+      'La cartella di salvataggio manca o è di sola lettura. Scegli di nuovo la cartella di download.';
+
+  @override
+  String get taskErrorHintAuth =>
+      'Il server ha rifiutato questo account. Controlla l\'accesso e riprova.';
+
+  @override
+  String get taskErrorHintNetwork =>
+      'Il trasferimento non è riuscito. Riprova quando la rete sarà di nuovo disponibile.';
+
+  @override
+  String get taskErrorHintSaving =>
+      'Il salvataggio nella galleria non è riuscito. Controlla lo spazio libero e riprova.';
+
+  @override
+  String get taskErrorHintUnknown =>
+      'Questa attività non è riuscita. Riprova o apri i dettagli.';
 }

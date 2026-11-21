@@ -2516,5 +2516,11 @@
   "taskBubbleCanceled": "Đã hủy",
   "taskBubbleFailures": "{completed} hoàn tất, {failed} thất bại",
   "taskBubbleSaving": "Đang lưu",
-  "taskBubbleWorking": "Đang chạy"
+  "taskBubbleWorking": "Đang chạy",
+  "taskFailureRetention": "Các tác vụ thất bại được giữ trong {days} ngày trước khi được dọn dẹp.",
+  "taskErrorHintDirectory": "Thư mục lưu thiếu hoặc chỉ được đọc. Hãy chọn lại thư mục tải xuống.",
+  "taskErrorHintAuth": "Máy chủ từ chối tài khoản này. Kiểm tra đăng nhập rồi thử lại.",
+  "taskErrorHintNetwork": "Truyền thất bại. Thử lại khi mạng trở lại.",
+  "taskErrorHintSaving": "Lưu vào thư viện thất bại. Kiểm tra dung lượng trống rồi thử lại.",
+  "taskErrorHintUnknown": "Tác vụ này thất bại. Thử lại hoặc mở chi tiết."
 }

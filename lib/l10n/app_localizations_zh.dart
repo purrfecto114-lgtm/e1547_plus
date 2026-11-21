@@ -2415,6 +2415,26 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get taskBubbleWorking => '正在进行';
+
+  @override
+  String taskFailureRetention(int days) {
+    return '失败的任务将保留 $days 天，之后自动清理。';
+  }
+
+  @override
+  String get taskErrorHintDirectory => '保存文件夹缺失或只读，请重新选择下载文件夹。';
+
+  @override
+  String get taskErrorHintAuth => '服务器拒绝了这个账号，请检查登录后重试。';
+
+  @override
+  String get taskErrorHintNetwork => '传输失败，等网络恢复后重试。';
+
+  @override
+  String get taskErrorHintSaving => '保存到相册失败，请检查剩余空间后重试。';
+
+  @override
+  String get taskErrorHintUnknown => '此任务失败，可重试或打开详情。';
 }
 
 /// The translations for Chinese, using the Han script (`zh_Hant`).
@@ -4825,4 +4845,24 @@ class AppLocalizationsZhHant extends AppLocalizationsZh {
 
   @override
   String get taskBubbleWorking => '正在進行';
+
+  @override
+  String taskFailureRetention(int days) {
+    return '失敗的任務會保留 $days 天，之後自動清理。';
+  }
+
+  @override
+  String get taskErrorHintDirectory => '儲存資料夾缺失或唯讀，請重新選擇下載資料夾。';
+
+  @override
+  String get taskErrorHintAuth => '伺服器拒絕了這個帳號，請檢查登入後重試。';
+
+  @override
+  String get taskErrorHintNetwork => '傳輸失敗，等網路恢復後重試。';
+
+  @override
+  String get taskErrorHintSaving => '儲存到相簿失敗，請檢查剩餘空間後重試。';
+
+  @override
+  String get taskErrorHintUnknown => '此任務失敗，可重試或開啟詳情。';
 }

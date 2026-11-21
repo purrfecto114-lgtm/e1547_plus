@@ -4324,6 +4324,42 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Working'**
   String get taskBubbleWorking;
+
+  /// How long failed tasks stay before they are cleaned up.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed tasks are kept for {days} days before they are cleaned up.'**
+  String taskFailureRetention(int days);
+
+  /// The save folder is missing or read-only.
+  ///
+  /// In en, this message translates to:
+  /// **'The save folder is missing or read-only. Pick the download folder again.'**
+  String get taskErrorHintDirectory;
+
+  /// The server rejected this account.
+  ///
+  /// In en, this message translates to:
+  /// **'The server rejected this account. Check your login, then retry.'**
+  String get taskErrorHintAuth;
+
+  /// The transfer failed.
+  ///
+  /// In en, this message translates to:
+  /// **'The transfer failed. Retry once the network is back.'**
+  String get taskErrorHintNetwork;
+
+  /// Saving to the gallery failed.
+  ///
+  /// In en, this message translates to:
+  /// **'Saving to the gallery failed. Check free space, then retry.'**
+  String get taskErrorHintSaving;
+
+  /// A task failed for an unrecognized reason.
+  ///
+  /// In en, this message translates to:
+  /// **'This task failed. Retry it, or open its details.'**
+  String get taskErrorHintUnknown;
 }
 
 class _AppLocalizationsDelegate

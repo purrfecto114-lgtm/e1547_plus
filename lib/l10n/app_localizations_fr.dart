@@ -2503,4 +2503,29 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get taskBubbleWorking => 'En cours';
+
+  @override
+  String taskFailureRetention(int days) {
+    return 'Les tâches échouées sont conservées pendant $days jours avant d\'être nettoyées.';
+  }
+
+  @override
+  String get taskErrorHintDirectory =>
+      'Le dossier d\'enregistrement est absent ou en lecture seule. Choisissez à nouveau le dossier de téléchargement.';
+
+  @override
+  String get taskErrorHintAuth =>
+      'Le serveur a rejeté ce compte. Vérifiez votre connexion, puis réessayez.';
+
+  @override
+  String get taskErrorHintNetwork =>
+      'Le transfert a échoué. Réessayez une fois le réseau rétabli.';
+
+  @override
+  String get taskErrorHintSaving =>
+      'L\'enregistrement dans la galerie a échoué. Vérifiez l\'espace libre, puis réessayez.';
+
+  @override
+  String get taskErrorHintUnknown =>
+      'Cette tâche a échoué. Réessayez ou ouvrez ses détails.';
 }

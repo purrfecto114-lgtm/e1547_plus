@@ -2530,4 +2530,29 @@ class AppLocalizationsPl extends AppLocalizations {
 
   @override
   String get taskBubbleWorking => 'W toku';
+
+  @override
+  String taskFailureRetention(int days) {
+    return 'Nieudane zadania są przechowywane przez $days dni, po czym zostają usunięte.';
+  }
+
+  @override
+  String get taskErrorHintDirectory =>
+      'Folder zapisu jest nieosiągalny lub tylko do odczytu. Wybierz ponownie folder pobierania.';
+
+  @override
+  String get taskErrorHintAuth =>
+      'Serwer odrzucił to konto. Sprawdź logowanie i spróbuj ponownie.';
+
+  @override
+  String get taskErrorHintNetwork =>
+      'Przesyłanie nie powiodło się. Spróbuj ponownie, gdy sieć wróci.';
+
+  @override
+  String get taskErrorHintSaving =>
+      'Zapis do galerii nie powiódł się. Sprawdź wolne miejsce i spróbuj ponownie.';
+
+  @override
+  String get taskErrorHintUnknown =>
+      'To zadanie nie powiodło się. Spróbuj ponownie lub otwórz szczegóły.';
 }

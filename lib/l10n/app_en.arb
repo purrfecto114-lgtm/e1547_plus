@@ -2617,5 +2617,34 @@
   "taskBubbleWorking": "Working",
   "@taskBubbleWorking": {
     "description": "Live region label for a running task batch, replacing the byte-level progress readout."
+  },
+  "taskFailureRetention": "Failed tasks are kept for {days} days before they are cleaned up.",
+  "taskErrorHintDirectory": "The save folder is missing or read-only. Pick the download folder again.",
+  "taskErrorHintAuth": "The server rejected this account. Check your login, then retry.",
+  "taskErrorHintNetwork": "The transfer failed. Retry once the network is back.",
+  "taskErrorHintSaving": "Saving to the gallery failed. Check free space, then retry.",
+  "taskErrorHintUnknown": "This task failed. Retry it, or open its details.",
+  "@taskFailureRetention": {
+    "description": "How long failed tasks stay before they are cleaned up.",
+    "placeholders": {
+      "days": {
+        "type": "int"
+      }
+    }
+  },
+  "@taskErrorHintDirectory": {
+    "description": "The save folder is missing or read-only."
+  },
+  "@taskErrorHintAuth": {
+    "description": "The server rejected this account."
+  },
+  "@taskErrorHintNetwork": {
+    "description": "The transfer failed."
+  },
+  "@taskErrorHintSaving": {
+    "description": "Saving to the gallery failed."
+  },
+  "@taskErrorHintUnknown": {
+    "description": "A task failed for an unrecognized reason."
   }
 }

@@ -2518,4 +2518,29 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get taskBubbleWorking => 'Выполняется';
+
+  @override
+  String taskFailureRetention(int days) {
+    return 'Неудачные задачи хранятся $days дней, после чего удаляются.';
+  }
+
+  @override
+  String get taskErrorHintDirectory =>
+      'Папка сохранения отсутствует или доступна только для чтения. Выберите папку загрузки заново.';
+
+  @override
+  String get taskErrorHintAuth =>
+      'Сервер отклонил эту учётную запись. Проверьте вход и повторите попытку.';
+
+  @override
+  String get taskErrorHintNetwork =>
+      'Передача не удалась. Повторите, когда сеть восстановится.';
+
+  @override
+  String get taskErrorHintSaving =>
+      'Не удалось сохранить в галерею. Проверьте свободное место и повторите попытку.';
+
+  @override
+  String get taskErrorHintUnknown =>
+      'Эта задача не удалась. Повторите попытку или откройте подробности.';
 }

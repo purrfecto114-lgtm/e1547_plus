@@ -699,5 +699,11 @@
   "taskBubbleCanceled": "Cancelado",
   "taskBubbleFailures": "{completed} completadas, {failed} fallidas",
   "taskBubbleSaving": "Guardando",
-  "taskBubbleWorking": "En curso"
+  "taskBubbleWorking": "En curso",
+  "taskFailureRetention": "Las tareas fallidas se conservan durante {days} días antes de limpiarse.",
+  "taskErrorHintDirectory": "La carpeta de guardado no existe o es de solo lectura. Elige de nuevo la carpeta de descargas.",
+  "taskErrorHintAuth": "El servidor rechazó esta cuenta. Comprueba tu inicio de sesión e inténtalo de nuevo.",
+  "taskErrorHintNetwork": "La transferencia falló. Inténtalo de nuevo cuando la red vuelva.",
+  "taskErrorHintSaving": "No se pudo guardar en la galería. Comprueba el espacio libre e inténtalo de nuevo.",
+  "taskErrorHintUnknown": "La tarea falló. Reinténtalo o abre sus detalles."
 }

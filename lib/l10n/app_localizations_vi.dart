@@ -2478,4 +2478,29 @@ class AppLocalizationsVi extends AppLocalizations {
 
   @override
   String get taskBubbleWorking => 'Đang chạy';
+
+  @override
+  String taskFailureRetention(int days) {
+    return 'Các tác vụ thất bại được giữ trong $days ngày trước khi được dọn dẹp.';
+  }
+
+  @override
+  String get taskErrorHintDirectory =>
+      'Thư mục lưu thiếu hoặc chỉ được đọc. Hãy chọn lại thư mục tải xuống.';
+
+  @override
+  String get taskErrorHintAuth =>
+      'Máy chủ từ chối tài khoản này. Kiểm tra đăng nhập rồi thử lại.';
+
+  @override
+  String get taskErrorHintNetwork =>
+      'Truyền thất bại. Thử lại khi mạng trở lại.';
+
+  @override
+  String get taskErrorHintSaving =>
+      'Lưu vào thư viện thất bại. Kiểm tra dung lượng trống rồi thử lại.';
+
+  @override
+  String get taskErrorHintUnknown =>
+      'Tác vụ này thất bại. Thử lại hoặc mở chi tiết.';
 }

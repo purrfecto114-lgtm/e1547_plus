@@ -2516,5 +2516,11 @@
   "taskBubbleCanceled": "취소됨",
   "taskBubbleFailures": "{completed}개 완료, {failed}개 실패",
   "taskBubbleSaving": "저장 중",
-  "taskBubbleWorking": "진행 중"
+  "taskBubbleWorking": "진행 중",
+  "taskFailureRetention": "실패한 작업은 {days}일 동안 보관된 후 정리됩니다.",
+  "taskErrorHintDirectory": "저장 폴더가 없거나 읽기 전용입니다. 다운로드 폴더를 다시 선택하세요.",
+  "taskErrorHintAuth": "서버가 이 계정을 거부했습니다. 로그인을 확인한 후 다시 시도하세요.",
+  "taskErrorHintNetwork": "전송에 실패했습니다. 네트워크가 복구되면 다시 시도하세요.",
+  "taskErrorHintSaving": "갤러리에 저장하지 못했습니다. 여유 공간을 확인한 후 다시 시도하세요.",
+  "taskErrorHintUnknown": "이 작업이 실패했습니다. 다시 시도하거나 세부 정보를 여세요."
 }

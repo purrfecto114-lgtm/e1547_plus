@@ -2478,4 +2478,29 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get taskBubbleWorking => 'Working';
+
+  @override
+  String taskFailureRetention(int days) {
+    return 'Failed tasks are kept for $days days before they are cleaned up.';
+  }
+
+  @override
+  String get taskErrorHintDirectory =>
+      'The save folder is missing or read-only. Pick the download folder again.';
+
+  @override
+  String get taskErrorHintAuth =>
+      'The server rejected this account. Check your login, then retry.';
+
+  @override
+  String get taskErrorHintNetwork =>
+      'The transfer failed. Retry once the network is back.';
+
+  @override
+  String get taskErrorHintSaving =>
+      'Saving to the gallery failed. Check free space, then retry.';
+
+  @override
+  String get taskErrorHintUnknown =>
+      'This task failed. Retry it, or open its details.';
 }

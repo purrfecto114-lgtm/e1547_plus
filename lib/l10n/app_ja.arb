@@ -699,5 +699,11 @@
   "taskBubbleCanceled": "キャンセルされました",
   "taskBubbleFailures": "{completed}件完了、{failed}件失敗",
   "taskBubbleSaving": "保存中",
-  "taskBubbleWorking": "処理中"
+  "taskBubbleWorking": "処理中",
+  "taskFailureRetention": "失敗したタスクは {days} 日間保持され、その後に削除されます。",
+  "taskErrorHintDirectory": "保存フォルダーが存在しないか読み取り専用です。ダウンロードフォルダーを選び直してください。",
+  "taskErrorHintAuth": "サーバーがこのアカウントを拒否しました。ログインを確認してから再試行してください。",
+  "taskErrorHintNetwork": "転送に失敗しました。ネットワークが復帰したら再試行してください。",
+  "taskErrorHintSaving": "ギャラリーへの保存に失敗しました。空き容量を確認してから再試行してください。",
+  "taskErrorHintUnknown": "このタスクは失敗しました。再試行するか、詳細を開いてください。"
 }

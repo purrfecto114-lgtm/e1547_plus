@@ -699,5 +699,11 @@
   "taskBubbleCanceled": "Annulé",
   "taskBubbleFailures": "{completed} terminées, {failed} en échec",
   "taskBubbleSaving": "Enregistrement",
-  "taskBubbleWorking": "En cours"
+  "taskBubbleWorking": "En cours",
+  "taskFailureRetention": "Les tâches échouées sont conservées pendant {days} jours avant d'être nettoyées.",
+  "taskErrorHintDirectory": "Le dossier d'enregistrement est absent ou en lecture seule. Choisissez à nouveau le dossier de téléchargement.",
+  "taskErrorHintAuth": "Le serveur a rejeté ce compte. Vérifiez votre connexion, puis réessayez.",
+  "taskErrorHintNetwork": "Le transfert a échoué. Réessayez une fois le réseau rétabli.",
+  "taskErrorHintSaving": "L'enregistrement dans la galerie a échoué. Vérifiez l'espace libre, puis réessayez.",
+  "taskErrorHintUnknown": "Cette tâche a échoué. Réessayez ou ouvrez ses détails."
 }

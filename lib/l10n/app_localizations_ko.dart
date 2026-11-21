@@ -2443,4 +2443,25 @@ class AppLocalizationsKo extends AppLocalizations {
 
   @override
   String get taskBubbleWorking => '진행 중';
+
+  @override
+  String taskFailureRetention(int days) {
+    return '실패한 작업은 $days일 동안 보관된 후 정리됩니다.';
+  }
+
+  @override
+  String get taskErrorHintDirectory =>
+      '저장 폴더가 없거나 읽기 전용입니다. 다운로드 폴더를 다시 선택하세요.';
+
+  @override
+  String get taskErrorHintAuth => '서버가 이 계정을 거부했습니다. 로그인을 확인한 후 다시 시도하세요.';
+
+  @override
+  String get taskErrorHintNetwork => '전송에 실패했습니다. 네트워크가 복구되면 다시 시도하세요.';
+
+  @override
+  String get taskErrorHintSaving => '갤러리에 저장하지 못했습니다. 여유 공간을 확인한 후 다시 시도하세요.';
+
+  @override
+  String get taskErrorHintUnknown => '이 작업이 실패했습니다. 다시 시도하거나 세부 정보를 여세요.';
 }
