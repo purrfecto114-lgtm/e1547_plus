@@ -9,7 +9,7 @@ const double dismissReach = 240;
 const double dismissMinScale = 0.72;
 const double dismissFadeRate = 2;
 const Duration dismissDuration = Duration(milliseconds: 300);
-const Color dismissBarrier = Color(0x8A000000);
+const Color dismissBarrier = Colors.black54;
 final SpringDescription dismissSpring = SpringDescription.withDampingRatio(
   mass: 1,
   stiffness: 150,
