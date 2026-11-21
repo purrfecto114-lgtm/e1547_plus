@@ -310,20 +310,20 @@ class AppLocalizationsKo extends AppLocalizations {
   String get qualityHigh => '높음';
 
   @override
-  String get settingsAutoLoadVideos => '자동으로 동영상 로드';
+  String get settingsAutoLoadVideos => '인접 동영상 미리 불러오기';
 
   @override
-  String get autoLoadVideosOn => '탐색 시 동영상 로드';
+  String get autoLoadVideosOn => '열려 있는 동영상 옆의 동영상을 미리 불러옵니다';
 
   @override
-  String get autoLoadVideosOff => '재생 시 동영상 로드';
+  String get autoLoadVideosOff => '동영상은 열 때만 불러옵니다';
 
   @override
-  String get autoLoadVideosDialogTitle => '동영상을 자동으로 로드할까요?';
+  String get autoLoadVideosDialogTitle => '인접 동영상을 미리 불러올까요?';
 
   @override
   String get autoLoadVideosDialogBody =>
-      '탐색 및 검색 시 전체 동영상이 다운로드됩니다. 이는 유료 연결에서 많은 데이터를 소모할 수 있습니다.';
+      '동영상을 열면 그 옆의 동영상도 완전히 다운로드합니다. 종량제 연결에서는 많은 데이터를 사용할 수 있습니다.';
 
   @override
   String get videoQuality => '동영상 품질';

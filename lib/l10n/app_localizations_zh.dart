@@ -306,20 +306,20 @@ class AppLocalizationsZh extends AppLocalizations {
   String get qualityHigh => '高';
 
   @override
-  String get settingsAutoLoadVideos => '自动加载视频';
+  String get settingsAutoLoadVideos => '预加载相邻视频';
 
   @override
-  String get autoLoadVideosOn => '浏览时加载视频';
+  String get autoLoadVideosOn => '打开一个视频后，旁边的视频会提前加载';
 
   @override
-  String get autoLoadVideosOff => '播放时加载视频';
+  String get autoLoadVideosOff => '视频只在打开时加载';
 
   @override
-  String get autoLoadVideosDialogTitle => '自动加载视频？';
+  String get autoLoadVideosDialogTitle => '预加载相邻视频？';
 
   @override
   String get autoLoadVideosDialogBody =>
-      '开启后，浏览和搜索时会完整下载视频。在按流量计费的网络下可能消耗大量数据。';
+      '打开视频会同时完整下载其相邻的视频。在按流量计费的网络上可能消耗较多数据。';
 
   @override
   String get videoQuality => '视频画质';
@@ -2742,20 +2742,19 @@ class AppLocalizationsZhHant extends AppLocalizationsZh {
   String get qualityHigh => '高';
 
   @override
-  String get settingsAutoLoadVideos => '自動載入影片';
+  String get settingsAutoLoadVideos => '預載相鄰影片';
 
   @override
-  String get autoLoadVideosOn => '瀏覽時載入影片';
+  String get autoLoadVideosOn => '開啟一個影片後，相鄰的影片會提前載入';
 
   @override
-  String get autoLoadVideosOff => '播放時載入影片';
+  String get autoLoadVideosOff => '影片只在開啟時載入';
 
   @override
-  String get autoLoadVideosDialogTitle => '自動載入影片？';
+  String get autoLoadVideosDialogTitle => '預載相鄰影片？';
 
   @override
-  String get autoLoadVideosDialogBody =>
-      '開啟後，瀏覽和搜尋時會完整下載影片。在按流量計費的網路下可能消耗大量數據。';
+  String get autoLoadVideosDialogBody => '開啟影片會同時完整下載其相鄰影片。在按流量計費的網路上可能消耗較多數據。';
 
   @override
   String get videoQuality => '影片畫質';

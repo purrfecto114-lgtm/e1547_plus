@@ -306,20 +306,20 @@ class AppLocalizationsJa extends AppLocalizations {
   String get qualityHigh => '高';
 
   @override
-  String get settingsAutoLoadVideos => '動画を自動的に読み込む';
+  String get settingsAutoLoadVideos => '隣接する動画を先読み';
 
   @override
-  String get autoLoadVideosOn => '閲覧中に動画を読み込む';
+  String get autoLoadVideosOn => '開いた動画の隣の動画を先に読み込みます';
 
   @override
-  String get autoLoadVideosOff => '再生時に動画を読み込む';
+  String get autoLoadVideosOff => '動画は開いたときだけ読み込みます';
 
   @override
-  String get autoLoadVideosDialogTitle => '動画を自動的に読み込みますか？';
+  String get autoLoadVideosDialogTitle => '隣接する動画を先読みしますか？';
 
   @override
   String get autoLoadVideosDialogBody =>
-      '有効にすると、閲覧や検索中に動画が完全にダウンロードされます。従量制の接続では大量のデータを消費する可能性があります。';
+      '動画を開くと、その隣の動画も完全にダウンロードします。通信量制限のある回線では多くのデータを消費する可能性があります。';
 
   @override
   String get videoQuality => '動画の画質';

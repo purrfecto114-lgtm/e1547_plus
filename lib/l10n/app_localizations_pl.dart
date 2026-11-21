@@ -322,20 +322,20 @@ class AppLocalizationsPl extends AppLocalizations {
   String get qualityHigh => 'Wysoka';
 
   @override
-  String get settingsAutoLoadVideos => 'Automatyczne ładowanie wideo';
+  String get settingsAutoLoadVideos => 'Wczytuj sąsiednie filmy';
 
   @override
-  String get autoLoadVideosOn => 'wideo ładują się podczas przeglądania';
+  String get autoLoadVideosOn => 'filmy obok otwartego wczytują się wcześniej';
 
   @override
-  String get autoLoadVideosOff => 'wideo ładują się podczas odtwarzania';
+  String get autoLoadVideosOff => 'filmy wczytują się dopiero po otwarciu';
 
   @override
-  String get autoLoadVideosDialogTitle => 'Ładować wideo automatycznie?';
+  String get autoLoadVideosDialogTitle => 'Wczytywać sąsiednie filmy?';
 
   @override
   String get autoLoadVideosDialogBody =>
-      'Wideo zostaną pobrane w całości podczas przeglądania i wyszukiwania. Może to zużyć dużo danych na połączeniach z limitem transferu.';
+      'Otwarcie filmu pobiera też w całości sąsiednie. To może zużywać dużo danych na połączeniach limitowanych.';
 
   @override
   String get videoQuality => 'Jakość wideo';

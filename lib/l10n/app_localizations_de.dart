@@ -315,20 +315,21 @@ class AppLocalizationsDe extends AppLocalizations {
   String get qualityHigh => 'Hoch';
 
   @override
-  String get settingsAutoLoadVideos => 'Videos automatisch laden';
+  String get settingsAutoLoadVideos => 'Benachbarte Videos vorladen';
 
   @override
-  String get autoLoadVideosOn => 'Videos werden beim Surfen geladen';
+  String get autoLoadVideosOn =>
+      'die Videos neben dem geöffneten werden vorzeitig geladen';
 
   @override
-  String get autoLoadVideosOff => 'Videos werden beim Abspielen geladen';
+  String get autoLoadVideosOff => 'Videos laden erst beim Öffnen';
 
   @override
-  String get autoLoadVideosDialogTitle => 'Videos automatisch laden?';
+  String get autoLoadVideosDialogTitle => 'Benachbarte Videos vorladen?';
 
   @override
   String get autoLoadVideosDialogBody =>
-      'Videos werden vollständig heruntergeladen, während du surfst und suchst. Das kann auf getakteten Verbindungen viel Datenvolumen verbrauchen.';
+      'Beim Öffnen eines Videos werden auch die benachbarten vollständig geladen. Das kann bei getakteten Verbindungen viel Datenverbrauch bedeuten.';
 
   @override
   String get videoQuality => 'Videoqualität';

@@ -314,20 +314,21 @@ class AppLocalizationsVi extends AppLocalizations {
   String get qualityHigh => 'Cao';
 
   @override
-  String get settingsAutoLoadVideos => 'Tải video tự động';
+  String get settingsAutoLoadVideos => 'Tải trước video lân cận';
 
   @override
-  String get autoLoadVideosOn => 'video tải khi duyệt';
+  String get autoLoadVideosOn =>
+      'các video bên cạnh video đang mở được tải sẵn';
 
   @override
-  String get autoLoadVideosOff => 'video tải khi phát';
+  String get autoLoadVideosOff => 'video chỉ được tải khi mở';
 
   @override
-  String get autoLoadVideosDialogTitle => 'Tải video tự động?';
+  String get autoLoadVideosDialogTitle => 'Tải trước video lân cận?';
 
   @override
   String get autoLoadVideosDialogBody =>
-      'Video sẽ được tải hoàn toàn khi bạn duyệt và tìm kiếm. Điều này có thể tiêu tốn nhiều dữ liệu trên kết nối đo lường.';
+      'Mở một video cũng tải toàn bộ các video lân cận. Điều này có thể tốn nhiều dữ liệu trên kết nối có giới hạn.';
 
   @override
   String get videoQuality => 'Chất lượng video';

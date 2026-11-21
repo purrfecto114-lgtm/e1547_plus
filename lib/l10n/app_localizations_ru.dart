@@ -322,20 +322,20 @@ class AppLocalizationsRu extends AppLocalizations {
   String get qualityHigh => 'Высокое';
 
   @override
-  String get settingsAutoLoadVideos => 'Автоматически загружать видео';
+  String get settingsAutoLoadVideos => 'Предзагрузка соседних видео';
 
   @override
-  String get autoLoadVideosOn => 'видео загружаются при просмотре';
+  String get autoLoadVideosOn => 'видео рядом с открытым загружаются заранее';
 
   @override
-  String get autoLoadVideosOff => 'видео загружаются при воспроизведении';
+  String get autoLoadVideosOff => 'видео загружаются только при открытии';
 
   @override
-  String get autoLoadVideosDialogTitle => 'Автоматически загружать видео?';
+  String get autoLoadVideosDialogTitle => 'Предзагружать соседние видео?';
 
   @override
   String get autoLoadVideosDialogBody =>
-      'Видео будут полностью загружаться во время просмотра и поиска. Это может расходовать много трафика на тарифицируемых соединениях.';
+      'Открытие видео также полностью скачивает соседние. На лимитных соединениях это может расходовать много трафика.';
 
   @override
   String get videoQuality => 'Качество видео';

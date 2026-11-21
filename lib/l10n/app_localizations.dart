@@ -644,31 +644,31 @@ abstract class AppLocalizations {
   /// No description provided for @settingsAutoLoadVideos.
   ///
   /// In en, this message translates to:
-  /// **'Automatically load videos'**
+  /// **'Preload neighbouring videos'**
   String get settingsAutoLoadVideos;
 
   /// No description provided for @autoLoadVideosOn.
   ///
   /// In en, this message translates to:
-  /// **'videos load while browsing'**
+  /// **'the videos next to the one you open load ahead of time'**
   String get autoLoadVideosOn;
 
   /// No description provided for @autoLoadVideosOff.
   ///
   /// In en, this message translates to:
-  /// **'videos load when played'**
+  /// **'videos load only when you open one'**
   String get autoLoadVideosOff;
 
   /// No description provided for @autoLoadVideosDialogTitle.
   ///
   /// In en, this message translates to:
-  /// **'Load videos automatically?'**
+  /// **'Preload neighbouring videos?'**
   String get autoLoadVideosDialogTitle;
 
   /// No description provided for @autoLoadVideosDialogBody.
   ///
   /// In en, this message translates to:
-  /// **'Videos will be downloaded in full while you browse and search. This can consume a lot of data on metered connections.'**
+  /// **'Opening a video also downloads the videos next to it in full. This can consume a lot of data on metered connections.'**
   String get autoLoadVideosDialogBody;
 
   /// No description provided for @videoQuality.
