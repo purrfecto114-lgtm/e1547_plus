@@ -2,6 +2,7 @@
   "@@locale": "ru",
   "appName": "e1547",
   "failedToLoad": "Не удалось загрузить",
+  "malformedLink": "Эта ссылка сформирована неправильно и не может быть открыта.",
   "nothingToSeeHere": "Здесь ничего нет",
   "loading": "Загрузка…",
   "actionCancel": "ОТМЕНА",

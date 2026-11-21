@@ -15,7 +15,7 @@ class AppLocalizationsKo extends AppLocalizations {
   String get failedToLoad => '로드 실패';
 
   @override
-  String get malformedLink => 'This link is malformed and cannot be opened.';
+  String get malformedLink => '이 링크는 형식이 잘못되어 열 수 없습니다.';
 
   @override
   String get nothingToSeeHere => '여기는 볼 거 없어요';

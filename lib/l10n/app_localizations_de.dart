@@ -15,7 +15,8 @@ class AppLocalizationsDe extends AppLocalizations {
   String get failedToLoad => 'Laden fehlgeschlagen';
 
   @override
-  String get malformedLink => 'This link is malformed and cannot be opened.';
+  String get malformedLink =>
+      'Dieser Link ist fehlerhaft und kann nicht geöffnet werden.';
 
   @override
   String get nothingToSeeHere => 'Hier gibt es nichts zu sehen';

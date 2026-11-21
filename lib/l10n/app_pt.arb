@@ -2,6 +2,7 @@
   "@@locale": "pt",
   "appName": "e1547",
   "failedToLoad": "Falha ao carregar",
+  "malformedLink": "Este link está mal formado e não pode ser aberto.",
   "nothingToSeeHere": "Nada para ver aqui",
   "loading": "Carregando...",
   "actionCancel": "CANCELAR",

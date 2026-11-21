@@ -6,6 +6,7 @@
     "placeholders": {}
   },
   "failedToLoad": "Tải thất bại",
+  "malformedLink": "Liên kết này sai định dạng nên không thể mở được.",
   "nothingToSeeHere": "Không có gì để xem ở đây",
   "loading": "Đang tải...",
   "actionCancel": "HỦY",

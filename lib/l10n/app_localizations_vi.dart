@@ -15,7 +15,8 @@ class AppLocalizationsVi extends AppLocalizations {
   String get failedToLoad => 'Tải thất bại';
 
   @override
-  String get malformedLink => 'This link is malformed and cannot be opened.';
+  String get malformedLink =>
+      'Liên kết này sai định dạng nên không thể mở được.';
 
   @override
   String get nothingToSeeHere => 'Không có gì để xem ở đây';

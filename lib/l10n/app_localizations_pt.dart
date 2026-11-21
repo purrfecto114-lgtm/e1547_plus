@@ -15,7 +15,8 @@ class AppLocalizationsPt extends AppLocalizations {
   String get failedToLoad => 'Falha ao carregar';
 
   @override
-  String get malformedLink => 'This link is malformed and cannot be opened.';
+  String get malformedLink =>
+      'Este link está mal formado e não pode ser aberto.';
 
   @override
   String get nothingToSeeHere => 'Nada para ver aqui';

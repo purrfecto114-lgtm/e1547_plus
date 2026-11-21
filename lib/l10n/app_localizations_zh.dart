@@ -15,7 +15,7 @@ class AppLocalizationsZh extends AppLocalizations {
   String get failedToLoad => '加载失败';
 
   @override
-  String get malformedLink => 'This link is malformed and cannot be opened.';
+  String get malformedLink => '链接格式错误，无法打开。';
 
   @override
   String get nothingToSeeHere => '这里什么都没有';
@@ -2446,6 +2446,9 @@ class AppLocalizationsZhHant extends AppLocalizationsZh {
 
   @override
   String get failedToLoad => '載入失敗';
+
+  @override
+  String get malformedLink => '連結格式錯誤，無法開啟。';
 
   @override
   String get nothingToSeeHere => '這裡什麼都沒有';

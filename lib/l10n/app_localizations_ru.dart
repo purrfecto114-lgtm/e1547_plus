@@ -15,7 +15,8 @@ class AppLocalizationsRu extends AppLocalizations {
   String get failedToLoad => 'Не удалось загрузить';
 
   @override
-  String get malformedLink => 'This link is malformed and cannot be opened.';
+  String get malformedLink =>
+      'Эта ссылка сформирована неправильно и не может быть открыта.';
 
   @override
   String get nothingToSeeHere => 'Здесь ничего нет';

@@ -6,6 +6,7 @@
     "placeholders": {}
   },
   "failedToLoad": "Nie udało się załadować",
+  "malformedLink": "Ten link jest nieprawidłowo zbudowany i nie można go otworzyć.",
   "nothingToSeeHere": "Tu nic nie ma",
   "loading": "Ładowanie...",
   "actionCancel": "ANULUJ",

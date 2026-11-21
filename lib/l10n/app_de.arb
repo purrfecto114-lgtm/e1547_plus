@@ -2,6 +2,7 @@
   "@@locale": "de",
   "appName": "e1547",
   "failedToLoad": "Laden fehlgeschlagen",
+  "malformedLink": "Dieser Link ist fehlerhaft und kann nicht geöffnet werden.",
   "nothingToSeeHere": "Hier gibt es nichts zu sehen",
   "loading": "Lädt…",
   "actionCancel": "ABBRECHEN",

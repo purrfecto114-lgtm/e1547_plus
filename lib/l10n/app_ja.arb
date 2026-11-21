@@ -2,6 +2,7 @@
   "@@locale": "ja",
   "appName": "e1547",
   "failedToLoad": "読み込めませんでした",
+  "malformedLink": "このリンクは不正な形式のため開けません。",
   "nothingToSeeHere": "何もありません",
   "loading": "読み込み中…",
   "actionCancel": "キャンセル",
