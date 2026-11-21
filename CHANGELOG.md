@@ -4,6 +4,36 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and this project
 adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [22.7.0+231] - 2026-11-21
+### Changed
+- the lock's pin hash is five times harder to brute force offline: the
+  key derivation now runs the same 150000 rounds as the database
+  export, existing installs upgrade themselves the next time the pin
+  verifies, and the notes no longer claim a four digit space is
+  expensive to sweep
+- password-protected exports no longer freeze the screen: the cipher
+  runs on the platform's native aes on android, ios and macos, and on
+  a background thread everywhere else
+- only web links leave the app: markup links and post sources carrying
+  other schemes (market:, mailto:, …) are refused with a notice
+  instead of being handed to the system
+- downloads stop at two gigabytes, so a hostile upload cannot park an
+  arbitrarily large file on the device
+### Fixed
+- a post whose original file the server dropped no longer takes the
+  whole page down with it; its dimensions fall back to the tiers that
+  survive
+- the pin backoff cannot be talked into waiting less by pushing the
+  clock forward, and a stamp written under a fake clock never locks
+  the rightful owner out for longer than one maximum wait
+- redacting long urls out of the logs no longer stalls the ui thread
+- the history and follow lists filter by account through their index
+  again instead of scanning the whole table
+- the donors page avatars go through the app's image cache like every
+  other image
+- ios backups skip the preferences file that holds the pin hash, the
+  same way android's cloud backup already does
+
 ## [22.6.0+230] - 2026-11-21
 ### Changed
 - the age gate opens the onboarding: nothing, not even the language
@@ -2034,3 +2064,4 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 [22.5.1+228]: https://github.com/purrfecto114-lgtm/e1547_plus/compare/22.5.0+226...22.5.1+228
 [22.5.2+229]: https://github.com/purrfecto114-lgtm/e1547_plus/compare/22.5.1+228...22.5.2+229
 [22.6.0+230]: https://github.com/purrfecto114-lgtm/e1547_plus/compare/22.5.2+229...22.6.0+230
+[22.7.0+231]: https://github.com/purrfecto114-lgtm/e1547_plus/compare/22.6.0+230...22.7.0+231
