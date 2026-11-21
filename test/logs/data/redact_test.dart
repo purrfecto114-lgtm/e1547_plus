@@ -79,6 +79,19 @@ void main() {
       expect(path, isNot(contains('hunter2')));
     });
 
+    test('a long url redacts without backtracking', () {
+      // The old \S+\?\S+=\S* pattern swallowed the ? with \S+ and
+      // backtracked quadratically on urls whose query has no equals
+      // sign, hanging the ui thread on long log lines (this runs
+      // synchronously in the log sink).
+      final url = 'https://example.org/${'a' * 10000}?tags';
+      final sw = Stopwatch()..start();
+      final result = redactor.redactUrl(url);
+      sw.stop();
+      expect(result, url);
+      expect(sw.elapsedMilliseconds, lessThan(100));
+    });
+
     test('scrubs the error message', () {
       final LogEntry result = redactor.apply(
         LogEntry(

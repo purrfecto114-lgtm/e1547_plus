@@ -51,7 +51,12 @@ class LogRedactor {
     _ => redactUrl(value.toString()),
   };
 
-  static final RegExp _queried = RegExp(r'\S+\?\S+=\S*');
+  // The lookbehind anchors every match to the start of its whitespace
+  // delimited segment: without it the engine retried the pattern at
+  // every position of a long segment and swept the whole prefix once
+  // per retry, which is quadratic (measured: 1.2s for a 10k line, in
+  // the synchronous log sink on the ui isolate).
+  static final RegExp _queried = RegExp(r'(?<=^|\s)\S+\?\S+=\S*');
 
   String redactUrl(String value) {
     if (!value.contains('?')) return value;
