@@ -243,37 +243,46 @@ class RawPostImageWidget extends StatelessWidget {
       }
     }
 
-    return CachedNetworkImage(
-      fit: fit,
-      fadeInDuration: fades,
-      fadeOutDuration: fades,
-      imageUrl: url,
-      // A failed image used to render as a blank tile in grids, which
-      // is indistinguishable from "no content"; show the broken image
-      // hint everywhere instead.
-      errorWidget: (context, url, error) {
-        load?.report(url, ImageFailed(error));
-        return defaultErrorBuilder(context, url, error);
-      },
-      progressIndicatorBuilder: showProgress || stacked
-          ? (context, url, progress) {
-              load?.report(url, ImageLoading(progress.progress));
-              return (progressIndicatorBuilder ?? progressIndicator)(
-                context,
-                url,
-                progress,
-              );
-            }
-          : null,
-      imageBuilder: load != null
-          ? (context, image) {
-              load.report(url, const ImageLoaded());
-              return Image(image: image, fit: fit);
-            }
-          : null,
-      memCacheWidth: memCacheWidth,
-      memCacheHeight: memCacheHeight,
-      cacheManager: context.read<BaseCacheManager>(),
+    // A failed url retries when the app refreshed: the notifier below
+    // rebuilds this spot on every epoch, and the failed url's key
+    // changes with it, replacing the state that pinned the error.
+    // Loaded urls keep a stable key, so a refresh never flashes them.
+    return ValueListenableBuilder<int>(
+      valueListenable: imageRetryEpoch,
+      builder: (context, epoch, _) => CachedNetworkImage(
+        key: ValueKey(failedImageUrls.contains(url) ? '$url#$epoch' : url),
+        fit: fit,
+        fadeInDuration: fades,
+        fadeOutDuration: fades,
+        imageUrl: url,
+        // A failed image used to render as a blank tile in grids, which
+        // is indistinguishable from "no content"; show the broken image
+        // hint everywhere instead.
+        errorWidget: (context, url, error) {
+          failedImageUrls.add(url);
+          load?.report(url, ImageFailed(error));
+          return defaultErrorBuilder(context, url, error);
+        },
+        progressIndicatorBuilder: showProgress || stacked
+            ? (context, url, progress) {
+                load?.report(url, ImageLoading(progress.progress));
+                return (progressIndicatorBuilder ?? progressIndicator)(
+                  context,
+                  url,
+                  progress,
+                );
+              }
+            : null,
+        imageBuilder: load != null
+            ? (context, image) {
+                load.report(url, const ImageLoaded());
+                return Image(image: image, fit: fit);
+              }
+            : null,
+        memCacheWidth: memCacheWidth,
+        memCacheHeight: memCacheHeight,
+        cacheManager: context.read<BaseCacheManager>(),
+      ),
     );
   }
 }

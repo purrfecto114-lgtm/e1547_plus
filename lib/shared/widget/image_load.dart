@@ -174,3 +174,14 @@ class _ImageLoadOverlayState extends State<ImageLoadOverlay> {
     ),
   );
 }
+
+/// Advances whenever the app refreshed its content, so tiles whose
+/// image failed can rebuild and retry instead of pinning their error
+/// until the user scrolls them away.
+final ValueNotifier<int> imageRetryEpoch = ValueNotifier<int>(0);
+
+/// The urls whose load failed under the current app run.
+///
+/// Only these retry on an epoch change: a refresh must not flash the
+/// images that already succeeded.
+final Set<String> failedImageUrls = <String>{};

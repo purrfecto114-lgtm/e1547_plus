@@ -1,3 +1,4 @@
+import 'package:e1547/shared/widget/image_load.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_sub/flutter_sub.dart';
@@ -57,6 +58,10 @@ class PullToRefresh extends StatelessWidget {
             } on Object {
               success = false;
             }
+            // Whatever the fetch brought back, the content was asked
+            // for again: failed image tiles rebuild and retry under a
+            // new epoch instead of pinning their error.
+            imageRetryEpoch.value++;
             success
                 ? refreshController.refreshCompleted()
                 : refreshController.refreshFailed();
