@@ -282,10 +282,3 @@ void main() {
   });
 }
 
-PostVideoRouteState? playerOfOrNull(WidgetTester tester, Post post) =>
-    tester.state<PostVideoRouteState>(
-      find.byWidgetPredicate(
-        (widget) => widget is PostVideoRoute && widget.post == post,
-        skipOffstage: false,
-      ),
-    );

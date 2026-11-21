@@ -4,7 +4,6 @@ import 'package:e1547/shared/shared.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:notified_preferences/notified_preferences.dart';
-import 'package:provider/provider.dart';
 
 import '../../_support/posts.dart';
 import '../../_support/video.dart';
