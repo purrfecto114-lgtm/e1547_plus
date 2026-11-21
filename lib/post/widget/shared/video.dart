@@ -587,11 +587,16 @@ class PostVideoRoute extends StatefulWidget {
     required this.child,
     required this.post,
     this.stopOnDispose = true,
+    // Whether opening this route is the intent to watch. The fullscreen
+    // gallery is; the detail and edit pages only embed the route, and
+    // their videos stay deferred until the play button.
+    this.autoLoad = true,
   });
 
   final Widget child;
   final Post post;
   final bool stopOnDispose;
+  final bool autoLoad;
 
   static PostVideoRouteState of(BuildContext context) =>
       context.findAncestorStateOfType<PostVideoRouteState>()!;
@@ -642,9 +647,9 @@ class PostVideoRouteState extends State<PostVideoRoute> {
     }
     VideoPlayer? next = widget.post.getVideo(
       context,
-      // The video route only exists because it was opened: watching is
-      // the intent, so its video always loads.
-      autoLoad: true,
+      // The host decides what opening means: the fullscreen gallery
+      // watches, the detail and edit pages only embed.
+      autoLoad: widget.autoLoad,
       seekTo: seekTo ?? _carriedPosition,
       resume: resume || (_carriedResume && player == null),
     );

@@ -86,6 +86,9 @@ class PostDetail extends StatelessWidget {
       // before creating a provider of their own.
       child: PostVideoRoute(
         post: post,
+        // A detail page is browsing, not watching: its video stays
+        // deferred until the play button.
+        autoLoad: false,
         child: PostHistoryConnector(
           post: post,
           child: ScrollToDismiss(

@@ -255,6 +255,7 @@ class _PostEditPageState extends State<PostEditPage> {
       ),
       child: PostVideoRoute(
         post: widget.post,
+        autoLoad: false,
         child: KeyboardDismisser(
           child: Scaffold(
             extendBodyBehindAppBar: true,

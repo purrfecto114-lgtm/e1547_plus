@@ -27,6 +27,10 @@ class _PostFullscreenGalleryState extends State<PostFullscreenGallery>
     with PostSearchRouteAware<PostFullscreenGallery> {
   late int? postId = widget.initialPostId;
 
+  // The last position whose neighbours were prefetched, so the first
+  // frame (and every page change) prefetches exactly once.
+  int? _preloadedIndex;
+
   @override
   Widget build(BuildContext context) {
     closeWhenSearchChanged(context);
@@ -42,6 +46,28 @@ class _PostFullscreenGalleryState extends State<PostFullscreenGallery>
           return const ScaffoldFrame(
             child: Center(child: CircularProgressIndicator()),
           );
+        }
+
+        // The pager's onPageChanged never fires for the page it starts
+        // on: the neighbours of the video the user opened are prefetched
+        // here instead, once per resolved position.
+        if (_preloadedIndex != index) {
+          _preloadedIndex = index;
+          WidgetsBinding.instance.addPostFrameCallback((_) {
+            if (mounted) {
+              preloadNeighborVideos(
+                context: context,
+                index: index,
+                posts: items ?? [],
+              );
+              preloadPostImages(
+                context: context,
+                index: index,
+                posts: items ?? [],
+                size: PostImageSize.file,
+              );
+            }
+          });
         }
 
         return SubDefault<PageController>(

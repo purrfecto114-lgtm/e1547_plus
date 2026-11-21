@@ -26,9 +26,11 @@ Future<void> preloadPostImage({
     // at a capped size, once they are actually shown.
     try {
       await manager.getSingleFile(url);
-    } on Exception {
-      // A failed prefetch must not break preloading;
-      // the image downloads again when it is shown.
+    } on Object {
+      // A failed prefetch must not break preloading; the image downloads
+      // again when it is shown. Errors are caught too, not just
+      // exceptions: cache managers surface missing capability as
+      // noSuchMethod, which is an Error.
     }
     return;
   }
