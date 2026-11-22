@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:dio/dio.dart';
 import 'package:drift/native.dart';
 import 'package:e1547/app/app.dart';
@@ -165,6 +167,84 @@ void main() {
   });
 
   group('FollowServer.sync', () {
+    test(
+      'forcing one account leaves the other account refresh time intact',
+      () async {
+        const tags = 'park trees';
+        final other = await IdentityRepository(sqlite).add(
+          const IdentityRequest(
+            host: 'https://example.test',
+            username: 'other',
+          ),
+        );
+        final previousUpdate = DateTime.now().subtract(
+          const Duration(minutes: 10),
+        );
+        for (final account in [identity, other]) {
+          await repository.add(const FollowRequest(tags: tags), account.id);
+          final follow = (await repository.getByTags(tags, account.id))!;
+          await repository.replace(follow.copyWith(updated: previousUpdate));
+        }
+        server.postsClient.dio.interceptors.add(
+          InterceptorsWrapper(
+            onRequest: (options, handler) => handler.resolve(
+              Response(
+                requestOptions: options,
+                data: <Object>[],
+                statusCode: 200,
+              ),
+            ),
+          ),
+        );
+
+        await server.sync(force: true);
+
+        final active = (await repository.getByTags(tags, identity.id))!;
+        final inactive = (await repository.getByTags(tags, other.id))!;
+        expect(active.updated?.isAfter(previousUpdate), isTrue);
+        expect(
+          inactive.updated?.millisecondsSinceEpoch,
+          previousUpdate.millisecondsSinceEpoch ~/ 1000 * 1000,
+        );
+      },
+    );
+
+    test('a canceled sync discards the late response before writing', () async {
+      const tags = 'park trees';
+      await repository.add(const FollowRequest(tags: tags), identity.id);
+      final started = Completer<void>();
+      final release = Completer<void>();
+      server.postsClient.dio.interceptors.add(
+        InterceptorsWrapper(
+          onRequest: (options, handler) async {
+            started.complete();
+            await release.future;
+            handler.resolve(
+              Response(
+                requestOptions: options,
+                data: <Object>[],
+                statusCode: 200,
+              ),
+            );
+          },
+        ),
+      );
+      final running = server.sync();
+      final sync = server.currentSync!;
+      final finished = sync.progress.drain<void>();
+      try {
+        await started.future.timeout(const Duration(seconds: 5));
+        sync.cancel();
+        await running;
+      } finally {
+        release.complete();
+      }
+      await finished.timeout(const Duration(seconds: 5));
+
+      final retained = (await repository.getByTags(tags, identity.id))!;
+      expect(retained.updated, isNull);
+    });
+
     test('disposing mid-sync does not write to the closed stream', () async {
       // A separate server: the shared tearDown would dispose it twice.
       final dio = Dio();

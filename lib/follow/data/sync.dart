@@ -117,6 +117,7 @@ class FollowSync {
         await repository.transaction(() async {
           List<Follow> follows = await repository.all(
             types: [FollowType.notify, FollowType.update],
+            identity: identity.id,
           );
           for (final follow in follows) {
             await repository.replace(follow.copyWith(updated: null));
@@ -148,6 +149,7 @@ class FollowSync {
         List<Follow> singles = follows.where((e) => e.isSingle).toList();
         if (singles.isNotEmpty) {
           List<Follow> updates = await _refreshSingles(singles);
+          if (cancelled) break;
           await repository.transaction(() async {
             for (final update in updates) {
               await repository.replace(update);
@@ -159,6 +161,7 @@ class FollowSync {
         List<Follow> multiples = follows.whereNot(singles.contains).toList();
         if (multiples.isNotEmpty) {
           Follow update = await _refreshMultiples(multiples);
+          if (cancelled) break;
           await repository.replace(update);
           continue;
         }
@@ -217,6 +220,7 @@ class FollowSync {
         String? alias = await rateLimit(
           tagsClient!.aliases(query: {'search[antecedent_name]': follow.tags}),
         );
+        if (cancelled) return [];
         if (alias != follow.alias) {
           Follow updated = follow.copyWith(alias: alias);
           updates[updated] = updates.remove(follow)!;
