@@ -34,3 +34,11 @@
 ### 发布
 - 22.9.0+235：pubspec、CHANGELOG、fastlane 235.txt。
 - 提交链：623113df(merge) → d9a58c45/768453d4(断裂与行为融合) → cd713f06(记账) → 016829b2(loader 回上游+fake autocomplete+topic 骨架) → aca8442d/0a52ec43/ee2b529e(l10n) → 7b5799b8/4c324543(缩略图) → acc4fcc6(发布)。
+
+### 同步策略决定（round 8 结束时）
+本轮 merge 暴露了三层结构性断层：e621 API 格式换代（我们已迁 files 嵌套、上游仍为扁平旧格式）、l10n 架构（我们 722 键、上游硬编码英文）、同区域双向演化（分页完整性/lock/verdicts vs 下载/详情 UI）。用户决定：**从下一轮起不再整树 merge 上游**，改为把上游 changelog 当需求清单，在我们的基线上等价实现（保住 l10n、fixture、测试基建的一致性）。
+
+### 遗留（后续轮）
+- partial_test 两例 skip：上游断言假设旧 fixture 标签结构（tags 为 Map 含 artist 键），我们 fixture 是当前扁平列表；待 fixture 增加 artist 标签数据后重新对齐。
+- avatar 三例、detail-family 14 例、decode-hold 1 例标准 skip（理由在用例上）。
+- user 页（theirs）整页 l10n 化、DateFormatting.named 本地化。

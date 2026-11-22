@@ -129,7 +129,13 @@ class DefaultAppBar extends StatelessWidget implements PreferredSizeWidget {
         );
         List<Widget>? effectiveActions = actions;
         if (actions != null) {
-          effectiveActions = [...actions!, const SizedBox(width: 8)];
+          // A skeleton page must not answer its actions: they stay
+          // visible as bones but stop reacting until loaded.
+          effectiveActions = [
+            for (final Widget action in actions!)
+              Skeleton.keep(child: SkeletonIgnore(child: action)),
+            const SizedBox(width: 8),
+          ];
         }
 
         return AppBar(

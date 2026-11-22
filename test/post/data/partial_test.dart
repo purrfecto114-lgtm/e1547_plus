@@ -4,7 +4,6 @@ import 'package:flutter_test/flutter_test.dart';
 import '../../_support/environment.dart';
 import '../../_support/harness.dart';
 
-@Skip('upstream 21.2.0 behavior, not yet aligned in this fork')
 void main() {
   setUpAll(initializeTestApp);
 
@@ -26,6 +25,8 @@ void main() {
 
   test(
     'posts by the same artist read the files, flags and tags of a post',
+    skip:
+        'upstream assertions assume the legacy fixture tag shape; realign with artist-tagged fixture data later, see process.md',
     () async {
       final Map<String, Object?> recorded = env.fake.state.posts.first;
 
@@ -49,6 +50,8 @@ void main() {
 
   test(
     'a post by the same artist is denied by its uploader and file size',
+    skip:
+        'upstream assertions assume the legacy fixture tag shape; realign with artist-tagged fixture data later, see process.md',
     () async {
       final Map<String, Object?> recorded = env.fake.state.posts.first;
       final String uploader = recorded['uploader_name']! as String;
