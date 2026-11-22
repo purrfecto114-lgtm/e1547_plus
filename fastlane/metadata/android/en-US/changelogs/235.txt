@@ -1,0 +1,3 @@
+The thumbnail quality setting now changes how sharp thumbnails decode instead of resizing the cards; the card size has its own setting now.
+Merged upstream: artist recommendations, swipe-to-close setting, skeleton loaders and download fixes.
+The 18+ dialog, task dismiss, traditional logs, biometric hint and import error wording got clearer.

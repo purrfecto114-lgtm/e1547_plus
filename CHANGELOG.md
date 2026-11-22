@@ -1,4 +1,28 @@
 # Changelog
+
+## [22.9.0+235] - 2026-11-22
+### Added
+- the thumbnail quality setting finally does what its name says: it
+  scales how sharp grid thumbnails decode while the card grid keeps
+  its size, and the card size has its own setting beside it
+- a swipe-to-close switch joins the interactions settings
+- merged upstream 21.2.0: artist recommendations on the post detail,
+  partial post summaries, skeleton loaders for lists and profiles,
+  the download location display fix, and the honest vote and favorite
+  failure messages
+### Fixed
+- the 18+ confirmation no longer reads as if e926 were adults-only
+  too; the english, simplified and traditional wordings now say that
+  e621 is the adult community and e926 its all-ages mirror
+- the dismiss action on finished download tasks says it removes them
+- the traditional interface calls log entries records and keeps
+  record files for the file list, and the biometric hint no longer
+  mentions a face the code never checks
+- an import file without a database schema version is reported as an
+  invalid backup rather than personal data
+### Changed
+- the onboarding tagline calls the app a full-featured booru browser
+  instead of a polished one
 All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and this project
