@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'package:e1547/shared/shared.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -9,7 +10,7 @@ class PullToRefresh extends StatelessWidget {
   const PullToRefresh({
     super.key,
     required this.child,
-    required Future<void> Function() this.onRefresh,
+    required FutureOr<Object?> Function() this.onRefresh,
   }) : onNotedRefresh = null;
 
   const PullToRefresh.noted({
@@ -20,7 +21,7 @@ class PullToRefresh extends StatelessWidget {
        onRefresh = null;
 
   final Widget child;
-  final Future<void> Function()? onRefresh;
+  final FutureOr<Object?> Function()? onRefresh;
   final Future<Widget?> Function()? onNotedRefresh;
 
   @override
@@ -50,15 +51,35 @@ class PullToRefresh extends StatelessWidget {
           child: SmartRefresher(
             controller: refreshController,
             onRefresh: () async {
+              bool succeeded = true;
               try {
-                await onRefresh?.call();
-                note.value = await onNotedRefresh?.call();
+                if (onNotedRefresh case final noted?) {
+                  note.value = await noted();
+                } else if (onRefresh case final refresh?) {
+                  // A void callback gives no verdict; a bool one is the
+                  // honest outcome of the refresh (the offline verdicts
+                  // fix), and the header must report it either way.
+                  // TODO(l10n): move these strings into app_en.arb.
+                  final Object? result = await refresh();
+                  if (result == false) {
+                    succeeded = false;
+                    note.value = const Text('Refresh failed');
+                  } else if (result == true) {
+                    note.value = const Text('Completed');
+                  }
+                }
                 if (note.value != null) {
                   await WidgetsBinding.instance.endOfFrame;
                 }
-                refreshController.refreshCompleted();
+                if (succeeded) {
+                  refreshController.refreshCompleted();
+                } else {
+                  refreshController.refreshFailed();
+                }
               } on Object {
-                note.value = null;
+                // TODO(l10n): see the verdict strings above.
+                note.value = const Text('Refresh failed');
+                await WidgetsBinding.instance.endOfFrame;
                 refreshController.refreshFailed();
               }
             },
@@ -102,7 +123,8 @@ class _HexagonRefreshHeaderState extends State<HexagonRefreshHeader> {
         height: _refreshExtent,
         child: Center(
           child: switch (status) {
-            RefreshStatus.completed when note != null => note,
+            RefreshStatus.completed ||
+            RefreshStatus.failed when note != null => note,
             _ => ValueListenableBuilder<double>(
               valueListenable: pull,
               builder: (context, offset, child) => HexagonalLoadingIndicator(

@@ -1,6 +1,7 @@
+import 'package:e1547/client/client.dart';
+import 'package:e1547/l10n/app_localizations.dart';
 import 'dart:math';
 
-import 'package:e1547/client/client.dart';
 import 'package:e1547/post/post.dart';
 import 'package:e1547/query/query.dart';
 import 'package:e1547/shared/shared.dart';
@@ -35,41 +36,29 @@ class PostRelationPreview extends StatelessWidget {
         final Post? post = state.data;
         final bool denied =
             post != null && filter != null && !filter.filter(post);
-        final VoidCallback open =
-            onTap ?? () => pushPostLoadingPage(context, id);
-        if (post != null && !denied) {
-          return PostRowTile(post: post, size: size, onTap: open);
-        }
         return RelationPreviewCard(
           size: size,
-          onTap: open,
-          child: RelationPreviewIcon(
-            icon: denied
-                ? Icons.block
-                : state.error != null
-                ? Icons.warning_amber_outlined
-                : null,
-          ),
+          onTap: onTap ?? () => pushPostLoadingPage(context, id),
+          child: post != null && !denied
+              ? PostTileOverlay(
+                  post: post,
+                  child: PostImageWidget(
+                    post: post,
+                    size: PostImageSize.preview,
+                    fit: BoxFit.cover,
+                    showProgress: false,
+                    withLowRes: false,
+                  ),
+                )
+              : RelationPreviewIcon(
+                  icon: denied
+                      ? Icons.block
+                      : state.error != null
+                      ? Icons.warning_amber_outlined
+                      : null,
+                ),
         );
       },
-    );
-  }
-}
-
-class PostThumbnail extends StatelessWidget {
-  const PostThumbnail({super.key, required this.id});
-
-  final int id;
-
-  @override
-  Widget build(BuildContext context) {
-    final Widget thumbnail = PostRelationPreview(id: id);
-    if (context.read<FilterController<Post>?>() != null) return thumbnail;
-    final Client client = context.watch<Client>();
-    return FilterControllerProvider<PostFilter, Post>(
-      create: (_) => PostFilter(client),
-      keys: (_) => [client],
-      child: thumbnail,
     );
   }
 }
@@ -151,7 +140,7 @@ class PostRelationTile extends StatelessWidget {
                       showChild: post != null,
                       child: Text(
                         artists.isEmpty
-                            ? 'no artist'
+                            ? AppLocalizations.of(context).detailNoArtist
                             : artists.map(tagToName).join(', '),
                         maxLines: 2,
                         overflow: TextOverflow.ellipsis,
@@ -186,14 +175,7 @@ class RelationHeader extends StatelessWidget {
     padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 2),
     child: Row(
       children: [
-        Flexible(
-          child: Text(
-            title,
-            maxLines: 1,
-            overflow: TextOverflow.ellipsis,
-            style: const TextStyle(fontSize: 16),
-          ),
-        ),
+        Text(title, style: const TextStyle(fontSize: 16)),
         if (count != null) ...[
           const SizedBox(width: 8),
           Text(
@@ -206,6 +188,23 @@ class RelationHeader extends StatelessWidget {
   );
 }
 
+class PostThumbnail extends StatelessWidget {
+  const PostThumbnail({super.key, required this.id});
+
+  final int id;
+
+  @override
+  Widget build(BuildContext context) {
+    final Widget thumbnail = PostRelationPreview(id: id);
+    if (context.read<FilterController<Post>?>() != null) return thumbnail;
+    final Client client = context.watch<Client>();
+    return FilterControllerProvider<PostFilter, Post>(
+      create: (_) => PostFilter(client),
+      keys: (_) => [client],
+      child: thumbnail,
+    );
+  }
+}
 class PostRowSection extends StatelessWidget {
   const PostRowSection({
     super.key,
@@ -285,7 +284,6 @@ class PostRowSection extends StatelessWidget {
     ],
   );
 }
-
 class PostRowTile extends StatelessWidget {
   const PostRowTile({
     super.key,

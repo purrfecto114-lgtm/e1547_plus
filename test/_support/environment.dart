@@ -126,6 +126,7 @@ class TestEnvironment {
   Widget app(
     Widget home, {
     ThemeData? theme,
+    Locale? locale,
     List<SingleChildWidget> providers = const [],
   }) => MultiProvider(
     providers: [
@@ -138,6 +139,7 @@ class TestEnvironment {
     ],
     child: MaterialApp(
       theme: theme,
+      locale: locale,
       navigatorObservers: [routeObserver],
       localizationsDelegates: testLocalizations,
       builder: (context, child) => ThemedSkeletons(child: child!),

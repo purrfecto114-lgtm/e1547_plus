@@ -1,7 +1,7 @@
 import 'dart:io';
 
-import 'package:intl/date_symbol_data_local.dart' as intl_dates;
 import 'package:flutter/material.dart' show DateUtils;
+import 'package:intl/date_symbol_data_local.dart' as intl_dates;
 import 'package:intl/intl.dart';
 
 /// Primitive default date formatting.

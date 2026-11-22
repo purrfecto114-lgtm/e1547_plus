@@ -218,6 +218,23 @@ class FakeE621 {
       final wanted = ids.group(1)!.split(',').map(int.parse).toSet();
       posts = posts.where((e) => wanted.contains(e['id'])).toList();
     }
+    final userMatch = RegExp(r'^user:(.+)$').firstMatch(tags);
+    if (userMatch != null) {
+      final Object? id = [
+        state.user,
+        ...state.users,
+      ].where((e) => e['name'] == userMatch.group(1)).firstOrNull?['id'];
+      posts = posts.where((e) => e['uploader_id'] == id).toList();
+    }
+    final faved = RegExp(r'^fav:(.+)$').firstMatch(tags);
+    if (faved != null) {
+      final String name = faved.group(1)!;
+      if (state.privateFavorites.contains(name)) {
+        throw FakeE621Error(403, "This user's favorites are hidden");
+      }
+      final Set<int> wanted = state.favoritesOf[name] ?? const {};
+      posts = posts.where((e) => wanted.contains(e['id'])).toList();
+    }
     return _json(_paginate(posts, query));
   }
 
@@ -656,6 +673,12 @@ class FakeE621State {
 
   final List<Map<String, Object?>> posts;
   final Set<int> favorites;
+
+  /// Per-user favorites, keyed by username; the `fav:` metatag reads these.
+  final Map<String, Set<int>> favoritesOf = {};
+
+  /// Users whose favorites the server hides from others.
+  final Set<String> privateFavorites = {};
   final List<Map<String, Object?>> topics;
   final List<Map<String, Object?>> replies;
   final List<Map<String, Object?>> comments;

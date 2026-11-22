@@ -29,6 +29,8 @@ bool servesNewestFirst(QueryMap? query) =>
 final Expando<QueryBridge<Post, int>> _postCacheBridges =
     Expando<QueryBridge<Post, int>>();
 
+final Expando<QueryLoader<int, Post>> _postLoaders = Expando();
+
 extension PostQuerying on PostClient {
   static const queryDomain = 'posts';
 
@@ -44,10 +46,13 @@ extension PostQuerying on PostClient {
     'partial',
   ], fromJson: PartialPost.fromJson);
 
+  QueryLoader<int, Post> get postLoader => _postLoaders[this] ??= postCache
+      .loader((ids) => byIds(ids: ids, hidden: true), limit: maxPageLimit);
+
   Query<Post> useGet({required int id, bool? vendored}) => Query(
     cache: queryCache,
     key: [...queryKey, id],
-    queryFn: () => get(id: id),
+    queryFn: () => postLoader.require(id),
     config: postCache.getConfig(vendored: vendored),
   );
 
@@ -154,7 +159,7 @@ extension PostQuerying on PostClient {
           final lower = ((page as int) - 1) * perPage;
           if (lower >= ids.length) return const [];
           final slice = ids.sublist(lower, min(lower + perPage, ids.length));
-          final fetched = await byIds(ids: slice);
+          final fetched = await byIds(ids: slice, hidden: true);
           return postCache.savePage(fetched);
         },
       );

@@ -2,6 +2,9 @@ import 'dart:async';
 
 import 'package:cached_query_flutter/cached_query_flutter.dart';
 import 'package:e1547/shared/shared.dart';
+
+import 'loader.dart';
+
 export 'package:cached_query_flutter/cached_query_flutter.dart';
 
 bool _liveFetch(Object key, Object? data, DateTime createdAt) => true;
@@ -109,6 +112,14 @@ class QueryBridge<T, K> {
   /// reverted by that rollback. Chaining mutations on the same item
   /// keeps every rollback scoped to its own changes.
   final Map<K, Completer<void>> _inFlight = {};
+
+  QueryLoader<K, T> loader(
+    Future<List<T>> Function(List<K> ids) load, {
+    int? limit,
+  }) => QueryLoader(
+    (ids) async => {for (final T item in await load(ids)) getId(item): item},
+    limit: limit,
+  );
 
   Future<R> optimistic<R>(
     K id,

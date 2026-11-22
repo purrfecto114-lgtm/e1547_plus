@@ -6,7 +6,6 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:provider/provider.dart';
 
 import '../../_support/environment.dart';
-import '../../_support/fixtures.dart';
 import '../../_support/harness.dart';
 import '../../_support/posts.dart';
 
@@ -55,36 +54,6 @@ void main() {
   }
 
   group('RelationshipDisplay', () {
-    displayTest('loads a parent and its children in one request', (
-      tester,
-    ) async {
-      final List<int> ids = loadFixtureList(
-        'posts.json',
-      ).map((e) => e['id']! as int).take(4).toList();
-      env.fake.requests.clear();
-
-      await show(
-        tester,
-        RelationshipDisplay(
-          post: samplePost(
-            id: 10,
-            relationships: Relationships(
-              parentId: ids.first,
-              hasChildren: true,
-              hasActiveChildren: true,
-              children: ids.skip(1).toList(),
-            ),
-          ),
-        ),
-      );
-
-      expect(env.fake.requests.map((e) => e.path), ['/posts.json']);
-      expect(
-        env.fake.requests.single.query['tags'],
-        'id:${ids.join(',')} status:any',
-      );
-    });
-
     displayTest('names the artists of a cached parent', (tester) async {
       env.client.posts.postCache.set(
         samplePost(

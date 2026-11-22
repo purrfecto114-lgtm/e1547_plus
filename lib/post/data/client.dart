@@ -100,16 +100,28 @@ class PostClient {
     CancelToken? cancelToken,
   }) async {
     if (ids.isEmpty) return [];
-    String filter = 'id:${ids.join(',')}';
-    if (hidden) filter = '$filter status:any';
+
+    // Server-side maximum id and page request size.
+    const int chunkSize = 320;
+
+    List<List<int>> chunks = [];
+    for (int i = 0; i < ids.length; i += chunkSize) {
+      chunks.add(ids.sublist(i, min(i + chunkSize, ids.length)));
+    }
+
     // The upstream _search helper collapsed into our page request; the
     // byIds semantics (hidden lookups skip the censored-file filter)
     // stay the same.
-    List<Post> found = await page(
-      limit: min(ids.length, maxPageLimit),
-      query: {'tags': filter},
-      cancelToken: cancelToken,
-    );
+    List<Post> found = [
+      for (final chunk in chunks)
+        await page(
+          limit: min(chunk.length, maxPageLimit),
+          query: {
+            'tags': 'id:${chunk.join(',')}${hidden ? ' status:any' : ''}',
+          },
+          cancelToken: cancelToken,
+        ),
+    ].expand((list) => list).toList();
     if (!hidden) {
       // Censored posts, which have contentious tags and are unavailable
       // to anonymous users, are also considered broken. Posts which are

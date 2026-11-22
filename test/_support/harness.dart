@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:e1547/settings/settings.dart';
+import 'package:e1547/l10n/app_localizations.dart';
 import 'package:e1547/shared/shared.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -31,7 +32,8 @@ Future<void> initializeTestApp() async {
   );
 }
 
-const List<LocalizationsDelegate<Object>> testLocalizations = [
+const List<LocalizationsDelegate<dynamic>> testLocalizations = [
+  ...AppLocalizations.localizationsDelegates,
   DefaultMaterialLocalizations.delegate,
   DefaultWidgetsLocalizations.delegate,
   RelativeTimeLocalizations.delegate,

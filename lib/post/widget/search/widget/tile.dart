@@ -3,6 +3,7 @@ import 'dart:math';
 import 'package:e1547/app/app.dart';
 import 'package:e1547/client/client.dart';
 import 'package:e1547/comment/comment.dart';
+import 'package:e1547/l10n/app_localizations.dart';
 import 'package:e1547/markup/markup.dart';
 import 'package:e1547/post/post.dart';
 import 'package:e1547/query/query.dart';
@@ -32,6 +33,16 @@ class PostImageTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    return Semantics(
+      // Tiles are pure images; naming the post reuses the selection
+      // label and gives screen readers something to announce besides
+      // the metadata of the info bar.
+      label: AppLocalizations.of(context).selectionPost(post.id),
+      child: _buildTile(context),
+    );
+  }
+
+  Widget _buildTile(BuildContext context) {
     if (isSkeleton(context)) {
       final CardThemeData card = Theme.of(context).cardTheme;
       final ShapeBorder? shape = card.shape;

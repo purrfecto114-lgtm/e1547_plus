@@ -44,6 +44,7 @@ void main() {
 
     expect(find.textContaining('ompleted'), findsOneWidget);
     expect(find.textContaining('ailed'), findsNothing);
+    await tester.pump(const Duration(seconds: 2));
     await tester.pumpAndSettle();
   });
 
@@ -55,6 +56,7 @@ void main() {
 
     expect(find.textContaining('ailed'), findsOneWidget);
     expect(find.textContaining('ompleted'), findsNothing);
+    await tester.pump(const Duration(seconds: 2));
     await tester.pumpAndSettle();
   });
 
@@ -66,6 +68,7 @@ void main() {
 
     expect(find.textContaining('ailed'), findsOneWidget);
     expect(find.textContaining('ompleted'), findsNothing);
+    await tester.pump(const Duration(seconds: 2));
     await tester.pumpAndSettle();
   });
 }

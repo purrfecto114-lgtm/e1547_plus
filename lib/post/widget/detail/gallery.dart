@@ -56,6 +56,12 @@ class _PostDetailGalleryState extends State<PostDetailGallery>
     with PostSearchRouteAware<PostDetailGallery> {
   late int? postId = widget.initialPostId;
 
+  /// Whether the initial page ever resolved inside the list. Until it
+  /// does, the gallery shows the single-post loading page for the
+  /// initial id instead of waiting on the list query, so a gallery
+  /// opened from a relation or recommendation shows content right away.
+  bool _shown = false;
+
   @override
   Widget build(BuildContext context) {
     closeWhenSearchChanged(context);
@@ -67,12 +73,15 @@ class _PostDetailGalleryState extends State<PostDetailGallery>
             : items?.indexWhere((post) => post.id == postId) ?? -1;
 
         if (index < 0) {
+          final int? id = postId;
+          if (!_shown && id != null) return PostLoadingPage(id);
           if (items != null) close();
           return const Scaffold(
             appBar: TransparentAppBar(child: DefaultAppBar()),
             body: Center(child: CircularProgressIndicator()),
           );
         }
+        _shown = true;
 
         return SubDefault<PageController>(
           value: widget.pageController,

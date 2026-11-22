@@ -1,13 +1,13 @@
 import 'dart:io';
 
-import 'package:e1547/l10n/app_localizations.dart';
 import 'package:e1547/post/post.dart';
 import 'package:e1547/tag/tag.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart' show FontLoader;
-import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_test/flutter_test.dart';
 
+import '../_support/environment.dart';
+import '../_support/harness.dart';
 import '../_support/posts.dart';
 
 /// Loads DejaVu Sans under the families Material resolves, so goldens
@@ -44,6 +44,12 @@ Future<void> loadRealFonts() async {
 /// pixel-by-pixel comparison against a device screenshot holds for the
 /// Latin parts, not the glyph shapes.
 void main() {
+  setUpAll(initializeTestApp);
+
+  late TestEnvironment env;
+  setUp(() async => env = await TestEnvironment.start());
+  tearDown(() => env.dispose());
+
   testWidgets('tag chips match device geometry', (tester) async {
     if (!realFontsAvailable) {
       // Ahem-based pixels differ from the DejaVu-based baseline on a
@@ -73,14 +79,8 @@ void main() {
     );
 
     await tester.pumpWidget(
-      MaterialApp(
-        locale: const Locale('zh'),
-        localizationsDelegates: const [
-          ...AppLocalizations.localizationsDelegates,
-          GlobalCupertinoLocalizations.delegate,
-        ],
-        supportedLocales: AppLocalizations.supportedLocales,
-        home: RepaintBoundary(
+      env.app(
+        RepaintBoundary(
           child: Scaffold(
             body: SingleChildScrollView(
               child: Padding(
@@ -120,13 +120,22 @@ void main() {
             ),
           ),
         ),
+        locale: const Locale('zh'),
       ),
     );
+    // Let the follow query of the tag display resolve against the fake
+    // before the frame is locked into the golden.
+    await tester.pump(const Duration(milliseconds: 300));
     await tester.pump(const Duration(milliseconds: 300));
 
     await expectLater(
       find.byType(RepaintBoundary).first,
       matchesGoldenFile('_goldens/tags_zh_1080x1920.png'),
     );
+
+    // The environment's query cache schedules cache-entry deletions whose
+    // timers must run out while the test still owns the clock.
+    await tester.pumpWidget(const SizedBox.shrink());
+    await tester.pump(const Duration(seconds: 5));
   });
 }
