@@ -1,9 +1,8 @@
 import 'dart:async';
 
 import 'package:cached_query_flutter/cached_query_flutter.dart';
+import 'package:e1547/query/data/loader.dart';
 import 'package:e1547/shared/shared.dart';
-
-import 'loader.dart';
 
 export 'package:cached_query_flutter/cached_query_flutter.dart';
 

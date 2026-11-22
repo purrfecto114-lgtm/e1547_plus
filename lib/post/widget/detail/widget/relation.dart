@@ -1,7 +1,7 @@
-import 'package:e1547/client/client.dart';
-import 'package:e1547/l10n/app_localizations.dart';
 import 'dart:math';
 
+import 'package:e1547/client/client.dart';
+import 'package:e1547/l10n/app_localizations.dart';
 import 'package:e1547/post/post.dart';
 import 'package:e1547/query/query.dart';
 import 'package:e1547/shared/shared.dart';

@@ -35,7 +35,7 @@ class PostImageOverlay extends StatelessWidget {
       if (post.isDeleted) {
         return IconMessage(
           title: Text(AppLocalizations.of(context).postDeleted),
-          icon: Icon(_postDeletedIcon),
+          icon: const Icon(_postDeletedIcon),
         );
       }
 
@@ -49,7 +49,7 @@ class PostImageOverlay extends StatelessWidget {
     if ((filter?.denies(post) ?? false) && !post.isFavorited) {
       return IconMessage(
         title: Text(AppLocalizations.of(context).postBlacklisted),
-        icon: Icon(Icons.block),
+        icon: const Icon(Icons.block),
       );
     }
 

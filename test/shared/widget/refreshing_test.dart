@@ -1,9 +1,9 @@
 import 'package:e1547/shared/shared.dart';
-
-import '../../_support/harness.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
+
+import '../../_support/harness.dart';
 
 void main() {
   // The classic header resolves its strings from the package's bundled

@@ -60,6 +60,8 @@ class PullToRefresh extends StatelessWidget {
                   // A void callback gives no verdict; a bool one is the
                   // honest outcome of the refresh (the offline verdicts
                   // fix), and the header must report it either way.
+                  // Captured here: the noted-refresh path never needs
+                  // localizations and its trees may not provide them.
                   final AppLocalizations l10n = AppLocalizations.of(context);
                   final Object? result = await refresh();
                   if (result == false) {
@@ -78,7 +80,11 @@ class PullToRefresh extends StatelessWidget {
                   refreshController.refreshFailed();
                 }
               } on Object {
-                note.value = Text(AppLocalizations.of(context).refreshFailed);
+                // The refresh may outlive this element; only a mounted
+                // tree can still read the note.
+                if (context.mounted) {
+                  note.value = Text(AppLocalizations.of(context).refreshFailed);
+                }
                 await WidgetsBinding.instance.endOfFrame;
                 refreshController.refreshFailed();
               }
