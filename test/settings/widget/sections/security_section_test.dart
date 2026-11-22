@@ -71,7 +71,7 @@ void main() {
     // The switch keeps the stored setting but goes dead, and the
     // subtitle says why: the sensor lost its prints, the app did not.
     expect(switchOf(tester).value, isTrue);
-    expect(find.text('检测到生物识别硬件，但尚未录入指纹或人脸'), findsOneWidget);
+    expect(find.text('检测到生物识别硬件，但尚未录入指纹'), findsOneWidget);
 
     // Dead means dead: flipping the switch must be impossible.
     await tester.tap(find.byType(Switch).last);

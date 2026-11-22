@@ -707,5 +707,20 @@
   "taskErrorHintNetwork": "Передача не удалась. Повторите, когда сеть восстановится.",
   "taskErrorHintSaving": "Не удалось сохранить в галерею. Проверьте свободное место и повторите попытку.",
   "taskErrorHintUnknown": "Эта задача не удалась. Повторите попытку или откройте подробности.",
-  "adultGateDeniedBody": "Это приложение открывается только для взрослых. Ничего не продолжится без подтверждения совершеннолетия."
+  "adultGateDeniedBody": "Это приложение открывается только для взрослых. Ничего не продолжится без подтверждения совершеннолетия.",
+  "refreshCompleted": "Completed",
+  "refreshFailed": "Refresh failed",
+  "settingsSwipeToClose": "Swipe to close",
+  "swipeToCloseOn": "drag down to close",
+  "swipeToCloseOff": "buttons and back gesture",
+  "postDeleted": "Post was deleted",
+  "postUnavailable": "Post is unavailable",
+  "postBlacklisted": "Post is blacklisted",
+  "postUnsupportedFiles": "{ext} files are not supported",
+  "@postUnsupportedFiles": {
+    "placeholders": {
+      "ext": {}
+    }
+  },
+  "postUnsupportedOpen": "Open"
 }

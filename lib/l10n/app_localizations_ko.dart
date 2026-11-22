@@ -2468,4 +2468,36 @@ class AppLocalizationsKo extends AppLocalizations {
   @override
   String get adultGateDeniedBody =>
       '이 앱은 성인만 이용할 수 있습니다. 법적 연령을 확인하지 않으면 더 이상 진행할 수 없습니다.';
+
+  @override
+  String get refreshCompleted => 'Completed';
+
+  @override
+  String get refreshFailed => 'Refresh failed';
+
+  @override
+  String get settingsSwipeToClose => 'Swipe to close';
+
+  @override
+  String get swipeToCloseOn => 'drag down to close';
+
+  @override
+  String get swipeToCloseOff => 'buttons and back gesture';
+
+  @override
+  String get postDeleted => 'Post was deleted';
+
+  @override
+  String get postUnavailable => 'Post is unavailable';
+
+  @override
+  String get postBlacklisted => 'Post is blacklisted';
+
+  @override
+  String postUnsupportedFiles(Object ext) {
+    return '$ext files are not supported';
+  }
+
+  @override
+  String get postUnsupportedOpen => 'Open';
 }

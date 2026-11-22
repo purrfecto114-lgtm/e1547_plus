@@ -707,5 +707,20 @@
   "taskErrorHintNetwork": "La transferencia falló. Inténtalo de nuevo cuando la red vuelva.",
   "taskErrorHintSaving": "No se pudo guardar en la galería. Comprueba el espacio libre e inténtalo de nuevo.",
   "taskErrorHintUnknown": "La tarea falló. Reinténtalo o abre sus detalles.",
-  "adultGateDeniedBody": "Esta aplicación abre solo para adultos. Nada continúa aquí sin confirmar que tienes la edad legal."
+  "adultGateDeniedBody": "Esta aplicación abre solo para adultos. Nada continúa aquí sin confirmar que tienes la edad legal.",
+  "refreshCompleted": "Completed",
+  "refreshFailed": "Refresh failed",
+  "settingsSwipeToClose": "Swipe to close",
+  "swipeToCloseOn": "drag down to close",
+  "swipeToCloseOff": "buttons and back gesture",
+  "postDeleted": "Post was deleted",
+  "postUnavailable": "Post is unavailable",
+  "postBlacklisted": "Post is blacklisted",
+  "postUnsupportedFiles": "{ext} files are not supported",
+  "@postUnsupportedFiles": {
+    "placeholders": {
+      "ext": {}
+    }
+  },
+  "postUnsupportedOpen": "Open"
 }

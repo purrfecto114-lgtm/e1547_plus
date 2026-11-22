@@ -205,6 +205,7 @@ class PostThumbnail extends StatelessWidget {
     );
   }
 }
+
 class PostRowSection extends StatelessWidget {
   const PostRowSection({
     super.key,
@@ -284,6 +285,7 @@ class PostRowSection extends StatelessWidget {
     ],
   );
 }
+
 class PostRowTile extends StatelessWidget {
   const PostRowTile({
     super.key,

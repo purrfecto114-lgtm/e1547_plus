@@ -1,4 +1,6 @@
 import 'package:e1547/shared/shared.dart';
+
+import '../../_support/harness.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -12,6 +14,7 @@ void main() {
   ) async {
     await tester.pumpWidget(
       MaterialApp(
+        localizationsDelegates: testLocalizations,
         home: Scaffold(
           body: PullToRefresh(
             onRefresh: onRefresh,

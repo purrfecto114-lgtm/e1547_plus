@@ -20,7 +20,10 @@ extension UserQuerying on UserClient {
   ], fromJson: PartialUser.fromJson);
 
   QueryLoader<int, PartialUser> get partialUserLoader =>
-      partialUserCache.loader((ids) => byIds(ids: ids), limit: maxPageLimit);
+      _partialUserLoaders[this] ??= partialUserCache.loader(
+        (ids) => byIds(ids: ids),
+        limit: maxPageLimit,
+      );
 
   Query<PartialUser> usePartial({required int id}) => Query(
     cache: queryCache,

@@ -707,5 +707,20 @@
   "taskErrorHintNetwork": "転送に失敗しました。ネットワークが復帰したら再試行してください。",
   "taskErrorHintSaving": "ギャラリーへの保存に失敗しました。空き容量を確認してから再試行してください。",
   "taskErrorHintUnknown": "このタスクは失敗しました。再試行するか、詳細を開いてください。",
-  "adultGateDeniedBody": "このアプリは成人向けです。成年であることを確認しないと、ここから先へは進めません。"
+  "adultGateDeniedBody": "このアプリは成人向けです。成年であることを確認しないと、ここから先へは進めません。",
+  "refreshCompleted": "Completed",
+  "refreshFailed": "Refresh failed",
+  "settingsSwipeToClose": "Swipe to close",
+  "swipeToCloseOn": "drag down to close",
+  "swipeToCloseOff": "buttons and back gesture",
+  "postDeleted": "Post was deleted",
+  "postUnavailable": "Post is unavailable",
+  "postBlacklisted": "Post is blacklisted",
+  "postUnsupportedFiles": "{ext} files are not supported",
+  "@postUnsupportedFiles": {
+    "placeholders": {
+      "ext": {}
+    }
+  },
+  "postUnsupportedOpen": "Open"
 }

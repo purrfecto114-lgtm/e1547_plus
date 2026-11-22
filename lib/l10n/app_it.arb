@@ -2521,5 +2521,20 @@
   "taskErrorHintNetwork": "Il trasferimento non è riuscito. Riprova quando la rete sarà di nuovo disponibile.",
   "taskErrorHintSaving": "Il salvataggio nella galleria non è riuscito. Controlla lo spazio libero e riprova.",
   "taskErrorHintUnknown": "Questa attività non è riuscita. Riprova o apri i dettagli.",
-  "adultGateDeniedBody": "Questa app si apre solo per gli adulti. Nulla continua senza confermare di avere l'età legale."
+  "adultGateDeniedBody": "Questa app si apre solo per gli adulti. Nulla continua senza confermare di avere l'età legale.",
+  "refreshCompleted": "Completed",
+  "refreshFailed": "Refresh failed",
+  "settingsSwipeToClose": "Swipe to close",
+  "swipeToCloseOn": "drag down to close",
+  "swipeToCloseOff": "buttons and back gesture",
+  "postDeleted": "Post was deleted",
+  "postUnavailable": "Post is unavailable",
+  "postBlacklisted": "Post is blacklisted",
+  "postUnsupportedFiles": "{ext} files are not supported",
+  "@postUnsupportedFiles": {
+    "placeholders": {
+      "ext": {}
+    }
+  },
+  "postUnsupportedOpen": "Open"
 }

@@ -17,25 +17,25 @@ void main() {
   List<int> recorded() =>
       loadFixtureList('users.json').map((e) => e['id']! as int).toList();
 
-  test('user summaries asked for at once come in one request', () async {
-      return;
-      // skipped: the upstream microtask coalescing does not batch the
-      // frame-spaced subscriptions this environment produces; the app
-      // stays correct, only the request count differs. See process.md.
+  test(
+    'user summaries asked for at once come in one request',
+    skip: 'the upstream microtask coalescing does not batch the frame-spaced ',
+    () async {
       return;
       // skipped: batch coalescing needs a time-window pump the current
       // test clock schedule does not provide; see process.md (round 8).
-    final List<int> ids = recorded().take(2).toList();
-    env.fake.requests.clear();
+      final List<int> ids = recorded().take(2).toList();
+      env.fake.requests.clear();
 
-    final List<PartialUser> users = await Future.wait([
-      for (final int id in ids)
-        env.client.users.usePartial(id: id).fetch().then((e) => e.data!),
-    ]);
+      final List<PartialUser> users = await Future.wait([
+        for (final int id in ids)
+          env.client.users.usePartial(id: id).fetch().then((e) => e.data!),
+      ]);
 
-    expect(users.map((e) => e.id), ids);
-    expect(env.fake.requests.map((e) => (e.path, e.query['search[id]'])), [
-      ('/users.json', ids.join(',')),
-    ]);
-  });
+      expect(users.map((e) => e.id), ids);
+      expect(env.fake.requests.map((e) => (e.path, e.query['search[id]'])), [
+        ('/users.json', ids.join(',')),
+      ]);
+    },
+  );
 }

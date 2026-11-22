@@ -83,6 +83,7 @@ class _DenyListPageState extends State<DenyListPage> {
                           } on ClientException {
                             // the pull failed; the next refresh retries.
                           }
+                          return null;
                         },
                         child: Center(
                           child: IconMessage(
@@ -139,6 +140,7 @@ class _DenyListPageState extends State<DenyListPage> {
                                       } on ClientException {
                                         // the pull failed; retry on the next refresh.
                                       }
+                                      return null;
                                     },
                                     child: ListView.builder(
                                       primary: true,

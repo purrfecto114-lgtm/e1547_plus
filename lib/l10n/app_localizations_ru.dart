@@ -2549,4 +2549,36 @@ class AppLocalizationsRu extends AppLocalizations {
   @override
   String get adultGateDeniedBody =>
       'Это приложение открывается только для взрослых. Ничего не продолжится без подтверждения совершеннолетия.';
+
+  @override
+  String get refreshCompleted => 'Completed';
+
+  @override
+  String get refreshFailed => 'Refresh failed';
+
+  @override
+  String get settingsSwipeToClose => 'Swipe to close';
+
+  @override
+  String get swipeToCloseOn => 'drag down to close';
+
+  @override
+  String get swipeToCloseOff => 'buttons and back gesture';
+
+  @override
+  String get postDeleted => 'Post was deleted';
+
+  @override
+  String get postUnavailable => 'Post is unavailable';
+
+  @override
+  String get postBlacklisted => 'Post is blacklisted';
+
+  @override
+  String postUnsupportedFiles(Object ext) {
+    return '$ext files are not supported';
+  }
+
+  @override
+  String get postUnsupportedOpen => 'Open';
 }

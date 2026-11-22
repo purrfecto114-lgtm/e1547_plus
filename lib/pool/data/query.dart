@@ -14,8 +14,8 @@ extension PoolQuerying on PoolClient {
   QueryBridge<Pool, int> get poolCache =>
       queryCache.bridge(queryKey, fromJson: Pool.fromJson);
 
-  QueryLoader<int, Pool> get poolLoader =>
-      poolCache.loader((ids) => byIds(ids: ids), limit: maxPageLimit);
+  QueryLoader<int, Pool> get poolLoader => _poolLoaders[this] ??= poolCache
+      .loader((ids) => byIds(ids: ids), limit: maxPageLimit);
 
   Query<Pool> useGet({required int id, bool? vendored}) => Query(
     cache: queryCache,

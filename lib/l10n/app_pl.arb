@@ -2521,5 +2521,20 @@
   "taskErrorHintNetwork": "Przesyłanie nie powiodło się. Spróbuj ponownie, gdy sieć wróci.",
   "taskErrorHintSaving": "Zapis do galerii nie powiódł się. Sprawdź wolne miejsce i spróbuj ponownie.",
   "taskErrorHintUnknown": "To zadanie nie powiodło się. Spróbuj ponownie lub otwórz szczegóły.",
-  "adultGateDeniedBody": "Ta aplikacja otwiera się tylko dla dorosłych. Bez potwierdzenia pełnoletności nic dalej nie pójdzie."
+  "adultGateDeniedBody": "Ta aplikacja otwiera się tylko dla dorosłych. Bez potwierdzenia pełnoletności nic dalej nie pójdzie.",
+  "refreshCompleted": "Completed",
+  "refreshFailed": "Refresh failed",
+  "settingsSwipeToClose": "Swipe to close",
+  "swipeToCloseOn": "drag down to close",
+  "swipeToCloseOff": "buttons and back gesture",
+  "postDeleted": "Post was deleted",
+  "postUnavailable": "Post is unavailable",
+  "postBlacklisted": "Post is blacklisted",
+  "postUnsupportedFiles": "{ext} files are not supported",
+  "@postUnsupportedFiles": {
+    "placeholders": {
+      "ext": {}
+    }
+  },
+  "postUnsupportedOpen": "Open"
 }

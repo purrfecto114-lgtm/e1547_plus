@@ -2518,7 +2518,7 @@
   "@adultGateTitle": {
     "description": "Title of the 18+ confirmation dialog shown before a new identity is created."
   },
-  "adultGateBody": "This app leads straight into e621 and its all-ages mirror e926 — an art community strictly for adults. Please confirm that you are of legal age where you live — we trust you, our lawyers just don’t.",
+  "adultGateBody": "This app leads straight into e621, an art community strictly for adults, and e926, its all-ages mirror. Please confirm that you are of legal age where you live — we trust you, our lawyers just don't.",
   "@adultGateBody": {
     "description": "Body of the 18+ confirmation dialog shown before a new identity is created."
   },
@@ -2651,5 +2651,20 @@
   "adultGateDeniedBody": "This app opens only for adults. Nothing here continues without confirming you are of legal age.",
   "@adultGateDeniedBody": {
     "description": "The body of the age gate after a denial: the requirement is restated and only the confirmation remains."
-  }
+  },
+  "refreshCompleted": "Completed",
+  "refreshFailed": "Refresh failed",
+  "settingsSwipeToClose": "Swipe to close",
+  "swipeToCloseOn": "drag down to close",
+  "swipeToCloseOff": "buttons and back gesture",
+  "postDeleted": "Post was deleted",
+  "postUnavailable": "Post is unavailable",
+  "postBlacklisted": "Post is blacklisted",
+  "postUnsupportedFiles": "{ext} files are not supported",
+  "@postUnsupportedFiles": {
+    "placeholders": {
+      "ext": {}
+    }
+  },
+  "postUnsupportedOpen": "Open"
 }

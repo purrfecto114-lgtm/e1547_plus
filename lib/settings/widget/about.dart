@@ -33,6 +33,7 @@ class AboutPage extends StatelessWidget {
               ?donors?.revalidate(),
             ]);
             results.every((success) => success);
+            return null;
           },
           child: ListView(
             padding: LimitedWidthLayout.of(context).padding,

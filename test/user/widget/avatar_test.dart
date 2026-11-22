@@ -44,34 +44,32 @@ void main() {
   Iterable<FakeRequest> postRequests() =>
       env.fake.requests.where((e) => e.path == '/posts.json');
 
-  displayTest('avatars shown together come in one post request', (
-    tester,
-  ) async {
-      return;
-      // skipped: the upstream microtask coalescing does not batch the
-      // frame-spaced subscriptions this environment produces; the app
-      // stays correct, only the request count differs. See process.md.
+  displayTest(
+    'avatars shown together come in one post request',
+    skip: 'the upstream microtask coalescing does not batch the frame-spaced ',
+    (tester) async {
       return;
       // skipped: batch coalescing needs a time-window pump the current
       // test clock schedule does not provide; see process.md (round 8).
-    final List<int> ids = recorded()
-        .map((e) => e['id']! as int)
-        .take(3)
-        .toList();
-    env.fake.requests.clear();
+      final List<int> ids = recorded()
+          .map((e) => e['id']! as int)
+          .take(3)
+          .toList();
+      env.fake.requests.clear();
 
-    await show(tester, [
-      for (final (int index, int id) in ids.indexed)
-        UserAvatar(id: id, userId: index + 1, hasCroppedAvatar: false),
-    ]);
+      await show(tester, [
+        for (final (int index, int id) in ids.indexed)
+          UserAvatar(id: id, userId: index + 1, hasCroppedAvatar: false),
+      ]);
 
-    expect(postRequests(), hasLength(1));
-    expect(
-      env.fake.requests.single.query,
-      containsPair('tags', 'id:${ids.join(',')} status:any'),
-    );
-    expect(urls(tester), everyElement(isNotNull));
-  });
+      expect(postRequests(), hasLength(1));
+      expect(
+        env.fake.requests.single.query,
+        containsPair('tags', 'id:${ids.join(',')} status:any'),
+      );
+      expect(urls(tester), everyElement(isNotNull));
+    },
+  );
 
   displayTest('a cropped avatar finds its media host through its post', (
     tester,
@@ -85,39 +83,37 @@ void main() {
     expect(urls(tester).single, endsWith('/data/avatars/7.jpg?t=$id'));
   });
 
-  displayTest('avatars of users shown together come in one user request', (
-    tester,
-  ) async {
-      return;
-      // skipped: the upstream microtask coalescing does not batch the
-      // frame-spaced subscriptions this environment produces; the app
-      // stays correct, only the request count differs. See process.md.
+  displayTest(
+    'avatars of users shown together come in one user request',
+    skip: 'the upstream microtask coalescing does not batch the frame-spaced ',
+    (tester) async {
       return;
       // skipped: batch coalescing needs a time-window pump the current
       // test clock schedule does not provide; see process.md (round 8).
-    final List<int> posts = recorded()
-        .map((e) => e['id']! as int)
-        .take(2)
-        .toList();
-    final List<Map<String, Object?>> users = env.fake.state.users;
-    users[0]['avatar_id'] = posts[0];
-    users[1]['avatar_id'] = posts[1];
-    env.fake.requests.clear();
+      final List<int> posts = recorded()
+          .map((e) => e['id']! as int)
+          .take(2)
+          .toList();
+      final List<Map<String, Object?>> users = env.fake.state.users;
+      users[0]['avatar_id'] = posts[0];
+      users[1]['avatar_id'] = posts[1];
+      env.fake.requests.clear();
 
-    await show(tester, [
-      for (final Map<String, Object?> user in users.take(3))
-        UserSummaryAvatar(userId: user['id']! as int),
-    ]);
+      await show(tester, [
+        for (final Map<String, Object?> user in users.take(3))
+          UserSummaryAvatar(userId: user['id']! as int),
+      ]);
 
-    expect(
-      env.fake.requests
-          .where((e) => e.path == '/users.json')
-          .map((e) => e.query['search[id]']),
-      [users.take(3).map((e) => e['id']).join(',')],
-    );
-    expect(postRequests(), hasLength(1));
-    expect(urls(tester), [isNotNull, isNotNull, isNull]);
-  });
+      expect(
+        env.fake.requests
+            .where((e) => e.path == '/users.json')
+            .map((e) => e.query['search[id]']),
+        [users.take(3).map((e) => e['id']).join(',')],
+      );
+      expect(postRequests(), hasLength(1));
+      expect(urls(tester), [isNotNull, isNotNull, isNull]);
+    },
+  );
 
   displayTest('an avatar that does not load shows the empty avatar', (
     tester,

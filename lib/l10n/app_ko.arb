@@ -2521,5 +2521,20 @@
   "taskErrorHintNetwork": "전송에 실패했습니다. 네트워크가 복구되면 다시 시도하세요.",
   "taskErrorHintSaving": "갤러리에 저장하지 못했습니다. 여유 공간을 확인한 후 다시 시도하세요.",
   "taskErrorHintUnknown": "이 작업이 실패했습니다. 다시 시도하거나 세부 정보를 여세요.",
-  "adultGateDeniedBody": "이 앱은 성인만 이용할 수 있습니다. 법적 연령을 확인하지 않으면 더 이상 진행할 수 없습니다."
+  "adultGateDeniedBody": "이 앱은 성인만 이용할 수 있습니다. 법적 연령을 확인하지 않으면 더 이상 진행할 수 없습니다.",
+  "refreshCompleted": "Completed",
+  "refreshFailed": "Refresh failed",
+  "settingsSwipeToClose": "Swipe to close",
+  "swipeToCloseOn": "drag down to close",
+  "swipeToCloseOff": "buttons and back gesture",
+  "postDeleted": "Post was deleted",
+  "postUnavailable": "Post is unavailable",
+  "postBlacklisted": "Post is blacklisted",
+  "postUnsupportedFiles": "{ext} files are not supported",
+  "@postUnsupportedFiles": {
+    "placeholders": {
+      "ext": {}
+    }
+  },
+  "postUnsupportedOpen": "Open"
 }

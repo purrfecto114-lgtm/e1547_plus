@@ -56,6 +56,16 @@ class SettingsInteractionsSection extends StatelessWidget {
           ),
         ),
         ValueListenableBuilder<bool>(
+          valueListenable: settings.swipeToClose,
+          builder: (context, value, child) => SwitchListTile(
+            title: Text(l10n.settingsSwipeToClose),
+            subtitle: Text(value ? l10n.swipeToCloseOn : l10n.swipeToCloseOff),
+            secondary: const Icon(Icons.swipe_down),
+            value: value,
+            onChanged: (value) => settings.swipeToClose.value = value,
+          ),
+        ),
+        ValueListenableBuilder<bool>(
           valueListenable: settings.muteVideos,
           builder: (context, value, child) => SwitchListTile(
             title: Text(l10n.settingsVideoVolume),

@@ -15,6 +15,7 @@ void main() {
             onRefresh: () async {
               refreshes++;
               await Future<void>.delayed(const Duration(seconds: 1));
+              return null;
             },
             child: ListView(
               children: [

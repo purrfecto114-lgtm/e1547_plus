@@ -2410,7 +2410,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get adultGateBody =>
-      'This app leads straight into e621 and its all-ages mirror e926 — an art community strictly for adults. Please confirm that you are of legal age where you live — we trust you, our lawyers just don’t.';
+      'This app leads straight into e621, an art community strictly for adults, and e926, its all-ages mirror. Please confirm that you are of legal age where you live — we trust you, our lawyers just don\'t.';
 
   @override
   String get adultGateConfirm => 'Of course — I’m 18 or older';
@@ -2508,4 +2508,36 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get adultGateDeniedBody =>
       'This app opens only for adults. Nothing here continues without confirming you are of legal age.';
+
+  @override
+  String get refreshCompleted => 'Completed';
+
+  @override
+  String get refreshFailed => 'Refresh failed';
+
+  @override
+  String get settingsSwipeToClose => 'Swipe to close';
+
+  @override
+  String get swipeToCloseOn => 'drag down to close';
+
+  @override
+  String get swipeToCloseOff => 'buttons and back gesture';
+
+  @override
+  String get postDeleted => 'Post was deleted';
+
+  @override
+  String get postUnavailable => 'Post is unavailable';
+
+  @override
+  String get postBlacklisted => 'Post is blacklisted';
+
+  @override
+  String postUnsupportedFiles(Object ext) {
+    return '$ext files are not supported';
+  }
+
+  @override
+  String get postUnsupportedOpen => 'Open';
 }

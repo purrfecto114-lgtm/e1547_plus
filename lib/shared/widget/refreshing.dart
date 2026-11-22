@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:e1547/l10n/app_localizations.dart';
 import 'package:e1547/shared/shared.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -59,13 +60,13 @@ class PullToRefresh extends StatelessWidget {
                   // A void callback gives no verdict; a bool one is the
                   // honest outcome of the refresh (the offline verdicts
                   // fix), and the header must report it either way.
-                  // TODO(l10n): move these strings into app_en.arb.
+                  final AppLocalizations l10n = AppLocalizations.of(context);
                   final Object? result = await refresh();
                   if (result == false) {
                     succeeded = false;
-                    note.value = const Text('Refresh failed');
+                    note.value = Text(l10n.refreshFailed);
                   } else if (result == true) {
-                    note.value = const Text('Completed');
+                    note.value = Text(l10n.refreshCompleted);
                   }
                 }
                 if (note.value != null) {
@@ -77,8 +78,7 @@ class PullToRefresh extends StatelessWidget {
                   refreshController.refreshFailed();
                 }
               } on Object {
-                // TODO(l10n): see the verdict strings above.
-                note.value = const Text('Refresh failed');
+                note.value = Text(AppLocalizations.of(context).refreshFailed);
                 await WidgetsBinding.instance.endOfFrame;
                 refreshController.refreshFailed();
               }

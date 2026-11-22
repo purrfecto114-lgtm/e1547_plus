@@ -106,7 +106,7 @@
   "biometricsEnabled": "生物识别已启用",
   "biometricsDisabled": "生物识别已禁用",
   "biometricsUnavailable": "未检测到生物识别硬件",
-  "biometricsNotEnrolled": "检测到生物识别硬件，但尚未录入指纹或人脸",
+  "biometricsNotEnrolled": "检测到生物识别硬件，但尚未录入指纹",
   "biometricsRequiresPin": "请先设置 PIN：生物识别锁在传感器失效时靠它作为备用验证方式",
   "settingsUpdaterBeta": "获取最新更新",
   "updaterBetaOn": "包含测试版（rc）",
@@ -421,7 +421,7 @@
   "onboardingBack": "上一步",
   "onboardingNext": "下一步",
   "onboardingWelcomeTitle": "欢迎使用 {app}",
-  "onboardingWelcomeBody": "一款精致的 booru 浏览器。",
+  "onboardingWelcomeBody": "一款功能完善的 booru 浏览器。",
   "onboardingThemeTitle": "选个外观",
   "onboardingThemeBody": "先试试看。以后随时可以更换。",
   "onboardingQualityTitle": "调整媒体加载",
@@ -631,7 +631,7 @@
   "taskClearDone": "清除已完成",
   "taskClearSelection": "清除所选",
   "taskCancel": "取消",
-  "taskDismiss": "忽略",
+  "taskDismiss": "移除所选任务",
   "taskNoTasks": "没有下载任务",
   "taskFailedToLoadTasks": "下载任务加载失败",
   "taskSelectionCount": "{count, plural, other{{count} 个下载任务}}",
@@ -677,9 +677,9 @@
   "filteredShow": "显示",
   "filteredHide": "隐藏",
   "selectOptions": "选择选项...",
-  "databaseNotE1547": "该文件不是 e1547 个人数据。",
+  "databaseNotE1547": "这不是有效的 e1547 备份文件。",
   "adultGateTitle": "先做个小确认",
-  "adultGateBody": "这个应用会带你直接进入 e621 与其全年龄镜像 e926——一个仅限成年人的艺术社区。请确认你已达到所在地区的法定年龄。我们相信你，只是律师不太信。",
+  "adultGateBody": "这个应用会带你直接进入 e621——一个仅限成年人的艺术社区，以及它的全年龄镜像 e926。请确认你已达到所在地区的法定年龄。我们相信你，只是律师不太信。",
   "adultGateConfirm": "当然——我已满 18 岁",
   "adultGateDeny": "带我回去",
   "databaseExportPasswordLabel": "密码（可选）",
@@ -707,5 +707,20 @@
   "taskErrorHintNetwork": "传输失败，等网络恢复后重试。",
   "taskErrorHintSaving": "保存到相册失败，请检查剩余空间后重试。",
   "taskErrorHintUnknown": "此下载任务失败，可重试或打开详情。",
-  "adultGateDeniedBody": "本应用仅供成年人使用。不确认法定年龄，就无法继续使用。"
+  "adultGateDeniedBody": "本应用仅供成年人使用。不确认法定年龄，就无法继续使用。",
+  "refreshCompleted": "已完成",
+  "refreshFailed": "刷新失败",
+  "settingsSwipeToClose": "滑动关闭",
+  "swipeToCloseOn": "下拉即可关闭",
+  "swipeToCloseOff": "使用按钮和返回手势",
+  "postDeleted": "帖子已被删除",
+  "postUnavailable": "帖子不可用",
+  "postBlacklisted": "帖子已被黑名单屏蔽",
+  "postUnsupportedFiles": "不支持 {ext} 文件",
+  "@postUnsupportedFiles": {
+    "placeholders": {
+      "ext": {}
+    }
+  },
+  "postUnsupportedOpen": "打开"
 }

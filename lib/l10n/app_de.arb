@@ -707,5 +707,20 @@
   "taskErrorHintNetwork": "Die Übertragung ist fehlgeschlagen. Versuche es erneut, sobald das Netz wieder da ist.",
   "taskErrorHintSaving": "Das Speichern in die Galerie ist fehlgeschlagen. Prüfe den freien Speicher und versuche es erneut.",
   "taskErrorHintUnknown": "Diese Aufgabe ist fehlgeschlagen. Versuche es erneut oder öffne die Details.",
-  "adultGateDeniedBody": "Diese App öffnet sich nur für Erwachsene. Ohne die Bestätigung der Volljährigkeit geht es nicht weiter."
+  "adultGateDeniedBody": "Diese App öffnet sich nur für Erwachsene. Ohne die Bestätigung der Volljährigkeit geht es nicht weiter.",
+  "refreshCompleted": "Completed",
+  "refreshFailed": "Refresh failed",
+  "settingsSwipeToClose": "Swipe to close",
+  "swipeToCloseOn": "drag down to close",
+  "swipeToCloseOff": "buttons and back gesture",
+  "postDeleted": "Post was deleted",
+  "postUnavailable": "Post is unavailable",
+  "postBlacklisted": "Post is blacklisted",
+  "postUnsupportedFiles": "{ext} files are not supported",
+  "@postUnsupportedFiles": {
+    "placeholders": {
+      "ext": {}
+    }
+  },
+  "postUnsupportedOpen": "Open"
 }

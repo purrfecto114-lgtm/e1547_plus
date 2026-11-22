@@ -4196,7 +4196,7 @@ abstract class AppLocalizations {
   /// Body of the 18+ confirmation dialog shown before a new identity is created.
   ///
   /// In en, this message translates to:
-  /// **'This app leads straight into e621 and its all-ages mirror e926 — an art community strictly for adults. Please confirm that you are of legal age where you live — we trust you, our lawyers just don’t.'**
+  /// **'This app leads straight into e621, an art community strictly for adults, and e926, its all-ages mirror. Please confirm that you are of legal age where you live — we trust you, our lawyers just don\'t.'**
   String get adultGateBody;
 
   /// Confirmation action of the 18+ dialog; deliberately conversational.
@@ -4366,6 +4366,66 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'This app opens only for adults. Nothing here continues without confirming you are of legal age.'**
   String get adultGateDeniedBody;
+
+  /// No description provided for @refreshCompleted.
+  ///
+  /// In en, this message translates to:
+  /// **'Completed'**
+  String get refreshCompleted;
+
+  /// No description provided for @refreshFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Refresh failed'**
+  String get refreshFailed;
+
+  /// No description provided for @settingsSwipeToClose.
+  ///
+  /// In en, this message translates to:
+  /// **'Swipe to close'**
+  String get settingsSwipeToClose;
+
+  /// No description provided for @swipeToCloseOn.
+  ///
+  /// In en, this message translates to:
+  /// **'drag down to close'**
+  String get swipeToCloseOn;
+
+  /// No description provided for @swipeToCloseOff.
+  ///
+  /// In en, this message translates to:
+  /// **'buttons and back gesture'**
+  String get swipeToCloseOff;
+
+  /// No description provided for @postDeleted.
+  ///
+  /// In en, this message translates to:
+  /// **'Post was deleted'**
+  String get postDeleted;
+
+  /// No description provided for @postUnavailable.
+  ///
+  /// In en, this message translates to:
+  /// **'Post is unavailable'**
+  String get postUnavailable;
+
+  /// No description provided for @postBlacklisted.
+  ///
+  /// In en, this message translates to:
+  /// **'Post is blacklisted'**
+  String get postBlacklisted;
+
+  /// No description provided for @postUnsupportedFiles.
+  ///
+  /// In en, this message translates to:
+  /// **'{ext} files are not supported'**
+  String postUnsupportedFiles(Object ext);
+
+  /// No description provided for @postUnsupportedOpen.
+  ///
+  /// In en, this message translates to:
+  /// **'Open'**
+  String get postUnsupportedOpen;
 }
 
 class _AppLocalizationsDelegate

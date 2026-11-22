@@ -364,7 +364,7 @@ class AppLocalizationsZh extends AppLocalizations {
   String get biometricsUnavailable => '未检测到生物识别硬件';
 
   @override
-  String get biometricsNotEnrolled => '检测到生物识别硬件，但尚未录入指纹或人脸';
+  String get biometricsNotEnrolled => '检测到生物识别硬件，但尚未录入指纹';
 
   @override
   String get biometricsRequiresPin => '请先设置 PIN：生物识别锁在传感器失效时靠它作为备用验证方式';
@@ -1427,7 +1427,7 @@ class AppLocalizationsZh extends AppLocalizations {
   }
 
   @override
-  String get onboardingWelcomeBody => '一款精致的 booru 浏览器。';
+  String get onboardingWelcomeBody => '一款功能完善的 booru 浏览器。';
 
   @override
   String get onboardingThemeTitle => '选个外观';
@@ -2173,7 +2173,7 @@ class AppLocalizationsZh extends AppLocalizations {
   String get taskCancel => '取消';
 
   @override
-  String get taskDismiss => '忽略';
+  String get taskDismiss => '移除所选任务';
 
   @override
   String get taskNoTasks => '没有下载任务';
@@ -2340,14 +2340,14 @@ class AppLocalizationsZh extends AppLocalizations {
   String get selectOptions => '选择选项...';
 
   @override
-  String get databaseNotE1547 => '该文件不是 e1547 个人数据。';
+  String get databaseNotE1547 => '这不是有效的 e1547 备份文件。';
 
   @override
   String get adultGateTitle => '先做个小确认';
 
   @override
   String get adultGateBody =>
-      '这个应用会带你直接进入 e621 与其全年龄镜像 e926——一个仅限成年人的艺术社区。请确认你已达到所在地区的法定年龄。我们相信你，只是律师不太信。';
+      '这个应用会带你直接进入 e621——一个仅限成年人的艺术社区，以及它的全年龄镜像 e926。请确认你已达到所在地区的法定年龄。我们相信你，只是律师不太信。';
 
   @override
   String get adultGateConfirm => '当然——我已满 18 岁';
@@ -2438,6 +2438,38 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get adultGateDeniedBody => '本应用仅供成年人使用。不确认法定年龄，就无法继续使用。';
+
+  @override
+  String get refreshCompleted => '已完成';
+
+  @override
+  String get refreshFailed => '刷新失败';
+
+  @override
+  String get settingsSwipeToClose => '滑动关闭';
+
+  @override
+  String get swipeToCloseOn => '下拉即可关闭';
+
+  @override
+  String get swipeToCloseOff => '使用按钮和返回手势';
+
+  @override
+  String get postDeleted => '帖子已被删除';
+
+  @override
+  String get postUnavailable => '帖子不可用';
+
+  @override
+  String get postBlacklisted => '帖子已被黑名单屏蔽';
+
+  @override
+  String postUnsupportedFiles(Object ext) {
+    return '不支持 $ext 文件';
+  }
+
+  @override
+  String get postUnsupportedOpen => '打开';
 }
 
 /// The translations for Chinese, using the Han script (`zh_Hant`).
@@ -2799,7 +2831,7 @@ class AppLocalizationsZhHant extends AppLocalizationsZh {
   String get biometricsUnavailable => '未偵測到生物辨識硬體';
 
   @override
-  String get biometricsNotEnrolled => '偵測到生物辨識硬體，但尚未錄入指紋或人臉';
+  String get biometricsNotEnrolled => '偵測到生物辨識硬體，但尚未註冊指紋';
 
   @override
   String get biometricsRequiresPin => '請先設定 PIN：生物辨識鎖在感應器失效時靠它作為備用驗證方式';
@@ -3661,11 +3693,11 @@ class AppLocalizationsZhHant extends AppLocalizationsZh {
   }
 
   @override
-  String get logsTitle => '記錄檔';
+  String get logsTitle => '記錄';
 
   @override
   String logsTitleDate(String date) {
-    return '記錄檔 - $date';
+    return '記錄 - $date';
   }
 
   @override
@@ -3737,7 +3769,7 @@ class AppLocalizationsZhHant extends AppLocalizationsZh {
   }
 
   @override
-  String get logsAll => '所有記錄檔';
+  String get logsAll => '所有記錄';
 
   @override
   String get logsDismissAll => '全部清除';
@@ -3862,7 +3894,7 @@ class AppLocalizationsZhHant extends AppLocalizationsZh {
   }
 
   @override
-  String get onboardingWelcomeBody => '一款精緻的 booru 瀏覽器。';
+  String get onboardingWelcomeBody => '一款功能完善的 booru 瀏覽器。';
 
   @override
   String get onboardingThemeTitle => '挑個外觀';
@@ -4608,7 +4640,7 @@ class AppLocalizationsZhHant extends AppLocalizationsZh {
   String get taskCancel => '取消';
 
   @override
-  String get taskDismiss => '忽略';
+  String get taskDismiss => '移除所選任務';
 
   @override
   String get taskNoTasks => '沒有下載任務';
@@ -4775,14 +4807,14 @@ class AppLocalizationsZhHant extends AppLocalizationsZh {
   String get selectOptions => '選擇選項...';
 
   @override
-  String get databaseNotE1547 => '該檔案不是 e1547 個人資料。';
+  String get databaseNotE1547 => '這不是有效的 e1547 備份檔案。';
 
   @override
   String get adultGateTitle => '先做個小確認';
 
   @override
   String get adultGateBody =>
-      '這個應用會帶你直接進入 e621 與其全年齡鏡像 e926——一個僅限成年人的藝術社群。請確認你已達到所在地區的法定年齡。我們相信你，只是律師不太信。';
+      '這個應用會帶你直接進入 e621——一個僅限成年人的藝術社群，以及它的全年齡鏡像 e926。請確認你已達到所在地區的法定年齡。我們相信你，只是律師不太信。';
 
   @override
   String get adultGateConfirm => '當然——我已滿 18 歲';
@@ -4873,4 +4905,36 @@ class AppLocalizationsZhHant extends AppLocalizationsZh {
 
   @override
   String get adultGateDeniedBody => '本應用僅供成年人使用。不確認法定年齡，就無法繼續使用。';
+
+  @override
+  String get refreshCompleted => '已完成';
+
+  @override
+  String get refreshFailed => '重新整理失敗';
+
+  @override
+  String get settingsSwipeToClose => '滑動關閉';
+
+  @override
+  String get swipeToCloseOn => '下拉即可關閉';
+
+  @override
+  String get swipeToCloseOff => '使用按鈕和返回手勢';
+
+  @override
+  String get postDeleted => '貼文已被刪除';
+
+  @override
+  String get postUnavailable => '貼文無法使用';
+
+  @override
+  String get postBlacklisted => '貼文已被黑名單封鎖';
+
+  @override
+  String postUnsupportedFiles(Object ext) {
+    return '不支援 $ext 檔案';
+  }
+
+  @override
+  String get postUnsupportedOpen => '開啟';
 }

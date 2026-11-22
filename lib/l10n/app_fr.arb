@@ -707,5 +707,20 @@
   "taskErrorHintNetwork": "Le transfert a échoué. Réessayez une fois le réseau rétabli.",
   "taskErrorHintSaving": "L'enregistrement dans la galerie a échoué. Vérifiez l'espace libre, puis réessayez.",
   "taskErrorHintUnknown": "Cette tâche a échoué. Réessayez ou ouvrez ses détails.",
-  "adultGateDeniedBody": "Cette application ne s'ouvre qu'aux adultes. Rien ne continue sans confirmer que vous avez l'âge légal."
+  "adultGateDeniedBody": "Cette application ne s'ouvre qu'aux adultes. Rien ne continue sans confirmer que vous avez l'âge légal.",
+  "refreshCompleted": "Completed",
+  "refreshFailed": "Refresh failed",
+  "settingsSwipeToClose": "Swipe to close",
+  "swipeToCloseOn": "drag down to close",
+  "swipeToCloseOff": "buttons and back gesture",
+  "postDeleted": "Post was deleted",
+  "postUnavailable": "Post is unavailable",
+  "postBlacklisted": "Post is blacklisted",
+  "postUnsupportedFiles": "{ext} files are not supported",
+  "@postUnsupportedFiles": {
+    "placeholders": {
+      "ext": {}
+    }
+  },
+  "postUnsupportedOpen": "Open"
 }

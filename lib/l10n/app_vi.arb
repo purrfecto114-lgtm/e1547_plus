@@ -2521,5 +2521,20 @@
   "taskErrorHintNetwork": "Truyền thất bại. Thử lại khi mạng trở lại.",
   "taskErrorHintSaving": "Lưu vào thư viện thất bại. Kiểm tra dung lượng trống rồi thử lại.",
   "taskErrorHintUnknown": "Tác vụ này thất bại. Thử lại hoặc mở chi tiết.",
-  "adultGateDeniedBody": "Ứng dụng này chỉ mở cho người trưởng thành. Không gì tiếp tục được nếu chưa xác nhận độ tuổi hợp pháp."
+  "adultGateDeniedBody": "Ứng dụng này chỉ mở cho người trưởng thành. Không gì tiếp tục được nếu chưa xác nhận độ tuổi hợp pháp.",
+  "refreshCompleted": "Completed",
+  "refreshFailed": "Refresh failed",
+  "settingsSwipeToClose": "Swipe to close",
+  "swipeToCloseOn": "drag down to close",
+  "swipeToCloseOff": "buttons and back gesture",
+  "postDeleted": "Post was deleted",
+  "postUnavailable": "Post is unavailable",
+  "postBlacklisted": "Post is blacklisted",
+  "postUnsupportedFiles": "{ext} files are not supported",
+  "@postUnsupportedFiles": {
+    "placeholders": {
+      "ext": {}
+    }
+  },
+  "postUnsupportedOpen": "Open"
 }

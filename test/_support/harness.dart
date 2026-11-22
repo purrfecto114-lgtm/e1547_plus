@@ -41,15 +41,18 @@ const List<LocalizationsDelegate<dynamic>> testLocalizations = [
 
 /// Query builders schedule their cache entry for deletion as they unmount, and
 /// that timer has to run out while the test still owns the clock.
-void displayTest(String description, WidgetTesterCallback body) =>
-    testWidgets(description, (tester) async {
-      try {
-        await body(tester);
-      } finally {
-        await tester.pumpWidget(const SizedBox.shrink());
-        await tester.pump(const Duration(seconds: 5));
-      }
-    });
+void displayTest(
+  String description,
+  WidgetTesterCallback body, {
+  String? skip,
+}) => testWidgets(description, skip: skip != null, (tester) async {
+  try {
+    await body(tester);
+  } finally {
+    await tester.pumpWidget(const SizedBox.shrink());
+    await tester.pump(const Duration(seconds: 5));
+  }
+});
 
 Finder skeletons(Finder matching) => find.descendant(
   of: find.byWidgetPredicate(
