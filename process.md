@@ -58,3 +58,16 @@
 4. **坑再犯实录**：全量套件运行中跑了 dart fix（改了 harness.dart 等编译输入）→ torn_image_golden_test 加载阶段卡死（dartvm 空转；对照 round7b 该文件 1 秒过）。22.6.0 轮记过同款（"后台跑撞上编辑"），本轮再犯后杀进程、干净树重跑。**套件运行期间禁止任何源码文件改动，纪律优先于"行为等价"推理。**
 5. 发布 22.9.0+235 落地（build 未分发过不跳号；标题 "22.9.0 (sharp thumbnails, swipe to close and the upstream merge)"）：run **45015098384** 19 分钟全绿一次过（build×4+validate×2+release，ios 12 分钟无饿死，forum 按 skip 要求跳过）；7 资产（arm64/armv7/universal APK+IPA+EXE+DEB+tar.gz）；prerelease/draft=false；**latest 指向 235**；tag=**c62ee757**=master HEAD；正文=CHANGELOG 段（与 234 体例一致，核对过）。
 6. handoff 包：/home/z/my-project/download/handoff/（handoff_prompt.md 环境+流程+战略+遗留任务清单 + repo_state.txt 快照）。外层 process.md 补指针行。
+
+### Round 11：交接接收 + superpowers-zh 全面检查（2026-11-22）
+1. 交接接收：解包 upload/e1547_handoff_2026-11-22.zip（handoff_prompt/process/repo_state/全量日志/三个脚本）。环境恢复第 5 次（沙箱又把 repos/、flutter-sdk、scripts/、外层 process.md 全清了，只剩 skills/upload/download）——restore-credentials.sh（从 handoff 包恢复）+ clone e1547_plus + flutter-sdk-3.47.4 + pub get，一次通过。
+2. 状态核验与交接书一致：master HEAD=e43a0d5f（比快照多一个 docs-only 提交 "recorded the round 10 work"，是交接轮自己补的记录，正常）；tag 22.9.0+235=c62ee757=master HEAD 祖先 ✓；latest release=22.9.0+235、7 资产、prerelease/draft=false ✓。**结论：235 确认已落地，上一轮的补救生效。**
+3. 恢复后门禁全绿复跑（防"恢复即漂移"）：analyze No issues found（31s）/ dart format exit 0 / 全量 flutter test **1376 passed + 19 skipped、EXIT=0**（round11_full_test.log，6 分 33 秒）——与交接快照 1376/19 完全吻合。
+4. superpowers-zh 全面检查（用户指令第二部分）：定位=jnMetaCode/superpowers-zh（obra/superpowers issue #842 认定的社区中文版）。clone zh（HEAD c76ff140，v1.9.1，2026-11-16）+ 上游 obra/superpowers（HEAD 22f0b463=v7.0.2=main 最新）对比检查：
+   - **同步性：完全同步零落后**——zh 的 .upstream-sync.json 基线 commit=22f0b463=上游 main HEAD（上游 v7.0.2 后无新 tag/提交）。该基线机制本身就是为防"上游改正文而 audit 只比标题"的盲区设计的（其注释自述教训），核对生效。
+   - 结构：21 skills（15 上游全汉化 + 4 中国原创手动调用 + 2 上游历史保留 mcp-builder/workflow-runner），name 字段 21/21 与目录名一致，frontmatter 全合法，无缺上游技能。抽查 CJK 占比：正文 0.45-0.80、description 0.8-0.97（正文含命令/代码/路径属正常水位）。
+   - 内容忠实性逐项核对：上游 v7.0.x 拆分的 references（batching/cannot-verify/preflight/resuming/handling-reports）在 zh 均以并入正文或合并文档方式**完整保留语义**（batching→SKILL.md:124、cannot-verify→SKILL.md:159、preflight+resuming→references/preflight-and-resuming.md、handling-reports→references/report-handling.md），非漏译；writing-skills 的 5 个 references 平铺到技能根目录全文档级汉化（anthropic-best-practices.md 1149 行 vs 上游 1150 行）。
+   - 基础设施：hooks.json/hooks-cursor.json 与上游逐字节等价；session-start 仅 1 处命名空间差异（superpowers:→superpowers-zh:，fork 必要改动），bash -n 过；8 个平台插件版本全 1.9.1 一致；bin 安装器 node --check 过；git fsck 干净。
+   - **自带离线回归套件（硬证据）：`bash scripts/test-offline.sh` EXIT=0**——node:test 90+6 全过 0 fail、pytest 27 passed、平台壳测全 PASS（仅 2 条环境性 SKIP：zsh/strace 未装，非仓库缺陷）。其排除项（网络生命周期/原生 CLI 真实会话/Windows/Codex 快照）在 test:offline 与 RELEASE-NOTES 里如实声明。
+   - 发现问题（仅文档级）：**chinese-documentation/SKILL.md 有 7 个死链**（./docs/guide.md 等——本是排版示例写法，作为真链接确实指向不存在路径，建议改反引号行内代码）；writing-skills 里 FORMS.md 等是上游原文自带的示意引用，忠实翻译非缺陷。总体结论：**通过，工程质量高，可放心使用 v1.9.1**。报告存 download/superpowers-zh_全面检查报告.md；检查脚本存 scripts/inspect_spzh.py（51 项断言可复跑）。
+5. 坑备忘：环境恢复脚本本身也会被沙箱回收——handoff 包里带一份 restore-credentials.sh/poll_run.py 等自救副本很关键（本轮直接从 handoff 包恢复 scripts/）；superpowers-zh 的检查方法沉淀=clone 双仓+结构化脚本+跑它自己的离线套件三步，上游基线核对用 .upstream-sync.json 而非 tag 名。
