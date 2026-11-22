@@ -1,3 +1,4 @@
+import 'package:dio/dio.dart';
 import 'package:drift/native.dart';
 import 'package:e1547/app/app.dart';
 import 'package:e1547/client/client.dart';
@@ -13,12 +14,10 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:notified_preferences/notified_preferences.dart';
 import 'package:provider/provider.dart';
 
-import '../../_support/fake_e621.dart';
 import '../../_support/harness.dart';
 import '../../_support/images.dart';
 
 void main() {
-  late FakeE621 fake;
   late ValueNotifier<Traits> traits;
   late AppDatabase sqlite;
   late Settings settings;
@@ -32,7 +31,6 @@ void main() {
 
   setUp(() async {
     SharedPreferences.setMockInitialValues({});
-    fake = await FakeE621.start();
     traits = ValueNotifier(
       const Traits(
         id: 1,
@@ -46,9 +44,8 @@ void main() {
     settings = Settings(await SharedPreferences.getInstance());
   });
 
-  tearDown(() async {
+  tearDown(() {
     traits.dispose();
-    await fake.stop();
   });
 
   Future<Client> offlineClient() async => Client(
@@ -77,37 +74,40 @@ void main() {
     tester.view.devicePixelRatio = 1;
     addTearDown(tester.view.resetPhysicalSize);
     addTearDown(tester.view.resetDevicePixelRatio);
-    await tester.runAsync(() async {
-      await tester.pumpWidget(
-        MultiProvider(
-          providers: [
-            Provider<Client>.value(value: client),
-            Provider<BaseCacheManager>.value(
-              value: const NoImageCacheManager(),
-            ),
-            Provider<Settings>.value(value: settings),
-          ],
-          child: const MaterialApp(
-            locale: Locale('zh'),
-            localizationsDelegates: AppLocalizations.localizationsDelegates,
-            supportedLocales: AppLocalizations.supportedLocales,
-            home: PostsPage(),
-          ),
+    await tester.pumpWidget(
+      MultiProvider(
+        providers: [
+          Provider<Client>.value(value: client),
+          Provider<BaseCacheManager>.value(value: const NoImageCacheManager()),
+          Provider<Settings>.value(value: settings),
+        ],
+        child: const MaterialApp(
+          locale: Locale('zh'),
+          localizationsDelegates: AppLocalizations.localizationsDelegates,
+          supportedLocales: AppLocalizations.supportedLocales,
+          home: PostsPage(),
         ),
-      );
-      await Future<void>.delayed(const Duration(milliseconds: 400));
-    });
-    await tester.pump();
+      ),
+    );
+    await tester.pumpAndSettle();
   }
 
   displayTest('a first load offline shows the offline state', (tester) async {
     final client = await offlineClient();
+    client.dio.interceptors.add(
+      InterceptorsWrapper(
+        onRequest: (options, handler) {
+          handler.reject(
+            DioException.connectionError(
+              requestOptions: options,
+              reason: 'The network is unavailable',
+            ),
+            true,
+          );
+        },
+      ),
+    );
     await pumpPage(tester, client);
-
-    await tester.runAsync(() async {
-      await Future<void>.delayed(const Duration(milliseconds: 400));
-    });
-    await tester.pump();
 
     expect(find.text('当前离线'), findsOneWidget);
     expect(find.text('帖子加载失败'), findsNothing);
