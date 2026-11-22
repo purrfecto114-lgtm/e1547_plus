@@ -123,6 +123,20 @@ void main() {
       expect(needsRehash(stored), isTrue);
     });
 
+    test('a 150k era record migrates to the current cost end to end', () async {
+      // The exact call order the lock screen runs: the old record pays
+      // its verification once, then the successful unlock realigns the
+      // storage, and every later unlock — cold starts included —
+      // derives at the current cost.
+      final legacy = await hashPinAt('2468', iterations: 150000);
+      expect(needsRehash(legacy), isTrue);
+      expect(await verifyPin('2468', legacy), isTrue);
+      final realigned = await hashPin('2468');
+      expect(pinHashIterationsOf(realigned), pinHashIterations);
+      expect(await verifyPin('2468', realigned), isTrue);
+      expect(needsRehash(realigned), isFalse);
+    });
+
     test('needsRehash realigns any cost with the current default', () async {
       // legacy plain text values upgrade
       expect(needsRehash('2468'), isTrue);
