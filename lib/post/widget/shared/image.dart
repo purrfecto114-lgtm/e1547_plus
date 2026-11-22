@@ -273,12 +273,13 @@ class RawPostImageWidget extends StatelessWidget {
                 );
               }
             : null,
-        imageBuilder: load != null
-            ? (context, image) {
-                load.report(url, const ImageLoaded());
-                return Image(image: image, fit: fit);
-              }
-            : null,
+        imageBuilder: (context, image) {
+          // A url that recovered leaves the retry set: later refreshes
+          // must not keep rebuilding a tile that is healthy again.
+          failedImageUrls.remove(url);
+          load?.report(url, const ImageLoaded());
+          return Image(image: image, fit: fit);
+        },
         memCacheWidth: memCacheWidth,
         memCacheHeight: memCacheHeight,
         cacheManager: context.read<BaseCacheManager>(),
