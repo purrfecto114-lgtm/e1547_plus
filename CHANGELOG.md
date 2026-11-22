@@ -2150,3 +2150,4 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 [22.8.1+234]: https://github.com/purrfecto114-lgtm/e1547_plus/compare/22.8.0+233...22.8.1+234
 [22.8.0+233]: https://github.com/purrfecto114-lgtm/e1547_plus/compare/22.7.0+232...22.8.0+233
 [22.7.0+232]: https://github.com/purrfecto114-lgtm/e1547_plus/compare/22.7.0+231...22.7.0+232
+[22.9.0+235]: https://github.com/purrfecto114-lgtm/e1547_plus/compare/22.8.1+234...22.9.0+235
