@@ -109,9 +109,10 @@ class PostClient {
       chunks.add(ids.sublist(i, min(i + chunkSize, ids.length)));
     }
 
-    // The upstream _search helper collapsed into our page request; the
-    // byIds semantics (hidden lookups skip the censored-file filter)
-    // stay the same.
+    // The upstream _search helper collapsed into our page request. The
+    // responses stay raw: pool and id-list pagination must advance on
+    // what the server sent, or a slice of undisplayable posts would
+    // end the list early; display filtering happens in PostFilter.
     List<Post> found = [
       for (final chunk in chunks)
         await page(
@@ -122,15 +123,6 @@ class PostClient {
           cancelToken: cancelToken,
         ),
     ].expand((list) => list).toList();
-    if (!hidden) {
-      // Censored posts, which have contentious tags and are unavailable
-      // to anonymous users, are also considered broken. Posts which are
-      // not deleted but have no file are censored.
-      found = found
-          .whereNot((post) => !post.isDeleted && post.file == null)
-          .whereNot((post) => post.ext == 'swf')
-          .toList();
-    }
     Map<int, Post> table = {for (Post e in found) e.id: e};
     return ids.map((e) => table[e]).nonNulls.toList();
   }

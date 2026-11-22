@@ -480,7 +480,7 @@ void main() {
 
     // the second step welcomes and offers languages together
     expect(find.text('欢迎使用 e1547'), findsOneWidget);
-    expect(find.text('一款精致的 booru 浏览器。'), findsOneWidget);
+    expect(find.text('一款功能完善的 booru 浏览器。'), findsOneWidget);
     expect(find.text('选择语言'), findsOneWidget);
     expect(find.text('跟随系统'), findsOneWidget);
     expect(find.text('English'), findsOneWidget);

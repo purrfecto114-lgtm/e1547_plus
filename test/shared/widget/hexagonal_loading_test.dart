@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
 
+import '../../_support/harness.dart';
+
 void main() {
   testWidgets('a refreshing list shows the travelling hexagon above it', (
     tester,
@@ -10,6 +12,7 @@ void main() {
     int refreshes = 0;
     await tester.pumpWidget(
       MaterialApp(
+        localizationsDelegates: testLocalizations,
         home: Scaffold(
           body: PullToRefresh(
             onRefresh: () async {

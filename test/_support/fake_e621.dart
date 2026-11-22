@@ -49,6 +49,7 @@ class FakeE621 {
     ..get('/posts.json', _listPosts)
     ..get('/favorites.json', _listFavorites)
     ..get('/posts/<id|[0-9]+>.json', _showPost)
+    ..get('/posts/<id|[0-9]+>/similar/artist.json', _artistRecommendations)
     ..post('/posts/<id|[0-9]+>/votes.json', _votePost)
     ..get('/forum_posts.json', _listReplies)
     ..post('/forum_posts.json', _createReply)
@@ -295,6 +296,36 @@ class FakeE621 {
     final separator = decoded.indexOf(':');
     if (separator == -1) return null;
     return decoded.substring(0, separator);
+  }
+
+  /// Posts sharing an artist tag with the referenced one, in the
+  /// shape the recommendation endpoint answers with. The fixture posts
+  /// already carry the current api layout, so they double as the
+  /// post_data summaries the client's partial parser reads.
+  Response _artistRecommendations(Request request, String id) {
+    final Map<String, Object?> post = _find(state.posts, id);
+    // The current api carries tags as a flat list; artist names are the
+    // entries prefixed by the artist category marker in the fixture.
+    List<Object?> artists(Map<String, Object?> post) =>
+        ((post['tags'] as List?) ?? const [])
+            .whereType<String>()
+            .where((tag) => tag.startsWith('artist:'))
+            .toList();
+    final int limit = int.parse(request.url.queryParameters['limit'] ?? '6');
+    final List<Map<String, Object?>> similar = state.posts
+        .where((e) => e['id'] != post['id'])
+        .where((e) => artists(e).any(artists(post).contains))
+        .take(limit)
+        .toList();
+    return _json({
+      'post_id': post['id'],
+      'model_version': 'os.artist',
+      'results': [
+        for (final Map<String, Object?> e in similar)
+          {'post_id': e['id'], 'score': 1, 'explanation': null},
+      ],
+      'post_data': [for (final Map<String, Object?> e in similar.reversed) e],
+    });
   }
 
   Response _showPost(Request request, String id) {

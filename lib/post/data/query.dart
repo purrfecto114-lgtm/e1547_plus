@@ -159,7 +159,7 @@ extension PostQuerying on PostClient {
           final lower = ((page as int) - 1) * perPage;
           if (lower >= ids.length) return const [];
           final slice = ids.sublist(lower, min(lower + perPage, ids.length));
-          final fetched = await byIds(ids: slice, hidden: true);
+          final fetched = await byIds(ids: slice);
           return postCache.savePage(fetched);
         },
       );
