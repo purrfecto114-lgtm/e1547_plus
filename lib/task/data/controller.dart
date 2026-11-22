@@ -376,8 +376,15 @@ class TasksController extends ChangeNotifier {
 
   /// Persists requests and updates the batch counters, without any
   /// preflight; [enqueueAll] owns the batch-level decisions.
-  Future<List<Task>> _insertRequests(List<TaskRequest> requests) async {
-    final (:created, :merged) = await repository.addAll(requests, identity);
+  Future<List<Task>> _insertRequests(
+    List<TaskRequest> requests, {
+    List<int> replaceTaskIds = const [],
+  }) async {
+    final (:created, :merged) = await repository.addAll(
+      requests,
+      identity,
+      replaceTaskIds: replaceTaskIds,
+    );
     if (created.isEmpty) {
       // An all-duplicate batch creates nothing: it must not cut short the
       // bubble of the batch before it, which lingers on its summary, nor
@@ -869,15 +876,17 @@ class TasksController extends ChangeNotifier {
       // their failed tasks
       if (!await _preflightDownloadDirectory()) return const [];
     }
-    await repository.removeAll(retryable.map((task) => task.id).toList());
-    return enqueueAll(
-      retryable.map(
-        (task) => TaskRequest(
-          action: task.action,
-          postId: task.postId,
-          metadata: task.metadata,
-        ),
-      ),
+    return _insertRequests(
+      retryable
+          .map(
+            (task) => TaskRequest(
+              action: task.action,
+              postId: task.postId,
+              metadata: task.metadata,
+            ),
+          )
+          .toList(),
+      replaceTaskIds: retryable.map((task) => task.id).toList(),
     );
   }
 

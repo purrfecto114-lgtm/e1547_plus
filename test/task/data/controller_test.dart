@@ -695,6 +695,63 @@ void main() {
     instance.dispose();
   });
 
+  test('a failed retry write keeps the original download record', () async {
+    final directory = await Directory.systemTemp.createTemp('task-retry');
+    addTearDown(() => directory.delete(recursive: true));
+    settings.downloadPath.value = directory.path;
+    final oldTask = await repository.add(
+      downloadRequest('retry.webm'),
+      identity,
+    );
+    await repository.markFailed(oldTask.id, 'destination unavailable');
+
+    await sqlite.customStatement('''
+      CREATE TEMP TRIGGER reject_task_retry
+      BEFORE INSERT ON ${repository.tasksTable.actualTableName}
+      BEGIN
+        SELECT RAISE(ABORT, 'test retry write failed');
+      END;
+    ''');
+    final instance = controller();
+    addTearDown(instance.dispose);
+
+    await expectLater(
+      instance.retry(oldTask.id),
+      throwsA(isA<SqliteException>()),
+    );
+    final retained = await repository.getAll([oldTask.id]);
+    expect(retained, hasLength(1));
+    expect(retained.single.status, TaskStatus.failed);
+    expect(retained.single.error, 'destination unavailable');
+  });
+
+  test(
+    'a retry replaces its old record if an active duplicate accepts it',
+    () async {
+      final directory = await Directory.systemTemp.createTemp(
+        'task-retry-dedup',
+      );
+      addTearDown(() => directory.delete(recursive: true));
+      settings.downloadPath.value = directory.path;
+      final request = downloadRequest('retry.webm');
+      final oldTask = await repository.add(request, identity);
+      await repository.markFailed(oldTask.id, 'destination unavailable');
+      final activeTask = await repository.add(request, identity);
+      final transfer = FakeTransfer();
+      final instance = controller(fileFetcher: transfer.fetcher);
+      addTearDown(instance.dispose);
+      await transfer.started.future;
+
+      final accepted = await instance.retry(oldTask.id);
+
+      expect(accepted?.id, activeTask.id);
+      expect(await repository.readStatus(oldTask.id), isNull);
+      await instance.cancel(activeTask.id);
+      await transfer.aborted.future;
+      await pumpEventQueue();
+    },
+  );
+
   test('duplicate downloads merge into the active task', () async {
     final dir = await Directory.systemTemp.createTemp('task-dedup');
     addTearDown(() => dir.delete(recursive: true));

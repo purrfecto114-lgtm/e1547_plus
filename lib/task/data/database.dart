@@ -204,10 +204,12 @@ class TaskRepository extends DatabaseAccessor<GeneratedDatabase>
   /// absorbed a duplicate request; requests within one batch also dedupe
   /// against the tasks inserted just before them. The whole pass is one
   /// transaction, so a concurrent enqueue either sees none or all of it.
+  /// A retry removes the earlier task records in the same transaction.
   Future<({List<Task> created, List<Task> merged})> addAll(
     Iterable<TaskRequest> items,
-    int identity,
-  ) => transaction(() async {
+    int identity, {
+    List<int> replaceTaskIds = const [],
+  }) => transaction(() async {
     final DateTime now = DateTime.now();
     final List<Task> created = [];
     final List<Task> merged = [];
@@ -245,6 +247,9 @@ class TaskRepository extends DatabaseAccessor<GeneratedDatabase>
             .toList(),
       );
     });
+    if (replaceTaskIds.isNotEmpty) {
+      await removeAll(replaceTaskIds, identity: identity);
+    }
     return (created: created, merged: merged);
   });
 
