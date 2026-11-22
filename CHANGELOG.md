@@ -4,6 +4,21 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and this project
 adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [22.8.1+234] - 2026-11-22
+### Fixed
+- a download whose retry fails no longer loses its failed record and
+  error reason: the retry now replaces the old record in the same
+  transaction that inserts it, so a rejected write rolls back to the
+  state before the retry
+- forcing a follow refresh no longer resets the refresh timestamps of
+  every other account, and a canceled sync discards responses that
+  arrive after the cancellation instead of writing them
+- the login dialog status wraps instead of overflowing on narrow
+  screens at large text scales, and the image retry set retires urls
+  that recovered, so later refreshes do not rebuild healthy tiles
+### Changed
+- the onboarding quality options clear Android's 48dp touch target
+  guidance
 ## [22.8.0+233] - 2026-11-21
 ### Changed
 - the pin derivation is back to a snappy cost: the 150k round fork
@@ -2094,5 +2109,6 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 [22.5.2+229]: https://github.com/purrfecto114-lgtm/e1547_plus/compare/22.5.1+228...22.5.2+229
 [22.6.0+230]: https://github.com/purrfecto114-lgtm/e1547_plus/compare/22.5.2+229...22.6.0+230
 [22.7.0+231]: https://github.com/purrfecto114-lgtm/e1547_plus/compare/22.6.0+230...22.7.0+231
+[22.8.1+234]: https://github.com/purrfecto114-lgtm/e1547_plus/compare/22.8.0+233...22.8.1+234
 [22.8.0+233]: https://github.com/purrfecto114-lgtm/e1547_plus/compare/22.7.0+232...22.8.0+233
 [22.7.0+232]: https://github.com/purrfecto114-lgtm/e1547_plus/compare/22.7.0+231...22.7.0+232

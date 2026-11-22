@@ -1,0 +1,3 @@
+A download whose retry fails keeps its failed record and error reason: the retry replaces the old record in the same transaction that inserts it.
+Forcing a follow refresh no longer resets the refresh timestamps of every other account, and a canceled sync discards responses that arrive after the cancellation.
+The login dialog status wraps on narrow screens at large text scales, recovered images leave the retry set, and the onboarding quality options clear Android's 48dp touch target guidance.
