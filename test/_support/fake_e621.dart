@@ -48,6 +48,8 @@ class FakeE621 {
     ..get('/data/<path|.*>', _serveImage)
     ..get('/posts.json', _listPosts)
     ..get('/favorites.json', _listFavorites)
+    ..post('/favorites.json', _addFavorite)
+    ..delete('/favorites/<id|[0-9]+>.json', _removeFavorite)
     ..get('/posts/<id|[0-9]+>.json', _showPost)
     ..get('/posts/<id|[0-9]+>/similar/artist.json', _artistRecommendations)
     ..post('/posts/<id|[0-9]+>/votes.json', _votePost)
@@ -274,6 +276,18 @@ class FakeE621 {
       }
     }
     return _json({'online': true});
+  }
+
+  Response _addFavorite(Request request) {
+    final int id = int.parse(request.url.queryParameters['post_id']!);
+    _find(state.posts, '$id');
+    state.favorites.add(id);
+    return _json({'post_id': id, 'favorite_count': state.favorites.length});
+  }
+
+  Response _removeFavorite(Request request, String id) {
+    state.favorites.remove(int.parse(id));
+    return Response(204);
   }
 
   Response _listFavorites(Request request) {

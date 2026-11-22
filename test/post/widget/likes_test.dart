@@ -7,7 +7,6 @@ import '../../_support/environment.dart';
 import '../../_support/harness.dart';
 import '../../_support/posts.dart';
 
-@Skip('upstream 21.2.0 behavior, not yet aligned in this fork')
 void main() {
   setUpAll(initializeTestApp);
 
@@ -29,6 +28,76 @@ void main() {
 
   Color? colorOf(WidgetTester tester, IconData icon) =>
       tester.widget<Icon>(find.byIcon(icon)).color;
+
+  displayTest('a favorite the site accepts lands and shows', (tester) async {
+    await tapOn(
+      tester,
+      FavoriteButton(post: samplePost(id: 1000)),
+      Icons.favorite,
+    );
+
+    expect(
+      env.fake.requests
+          .where((e) => e.path == '/favorites.json' && e.method == 'POST')
+          .map((e) => e.query['post_id']),
+      ['1000'],
+    );
+    expect(find.text('Failed to add Post #1000 to favorites'), findsNothing);
+    expect(colorOf(tester, Icons.favorite), Colors.pinkAccent);
+  });
+
+  displayTest('an unfavorite the site accepts lands and shows', (tester) async {
+    await tapOn(
+      tester,
+      FavoriteButton(post: samplePost(id: 1000, isFavorited: true)),
+      Icons.favorite,
+    );
+
+    expect(
+      env.fake.requests
+          .where((e) => e.path == '/favorites/1000.json')
+          .map((e) => e.method),
+      ['DELETE'],
+    );
+    expect(
+      find.text('Failed to remove Post #1000 from favorites'),
+      findsNothing,
+    );
+    // the unliked heart falls back to the theme icon color; what
+    // matters is that it left pinkAccent
+    expect(colorOf(tester, Icons.favorite), isNot(Colors.pinkAccent));
+  });
+
+  displayTest('an upvote the site accepts lands and shows', (tester) async {
+    await tapOn(
+      tester,
+      LikeDisplay(post: samplePost(id: 1000)),
+      Icons.arrow_upward,
+    );
+
+    final request = env.fake.requests
+        .where((e) => e.path == '/posts/1000/votes.json')
+        .single;
+    expect(request.query['score'], '1');
+    expect(request.query['no_unvote'], 'true');
+    expect(find.text('Failed to upvote Post #1000'), findsNothing);
+    expect(colorOf(tester, Icons.arrow_upward), isNotNull);
+  });
+
+  displayTest('a downvote the site accepts lands and shows', (tester) async {
+    await tapOn(
+      tester,
+      LikeDisplay(post: samplePost(id: 1000)),
+      Icons.arrow_downward,
+    );
+
+    final request = env.fake.requests
+        .where((e) => e.path == '/posts/1000/votes.json')
+        .single;
+    expect(request.query['score'], '-1');
+    expect(find.text('Failed to downvote Post #1000'), findsNothing);
+    expect(colorOf(tester, Icons.arrow_downward), isNotNull);
+  });
 
   displayTest('a favorite the site refuses says so and stays off', (
     tester,

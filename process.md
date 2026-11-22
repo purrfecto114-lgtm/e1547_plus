@@ -42,3 +42,11 @@
 - partial_test 两例 skip：上游断言假设旧 fixture 标签结构（tags 为 Map 含 artist 键），我们 fixture 是当前扁平列表；待 fixture 增加 artist 标签数据后重新对齐。
 - avatar 三例、detail-family 14 例、decode-hold 1 例标准 skip（理由在用例上）。
 - user 页（theirs）整页 l10n 化、DateFormatting.named 本地化。
+
+### Round 9：点赞/收藏 API 失效调查（用户报告）
+用户报告上一版本无法点赞收藏。逐层核对了真实后端（e621ng/e621ng 源码：config/routes.rb、PostVotes/Favorites controllers、SessionLoader、VoteManager/FavoriteManager、官方 help/api 文档）：
+- 投票 POST /posts/{id}/votes.json（score=±1、no_unvote）与评论投票：语义与参数逐字节兼容，重复投票撤票、replace 语义均在。
+- 收藏 POST /favorites.json?post_id=、DELETE /favorites/{post_id}.json：兼容（destroy 按 post id）。
+- 认证：仅 API-key Basic/Bearer，且要求 .json/.xml/.atom 格式——我们的请求全部带 .json ✓，登录即 API key ✓。CSRF 豁免覆盖 header 认证 ✓。
+- 新增覆盖：fake 补齐 POST/DELETE /favorites 路由（fork 历史上从未有收藏写路由，失败用例是空洞通过），likes_test 新增 4 个 happy-path 用例（收藏/取消收藏/赞成/反对全链路含 UI 状态翻转）。全绿。
+- 结论：app 链路对当前真实后端兼容且健康；旧版本失败最可能是环境性——11 月迁移后旧 API key 失效（匿名浏览不受影响、仅 member 动作 401），或 Cloudflare 对 POST 的挑战。建议用户重新登录换取新 API key；如仍复现，取 logs 页的请求记录进一步定位（响应体里 e621ng 会给出具体 4xx 语义）。
