@@ -159,12 +159,14 @@ class _LoginLoadingDialogState extends State<LoginLoadingDialog> {
                 child: CircularProgressIndicator(),
               ),
             ),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16),
-              child: Text(
-                l10n.identityConnecting(
-                  linkToDisplay(widget.host),
-                  widget.username ?? l10n.identityAnonymous,
+            Flexible(
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16),
+                child: Text(
+                  l10n.identityConnecting(
+                    linkToDisplay(widget.host),
+                    widget.username ?? l10n.identityAnonymous,
+                  ),
                 ),
               ),
             ),

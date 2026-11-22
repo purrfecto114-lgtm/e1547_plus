@@ -241,4 +241,30 @@ void main() {
       expect(await client.page(page: 1, limit: 9999), isEmpty);
     });
   });
+
+  testWidgets('login progress fits a narrow screen at double text size', (
+    tester,
+  ) async {
+    tester.view.physicalSize = const Size(320, 640);
+    tester.view.devicePixelRatio = 1;
+    tester.platformDispatcher.textScaleFactorTestValue = 2;
+    addTearDown(tester.view.resetPhysicalSize);
+    addTearDown(tester.view.resetDevicePixelRatio);
+    addTearDown(tester.platformDispatcher.clearTextScaleFactorTestValue);
+    final verification = Completer<CredentialCheckResult>();
+    addTearDown(() => verification.complete(CredentialCheckResult.unavailable));
+
+    await pumpDialog(
+      tester,
+      host: 'https://community-preview.example.test',
+      username: 'ordinary-account-with-a-long-name',
+      apikey: 'fixture-key',
+      verifier: ({required host, headers}) => verification.future,
+    );
+
+    final status = find.textContaining('community-preview.example.test');
+    expect(status, findsOneWidget);
+    expect(tester.takeException(), isNull);
+    expect(tester.getTopRight(status).dx, lessThanOrEqualTo(320));
+  });
 }
