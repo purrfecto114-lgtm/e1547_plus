@@ -50,3 +50,11 @@
 - 认证：仅 API-key Basic/Bearer，且要求 .json/.xml/.atom 格式——我们的请求全部带 .json ✓，登录即 API key ✓。CSRF 豁免覆盖 header 认证 ✓。
 - 新增覆盖：fake 补齐 POST/DELETE /favorites 路由（fork 历史上从未有收藏写路由，失败用例是空洞通过），likes_test 新增 4 个 happy-path 用例（收藏/取消收藏/赞成/反对全链路含 UI 状态翻转）。全绿。
 - 结论：app 链路对当前真实后端兼容且健康；旧版本失败最可能是环境性——11 月迁移后旧 API key 失效（匿名浏览不受影响、仅 member 动作 401），或 Cloudflare 对 POST 的挑战。建议用户重新登录换取新 API key；如仍复现，取 logs 页的请求记录进一步定位（响应体里 e621ng 会给出具体 4xx 语义）。
+
+### Round 10：235 落地 + 交接（2026-11-22）
+1. 环境恢复第 4 次（repos/+SDK 全清，外层与 app 仓 process.md 记录完好）。**教训：我凭记忆把 upstream 写成 clragon/e1547_plus（404），app 仓 process.md 明记 upstream=clynamic/e1547——动手前先查仓库记录，别信印象。**
+2. **关键发现：22.9.0+235 从未落地**——远端无 tag/release（最新 22.8.1+234），CI 两个 validation run（7bd6404e/24b15591）红在 `flutter analyze` 10 项（235 轮遗留：unused import、directives_ordering×4、prefer_const×2、always_use_package_imports、refreshing.dart 的 use_build_context_synchronously）。上一轮只 analyze 了改动文件，没跑全局。
+3. 修复（不降级）：refreshing.dart 的 catch 用 `context.mounted` 守卫（lint 官方建议语义：元素若已卸载则无人展示 note）+ `dart fix --apply` 8 处机械修复 → analyze **No issues found**；format 0。**第一次修法（闭包顶部前置捕获 l10n）被 hexagonal_loading_test 当场抓回**——onNotedRefresh 路径原不查 l10n、测试树无 AppLocalizations，前置后 `.of` 空指针（"行为等价"推理又错一次，测试门禁兜住了）。CHANGELOG 补 [22.9.0+235] compare 链接引用（上轮漏的三件套缺口）。
+4. **坑再犯实录**：全量套件运行中跑了 dart fix（改了 harness.dart 等编译输入）→ torn_image_golden_test 加载阶段卡死（dartvm 空转；对照 round7b 该文件 1 秒过）。22.6.0 轮记过同款（"后台跑撞上编辑"），本轮再犯后杀进程、干净树重跑。**套件运行期间禁止任何源码文件改动，纪律优先于"行为等价"推理。**
+5. 发布 22.9.0+235 落地（build 未分发过不跳号；标题 "22.9.0 (sharp thumbnails, swipe to close and the upstream merge)"）：run **45015098384** 19 分钟全绿一次过（build×4+validate×2+release，ios 12 分钟无饿死，forum 按 skip 要求跳过）；7 资产（arm64/armv7/universal APK+IPA+EXE+DEB+tar.gz）；prerelease/draft=false；**latest 指向 235**；tag=**c62ee757**=master HEAD；正文=CHANGELOG 段（与 234 体例一致，核对过）。
+6. handoff 包：/home/z/my-project/download/handoff/（handoff_prompt.md 环境+流程+战略+遗留任务清单 + repo_state.txt 快照）。外层 process.md 补指针行。
