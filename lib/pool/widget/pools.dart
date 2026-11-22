@@ -1,5 +1,4 @@
 import 'package:e1547/client/client.dart';
-import 'package:e1547/l10n/app_localizations.dart';
 import 'package:e1547/pool/pool.dart';
 import 'package:e1547/post/post.dart';
 import 'package:e1547/query/query.dart';
@@ -39,14 +38,14 @@ class _PoolsPageState extends State<PoolsPage> with RouterDrawerEntryWidget {
                       .whereType<Post>()
                       .toList();
               return AdaptiveScaffold(
-                appBar: DefaultAppBar(
-                  title: Text(AppLocalizations.of(context).navPools),
-                  actions: const [ContextDrawerButton()],
+                appBar: const DefaultAppBar(
+                  title: Text('Pools'),
+                  actions: [ContextDrawerButton()],
                 ),
                 floatingActionButton: const PoolsPageFab(),
                 drawer: const RouterDrawer(),
                 endDrawer: ContextDrawer(
-                  title: Text(AppLocalizations.of(context).navPools),
+                  title: const Text('Pools'),
                   children: [
                     const DrawerDenySwitch(),
                     DrawerTagCounter(posts: thumbnails, error: state.error),
@@ -75,30 +74,49 @@ class PoolGrid extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return PullToRefresh(
-      onRefresh: query.revalidate,
-      child: PagedMasonryGridView<int, Pool>.count(
+      onRefresh: query.invalidate,
+      child: CustomScrollView(
         primary: true,
-        showNewPageProgressIndicatorAsGridChild: false,
-        showNewPageErrorIndicatorAsGridChild: false,
-        showNoMoreItemsIndicatorAsGridChild: false,
-        padding: defaultListPadding,
-        state: state.paging,
-        fetchNextPage: query.getNextPage,
-        crossAxisCount: (TileLayout.of(context).crossAxisCount * 0.5).round(),
-        builderDelegate: defaultPagedChildBuilderDelegate<Pool>(
-          onRetry: query.getNextPage,
-          itemBuilder: (context, item, index) => ImageCacheSizeProvider(
-            size: TileLayout.of(context).tileSize * 4,
-            child: PoolTile(
-              pool: item,
-              onPressed: () => Navigator.of(context).push(
-                MaterialPageRoute(builder: (context) => PoolPage(pool: item)),
-              ),
+        slivers: [
+          SliverPadding(
+            padding: defaultListPadding,
+            sliver: SliverSkeletonPaging<Pool>(
+              state: state.paging,
+              fetchNextPage: query.getNextPage,
+              ghost: PoolGhost.new,
+              builder: (context, paging, fetchNextPage) =>
+                  PagedSliverMasonryGrid<int, Pool>.count(
+                    showNewPageProgressIndicatorAsGridChild: false,
+                    showNewPageErrorIndicatorAsGridChild: false,
+                    showNoMoreItemsIndicatorAsGridChild: false,
+                    state: paging,
+                    fetchNextPage: fetchNextPage,
+                    crossAxisCount:
+                        (TileLayout.of(context).crossAxisCount * 0.5)
+                            .round()
+                            .clamp(2, 8),
+                    crossAxisSpacing: 8,
+                    builderDelegate: defaultPagedChildBuilderDelegate<Pool>(
+                      onRetry: query.getNextPage,
+                      itemBuilder: (context, item, index) =>
+                          ImageCacheSizeProvider(
+                            size: TileLayout.of(context).tileSize * 2,
+                            child: PoolTile(
+                              pool: item,
+                              onPressed: () => Navigator.of(context).push(
+                                MaterialPageRoute(
+                                  builder: (context) => PoolPage(pool: item),
+                                ),
+                              ),
+                            ),
+                          ),
+                      onEmpty: const Text('No pools'),
+                      onError: const Text('Failed to load pools'),
+                    ),
+                  ),
             ),
           ),
-          onEmpty: Text(AppLocalizations.of(context).poolEmpty),
-          onError: Text(AppLocalizations.of(context).poolFailedToLoadPools),
-        ),
+        ],
       ),
     );
   }

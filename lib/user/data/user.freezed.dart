@@ -210,6 +210,149 @@ $UserStatsCopyWith<$Res>? get stats {
 
 
 /// @nodoc
+mixin _$PartialUser {
+
+ int get id; String get name; int? get avatarId; bool get hasCroppedAvatar;
+/// Create a copy of PartialUser
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+$PartialUserCopyWith<PartialUser> get copyWith => _$PartialUserCopyWithImpl<PartialUser>(this as PartialUser, _$identity);
+
+  /// Serializes this PartialUser to a JSON map.
+  Map<String, dynamic> toJson();
+
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is PartialUser&&(identical(other.id, id) || other.id == id)&&(identical(other.name, name) || other.name == name)&&(identical(other.avatarId, avatarId) || other.avatarId == avatarId)&&(identical(other.hasCroppedAvatar, hasCroppedAvatar) || other.hasCroppedAvatar == hasCroppedAvatar));
+}
+
+@JsonKey(includeFromJson: false, includeToJson: false)
+@override
+int get hashCode => Object.hash(runtimeType,id,name,avatarId,hasCroppedAvatar);
+
+@override
+String toString() {
+  return 'PartialUser(id: $id, name: $name, avatarId: $avatarId, hasCroppedAvatar: $hasCroppedAvatar)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class $PartialUserCopyWith<$Res>  {
+  factory $PartialUserCopyWith(PartialUser value, $Res Function(PartialUser) _then) = _$PartialUserCopyWithImpl;
+@useResult
+$Res call({
+ int id, String name, int? avatarId, bool hasCroppedAvatar
+});
+
+
+
+
+}
+/// @nodoc
+class _$PartialUserCopyWithImpl<$Res>
+    implements $PartialUserCopyWith<$Res> {
+  _$PartialUserCopyWithImpl(this._self, this._then);
+
+  final PartialUser _self;
+  final $Res Function(PartialUser) _then;
+
+/// Create a copy of PartialUser
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? name = null,Object? avatarId = freezed,Object? hasCroppedAvatar = null,}) {
+  return _then(_self.copyWith(
+id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
+as int,name: null == name ? _self.name : name // ignore: cast_nullable_to_non_nullable
+as String,avatarId: freezed == avatarId ? _self.avatarId : avatarId // ignore: cast_nullable_to_non_nullable
+as int?,hasCroppedAvatar: null == hasCroppedAvatar ? _self.hasCroppedAvatar : hasCroppedAvatar // ignore: cast_nullable_to_non_nullable
+as bool,
+  ));
+}
+
+}
+
+
+
+/// @nodoc
+@JsonSerializable()
+
+class _PartialUser implements PartialUser {
+  const _PartialUser({required this.id, required this.name, required this.avatarId, this.hasCroppedAvatar = false});
+  factory _PartialUser.fromJson(Map<String, dynamic> json) => _$PartialUserFromJson(json);
+
+@override final  int id;
+@override final  String name;
+@override final  int? avatarId;
+@override@JsonKey() final  bool hasCroppedAvatar;
+
+/// Create a copy of PartialUser
+/// with the given fields replaced by the non-null parameter values.
+@override @JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+_$PartialUserCopyWith<_PartialUser> get copyWith => __$PartialUserCopyWithImpl<_PartialUser>(this, _$identity);
+
+@override
+Map<String, dynamic> toJson() {
+  return _$PartialUserToJson(this, );
+}
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _PartialUser&&(identical(other.id, id) || other.id == id)&&(identical(other.name, name) || other.name == name)&&(identical(other.avatarId, avatarId) || other.avatarId == avatarId)&&(identical(other.hasCroppedAvatar, hasCroppedAvatar) || other.hasCroppedAvatar == hasCroppedAvatar));
+}
+
+@JsonKey(includeFromJson: false, includeToJson: false)
+@override
+int get hashCode => Object.hash(runtimeType,id,name,avatarId,hasCroppedAvatar);
+
+@override
+String toString() {
+  return 'PartialUser(id: $id, name: $name, avatarId: $avatarId, hasCroppedAvatar: $hasCroppedAvatar)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class _$PartialUserCopyWith<$Res> implements $PartialUserCopyWith<$Res> {
+  factory _$PartialUserCopyWith(_PartialUser value, $Res Function(_PartialUser) _then) = __$PartialUserCopyWithImpl;
+@override @useResult
+$Res call({
+ int id, String name, int? avatarId, bool hasCroppedAvatar
+});
+
+
+
+
+}
+/// @nodoc
+class __$PartialUserCopyWithImpl<$Res>
+    implements _$PartialUserCopyWith<$Res> {
+  __$PartialUserCopyWithImpl(this._self, this._then);
+
+  final _PartialUser _self;
+  final $Res Function(_PartialUser) _then;
+
+/// Create a copy of PartialUser
+/// with the given fields replaced by the non-null parameter values.
+@override @pragma('vm:prefer-inline') $Res call({Object? id = null,Object? name = null,Object? avatarId = freezed,Object? hasCroppedAvatar = null,}) {
+  return _then(_PartialUser(
+id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
+as int,name: null == name ? _self.name : name // ignore: cast_nullable_to_non_nullable
+as String,avatarId: freezed == avatarId ? _self.avatarId : avatarId // ignore: cast_nullable_to_non_nullable
+as int?,hasCroppedAvatar: null == hasCroppedAvatar ? _self.hasCroppedAvatar : hasCroppedAvatar // ignore: cast_nullable_to_non_nullable
+as bool,
+  ));
+}
+
+
+}
+
+
+/// @nodoc
 mixin _$UserAbout {
 
  String? get bio; String? get comission;
@@ -349,7 +492,7 @@ as String?,
 /// @nodoc
 mixin _$UserStats {
 
- DateTime? get createdAt; String? get levelString; int? get favoriteCount; int? get postUpdateCount; int? get postUploadCount; int? get forumPostCount; int? get commentCount;
+ DateTime? get createdAt; String? get levelString; int? get favoriteCount; int? get postUpdateCount; int? get postUploadCount; int? get forumPostCount; int? get commentCount; int? get poolUpdateCount; int? get artistUpdateCount; int? get wikiUpdateCount; int? get noteUpdateCount; int? get uploadKarma; int? get uploadSlots; int? get positiveFeedbackCount; int? get neutralFeedbackCount; int? get negativeFeedbackCount; bool get canApprovePosts; bool get canUploadFree; bool get isBanned; bool get isVerified;
 /// Create a copy of UserStats
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -362,16 +505,16 @@ $UserStatsCopyWith<UserStats> get copyWith => _$UserStatsCopyWithImpl<UserStats>
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is UserStats&&(identical(other.createdAt, createdAt) || other.createdAt == createdAt)&&(identical(other.levelString, levelString) || other.levelString == levelString)&&(identical(other.favoriteCount, favoriteCount) || other.favoriteCount == favoriteCount)&&(identical(other.postUpdateCount, postUpdateCount) || other.postUpdateCount == postUpdateCount)&&(identical(other.postUploadCount, postUploadCount) || other.postUploadCount == postUploadCount)&&(identical(other.forumPostCount, forumPostCount) || other.forumPostCount == forumPostCount)&&(identical(other.commentCount, commentCount) || other.commentCount == commentCount));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is UserStats&&(identical(other.createdAt, createdAt) || other.createdAt == createdAt)&&(identical(other.levelString, levelString) || other.levelString == levelString)&&(identical(other.favoriteCount, favoriteCount) || other.favoriteCount == favoriteCount)&&(identical(other.postUpdateCount, postUpdateCount) || other.postUpdateCount == postUpdateCount)&&(identical(other.postUploadCount, postUploadCount) || other.postUploadCount == postUploadCount)&&(identical(other.forumPostCount, forumPostCount) || other.forumPostCount == forumPostCount)&&(identical(other.commentCount, commentCount) || other.commentCount == commentCount)&&(identical(other.poolUpdateCount, poolUpdateCount) || other.poolUpdateCount == poolUpdateCount)&&(identical(other.artistUpdateCount, artistUpdateCount) || other.artistUpdateCount == artistUpdateCount)&&(identical(other.wikiUpdateCount, wikiUpdateCount) || other.wikiUpdateCount == wikiUpdateCount)&&(identical(other.noteUpdateCount, noteUpdateCount) || other.noteUpdateCount == noteUpdateCount)&&(identical(other.uploadKarma, uploadKarma) || other.uploadKarma == uploadKarma)&&(identical(other.uploadSlots, uploadSlots) || other.uploadSlots == uploadSlots)&&(identical(other.positiveFeedbackCount, positiveFeedbackCount) || other.positiveFeedbackCount == positiveFeedbackCount)&&(identical(other.neutralFeedbackCount, neutralFeedbackCount) || other.neutralFeedbackCount == neutralFeedbackCount)&&(identical(other.negativeFeedbackCount, negativeFeedbackCount) || other.negativeFeedbackCount == negativeFeedbackCount)&&(identical(other.canApprovePosts, canApprovePosts) || other.canApprovePosts == canApprovePosts)&&(identical(other.canUploadFree, canUploadFree) || other.canUploadFree == canUploadFree)&&(identical(other.isBanned, isBanned) || other.isBanned == isBanned)&&(identical(other.isVerified, isVerified) || other.isVerified == isVerified));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,createdAt,levelString,favoriteCount,postUpdateCount,postUploadCount,forumPostCount,commentCount);
+int get hashCode => Object.hashAll([runtimeType,createdAt,levelString,favoriteCount,postUpdateCount,postUploadCount,forumPostCount,commentCount,poolUpdateCount,artistUpdateCount,wikiUpdateCount,noteUpdateCount,uploadKarma,uploadSlots,positiveFeedbackCount,neutralFeedbackCount,negativeFeedbackCount,canApprovePosts,canUploadFree,isBanned,isVerified]);
 
 @override
 String toString() {
-  return 'UserStats(createdAt: $createdAt, levelString: $levelString, favoriteCount: $favoriteCount, postUpdateCount: $postUpdateCount, postUploadCount: $postUploadCount, forumPostCount: $forumPostCount, commentCount: $commentCount)';
+  return 'UserStats(createdAt: $createdAt, levelString: $levelString, favoriteCount: $favoriteCount, postUpdateCount: $postUpdateCount, postUploadCount: $postUploadCount, forumPostCount: $forumPostCount, commentCount: $commentCount, poolUpdateCount: $poolUpdateCount, artistUpdateCount: $artistUpdateCount, wikiUpdateCount: $wikiUpdateCount, noteUpdateCount: $noteUpdateCount, uploadKarma: $uploadKarma, uploadSlots: $uploadSlots, positiveFeedbackCount: $positiveFeedbackCount, neutralFeedbackCount: $neutralFeedbackCount, negativeFeedbackCount: $negativeFeedbackCount, canApprovePosts: $canApprovePosts, canUploadFree: $canUploadFree, isBanned: $isBanned, isVerified: $isVerified)';
 }
 
 
@@ -382,7 +525,7 @@ abstract mixin class $UserStatsCopyWith<$Res>  {
   factory $UserStatsCopyWith(UserStats value, $Res Function(UserStats) _then) = _$UserStatsCopyWithImpl;
 @useResult
 $Res call({
- DateTime? createdAt, String? levelString, int? favoriteCount, int? postUpdateCount, int? postUploadCount, int? forumPostCount, int? commentCount
+ DateTime? createdAt, String? levelString, int? favoriteCount, int? postUpdateCount, int? postUploadCount, int? forumPostCount, int? commentCount, int? poolUpdateCount, int? artistUpdateCount, int? wikiUpdateCount, int? noteUpdateCount, int? uploadKarma, int? uploadSlots, int? positiveFeedbackCount, int? neutralFeedbackCount, int? negativeFeedbackCount, bool canApprovePosts, bool canUploadFree, bool isBanned, bool isVerified
 });
 
 
@@ -399,7 +542,7 @@ class _$UserStatsCopyWithImpl<$Res>
 
 /// Create a copy of UserStats
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? createdAt = freezed,Object? levelString = freezed,Object? favoriteCount = freezed,Object? postUpdateCount = freezed,Object? postUploadCount = freezed,Object? forumPostCount = freezed,Object? commentCount = freezed,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? createdAt = freezed,Object? levelString = freezed,Object? favoriteCount = freezed,Object? postUpdateCount = freezed,Object? postUploadCount = freezed,Object? forumPostCount = freezed,Object? commentCount = freezed,Object? poolUpdateCount = freezed,Object? artistUpdateCount = freezed,Object? wikiUpdateCount = freezed,Object? noteUpdateCount = freezed,Object? uploadKarma = freezed,Object? uploadSlots = freezed,Object? positiveFeedbackCount = freezed,Object? neutralFeedbackCount = freezed,Object? negativeFeedbackCount = freezed,Object? canApprovePosts = null,Object? canUploadFree = null,Object? isBanned = null,Object? isVerified = null,}) {
   return _then(_self.copyWith(
 createdAt: freezed == createdAt ? _self.createdAt : createdAt // ignore: cast_nullable_to_non_nullable
 as DateTime?,levelString: freezed == levelString ? _self.levelString : levelString // ignore: cast_nullable_to_non_nullable
@@ -408,7 +551,20 @@ as int?,postUpdateCount: freezed == postUpdateCount ? _self.postUpdateCount : po
 as int?,postUploadCount: freezed == postUploadCount ? _self.postUploadCount : postUploadCount // ignore: cast_nullable_to_non_nullable
 as int?,forumPostCount: freezed == forumPostCount ? _self.forumPostCount : forumPostCount // ignore: cast_nullable_to_non_nullable
 as int?,commentCount: freezed == commentCount ? _self.commentCount : commentCount // ignore: cast_nullable_to_non_nullable
-as int?,
+as int?,poolUpdateCount: freezed == poolUpdateCount ? _self.poolUpdateCount : poolUpdateCount // ignore: cast_nullable_to_non_nullable
+as int?,artistUpdateCount: freezed == artistUpdateCount ? _self.artistUpdateCount : artistUpdateCount // ignore: cast_nullable_to_non_nullable
+as int?,wikiUpdateCount: freezed == wikiUpdateCount ? _self.wikiUpdateCount : wikiUpdateCount // ignore: cast_nullable_to_non_nullable
+as int?,noteUpdateCount: freezed == noteUpdateCount ? _self.noteUpdateCount : noteUpdateCount // ignore: cast_nullable_to_non_nullable
+as int?,uploadKarma: freezed == uploadKarma ? _self.uploadKarma : uploadKarma // ignore: cast_nullable_to_non_nullable
+as int?,uploadSlots: freezed == uploadSlots ? _self.uploadSlots : uploadSlots // ignore: cast_nullable_to_non_nullable
+as int?,positiveFeedbackCount: freezed == positiveFeedbackCount ? _self.positiveFeedbackCount : positiveFeedbackCount // ignore: cast_nullable_to_non_nullable
+as int?,neutralFeedbackCount: freezed == neutralFeedbackCount ? _self.neutralFeedbackCount : neutralFeedbackCount // ignore: cast_nullable_to_non_nullable
+as int?,negativeFeedbackCount: freezed == negativeFeedbackCount ? _self.negativeFeedbackCount : negativeFeedbackCount // ignore: cast_nullable_to_non_nullable
+as int?,canApprovePosts: null == canApprovePosts ? _self.canApprovePosts : canApprovePosts // ignore: cast_nullable_to_non_nullable
+as bool,canUploadFree: null == canUploadFree ? _self.canUploadFree : canUploadFree // ignore: cast_nullable_to_non_nullable
+as bool,isBanned: null == isBanned ? _self.isBanned : isBanned // ignore: cast_nullable_to_non_nullable
+as bool,isVerified: null == isVerified ? _self.isVerified : isVerified // ignore: cast_nullable_to_non_nullable
+as bool,
   ));
 }
 
@@ -420,7 +576,7 @@ as int?,
 @JsonSerializable()
 
 class _UserStats implements UserStats {
-  const _UserStats({required this.createdAt, required this.levelString, required this.favoriteCount, required this.postUpdateCount, required this.postUploadCount, required this.forumPostCount, required this.commentCount});
+  const _UserStats({required this.createdAt, required this.levelString, required this.favoriteCount, required this.postUpdateCount, required this.postUploadCount, required this.forumPostCount, required this.commentCount, required this.poolUpdateCount, required this.artistUpdateCount, required this.wikiUpdateCount, required this.noteUpdateCount, required this.uploadKarma, required this.uploadSlots, required this.positiveFeedbackCount, required this.neutralFeedbackCount, required this.negativeFeedbackCount, this.canApprovePosts = false, this.canUploadFree = false, this.isBanned = false, this.isVerified = true});
   factory _UserStats.fromJson(Map<String, dynamic> json) => _$UserStatsFromJson(json);
 
 @override final  DateTime? createdAt;
@@ -430,6 +586,19 @@ class _UserStats implements UserStats {
 @override final  int? postUploadCount;
 @override final  int? forumPostCount;
 @override final  int? commentCount;
+@override final  int? poolUpdateCount;
+@override final  int? artistUpdateCount;
+@override final  int? wikiUpdateCount;
+@override final  int? noteUpdateCount;
+@override final  int? uploadKarma;
+@override final  int? uploadSlots;
+@override final  int? positiveFeedbackCount;
+@override final  int? neutralFeedbackCount;
+@override final  int? negativeFeedbackCount;
+@override@JsonKey() final  bool canApprovePosts;
+@override@JsonKey() final  bool canUploadFree;
+@override@JsonKey() final  bool isBanned;
+@override@JsonKey() final  bool isVerified;
 
 /// Create a copy of UserStats
 /// with the given fields replaced by the non-null parameter values.
@@ -444,16 +613,16 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _UserStats&&(identical(other.createdAt, createdAt) || other.createdAt == createdAt)&&(identical(other.levelString, levelString) || other.levelString == levelString)&&(identical(other.favoriteCount, favoriteCount) || other.favoriteCount == favoriteCount)&&(identical(other.postUpdateCount, postUpdateCount) || other.postUpdateCount == postUpdateCount)&&(identical(other.postUploadCount, postUploadCount) || other.postUploadCount == postUploadCount)&&(identical(other.forumPostCount, forumPostCount) || other.forumPostCount == forumPostCount)&&(identical(other.commentCount, commentCount) || other.commentCount == commentCount));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _UserStats&&(identical(other.createdAt, createdAt) || other.createdAt == createdAt)&&(identical(other.levelString, levelString) || other.levelString == levelString)&&(identical(other.favoriteCount, favoriteCount) || other.favoriteCount == favoriteCount)&&(identical(other.postUpdateCount, postUpdateCount) || other.postUpdateCount == postUpdateCount)&&(identical(other.postUploadCount, postUploadCount) || other.postUploadCount == postUploadCount)&&(identical(other.forumPostCount, forumPostCount) || other.forumPostCount == forumPostCount)&&(identical(other.commentCount, commentCount) || other.commentCount == commentCount)&&(identical(other.poolUpdateCount, poolUpdateCount) || other.poolUpdateCount == poolUpdateCount)&&(identical(other.artistUpdateCount, artistUpdateCount) || other.artistUpdateCount == artistUpdateCount)&&(identical(other.wikiUpdateCount, wikiUpdateCount) || other.wikiUpdateCount == wikiUpdateCount)&&(identical(other.noteUpdateCount, noteUpdateCount) || other.noteUpdateCount == noteUpdateCount)&&(identical(other.uploadKarma, uploadKarma) || other.uploadKarma == uploadKarma)&&(identical(other.uploadSlots, uploadSlots) || other.uploadSlots == uploadSlots)&&(identical(other.positiveFeedbackCount, positiveFeedbackCount) || other.positiveFeedbackCount == positiveFeedbackCount)&&(identical(other.neutralFeedbackCount, neutralFeedbackCount) || other.neutralFeedbackCount == neutralFeedbackCount)&&(identical(other.negativeFeedbackCount, negativeFeedbackCount) || other.negativeFeedbackCount == negativeFeedbackCount)&&(identical(other.canApprovePosts, canApprovePosts) || other.canApprovePosts == canApprovePosts)&&(identical(other.canUploadFree, canUploadFree) || other.canUploadFree == canUploadFree)&&(identical(other.isBanned, isBanned) || other.isBanned == isBanned)&&(identical(other.isVerified, isVerified) || other.isVerified == isVerified));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,createdAt,levelString,favoriteCount,postUpdateCount,postUploadCount,forumPostCount,commentCount);
+int get hashCode => Object.hashAll([runtimeType,createdAt,levelString,favoriteCount,postUpdateCount,postUploadCount,forumPostCount,commentCount,poolUpdateCount,artistUpdateCount,wikiUpdateCount,noteUpdateCount,uploadKarma,uploadSlots,positiveFeedbackCount,neutralFeedbackCount,negativeFeedbackCount,canApprovePosts,canUploadFree,isBanned,isVerified]);
 
 @override
 String toString() {
-  return 'UserStats(createdAt: $createdAt, levelString: $levelString, favoriteCount: $favoriteCount, postUpdateCount: $postUpdateCount, postUploadCount: $postUploadCount, forumPostCount: $forumPostCount, commentCount: $commentCount)';
+  return 'UserStats(createdAt: $createdAt, levelString: $levelString, favoriteCount: $favoriteCount, postUpdateCount: $postUpdateCount, postUploadCount: $postUploadCount, forumPostCount: $forumPostCount, commentCount: $commentCount, poolUpdateCount: $poolUpdateCount, artistUpdateCount: $artistUpdateCount, wikiUpdateCount: $wikiUpdateCount, noteUpdateCount: $noteUpdateCount, uploadKarma: $uploadKarma, uploadSlots: $uploadSlots, positiveFeedbackCount: $positiveFeedbackCount, neutralFeedbackCount: $neutralFeedbackCount, negativeFeedbackCount: $negativeFeedbackCount, canApprovePosts: $canApprovePosts, canUploadFree: $canUploadFree, isBanned: $isBanned, isVerified: $isVerified)';
 }
 
 
@@ -464,7 +633,7 @@ abstract mixin class _$UserStatsCopyWith<$Res> implements $UserStatsCopyWith<$Re
   factory _$UserStatsCopyWith(_UserStats value, $Res Function(_UserStats) _then) = __$UserStatsCopyWithImpl;
 @override @useResult
 $Res call({
- DateTime? createdAt, String? levelString, int? favoriteCount, int? postUpdateCount, int? postUploadCount, int? forumPostCount, int? commentCount
+ DateTime? createdAt, String? levelString, int? favoriteCount, int? postUpdateCount, int? postUploadCount, int? forumPostCount, int? commentCount, int? poolUpdateCount, int? artistUpdateCount, int? wikiUpdateCount, int? noteUpdateCount, int? uploadKarma, int? uploadSlots, int? positiveFeedbackCount, int? neutralFeedbackCount, int? negativeFeedbackCount, bool canApprovePosts, bool canUploadFree, bool isBanned, bool isVerified
 });
 
 
@@ -481,7 +650,7 @@ class __$UserStatsCopyWithImpl<$Res>
 
 /// Create a copy of UserStats
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? createdAt = freezed,Object? levelString = freezed,Object? favoriteCount = freezed,Object? postUpdateCount = freezed,Object? postUploadCount = freezed,Object? forumPostCount = freezed,Object? commentCount = freezed,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? createdAt = freezed,Object? levelString = freezed,Object? favoriteCount = freezed,Object? postUpdateCount = freezed,Object? postUploadCount = freezed,Object? forumPostCount = freezed,Object? commentCount = freezed,Object? poolUpdateCount = freezed,Object? artistUpdateCount = freezed,Object? wikiUpdateCount = freezed,Object? noteUpdateCount = freezed,Object? uploadKarma = freezed,Object? uploadSlots = freezed,Object? positiveFeedbackCount = freezed,Object? neutralFeedbackCount = freezed,Object? negativeFeedbackCount = freezed,Object? canApprovePosts = null,Object? canUploadFree = null,Object? isBanned = null,Object? isVerified = null,}) {
   return _then(_UserStats(
 createdAt: freezed == createdAt ? _self.createdAt : createdAt // ignore: cast_nullable_to_non_nullable
 as DateTime?,levelString: freezed == levelString ? _self.levelString : levelString // ignore: cast_nullable_to_non_nullable
@@ -490,7 +659,20 @@ as int?,postUpdateCount: freezed == postUpdateCount ? _self.postUpdateCount : po
 as int?,postUploadCount: freezed == postUploadCount ? _self.postUploadCount : postUploadCount // ignore: cast_nullable_to_non_nullable
 as int?,forumPostCount: freezed == forumPostCount ? _self.forumPostCount : forumPostCount // ignore: cast_nullable_to_non_nullable
 as int?,commentCount: freezed == commentCount ? _self.commentCount : commentCount // ignore: cast_nullable_to_non_nullable
-as int?,
+as int?,poolUpdateCount: freezed == poolUpdateCount ? _self.poolUpdateCount : poolUpdateCount // ignore: cast_nullable_to_non_nullable
+as int?,artistUpdateCount: freezed == artistUpdateCount ? _self.artistUpdateCount : artistUpdateCount // ignore: cast_nullable_to_non_nullable
+as int?,wikiUpdateCount: freezed == wikiUpdateCount ? _self.wikiUpdateCount : wikiUpdateCount // ignore: cast_nullable_to_non_nullable
+as int?,noteUpdateCount: freezed == noteUpdateCount ? _self.noteUpdateCount : noteUpdateCount // ignore: cast_nullable_to_non_nullable
+as int?,uploadKarma: freezed == uploadKarma ? _self.uploadKarma : uploadKarma // ignore: cast_nullable_to_non_nullable
+as int?,uploadSlots: freezed == uploadSlots ? _self.uploadSlots : uploadSlots // ignore: cast_nullable_to_non_nullable
+as int?,positiveFeedbackCount: freezed == positiveFeedbackCount ? _self.positiveFeedbackCount : positiveFeedbackCount // ignore: cast_nullable_to_non_nullable
+as int?,neutralFeedbackCount: freezed == neutralFeedbackCount ? _self.neutralFeedbackCount : neutralFeedbackCount // ignore: cast_nullable_to_non_nullable
+as int?,negativeFeedbackCount: freezed == negativeFeedbackCount ? _self.negativeFeedbackCount : negativeFeedbackCount // ignore: cast_nullable_to_non_nullable
+as int?,canApprovePosts: null == canApprovePosts ? _self.canApprovePosts : canApprovePosts // ignore: cast_nullable_to_non_nullable
+as bool,canUploadFree: null == canUploadFree ? _self.canUploadFree : canUploadFree // ignore: cast_nullable_to_non_nullable
+as bool,isBanned: null == isBanned ? _self.isBanned : isBanned // ignore: cast_nullable_to_non_nullable
+as bool,isVerified: null == isVerified ? _self.isVerified : isVerified // ignore: cast_nullable_to_non_nullable
+as bool,
   ));
 }
 

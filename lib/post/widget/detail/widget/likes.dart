@@ -32,34 +32,35 @@ class LikeDisplay extends StatelessWidget {
                   score: post.score,
                   onUpvote: enabled
                       ? (isLiked) async {
-                          mutate((upvote: true, replace: !isLiked)).catchError((
-                            error,
-                          ) {
+                          if ((await mutate((
+                            upvote: true,
+                            replace: !isLiked,
+                          ))).isError) {
                             messenger.showSnackBar(
                               SnackBar(
                                 duration: const Duration(seconds: 1),
                                 content: Text(l10n.postUpvoteFailed(post.id)),
                               ),
                             );
-                            return error;
-                          });
+                            return isLiked;
+                          }
                           return !isLiked;
                         }
                       : null,
                   onDownvote: enabled
                       ? (isLiked) async {
-                          mutate((
+                          if ((await mutate((
                             upvote: false,
                             replace: !isLiked,
-                          )).catchError((error) {
+                          ))).isError) {
                             messenger.showSnackBar(
                               SnackBar(
                                 duration: const Duration(seconds: 1),
                                 content: Text(l10n.postDownvoteFailed(post.id)),
                               ),
                             );
-                            return error;
-                          });
+                            return isLiked;
+                          }
                           return !isLiked;
                         }
                       : null,

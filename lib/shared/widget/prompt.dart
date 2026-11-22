@@ -4,7 +4,7 @@ import 'package:e1547/l10n/app_localizations.dart';
 import 'package:e1547/shared/shared.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_sub/flutter_sub.dart';
-import 'package:sliding_sheet/sliding_sheet.dart';
+import 'package:smooth_sheets/smooth_sheets.dart';
 
 /// Pops the dialog that [context] belongs to, ignoring repeated calls.
 ///
@@ -295,7 +295,7 @@ class ActionIndicators extends StatelessWidget {
                   : controller.isLoading
                   ? const Padding(
                       padding: EdgeInsets.only(right: 10),
-                      child: SizedCircularProgressIndicator(size: 24),
+                      child: HexagonalLoadingIndicator(size: 24),
                     )
                   : const SizedBox(),
             ),
@@ -365,53 +365,6 @@ class PromptTextFieldSuffix extends StatelessWidget {
   }
 }
 
-Future<T?> showDefaultSlidingBottomSheet<T>(
-  BuildContext context,
-  SheetBuilder? builder, {
-  CustomSheetBuilder? customBuilder,
-  SnapSpec snapSpec = const SnapSpec(snappings: [0.6, SnapSpec.expanded]),
-  SheetBuilder? headerBuilder,
-  SheetBuilder? footerBuilder,
-  Widget Function(BuildContext context, SlidingSheet sheet)? parentBuilder,
-}) async {
-  return showSlidingBottomSheet<T>(
-    context,
-    builder: (context) => defaultSlidingSheetDialog(
-      context,
-      builder,
-      customBuilder: customBuilder,
-      snapSpec: snapSpec,
-      headerBuilder: headerBuilder,
-      footerBuilder: footerBuilder,
-    ),
-    parentBuilder: parentBuilder,
-  );
-}
-
-SlidingSheetDialog defaultSlidingSheetDialog(
-  BuildContext context,
-  SheetBuilder? builder, {
-  CustomSheetBuilder? customBuilder,
-  SnapSpec snapSpec = const SnapSpec(snappings: [0.6, SnapSpec.expanded]),
-  SheetBuilder? headerBuilder,
-  SheetBuilder? footerBuilder,
-}) {
-  return SlidingSheetDialog(
-    scrollSpec: const ScrollSpec(physics: ClampingScrollPhysics()),
-    duration: const Duration(milliseconds: 400),
-    avoidStatusBar: true,
-    isBackdropInteractable: true,
-    cornerRadius: 16,
-    cornerRadiusOnFullscreen: 0,
-    maxWidth: 600,
-    headerBuilder: headerBuilder ?? (context, state) => const SheetHandle(),
-    footerBuilder: footerBuilder,
-    builder: builder,
-    customBuilder: customBuilder,
-    snapSpec: snapSpec,
-  );
-}
-
 class SheetHandle extends StatelessWidget {
   const SheetHandle({super.key});
 
@@ -433,6 +386,8 @@ class SheetHandle extends StatelessWidget {
     );
   }
 }
+
+const double promptSheetRest = 0.6;
 
 /// Shows [sliver] under [header], as a dialog on desktop and a sheet
 /// elsewhere.
@@ -479,23 +434,26 @@ Future<T?> showSliverPrompt<T>(
       },
     );
   }
-  return showDefaultSlidingBottomSheet<T>(
+  return showAppSheet<T>(
     context,
-    null,
-    parentBuilder: parentBuilder,
-    headerBuilder: (context, state) => Material(
-      color: Colors.transparent,
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
+    initialOffset: const SheetOffset.proportionalToViewport(promptSheetRest),
+    snapGrid: const SheetSnapGrid(
+      snaps: [
+        SheetOffset.proportionalToViewport(promptSheetRest),
+        SheetOffset(1),
+      ],
+    ),
+    builder: (context) {
+      final Widget sheet = Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           const SheetHandle(),
           if (pinnedHeader) Builder(builder: header),
+          Expanded(child: CustomScrollView(primary: true, slivers: slivers)),
         ],
-      ),
-    ),
-    customBuilder: (context, controller, state) => Material(
-      child: CustomScrollView(controller: controller, slivers: slivers),
-    ),
+      );
+      return parentBuilder?.call(context, sheet) ?? sheet;
+    },
   );
 }
 
@@ -518,3 +476,44 @@ Future<T?> showPrompt<T>(
   parentBuilder: parentBuilder,
   dialogConstraints: dialogConstraints,
 );
+
+class PromptHeader extends StatelessWidget {
+  const PromptHeader({super.key, required this.title, required this.actions});
+
+  final Widget title;
+  final Widget actions;
+
+  static const EdgeInsets padding = EdgeInsets.symmetric(
+    vertical: 12,
+    horizontal: 16,
+  );
+
+  @override
+  Widget build(BuildContext context) {
+    const Widget divider = Divider(indent: 4, endIndent: 4);
+    if (Theme.of(context).isDesktop) {
+      return Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Padding(
+            padding: padding,
+            child: OverflowBar(
+              alignment: MainAxisAlignment.spaceBetween,
+              overflowSpacing: 8,
+              children: [title, actions],
+            ),
+          ),
+          divider,
+        ],
+      );
+    }
+    return Padding(
+      padding: padding,
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [title, divider, actions],
+      ),
+    );
+  }
+}

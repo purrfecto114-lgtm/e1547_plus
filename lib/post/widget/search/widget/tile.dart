@@ -32,39 +32,47 @@ class PostImageTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Semantics(
-      // Tiles are pure images; naming the post reuses the selection
-      // label and gives screen readers something to announce besides
-      // the metadata of the info bar.
-      label: AppLocalizations.of(context).selectionPost(post.id),
-      child: Card(
-        clipBehavior: Clip.antiAlias,
-        child: SelectionItemOverlay(
-          item: post,
-          child: Stack(
-            fit: StackFit.passthrough,
-            clipBehavior: Clip.none,
-            children: [
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  Expanded(
-                    child: PostTileOverlay(
-                      post: post,
-                      child: ContentHero(
-                        tag: post.link,
-                        content: FittedContent(
-                          fit: fit ?? BoxFit.cover,
-                          aspectRatio: post.width / post.height,
-                        ),
-                        child: PostImageWidget(
-                          post: post,
-                          size: size ?? PostImageSize.sample,
-                          fit: fit ?? BoxFit.cover,
-                          showProgress: showProgress ?? false,
-                          withLowRes: withLowRes ?? false,
-                          cacheSize: context.watch<ImageCacheSize?>()?.size,
-                        ),
+    if (isSkeleton(context)) {
+      final CardThemeData card = Theme.of(context).cardTheme;
+      final ShapeBorder? shape = card.shape;
+      return Padding(
+        padding: card.margin ?? const EdgeInsets.all(4),
+        child: Bone(
+          width: double.infinity,
+          height: double.infinity,
+          borderRadius: shape is RoundedRectangleBorder
+              ? shape.borderRadius
+              : BorderRadius.circular(AppStyle.of(context).smallRadius),
+        ),
+      );
+    }
+    return Card(
+      clipBehavior: Clip.antiAlias,
+      child: SelectionItemOverlay(
+        item: post,
+        child: Stack(
+          fit: StackFit.passthrough,
+          clipBehavior: Clip.none,
+          children: [
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                Expanded(
+                  child: PostTileOverlay(
+                    post: post,
+                    child: ContentHero(
+                      tag: post.link,
+                      content: FittedContent(
+                        fit: fit ?? BoxFit.cover,
+                        aspectRatio: post.width / post.height,
+                      ),
+                      child: PostImageWidget(
+                        post: post,
+                        size: size ?? PostImageSize.sample,
+                        fit: fit ?? BoxFit.cover,
+                        showProgress: showProgress ?? false,
+                        withLowRes: withLowRes ?? false,
+                        cacheSize: context.watch<ImageCacheSize?>()?.size,
                       ),
                     ),
                   ),
@@ -111,7 +119,7 @@ class PostImageTag extends StatelessWidget {
 class PostTileOverlay extends StatelessWidget {
   const PostTileOverlay({super.key, required this.post, required this.child});
 
-  final Post post;
+  final PostSummary post;
   final Widget child;
 
   @override

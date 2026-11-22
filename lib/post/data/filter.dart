@@ -19,6 +19,10 @@ class PostFilter extends FilterController<Post>
 
   final Map<int, _PostFilterCache> _filterCache = {};
 
+  static const Duration _staleAfter = Duration(minutes: 5);
+
+  DateTime _evictedAt = DateTime.now();
+
   void _updateDenyList() {
     _filterCache.clear();
     notifyListeners();
@@ -27,10 +31,12 @@ class PostFilter extends FilterController<Post>
   @override
   Object idOf(Post post) => post.id;
 
-  /// Undisplayable posts (flash or censored) never reach a tile, but they
-  /// do stay in fetched pages so pagination advances on the raw response.
+  // An undisplayable post (flash, censored) is filtered regardless of
+  // the denylist; letting it through here would show a broken tile.
   @override
-  bool filter(Post post) => post.isDisplayable && !denies(post);
+  bool filter(Post post) => post.isDisplayable && allows(post);
+
+  bool allows(PostSummary post) => !denies(post);
 
   /// How many tracked posts the denylist currently hides.
   ///
@@ -99,6 +105,8 @@ class PostFilter extends FilterController<Post>
     if (!denying) return const {};
     final counts = <String, int>{};
     for (final post in tracked) {
+      // Undisplayable posts must not inflate any denylist entry count.
+      if (!post.isDisplayable) continue;
       if (allowedPosts.contains(post.id)) continue;
       for (final entry in entriesFor(post)) {
         if (allowedEntries.contains(entry)) continue;
@@ -108,15 +116,17 @@ class PostFilter extends FilterController<Post>
     return counts;
   }
 
-  List<String> entriesFor(Post post) {
+  List<String> entriesFor(PostSummary post) {
     final now = DateTime.now();
     _evictStaleEntries(now);
 
     final cached = _filterCache[post.id];
 
-    if (cached == null || cached.hash != post.hashCode) {
+    if (cached == null ||
+        (!identical(cached.post, post) && cached.hash != post.hashCode)) {
       final deniers = post.getDeniers(client.traits.value.denylist).toList();
       _filterCache[post.id] = (
+        post: post,
         hash: post.hashCode,
         entries: deniers,
         lastAccessed: now,
@@ -125,6 +135,7 @@ class PostFilter extends FilterController<Post>
     }
 
     _filterCache[post.id] = (
+      post: post,
       hash: cached.hash,
       entries: cached.entries,
       lastAccessed: now,
@@ -132,26 +143,19 @@ class PostFilter extends FilterController<Post>
     return cached.entries;
   }
 
-  // Sweeping the whole cache on every lookup made every refresh O(N²) over
-  // the loaded posts; a throttled sweep keeps the same 60s entry lifetime.
-  static const Duration _sweepInterval = Duration(seconds: 15);
-  DateTime _lastSweep = DateTime.fromMillisecondsSinceEpoch(0);
-
   void _evictStaleEntries(DateTime now) {
-    // A backwards clock only delays the next sweep; eviction never changes
-    // results, it only costs a recomputation.
-    if (now.difference(_lastSweep) < _sweepInterval) return;
-    _lastSweep = now;
-    final cutoff = now.subtract(const Duration(minutes: 1));
+    if (now.difference(_evictedAt) < _staleAfter) return;
+    _evictedAt = now;
+    final cutoff = now.subtract(_staleAfter);
     _filterCache.removeWhere((_, entry) => entry.lastAccessed.isBefore(cutoff));
   }
 
-  bool blocks(Post post) {
+  bool blocks(PostSummary post) {
     if (!denying) return false;
     return entriesFor(post).any((entry) => !allowedEntries.contains(entry));
   }
 
-  bool denies(Post post) {
+  bool denies(PostSummary post) {
     if (allowedPosts.contains(post.id)) return false;
     return blocks(post);
   }
@@ -167,15 +171,14 @@ class FavoritePostFilter extends PostFilter {
   FavoritePostFilter(super.client, [super.value]);
 
   @override
-  bool filter(Post post) {
-    // Even favorites cannot display a flash or censored post.
-    if (!post.isDisplayable) return false;
+  bool allows(PostSummary post) {
     if (post.isFavorited) return true;
-    return super.filter(post);
+    return super.allows(post);
   }
 }
 
 typedef _PostFilterCache = ({
+  PostSummary post,
   int hash,
   List<String> entries,
   DateTime lastAccessed,

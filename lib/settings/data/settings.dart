@@ -170,6 +170,10 @@ class Settings extends NotifiedSettings {
     key: 'upvoteFavs',
     initialValue: false,
   );
+  late final ValueNotifier<bool> swipeToClose = createSetting<bool>(
+    key: 'swipeToClose',
+    initialValue: true,
+  );
   late final ValueNotifier<String?> downloadPath = createSetting<String?>(
     key: 'downloadPath',
     initialValue: null,

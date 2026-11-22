@@ -26,9 +26,18 @@ class CommentTile extends StatelessWidget {
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const Padding(
-                  padding: EdgeInsets.only(right: 8, top: 4),
-                  child: Icon(Icons.person),
+                Padding(
+                  padding: const EdgeInsets.only(right: 8, top: 4),
+                  child: UserSummaryAvatar(
+                    userId: comment.creatorId,
+                    radius: 12,
+                    onTap: () => Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder: (context) =>
+                            UserLoadingPage(comment.creatorId),
+                      ),
+                    ),
+                  ),
                 ),
                 Expanded(
                   child: Column(
@@ -133,7 +142,7 @@ class CommentVotes extends StatelessWidget {
     return MutationBuilder(
       mutation: client.comments.useVote(id: comment.id),
       builder: (context, state, mutate) {
-        final bool enabled = client.hasLogin || state.isLoading;
+        final bool enabled = client.hasLogin && !state.isLoading;
         return Dimmed.interactive(
           child: VoteDisplay(
             padding: EdgeInsets.zero,

@@ -95,6 +95,25 @@ abstract final class FileDownloader {
       throw FileDownloadException.from(e);
     }
   }
+  static String displayPath(String directory) {
+    final Uri? uri = Uri.tryParse(directory);
+    if (uri == null || uri.scheme != 'content') return directory;
+    final List<String> segments = uri.pathSegments;
+    final int document = segments.lastIndexOf('document');
+    final int at = document >= 0 ? document : segments.indexOf('tree');
+    if (at < 0 || at + 1 >= segments.length) return directory;
+    final String id = segments[at + 1];
+    final int colon = id.indexOf(':');
+    if (colon < 0) return id;
+    final String volume = id.substring(0, colon);
+    final String path = id.substring(colon + 1);
+    if (volume == 'primary') return path.isEmpty ? 'Internal storage' : path;
+    if (volume == 'raw') return path;
+    return path.isEmpty ? volume : '$volume/$path';
+  }
+
+  static bool _isPictures(String directory) =>
+      basename(displayPath(directory)) == 'Pictures';
 
   /// Releases permissions to a previously selected directory.
   static Future<void> forgetDirectory(String? directory) async {
@@ -144,13 +163,7 @@ abstract final class FileDownloader {
           target = directory;
         }
 
-        // A SAF tree uri names its volume inside the last segment
-        // (primary:Pictures), so both spellings have to count.
-        final List<String> segments = Uri.parse(target).pathSegments;
-        final String? lastSegment = segments.isEmpty ? null : segments.last;
-        if (folderName != null &&
-            (lastSegment == 'Pictures' ||
-                (lastSegment?.endsWith(':Pictures') ?? false))) {
+        if (folderName != null && _isPictures(target)) {
           try {
             final targetDir = await SafUtil().mkdirp(target, [folderName]);
             target = targetDir.uri;
@@ -191,7 +204,7 @@ abstract final class FileDownloader {
 
         onDirectoryChanged?.call(directoryPath);
 
-        if (folderName != null && basename(directoryPath) == 'Pictures') {
+        if (folderName != null && _isPictures(directoryPath)) {
           directoryPath = join(directoryPath, folderName);
         }
 

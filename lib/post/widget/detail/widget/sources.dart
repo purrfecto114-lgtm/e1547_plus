@@ -3,7 +3,6 @@ import 'package:e1547/l10n/app_localizations.dart';
 import 'package:e1547/post/post.dart';
 import 'package:e1547/shared/shared.dart';
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class SourceDisplay extends StatelessWidget {
   const SourceDisplay({super.key, required this.post});
@@ -78,19 +77,7 @@ class SourceCard extends StatelessWidget {
                   constraints: const BoxConstraints(minWidth: 24),
                   child: Padding(
                     padding: const EdgeInsets.only(left: 8),
-                    child: Center(
-                      child: getHostIcon(url) != null
-                          ? FaIcon(
-                              getHostIcon(url)!,
-                              size: 16,
-                              color: Colors.grey,
-                            )
-                          : const Icon(
-                              Icons.link,
-                              size: 16,
-                              color: Colors.grey,
-                            ),
-                    ),
+                    child: Center(child: SiteFavicon(url: url, size: 16)),
                   ),
                 ),
                 const VerticalDivider(indent: 4, endIndent: 4),

@@ -4,16 +4,21 @@ import 'package:e1547/tag/tag.dart';
 import 'package:flutter/material.dart';
 
 class TagCard extends StatelessWidget {
-  const TagCard({super.key, required this.tag, this.category});
+  const TagCard({super.key, required this.tag, this.category, this.icon});
 
   final String tag;
   final String? category;
+  final IconData? icon;
 
   @override
   Widget build(BuildContext context) {
     return ColoredCard(
       color:
-          (category != null ? TagCategory.byName(category!)?.color : null) ??
+          (category != null
+              ? TagCategory.byName(
+                  category!,
+                )?.colorFor(Theme.of(context).brightness)
+              : null) ??
           Colors.grey,
       onTap: () => Navigator.of(context).push(
         MaterialPageRoute(
@@ -22,6 +27,7 @@ class TagCard extends StatelessWidget {
       ),
       onLongPress: () => showTagSearchPrompt(context: context, tag: tag),
       onSecondaryTap: () => showTagSearchPrompt(context: context, tag: tag),
+      icon: icon,
       child: Text(
         tagToTitle(tag),
         maxLines: 1,
@@ -49,7 +55,11 @@ class TagCounterCard extends StatelessWidget {
       onTap: () => showTagSearchPrompt(context: context, tag: tag),
       onLongPress: () => showTagSearchPrompt(context: context, tag: tag),
       onSecondaryTap: () => showTagSearchPrompt(context: context, tag: tag),
-      color: (category != null ? TagCategory.byName(category!)?.color : null),
+      color: (category != null
+          ? TagCategory.byName(
+              category!,
+            )?.colorFor(Theme.of(context).brightness)
+          : null),
       trailing: Row(
         mainAxisSize: MainAxisSize.min,
         children: [

@@ -1,4 +1,5 @@
 import 'package:e1547/shared/shared.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -21,9 +22,13 @@ void main() {
   Future<NavigatorState> pumpBase(
     WidgetTester tester, {
     void Function(DismissController)? found,
+    ValueListenable<bool>? swipeToClose,
   }) async {
     await tester.pumpWidget(
       MaterialApp(
+        builder: (context, child) => swipeToClose == null
+            ? child!
+            : DismissScope(enabled: swipeToClose, child: child!),
         onGenerateRoute: (settings) => DismissRoute<void>(
           builder: probe(found ?? (e) {}),
           settings: settings,
@@ -139,38 +144,34 @@ void main() {
     expect(middle.isCurrent, isTrue);
   });
 
-  testWidgets(
-    'a drag back up undoes the pull',
-    (tester) async {
-      late DismissController top;
-      final NavigatorState navigator = await pumpBase(tester);
-      navigator.push(
-        DismissRoute<void>(
-          builder: (context) {
-            top = DismissController.maybeOf(context)!;
-            return ScrollToDismiss(child: list());
-          },
-        ),
-      );
-      await tester.pumpAndSettle();
+  testWidgets('a drag back up undoes the pull', (tester) async {
+    late DismissController top;
+    final NavigatorState navigator = await pumpBase(tester);
+    navigator.push(
+      DismissRoute<void>(
+        builder: (context) {
+          top = DismissController.maybeOf(context)!;
+          return ScrollToDismiss(child: list());
+        },
+      ),
+    );
+    await tester.pumpAndSettle();
 
-      final TestGesture finger = await tester.startGesture(
-        const Offset(400, 200),
-      );
-      for (int step = 0; step < 10; step++) {
-        await finger.moveBy(const Offset(0, 30));
-        await tester.pump();
-      }
-      final double pulled = top.offset;
-      for (int step = 0; step < 3; step++) {
-        await finger.moveBy(const Offset(0, -20));
-        await tester.pump();
-      }
+    final TestGesture finger = await tester.startGesture(
+      const Offset(400, 200),
+    );
+    for (int step = 0; step < 10; step++) {
+      await finger.moveBy(const Offset(0, 30));
+      await tester.pump();
+    }
+    final double pulled = top.offset;
+    for (int step = 0; step < 3; step++) {
+      await finger.moveBy(const Offset(0, -20));
+      await tester.pump();
+    }
 
-      expect(top.offset, closeTo(pulled - 60, 0.001));
-    },
-    variant: TargetPlatformVariant.only(TargetPlatform.iOS),
-  );
+    expect(top.offset, closeTo(pulled - 60, 0.001));
+  }, variant: TargetPlatformVariant.only(TargetPlatform.iOS));
 
   testWidgets('a short pull leaves the route in place', (tester) async {
     final NavigatorState navigator = await pumpBase(tester);
@@ -197,6 +198,35 @@ void main() {
     expect(top.dragOffset, 0);
   });
 
+  testWidgets('a drag that starts below the top stops there and stays', (
+    tester,
+  ) async {
+    final NavigatorState navigator = await pumpBase(tester);
+    final DismissRoute<void> top = DismissRoute<void>(
+      builder: (context) => ScrollToDismiss(child: list()),
+    );
+    navigator.push(top);
+    await tester.pumpAndSettle();
+    await tester.drag(find.byType(ListView), const Offset(0, -300));
+    await tester.pumpAndSettle();
+
+    final TestGesture finger = await tester.startGesture(
+      const Offset(400, 200),
+    );
+    Duration at = Duration.zero;
+    for (int step = 0; step < 12; step++) {
+      at += const Duration(milliseconds: 16);
+      await finger.moveBy(const Offset(0, 60), timeStamp: at);
+      await tester.pump(const Duration(milliseconds: 16));
+    }
+
+    expect(top.dragOffset, 0);
+    await finger.up(timeStamp: at);
+    await tester.pumpAndSettle();
+
+    expect(top.isCurrent, isTrue);
+  });
+
   testWidgets('a vertical drag past the threshold pops the route', (
     tester,
   ) async {
@@ -217,6 +247,65 @@ void main() {
 
     expect(top.isActive, isFalse);
   });
+
+  testWidgets(
+    'a vertical drag keeps the route open while swipe to close is off',
+    (tester) async {
+      final ValueNotifier<bool> swipe = ValueNotifier(false);
+      addTearDown(swipe.dispose);
+      final NavigatorState navigator = await pumpBase(
+        tester,
+        swipeToClose: swipe,
+      );
+      final DismissRoute<void> top = DismissRoute<void>(
+        builder: (context) =>
+            const DragToDismiss(child: ColoredBox(color: Colors.black)),
+      );
+      navigator.push(top);
+      await tester.pumpAndSettle();
+
+      await tester.timedDrag(
+        find.byType(DragToDismiss),
+        const Offset(0, 200),
+        const Duration(seconds: 2),
+      );
+      await tester.pumpAndSettle();
+
+      expect(top.isActive, isTrue);
+    },
+  );
+
+  testWidgets('a list pulled down while swipe to close is off bounces '
+      'without closing', (tester) async {
+    final ValueNotifier<bool> swipe = ValueNotifier(false);
+    addTearDown(swipe.dispose);
+    final NavigatorState navigator = await pumpBase(
+      tester,
+      swipeToClose: swipe,
+    );
+    final DismissRoute<void> top = DismissRoute<void>(
+      builder: (context) => ScrollToDismiss(child: list()),
+    );
+    navigator.push(top);
+    await tester.pumpAndSettle();
+
+    final TestGesture finger = await tester.startGesture(
+      tester.getCenter(find.byType(ListView)),
+    );
+    for (int step = 0; step < 6; step++) {
+      await finger.moveBy(const Offset(0, 40));
+      await tester.pump(const Duration(milliseconds: 16));
+    }
+    final ScrollPosition position = tester
+        .state<ScrollableState>(find.byType(Scrollable))
+        .position;
+
+    expect(position.pixels, lessThan(0));
+    expect(top.dragOffset, 0);
+    await finger.up();
+    await tester.pumpAndSettle();
+    expect(top.isCurrent, isTrue);
+  }, variant: TargetPlatformVariant.only(TargetPlatform.iOS));
 
   testWidgets('a vertical drag beside a small child still pops the route', (
     tester,
@@ -287,7 +376,7 @@ void main() {
     await tester.pumpAndSettle();
 
     final TestGesture finger = await pull(tester, find.byType(DragToDismiss));
-    expect(top.dragOffset, greaterThan(dismissThreshold));
+    expect(top.dragOffset, greaterThan(120));
     await finger.cancel();
     await tester.pumpAndSettle();
 
@@ -304,7 +393,7 @@ void main() {
     await tester.pumpAndSettle();
 
     final TestGesture finger = await pull(tester, find.byType(ScrollToDismiss));
-    expect(top.dragOffset, greaterThan(dismissThreshold));
+    expect(top.dragOffset, greaterThan(120));
     await finger.cancel();
     await tester.pumpAndSettle();
 
@@ -458,30 +547,26 @@ void main() {
     expect(top.offset, 50);
   });
 
-  testWidgets(
-    'a flick short of the threshold pops the route',
-    (tester) async {
-      final NavigatorState navigator = await pumpBase(tester);
-      final DismissRoute<void> top = DismissRoute<void>(
-        builder: (context) => ScrollToDismiss(child: list()),
-      );
-      navigator.push(top);
-      await tester.pumpAndSettle();
+  testWidgets('a flick short of the threshold pops the route', (tester) async {
+    final NavigatorState navigator = await pumpBase(tester);
+    final DismissRoute<void> top = DismissRoute<void>(
+      builder: (context) => ScrollToDismiss(child: list()),
+    );
+    navigator.push(top);
+    await tester.pumpAndSettle();
 
-      final TestGesture finger = await dragSlowly(
-        tester,
-        const Offset(400, 200),
-        const Offset(0, 15),
-        steps: 6,
-        pace: const Duration(milliseconds: 16),
-      );
-      await finger.up();
-      await tester.pumpAndSettle();
+    final TestGesture finger = await dragSlowly(
+      tester,
+      const Offset(400, 200),
+      const Offset(0, 15),
+      steps: 6,
+      pace: const Duration(milliseconds: 16),
+    );
+    await finger.up();
+    await tester.pumpAndSettle();
 
-      expect(top.isActive, isFalse);
-    },
-    variant: TargetPlatformVariant.only(TargetPlatform.iOS),
-  );
+    expect(top.isActive, isFalse);
+  }, variant: TargetPlatformVariant.only(TargetPlatform.iOS));
 
   testWidgets('a pull shows the route beneath', (tester) async {
     late DismissController top;

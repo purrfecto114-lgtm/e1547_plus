@@ -117,7 +117,7 @@ class _LogFileListState extends State<LogFileList> {
                     );
                   }
                   if (files == null) {
-                    return const Center(child: CircularProgressIndicator());
+                    return const Center(child: HexagonalLoadingIndicator());
                   }
                   if (files.isEmpty) {
                     return IconMessage(

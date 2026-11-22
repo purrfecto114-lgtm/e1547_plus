@@ -425,7 +425,7 @@ class AboutDonations extends StatelessWidget {
             const Center(
               child: Padding(
                 padding: EdgeInsets.all(8),
-                child: CircularProgressIndicator(),
+                child: HexagonalLoadingIndicator(),
               ),
             )
           else if (donors.isEmpty)

@@ -1,19 +1,11 @@
 import 'dart:math';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
-const double dismissThreshold = 120;
-const double dismissVelocity = 700;
-const double dismissTravel = 1000;
-const double dismissReach = 240;
-const double dismissMinScale = 0.72;
-const double dismissFadeRate = 2;
-const Duration dismissDuration = Duration(milliseconds: 300);
-const Color dismissBarrier = Colors.black54;
-final SpringDescription dismissSpring = SpringDescription.withDampingRatio(
-  mass: 1,
-  stiffness: 150,
-);
+const double _dismissTravel = 1000;
+const double _dismissFadeRate = 2;
+const Duration _dismissDuration = Duration(milliseconds: 300);
 
 class DismissRoute<T> extends PageRoute<T> {
   DismissRoute({required this.builder, super.settings});
@@ -24,24 +16,25 @@ class DismissRoute<T> extends PageRoute<T> {
   double direction = 1;
   bool settling = false;
   bool blocked = false;
+  bool fromEdge = false;
   double released = 0;
 
   AnimationController get driver => controller!;
 
-  double momentum(double velocity) => direction * velocity / dismissTravel;
+  double momentum(double velocity) => direction * velocity / _dismissTravel;
 
   bool get dismissible => isActive && !isFirst;
 
   bool get dragging => drag.value > 0;
 
-  double get dragOffset => direction * drag.value * dismissTravel;
+  double get dragOffset => direction * drag.value * _dismissTravel;
 
-  double get dragProgress => (dragOffset.abs() / dismissReach).clamp(0, 1);
+  double get dragProgress => (dragOffset.abs() / 240).clamp(0, 1);
 
   @override
   void install() {
     super.install();
-    drag = AnimationController(vsync: navigator!, duration: dismissDuration)
+    drag = AnimationController(vsync: navigator!, duration: _dismissDuration)
       ..addStatusListener(_onDrag)
       ..addListener(_onDragValue);
   }
@@ -64,7 +57,10 @@ class DismissRoute<T> extends PageRoute<T> {
     if (dragging) {
       drag.fling(
         velocity: max(0.001, momentum(released)),
-        springDescription: dismissSpring,
+        springDescription: SpringDescription.withDampingRatio(
+          mass: 1,
+          stiffness: 150,
+        ),
       );
     }
     return popped;
@@ -80,7 +76,7 @@ class DismissRoute<T> extends PageRoute<T> {
   bool get maintainState => true;
 
   @override
-  Duration get transitionDuration => dismissDuration;
+  Duration get transitionDuration => _dismissDuration;
 
   @override
   Widget buildPage(
@@ -103,8 +99,8 @@ class DismissRoute<T> extends PageRoute<T> {
         children: [
           IgnorePointer(
             child: ColoredBox(
-              color: dismissBarrier.withValues(
-                alpha: dismissBarrier.a * _scrim(animation),
+              color: Colors.black54.withValues(
+                alpha: Colors.black54.a * _scrim(animation),
               ),
             ),
           ),
@@ -134,53 +130,82 @@ class DismissRoute<T> extends PageRoute<T> {
   }
 }
 
+class DismissScope extends StatelessWidget {
+  const DismissScope({super.key, required this.enabled, required this.child});
+
+  final ValueListenable<bool> enabled;
+  final Widget child;
+
+  static bool of(BuildContext context) =>
+      context
+          .dependOnInheritedWidgetOfExactType<_DismissProvider>()
+          ?.notifier
+          ?.value ??
+      true;
+
+  @override
+  Widget build(BuildContext context) =>
+      _DismissProvider(notifier: enabled, child: child);
+}
+
+class _DismissProvider extends InheritedNotifier<ValueListenable<bool>> {
+  const _DismissProvider({required super.notifier, required super.child});
+}
+
 class DismissController implements Listenable {
-  const DismissController(this.route);
+  const DismissController(this.route, {required this.enabled});
 
   final DismissRoute<dynamic> route;
+  final bool enabled;
 
   static DismissController? maybeOf(BuildContext context) {
     final ModalRoute<dynamic>? route = ModalRoute.of(context);
     if (route is! DismissRoute<dynamic>) return null;
-    return DismissController(route);
+    return DismissController(route, enabled: DismissScope.of(context));
   }
+
+  bool get dismissible => enabled && route.dismissible;
 
   double get offset => route.dragOffset;
 
   double get progress => route.dragProgress;
 
-  double get scale => 1 - (1 - dismissMinScale) * progress;
+  double get scale => 1 - 0.28 * progress;
 
   bool get isDragging => route.dragging;
+
+  bool get fromEdge => route.fromEdge;
+
+  set fromEdge(bool value) => route.fromEdge = value;
 
   double opacity(double rate) => (1 - progress * rate).clamp(0, 1);
 
   bool exceeds(double velocity) {
     final double reached = offset;
-    if (reached.abs() > dismissThreshold) return true;
+    if (reached.abs() > 120) return true;
     if (reached == 0) return false;
-    return velocity.sign == reached.sign && velocity.abs() > dismissVelocity;
+    return velocity.sign == reached.sign && velocity.abs() > 700;
   }
 
   void settle([double velocity = 0]) {
-    if (!route.dismissible || !route.dragging) return;
+    if (!dismissible || !route.dragging) return;
     route.settling = true;
     route.drag.fling(velocity: min(-0.001, route.momentum(velocity)));
   }
 
   void push(double delta) {
-    if (!route.dismissible || route.blocked) return;
+    if (!dismissible || route.blocked) return;
     if (!route.dragging && !route.driver.isCompleted) return;
     route.settling = false;
     route.released = 0;
     if (!route.dragging) route.direction = delta.isNegative ? -1 : 1;
     final double next =
-        route.drag.value + delta * route.direction / dismissTravel;
+        route.drag.value + delta * route.direction / _dismissTravel;
     route.drag.value = next.clamp(0, 1);
   }
 
   bool release(double velocity) {
-    if (!route.dismissible || !route.dragging || route.settling) return false;
+    if (!dismissible || !route.dragging || route.settling) return false;
     if (exceeds(velocity)) {
       route.released = velocity;
       return true;
@@ -201,7 +226,7 @@ class DismissFade extends StatelessWidget {
   const DismissFade({
     super.key,
     required this.child,
-    this.rate = dismissFadeRate,
+    this.rate = _dismissFadeRate,
   });
 
   final Widget child;
@@ -226,7 +251,7 @@ class DismissSliverFade extends StatelessWidget {
   const DismissSliverFade({
     super.key,
     required this.sliver,
-    this.rate = dismissFadeRate,
+    this.rate = _dismissFadeRate,
   });
 
   final Widget sliver;
@@ -314,7 +339,10 @@ class DismissScrollPhysics extends ScrollPhysics {
     if (position.axis != Axis.vertical) {
       return super.applyPhysicsToUserOffset(position, offset);
     }
-    if (offset > 0 && position.pixels <= position.minScrollExtent) {
+    if (offset > 0 &&
+        position.pixels <= position.minScrollExtent &&
+        controller.dismissible &&
+        controller.fromEdge) {
       controller.push(offset);
       return 0;
     }
@@ -363,6 +391,11 @@ class _ScrollToDismissState extends State<ScrollToDismiss> {
       case ScrollStartNotification(:final DragStartDetails? dragDetails):
         if (!_dragging) _controller!.settle();
         _dragging = dragDetails != null;
+        if (_dragging) {
+          _controller!.fromEdge =
+              notification.metrics.pixels <=
+              notification.metrics.minScrollExtent;
+        }
       default:
         break;
     }

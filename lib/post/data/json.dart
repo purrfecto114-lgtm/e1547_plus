@@ -19,6 +19,53 @@ const Map<int, String> e621TagCategoryNames = {
 abstract final class E621Post {
   /// [tagCategories] maps tag names to the server's category ids. Names
   /// missing from it (a failed or partial lookup) count as general.
+  /// Parses only the summary fields of a post: lists that filter
+  /// against the denylist or track counts do not need the full
+  /// payload, and skipping it keeps big searches cheap.
+  ///
+  /// The field layout matches [fromJson] (the current e621 api); a
+  /// post whose original tier is gone falls back to the tiers it can
+  /// still display.
+  static PartialPost partialFromJson(
+    dynamic json, {
+    Map<String, int> tagCategories = const {},
+  }) => pick(json).letOrThrow(
+    (post) => PartialPost(
+      id: post('id').asIntOrThrow(),
+      file: post('files', 'original', 'url').asStringOrNull(),
+      sample: post('files', 'sample', 'jpg').asStringOrNull(),
+      preview: post('files', 'preview', 'jpg').asStringOrNull(),
+      width:
+          post('files', 'original', 'width').asIntOrNull() ??
+          post('files', 'sample', 'width').asIntOrNull() ??
+          post('files', 'preview', 'width').asIntOrNull() ??
+          0,
+      height:
+          post('files', 'original', 'height').asIntOrNull() ??
+          post('files', 'sample', 'height').asIntOrNull() ??
+          post('files', 'preview', 'height').asIntOrNull() ??
+          0,
+      ext: post('files', 'meta', 'ext').asStringOrThrow(),
+      size: post('files', 'meta', 'size').asIntOrThrow(),
+      tags: post('tags').asListOrThrow((pick) => pick.asStringOrThrow()),
+      uploaderId: post('uploader_id').asIntOrNull() ?? 0,
+      uploaderName: post('uploader_name').asStringOrNull(),
+      createdAt: post('created_at').asDateTimeOrThrow(),
+      score: post('stats', 'score', 'total').asIntOrThrow(),
+      vote: post('stats', 'vote').asIntOrNull(),
+      isDeleted: post('flags', 'deleted').asBoolOrThrow(),
+      // An unknown rating must not fail the whole post; unparseable
+      // or missing values fall back to the server's upload default.
+      rating:
+          Rating.values.asNameMap()[post('rating').asStringOrNull()] ??
+          Rating.q,
+      favCount: post('stats', 'fav_count').asIntOrThrow(),
+      isFavorited: post('stats', 'is_favorited').asBoolOrThrow(),
+      commentCount: post('stats', 'comment_count').asIntOrThrow(),
+      pools: post('pools').asListOrThrow((pick) => pick.asIntOrThrow()),
+    ),
+  );
+
   static Post fromJson(
     dynamic json, {
     Map<String, int> tagCategories = const {},

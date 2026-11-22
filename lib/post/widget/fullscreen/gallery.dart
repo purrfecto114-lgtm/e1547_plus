@@ -44,7 +44,7 @@ class _PostFullscreenGalleryState extends State<PostFullscreenGallery>
         if (index < 0) {
           if (items != null) close();
           return const ScaffoldFrame(
-            child: Center(child: CircularProgressIndicator()),
+            child: Center(child: HexagonalLoadingIndicator()),
           );
         }
 

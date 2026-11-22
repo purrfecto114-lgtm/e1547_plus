@@ -1,5 +1,4 @@
 import 'package:e1547/comment/comment.dart';
-import 'package:e1547/l10n/app_localizations.dart';
 import 'package:e1547/query/query.dart';
 import 'package:e1547/shared/shared.dart';
 import 'package:flutter/material.dart';
@@ -10,7 +9,7 @@ class CommentList extends StatelessWidget {
   @override
   Widget build(BuildContext context) => CommentPageQueryBuilder(
     builder: (context, state, query) => PullToRefresh(
-      onRefresh: query.revalidate,
+      onRefresh: query.invalidate,
       child: CustomScrollView(
         primary: true,
         slivers: [
@@ -29,18 +28,21 @@ class SliverCommentList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => CommentPageQueryBuilder(
-    builder: (context, state, query) => PagedSliverList<int, Comment>(
+    builder: (context, state, query) => SliverSkeletonPaging<Comment>(
       state: state.paging,
       fetchNextPage: query.getNextPage,
-      // Comment tiles do not use keep-alive, so wrapping them only
-      // costs state; the follow lists disable it the same way.
-      addAutomaticKeepAlives: false,
-      builderDelegate: defaultPagedChildBuilderDelegate(
-        onRetry: query.getNextPage,
-        itemBuilder: (context, item, index) => CommentTile(comment: item),
-        onEmpty: Text(AppLocalizations.of(context).noComments),
-        onError: Text(AppLocalizations.of(context).failedToLoadComments),
-      ),
+      ghost: CommentGhost.new,
+      builder: (context, paging, fetchNextPage) =>
+          PagedSliverList<int, Comment>(
+            state: paging,
+            fetchNextPage: fetchNextPage,
+            builderDelegate: defaultPagedChildBuilderDelegate(
+              onRetry: query.getNextPage,
+              itemBuilder: (context, item, index) => CommentTile(comment: item),
+              onEmpty: const Text('No comments'),
+              onError: const Text('Failed to load comments'),
+            ),
+          ),
     ),
   );
 }
