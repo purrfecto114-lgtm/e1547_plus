@@ -2593,4 +2593,16 @@ class AppLocalizationsPl extends AppLocalizations {
 
   @override
   String get postUnsupportedOpen => 'Open';
+
+  @override
+  String get thumbnailSize => 'Card size';
+
+  @override
+  String get tileSmall => 'Small';
+
+  @override
+  String get tileMedium => 'Medium';
+
+  @override
+  String get tileLarge => 'Large';
 }

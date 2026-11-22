@@ -2536,5 +2536,9 @@
       "ext": {}
     }
   },
-  "postUnsupportedOpen": "Open"
+  "postUnsupportedOpen": "Open",
+  "thumbnailSize": "Card size",
+  "tileSmall": "Small",
+  "tileMedium": "Medium",
+  "tileLarge": "Large"
 }

@@ -190,16 +190,17 @@ class QualityStep extends StatelessWidget {
             ),
           ),
           const SizedBox(height: 16),
-          ValueListenableBuilder<TileSize>(
-            valueListenable: settings.tileSize,
+          ValueListenableBuilder<ThumbnailQuality>(
+            valueListenable: settings.thumbnailQuality,
             builder: (context, value, child) => _QualityPicker(
               label: l10n.thumbnailQuality,
               options: [
-                for (final size in TileSize.values)
-                  (value: size, label: size.localizedTitle(context)),
+                for (final quality in ThumbnailQuality.values)
+                  (value: quality, label: quality.localizedTitle(context)),
               ],
               selected: value,
-              onSelect: (tier) => settings.tileSize.value = tier as TileSize,
+              onSelect: (tier) =>
+                  settings.thumbnailQuality.value = tier as ThumbnailQuality,
             ),
           ),
         ],

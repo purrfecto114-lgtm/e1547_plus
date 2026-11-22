@@ -38,6 +38,7 @@ class HomePage extends StatelessWidget {
                     appBar: const PostSelectionAppBar(
                       child: DefaultAppBar(
                         title: AppIcon(),
+                        centerTitle: true,
                         actions: [
                           PostsPageFilterButton(),
                           PostsContextDrawerButton(),

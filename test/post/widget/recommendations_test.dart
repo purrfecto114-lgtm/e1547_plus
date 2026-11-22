@@ -7,7 +7,6 @@ import '../../_support/environment.dart';
 import '../../_support/harness.dart';
 import '../../_support/posts.dart';
 
-@Skip('upstream 21.2.0 behavior, not yet aligned in this fork')
 void main() {
   setUpAll(initializeTestApp);
 
@@ -74,6 +73,8 @@ void main() {
 
   displayTest(
     'artist recommendations list what the server finds, in its order',
+    skip:
+        'upstream 21.2.0 detail-family and decode-hold assertions, not aligned with this fork yet; see process.md',
     (tester) async {
       addWorks({41: [], 42: [], 43: [], 44: []});
 
@@ -86,6 +87,8 @@ void main() {
 
   displayTest(
     'artist recommendations show only the posts that fit their width',
+    skip:
+        'upstream 21.2.0 detail-family and decode-hold assertions, not aligned with this fork yet; see process.md',
     (tester) async {
       addWorks({41: [], 42: [], 43: [], 44: [], 45: [], 46: []});
 
@@ -99,125 +102,144 @@ void main() {
     },
   );
 
-  displayTest('a blacklisted post is left out of artist recommendations', (
-    tester,
-  ) async {
-    addWorks({
-      41: [],
-      42: [],
-      43: ['blocked_tag'],
-      44: [],
-    });
+  displayTest(
+    'a blacklisted post is left out of artist recommendations',
+    skip:
+        'upstream 21.2.0 detail-family and decode-hold assertions, not aligned with this fork yet; see process.md',
+    (tester) async {
+      addWorks({
+        41: [],
+        42: [],
+        43: ['blocked_tag'],
+        44: [],
+      });
 
-    await show(tester, work(41));
+      await show(tester, work(41));
 
-    expect(tiles(tester), [42, 44]);
-  });
+      expect(tiles(tester), [42, 44]);
+    },
+  );
 
-  displayTest('a post opens among the others the artist made', (tester) async {
-    addWorks({41: [], 42: [], 43: [], 44: []});
-    await show(tester, work(41));
-    env.fake.requests.clear();
+  displayTest(
+    'a post opens among the others the artist made',
+    skip:
+        'upstream 21.2.0 detail-family and decode-hold assertions, not aligned with this fork yet; see process.md',
+    (tester) async {
+      addWorks({41: [], 42: [], 43: [], 44: []});
+      await show(tester, work(41));
+      env.fake.requests.clear();
 
-    await tester.tap(
-      find.ancestor(
-        of: find.byWidgetPredicate(
-          (e) => e is PostTileOverlay && e.post.id == 43,
+      await tester.tap(
+        find.ancestor(
+          of: find.byWidgetPredicate(
+            (e) => e is PostTileOverlay && e.post.id == 43,
+          ),
+          matching: find.byType(RelationPreviewCard),
         ),
-        matching: find.byType(RelationPreviewCard),
-      ),
-    );
-    await env.settle(tester, animating: true);
+      );
+      await env.settle(tester, animating: true);
 
-    expect(shownPost(tester), 43);
-    expect(
-      env.fake.requests
-          .where((e) => e.path == '/posts.json')
-          .map((e) => e.query['tags']),
-      ['id:42,43,44'],
-    );
+      expect(shownPost(tester), 43);
+      expect(
+        env.fake.requests
+            .where((e) => e.path == '/posts.json')
+            .map((e) => e.query['tags']),
+        ['id:42,43,44'],
+      );
 
-    await tester.fling(find.byType(PostDetail), const Offset(600, 0), 2000);
-    await env.settle(tester, animating: true);
-    expect(shownPost(tester), 42);
-  });
+      await tester.fling(find.byType(PostDetail), const Offset(600, 0), 2000);
+      await env.settle(tester, animating: true);
+      expect(shownPost(tester), 42);
+    },
+  );
 
-  displayTest('a recommended post shows its image while it loads', (
-    tester,
-  ) async {
-    addWorks({41: [], 42: [], 43: [], 44: []});
-    await show(tester, work(41));
+  displayTest(
+    'a recommended post shows its image while it loads',
+    skip:
+        'upstream 21.2.0 detail-family and decode-hold assertions, not aligned with this fork yet; see process.md',
+    (tester) async {
+      addWorks({41: [], 42: [], 43: [], 44: []});
+      await show(tester, work(41));
 
-    await tester.tap(
-      find.ancestor(
-        of: find.byWidgetPredicate(
-          (e) => e is PostTileOverlay && e.post.id == 43,
+      await tester.tap(
+        find.ancestor(
+          of: find.byWidgetPredicate(
+            (e) => e is PostTileOverlay && e.post.id == 43,
+          ),
+          matching: find.byType(RelationPreviewCard),
         ),
-        matching: find.byType(RelationPreviewCard),
-      ),
-    );
-    await tester.pump();
-    await tester.pump(const Duration(milliseconds: 400));
+      );
+      await tester.pump();
+      await tester.pump(const Duration(milliseconds: 400));
 
-    expect(
-      find.byWidgetPredicate((e) => e is PostImageWidget && e.post.id == 43),
-      findsOneWidget,
-    );
+      expect(
+        find.byWidgetPredicate((e) => e is PostImageWidget && e.post.id == 43),
+        findsOneWidget,
+      );
 
-    await env.settle(tester, animating: true);
+      await env.settle(tester, animating: true);
 
-    expect(skeletons(find.byType(PostDetail)), findsNothing);
-    expect(shownPost(tester), 43);
-  });
+      expect(skeletons(find.byType(PostDetail)), findsNothing);
+      expect(shownPost(tester), 43);
+    },
+  );
 
-  displayTest('a recommended post shows at once when it is cached', (
-    tester,
-  ) async {
-    addWorks({41: [], 42: [], 43: [], 44: []});
-    await show(tester, work(41));
-    await tester.runAsync(
-      () => env.client.posts.usePage(query: {'tags': 'some_artist'}).fetch(),
-    );
+  displayTest(
+    'a recommended post shows at once when it is cached',
+    skip:
+        'upstream 21.2.0 detail-family and decode-hold assertions, not aligned with this fork yet; see process.md',
+    (tester) async {
+      addWorks({41: [], 42: [], 43: [], 44: []});
+      await show(tester, work(41));
+      await tester.runAsync(
+        () => env.client.posts.usePage(query: {'tags': 'some_artist'}).fetch(),
+      );
 
-    await tester.tap(
-      find.ancestor(
-        of: find.byWidgetPredicate(
-          (e) => e is PostTileOverlay && e.post.id == 43,
+      await tester.tap(
+        find.ancestor(
+          of: find.byWidgetPredicate(
+            (e) => e is PostTileOverlay && e.post.id == 43,
+          ),
+          matching: find.byType(RelationPreviewCard),
         ),
-        matching: find.byType(RelationPreviewCard),
-      ),
-    );
-    await tester.pump();
-    await tester.pump(const Duration(seconds: 1));
+      );
+      await tester.pump();
+      await tester.pump(const Duration(seconds: 1));
 
-    expect(skeletons(find.byType(PostDetail)), findsNothing);
-    expect(shownPost(tester), 43);
-    await env.settle(tester, animating: true);
-  });
+      expect(skeletons(find.byType(PostDetail)), findsNothing);
+      expect(shownPost(tester), 43);
+      await env.settle(tester, animating: true);
+    },
+  );
 
-  displayTest('see all searches for every artist of the post', (tester) async {
-    addWorks({41: [], 42: []});
-    await show(
-      tester,
-      samplePost(
-        id: 41,
-        tags: const {
-          'artist': ['some_artist', 'other_artist', 'conditional_dnp'],
-        },
-      ),
-    );
-    env.fake.requests.clear();
+  displayTest(
+    'see all searches for every artist of the post',
+    skip:
+        'upstream 21.2.0 detail-family and decode-hold assertions, not aligned with this fork yet; see process.md',
+    (tester) async {
+      addWorks({41: [], 42: []});
+      await show(
+        tester,
+        samplePost(
+          id: 41,
+          tags: const {
+            'artist': ['some_artist', 'other_artist', 'conditional_dnp'],
+          },
+        ),
+      );
+      env.fake.requests.clear();
 
-    await tester.tap(find.text('See all'));
-    await env.settle(tester, animating: true);
+      await tester.tap(find.text('See all'));
+      await env.settle(tester, animating: true);
 
-    expect(
-      env.fake.requests
-          .where((e) => e.path == '/posts.json')
-          .map((e) => e.query['tags']),
-      contains('~some_artist ~other_artist'),
-    );
-  });
+      expect(
+        env.fake.requests
+            .where((e) => e.path == '/posts.json')
+            .map((e) => e.query['tags']),
+        contains('~some_artist ~other_artist'),
+      );
+    },
+  );
 
   displayTest('a post whose artist tags name no artist has no '
       'recommendations', (tester) async {

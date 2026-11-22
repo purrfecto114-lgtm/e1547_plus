@@ -107,6 +107,13 @@ class Settings extends NotifiedSettings {
     initialValue: AppTheme.values.first,
     values: AppTheme.values,
   );
+  late final ValueNotifier<ThumbnailQuality> thumbnailQuality =
+      createEnumSetting(
+        key: 'thumbnailQuality',
+        initialValue: ThumbnailQuality.medium,
+        values: ThumbnailQuality.values,
+      );
+
   late final ValueNotifier<Handedness> handedness = createEnumSetting(
     key: 'handedness',
     initialValue: Handedness.right,

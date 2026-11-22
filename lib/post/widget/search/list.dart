@@ -162,20 +162,24 @@ class PostGridSliver extends StatelessWidget {
       itemBuilder: itemBuilder,
     );
 
-    Widget itemBuilder(context, item, index) => ImageCacheSizeProvider(
-      // Grid tiles decode their images at twice the tile size, which
-      // only stays sharp on high density screens when the cap also
-      // scales with the device pixel ratio. The upper bound keeps very
-      // dense screens from decoding thumbnails like fullscreen images.
-      size: min(
-        (TileLayout.of(context).tileSize *
-                2 *
-                MediaQuery.devicePixelRatioOf(context))
-            .round(),
-        1080,
-      ),
-      child: PostTile(post: item),
-    );
+    Widget itemBuilder(context, item, index) {
+      final TileLayoutData layout = TileLayout.of(context);
+      final double dpr = MediaQuery.devicePixelRatioOf(context);
+      return ImageCacheSizeProvider(
+        // The decode cap tracks the thumbnail quality setting, not the
+        // card size: changing quality never reflows the grid, and the
+        // card's device pixels times the quality factor stay sharp on
+        // dense screens while the cap keeps a very dense one from
+        // decoding thumbnails like fullscreen images. The quality comes
+        // down through the layout so builder contexts need no provider
+        // subscription of their own.
+        size: min(
+          (layout.tileSize * layout.qualityFactor * dpr).round(),
+          layout.qualityCap,
+        ),
+        child: PostTile(post: item),
+      );
+    }
 
     return switch (TileLayout.of(context).stagger) {
       GridQuilt.square => PagedSliverGrid<Object, Post>(

@@ -159,7 +159,7 @@ void main() {
     expect(find.text('Medium'), findsNWidgets(2));
     expect(find.text('High'), findsNWidgets(2));
     expect(settings.videoResolution.value, isNotNull);
-    expect(settings.tileSize.value, isNotNull);
+    expect(settings.thumbnailQuality.value, isNotNull);
 
     await tester.tap(find.text('High').first);
     await tester.pumpAndSettle();
@@ -167,7 +167,7 @@ void main() {
 
     await tester.tap(find.text('Low').last);
     await tester.pumpAndSettle();
-    expect(settings.tileSize.value, TileSize.small);
+    expect(settings.thumbnailQuality.value, ThumbnailQuality.low);
   });
 
   testWidgets('theme step scrolls instead of overflowing on short screens', (

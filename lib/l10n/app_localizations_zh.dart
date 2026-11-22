@@ -2470,6 +2470,18 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get postUnsupportedOpen => '打开';
+
+  @override
+  String get thumbnailSize => '卡片大小';
+
+  @override
+  String get tileSmall => '小';
+
+  @override
+  String get tileMedium => '中';
+
+  @override
+  String get tileLarge => '大';
 }
 
 /// The translations for Chinese, using the Han script (`zh_Hant`).
@@ -4937,4 +4949,16 @@ class AppLocalizationsZhHant extends AppLocalizationsZh {
 
   @override
   String get postUnsupportedOpen => '開啟';
+
+  @override
+  String get thumbnailSize => '卡片大小';
+
+  @override
+  String get tileSmall => '小';
+
+  @override
+  String get tileMedium => '中';
+
+  @override
+  String get tileLarge => '大';
 }

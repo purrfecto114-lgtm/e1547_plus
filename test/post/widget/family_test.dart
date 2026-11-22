@@ -6,7 +6,6 @@ import '../../_support/environment.dart';
 import '../../_support/harness.dart';
 import '../../_support/posts.dart';
 
-@Skip('upstream 21.2.0 behavior, not yet aligned in this fork')
 void main() {
   setUpAll(initializeTestApp);
 
@@ -67,39 +66,52 @@ void main() {
     await env.settle(tester, animating: true);
   }
 
-  displayTest('a child opens among its siblings, oldest first', (tester) async {
-    await showFamily(tester);
+  displayTest(
+    'a child opens among its siblings, oldest first',
+    skip:
+        'upstream 21.2.0 detail-family and decode-hold assertions, not aligned with this fork yet; see process.md',
+    (tester) async {
+      await showFamily(tester);
 
-    await openChild(tester, 32);
-    expect(shownPost(tester), 32);
+      await openChild(tester, 32);
+      expect(shownPost(tester), 32);
 
-    await tester.fling(find.byType(PostDetail), const Offset(600, 0), 2000);
-    await env.settle(tester, animating: true);
-    expect(shownPost(tester), 31);
-  });
+      await tester.fling(find.byType(PostDetail), const Offset(600, 0), 2000);
+      await env.settle(tester, animating: true);
+      expect(shownPost(tester), 31);
+    },
+  );
 
-  displayTest('a child of a cached family opens without waiting', (
-    tester,
-  ) async {
-    await showFamily(tester);
+  displayTest(
+    'a child of a cached family opens without waiting',
+    skip:
+        'upstream 21.2.0 detail-family and decode-hold assertions, not aligned with this fork yet; see process.md',
+    (tester) async {
+      await showFamily(tester);
 
-    await tester.tap(
-      find.byWidgetPredicate((e) => e is PostRelationPreview && e.id == 32),
-    );
-    await tester.pump();
-    await tester.pump(const Duration(seconds: 1));
+      await tester.tap(
+        find.byWidgetPredicate((e) => e is PostRelationPreview && e.id == 32),
+      );
+      await tester.pump();
+      await tester.pump(const Duration(seconds: 1));
 
-    expect(skeletons(find.byType(PostDetail)), findsNothing);
-    expect(shownPost(tester), 32);
-    await env.settle(tester, animating: true);
-  });
+      expect(skeletons(find.byType(PostDetail)), findsNothing);
+      expect(shownPost(tester), 32);
+      await env.settle(tester, animating: true);
+    },
+  );
 
-  displayTest('a child the search leaves out opens alone', (tester) async {
-    await showFamily(tester, deleted: {32});
+  displayTest(
+    'a child the search leaves out opens alone',
+    skip:
+        'upstream 21.2.0 detail-family and decode-hold assertions, not aligned with this fork yet; see process.md',
+    (tester) async {
+      await showFamily(tester, deleted: {32});
 
-    await openChild(tester, 32);
+      await openChild(tester, 32);
 
-    expect(find.byType(PostLoadingPage), findsOneWidget);
-    expect(shownPost(tester), 32);
-  });
+      expect(find.byType(PostLoadingPage), findsOneWidget);
+      expect(shownPost(tester), 32);
+    },
+  );
 }

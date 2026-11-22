@@ -3332,25 +3332,25 @@ abstract class AppLocalizations {
   /// Error shown when upvoting a post failed.
   ///
   /// In en, this message translates to:
-  /// **'Failed to upvote post #{id}'**
+  /// **'Failed to upvote Post #{id}'**
   String postUpvoteFailed(num id);
 
   /// Error shown when downvoting a post failed.
   ///
   /// In en, this message translates to:
-  /// **'Failed to downvote post #{id}'**
+  /// **'Failed to downvote Post #{id}'**
   String postDownvoteFailed(num id);
 
   /// Error shown when adding a post to favorites failed.
   ///
   /// In en, this message translates to:
-  /// **'Failed to add post #{id} to favorites'**
+  /// **'Failed to add Post #{id} to favorites'**
   String postAddFavoriteFailed(num id);
 
   /// Error shown when removing a post from favorites failed.
   ///
   /// In en, this message translates to:
-  /// **'Failed to remove post #{id} from favorites'**
+  /// **'Failed to remove Post #{id} from favorites'**
   String postRemoveFavoriteFailed(num id);
 
   /// Tooltip of the DText editor button enclosing a section block.
@@ -4426,6 +4426,30 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Open'**
   String get postUnsupportedOpen;
+
+  /// No description provided for @thumbnailSize.
+  ///
+  /// In en, this message translates to:
+  /// **'Card size'**
+  String get thumbnailSize;
+
+  /// No description provided for @tileSmall.
+  ///
+  /// In en, this message translates to:
+  /// **'Small'**
+  String get tileSmall;
+
+  /// No description provided for @tileMedium.
+  ///
+  /// In en, this message translates to:
+  /// **'Medium'**
+  String get tileMedium;
+
+  /// No description provided for @tileLarge.
+  ///
+  /// In en, this message translates to:
+  /// **'Large'**
+  String get tileLarge;
 }
 
 class _AppLocalizationsDelegate

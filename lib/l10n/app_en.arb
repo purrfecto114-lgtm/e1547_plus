@@ -1823,7 +1823,7 @@
       }
     }
   },
-  "postUpvoteFailed": "Failed to upvote post #{id}",
+  "postUpvoteFailed": "Failed to upvote Post #{id}",
   "@postUpvoteFailed": {
     "description": "Error shown when upvoting a post failed.",
     "placeholders": {
@@ -1832,7 +1832,7 @@
       }
     }
   },
-  "postDownvoteFailed": "Failed to downvote post #{id}",
+  "postDownvoteFailed": "Failed to downvote Post #{id}",
   "@postDownvoteFailed": {
     "description": "Error shown when downvoting a post failed.",
     "placeholders": {
@@ -1841,7 +1841,7 @@
       }
     }
   },
-  "postAddFavoriteFailed": "Failed to add post #{id} to favorites",
+  "postAddFavoriteFailed": "Failed to add Post #{id} to favorites",
   "@postAddFavoriteFailed": {
     "description": "Error shown when adding a post to favorites failed.",
     "placeholders": {
@@ -1850,7 +1850,7 @@
       }
     }
   },
-  "postRemoveFavoriteFailed": "Failed to remove post #{id} from favorites",
+  "postRemoveFavoriteFailed": "Failed to remove Post #{id} from favorites",
   "@postRemoveFavoriteFailed": {
     "description": "Error shown when removing a post from favorites failed.",
     "placeholders": {
@@ -2666,5 +2666,9 @@
       "ext": {}
     }
   },
-  "postUnsupportedOpen": "Open"
+  "postUnsupportedOpen": "Open",
+  "thumbnailSize": "Card size",
+  "tileSmall": "Small",
+  "tileMedium": "Medium",
+  "tileLarge": "Large"
 }

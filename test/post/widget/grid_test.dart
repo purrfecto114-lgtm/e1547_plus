@@ -7,7 +7,6 @@ import '../../_support/environment.dart';
 import '../../_support/harness.dart';
 import '../../_support/posts.dart';
 
-@Skip('upstream 21.2.0 behavior, not yet aligned in this fork')
 void main() {
   setUpAll(initializeTestApp);
 
@@ -30,27 +29,35 @@ void main() {
         ),
       );
 
-  displayTest('a grid loading its first page shows ghost tiles', (
-    tester,
-  ) async {
-    await show(tester, PagingState<int, Post>(isLoading: true));
+  displayTest(
+    'a grid loading its first page shows ghost tiles',
+    skip:
+        'upstream 21.2.0 detail-family and decode-hold assertions, not aligned with this fork yet; see process.md',
+    (tester) async {
+      await show(tester, PagingState<int, Post>(isLoading: true));
 
-    expect(skeletons(find.byType(PostImageTile)), findsWidgets);
-  });
+      expect(skeletons(find.byType(PostImageTile)), findsWidgets);
+    },
+  );
 
-  displayTest('a loaded grid shows its posts and no ghosts', (tester) async {
-    await show(
-      tester,
-      PagingState<int, Post>(
-        pages: [
-          [samplePost(id: 7)],
-        ],
-        keys: const [1],
-        hasNextPage: false,
-      ),
-    );
+  displayTest(
+    'a loaded grid shows its posts and no ghosts',
+    skip:
+        'upstream 21.2.0 detail-family and decode-hold assertions, not aligned with this fork yet; see process.md',
+    (tester) async {
+      await show(
+        tester,
+        PagingState<int, Post>(
+          pages: [
+            [samplePost(id: 7)],
+          ],
+          keys: const [1],
+          hasNextPage: false,
+        ),
+      );
 
-    expect(find.byType(PostImageTile), findsOneWidget);
-    expect(skeletons(find.byType(PostImageTile)), findsNothing);
-  });
+      expect(find.byType(PostImageTile), findsOneWidget);
+      expect(skeletons(find.byType(PostImageTile)), findsNothing);
+    },
+  );
 }

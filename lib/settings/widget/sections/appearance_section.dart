@@ -85,12 +85,12 @@ class SettingsAppearanceSection extends StatelessWidget {
         ValueListenableBuilder<TileSize>(
           valueListenable: settings.tileSize,
           builder: (context, value, child) => ListTile(
-            title: Text(l10n.thumbnailQuality),
+            title: Text(l10n.thumbnailSize),
             subtitle: Text(value.localizedTitle(context)),
-            leading: const Icon(Icons.image_outlined),
+            leading: const Icon(Icons.grid_view_outlined),
             onTap: () => showPickerDialog<TileSize>(
               context: context,
-              title: l10n.thumbnailQuality,
+              title: l10n.thumbnailSize,
               selected: value,
               options: [
                 for (final size in TileSize.values)
@@ -100,6 +100,28 @@ class SettingsAppearanceSection extends StatelessWidget {
                   ),
               ],
               onSelected: (size) => settings.tileSize.value = size,
+            ),
+          ),
+        ),
+        ValueListenableBuilder<ThumbnailQuality>(
+          valueListenable: settings.thumbnailQuality,
+          builder: (context, value, child) => ListTile(
+            title: Text(l10n.thumbnailQuality),
+            subtitle: Text(value.localizedTitle(context)),
+            leading: const Icon(Icons.image_outlined),
+            onTap: () => showPickerDialog<ThumbnailQuality>(
+              context: context,
+              title: l10n.thumbnailQuality,
+              selected: value,
+              options: [
+                for (final quality in ThumbnailQuality.values)
+                  PickerOption(
+                    value: quality,
+                    label: quality.localizedTitle(context),
+                  ),
+              ],
+              onSelected: (quality) =>
+                  settings.thumbnailQuality.value = quality,
             ),
           ),
         ),

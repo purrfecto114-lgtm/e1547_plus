@@ -1888,22 +1888,22 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String postUpvoteFailed(num id) {
-    return 'Failed to upvote post #$id';
+    return 'Failed to upvote Post #$id';
   }
 
   @override
   String postDownvoteFailed(num id) {
-    return 'Failed to downvote post #$id';
+    return 'Failed to downvote Post #$id';
   }
 
   @override
   String postAddFavoriteFailed(num id) {
-    return 'Failed to add post #$id to favorites';
+    return 'Failed to add Post #$id to favorites';
   }
 
   @override
   String postRemoveFavoriteFailed(num id) {
-    return 'Failed to remove post #$id from favorites';
+    return 'Failed to remove Post #$id from favorites';
   }
 
   @override
@@ -2540,4 +2540,16 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get postUnsupportedOpen => 'Open';
+
+  @override
+  String get thumbnailSize => 'Card size';
+
+  @override
+  String get tileSmall => 'Small';
+
+  @override
+  String get tileMedium => 'Medium';
+
+  @override
+  String get tileLarge => 'Large';
 }

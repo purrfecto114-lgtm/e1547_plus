@@ -31,9 +31,42 @@ enum TileSize {
 
   /// Localized display name for pickers.
   String localizedTitle(BuildContext context) => switch (this) {
-    TileSize.small => AppLocalizations.of(context).qualityLow,
-    TileSize.medium => AppLocalizations.of(context).qualityMedium,
-    TileSize.large => AppLocalizations.of(context).qualityHigh,
+    TileSize.small => AppLocalizations.of(context).tileSmall,
+    TileSize.medium => AppLocalizations.of(context).tileMedium,
+    TileSize.large => AppLocalizations.of(context).tileLarge,
+  };
+}
+
+/// How sharp grid thumbnails decode, independent of how large the
+/// cards lay out. The factor multiplies the card's device pixels, so
+/// low covers a normal display exactly, medium doubles it for zooming
+/// and dense screens, and high goes further for near-fullscreen reuse.
+///
+/// The cap bounds very dense screens; the decode itself never
+/// up-scales (see PostImage). Switching tiers costs no traffic: the
+/// memory decode size does not change the disk cache key.
+enum ThumbnailQuality {
+  low,
+  medium,
+  high;
+
+  double get factor => switch (this) {
+    ThumbnailQuality.low => 1,
+    ThumbnailQuality.medium => 2,
+    ThumbnailQuality.high => 3,
+  };
+
+  int get cap => switch (this) {
+    ThumbnailQuality.low => 540,
+    ThumbnailQuality.medium => 1080,
+    ThumbnailQuality.high => 1620,
+  };
+
+  /// Localized display name for pickers.
+  String localizedTitle(BuildContext context) => switch (this) {
+    ThumbnailQuality.low => AppLocalizations.of(context).qualityLow,
+    ThumbnailQuality.medium => AppLocalizations.of(context).qualityMedium,
+    ThumbnailQuality.high => AppLocalizations.of(context).qualityHigh,
   };
 }
 
@@ -46,6 +79,8 @@ class TileLayoutData extends InheritedWidget {
     required this.mainAxisCount,
     required this.crossAxisCount,
     required this.stagger,
+    required this.qualityFactor,
+    required this.qualityCap,
   });
 
   final double tileHeightFactor;
@@ -54,6 +89,12 @@ class TileLayoutData extends InheritedWidget {
   final int crossAxisCount;
   final GridQuilt stagger;
 
+  /// The thumbnail-quality tier resolved for this layout, feeding the
+  /// image cache sizing of grid tiles so builders below can read it
+  /// from [TileLayout.of] without their own provider subscription.
+  final double qualityFactor;
+  final int qualityCap;
+
   @override
   bool updateShouldNotify(covariant TileLayoutData oldWidget) =>
       (oldWidget.tileHeightFactor != tileHeightFactor ||
@@ -61,7 +102,9 @@ class TileLayoutData extends InheritedWidget {
       // happens to keep the same column count must still rebuild.
       oldWidget.tileSize != tileSize ||
       oldWidget.crossAxisCount != crossAxisCount ||
-      oldWidget.stagger != stagger);
+      oldWidget.stagger != stagger ||
+      oldWidget.qualityFactor != qualityFactor ||
+      oldWidget.qualityCap != qualityCap);
 }
 
 class TileLayout extends StatelessWidget {
@@ -86,32 +129,39 @@ class TileLayout extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final Settings settings = context.watch<Settings>();
     return ValueListenableBuilder<TileSize>(
-      valueListenable: context.watch<Settings>().tileSize,
+      valueListenable: settings.tileSize,
       builder: (context, tier, child) => ValueListenableBuilder<GridQuilt>(
-        valueListenable: context.watch<Settings>().quilt,
-        builder: (context, stagger, child) => LayoutBuilder(
-          builder: (context, constraints) {
-            int tileSize = this.tileSize ?? tier.pixels;
-            stagger = this.stagger ?? stagger;
-            int crossAxisCount = max(
-              1,
-              constraints.maxWidth / tileSize,
-            ).round();
-            int mainAxisCount = max(
-              1,
-              constraints.maxHeight / tileSize,
-            ).round();
-            return TileLayoutData(
-              tileHeightFactor: tileHeightFactor,
-              tileSize: tileSize,
-              mainAxisCount: mainAxisCount,
-              crossAxisCount: crossAxisCount,
-              stagger: stagger,
-              child: this.child,
-            );
-          },
-        ),
+        valueListenable: settings.quilt,
+        builder: (context, stagger, child) =>
+            ValueListenableBuilder<ThumbnailQuality>(
+              valueListenable: settings.thumbnailQuality,
+              builder: (context, quality, child) => LayoutBuilder(
+                builder: (context, constraints) {
+                  int tileSize = this.tileSize ?? tier.pixels;
+                  stagger = this.stagger ?? stagger;
+                  int crossAxisCount = max(
+                    1,
+                    constraints.maxWidth / tileSize,
+                  ).round();
+                  int mainAxisCount = max(
+                    1,
+                    constraints.maxHeight / tileSize,
+                  ).round();
+                  return TileLayoutData(
+                    tileHeightFactor: tileHeightFactor,
+                    tileSize: tileSize,
+                    mainAxisCount: mainAxisCount,
+                    crossAxisCount: crossAxisCount,
+                    stagger: stagger,
+                    qualityFactor: quality.factor,
+                    qualityCap: quality.cap,
+                    child: this.child,
+                  );
+                },
+              ),
+            ),
       ),
     );
   }

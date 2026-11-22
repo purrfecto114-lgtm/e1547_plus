@@ -722,5 +722,9 @@
       "ext": {}
     }
   },
-  "postUnsupportedOpen": "打开"
+  "postUnsupportedOpen": "打开",
+  "thumbnailSize": "卡片大小",
+  "tileSmall": "小",
+  "tileMedium": "中",
+  "tileLarge": "大"
 }
