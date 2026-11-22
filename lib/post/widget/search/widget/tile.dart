@@ -1,8 +1,8 @@
 import 'dart:math';
+
 import 'package:e1547/app/app.dart';
 import 'package:e1547/client/client.dart';
 import 'package:e1547/comment/comment.dart';
-import 'package:e1547/l10n/app_localizations.dart';
 import 'package:e1547/markup/markup.dart';
 import 'package:e1547/post/post.dart';
 import 'package:e1547/query/query.dart';
@@ -76,17 +76,17 @@ class PostImageTile extends StatelessWidget {
                       ),
                     ),
                   ),
-                  if (bottomBar != null) bottomBar!,
-                ],
-              ),
-              Positioned(top: 0, right: 0, child: PostImageTag(post: post)),
-              if (onTap != null)
-                Material(
-                  type: MaterialType.transparency,
-                  child: InkWell(onTap: onTap),
                 ),
-            ],
-          ),
+                if (bottomBar != null) bottomBar!,
+              ],
+            ),
+            Positioned(top: 0, right: 0, child: PostImageTag(post: post)),
+            if (onTap != null)
+              Material(
+                type: MaterialType.transparency,
+                child: InkWell(onTap: onTap),
+              ),
+          ],
         ),
       ),
     );
@@ -123,22 +123,12 @@ class PostTileOverlay extends StatelessWidget {
   final Widget child;
 
   @override
-  Widget build(BuildContext context) {
-    if (post.isDeleted) {
-      return Center(child: Text(AppLocalizations.of(context).postStateDeleted));
-    }
-    if (post.type == PostType.unsupported) {
-      return Center(
-        child: Text(AppLocalizations.of(context).postStateUnsupported),
-      );
-    }
-    if (post.file == null) {
-      return Center(
-        child: Text(AppLocalizations.of(context).postStateUnavailable),
-      );
-    }
-    return child;
-  }
+  Widget build(BuildContext context) => switch (postFileIcon(context, post)) {
+    final IconData icon => Center(
+      child: Icon(icon, color: dimTextColor(context)),
+    ),
+    null => child,
+  };
 }
 
 class PostInfoBar extends StatelessWidget {
@@ -292,8 +282,10 @@ class PostFeedTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    int? cacheSize = context.read<ImageCacheSize>().size;
+
     Widget actions() {
-      return Dimmed.interactive(
+      return Dimmed(
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
@@ -301,7 +293,6 @@ class PostFeedTile extends StatelessWidget {
               children: [
                 IconButton(
                   icon: const Icon(Icons.comment),
-                  tooltip: AppLocalizations.of(context).menuComment,
                   onPressed: () => Navigator.of(context).push(
                     MaterialPageRoute(
                       builder: (context) => PostCommentsPage(postId: post.id),
@@ -317,7 +308,6 @@ class PostFeedTile extends StatelessWidget {
               builder: (context, state, mutate) {
                 final client = context.watch<Client>();
                 final messenger = ScaffoldMessenger.of(context);
-                final l10n = AppLocalizations.of(context);
                 final enabled = client.hasLogin && !state.isLoading;
 
                 return VoteDisplay(
@@ -325,18 +315,16 @@ class PostFeedTile extends StatelessWidget {
                   score: post.score,
                   onUpvote: enabled
                       ? (isLiked) async {
-                          // cached_query swallows failures into the returned
-                          // state, so the outcome has to be checked instead
-                          // of caught.
-                          final state = await mutate((
+                          if ((await mutate((
                             upvote: true,
                             replace: !isLiked,
-                          ));
-                          if (state.isError) {
+                          ))).isError) {
                             messenger.showSnackBar(
                               SnackBar(
                                 duration: const Duration(seconds: 1),
-                                content: Text(l10n.postUpvoteFailed(post.id)),
+                                content: Text(
+                                  'Failed to upvote Post #${post.id}',
+                                ),
                               ),
                             );
                             return isLiked;
@@ -346,15 +334,16 @@ class PostFeedTile extends StatelessWidget {
                       : null,
                   onDownvote: enabled
                       ? (isLiked) async {
-                          final state = await mutate((
+                          if ((await mutate((
                             upvote: false,
                             replace: !isLiked,
-                          ));
-                          if (state.isError) {
+                          ))).isError) {
                             messenger.showSnackBar(
                               SnackBar(
                                 duration: const Duration(seconds: 1),
-                                content: Text(l10n.postDownvoteFailed(post.id)),
+                                content: Text(
+                                  'Failed to downvote Post #${post.id}',
+                                ),
                               ),
                             );
                             return isLiked;
@@ -374,7 +363,6 @@ class PostFeedTile extends StatelessWidget {
             ),
             IconButton(
               icon: const Icon(Icons.share),
-              tooltip: AppLocalizations.of(context).menuShare,
               onPressed: () => Share.text(
                 context,
                 context.read<Client>().withHost(post.link),
@@ -387,22 +375,19 @@ class PostFeedTile extends StatelessWidget {
 
     Widget menu() {
       return PopupMenuButton<VoidCallback>(
-        icon: Icon(
-          Icons.more_vert,
-          color: dimTextColor(context, interactiveDimmedOpacity),
-        ),
+        icon: Icon(Icons.more_vert, color: dimTextColor(context)),
         iconSize: 18,
         onSelected: (value) => value(),
         itemBuilder: (context) => [
           if (post.file != null)
             PopupMenuTile(
               value: () => postDownloadingNotification(context, {post}),
-              title: AppLocalizations.of(context).menuDownload,
-              icon: Icons.download,
+              title: 'Download',
+              icon: Icons.file_download,
             ),
           PopupMenuTile(
             value: () => launch(context.read<Client>().withHost(post.link)),
-            title: AppLocalizations.of(context).menuBrowse,
+            title: 'Browse',
             icon: Icons.open_in_browser,
           ),
         ],
@@ -421,7 +406,7 @@ class PostFeedTile extends StatelessWidget {
             onTap: () => Navigator.of(context).push(
               DismissRoute<void>(
                 builder: (context) => ImageCacheSizeProvider(
-                  size: fullscreenImageCacheSize,
+                  size: cacheSize,
                   child: PostRouteScope(
                     params: params,
                     filter: filter,

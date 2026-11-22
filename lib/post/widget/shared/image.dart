@@ -26,7 +26,7 @@ class PostImageWidget extends StatelessWidget {
   });
 
   /// The post which provides the image.
-  final Post post;
+  final PostSummary post;
 
   /// How the image should be fit.
   final BoxFit fit;
@@ -147,7 +147,7 @@ class RawPostImageWidget extends StatelessWidget {
     this.load,
   });
 
-  final Post post;
+  final PostSummary post;
   final PostImageSize size;
   final BoxFit? fit;
   final ProgressIndicatorBuilder? progressIndicatorBuilder;
@@ -172,10 +172,14 @@ class RawPostImageWidget extends StatelessWidget {
       DownloadProgress progress,
     ) {
       return Center(
-        child: SizedCircularProgressIndicator(
-          size: 30,
-          value: progress.progress,
-        ),
+        child: switch (progress.progress) {
+          final double value => HexagonalLoadingIndicator(
+            state: HexagonState.tracing,
+            progress: value,
+            size: 30,
+          ),
+          null => const HexagonalLoadingIndicator(size: 30),
+        },
       );
     }
 

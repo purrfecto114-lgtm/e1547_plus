@@ -86,8 +86,8 @@ as bool,
 /// @nodoc
 @JsonSerializable()
 
-class _Pool implements Pool {
-  const _Pool({required this.id, required this.name, required this.createdAt, required this.updatedAt, required this.description, required final  List<int> postIds, required this.postCount, required this.active}): _postIds = postIds;
+class _Pool extends Pool {
+  const _Pool({required this.id, required this.name, required this.createdAt, required this.updatedAt, required this.description, required final  List<int> postIds, required this.postCount, required this.active}): _postIds = postIds,super._();
   factory _Pool.fromJson(Map<String, dynamic> json) => _$PoolFromJson(json);
 
 @override final  int id;

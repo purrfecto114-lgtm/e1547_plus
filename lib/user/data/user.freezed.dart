@@ -108,8 +108,8 @@ $UserStatsCopyWith<$Res>? get stats {
 /// @nodoc
 @JsonSerializable()
 
-class _User implements User {
-  const _User({required this.id, required this.name, required this.avatarId, this.hasCroppedAvatar = false, required this.about, required this.stats});
+class _User extends User {
+  const _User({required this.id, required this.name, required this.avatarId, this.hasCroppedAvatar = false, required this.about, required this.stats}): super._();
   factory _User.fromJson(Map<String, dynamic> json) => _$UserFromJson(json);
 
 @override final  int id;

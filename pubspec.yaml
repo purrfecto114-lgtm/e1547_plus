@@ -105,8 +105,6 @@ dev_dependencies:
   # test/_support/fake_e621.dart
   shelf: ^1.4.2
   shelf_router: ^1.1.4
-  # test/app/widget/lock_test.dart
-  local_auth_platform_interface: ^1.1.0
   # test/_support/images.dart
   file: ^7.0.1
   # flutter pub run build_runner build

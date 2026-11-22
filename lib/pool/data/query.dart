@@ -2,8 +2,6 @@ import 'package:e1547/pool/pool.dart';
 import 'package:e1547/query/query.dart';
 import 'package:e1547/shared/shared.dart';
 
-final Expando<QueryLoader<int, Pool>> _poolLoaders = Expando();
-
 extension PoolQuerying on PoolClient {
   static const queryDomain = 'pools';
 
@@ -14,13 +12,10 @@ extension PoolQuerying on PoolClient {
   QueryBridge<Pool, int> get poolCache =>
       queryCache.bridge(queryKey, fromJson: Pool.fromJson);
 
-  QueryLoader<int, Pool> get poolLoader => _poolLoaders[this] ??= poolCache
-      .loader((ids) => byIds(ids: ids), limit: maxPageLimit);
-
   Query<Pool> useGet({required int id, bool? vendored}) => Query(
     cache: queryCache,
     key: [...queryKey, id],
-    queryFn: () => poolLoader.require(id),
+    queryFn: () => get(id: id),
     config: poolCache.getConfig(vendored: vendored),
   );
 

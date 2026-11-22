@@ -1,5 +1,6 @@
 import 'dart:math';
 
+import 'package:collection/collection.dart';
 import 'package:dio/dio.dart';
 import 'package:e1547/identity/identity.dart';
 import 'package:e1547/pool/pool.dart';
@@ -101,41 +102,26 @@ class PostClient {
     if (ids.isEmpty) return [];
     String filter = 'id:${ids.join(',')}';
     if (hidden) filter = '$filter status:any';
-    List<Post> found = await _search(
-      query: {'tags': filter},
+    // The upstream _search helper collapsed into our page request; the
+    // byIds semantics (hidden lookups skip the censored-file filter)
+    // stay the same.
+    List<Post> found = await page(
       limit: min(ids.length, maxPageLimit),
+      query: {'tags': filter},
       cancelToken: cancelToken,
     );
-    if (!hidden) found = _filter(found);
+    if (!hidden) {
+      // Censored posts, which have contentious tags and are unavailable
+      // to anonymous users, are also considered broken. Posts which are
+      // not deleted but have no file are censored.
+      found = found
+          .whereNot((post) => !post.isDeleted && post.file == null)
+          .whereNot((post) => post.ext == 'swf')
+          .toList();
+    }
     Map<int, Post> table = {for (Post e in found) e.id: e};
     return ids.map((e) => table[e]).nonNulls.toList();
   }
-
-  Future<List<PartialPost>> artistRecommendations({
-    required int id,
-    int? limit,
-    CancelToken? cancelToken,
-  }) => dio
-      .get(
-        '/posts/$id/similar/artist.json',
-        queryParameters: {'limit': limit}.toQuery(),
-        cancelToken: cancelToken,
-      )
-      .then((response) {
-        final Map<int, PartialPost> posts = {
-          for (final PartialPost post
-              in (response.data['post_data'] as List).map(
-                E621Post.partialFromJson,
-              ))
-            post.id: post,
-        };
-        return [
-          for (final Map<String, dynamic> result
-              in (response.data['results'] as List)
-                  .cast<Map<String, dynamic>>())
-            if (posts[result['post_id']] case final PartialPost post) post,
-        ];
-      });
 
   /// The posts e621 recommends as similar for [id], in the server's
   /// order. The endpoint answers with summaries only; the full posts

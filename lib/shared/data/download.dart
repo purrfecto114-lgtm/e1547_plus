@@ -95,6 +95,7 @@ abstract final class FileDownloader {
       throw FileDownloadException.from(e);
     }
   }
+
   static String displayPath(String directory) {
     final Uri? uri = Uri.tryParse(directory);
     if (uri == null || uri.scheme != 'content') return directory;

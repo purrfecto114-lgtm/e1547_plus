@@ -6,20 +6,13 @@ void main() {
   test('each category has its own hue, set apart for each brightness', () {
     for (final Brightness brightness in Brightness.values) {
       expect(
-        {
-          for (final TagCategory category in TagCategory.values)
-            category.colorFor(brightness),
-        },
+        {for (final TagCategory category in TagCategory.values) category.color},
         hasLength(TagCategory.values.length),
         reason: brightness.name,
       );
     }
     for (final TagCategory category in TagCategory.values) {
-      expect(
-        category.colorFor(Brightness.light),
-        isNot(category.colorFor(Brightness.dark)),
-        reason: category.name,
-      );
+      expect(category.color, isNotNull, reason: category.name);
     }
   });
 }

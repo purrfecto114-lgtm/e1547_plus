@@ -91,8 +91,8 @@ as int,
 /// @nodoc
 @JsonSerializable()
 
-class _Topic implements Topic {
-  const _Topic({required this.id, required this.creatorId, required this.creator, required this.createdAt, required this.updaterId, required this.updater, required this.updatedAt, required this.title, required this.responseCount, required this.sticky, required this.locked, required this.hidden, required this.categoryId});
+class _Topic extends Topic {
+  const _Topic({required this.id, required this.creatorId, required this.creator, required this.createdAt, required this.updaterId, required this.updater, required this.updatedAt, required this.title, required this.responseCount, required this.sticky, required this.locked, required this.hidden, required this.categoryId}): super._();
   factory _Topic.fromJson(Map<String, dynamic> json) => _$TopicFromJson(json);
 
 @override final  int id;

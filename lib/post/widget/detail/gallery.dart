@@ -1,4 +1,3 @@
-import 'package:e1547/client/client.dart';
 import 'package:e1547/l10n/app_localizations.dart';
 import 'package:e1547/post/post.dart';
 import 'package:e1547/query/query.dart';
@@ -56,7 +55,6 @@ class PostDetailGallery extends StatefulWidget {
 class _PostDetailGalleryState extends State<PostDetailGallery>
     with PostSearchRouteAware<PostDetailGallery> {
   late int? postId = widget.initialPostId;
-  bool _shown = false;
 
   @override
   Widget build(BuildContext context) {
@@ -69,30 +67,13 @@ class _PostDetailGalleryState extends State<PostDetailGallery>
             : items?.indexWhere((post) => post.id == postId) ?? -1;
 
         if (index < 0) {
-          final int? id = postId;
-          if (items != null) {
-            if (!_shown && id != null) return PostLoadingPage(id);
-            close();
-          }
-          if (id != null) {
-            if (context.read<Client>().posts.postCache.get(id)
-                case final Post post) {
-              return PostDetail(post: post);
-            }
-            return SkeletonPage(
-              child: PostDetail(
-                post: const PostGhost(),
-                summary: context.read<Client>().posts.partialPostCache.get(id),
-              ),
-            );
-          }
+          if (items != null) close();
           return const Scaffold(
             appBar: TransparentAppBar(child: DefaultAppBar()),
-            body: Center(child: HexagonalLoadingIndicator()),
+            body: Center(child: CircularProgressIndicator()),
           );
         }
 
-        _shown = true;
         return SubDefault<PageController>(
           value: widget.pageController,
           create: () => PageController(initialPage: index),

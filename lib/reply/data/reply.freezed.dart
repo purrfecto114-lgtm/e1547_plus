@@ -89,8 +89,8 @@ as bool,
 /// @nodoc
 @JsonSerializable()
 
-class _Reply implements Reply {
-  const _Reply({required this.id, required this.creatorId, required this.creator, required this.createdAt, required this.updaterId, required this.updater, required this.updatedAt, required this.body, required this.topicId, required this.warning, required this.hidden});
+class _Reply extends Reply {
+  const _Reply({required this.id, required this.creatorId, required this.creator, required this.createdAt, required this.updaterId, required this.updater, required this.updatedAt, required this.body, required this.topicId, required this.warning, required this.hidden}): super._();
   factory _Reply.fromJson(Map<String, dynamic> json) => _$ReplyFromJson(json);
 
 @override final  int id;

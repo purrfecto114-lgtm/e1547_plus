@@ -80,9 +80,8 @@ class _DenyListPageState extends State<DenyListPage> {
                         onRefresh: () async {
                           try {
                             await client.accounts.pull();
-                            return true;
                           } on ClientException {
-                            return false;
+                            // the pull failed; the next refresh retries.
                           }
                         },
                         child: Center(
@@ -137,9 +136,8 @@ class _DenyListPageState extends State<DenyListPage> {
                                     onRefresh: () async {
                                       try {
                                         await client.accounts.pull();
-                                        return true;
                                       } on ClientException {
-                                        return false;
+                                        // the pull failed; retry on the next refresh.
                                       }
                                     },
                                     child: ListView.builder(

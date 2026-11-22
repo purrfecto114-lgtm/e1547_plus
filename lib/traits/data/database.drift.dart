@@ -44,7 +44,16 @@ final class $$TraitsTableTableReferences
   static i2.$IdentitiesTableTable _idTable(i0.GeneratedDatabase db) =>
       i3.ReadDatabaseContainer(db)
           .resultSet<i2.$IdentitiesTableTable>('identities_table')
-          .createAlias('traits_table__id__identities_table__id');
+          .createAlias(
+            i0.$_aliasNameGenerator(
+              i3.ReadDatabaseContainer(
+                db,
+              ).resultSet<i4.$TraitsTableTable>('traits_table').id,
+              i3.ReadDatabaseContainer(
+                db,
+              ).resultSet<i2.$IdentitiesTableTable>('identities_table').id,
+            ),
+          );
 
   i2.$$IdentitiesTableTableProcessedTableManager get id {
     final $_column = $_itemColumn<int>('id')!;

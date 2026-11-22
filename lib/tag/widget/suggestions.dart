@@ -1,7 +1,8 @@
 import 'package:e1547/client/client.dart';
 // ignore: feature_layering
 import 'package:e1547/pool/pool.dart';
-import 'package:e1547/tag/tag.dart';
+import 'package:e1547/tag/data/meta.dart';
+import 'package:e1547/tag/tag.dart' hide TagSuggestion;
 // ignore: feature_layering
 import 'package:e1547/user/user.dart';
 

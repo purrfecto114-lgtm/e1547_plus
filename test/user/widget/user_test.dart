@@ -17,7 +17,7 @@ void main() {
     env.fake.state.users.add({'id': 1014, 'name': 'uploader'});
     posts = env.fake.state.posts.map((e) => e['id']! as int).toList();
     env.fake.state.posts.first['uploader_id'] = 1014;
-    env.fake.state.favoritesOf['uploader'] = {posts[1], posts[2]};
+    env.fake.state.favorites.addAll([posts[1], posts[2]]);
   });
 
   tearDown(() => env.dispose());
@@ -83,8 +83,6 @@ void main() {
   displayTest('a profile says so when its user keeps favorites private', (
     tester,
   ) async {
-    env.fake.state.privateFavorites.add('uploader');
-
     await show(tester);
 
     expect(row(tester, 'Uploads'), [posts[0]]);

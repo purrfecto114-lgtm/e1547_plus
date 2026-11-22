@@ -1,4 +1,5 @@
-import 'package:e1547/tag/tag.dart';
+import 'package:e1547/tag/data/meta.dart';
+import 'package:e1547/tag/tag.dart' hide TagSuggestion;
 import 'package:flutter_test/flutter_test.dart';
 
 import '../../_support/environment.dart';

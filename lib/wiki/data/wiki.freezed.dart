@@ -85,8 +85,8 @@ as bool?,
 /// @nodoc
 @JsonSerializable()
 
-class _Wiki implements Wiki {
-  const _Wiki({required this.id, required this.title, required this.body, required this.createdAt, this.updatedAt, final  List<String>? otherNames, this.isLocked}): _otherNames = otherNames;
+class _Wiki extends Wiki {
+  const _Wiki({required this.id, required this.title, required this.body, required this.createdAt, this.updatedAt, final  List<String>? otherNames, this.isLocked}): _otherNames = otherNames,super._();
   factory _Wiki.fromJson(Map<String, dynamic> json) => _$WikiFromJson(json);
 
 @override final  int id;

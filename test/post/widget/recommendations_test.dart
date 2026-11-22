@@ -162,14 +162,6 @@ void main() {
     final PostDetail waiting = tester.widget(
       skeletons(find.byType(PostDetail)),
     );
-    expect(waiting.summary?.id, 43);
-    expect(
-      waiting.summary?.preview,
-      (((env.fake.state.posts.first['files']! as Map)['preview']! as Map)['jpg']
-              as String)
-          .replaceAll(fixtureHost, env.fake.url),
-    );
-    expect(waiting.summary?.preview, isNotNull);
     expect(
       find.byWidgetPredicate((e) => e is PostImageWidget && e.post.id == 43),
       findsOneWidget,

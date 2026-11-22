@@ -89,8 +89,8 @@ as bool,
 /// @nodoc
 @JsonSerializable()
 
-class _Comment implements Comment {
-  const _Comment({required this.id, required this.postId, required this.body, required this.createdAt, required this.updatedAt, required this.creatorId, required this.creatorName, required this.score, required this.vote, required this.warning, required this.hidden});
+class _Comment extends Comment {
+  const _Comment({required this.id, required this.postId, required this.body, required this.createdAt, required this.updatedAt, required this.creatorId, required this.creatorName, required this.score, required this.vote, required this.warning, required this.hidden}): super._();
   factory _Comment.fromJson(Map<String, dynamic> json) => _$CommentFromJson(json);
 
 @override final  int id;
