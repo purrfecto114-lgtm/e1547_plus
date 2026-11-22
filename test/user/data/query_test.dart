@@ -21,9 +21,6 @@ void main() {
     'user summaries asked for at once come in one request',
     skip: 'the upstream microtask coalescing does not batch the frame-spaced ',
     () async {
-      return;
-      // skipped: batch coalescing needs a time-window pump the current
-      // test clock schedule does not provide; see process.md (round 8).
       final List<int> ids = recorded().take(2).toList();
       env.fake.requests.clear();
 
