@@ -298,7 +298,10 @@ class _QualityPicker extends StatelessWidget {
                   child: InkWell(
                     onTap: () => onSelect(option.value),
                     child: Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 12),
+                      // 12 doubled the label height into a 44dp touch
+                      // target; 16 clears Android's 48dp accessibility
+                      // floor on every text scale.
+                      padding: const EdgeInsets.symmetric(vertical: 16),
                       child: Center(child: Text(option.label)),
                     ),
                   ),
