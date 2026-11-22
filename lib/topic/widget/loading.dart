@@ -18,7 +18,8 @@ class TopicLoadingPage extends StatelessWidget {
     return QueryBuilder(
       query: client.topics.useGet(id: id),
       builder: (context, state) => LoadingPage(
-        isLoading: state.isLoading,
+        // A query with no outcome yet is still loading, not ready.
+        isLoading: state.isLoading || state.isInitial,
         isError: state.isError,
         isEmpty: state.data == null,
         loadingBuilder: (context, child) => Scaffold(
@@ -27,6 +28,10 @@ class TopicLoadingPage extends StatelessWidget {
             title: Text(AppLocalizations.of(context).topicLink(id)),
           ),
           body: child(context),
+        ),
+        skeleton: (context) => TopicRepliesPage(
+          topic: const TopicGhost(),
+          orderByOldest: orderByOldest,
         ),
         onError: Text(AppLocalizations.of(context).topicFailedToLoadTopic),
         onEmpty: Text(AppLocalizations.of(context).topicNotFound),

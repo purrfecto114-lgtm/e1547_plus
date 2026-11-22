@@ -7,7 +7,6 @@ import '../../_support/environment.dart';
 import '../../_support/fixtures.dart';
 import '../../_support/harness.dart';
 
-@Skip('upstream 21.2.0 behavior, not yet aligned in this fork')
 void main() {
   setUpAll(initializeTestApp);
 

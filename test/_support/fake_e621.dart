@@ -76,6 +76,7 @@ class FakeE621 {
       (Request request, String id) => _json(_find(state.pools, id)),
     )
     ..get('/tags.json', _listTags)
+    ..get('/tags/autocomplete.json', _autocompleteTags)
     ..get(
       '/tag_aliases.json',
       (Request request) => _list(state.tagAliases, request),
@@ -102,6 +103,18 @@ class FakeE621 {
       tags = tags.where((e) => names.contains(e['name'])).toList();
     }
     return _json(_paginate(tags, query));
+  }
+
+  /// The autocomplete endpoint the tag search switched to; it answers
+  /// plain tag maps whose name starts with the search, capped at ten.
+  Response _autocompleteTags(Request request) {
+    final search = request.url.queryParameters['search[name_matches]'] ?? '';
+    return _json(
+      state.tags
+          .where((e) => (e['name']! as String).startsWith(search))
+          .take(10)
+          .toList(),
+    );
   }
 
   Map<String, Object?> _find(List<Map<String, Object?>> items, String id) =>
