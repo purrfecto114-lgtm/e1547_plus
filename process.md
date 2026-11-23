@@ -122,3 +122,10 @@
    - **驳回**：预取重复解码 P0（.md 自证不成立——file 预取只写盘）；GIF/WebP resize 全失效（过宽）。
 4. 门禁（3.47.4 工具链，verification-before-completion）：format 0（787 文件 0 改动）/ analyze **No issues found**（33s）/ 全量 **1384 passed + 19 skipped EXIT=0**（round15_small_test.log，净增 3=新测试）。回退彻底性由 analyze 零 issue 佐证（350 弃用 info 全消）。
 5. 发版 22.9.3+238（0.0.x 位 patch；build 237 已分发→238）：三件套（CHANGELOG Fixed+Changed 段 + compare 链接 + fastlane 238.txt）。
+
+6. 发版 22.9.3+238 波折与终态（run 45177443963 attempt2，全 9 job 绿含 forum）：
+   - **首跑 45171327569：iOS job 平台性取消**（无 steps 详情/无日志 blob/无 error 行、其余 job 全绿 → 判 runner 抢占非代码性）→ rerun-failed-jobs 一次成功。
+   - **第二坑：release job "publish to Play Store" 步骤红**——`Invalid default value for json_key`。根因链：PLAYSTORE secret 从未配置（KEYSTORE env 两轮皆空）→ playstore.json 空文件 → fastlane 配置校验即抛。**237 轮同 secret 却绿，是因为当时 dispatch 传了 skip_playstore=true**（本轮初始 dispatch 未传 → default false → 撞上）。处置=重新 dispatch 带 skip_playstore=true。**教训：dispatch 前核对上轮成功调用的完整 inputs，别只看 version/release_title。**
+   - 第三跑 45177443963 又遇 iOS 抢占取消 → 再 rerun 一次 → 全绿。
+   - 终态核对：tag 22.9.3+238=d3fbee36=master HEAD ✓；latest→238（"22.9.3 (image decode cap and build hook fixes)"，prerelease=false，draft=false）✓；7 资产齐 ✓；正文=CHANGELOG 238 段（Changed+Fixed）✓；forum-prepare/publish 亦 success（237 轮 skipped，本轮 HAS_PUBLISHER secrets 齐后首次真发布）。
+   - 备忘：**GitHub macOS runner 抢占的鉴别法**——job conclusion=cancelled、无 step 记录、日志 blob 404、其余 job 全绿；处置=rerun-failed-jobs，非代码问题。
