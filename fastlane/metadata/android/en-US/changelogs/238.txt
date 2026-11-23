@@ -1,0 +1,1 @@
+A post whose file reports zero width or height no longer decodes at its native size on mobile: the fullscreen decode caps fall back to the pixel budget's square edge for such files, with new tests covering a missing width, height, or both. The sqlite3 build hook moved to 3.5.2, so clean builds no longer re-download the native library on every run.

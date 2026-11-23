@@ -1,6 +1,6 @@
 name: e1547
 description: A sophisticated e621 browser
-version: 22.9.2+237
+version: 22.9.3+238
 publish_to: none
 
 environment:
@@ -100,8 +100,10 @@ dev_dependencies:
   flutter_test:
     sdk: flutter
   # test/files/data/storage_test.dart locks the database file to provoke
-  # write failures in a background isolate
-  sqlite3: ^3.3.1
+  # write failures in a background isolate. 3.3.4 stabilizes the build
+  # hook's shared download directory across processes, so the native
+  # asset is not re-downloaded on every clean build.
+  sqlite3: ^3.3.4
   # test/_support/fake_e621.dart
   shelf: ^1.4.2
   shelf_router: ^1.1.4

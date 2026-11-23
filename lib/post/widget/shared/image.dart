@@ -224,26 +224,42 @@ class RawPostImageWidget extends StatelessWidget {
       maxPixels = cacheSize * cacheSize * 2;
     }
     if (cacheSize != null || maxPixels != null) {
-      double scale = 1;
-      if (cacheSize != null) {
-        if (aspectRatio > 1) {
-          scale = cacheSize / dimensions.height;
-        } else {
-          scale = cacheSize / dimensions.width;
+      // A file whose dimensions are missing (a zero axis) cannot be scaled
+      // through the ratios above: they divide by those axes and collapse
+      // to NaN or Infinity, so "scale < 1" never holds and the image
+      // decodes at its native size. Such files fall back to a square
+      // decode of the pixel budget's edge, which bounds whatever the
+      // decoder finds without ever upscaling a small image.
+      final bool unknownDimensions =
+          dimensions.width <= 0 || dimensions.height <= 0;
+      if (unknownDimensions) {
+        final int edge = cacheSize != null
+            ? sqrt((maxPixels ?? cacheSize * cacheSize * 2).toDouble()).round()
+            : sqrt(maxPixels!.toDouble()).round();
+        memCacheWidth = edge;
+        memCacheHeight = null;
+      } else {
+        double scale = 1;
+        if (cacheSize != null) {
+          if (aspectRatio > 1) {
+            scale = cacheSize / dimensions.height;
+          } else {
+            scale = cacheSize / dimensions.width;
+          }
         }
-      }
-      if (maxPixels != null) {
-        double pixelScale = sqrt(
-          maxPixels / (dimensions.width * dimensions.height),
-        );
-        if (pixelScale < scale) {
-          scale = pixelScale;
+        if (maxPixels != null) {
+          double pixelScale = sqrt(
+            maxPixels / (dimensions.width * dimensions.height),
+          );
+          if (pixelScale < scale) {
+            scale = pixelScale;
+          }
         }
-      }
-      // Never upscale, mirroring ResizeImage's default.
-      if (scale < 1) {
-        memCacheWidth = (dimensions.width * scale).round();
-        memCacheHeight = (dimensions.height * scale).round();
+        // Never upscale, mirroring ResizeImage's default.
+        if (scale < 1) {
+          memCacheWidth = (dimensions.width * scale).round();
+          memCacheHeight = (dimensions.height * scale).round();
+        }
       }
     }
 

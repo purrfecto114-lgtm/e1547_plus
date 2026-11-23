@@ -1,5 +1,18 @@
 # Changelog
 
+## [22.9.3+238] - 2026-11-23
+### Fixed
+- a post whose file carries zero width or height no longer decodes at
+  its native size on mobile: the fullscreen decode caps now fall back
+  to the pixel budget's square edge for such files instead of
+  collapsing their scale math into NaN and skipping the cap entirely,
+  with new widget tests covering missing width, height and both
+### Changed
+- the sqlite3 build hook dependency moved from 3.3.1 to 3.5.2: the
+  versions from 3.3.4 on name the native asset's shared download
+  directory after the asset's hash instead of a per-process hashCode,
+  so clean builds no longer re-download the sqlite native library
+
 ## [22.9.2+237] - 2026-11-23
 ### Fixed
 - switching accounts or leaving the app no longer risks the request
@@ -2175,3 +2188,4 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 [22.9.0+235]: https://github.com/purrfecto114-lgtm/e1547_plus/compare/22.8.1+234...22.9.0+235
 [22.9.1+236]: https://github.com/purrfecto114-lgtm/e1547_plus/compare/22.9.0+235...22.9.1+236
 [22.9.2+237]: https://github.com/purrfecto114-lgtm/e1547_plus/compare/22.9.1+236...22.9.2+237
+[22.9.3+238]: https://github.com/purrfecto114-lgtm/e1547_plus/compare/22.9.2+237...22.9.3+238

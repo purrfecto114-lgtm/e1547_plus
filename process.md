@@ -111,3 +111,14 @@
    - run **45111999135** 首跑：5 job 全绿，唯 android-smoke 红——**Maven Central 限流**（`repo.maven.apache.org 返回 429 Too Many Requests`，kotlin-stdlib POM 拉不动；同一 commit 的 android-build 正常完成，代码无回归证据）→ `rerun-failed-jobs` 重跑该 job → **success**。
    - 终态核对：tag 22.9.2+237=**17cbbc11**=master HEAD ✓；latest→237（title "22.9.2 (engine shutdown fix)"，prerelease=false，draft=false）✓；7 资产（arm64/armv7/universal APK、setup.exe、deb、ipa、tar.gz）齐 ✓；正文=CHANGELOG 237 段 ✓。
    - 备忘：**429 Maven 限流的鉴别法**——看失败 job 的日志里 "Received status code 429 from server"（瞬态网络性），对照同 commit 其它 build job 是否全绿（代码性失败会同时红）；处置=rerun-failed-jobs，别急着改代码。
+
+### Round 14：3.50.1 升级评估终止（用户紧急通知）+ 诊断报告条目落地 + 发版 22.9.3+238（2026-11-23）
+
+1. 评估链（全联网核实）：官方 releases_linux.json=stable **3.50.1**（2026-11-20，Dart 3.14.0）；3.50 实益=Mali 崩溃修复/PowerVR Vulkan 回退/后台着色器编译（利旧低端设备）+ Intent 加固（本 app 不用 extras，纯增益）；**material.dart 弃用（→material_ui）= 350 处 info**（Dart 3.14 formatter 另带来 108 文件重排浪滩）；上游 clynamic 21.2.0+108 后仅 60 个零碎修复提交、**仍锁 3.47.4 未升**（无合并价值）；Android 自定义构建全兼容（Gradle 8.14/AGP 8.11.1/J17、splits+x86 排除、指纹探针 MainActivity、res 命名无冲突、minSdk 24 底线不变）。
+2. **用户紧急通知 3.50.1 有严重 bug → 大迁移终止**。处置：stash 隔离全部 3.50 面（含 108 文件格式化浪滩与 analysis_options 三条 lint 删除）→ SDK 切回 3.47.4 → 从 stash 精取回两项诊断成果（git checkout stash@{0} -- image.dart；^3 取未跟踪测试）→ pubspec 保持 flutter >=3.47.4。**教训：升级面先 stash 再动手，回退才能秒级干净。**
+3. 诊断报告（upload/e1547_plus-性能与占用诊断-验证版.md）条目裁决：
+   - **落地**：图片宽高 0 的 fullscreen decode cap 失效（NaN 绕过）→ TDD 红→绿 +3 测试（image_dimensions_test.dart：宽缺/高缺/双缺→预算边长方回退）；sqlite3 3.3.1→**3.5.2**（≥3.3.4 修 build hook 重复下载；lockfile 净变 2 行）。
+   - **延后并记录**：cni 4.0.7+cache_manager 3.5.0（major 面大、fcm 与 cni4 强绑，独立轮做）；R8（P2 A/B）；QueryFilter Set 化（先补基准）；mpv/meminfo/ImageCache 监测项（.md 本就要求设备实测）。
+   - **驳回**：预取重复解码 P0（.md 自证不成立——file 预取只写盘）；GIF/WebP resize 全失效（过宽）。
+4. 门禁（3.47.4 工具链，verification-before-completion）：format 0（787 文件 0 改动）/ analyze **No issues found**（33s）/ 全量 **1384 passed + 19 skipped EXIT=0**（round15_small_test.log，净增 3=新测试）。回退彻底性由 analyze 零 issue 佐证（350 弃用 info 全消）。
+5. 发版 22.9.3+238（0.0.x 位 patch；build 237 已分发→238）：三件套（CHANGELOG Fixed+Changed 段 + compare 链接 + fastlane 238.txt）。
