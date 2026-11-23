@@ -1,0 +1,2 @@
+Fixed post lists failing to load from e621 and e926: the app asks the api for grouped tags and the parser could only read the flat list, both shapes now work.
+The fake test server now mirrors the real api's tag grouping, vote and favourite responses, so this kind of live-only break cannot hide behind green tests again.

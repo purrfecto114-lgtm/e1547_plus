@@ -1,0 +1,282 @@
+[
+  {
+    "id": 6877128,
+    "created_at": "2026-11-22T21:15:39.150-05:00",
+    "updated_at": "2026-11-22T21:15:39.150-05:00",
+    "change_seq": 83810255,
+    "files": {
+      "meta": {
+        "md5": "177f4dc372744318c20a316227c3c94a",
+        "ext": "jpg",
+        "size": 437829,
+        "duration": null,
+        "has_sample": true
+      },
+      "original": {
+        "width": 1462,
+        "height": 2048,
+        "url": "https://static1.e621.net/data/17/7f/177f4dc372744318c20a316227c3c94a.jpg"
+      },
+      "preview": {
+        "width": 256,
+        "height": 359,
+        "jpg": "https://static1.e621.net/data/preview/17/7f/177f4dc372744318c20a316227c3c94a.jpg",
+        "webp": "https://static1.e621.net/data/preview/17/7f/177f4dc372744318c20a316227c3c94a.webp"
+      },
+      "sample": {
+        "width": 850,
+        "height": 1191,
+        "jpg": "https://static1.e621.net/data/sample/17/7f/177f4dc372744318c20a316227c3c94a.jpg",
+        "webp": "https://static1.e621.net/data/sample/17/7f/177f4dc372744318c20a316227c3c94a.webp"
+      }
+    },
+    "uploader_id": 2779523,
+    "uploader_name": "RockingPanther55",
+    "approver_id": null,
+    "stats": {
+      "score": {
+        "up": 0,
+        "down": 0,
+        "total": 0
+      },
+      "fav_count": 0,
+      "is_favorited": false,
+      "vote": 0,
+      "comment_count": 0,
+      "hotness": 4156.018840625024
+    },
+    "flags": {
+      "pending": false,
+      "flagged": false,
+      "note_locked": false,
+      "status_locked": false,
+      "rating_locked": false,
+      "deleted": false
+    },
+    "has": {
+      "parent": false,
+      "children": false,
+      "active_children": false,
+      "notes": false,
+      "sample": true
+    },
+    "relationships": {
+      "parent_id": null,
+      "children": []
+    },
+    "pools": [],
+    "rating": "s",
+    "locked_tags": [],
+    "tags": {
+      "general": [
+        "anthro",
+        "black_clothing",
+        "black_jacket",
+        "black_nose",
+        "black_topwear",
+        "brown_body",
+        "brown_fur",
+        "clothing",
+        "crossed_arms",
+        "electronics",
+        "eyes_closed",
+        "eyewear",
+        "female",
+        "fur",
+        "green_body",
+        "grey_body",
+        "grin",
+        "group",
+        "hat",
+        "headgear",
+        "headphones",
+        "headwear",
+        "holding_eyewear",
+        "holding_headgear",
+        "holding_microphone",
+        "holding_object",
+        "holding_sunglasses",
+        "jacket",
+        "male",
+        "microphone",
+        "orange_body",
+        "shirt",
+        "smile",
+        "suit",
+        "sunglasses",
+        "teeth",
+        "tongue",
+        "tongue_out",
+        "toothy_grin",
+        "topwear",
+        "wearing_hat",
+        "wering_sunglasses",
+        "white_clothing",
+        "white_shirt",
+        "white_suit",
+        "white_topwear",
+        "yellow_body"
+      ],
+      "artist": [
+        "annaleigh"
+      ],
+      "contributor": [],
+      "copyright": [
+        "dreamworks",
+        "the_bad_guys"
+      ],
+      "character": [
+        "mr._piranha_(the_bad_guys)",
+        "mr._shark_(the_bad_guys)",
+        "mr._snake_(the_bad_guys)",
+        "mr._wolf_(the_bad_guys)",
+        "ms._tarantula_(the_bad_guys)"
+      ],
+      "species": [
+        "aquatic",
+        "arachnid",
+        "arthropod",
+        "canid",
+        "canine",
+        "canis",
+        "characiform",
+        "fish",
+        "mammal",
+        "mygalomorph",
+        "piranha_(fish)",
+        "reptile",
+        "scalie",
+        "serrasalmid",
+        "shark",
+        "snake",
+        "spider",
+        "tarantula",
+        "wolf"
+      ],
+      "invalid": [],
+      "meta": [
+        "hi_res"
+      ],
+      "lore": []
+    },
+    "sources": [
+      "https://x.com/annaleigh_art/status/1520122217488650240"
+    ],
+    "description": ""
+  },
+  {
+    "id": 6877127,
+    "created_at": "2026-11-22T21:12:57.376-05:00",
+    "updated_at": "2026-11-22T21:12:57.376-05:00",
+    "change_seq": 83810245,
+    "files": {
+      "meta": {
+        "md5": "6e8c1b976dfc8c586607ca9aaee594b1",
+        "ext": "jpg",
+        "size": 252838,
+        "duration": null,
+        "has_sample": true
+      },
+      "original": {
+        "width": 1871,
+        "height": 2048,
+        "url": "https://static1.e621.net/data/6e/8c/6e8c1b976dfc8c586607ca9aaee594b1.jpg"
+      },
+      "preview": {
+        "width": 256,
+        "height": 280,
+        "jpg": "https://static1.e621.net/data/preview/6e/8c/6e8c1b976dfc8c586607ca9aaee594b1.jpg",
+        "webp": "https://static1.e621.net/data/preview/6e/8c/6e8c1b976dfc8c586607ca9aaee594b1.webp"
+      },
+      "sample": {
+        "width": 850,
+        "height": 930,
+        "jpg": "https://static1.e621.net/data/sample/6e/8c/6e8c1b976dfc8c586607ca9aaee594b1.jpg",
+        "webp": "https://static1.e621.net/data/sample/6e/8c/6e8c1b976dfc8c586607ca9aaee594b1.webp"
+      }
+    },
+    "uploader_id": 2779523,
+    "uploader_name": "RockingPanther55",
+    "approver_id": null,
+    "stats": {
+      "score": {
+        "up": 0,
+        "down": 0,
+        "total": 0
+      },
+      "fav_count": 0,
+      "is_favorited": false,
+      "vote": 0,
+      "comment_count": 0,
+      "hotness": 4156.018466148435
+    },
+    "flags": {
+      "pending": false,
+      "flagged": false,
+      "note_locked": false,
+      "status_locked": false,
+      "rating_locked": false,
+      "deleted": false
+    },
+    "has": {
+      "parent": false,
+      "children": false,
+      "active_children": false,
+      "notes": false,
+      "sample": true
+    },
+    "relationships": {
+      "parent_id": null,
+      "children": []
+    },
+    "pools": [],
+    "rating": "s",
+    "locked_tags": [],
+    "tags": {
+      "general": [
+        "anthro",
+        "black_nose",
+        "brown_body",
+        "brown_fur",
+        "emanata",
+        "eyebrow_slit",
+        "eyebrows",
+        "fur",
+        "male",
+        "prison_uniform",
+        "solo",
+        "teeth",
+        "yellow_sclera"
+      ],
+      "artist": [
+        "p0nyplanet"
+      ],
+      "contributor": [],
+      "copyright": [
+        "dreamworks",
+        "the_bad_guys"
+      ],
+      "character": [
+        "mr._wolf_(the_bad_guys)"
+      ],
+      "species": [
+        "canid",
+        "canine",
+        "canis",
+        "mammal",
+        "wolf"
+      ],
+      "invalid": [],
+      "meta": [
+        "headshot_portrait",
+        "hi_res",
+        "portrait"
+      ],
+      "lore": []
+    },
+    "sources": [
+      "https://x.com/p0nyplanet/status/1506292465548271620"
+    ],
+    "description": ""
+  }
+]

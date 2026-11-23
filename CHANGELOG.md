@@ -1,5 +1,19 @@
 # Changelog
 
+## [22.9.1+236] - 2026-11-23
+### Fixed
+- post lists failed to load from the live sites: the app requests the
+  api's extended mode, which answers with tags grouped by category,
+  and the 2026-11 schema migration left the parser reading only the
+  default flat tag list. Both shapes now parse, so the grouped one the
+  app actually gets works again, with a recorded-live fixture keeping
+  the parser honest
+- the fake test server now answers posts requests the way the real
+  one does (flat tags by default, grouped ones under
+  `mode=extended`), and its vote and favourite responses carry the
+  same fields the real api sends, so local green runs can no longer
+  hide a live-only break like this one
+
 ## [22.9.0+235] - 2026-11-22
 ### Added
 - the thumbnail quality setting finally does what its name says: it
@@ -2151,3 +2165,4 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 [22.8.0+233]: https://github.com/purrfecto114-lgtm/e1547_plus/compare/22.7.0+232...22.8.0+233
 [22.7.0+232]: https://github.com/purrfecto114-lgtm/e1547_plus/compare/22.7.0+231...22.7.0+232
 [22.9.0+235]: https://github.com/purrfecto114-lgtm/e1547_plus/compare/22.8.1+234...22.9.0+235
+[22.9.1+236]: https://github.com/purrfecto114-lgtm/e1547_plus/compare/22.9.0+235...22.9.1+236

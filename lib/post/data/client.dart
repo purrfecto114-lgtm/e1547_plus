@@ -67,10 +67,11 @@ class PostClient {
 
   /// Parses post payloads and groups their tags by category.
   ///
-  /// The post payload lists tag names without categories, so the tag
-  /// client classifies them in bulk. Names it cannot resolve (a failed
+  /// The default post payload lists tag names without categories, so the
+  /// tag client classifies them in bulk. Names it cannot resolve (a failed
   /// lookup, unknown tags) stay general: loading posts must not hinge on
-  /// the category lookup.
+  /// the category lookup. Payloads the server already grouped keep that
+  /// grouping, and the bulk lookup only refines it by category id.
   Future<List<Post>> _parse(
     List<dynamic> raw, {
     CancelToken? cancelToken,
@@ -85,10 +86,7 @@ class PostClient {
     return [
       for (final post in posts)
         post.copyWith(
-          tags: E621Post.groupTags(
-            post.tags.values.expand((tags) => tags).toList(),
-            categories,
-          ),
+          tags: E621Post.groupTags(post.allTags.toList(), categories),
         ),
     ];
   }

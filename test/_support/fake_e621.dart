@@ -251,8 +251,207 @@ class FakeE621 {
       final Set<int> wanted = state.favoritesOf[name] ?? const {};
       posts = posts.where((e) => wanted.contains(e['id'])).toList();
     }
-    return _json(_paginate(posts, query));
+    return _json(_paginate(_renderPosts(posts, request), query));
   }
+
+  /// Like the real api's `mode=extended` query: the default post list
+  /// carries a flat tag list, and the extended mode groups tags by
+  /// category. The client sends extended on every posts request, so the
+  /// fake answering with one fixed shape would hide drift between the
+  /// parser and either live shape.
+  List<Map<String, Object?>> _renderPosts(
+    List<Map<String, Object?>> posts,
+    Request request,
+  ) {
+    if (request.url.queryParameters['mode'] != 'extended') return posts;
+    return [
+      for (final Map<String, Object?> post in posts)
+        {
+          ...post,
+          'tags': {
+            // The category names the real api groups under, in its id
+            // order; the fake's tag state maps names to categories.
+            for (final MapEntry<String, int> category in _categoryIds.entries)
+              category.key: [
+                for (final String tag
+                    in ((post['tags'] as List?) ?? const [])
+                        .whereType<String>()
+                        .where(
+                          (tag) => _fixtureTagCategories[tag] == category.value,
+                        ))
+                  tag,
+              ],
+          },
+        },
+    ];
+  }
+
+  /// The category names the real api groups extended tags under, in its
+  /// id order; every category key appears in a grouping, empty or not.
+  static const Map<String, int> _categoryIds = {
+    'general': 0,
+    'artist': 1,
+    'contributor': 2,
+    'copyright': 3,
+    'character': 4,
+    'species': 5,
+    'invalid': 6,
+    'meta': 7,
+    'lore': 8,
+  };
+
+  /// The baked-in category of every fixture tag name. The extended
+  /// grouping reads this table instead of the /tags.json state: on the
+  /// real server the grouping is internal knowledge a failing lookup
+  /// cannot ungroup, and tests clear the lookup state on purpose.
+  static const Map<String, int> _fixtureTagCategories = {
+    'tag_1': 0,
+    'tag_10': 0,
+    'tag_100': 5,
+    'tag_101': 5,
+    'tag_102': 5,
+    'tag_103': 5,
+    'tag_104': 5,
+    'tag_105': 7,
+    'tag_106': 7,
+    'tag_107': 7,
+    'tag_108': 7,
+    'tag_109': 7,
+    'tag_11': 0,
+    'tag_110': 7,
+    'tag_111': 7,
+    'tag_112': 7,
+    'tag_113': 8,
+    'tag_114': 0,
+    'tag_115': 0,
+    'tag_116': 0,
+    'tag_117': 0,
+    'tag_118': 0,
+    'tag_119': 0,
+    'tag_12': 0,
+    'tag_120': 0,
+    'tag_121': 0,
+    'tag_122': 0,
+    'tag_123': 0,
+    'tag_124': 0,
+    'tag_125': 0,
+    'tag_126': 0,
+    'tag_127': 0,
+    'tag_128': 0,
+    'tag_129': 0,
+    'tag_13': 0,
+    'tag_130': 0,
+    'tag_131': 0,
+    'tag_132': 0,
+    'tag_133': 0,
+    'tag_134': 0,
+    'tag_135': 0,
+    'tag_136': 1,
+    'tag_137': 3,
+    'tag_138': 4,
+    'tag_139': 5,
+    'tag_14': 0,
+    'tag_140': 5,
+    'tag_141': 5,
+    'tag_142': 5,
+    'tag_143': 7,
+    'tag_144': 7,
+    'tag_145': 7,
+    'tag_146': 7,
+    'tag_15': 0,
+    'tag_16': 0,
+    'tag_17': 0,
+    'tag_18': 0,
+    'tag_19': 0,
+    'tag_2': 0,
+    'tag_20': 0,
+    'tag_21': 0,
+    'tag_22': 0,
+    'tag_23': 0,
+    'tag_24': 0,
+    'tag_25': 0,
+    'tag_26': 0,
+    'tag_27': 0,
+    'tag_28': 0,
+    'tag_29': 0,
+    'tag_3': 0,
+    'tag_30': 0,
+    'tag_31': 0,
+    'tag_32': 1,
+    'tag_33': 5,
+    'tag_34': 5,
+    'tag_35': 5,
+    'tag_36': 5,
+    'tag_37': 5,
+    'tag_38': 7,
+    'tag_39': 7,
+    'tag_4': 0,
+    'tag_40': 7,
+    'tag_41': 7,
+    'tag_42': 7,
+    'tag_43': 7,
+    'tag_44': 7,
+    'tag_45': 7,
+    'tag_46': 7,
+    'tag_47': 0,
+    'tag_48': 0,
+    'tag_49': 0,
+    'tag_5': 0,
+    'tag_50': 0,
+    'tag_51': 0,
+    'tag_52': 0,
+    'tag_53': 0,
+    'tag_54': 0,
+    'tag_55': 0,
+    'tag_56': 0,
+    'tag_57': 0,
+    'tag_58': 0,
+    'tag_59': 0,
+    'tag_6': 0,
+    'tag_60': 0,
+    'tag_61': 0,
+    'tag_62': 0,
+    'tag_63': 0,
+    'tag_64': 0,
+    'tag_65': 0,
+    'tag_66': 0,
+    'tag_67': 0,
+    'tag_68': 0,
+    'tag_69': 0,
+    'tag_7': 0,
+    'tag_70': 0,
+    'tag_71': 0,
+    'tag_72': 0,
+    'tag_73': 0,
+    'tag_74': 0,
+    'tag_75': 0,
+    'tag_76': 0,
+    'tag_77': 0,
+    'tag_78': 0,
+    'tag_79': 0,
+    'tag_8': 0,
+    'tag_80': 0,
+    'tag_81': 0,
+    'tag_82': 0,
+    'tag_83': 0,
+    'tag_84': 0,
+    'tag_85': 0,
+    'tag_86': 0,
+    'tag_87': 0,
+    'tag_88': 0,
+    'tag_89': 0,
+    'tag_9': 0,
+    'tag_90': 0,
+    'tag_91': 0,
+    'tag_92': 0,
+    'tag_93': 1,
+    'tag_94': 1,
+    'tag_95': 3,
+    'tag_96': 3,
+    'tag_97': 4,
+    'tag_98': 4,
+    'tag_99': 5,
+  };
 
   /// The site status. Like the real api, bad basic credentials are a 401:
   /// the app's login verification HEADs this endpoint before storing an
@@ -286,8 +485,15 @@ class FakeE621 {
   }
 
   Response _removeFavorite(Request request, String id) {
-    state.favorites.remove(int.parse(id));
-    return Response(204);
+    final int postId = int.parse(id);
+    _find(state.posts, id);
+    state.favorites.remove(postId);
+    // The real api answers the delete with the post's live favourite
+    // count, not a bare no-content.
+    final int count = state.posts
+        .where((e) => state.favorites.contains(e['id']))
+        .length;
+    return _json({'post_id': postId, 'favorite_count': count});
   }
 
   Response _listFavorites(Request request) {
@@ -369,8 +575,18 @@ class FakeE621 {
       (e) => e['id'] == int.parse(id),
       orElse: () => throw FakeE621Error(404, 'Not found'),
     );
-    final total = ((post['stats']! as Map)['score']! as Map)['total']! as int;
-    return _json({'score': total + score!, 'our_score': score});
+    final scores = post['stats']! as Map;
+    final total = (scores['score']! as Map)['total']! as int;
+    final up = (scores['score']! as Map)['up']! as int;
+    final down = (scores['score']! as Map)['down']! as int;
+    // The real api answers with the post's live totals and the voter's
+    // own score; the app ignores the body, the fake keeps it faithful.
+    return _json({
+      'score': total + score!,
+      'up': up + (score == 1 ? 1 : 0),
+      'down': down + (score == -1 ? 1 : 0),
+      'our_score': score,
+    });
   }
 
   /// The vote response in the shape the server's 2026-11 schema change

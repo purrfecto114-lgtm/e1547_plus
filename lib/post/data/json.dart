@@ -2,8 +2,8 @@ import 'package:deep_pick/deep_pick.dart';
 import 'package:e1547/post/post.dart';
 
 /// The server's tag category ids and the category names they map to
-/// (TagCategory.id in lib/tag). The post payload no longer groups tags by
-/// category, so posts carry this table to rebuild that map.
+/// (TagCategory.id in lib/tag). The default post payload carries a flat
+/// tag list, so posts carry this table to rebuild the grouped map.
 const Map<int, String> e621TagCategoryNames = {
   0: 'general',
   1: 'artist',
@@ -17,6 +17,21 @@ const Map<int, String> e621TagCategoryNames = {
 };
 
 abstract final class E621Post {
+  /// Reads the tag names of a post payload, whichever shape the server
+  /// answers with: the default response lists flat names, while the
+  /// `mode=extended` query groups them by category. Both must parse,
+  /// or a whole page of posts fails on one shape.
+  static List<String> tagNames(Pick post) {
+    final grouped = post('tags').asMapOrNull<String, dynamic>();
+    if (grouped != null) {
+      return [
+        for (final entry in grouped.values)
+          ...?entry.whereType<String>().cast<String>().toList(),
+      ];
+    }
+    return post('tags').asListOrThrow((pick) => pick.asStringOrThrow());
+  }
+
   /// [tagCategories] maps tag names to the server's category ids. Names
   /// missing from it (a failed or partial lookup) count as general.
   /// Parses only the summary fields of a post: lists that filter
@@ -47,7 +62,7 @@ abstract final class E621Post {
           0,
       ext: post('files', 'meta', 'ext').asStringOrThrow(),
       size: post('files', 'meta', 'size').asIntOrThrow(),
-      tags: post('tags').asListOrThrow((pick) => pick.asStringOrThrow()),
+      tags: tagNames(post),
       uploaderId: post('uploader_id').asIntOrNull() ?? 0,
       uploaderName: post('uploader_name').asStringOrNull(),
       createdAt: post('created_at').asDateTimeOrThrow(),
@@ -70,7 +85,7 @@ abstract final class E621Post {
     dynamic json, {
     Map<String, int> tagCategories = const {},
   }) => pick(json).letOrThrow((post) {
-    final tags = post('tags').asListOrThrow((pick) => pick.asStringOrThrow());
+    final tags = tagNames(post);
     return Post(
       id: post('id').asIntOrThrow(),
       file: post('files', 'original', 'url').asStringOrNull(),
@@ -94,7 +109,11 @@ abstract final class E621Post {
       ext: post('files', 'meta', 'ext').asStringOrThrow(),
       size: post('files', 'meta', 'size').asIntOrThrow(),
       variants: post('files', 'video').letOrNull(_variants),
-      tags: groupTags(tags, tagCategories),
+      tags: groupTags(
+        tags,
+        tagCategories,
+        grouped: post('tags').asMapOrNull<String, dynamic>(),
+      ),
       // Anonymous or unknown uploaders must not fail the whole
       // post; 0 is no real user id on the server.
       uploaderId: post('uploader_id').asIntOrNull() ?? 0,
@@ -127,12 +146,21 @@ abstract final class E621Post {
     );
   });
 
-  /// Groups flat tag names by their category name. Unknown category ids
+  /// Groups tag names by their category name. Unknown category ids
   /// count as general, and names missing from [tagCategories] too.
+  /// A payload the server already grouped (mode=extended) keeps its
+  /// own grouping unless a lookup regroups it by id.
   static Map<String, List<String>> groupTags(
     List<String> tags,
-    Map<String, int> tagCategories,
-  ) {
+    Map<String, int> tagCategories, {
+    Map<String, dynamic>? grouped,
+  }) {
+    if (grouped != null && tagCategories.isEmpty) {
+      return {
+        for (final entry in grouped.entries)
+          entry.key: [...?(entry.value as List?)?.whereType<String>()],
+      };
+    }
     final result = <String, List<String>>{};
     for (final tag in tags) {
       final category =

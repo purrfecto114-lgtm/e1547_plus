@@ -71,3 +71,20 @@
    - **自带离线回归套件（硬证据）：`bash scripts/test-offline.sh` EXIT=0**——node:test 90+6 全过 0 fail、pytest 27 passed、平台壳测全 PASS（仅 2 条环境性 SKIP：zsh/strace 未装，非仓库缺陷）。其排除项（网络生命周期/原生 CLI 真实会话/Windows/Codex 快照）在 test:offline 与 RELEASE-NOTES 里如实声明。
    - 发现问题（仅文档级）：**chinese-documentation/SKILL.md 有 7 个死链**（./docs/guide.md 等——本是排版示例写法，作为真链接确实指向不存在路径，建议改反引号行内代码）；writing-skills 里 FORMS.md 等是上游原文自带的示意引用，忠实翻译非缺陷。总体结论：**通过，工程质量高，可放心使用 v1.9.1**。报告存 download/superpowers-zh_全面检查报告.md；检查脚本存 scripts/inspect_spzh.py（51 项断言可复跑）。
 5. 坑备忘：环境恢复脚本本身也会被沙箱回收——handoff 包里带一份 restore-credentials.sh/poll_run.py 等自救副本很关键（本轮直接从 handoff 包恢复 scripts/）；superpowers-zh 的检查方法沉淀=clone 双仓+结构化脚本+跑它自己的离线套件三步，上游基线核对用 .upstream-sync.json 而非 tag 名。
+
+### Round 12：线上帖子加载失败紧急修复 + 发版 22.9.1+236（2026-11-23）
+1. 用户紧急报告：**已发布的 22.9.0+235（用户已改为 pre-release）在真实 e621/e926 上帖子加载失败，但测试日志全绿**。superpowers-zh 工作流（systematic-debugging 四阶段）驱动诊断：
+   - 根因调查：沙箱已回收（第 6 次，repos/+SDK 全清）→ handoff 包恢复凭据+clone+SDK。对照真实 API 实测：`e621.net/posts.json?mode=extended` 与 e926 同款，`tags` 返回**按类别分组的 dict**（general/artist/...，空组也在）；默认（无 mode）返回平铺 list。fork 解析器（json.dart asListOrThrow）只吃平铺 list → 收 dict 必抛 → 整页失败。**app 三个 posts 端点（page/byIds/get/favorites 全走 mode=extended）→ 全部命中。**
+   - 机制判定（读 e621ng 源码确认）：`pick_json_format` 三态 basic/extended/thumbnail——extended 是**合法参数非残留**；2026-11 schema 迁移时 fork 把上游的 dict 解析（asMapOrThrow）删成只吃平铺，参数与解析器就脱节了。**fake 从不模拟 extended → 测试全绿是结构性假象**（Round 9 收藏空洞同款教训再现）。
+   - 全仓形状排查（逐端点对照真实 API）：users/topics/wiki/pools/tag_aliases/comments 字段全对齐；vote/favorites 写路径参数兼容（Round 9 结论维持：用户侧 vote/favorite 失效最可能是旧 API key 失效）；唯一形状分歧就是 tags dict。
+2. TDD 修复：
+   - 红：录制真实 extended 响应为 `test/_fixtures/posts_extended.json`（2 帖真实数据），新测试组喂给 fromJson → PickException 复现线上故障（同源证据）。
+   - 绿：`E621Post.tagNames()`（tags 双形状读取）+ `groupTags` 支持服务器自带分组（lookup 为空时保留服务器分组，非空时按 id 重组）；`partialFromJson` 同步。PartialPost.allTags 语义不变。
+   - fake 忠实化：`_renderPosts`（mode=extended → 9 类别键分组渲染，类别表烘焙自 tags.json 与 /tags.json lookup 解耦——真实服务器的分组是内部知识，lookup 失败不会 ungroup）；favorites destroy 改回 JSON {post_id, favorite_count}（真实是 200 非 204）；vote 响应补 up/down 字段（对照 post_votes_controller.rb）。
+   - 测试语义更新：'leaves tags general when the category lookup fails' → 'keeps the server grouping when the category lookup fails'（新协议下 lookup 失败时服务器分组已在，更强的正确性）。
+3. 验收（verification-before-completion）：analyze **No issues found** / dart format exit 0 / 全量 **1379 passed + 19 skipped EXIT=0**（5:37，fake 忠实化后完整复跑无回流）。skipped 净减 3（1376→1379 passed：extended 解析新 3 测试）。
+4. 发版 22.9.1+236（bug 修复 → 0.x.0 位递增；build 236 未分发过）：三件套（CHANGELOG Fixed 段 + compare 链接 + fastlane 236.txt）→ dispatch → poll_run → 核对 7 资产/tag/latest。**上一版 235 用户已手动改 pre-release，latest 将由本轮 236 重新接管。**
+5. 坑备忘新增：
+   - **「参数合法 ≠ 解析器兼容」**：迁移换代时参数与解析器要一起审（这次 mode=extended 合法但解析器只吃 basic 形）；排查这类"线上挂/本地绿"直接问两个问题——app 实际发的请求形状是什么？fake 是不是只回一种形状？
+   - 对照真实服务器行为优先读 e621ng 源码（json_response_helper.rb 的 pick_json_format 是形状的权威定义），curl 实测两站做证据。
+   - fake 的渲染数据源与可清空的测试状态解耦（烘焙表）——否则"模拟 lookup 失败"会连带破坏渲染，制造假分歧。

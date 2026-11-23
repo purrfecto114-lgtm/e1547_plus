@@ -94,6 +94,54 @@ void main() {
     });
   });
 
+  group('E621Post.fromJson extended tags', () {
+    // Recorded from e621.net with the `mode=extended` query the client
+    // sends: the server answers with tags grouped by category instead
+    // of the flat list, and the parser must read both shapes.
+    final posts = loadFixtureList(
+      'posts_extended.json',
+    ).map(E621Post.fromJson).toList();
+
+    test('parses tags grouped by the server itself', () {
+      final post = posts[0];
+      final raw = loadFixtureList('posts_extended.json').first;
+      final grouped = (raw['tags']! as Map<String, dynamic>);
+      // Without a category lookup, the parser copies the server's own
+      // grouping: every entry stays in its group.
+      expect(post.tags.keys, containsAll(grouped.keys));
+      for (final entry in grouped.entries) {
+        expect(post.tags[entry.key], entry.value);
+      }
+    });
+
+    test('groups a flat list through the category lookup', () {
+      // The extended shape already carries groups; a lookup must keep
+      // the same names in the same groups.
+      final flat =
+          (loadFixtureList('posts_extended.json').first['tags']!
+                  as Map<String, dynamic>)
+              .values
+              .expand((list) => list as List)
+              .cast<String>()
+              .toList();
+      final regrouped = E621Post.groupTags(flat, const {'annaleigh': 1});
+      expect(regrouped['artist'], contains('annaleigh'));
+      expect(regrouped.values.expand((tags) => tags).toSet(), flat.toSet());
+    });
+
+    test('parses partial summaries from the extended shape', () {
+      final raw = loadFixtureList('posts_extended.json').first;
+      final partial = E621Post.partialFromJson(raw);
+      expect(partial.id, raw['id']);
+      final flat = (raw['tags']! as Map<String, dynamic>).values
+          .expand((list) => list as List)
+          .cast<String>()
+          .toList();
+      expect(partial.allTags, containsAll(flat));
+      expect(partial.allTags.length, flat.length);
+    });
+  });
+
   group('E621Post.fromJson tolerance', () {
     // A server that stops carrying one file tier (a post removed from the
     // cdn, a replacement in flight) must not fail the whole page of posts.

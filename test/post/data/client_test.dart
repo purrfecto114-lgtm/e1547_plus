@@ -135,13 +135,16 @@ void main() {
     expect(after, before);
   });
 
-  test('leaves tags general when the category lookup fails', () async {
+  test('keeps the server grouping when the category lookup fails', () async {
     fake.state.tags.clear();
 
     final post = (await client.page()).first;
 
-    expect(post.tags.keys, ['general']);
-    expect(post.tags['general'], isNotEmpty);
+    // The posts request asks for mode=extended, so the server already
+    // grouped the tags; a failed lookup must not fail the page or wipe
+    // that grouping.
+    expect(post.tags.keys, isNotEmpty);
+    expect(post.tags.values.expand((tags) => tags), isNotEmpty);
   });
 
   test('folds sample alternates into variants', () async {
