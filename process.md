@@ -108,3 +108,6 @@
    - 1793660c（/status.json 退场→posts.json HEAD）已验证兼容；无其它「参数合法但解析器不匹配」残留。
 5. 门禁（verification-before-completion）：analyze **No issues found** / format 0 / 全量 **1381 passed + 19 skipped EXIT=0**（5:38，净增 2：+3 新用例 -1 语义更新；round13_full_test.log）。
 6. 发版 22.9.2+237（0.0.x 位 patch；build 237 未分发过）：三件套（CHANGELOG Fixed 段 + compare 链接 + fastlane 237.txt）→ dispatch → poll_run → 核对 7 资产/tag/latest。
+   - run **45111999135** 首跑：5 job 全绿，唯 android-smoke 红——**Maven Central 限流**（`repo.maven.apache.org 返回 429 Too Many Requests`，kotlin-stdlib POM 拉不动；同一 commit 的 android-build 正常完成，代码无回归证据）→ `rerun-failed-jobs` 重跑该 job → **success**。
+   - 终态核对：tag 22.9.2+237=**17cbbc11**=master HEAD ✓；latest→237（title "22.9.2 (engine shutdown fix)"，prerelease=false，draft=false）✓；7 资产（arm64/armv7/universal APK、setup.exe、deb、ipa、tar.gz）齐 ✓；正文=CHANGELOG 237 段 ✓。
+   - 备忘：**429 Maven 限流的鉴别法**——看失败 job 的日志里 "Received status code 429 from server"（瞬态网络性），对照同 commit 其它 build job 是否全绿（代码性失败会同时红）；处置=rerun-failed-jobs，别急着改代码。
