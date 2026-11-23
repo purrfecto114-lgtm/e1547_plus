@@ -17,14 +17,14 @@
 
 ## About this fork
 
-This repository is a fork of [e1547](https://github.com/clynamic/e1547) (GPL-3.0), maintained with a focus on stability on Android 7 and other low memory devices. It rebases on upstream 21.1.1 and carries its own `21.2.x` and newer release line — every change is listed per release in the [changelog](CHANGELOG.md).
+This repository is a fork of [e1547](https://github.com/clynamic/e1547) (GPL-3.0), maintained with a focus on stability on Android 7 and other low memory devices. It rebases on upstream 21.2.0 and carries its own `22.x` release line — every change is listed per release in the [changelog](CHANGELOG.md).
 
 On top of upstream, this fork ships:
 
 - a stability batch for Android 7 and low memory devices — sized image caches, a video player pool capped by device memory, guarded cache database access and memory-adaptive defaults
 - a security batch — database exports stripped of saved logins and optionally AES-256-GCM protected (with a password prompt on import), hardened imports, a locked-down cookie webview, database files excluded from OS backups, request timeouts, a salted PBKDF2 app pin with a persisted backoff against guessing, and a biometric lock that works on Android 7's fingerprint API
 
-The fork's changes are offered back upstream as pull requests ([#190](https://github.com/clynamic/e1547/pull/190)–[#193](https://github.com/clynamic/e1547/pull/193)).
+The fork's changes were offered back upstream as pull requests ([#190](https://github.com/clynamic/e1547/pull/190)–[#193](https://github.com/clynamic/e1547/pull/193)); they stayed unmerged there, and this fork ships them in its own release line instead.
 
 The in-app updater checks this repository for new versions; since the fork is signed with its own key, it cannot be installed over the official release — see [Upgrading](#upgrading) below.
 
@@ -112,7 +112,7 @@ Updates within this fork install right over older fork releases. Coming from the
 
 ## Compilation
 
-1. Install [Flutter](https://flutter.dev/docs/get-started/install) 3.44.9 or newer (stable)
+1. Install [Flutter](https://flutter.dev/docs/get-started/install) 3.47.4 or newer (stable)
 2. Clone this github repository
 3. Run `flutter build <file>` where `<file>` is either `apk` or `ipa`
 

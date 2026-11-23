@@ -17,14 +17,14 @@
 
 ## 关于此分支
 
-本仓库是 [e1547](https://github.com/clynamic/e1547)（GPL-3.0）的分支，重点关注 Android 7 及其他低内存设备上的稳定性。基于上游 21.1.1 演进，维护自己的 `21.2.x` 及后续发布线 —— 每项改动均按版本记录在 [变更日志](CHANGELOG.md)中。
+本仓库是 [e1547](https://github.com/clynamic/e1547)（GPL-3.0）的分支，重点关注 Android 7 及其他低内存设备上的稳定性。基于上游 21.2.0 演进，维护自己的 `22.x` 发布线 —— 每项改动均按版本记录在 [变更日志](CHANGELOG.md)中。
 
 在上游的基础上，本分支附带两项批次：
 
 - 面向 Android 7 与低内存设备的稳定性批次 —— 限制解码尺寸的图片缓存、按设备内存分级的视频播放器池、带异常防护的缓存数据库访问，以及按内存自适应的默认值
 - 安全批次 —— 导出数据库不含凭据并可选 AES-256-GCM 加密（导入时要求密码），导入校验加固、Cookie WebView 锁定本站、数据库文件排除在系统备份之外、请求超时、加盐 PBKDF2 应用锁与防暴力回退，以及兼容 Android 7 指纹 API 的生物识别锁
 
-分支的改动均以 Pull Request 的形式回馈上游（[#190](https://github.com/clynamic/e1547/pull/190)–[#193](https://github.com/clynamic/e1547/pull/193)）。
+分支的改动曾以 Pull Request 的形式回馈上游（[#190](https://github.com/clynamic/e1547/pull/190)–[#193](https://github.com/clynamic/e1547/pull/193)），未在上游合并；这些改动由本分支自己的发布线提供。
 
 应用内更新器检查本仓库的新版本；由于本分支使用自己的签名密钥，无法直接覆盖安装官方版本 —— 见下方[升级](#升级)说明。
 
@@ -34,7 +34,7 @@
 - 浏览、编辑、评论帖子，浏览图集
 - 下载图片支持传输中途取消；收藏、点赞与点踩
 - 关注标签并接收通知；本地黑名单
-- DText 解析；视频支持，可选清晰度、按需加载
+- DText 解析；视频支持，可选清晰度、按需加载，以及打开视频时预取相邻视频
 - 多账号登录；多应用主题
 - 多语言界面 —— 十三种语言，内置离线标签词典（约 4000 条简体中文含繁体渲染、约 370 条日语）
 - 首次启动引导与设置中的语言、画质选择
@@ -112,7 +112,7 @@ APK、IPA、Windows 与 Linux 安装包可在 [releases](https://github.com/purr
 
 ## 编译
 
-1. 安装 [Flutter](https://flutter.dev/docs/get-started/install) 3.44.9 或更新版本（stable）
+1. 安装 [Flutter](https://flutter.dev/docs/get-started/install) 3.47.4 或更新版本（stable）
 2. 克隆本 GitHub 仓库
 3. 运行 `flutter build <file>`，其中 `<file>` 为 `apk` 或 `ipa`
 
