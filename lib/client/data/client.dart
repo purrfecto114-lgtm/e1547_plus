@@ -36,6 +36,18 @@ class Client with Disposable {
   final Identity identity;
   final ValueNotifier<Traits> traits;
 
+  /// Cancels the requests [dio] still has in flight when this client
+  /// goes away.
+  ///
+  /// Disposal used to close the dio — and with it the platform's
+  /// request engine — while requests like the follow sync were still
+  /// running, which the engine answers with an IllegalStateException
+  /// on Android and leaves the requests torn down mid-flight. The
+  /// token cancellations let every in-flight request unwind through
+  /// its own cancellation path first, so the engine closes clean.
+  InFlightInterceptor get inFlight =>
+      dio.interceptors.whereType<InFlightInterceptor>().first;
+
   /// Whether [dispose] owns [traits].
   ///
   /// Factory-made clients hold the streamed traits notifier created for
@@ -102,7 +114,10 @@ class Client with Disposable {
 
   @override
   void dispose() {
-    dio.close();
+    // In-flight requests unwinding through their cancellation paths
+    // must reach the engine before it goes; sub-clients' disposals
+    // (the follow server cancels its sync) can trigger that unwind, so
+    // they run before the dio itself closes.
     for (final client in [
       accounts,
       users,
@@ -122,6 +137,8 @@ class Client with Disposable {
     ]) {
       Disposable.tryDispose(client);
     }
+    inFlight.cancelAll();
+    dio.close();
     // The streamed notifier's subscription only ends with its dispose;
     // owning it means every identity switch frees the previous one.
     if (_ownsTraitsNotifier) traits.dispose();

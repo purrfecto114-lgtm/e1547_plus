@@ -1,0 +1,1 @@
+Switching accounts or exiting no longer risks the network engine's shutdown error: in-flight requests like the subscription sync are cancelled through their own paths before the engine closes.

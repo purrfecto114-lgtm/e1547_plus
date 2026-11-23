@@ -148,6 +148,9 @@ class TestEnvironment {
   );
 
   Future<void> dispose() async {
+    // A stalled request the test never drained would hold the server's
+    // close hostage; releasing the stall lets it answer before stop.
+    fake.stallFor = null;
     videos.dispose();
     traits.dispose();
     await fake.stop();

@@ -26,12 +26,27 @@ class FakeE621 {
       // keepalive connection would sit on its idle timer past the end of
       // the fake clock. Closing every response keeps clients from
       // pooling connections at all.
-      _closeConnections(fake._route),
+      _closeConnections(_stall(fake._route, () => fake.stallFor)),
       InternetAddress.loopbackIPv4,
       0,
     );
     return fake;
   }
+
+  /// Duration a request waits before the route answers it; null (the
+  /// default) answers at once. Tests that need a request to be truly
+  /// in flight while its owner tears down set this.
+  Duration? stallFor;
+
+  /// Holds a request back for [stallFor] before delegating it.
+  static Handler _stall(Handler inner, Duration? Function() stall) =>
+      (request) async {
+        final Duration? delay = stall();
+        if (delay != null) {
+          await Future<void>.delayed(delay);
+        }
+        return inner(request);
+      };
 
   /// Marks every response as the last one on its connection.
   static Handler _closeConnections(Handler inner) => (request) async {

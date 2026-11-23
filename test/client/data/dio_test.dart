@@ -1,9 +1,13 @@
+import 'dart:async';
+
+import 'package:dio/dio.dart';
 import 'package:drift/native.dart';
 import 'package:e1547/app/app.dart';
 import 'package:e1547/client/client.dart';
 import 'package:e1547/identity/identity.dart';
 import 'package:flutter_test/flutter_test.dart';
 
+import '../../_support/environment.dart';
 import '../../_support/harness.dart';
 
 void main() {
@@ -42,5 +46,53 @@ void main() {
     // client has none, so absolute URLs stay absolute.
     expect(api.options.baseUrl, isNotEmpty);
     expect(media.options.baseUrl, isEmpty);
+  });
+
+  test('every dio the app creates tracks its in-flight requests', () async {
+    final db = AppDatabase(NativeDatabase.memory());
+    addTearDown(db.close);
+    const IdentityRequest identity = IdentityRequest(host: 'e621.net');
+    final api = createDefaultDio(await IdentityRepository(db).add(identity));
+    final media = createMediaDio();
+
+    for (final dio in [api, media]) {
+      expect(
+        dio.interceptors.whereType<InFlightInterceptor>(),
+        isNotEmpty,
+        reason:
+            'every dio must be able to cancel its in-flight requests '
+            'before its engine closes',
+      );
+    }
+  });
+
+  test('disposing a client cancels its in-flight requests', () async {
+    final env = await TestEnvironment.start();
+    addTearDown(env.dispose);
+
+    // The posts page is the request the follow sync would have running
+    // when an identity switch happens; the fake server holds it back,
+    // so it is genuinely in flight while the client goes away.
+    env.fake.stallFor = const Duration(seconds: 30);
+
+    final Completer<Object?> outcome = Completer<Object?>();
+    unawaited(
+      env.client.posts.page().then(
+        outcome.complete,
+        onError: (Object e) => outcome.complete(e),
+      ),
+    );
+    // Let the request start travelling before the client goes away.
+    await Future<void>.delayed(const Duration(milliseconds: 100));
+    expect(env.client.inFlight.count, greaterThan(0));
+
+    // Disposing the client must cancel the request through its own
+    // cancellation path instead of closing the engine under it.
+    env.client.dispose();
+
+    final Object? error = await outcome.future;
+    expect(error, isA<DioException>());
+    expect(CancelToken.isCancel(error! as DioException), isTrue);
+    expect(env.client.inFlight.count, 0);
   });
 }

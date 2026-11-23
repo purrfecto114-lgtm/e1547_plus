@@ -1,5 +1,13 @@
 # Changelog
 
+## [22.9.2+237] - 2026-11-23
+### Fixed
+- switching accounts or leaving the app no longer risks the request
+  engine's shutdown exception: the client now stops its in-flight
+  requests through their own cancellation paths before closing the
+  engine, so a follow sync caught mid-run unwinds cleanly instead of
+  the engine failing under it on Android
+
 ## [22.9.1+236] - 2026-11-23
 ### Fixed
 - post lists failed to load from the live sites: the app requests the
@@ -2166,3 +2174,4 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 [22.7.0+232]: https://github.com/purrfecto114-lgtm/e1547_plus/compare/22.7.0+231...22.7.0+232
 [22.9.0+235]: https://github.com/purrfecto114-lgtm/e1547_plus/compare/22.8.1+234...22.9.0+235
 [22.9.1+236]: https://github.com/purrfecto114-lgtm/e1547_plus/compare/22.9.0+235...22.9.1+236
+[22.9.2+237]: https://github.com/purrfecto114-lgtm/e1547_plus/compare/22.9.1+236...22.9.2+237

@@ -88,3 +88,23 @@
    - **「参数合法 ≠ 解析器兼容」**：迁移换代时参数与解析器要一起审（这次 mode=extended 合法但解析器只吃 basic 形）；排查这类"线上挂/本地绿"直接问两个问题——app 实际发的请求形状是什么？fake 是不是只回一种形状？
    - 对照真实服务器行为优先读 e621ng 源码（json_response_helper.rb 的 pick_json_format 是形状的权威定义），curl 实测两站做证据。
    - fake 的渲染数据源与可清空的测试状态解耦（烘焙表）——否则"模拟 lookup 失败"会连带破坏渲染，制造假分歧。
+
+### Round 13：Cronet 关闭崩溃修复（用户日志诊断）+ 22.x 全量总揽 + 发版 22.9.2+237（2026-11-23）
+1. 用户上传 jsonl（7 行）+「0.0.x 发布」指令。日志核心：`IllegalStateException: Cannot shutdown with running requests`（org.chromium.net CronetUrlRequestContext.shutdown）。时间线：03:05:53 FollowSync 开始→03:05:54 完成→03:06:05 **新一轮 FollowSync 开始**（此即身份热切换/重启）→03:06:07 Client available→shutdown 异常。
+2. 根因链（systematic-debugging 四阶段走完）：
+   - `ClientProvider` keys 绑定 identity → 身份/host 切换或退出时 `client.dispose()` → **同步** `dio.close()` → `CronetClient.close()` → `engine.shutdown()`；
+   - `FollowConnector` 在每个新 client 挂载即触发 `followServer.sync()`，旧 client 的 sync/预取在速 → 引擎下有活请求 → Android 上 Cronet 抛 IllegalStateException（引擎拒绝带活请求关闭）。
+   - 深层：`native_dio_adapter` ConversionLayerAdapter 只把 cancelFuture 接到 AbortableRequest.abortTrigger——没人调用时引擎带活请求关。**该问题 21.x NativeAdapter 引入起潜伏，22.0 大改版身份热切换路径增多后踩响，非 22.x 新引入。**
+3. 修复（TDD 红→绿）：
+   - `InFlightInterceptor`（lib/client/data/dio.dart）：onRequest 复用调用方 token（无则补发）并注册 `whenCancel` 自移除；onResponse/onError 兜底移除。关键坑：**dio 的异常 requestOptions 是副本且不带 token（实证 err.requestOptions.cancelToken=null）**，靠 chain 传回的 options 移除会漏——必须靠 token 自身的 whenCancel 生命周期。`cancelAll()` 给 dispose 前调用。
+   - `Client.dispose` 重排：先 dispose 子 client（followServer 会 cancel sync）→ `inFlight.cancelAll()` → `dio.close()`。注释写明时序依据。
+   - `createDefaultDio/createMediaDio` 均装 interceptor；fake 服务器加 `stallFor` 慢响应支持（测取消的确定性手段）。
+   - 测试演进教训：testWidgets 的 fake-async zone 与 runAsync 真实 zone 之间的 future 互通不可靠（同一用例 testWidgets 挂死、plain test 秒绿）——**纯数据/网络行为用 plain test() 写**，widget 树交互才用 testWidgets。
+   - 探针方法（值得复用）：临时 `_probe_test.dart` 用 plain test 在真实事件循环里跑完整链路（print 断言），比在 testWidgets 里猜 zone 语义快得多。
+4. 22.x 全量总揽（16 版本，用户指令）：逐版本过 CHANGELOG+高危 commit。结论：
+   - **22.5.0（ead301da）= 236 轮线上故障引入点**（删 tags dict 解析但留 mode=extended 参数）——已修；
+   - NativeAdapter/FollowConnector 均为 21.x 引入（dispose 时序雷是潜伏非新引入）——本轮已修；
+   - 22.5.1 系列（b8aaf7fe 批量类别查找/199d4284 denylist 保留/下载恢复）均有测试伴随，无回归疑点；
+   - 1793660c（/status.json 退场→posts.json HEAD）已验证兼容；无其它「参数合法但解析器不匹配」残留。
+5. 门禁（verification-before-completion）：analyze **No issues found** / format 0 / 全量 **1381 passed + 19 skipped EXIT=0**（5:38，净增 2：+3 新用例 -1 语义更新；round13_full_test.log）。
+6. 发版 22.9.2+237（0.0.x 位 patch；build 237 未分发过）：三件套（CHANGELOG Fixed 段 + compare 链接 + fastlane 237.txt）→ dispatch → poll_run → 核对 7 资产/tag/latest。
