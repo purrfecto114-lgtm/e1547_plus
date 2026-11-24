@@ -134,24 +134,29 @@ class ClientProvider
           IdentityClient,
           TraitsClient,
           ClientFactory,
-          Client
+          Future<Client>
         > {
   ClientProvider({super.child, super.builder})
     : super(
-        create: (context, storage, identities, traits, factory) =>
+        // The android system proxy needs one platform-channel round trip
+        // before the first client can pick its http adapter; the client
+        // arrives as a future the consumers below await through the
+        // loading shells they already have.
+        create: (context, storage, identities, traits, factory) async =>
             factory.create(
               ClientConfig(
                 identity: identities.identity,
                 traits: traits.notifier,
                 storage: storage,
               ),
+              proxy: await systemProxyMemo,
             ),
         keys: (context) => [
           context.watch<IdentityClient>().identity,
           context.watch<TraitsClient>(), // notifier is created per identity
           context.watch<AppStorage>().queryCache,
         ],
-        dispose: (context, client) => client.dispose(),
+        dispose: (context, client) => client.then((client) => client.dispose()),
       );
 }
 

@@ -36,6 +36,37 @@ class MainActivity : FlutterFragmentActivity() {
         MethodChannel(flutterEngine.dartExecutor.binaryMessenger, "e1547/biometrics")
             .setMethodCallHandler { call, result ->
                 when (call.method) {
+                    // The cronet engine ignores the android system proxy, so
+                    // users behind one (wifi proxy settings, local proxy apps)
+                    // cannot reach hosts their proxy would unlock. The dart
+                    // side asks for the system proxy and routes through an
+                    // adapter that honors it when one is set.
+                    "systemProxy" -> {
+                        fun probe(block: () -> Any?): Any? =
+                            try {
+                                block()
+                            } catch (e: Exception) {
+                                null
+                            }
+                        val host: String? = probe {
+                            android.provider.Settings.Global.getString(
+                                contentResolver,
+                                android.provider.Settings.Global.HTTP_PROXY,
+                            )?.split(":")?.firstOrNull()?.takeIf { it.isNotEmpty() }
+                        } as String?
+                        val port: Int? = probe {
+                            android.provider.Settings.Global.getString(
+                                contentResolver,
+                                android.provider.Settings.Global.HTTP_PROXY,
+                            )?.split(":")?.getOrNull(1)?.toIntOrNull()
+                        } as Int?
+                        result.success(
+                            mapOf(
+                                "host" to host,
+                                "port" to port,
+                            )
+                        )
+                    }
                     "fingerprintState" -> {
                         fun probe(block: () -> Any?): Any? =
                             try {

@@ -20,14 +20,16 @@ const String _e621Host = 'https://e621.net';
 const String _e926Host = 'https://e926.net';
 
 class ClientFactory {
-  Client create(ClientConfig config) => Client(
-    identity: config.identity,
-    traits: config.traits,
-    storage: config.storage,
-    // The factory hands out the streamed traits notifier created for
-    // this client; the client is its owner and frees it on dispose.
-    ownsTraitsNotifier: true,
-  );
+  Client create(ClientConfig config, {({String host, int port})? proxy}) =>
+      Client(
+        identity: config.identity,
+        traits: config.traits,
+        storage: config.storage,
+        // The factory hands out the streamed traits notifier created for
+        // this client; the client is its owner and frees it on dispose.
+        ownsTraitsNotifier: true,
+        proxy: proxy,
+      );
 
   IdentityRequest createDefaultIdentity() {
     return const IdentityRequest(host: _e926Host);

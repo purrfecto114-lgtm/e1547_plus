@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:dio/dio.dart';
+import 'package:dio/io.dart';
 import 'package:e1547/client/client.dart';
 import 'package:e1547/identity/identity.dart';
 import 'package:e1547/logs/logs.dart';
@@ -73,7 +74,11 @@ class InFlightInterceptor extends Interceptor {
 }
 
 /// Create a default [Dio] instance for the given [Identity].
-Dio createDefaultDio(Identity identity, {CachedQuery? queryCache}) {
+Dio createDefaultDio(
+  Identity identity, {
+  CachedQuery? queryCache,
+  ({String host, int port})? proxy,
+}) {
   final dio = Dio(
     BaseOptions(
       baseUrl: normalizeHostUrl(identity.host),
@@ -86,7 +91,16 @@ Dio createDefaultDio(Identity identity, {CachedQuery? queryCache}) {
       receiveTimeout: const Duration(seconds: 30),
     ),
   );
-  dio.httpClientAdapter = NativeAdapter();
+  // The cronet engine ignores the android system proxy; behind one, hosts
+  // that only resolve through it fail as if the device were offline. When
+  // a proxy is known, the io adapter routes through it instead.
+  dio.httpClientAdapter =
+      proxy == null
+          ? NativeAdapter()
+          : IOHttpClientAdapter(
+            createHttpClient: () => HttpClient()
+              ..findProxy = (uri) => 'PROXY ${proxy.host}:${proxy.port}',
+          );
   dio.interceptors.add(InFlightInterceptor());
   dio.interceptors.add(NewlineReplaceInterceptor());
   dio.interceptors.add(LoggingDioInterceptor());
