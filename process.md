@@ -146,3 +146,17 @@
    - dispatch run **45301359717**：4 build+2 validate 全绿，唯 release job 失败；rerun-failed-jobs 复跑仍失败。**失败步骤无法定位**——jobs API logs 端点对本 token 返回 403（Round 13 的 429 鉴别法依赖日志正文，这次拿不到），annotations 仅 "exit code 1"。未建 tag/release，无残留资源。
    - 用户指令：版本改回 22.9.x，不发版只推送。已照办：pubspec/CHANGELOG/link 改 **22.9.4+239**（0.0.x 位 patch，build 239 顺延），fastlane 239.txt 保留（body 对 22.9.4 仍准确）；推送 master 走 push 触发的 validation，deployment 不 dispatch、不建 tag。changelog 三件套已是可发状态，后续发版轮 dispatch version=none 即可。
    - 备忘新增两条：① **bump 版本前先 `git fetch` 对远端**——沙盒回收后的本地基线不是事实源头（本轮 238 号冲突即由此来）；② release job 失败先拉 jobs API 的 steps[] 看 step 级结论，logs 403 时 annotation 只给 exit code，不足以定位；③ sed 批量替换版本号会误伤历史记录里的相同子串（本轮 Round 14 的 238 被改 239，已修复）——版本替换必须锚定行首结构。
+
+### Round 16：用户三报修 + 上轮遗留 + 发版 22.9.5+240（2026-11-24，下篇）
+
+1. 上轮遗留：CI validate 失败根因 = tile_test.dart 多余 provider import（本地 analyze 的"1 issue"被我误判为提示性输出——教训：analyze 任何 issue 都不放行）。已删，此后 analyze 每次归零后才 push。
+2. 用户报修①"筛选后每个分类计数+1"：筛选面板分区徽章实测正确（新增测试）；真因在标签抽屉计数——光标分页在刷新与翻页竞态时产生重叠页，QueryFilter 重切块不去重 → 每个重叠帖被计两遍，全体 tag +1。修复：rechunk 按 idOf 跨页去重（test/query/widget/rechunk_test.dart 红→绿）。
+3. 用户报修②"e926 直连可用、e621 离线、开代理也失败、热门页转圈"：根因 = NativeAdapter 的 Cronet 引擎忽略 Android 系统代理（代理模式 App 全部失效；VPN TUN 模式不受影响所以"时好时坏"）。修复：MainActivity 加 systemProxy 通道（Settings.Global HTTP_PROXY）+ Client 按 memo 一次性读取，有代理时换 IOHttpClientAdapter 走 findProxy。e926 可访问是因为它没被墙，与代理无关；"热门转圈"是 order:rank 无缓存数据的首页加载动画，根因同上（请求全失败）。
+4. 用户报修③"新旧加载动画堆叠"：LoadingShell 覆盖层 Stack 下 child 继续构建，账号切换重取时页面自己的首屏动画与图标覆盖层同屏堆叠。修复：overlay 显示期间不构建 child（顺带省掉被遮子树的开销）。
+5. 发版 22.9.5+240 三次 dispatch 实录（坑全踩了一遍，如实记录）：
+   - run 45333496890：validate analyze 红（上述 import）→ 修复。
+   - run 45343013510：①android-build Gradle 网络解析插件失败（瞬态，同 237 轮 Maven 限流）②validate format 红（我漏跑 dart format，5 文件未格式化）。先本地 format 提交（5120f83f），然后 rerun-failed-jobs —— **rerun 仍用原 commit，format 必然再红**（RELEASE.md 早写了，重蹈）。正确操作：cancel 旧 run → 新 commit 重新 dispatch。
+   - run 45345902682：全 build/validate 绿，release job "write playstore changelogs" 步骤红 —— `cider describe 22.9.5+240` 报 Version not found。根因：**cider 靠 CHANGELOG 底部的 compare 链接行解析版本，22.9.5+240 的链接行缺失**（三件套我上轮就漏了这条，"三件套"实为四件：pubspec/CHANGELOG 段/fastlane txt/compare 链接行）。本地 activate cider 复现验证后补行。
+   - run 45347595212：**全绿**。tag 22.9.5+240 = 7af0c8c8，7 资产齐（arm64/armv7/universal APK、setup.exe、deb、ipa、tar.gz），正文=CHANGELOG 240 段。
+   - 按用户指令手动 PATCH prerelease=true + make_latest=false；latest 指针回落 22.9.3+238（改动过大先观察）。
+6. 坑备忘（新增两条）：**dispatch 前 checklist = analyze 0 + dart format 0 + 全量测试 + compare 链接行**；**cider 版本解析失败先查 CHANGELOG 底部链接行**。
