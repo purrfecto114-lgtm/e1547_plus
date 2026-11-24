@@ -85,8 +85,10 @@ class _NotificationHandlerState extends State<NotificationHandler>
     // The repository spans every account, not just the one whose stream
     // produced this event: unregistering on this account's empty list
     // would cancel the task while another account still notifies.
-    final FollowRepository allFollows =
-        context.read<Client>().follows.repository;
+    final FollowRepository allFollows = context
+        .read<Client>()
+        .follows
+        .repository;
     bool isNotifying = follows
         .where((e) => e.type == FollowType.notify)
         .isNotEmpty;
@@ -188,8 +190,10 @@ class _NotificationHandlerState extends State<NotificationHandler>
     if (follows == null) return;
     if (follows.where((e) => e.type == FollowType.notify).isEmpty) return;
     // Resolved before the awaits: contexts must not cross async gaps.
-    final FollowRepository allFollows =
-        context.read<Client>().follows.repository;
+    final FollowRepository allFollows = context
+        .read<Client>()
+        .follows
+        .repository;
     final ValueNotifier<bool> denied = context
         .read<Settings>()
         .deniedNotifications;

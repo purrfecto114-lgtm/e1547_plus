@@ -100,7 +100,7 @@ Future<String?> showDownloadVideoQualityDialog(
       children: [
         for (final entry in variants)
           ListTile(
-            title: Text(entry.key),
+            title: Text(videoVariantLabel(entry.key, entry.value)),
             onTap: () => Navigator.of(dialogContext).pop(entry.key),
           ),
         if (post.file != null)

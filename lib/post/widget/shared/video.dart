@@ -396,7 +396,7 @@ class VideoQualityDialog extends StatelessWidget {
       title: Text(AppLocalizations.of(context).videoQuality),
       children: [
         for (final MapEntry(:key, :value) in variants)
-          entry(title: key, url: value),
+          entry(title: videoVariantLabel(key, value), url: value),
         if (post.file case String file)
           entry(title: AppLocalizations.of(context).videoResSource, url: file),
       ],

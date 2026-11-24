@@ -47,16 +47,16 @@ void main() {
   testWidgets('lists qualities ascending with the source last', (tester) async {
     await pumpDialog(tester, onSelected: (_) {});
     expect(find.text('Video quality'), findsOneWidget);
-    expect(find.text('960x540'), findsOneWidget);
-    expect(find.text('1280x720'), findsOneWidget);
+    expect(find.text('960x540 · mp4'), findsOneWidget);
+    expect(find.text('1280x720 · mp4'), findsOneWidget);
     expect(find.text('Source'), findsOneWidget);
     // ascending order: the 540p entry precedes the 720p entry
     expect(
-      tester.getTopLeft(find.text('960x540')).dy,
-      lessThan(tester.getTopLeft(find.text('1280x720')).dy),
+      tester.getTopLeft(find.text('960x540 · mp4')).dy,
+      lessThan(tester.getTopLeft(find.text('1280x720 · mp4')).dy),
     );
     expect(
-      tester.getTopLeft(find.text('1280x720')).dy,
+      tester.getTopLeft(find.text('1280x720 · mp4')).dy,
       lessThan(tester.getTopLeft(find.text('Source')).dy),
     );
   });
@@ -64,11 +64,11 @@ void main() {
   testWidgets('marks the current quality', (tester) async {
     await pumpDialog(tester, current: 'lo.mp4', onSelected: (_) {});
     final loTile = find.ancestor(
-      of: find.text('960x540'),
+      of: find.text('960x540 · mp4'),
       matching: find.byType(ListTile),
     );
     final hiTile = find.ancestor(
-      of: find.text('1280x720'),
+      of: find.text('1280x720 · mp4'),
       matching: find.byType(ListTile),
     );
     expect(
@@ -84,10 +84,10 @@ void main() {
   testWidgets('reports the picked url and closes', (tester) async {
     String? selected;
     await pumpDialog(tester, onSelected: (url) => selected = url);
-    await tester.tap(find.text('1280x720'));
+    await tester.tap(find.text('1280x720 · mp4'));
     await tester.pumpAndSettle();
     expect(selected, 'hi.mp4');
-    expect(find.text('1280x720'), findsNothing);
+    expect(find.text('1280x720 · mp4'), findsNothing);
   });
 
   testWidgets('the source entry reports the source file', (tester) async {

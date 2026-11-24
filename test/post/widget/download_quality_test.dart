@@ -42,22 +42,22 @@ void main() {
   testWidgets('lists qualities ascending with the source last', (tester) async {
     await pumpDialog(tester);
     expect(find.text('Video quality'), findsOneWidget);
-    expect(find.text('960x540'), findsOneWidget);
-    expect(find.text('1280x720'), findsOneWidget);
+    expect(find.text('960x540 · mp4'), findsOneWidget);
+    expect(find.text('1280x720 · mp4'), findsOneWidget);
     expect(find.text('Source'), findsOneWidget);
     expect(
-      tester.getTopLeft(find.text('960x540')).dy,
-      lessThan(tester.getTopLeft(find.text('1280x720')).dy),
+      tester.getTopLeft(find.text('960x540 · mp4')).dy,
+      lessThan(tester.getTopLeft(find.text('1280x720 · mp4')).dy),
     );
     expect(
-      tester.getTopLeft(find.text('1280x720')).dy,
+      tester.getTopLeft(find.text('1280x720 · mp4')).dy,
       lessThan(tester.getTopLeft(find.text('Source')).dy),
     );
   });
 
   testWidgets('pops with the picked variant key', (tester) async {
     await pumpDialog(tester);
-    await tester.tap(find.text('1280x720'));
+    await tester.tap(find.text('1280x720 · mp4'));
     await tester.pumpAndSettle();
     expect(picked, '1280x720');
   });

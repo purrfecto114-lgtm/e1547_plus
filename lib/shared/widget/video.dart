@@ -430,3 +430,23 @@ enum VideoResolution {
     );
   }
 }
+
+/// The extension a media url serves, without its query string.
+///
+/// The dot must sit in the path's last segment: a host name carries
+/// dots too, and an extension-less url serves nothing to read.
+String videoUrlExtension(String url) {
+  final String clean = url.split('?').first;
+  final int dot = clean.lastIndexOf('.');
+  final int slash = clean.lastIndexOf('/');
+  return dot == -1 || dot < slash ? '' : clean.substring(dot + 1);
+}
+
+/// The picker row of a video variant: its "WIDTHxHEIGHT" key plus the
+/// file type the row serves.
+///
+/// The server lists a same-size re-encode next to a webm source under
+/// one size, so a bare size would read as a resolution pick that does
+/// nothing; the type tells the codec choice apart from the original.
+String videoVariantLabel(String key, String url) =>
+    '$key · ${videoUrlExtension(url)}';

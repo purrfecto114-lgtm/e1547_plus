@@ -107,4 +107,24 @@ void main() {
       expect(VideoResolution.fromVariantKey('1280xp'), VideoResolution.high);
     });
   });
+
+  group('videoVariantLabel', () {
+    test('appends the type a variant serves', () {
+      expect(
+        videoVariantLabel('960x540', 'https://example.com/sample.mp4?x=1'),
+        '960x540 · mp4',
+      );
+      expect(
+        videoVariantLabel('1920x1080', 'https://example.com/file.webm'),
+        '1920x1080 · webm',
+      );
+    });
+
+    test('a url without an extension labels the size alone', () {
+      expect(
+        videoVariantLabel('960x540', 'https://example.com/sample'),
+        '960x540 · ',
+      );
+    });
+  });
 }
