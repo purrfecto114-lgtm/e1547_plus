@@ -13,7 +13,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:notified_preferences/notified_preferences.dart';
-import 'package:provider/provider.dart';
 
 import '../../_support/harness.dart';
 import '../../_support/images.dart';
