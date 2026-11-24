@@ -728,5 +728,9 @@
   "tileMedium": "Medium",
   "tileLarge": "Large",
   "settingsLayoutMirror": "Espejar la disposición",
-  "settingsLayoutMirrorHint": "Voltea toda la disposición hacia el lado de tu mano preferida. El texto sigue leyéndose en su propia dirección."
+  "settingsLayoutMirrorHint": "Voltea toda la disposición hacia el lado de tu mano preferida. El texto sigue leyéndose en su propia dirección.",
+  "gridDensity": "Densidad de la cuadrícula",
+  "gridDensityAuto": "Automática",
+  "gridDensityDense": "Densa",
+  "gridDensityLoose": "Holgada"
 }

@@ -14,7 +14,9 @@ void main() {
 
   Widget scoped(Widget child) => Provider<Settings>.value(
     value: settings,
-    child: LayoutMirrorScope(child: HandednessScope(child: MaterialApp(home: child))),
+    child: LayoutMirrorScope(
+      child: HandednessScope(child: MaterialApp(home: child)),
+    ),
   );
 
   Future<double> fabLeft(WidgetTester tester) async {

@@ -73,9 +73,11 @@ void main() {
       PagingState<int, Post>(
         pages: [
           [
-            samplePost(id: 7, file: '/file/7', preview: '/preview/7').copyWith(
-              sample: '/sample/7',
-            ),
+            samplePost(
+              id: 7,
+              file: '/file/7',
+              preview: '/preview/7',
+            ).copyWith(sample: '/sample/7'),
           ],
         ],
         keys: const [1],
@@ -83,9 +85,7 @@ void main() {
       ),
     );
 
-    final image = tester.widget<PostImageWidget>(
-      find.byType(PostImageWidget),
-    );
+    final image = tester.widget<PostImageWidget>(find.byType(PostImageWidget));
     expect(image.size, PostImageSize.preview);
   });
 
@@ -98,9 +98,11 @@ void main() {
       PagingState<int, Post>(
         pages: [
           [
-            samplePost(id: 7, file: '/file/7', preview: '/preview/7').copyWith(
-              sample: '/sample/7',
-            ),
+            samplePost(
+              id: 7,
+              file: '/file/7',
+              preview: '/preview/7',
+            ).copyWith(sample: '/sample/7'),
           ],
         ],
         keys: const [1],
@@ -108,9 +110,7 @@ void main() {
       ),
     );
 
-    final image = tester.widget<PostImageWidget>(
-      find.byType(PostImageWidget),
-    );
+    final image = tester.widget<PostImageWidget>(find.byType(PostImageWidget));
     expect(image.size, PostImageSize.sample);
   });
 }

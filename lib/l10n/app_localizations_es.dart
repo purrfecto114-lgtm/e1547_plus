@@ -2582,4 +2582,16 @@ class AppLocalizationsEs extends AppLocalizations {
   @override
   String get settingsLayoutMirrorHint =>
       'Voltea toda la disposición hacia el lado de tu mano preferida. El texto sigue leyéndose en su propia dirección.';
+
+  @override
+  String get gridDensity => 'Densidad de la cuadrícula';
+
+  @override
+  String get gridDensityAuto => 'Automática';
+
+  @override
+  String get gridDensityDense => 'Densa';
+
+  @override
+  String get gridDensityLoose => 'Holgada';
 }

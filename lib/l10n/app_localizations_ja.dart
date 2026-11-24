@@ -2502,4 +2502,16 @@ class AppLocalizationsJa extends AppLocalizations {
   @override
   String get settingsLayoutMirrorHint =>
       'レイアウト全体を利き手側に反転します。文字はそれぞれの方向で読み続けられます。';
+
+  @override
+  String get gridDensity => 'グリッドの密度';
+
+  @override
+  String get gridDensityAuto => '自動';
+
+  @override
+  String get gridDensityDense => '密';
+
+  @override
+  String get gridDensityLoose => 'ゆったり';
 }

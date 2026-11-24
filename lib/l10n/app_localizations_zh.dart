@@ -2488,6 +2488,18 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get settingsLayoutMirrorHint => '将整个布局翻转到惯用手一侧，文字仍按自身方向阅读。';
+
+  @override
+  String get gridDensity => '网格密度';
+
+  @override
+  String get gridDensityAuto => '自动';
+
+  @override
+  String get gridDensityDense => '紧凑';
+
+  @override
+  String get gridDensityLoose => '宽松';
 }
 
 /// The translations for Chinese, using the Han script (`zh_Hant`).
@@ -4973,4 +4985,16 @@ class AppLocalizationsZhHant extends AppLocalizationsZh {
 
   @override
   String get settingsLayoutMirrorHint => '將整個布局翻轉到慣用手一側，文字仍按自身方向閱讀。';
+
+  @override
+  String get gridDensity => '網格密度';
+
+  @override
+  String get gridDensityAuto => '自動';
+
+  @override
+  String get gridDensityDense => '緊湊';
+
+  @override
+  String get gridDensityLoose => '寬鬆';
 }

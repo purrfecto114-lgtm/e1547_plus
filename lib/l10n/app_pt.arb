@@ -728,5 +728,9 @@
   "tileMedium": "Medium",
   "tileLarge": "Large",
   "settingsLayoutMirror": "Espelhar layout",
-  "settingsLayoutMirrorHint": "Espelha todo o layout para o lado da sua mão preferida. O texto continua lendo na própria direção."
+  "settingsLayoutMirrorHint": "Espelha todo o layout para o lado da sua mão preferida. O texto continua lendo na própria direção.",
+  "gridDensity": "Densidade da grade",
+  "gridDensityAuto": "Automática",
+  "gridDensityDense": "Densa",
+  "gridDensityLoose": "Ampla"
 }

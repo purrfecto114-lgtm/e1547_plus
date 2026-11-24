@@ -2561,4 +2561,16 @@ class AppLocalizationsVi extends AppLocalizations {
   @override
   String get settingsLayoutMirrorHint =>
       'Lật toàn bộ bố cục sang phía tay ưu tiên. Chữ vẫn đọc theo hướng riêng của nó.';
+
+  @override
+  String get gridDensity => 'Mật độ lưới';
+
+  @override
+  String get gridDensityAuto => 'Tự động';
+
+  @override
+  String get gridDensityDense => 'Dày';
+
+  @override
+  String get gridDensityLoose => 'Thoáng';
 }

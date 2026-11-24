@@ -103,6 +103,27 @@ class SettingsAppearanceSection extends StatelessWidget {
             ),
           ),
         ),
+        ValueListenableBuilder<GridDensity>(
+          valueListenable: settings.gridDensity,
+          builder: (context, value, child) => ListTile(
+            title: Text(l10n.gridDensity),
+            subtitle: Text(value.localizedTitle(context)),
+            leading: const Icon(Icons.view_week_outlined),
+            onTap: () => showPickerDialog<GridDensity>(
+              context: context,
+              title: l10n.gridDensity,
+              selected: value,
+              options: [
+                for (final density in GridDensity.values)
+                  PickerOption(
+                    value: density,
+                    label: density.localizedTitle(context),
+                  ),
+              ],
+              onSelected: (density) => settings.gridDensity.value = density,
+            ),
+          ),
+        ),
         ValueListenableBuilder<ThumbnailQuality>(
           valueListenable: settings.thumbnailQuality,
           builder: (context, value, child) => ListTile(

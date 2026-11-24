@@ -728,5 +728,9 @@
   "tileMedium": "Medium",
   "tileLarge": "Large",
   "settingsLayoutMirror": "Зеркальная разметка",
-  "settingsLayoutMirrorHint": "Отражает всю разметку в сторону предпочтительной руки. Текст по-прежнему читается в своём направлении."
+  "settingsLayoutMirrorHint": "Отражает всю разметку в сторону предпочтительной руки. Текст по-прежнему читается в своём направлении.",
+  "gridDensity": "Плотность сетки",
+  "gridDensityAuto": "Авто",
+  "gridDensityDense": "Плотно",
+  "gridDensityLoose": "Свободно"
 }

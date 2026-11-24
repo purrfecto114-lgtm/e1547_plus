@@ -147,6 +147,15 @@ class Settings extends NotifiedSettings {
     values: GridQuilt.values,
   );
 
+  /// How many columns the post grid lays out, relative to what the tile
+  /// size implies: auto keeps the computed count, dense adds a column
+  /// and loose removes one.
+  late final ValueNotifier<GridDensity> gridDensity = createEnumSetting(
+    key: 'gridDensity',
+    initialValue: GridDensity.auto,
+    values: GridDensity.values,
+  );
+
   late final ValueNotifier<bool> filterUnseenFollows = createSetting(
     key: 'filterUnseenFollows',
     initialValue: false,

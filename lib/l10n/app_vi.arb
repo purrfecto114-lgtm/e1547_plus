@@ -2542,5 +2542,9 @@
   "tileMedium": "Medium",
   "tileLarge": "Large",
   "settingsLayoutMirror": "Đối xứng bố cục",
-  "settingsLayoutMirrorHint": "Lật toàn bộ bố cục sang phía tay ưu tiên. Chữ vẫn đọc theo hướng riêng của nó."
+  "settingsLayoutMirrorHint": "Lật toàn bộ bố cục sang phía tay ưu tiên. Chữ vẫn đọc theo hướng riêng của nó.",
+  "gridDensity": "Mật độ lưới",
+  "gridDensityAuto": "Tự động",
+  "gridDensityDense": "Dày",
+  "gridDensityLoose": "Thoáng"
 }

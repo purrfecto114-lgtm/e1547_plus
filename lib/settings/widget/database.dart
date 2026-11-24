@@ -214,7 +214,9 @@ class DatabaseExportTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListTile(
-      leading: const Icon(Icons.download),
+      // The export hands data out to the system: an upward arrow. The
+      // old download arrow read as the import it wasn't.
+      leading: const Icon(Icons.file_upload),
       title: Text(AppLocalizations.of(context).databaseExport),
       subtitle: Text(
         AppLocalizations.of(context).databaseExportSubtitle,
@@ -474,7 +476,7 @@ class DatabaseImportTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListTile(
-      leading: const Icon(Icons.file_upload),
+      leading: const Icon(Icons.file_download),
       title: Text(AppLocalizations.of(context).databaseImport),
       subtitle: Text(
         AppLocalizations.of(context).databaseImportSubtitle,
@@ -637,9 +639,18 @@ class _PasswordPromptDialogState extends State<_PasswordPromptDialog> {
           onPressed: () => popDialog(context),
           child: Text(l10n.actionCancel),
         ),
-        TextButton(
-          onPressed: () => popDialog(context, controller.text),
-          child: Text(widget.confirm),
+        // A one-character password protects nothing while still paying
+        // the full PBKDF2 cost on import; anything shorter than four
+        // characters cannot confirm. An empty field stays allowed on
+        // the export, where it means "no encryption".
+        ValueListenableBuilder<TextEditingValue>(
+          valueListenable: controller,
+          builder: (context, value, child) => TextButton(
+            onPressed: value.text.isNotEmpty && value.text.length < 4
+                ? null
+                : () => popDialog(context, controller.text),
+            child: Text(widget.confirm),
+          ),
         ),
       ],
     );

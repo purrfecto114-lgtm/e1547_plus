@@ -2519,4 +2519,16 @@ class AppLocalizationsKo extends AppLocalizations {
   @override
   String get settingsLayoutMirrorHint =>
       '전체 레이아웃을 선호하는 손 쪽으로 뒤집습니다. 텍스트는 여전히 자체 방향으로 읽힙니다.';
+
+  @override
+  String get gridDensity => '그리드 밀도';
+
+  @override
+  String get gridDensityAuto => '자동';
+
+  @override
+  String get gridDensityDense => '촘촘하게';
+
+  @override
+  String get gridDensityLoose => '여유 있게';
 }

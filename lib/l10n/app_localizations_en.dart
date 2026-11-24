@@ -2559,4 +2559,16 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get settingsLayoutMirrorHint =>
       'Flips the whole layout to the side of your preferred hand. Text keeps reading in its own direction.';
+
+  @override
+  String get gridDensity => 'Grid density';
+
+  @override
+  String get gridDensityAuto => 'Auto';
+
+  @override
+  String get gridDensityDense => 'Dense';
+
+  @override
+  String get gridDensityLoose => 'Loose';
 }

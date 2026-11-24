@@ -210,8 +210,9 @@ extension PostQuerying on PostClient {
           // merged list globally newest-first.
           final seen = servedByTagsIds(tags);
           return [
-            for (final id in [...fetched.map((e) => e.id)]
-              ..sort((a, b) => b.compareTo(a)))
+            for (final id in [
+              ...fetched.map((e) => e.id),
+            ]..sort((a, b) => b.compareTo(a)))
               if (seen.add(id)) id,
           ];
         },

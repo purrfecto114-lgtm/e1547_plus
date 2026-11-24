@@ -728,5 +728,9 @@
   "tileMedium": "中",
   "tileLarge": "大",
   "settingsLayoutMirror": "镜像布局",
-  "settingsLayoutMirrorHint": "将整个布局翻转到惯用手一侧，文字仍按自身方向阅读。"
+  "settingsLayoutMirrorHint": "将整个布局翻转到惯用手一侧，文字仍按自身方向阅读。",
+  "gridDensity": "网格密度",
+  "gridDensityAuto": "自动",
+  "gridDensityDense": "紧凑",
+  "gridDensityLoose": "宽松"
 }

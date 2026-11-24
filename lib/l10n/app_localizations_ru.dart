@@ -2600,4 +2600,16 @@ class AppLocalizationsRu extends AppLocalizations {
   @override
   String get settingsLayoutMirrorHint =>
       'Отражает всю разметку в сторону предпочтительной руки. Текст по-прежнему читается в своём направлении.';
+
+  @override
+  String get gridDensity => 'Плотность сетки';
+
+  @override
+  String get gridDensityAuto => 'Авто';
+
+  @override
+  String get gridDensityDense => 'Плотно';
+
+  @override
+  String get gridDensityLoose => 'Свободно';
 }

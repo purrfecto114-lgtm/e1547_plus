@@ -7,6 +7,32 @@ import 'package:flutter/material.dart';
 
 enum GridQuilt { square, vertical }
 
+/// A column-count preference over the grid's computed layout.
+///
+/// Auto keeps the column count the tile size computes, dense packs one
+/// more column for scroll-efficient browsing, and loose gives the cards
+/// more room. The tiers mirror how gallery apps expose density: a named
+/// nudge instead of a free column number, so every choice stays a
+/// designed layout.
+enum GridDensity {
+  auto,
+  dense,
+  loose;
+
+  int get offset => switch (this) {
+    GridDensity.auto => 0,
+    GridDensity.dense => 1,
+    GridDensity.loose => -1,
+  };
+
+  /// Localized display name for pickers.
+  String localizedTitle(BuildContext context) => switch (this) {
+    GridDensity.auto => AppLocalizations.of(context).gridDensityAuto,
+    GridDensity.dense => AppLocalizations.of(context).gridDensityDense,
+    GridDensity.loose => AppLocalizations.of(context).gridDensityLoose,
+  };
+}
+
 /// The density tiers of the post grid.
 ///
 /// A tier is a curated tile size in pixels rather than a free slider, so
@@ -141,10 +167,13 @@ class TileLayout extends StatelessWidget {
                 builder: (context, constraints) {
                   int tileSize = this.tileSize ?? tier.pixels;
                   stagger = this.stagger ?? stagger;
+                  // The density preference nudges the computed column
+                  // count by one either way; auto keeps it as computed.
                   int crossAxisCount = max(
                     1,
-                    constraints.maxWidth / tileSize,
-                  ).round();
+                    (constraints.maxWidth / tileSize).round() +
+                        settings.gridDensity.value.offset,
+                  );
                   int mainAxisCount = max(
                     1,
                     constraints.maxHeight / tileSize,

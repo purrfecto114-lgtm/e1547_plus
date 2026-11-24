@@ -2542,5 +2542,9 @@
   "tileMedium": "Medium",
   "tileLarge": "Large",
   "settingsLayoutMirror": "Odbicie układu",
-  "settingsLayoutMirrorHint": "Odbija cały układ na stronę preferowanej ręki. Tekst nadal czyta się we własnym kierunku."
+  "settingsLayoutMirrorHint": "Odbija cały układ na stronę preferowanej ręki. Tekst nadal czyta się we własnym kierunku.",
+  "gridDensity": "Gęstość siatki",
+  "gridDensityAuto": "Automatycznie",
+  "gridDensityDense": "Gęsto",
+  "gridDensityLoose": "Luźno"
 }

@@ -4462,6 +4462,30 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Flips the whole layout to the side of your preferred hand. Text keeps reading in its own direction.'**
   String get settingsLayoutMirrorHint;
+
+  /// Picker title for the grid density preference
+  ///
+  /// In en, this message translates to:
+  /// **'Grid density'**
+  String get gridDensity;
+
+  /// Auto density option
+  ///
+  /// In en, this message translates to:
+  /// **'Auto'**
+  String get gridDensityAuto;
+
+  /// Dense density option
+  ///
+  /// In en, this message translates to:
+  /// **'Dense'**
+  String get gridDensityDense;
+
+  /// Loose density option
+  ///
+  /// In en, this message translates to:
+  /// **'Loose'**
+  String get gridDensityLoose;
 }
 
 class _AppLocalizationsDelegate

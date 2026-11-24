@@ -2574,4 +2574,16 @@ class AppLocalizationsPt extends AppLocalizations {
   @override
   String get settingsLayoutMirrorHint =>
       'Espelha todo o layout para o lado da sua mão preferida. O texto continua lendo na própria direção.';
+
+  @override
+  String get gridDensity => 'Densidade da grade';
+
+  @override
+  String get gridDensityAuto => 'Automática';
+
+  @override
+  String get gridDensityDense => 'Densa';
+
+  @override
+  String get gridDensityLoose => 'Ampla';
 }

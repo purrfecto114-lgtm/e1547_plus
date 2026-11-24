@@ -728,5 +728,9 @@
   "tileMedium": "Medium",
   "tileLarge": "Large",
   "settingsLayoutMirror": "Layout spiegeln",
-  "settingsLayoutMirrorHint": "Spiegelt das gesamte Layout auf die Seite deiner bevorzugten Hand. Texte lesen sich weiter in ihrer eigenen Richtung."
+  "settingsLayoutMirrorHint": "Spiegelt das gesamte Layout auf die Seite deiner bevorzugten Hand. Texte lesen sich weiter in ihrer eigenen Richtung.",
+  "gridDensity": "Rasterdichte",
+  "gridDensityAuto": "Automatisch",
+  "gridDensityDense": "Dicht",
+  "gridDensityLoose": "Locker"
 }

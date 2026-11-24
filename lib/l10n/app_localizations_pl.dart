@@ -2612,4 +2612,16 @@ class AppLocalizationsPl extends AppLocalizations {
   @override
   String get settingsLayoutMirrorHint =>
       'Odbija cały układ na stronę preferowanej ręki. Tekst nadal czyta się we własnym kierunku.';
+
+  @override
+  String get gridDensity => 'Gęstość siatki';
+
+  @override
+  String get gridDensityAuto => 'Automatycznie';
+
+  @override
+  String get gridDensityDense => 'Gęsto';
+
+  @override
+  String get gridDensityLoose => 'Luźno';
 }

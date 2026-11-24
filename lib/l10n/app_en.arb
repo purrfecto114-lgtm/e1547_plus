@@ -2678,5 +2678,21 @@
   },
   "@settingsLayoutMirrorHint": {
     "description": "Helper under the mirror switch"
+  },
+  "gridDensity": "Grid density",
+  "gridDensityAuto": "Auto",
+  "gridDensityDense": "Dense",
+  "gridDensityLoose": "Loose",
+  "@gridDensity": {
+    "description": "Picker title for the grid density preference"
+  },
+  "@gridDensityAuto": {
+    "description": "Auto density option"
+  },
+  "@gridDensityDense": {
+    "description": "Dense density option"
+  },
+  "@gridDensityLoose": {
+    "description": "Loose density option"
   }
 }

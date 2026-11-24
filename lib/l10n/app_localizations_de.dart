@@ -2588,4 +2588,16 @@ class AppLocalizationsDe extends AppLocalizations {
   @override
   String get settingsLayoutMirrorHint =>
       'Spiegelt das gesamte Layout auf die Seite deiner bevorzugten Hand. Texte lesen sich weiter in ihrer eigenen Richtung.';
+
+  @override
+  String get gridDensity => 'Rasterdichte';
+
+  @override
+  String get gridDensityAuto => 'Automatisch';
+
+  @override
+  String get gridDensityDense => 'Dicht';
+
+  @override
+  String get gridDensityLoose => 'Locker';
 }

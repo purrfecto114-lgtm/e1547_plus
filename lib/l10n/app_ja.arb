@@ -728,5 +728,9 @@
   "tileMedium": "Medium",
   "tileLarge": "Large",
   "settingsLayoutMirror": "レイアウトのミラー",
-  "settingsLayoutMirrorHint": "レイアウト全体を利き手側に反転します。文字はそれぞれの方向で読み続けられます。"
+  "settingsLayoutMirrorHint": "レイアウト全体を利き手側に反転します。文字はそれぞれの方向で読み続けられます。",
+  "gridDensity": "グリッドの密度",
+  "gridDensityAuto": "自動",
+  "gridDensityDense": "密",
+  "gridDensityLoose": "ゆったり"
 }
