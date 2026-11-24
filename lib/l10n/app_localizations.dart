@@ -1007,6 +1007,12 @@ abstract class AppLocalizations {
   /// **'GitHub'**
   String get aboutGitHub;
 
+  /// No description provided for @aboutIssues.
+  ///
+  /// In en, this message translates to:
+  /// **'Report an issue'**
+  String get aboutIssues;
+
   /// No description provided for @aboutUpstream.
   ///
   /// In en, this message translates to:

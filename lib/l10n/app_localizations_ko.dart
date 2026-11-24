@@ -511,6 +511,9 @@ class AppLocalizationsKo extends AppLocalizations {
   String get aboutGitHub => 'GitHub';
 
   @override
+  String get aboutIssues => '문제 보고';
+
+  @override
   String get aboutUpstream => '원본 프로젝트';
 
   @override

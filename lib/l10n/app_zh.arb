@@ -148,6 +148,7 @@
   "aboutExperimentalPlatform": "实验性平台",
   "aboutExperimentalBody": "此平台不受支持，可能存在缺陷和功能缺失。",
   "aboutGitHub": "GitHub",
+  "aboutIssues": "问题反馈",
   "aboutUpstream": "上游项目",
   "aboutUpstreamBody": "本应用是 clragon/e1547 的分支",
   "aboutDiscord": "Discord",

@@ -519,6 +519,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get aboutGitHub => 'GitHub';
 
   @override
+  String get aboutIssues => 'Report an issue';
+
+  @override
   String get aboutUpstream => 'Upstream';
 
   @override

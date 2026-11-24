@@ -236,6 +236,7 @@
   "aboutExperimentalPlatform": "실험적 플랫폼",
   "aboutExperimentalBody": "이 플랫폼은 지원되지 않습니다. 버그와 누락된 기능이 있을 수 있습니다.",
   "aboutGitHub": "GitHub",
+  "aboutIssues": "문제 보고",
   "aboutUpstream": "원본 프로젝트",
   "aboutUpstreamBody": "이 앱은 clragon/e1547의 포크 버전입니다",
   "aboutDiscord": "Discord",

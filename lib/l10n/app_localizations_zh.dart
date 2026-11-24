@@ -505,6 +505,9 @@ class AppLocalizationsZh extends AppLocalizations {
   String get aboutGitHub => 'GitHub';
 
   @override
+  String get aboutIssues => '问题反馈';
+
+  @override
   String get aboutUpstream => '上游项目';
 
   @override
@@ -3000,6 +3003,9 @@ class AppLocalizationsZhHant extends AppLocalizationsZh {
 
   @override
   String get aboutGitHub => 'GitHub';
+
+  @override
+  String get aboutIssues => '問題回報';
 
   @override
   String get aboutUpstream => '上游專案';

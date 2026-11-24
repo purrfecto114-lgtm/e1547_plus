@@ -148,6 +148,7 @@
   "aboutExperimentalPlatform": "Экспериментальная платформа",
   "aboutExperimentalBody": "Эта платформа не поддерживается. Возможны ошибки и отсутствие некоторых функций.",
   "aboutGitHub": "GitHub",
+  "aboutIssues": "Сообщить о проблеме",
   "aboutUpstream": "Исходный проект",
   "aboutUpstreamBody": "Это форк приложения clragon/e1547",
   "aboutDiscord": "Discord",

@@ -507,6 +507,9 @@ class AppLocalizationsJa extends AppLocalizations {
   String get aboutGitHub => 'GitHub';
 
   @override
+  String get aboutIssues => '問題を報告';
+
+  @override
   String get aboutUpstream => 'アップストリーム';
 
   @override

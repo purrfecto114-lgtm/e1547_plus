@@ -520,6 +520,9 @@ class AppLocalizationsVi extends AppLocalizations {
   String get aboutGitHub => 'GitHub';
 
   @override
+  String get aboutIssues => 'Báo cáo sự cố';
+
+  @override
   String get aboutUpstream => 'Nguồn gốc';
 
   @override

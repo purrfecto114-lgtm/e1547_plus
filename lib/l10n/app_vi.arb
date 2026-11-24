@@ -236,6 +236,7 @@
   "aboutExperimentalPlatform": "Nền tảng thử nghiệm",
   "aboutExperimentalBody": "Nền tảng này không được hỗ trợ. Dự kiến có lỗi và tính năng thiếu.",
   "aboutGitHub": "GitHub",
+  "aboutIssues": "Báo cáo sự cố",
   "aboutUpstream": "Nguồn gốc",
   "aboutUpstreamBody": "Ứng dụng này là một nhánh của clragon/e1547",
   "aboutDiscord": "Discord",

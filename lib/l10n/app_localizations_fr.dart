@@ -523,6 +523,9 @@ class AppLocalizationsFr extends AppLocalizations {
   String get aboutGitHub => 'GitHub';
 
   @override
+  String get aboutIssues => 'Signaler un problème';
+
+  @override
   String get aboutUpstream => 'Projet original';
 
   @override

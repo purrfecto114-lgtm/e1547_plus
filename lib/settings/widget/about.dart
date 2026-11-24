@@ -321,6 +321,12 @@ class AboutLinks extends StatelessWidget {
           extra: appInfo.github,
         ),
         linkListTile(
+          leading: const FaIcon(FontAwesomeIcons.bug),
+          title: Text(AppLocalizations.of(context).aboutIssues),
+          link: 'https://github.com/',
+          extra: '${appInfo.github}/issues',
+        ),
+        linkListTile(
           leading: const FaIcon(FontAwesomeIcons.codeFork),
           title: Text(AppLocalizations.of(context).aboutUpstream),
           subtitle: Text(AppLocalizations.of(context).aboutUpstreamBody),

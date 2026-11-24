@@ -148,6 +148,7 @@
   "aboutExperimentalPlatform": "Plateforme expérimentale",
   "aboutExperimentalBody": "Cette plateforme n'est pas prise en charge. Attends-toi à des bugs et à des fonctionnalités manquantes.",
   "aboutGitHub": "GitHub",
+  "aboutIssues": "Signaler un problème",
   "aboutUpstream": "Projet original",
   "aboutUpstreamBody": "Cette application est un fork de clragon/e1547",
   "aboutDiscord": "Discord",

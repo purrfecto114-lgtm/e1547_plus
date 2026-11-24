@@ -148,6 +148,7 @@
   "aboutExperimentalPlatform": "Plataforma experimental",
   "aboutExperimentalBody": "Esta plataforma no está soportada. Es posible que haya errores o funciones ausentes.",
   "aboutGitHub": "GitHub",
+  "aboutIssues": "Informar de un problema",
   "aboutUpstream": "Proyecto original",
   "aboutUpstreamBody": "Esta es una bifurcación de clragon/e1547",
   "aboutDiscord": "Discord",

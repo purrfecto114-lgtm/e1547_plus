@@ -529,6 +529,9 @@ class AppLocalizationsRu extends AppLocalizations {
   String get aboutGitHub => 'GitHub';
 
   @override
+  String get aboutIssues => 'Сообщить о проблеме';
+
+  @override
   String get aboutUpstream => 'Исходный проект';
 
   @override

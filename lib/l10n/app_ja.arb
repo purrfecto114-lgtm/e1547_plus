@@ -148,6 +148,7 @@
   "aboutExperimentalPlatform": "実験的なプラットフォーム",
   "aboutExperimentalBody": "このプラットフォームはサポートされていません。不具合や機能の不足が発生する可能性があります。",
   "aboutGitHub": "GitHub",
+  "aboutIssues": "問題を報告",
   "aboutUpstream": "アップストリーム",
   "aboutUpstreamBody": "本アプリは clragon/e1547 のフォークです",
   "aboutDiscord": "Discord",
