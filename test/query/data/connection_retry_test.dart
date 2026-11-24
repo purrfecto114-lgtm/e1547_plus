@@ -1,10 +1,14 @@
 import 'dart:async';
 
-import 'package:cached_query/cached_query.dart' hide ConnectionStatus;
 // The controller itself is not part of the package's public surface;
 // the test drives it through the same file the app's cache pulls in,
 // which also brings its own ConnectionStatus along.
+// ignore_for_file: directives_ordering — the vendored file sits before
+// the package imports on purpose: the test drives the controller directly.
+// ignore: avoid_relative_lib_imports
 import '../../../vendor/cached_query/lib/src/connection_controller.dart';
+
+import 'package:cached_query/cached_query.dart' hide ConnectionStatus;
 import 'package:flutter_test/flutter_test.dart';
 
 /// The connection controller must retry queries whose last fetch failed
@@ -38,7 +42,10 @@ void main() {
   setUp(() {
     cache = CachedQuery.asNewInstance();
     connection = StreamController<ConnectionStatus>.broadcast();
-    controller = ConnectionController(cache: cache, connectionStream: connection.stream);
+    controller = ConnectionController(
+      cache: cache,
+      connectionStream: connection.stream,
+    );
     networkCalls = 0;
     offline = false;
   });
@@ -49,29 +56,36 @@ void main() {
     cache.deleteCache();
   });
 
-  test('a query that failed offline refetches when the connection returns', () async {
-    offline = true;
-    final query = makeQuery();
-    // The subscription's onListen performs the first fetch, which fails
-    // offline and settles an error state.
-    final states = <QueryStatus<String>>[];
-    final sub = query.stream.listen(states.add);
-    await pumpEventQueue();
-    expect(query.state, isA<QueryError<String>>());
-    expect(networkCalls, 1);
+  test(
+    'a query that failed offline refetches when the connection returns',
+    () async {
+      offline = true;
+      final query = makeQuery();
+      // The subscription's onListen performs the first fetch, which fails
+      // offline and settles an error state.
+      final states = <QueryStatus<String>>[];
+      final sub = query.stream.listen(states.add);
+      await pumpEventQueue();
+      expect(query.state, isA<QueryError<String>>());
+      expect(networkCalls, 1);
 
-    // The device goes online. The error state is fresh by duration, so
-    // only the reconnect path can produce a second network call.
-    offline = false;
-    connection.add(ConnectionStatus.connected);
+      // The device goes online. The error state is fresh by duration, so
+      // only the reconnect path can produce a second network call.
+      offline = false;
+      connection.add(ConnectionStatus.connected);
 
-    await pumpEventQueue();
-    expect(networkCalls, 2, reason: 'the reconnect must retry the failed query');
-    expect(query.state, isA<QuerySuccess<String>>());
-    expect(query.state.data, 'online');
+      await pumpEventQueue();
+      expect(
+        networkCalls,
+        2,
+        reason: 'the reconnect must retry the failed query',
+      );
+      expect(query.state, isA<QuerySuccess<String>>());
+      expect(query.state.data, 'online');
 
-    await sub.cancel();
-  });
+      await sub.cancel();
+    },
+  );
 
   test('a successful query is not invalidated by a reconnect', () async {
     final query = makeQuery();
@@ -97,6 +111,10 @@ void main() {
     connection.add(ConnectionStatus.connected);
     await pumpEventQueue();
 
-    expect(networkCalls, 1, reason: 'nobody watches the query, so nothing retries');
+    expect(
+      networkCalls,
+      1,
+      reason: 'nobody watches the query, so nothing retries',
+    );
   });
 }

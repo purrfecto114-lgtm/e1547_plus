@@ -66,7 +66,7 @@ void main() {
     // provider its imageBuilder hands out used to rebuild an Image
     // that decoded at the file's full size, so the thumbnail quality
     // setting never reached the screen. What is drawn must carry the
-    // cap itself: a 200x100 file at a 50 short-side cap decodes to
+    // cap itself: a 400x200 file at a 50 short-side cap decodes to
     // 100x50, never to its native size.
     // A dedicated url per test: the provider's cache key is the url,
     // and one shared key would leak the first test's bitmap here.
@@ -86,8 +86,8 @@ void main() {
                 dimension: 100,
                 child: RawPostImageWidget(
                   post: samplePost(
-                    width: 200,
-                    height: 100,
+                    width: 400,
+                    height: 200,
                     file: url,
                     preview: url,
                   ),
