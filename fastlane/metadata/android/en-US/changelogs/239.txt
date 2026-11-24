@@ -1,0 +1,1 @@
+Refreshing the denylist or switching accounts no longer re-runs the tag match rules over every loaded post: unchanged pages are reused from the filter's cache, so long searches stay smooth instead of stalling a frame.

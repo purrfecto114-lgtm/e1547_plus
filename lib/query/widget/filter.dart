@@ -75,6 +75,9 @@ class _QueryFilterState<T, K> extends State<QueryFilter<T, K>> {
 
     final pages = data.pages;
     final flat = pages.expand((p) => p).toList();
+    // track() runs the filter predicate once over the flat list and
+    // caches the result for identical re-tracks; re-chunking then walks
+    // the pages once, testing each item against the filtered set.
     final filtered = controller.track(_key, flat);
     final filteredIds = filtered.map(controller.idOf).toSet();
     final rechunked = pages

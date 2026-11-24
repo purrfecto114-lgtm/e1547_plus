@@ -41,10 +41,20 @@ class PostFilter extends FilterController<Post>
   /// How many tracked posts the denylist currently hides.
   ///
   /// Undisplayable posts are not denylist blocks and must not inflate
-  /// this count.
+  /// this count. The base class blockedCount counts everything the
+  /// filter drops; this override subtracts the undisplayable ones,
+  /// which track() has already filtered away, without re-running the
+  /// denylist predicates over the corpus.
   @override
-  int get blockedCount =>
-      tracked.where((item) => item.isDisplayable && !filter(item)).length;
+  int get blockedCount => super.blockedCount - _undisplayableTrackedCount;
+
+  int get _undisplayableTrackedCount {
+    var count = 0;
+    for (final post in tracked) {
+      if (!post.isDisplayable) count++;
+    }
+    return count;
+  }
 
   @override
   PostFilterValue get value => _value;
@@ -53,6 +63,8 @@ class PostFilter extends FilterController<Post>
   set value(PostFilterValue value) {
     if (_value == value) return;
     _value = value;
+    _allowedEntriesView = null;
+    _allowedPostsView = null;
     notifyListeners();
   }
 
@@ -104,12 +116,17 @@ class PostFilter extends FilterController<Post>
   Map<String, int> get blockedCountsByEntry {
     if (!denying) return const {};
     final counts = <String, int>{};
+    // Set views cached per value; the drawer reads this getter on every
+    // notify, and the entriesFor cache below is keyed by denylist
+    // changes, so membership must stay O(1).
+    final allowedPostIds = _allowedPostSet;
+    final allowedEntrySet = _allowedEntrySet;
     for (final post in tracked) {
       // Undisplayable posts must not inflate any denylist entry count.
       if (!post.isDisplayable) continue;
-      if (allowedPosts.contains(post.id)) continue;
+      if (allowedPostIds.contains(post.id)) continue;
       for (final entry in entriesFor(post)) {
-        if (allowedEntries.contains(entry)) continue;
+        if (allowedEntrySet.contains(entry)) continue;
         counts[entry] = (counts[entry] ?? 0) + 1;
       }
     }
@@ -134,12 +151,19 @@ class PostFilter extends FilterController<Post>
       return deniers;
     }
 
-    _filterCache[post.id] = (
-      post: post,
-      hash: cached.hash,
-      entries: cached.entries,
-      lastAccessed: now,
-    );
+    // Warm hit: the cached verdict is still keyed to this exact post.
+    // Skipping the refresh write keeps the getter side-effect free on
+    // the hot path — re-reading it repeatedly must not rewrite 500 map
+    // entries per call. Stale entries still age out through the
+    // eviction sweep above.
+    if (cached.lastAccessed.isBefore(now)) {
+      _filterCache[post.id] = (
+        post: cached.post,
+        hash: cached.hash,
+        entries: cached.entries,
+        lastAccessed: now,
+      );
+    }
     return cached.entries;
   }
 
@@ -152,13 +176,23 @@ class PostFilter extends FilterController<Post>
 
   bool blocks(PostSummary post) {
     if (!denying) return false;
-    return entriesFor(post).any((entry) => !allowedEntries.contains(entry));
+    // Membership against the value's lists must not scan them linearly
+    // per entry; keep Set views that refresh when the value changes.
+    final allowed = _allowedEntrySet;
+    return entriesFor(post).any((entry) => !allowed.contains(entry));
   }
 
   bool denies(PostSummary post) {
-    if (allowedPosts.contains(post.id)) return false;
+    if (_allowedPostSet.contains(post.id)) return false;
     return blocks(post);
   }
+
+  Set<String> get _allowedEntrySet =>
+      _allowedEntriesView ??= Set.of(allowedEntries);
+  Set<String>? _allowedEntriesView;
+
+  Set<int> get _allowedPostSet => _allowedPostsView ??= Set.of(allowedPosts);
+  Set<int>? _allowedPostsView;
 
   @override
   void dispose() {

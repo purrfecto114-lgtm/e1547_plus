@@ -1,5 +1,15 @@
 # Changelog
 
+## [22.10.0+239] - 2026-11-24
+### Changed
+- the denylist filter no longer re-runs its match rules over every
+  loaded post on every refresh: switching the denylist or account used
+  to push long searches through a full rematching pass that could
+  overrun a frame on 500-post scrolls. Pages that did not change are
+  now reused from the filter's cache, the blocked-count badge reads
+  the cached verdicts instead of re-matching, and the denylist drawer
+  counts entries through set lookups, keeping refreshes within budget
+
 ## [22.9.3+238] - 2026-11-23
 ### Fixed
 - a post whose file carries zero width or height no longer decodes at
@@ -2189,3 +2199,4 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 [22.9.1+236]: https://github.com/purrfecto114-lgtm/e1547_plus/compare/22.9.0+235...22.9.1+236
 [22.9.2+237]: https://github.com/purrfecto114-lgtm/e1547_plus/compare/22.9.1+236...22.9.2+237
 [22.9.3+238]: https://github.com/purrfecto114-lgtm/e1547_plus/compare/22.9.2+237...22.9.3+238
+[22.10.0+239]: https://github.com/purrfecto114-lgtm/e1547_plus/compare/22.9.3+238...22.10.0+239
