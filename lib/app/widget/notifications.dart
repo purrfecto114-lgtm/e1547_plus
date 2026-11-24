@@ -82,13 +82,18 @@ class _NotificationHandlerState extends State<NotificationHandler>
 
   Future<void> setupFollowBackground(List<Follow> follows) async {
     if (!PlatformCapabilities.hasNotifications) return;
+    // The repository spans every account, not just the one whose stream
+    // produced this event: unregistering on this account's empty list
+    // would cancel the task while another account still notifies.
+    final FollowRepository allFollows =
+        context.read<Client>().follows.repository;
     bool isNotifying = follows
         .where((e) => e.type == FollowType.notify)
         .isNotEmpty;
     if (!isNotifying) {
       if (followTaskRegistered) {
         followTaskRegistered = false;
-        await registerFollowBackgroundTask(follows);
+        await registerFollowBackgroundTask(allFollows);
       }
       return;
     }
@@ -115,7 +120,7 @@ class _NotificationHandlerState extends State<NotificationHandler>
     if (granted) {
       if (denied.value) denied.value = false;
       followTaskRegistered = true;
-      await registerFollowBackgroundTask(follows);
+      await registerFollowBackgroundTask(allFollows);
     } else if (prompt) {
       denied.value = true;
     }
@@ -183,6 +188,8 @@ class _NotificationHandlerState extends State<NotificationHandler>
     if (follows == null) return;
     if (follows.where((e) => e.type == FollowType.notify).isEmpty) return;
     // Resolved before the awaits: contexts must not cross async gaps.
+    final FollowRepository allFollows =
+        context.read<Client>().follows.repository;
     final ValueNotifier<bool> denied = context
         .read<Settings>()
         .deniedNotifications;
@@ -196,7 +203,7 @@ class _NotificationHandlerState extends State<NotificationHandler>
       // it set would make the flag dead weight and suppress the only
       // legitimate re-prompt path on iOS.
       if (denied.value) denied.value = false;
-      await registerFollowBackgroundTask(follows);
+      await registerFollowBackgroundTask(allFollows);
     } else {
       await cancelFollowBackgroundTask();
     }

@@ -82,8 +82,12 @@ extension Updating on Follow {
           .nonNulls
           .firstOrNull;
       if (updated.latest != null) {
-        posts = posts.takeWhile((e) => e.id > updated.latest!).toList();
-        int length = posts.length;
+        // takeWhile assumes a descending batch; the sync's assign() builds
+        // these lists in api order, so a batch that is not newest-first
+        // would stop at its first old post and drop the newer ones after
+        // it. Counting by comparison instead of by prefix keeps the
+        // tally correct for any order.
+        int length = posts.where((e) => e.id > updated.latest!).length;
         if (length > 0) {
           updated = updated.copyWith(unseen: updated.unseen! + length);
         }
