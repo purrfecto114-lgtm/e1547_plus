@@ -206,5 +206,5 @@
 6. 视频分辨率空壳排查：**线上 API 实证非空壳**（真拉 posts.json，files.video 结构与 fixture 一致、有真变体帖；按钮有 hasVideoQualities gate；setVideoQuality→getVideo 换 URL 通）。空壳感来源=**同尺寸转码变体**（webm 原始+mp4 转码同尺寸）→ 变体行标注 '960x540 · mp4'（videoVariantLabel 共用，ext 提取要求 dot 在末段路径）。
 7. 关于页：aboutIssues 13 语言 + bug 图标条目指向 fork issues；2 测试（en/zh）。
 8. workflow test_release：test tag `22.9.5-test.<run>+<build>`——**run number 必须放 prerelease 段**（build 段参与 pub_semver 比较会高于原版，beta 用户会被推）；prerelease 段 → compareTo<1 → filterNewVersions 第一道拦住所有用户（含 beta）+ make_latest=false；bump/commit/changelog/playstore/forum 全跳过；semver 推导有测试锁定（test/settings/data/update_tag_test.dart）。
-9. 门禁：analyze No issues（清 6 项：**上游 prompt_test 依赖 21.7+ 的 prompt follow UI，本仓 21.2.0 基线没有 → 删，语义由 database_test 覆盖**——上游测试不能盲 cherry-pick；5 style）；format 796 文件 0 改动；全量测试见 round18_full_test.log。
+9. 门禁：analyze No issues（清 6 项：**上游 prompt_test 依赖 21.7+ 的 prompt follow UI，本仓 21.2.0 基线没有 → 删，语义由 database_test 覆盖**——上游测试不能盲 cherry-pick；5 style）；format 796 文件 0 改动；全量 **1421 passed + 19 skipped EXIT=0**（round18_full_test.log，净增 22 例）。
 10. 坑备忘新增：cni 回调 provider 无 cap（修 cap 必须包绘制层）；RawImage.image 在 3.47 是 ui.Image 非 provider；行为断言 > 结构断言；`dart format lib/` 会动 l10n 生成文件，提交前全仓 format 消噪。
