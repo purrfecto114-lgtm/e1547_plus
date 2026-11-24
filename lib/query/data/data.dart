@@ -1,4 +1,5 @@
 export 'cache.dart';
+export 'connection.dart';
 export 'filter.dart';
 export 'loader.dart';
 export 'paging.dart';

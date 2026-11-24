@@ -155,8 +155,13 @@ Future<AppStorage> initializeAppStorage() async {
           staleDuration: Duration(minutes: 5),
           refetchOnResume: false,
           // Leaving refetchOnConnection at its default (true), so queries
-          // with active listeners refetch when the network returns.
+          // with active listeners refetch when the network returns. The
+          // stream below replaces the default example.com probe, which
+          // reads as offline on the restricted networks this app's users
+          // are often behind, leaving failed queries un-retried until a
+          // manual pull.
         ),
+        connectionStream: apiHostConnectionStream(),
       ),
     sqlite: sqlite,
   );
