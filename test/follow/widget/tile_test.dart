@@ -6,6 +6,8 @@ import 'package:e1547/follow/follow.dart';
 import 'package:e1547/identity/identity.dart';
 import 'package:e1547/l10n/app_localizations.dart';
 import 'package:e1547/query/query.dart';
+import 'package:e1547/settings/settings.dart';
+import 'package:e1547/shared/shared.dart';
 import 'package:e1547/traits/traits.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_cache_manager/flutter_cache_manager.dart';
@@ -32,6 +34,7 @@ void main() {
   late Client client;
   late ValueNotifier<Traits> traits;
   late AppDatabase sqlite;
+  late Settings settings;
 
   setUpAll(() async {
     await initializeTestApp();
@@ -71,6 +74,7 @@ void main() {
     // on requests that are still in flight when the test ends.
     client.dio.options.connectTimeout = null;
     client.dio.options.receiveTimeout = null;
+    settings = Settings(await SharedPreferences.getInstance());
   });
 
   tearDown(() => traits.dispose());
@@ -111,15 +115,58 @@ void main() {
       // Covers are previews of arbitrary aspect: capping both axes
       // would scale every source onto the tile's own ratio, stretching
       // some and squishing others. Only the width is capped, and the
-      // cover fit crops what does not fit. Like the post grid's caps,
-      // the limit follows the device pixel ratio: the test surface
-      // reports 3.0, so the 1080 bound wins over 300 * 2 * 3.
+      // cover fit crops what does not fit. Without a tile layout the
+      // fallback cap stays at 1080, matching the previous fixed bound.
       await show(tester, sampleFollow(latest: 10, thumbnail: '/preview/10'));
 
       final image = tester.widget<CachedNetworkImage>(
         find.byType(CachedNetworkImage),
       );
       expect(image.memCacheWidth, 1080);
+      expect(image.memCacheHeight, isNull);
+    });
+
+    displayTest('follows the tile quality tier when laid out', (tester) async {
+      // Inside a tile layout the cover decode must track the thumbnail
+      // quality tier like the post grid does, not a fixed bound: the low
+      // tier caps a 180px tile at min(180 * 1 * 3, 540) = 540 pixels of
+      // source width, where the old fixed bound decoded 1080.
+      settings.thumbnailQuality.value = ThumbnailQuality.low;
+      await tester.pumpWidget(
+        MultiProvider(
+          providers: [
+            Provider<Client>.value(value: client),
+            Provider<BaseCacheManager>.value(
+              value: const NoImageCacheManager(),
+            ),
+            Provider<Settings>.value(value: settings),
+          ],
+          child: MaterialApp(
+            localizationsDelegates: AppLocalizations.localizationsDelegates,
+            supportedLocales: AppLocalizations.supportedLocales,
+            home: Scaffold(
+              body: TileLayout(
+                child: Center(
+                  child: SizedBox(
+                    width: 200,
+                    child: FollowTile(
+                      follow: sampleFollow(latest: 10, thumbnail: '/p/10'),
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          ),
+        ),
+      );
+
+      final image = tester.widget<CachedNetworkImage>(
+        find.byType(CachedNetworkImage),
+      );
+      // The test surface reports a device pixel ratio of 3.0, the default
+      // tile tier is medium (180px) and the quality tier is low
+      // (factor 1, cap 540): 180 * 1 * 3 = 540 fits under the cap.
+      expect(image.memCacheWidth, 540);
       expect(image.memCacheHeight, isNull);
     });
   });

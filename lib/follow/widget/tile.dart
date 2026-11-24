@@ -23,10 +23,13 @@ class FollowTile extends StatelessWidget {
     PromptActionController? promptController = PromptActions.maybeOf(context);
     bool active = follow.latest != null && follow.thumbnail != null;
     // Thumbnails render inside a grid tile, so their decode is capped
-    // like the one of post grid tiles (tileSize * 2): a thumbnail which
-    // is actually a sample or original must never decode at full size
-    // just to be cover-fitted back into a small cell.
-    final int tileSize = TileLayout.maybeOf(context)?.tileSize ?? 300;
+    // like the one of post grid tiles: a thumbnail which is actually a
+    // sample or original must never decode at full size just to be
+    // cover-fitted back into a small cell. The cap follows the tile
+    // layout's quality tier, so the thumbnail quality setting reaches
+    // the subscription grid the same way it reaches post grids.
+    final TileLayoutData? layout = TileLayout.maybeOf(context);
+    final int tileSize = layout?.tileSize ?? 300;
 
     void editTitle() {
       promptController!.show(
@@ -165,14 +168,16 @@ class FollowTile extends StatelessWidget {
                               // One axis keeps the source's ratio, and
                               // the cover fit crops it into the cell.
                               // Like the post grid's caps, the limit
-                              // scales with the device pixel ratio so
-                              // covers stay sharp on dense screens.
+                              // scales with the device pixel ratio and
+                              // the quality tier so covers stay sharp on
+                              // dense screens without decoding samples at
+                              // full size on the low tier.
                               memCacheWidth: min(
                                 (tileSize *
-                                        2 *
+                                        (layout?.qualityFactor ?? 2) *
                                         MediaQuery.devicePixelRatioOf(context))
                                     .round(),
-                                1080,
+                                layout?.qualityCap ?? 1080,
                               ),
                             ),
                           ),
