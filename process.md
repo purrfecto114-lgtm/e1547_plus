@@ -192,3 +192,19 @@
    - #1 修法注意：imageBuilder 结构需重构（用 OctoImage 的 child 或自建封顶 provider 重建 Image），保住 load.report / retry epoch key / fallback 800 cap / 未知维度路径；验收覆盖有预览、缺预览、宽高 0、极端长图四态真绘制尺寸。
    - 发版后跟进：报告跨平台表作真机验收清单（Android 32/64 位长图首帧与进程内存、iOS 连续翻图+视频峰值、桌面窗口帧时）。
 4. 本轮材料：探针与全部复测日志存 scripts/diag-round18/（probe-head.log、probe-239/238-mine.log、repotests-head.log、analyze-lib-head.log、pubget-head.log 漂移实录、探针 dart 原件）；证据原件在 upload/e1547_plus-架构诊断-复现材料.zip。
+
+
+### Round 19：五项修复 + 空壳排查 + test 发布路径（2026-11-24）
+
+用户输入七条：离线下定论不重试、订阅页卡/排序异常（看上游）、视频下载加分辨率、缩略图质量依旧无效、workflow 加只发 pre-release 的 test 路径、"缩略图质量/视频分辨率等作品属性功能像空壳，查官方 API 找更好办法"、关于页加 fork issue 入口（注意翻译）。11 个提交（437f29714..3f368b93f），详情见 download/round19_summary.md。
+
+1. 环境（第 10 次回收）：本地回退 Round 11 快照、凭据丢失；restore-credentials.sh + fetch 发现丢失段只推了 process.md（267e5162，Round 18 裁决+RC 提案）；reset 对远端零损失。诊断材料重新归档 scripts/diag-round18/。
+2. 离线重试：**卡点不是重试机制（error 态 isInvalidated 恒真，fetch 本可重试；vendor ConnectionController 补丁写了又撤），是恢复信号**——默认控制器 DNS 查 example.com，受限网络下超时/污染 → emit unknown → 永不触发。新 apiHostConnectionStream() 探测 e926/e621 + 30s 周期，接 configFlutter(connectionStream:)。
+3. 订阅页：上游三连修 cherry-pick（case 敏感查找/rename 防重/跨账号 task cancel，后者适配本仓 NotificationHandler 的 3 个调用点）+ **本仓真 bug 红绿**：withUnseen 的 takeWhile 依赖降序批次，assign() 按 API 顺序拼列表 → 乱序丢新帖 → unseen/latest 错 → 排序卡旧值；takeWhile→where。
+4. 下载分辨率：专用对话框（pop key/哨兵/null 三态，不复用播放器对话框——其 popDialog+onSelected 复用会双 pop 且 Source 行不回调）+ VideoResolution.fromVariantKey + 文件名 ext 跟随变体。
+5. 缩略图 cap（诊断 #1 落地）：cni 源码确认回调 provider 无 memCache（只传磁盘上限）；imageBuilder 内 ResizeImage 包裹绘制 provider。回归测试**读绘制位图**（400x200@50 短边必须画 100x50）：撤补丁红（全尺寸）、有补丁绿。两次假信号教训：结构断言被 OctoImage 内部 ResizeImage 误中；全局 ImageCache 的 url key 跨测试污染 → 行为断言 + 独立 URL。
+6. 视频分辨率空壳排查：**线上 API 实证非空壳**（真拉 posts.json，files.video 结构与 fixture 一致、有真变体帖；按钮有 hasVideoQualities gate；setVideoQuality→getVideo 换 URL 通）。空壳感来源=**同尺寸转码变体**（webm 原始+mp4 转码同尺寸）→ 变体行标注 '960x540 · mp4'（videoVariantLabel 共用，ext 提取要求 dot 在末段路径）。
+7. 关于页：aboutIssues 13 语言 + bug 图标条目指向 fork issues；2 测试（en/zh）。
+8. workflow test_release：test tag `22.9.5-test.<run>+<build>`——**run number 必须放 prerelease 段**（build 段参与 pub_semver 比较会高于原版，beta 用户会被推）；prerelease 段 → compareTo<1 → filterNewVersions 第一道拦住所有用户（含 beta）+ make_latest=false；bump/commit/changelog/playstore/forum 全跳过；semver 推导有测试锁定（test/settings/data/update_tag_test.dart）。
+9. 门禁：analyze No issues（清 6 项：**上游 prompt_test 依赖 21.7+ 的 prompt follow UI，本仓 21.2.0 基线没有 → 删，语义由 database_test 覆盖**——上游测试不能盲 cherry-pick；5 style）；format 796 文件 0 改动；全量测试见 round18_full_test.log。
+10. 坑备忘新增：cni 回调 provider 无 cap（修 cap 必须包绘制层）；RawImage.image 在 3.47 是 ui.Image 非 provider；行为断言 > 结构断言；`dart format lib/` 会动 l10n 生成文件，提交前全仓 format 消噪。
