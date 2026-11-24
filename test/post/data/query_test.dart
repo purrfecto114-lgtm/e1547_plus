@@ -268,10 +268,32 @@ void main() {
     final query = client.useByTags(tags: ['tag_1', 'tag_2']);
     await query.fetch();
     expect(listRequests('/posts.json').last.query['page'], '1');
+    // A tag page spans a whole chunk round, so it asks for the full page
+    // limit rather than the site default of 75.
+    expect(listRequests('/posts.json').last.query['limit'], '320');
+    expect(query.state.data!.pages.single, servedIds().take(200));
 
     await query.getNextPage();
     expect(listRequests('/posts.json').last.query['page'], '2');
-    expect(query.state.data!.pages.last, servedIds().skip(75).take(75));
+    // The fake holds 200 posts; the second page is past all of them.
+    expect(query.state.data!.pages.last, isEmpty);
+  });
+
+  test('tag chunk pages merge into one newest-first list', () async {
+    // With more than 40 tags the client splits the search into tag
+    // chunks; the timeline must not show chunk-local orderings glued
+    // together, but one list sorted by id.
+    final tags = [for (int i = 0; i < 45; i++) 'tag_$i'];
+    final query = client.useByTags(tags: tags);
+    await query.fetch();
+
+    final ids = query.state.data!.pages.expand((p) => p).toList();
+    final sorted = [...ids]..sort((a, b) => b.compareTo(a));
+    expect(ids, sorted, reason: 'timeline pages must be newest first');
+    // 45 tags split into two chunks of 23 and 22; both request page 1
+    // with the full limit, and the fake holds 200 posts, so the merged
+    // first page carries every distinct id once.
+    expect(ids, hasLength(200));
   });
 
   test('pool searches paginate through the pool locally', () async {

@@ -164,6 +164,29 @@ void main() {
       expect(updated.latest, 2);
       expect(updated.thumbnail, '/preview/2');
     });
+
+    test('clears unseen by default and keeps it when seen is false', () async {
+      final follow = await seedFollow();
+      await repository.replace(
+        follow.copyWith(unseen: 7, latest: 2, thumbnail: '/preview/2'),
+      );
+
+      await server.syncWith(
+        id: follow.id,
+        posts: [samplePost(id: 2, preview: '/preview/2')],
+      );
+      expect((await repository.get(follow.id)).unseen, 0);
+
+      await repository.replace(
+        (await repository.get(follow.id)).copyWith(unseen: 7),
+      );
+      await server.syncWith(
+        id: follow.id,
+        posts: [samplePost(id: 2, preview: '/preview/2')],
+        seen: false,
+      );
+      expect((await repository.get(follow.id)).unseen, 7);
+    });
   });
 
   group('FollowServer.sync', () {

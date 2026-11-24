@@ -191,9 +191,46 @@ extension PostQuerying on PostClient {
         key: [...queryKey, 'by_tags', tags],
         getNextArg: (state) => state.nextPageArg(maxPage: maxSitePage),
         config: pagedObjectIdConfig(),
-        queryFn: (page) =>
-            byTags(tags: tags, page: page as int?).then(postCache.savePage),
+        queryFn: (page) async {
+          final fetched = await byTags(
+            tags: tags,
+            page: page as int?,
+            // One page must span a whole tag chunk round: a shorter page
+            // would hand the merge below half a chunk's posts, and the
+            // chunk's other half would arrive on a later page with ids
+            // above the ones already shown.
+            limit: maxPageLimit,
+          );
+          postCache.savePage(fetched);
+          // The search splits tags into chunks, and every chunk answers
+          // newest-first on its own. Gluing those answers together shows
+          // chunk-local orderings, which reads as "the newest sort is
+          // broken" on a timeline. Sorting the whole page by id — and
+          // dropping ids an earlier chunk already served — keeps the
+          // merged list globally newest-first.
+          final seen = servedByTagsIds(tags);
+          return [
+            for (final id in [...fetched.map((e) => e.id)]
+              ..sort((a, b) => b.compareTo(a)))
+              if (seen.add(id)) id,
+          ];
+        },
       );
+
+  /// The ids already served by the tag search at [tags], or null before
+  /// its first page lands. Feeds the duplicate check of the next page.
+  Set<int> servedByTagsIds(List<String> tags) => {
+    ...?queryCache
+        .getQuery<InfiniteQuery<List<int>, Object>>([
+          ...queryKey,
+          'by_tags',
+          tags,
+        ])
+        ?.state
+        .data
+        ?.pages
+        .expand((page) => page),
+  };
 
   Query<List<Post>> useByIds({required List<int> ids}) => Query(
     cache: queryCache,
