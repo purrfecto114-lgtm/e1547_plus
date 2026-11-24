@@ -440,11 +440,7 @@ void main() {
   displayTest('a picked filter counts only on its own section', (tester) async {
     final controller = await pumpPanel(tester);
 
-    await pickFilterOption(
-      tester,
-      icon: Icons.question_mark,
-      option: '露骨',
-    );
+    await pickFilterOption(tester, icon: Icons.question_mark, option: '露骨');
 
     expect(controller.value.tags, 'rating:e');
 
@@ -457,8 +453,11 @@ void main() {
               widget is Text && RegExp(r'^\d+$').hasMatch(widget.data ?? ''),
         )
         .evaluate();
-    expect(badgedSections, hasLength(1),
-        reason: 'only the owning section shows a count');
+    expect(
+      badgedSections,
+      hasLength(1),
+      reason: 'only the owning section shows a count',
+    );
   });
 
   displayTest('closing the prompt flushes a pending filter change', (

@@ -17,19 +17,19 @@ void main() {
         home: ChangeNotifierProvider<FilterController<int>?>.value(
           value: controller,
           child: QueryFilter<int, int>(
-          state: InfiniteQuerySuccess<List<int>, int>(
-            timeCreated: DateTime.now(),
-            hasReachedMax: false,
-            hasNextPage: true,
-            hasPreviousPage: false,
-            data: InfiniteQueryData<List<int>, int>(
-              pages: const [
-                [7, 6, 5],
-                [5, 4, 3], // 5 again: the overlap
-              ],
-              args: const [1],
+            state: InfiniteQuerySuccess<List<int>, int>(
+              timeCreated: DateTime.now(),
+              hasReachedMax: false,
+              hasNextPage: true,
+              hasPreviousPage: false,
+              data: InfiniteQueryData<List<int>, int>(
+                pages: const [
+                  [7, 6, 5],
+                  [5, 4, 3], // 5 again: the overlap
+                ],
+                args: const [1],
+              ),
             ),
-          ),
             builder: (context, state) {
               controller.observed = state.data!.pages.expand((p) => p).toList();
               return const SizedBox();

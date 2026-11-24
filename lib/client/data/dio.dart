@@ -94,13 +94,13 @@ Dio createDefaultDio(
   // The cronet engine ignores the android system proxy; behind one, hosts
   // that only resolve through it fail as if the device were offline. When
   // a proxy is known, the io adapter routes through it instead.
-  dio.httpClientAdapter =
-      proxy == null
-          ? NativeAdapter()
-          : IOHttpClientAdapter(
-            createHttpClient: () => HttpClient()
-              ..findProxy = (uri) => 'PROXY ${proxy.host}:${proxy.port}',
-          );
+  dio.httpClientAdapter = proxy == null
+      ? NativeAdapter()
+      : IOHttpClientAdapter(
+          createHttpClient: () =>
+              HttpClient()
+                ..findProxy = (uri) => 'PROXY ${proxy.host}:${proxy.port}',
+        );
   dio.interceptors.add(InFlightInterceptor());
   dio.interceptors.add(NewlineReplaceInterceptor());
   dio.interceptors.add(LoggingDioInterceptor());

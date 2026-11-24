@@ -20,8 +20,9 @@ final Future<({String host, int port})?> systemProxyMemo = systemHttpProxy();
 /// (iOS follows the system proxy natively), or when the probe fails.
 Future<({String host, int port})?> systemHttpProxy() async {
   try {
-    final proxy = await const MethodChannel('e1547/biometrics')
-        .invokeMapMethod<String, Object?>('systemProxy');
+    final proxy = await const MethodChannel(
+      'e1547/biometrics',
+    ).invokeMapMethod<String, Object?>('systemProxy');
     final host = proxy?['host'] as String?;
     final port = proxy?['port'] as int?;
     if (host == null || port == null || port <= 0 || port > 65535) {

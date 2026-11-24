@@ -49,14 +49,13 @@ class Client with Disposable {
     required ValueNotifier<Traits> traits,
     required AppStorage storage,
     bool ownsTraitsNotifier = false,
-  }) async =>
-      Client(
-        identity: identity,
-        traits: traits,
-        storage: storage,
-        ownsTraitsNotifier: ownsTraitsNotifier,
-        proxy: await systemHttpProxy(),
-      );
+  }) async => Client(
+    identity: identity,
+    traits: traits,
+    storage: storage,
+    ownsTraitsNotifier: ownsTraitsNotifier,
+    proxy: await systemHttpProxy(),
+  );
 
   final Dio dio;
   final AppStorage storage;
