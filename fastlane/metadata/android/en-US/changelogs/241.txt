@@ -1,0 +1,2 @@
+Fixes the endless loading screen after upgrading from 22.9.3: the app now boots to content again.
+The system proxy support from the previous release is kept and now resolves before the app starts.

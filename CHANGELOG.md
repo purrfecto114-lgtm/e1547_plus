@@ -1,5 +1,17 @@
 # Changelog
 
+## [22.9.5+241] - 2026-11-24
+
+### Fixed
+- repairs the boot deadlock 22.9.5 (240) shipped with: the app opened
+  into an endless loading spinner after upgrading from 22.9.3. Two of
+  the 240 changes broke the boot path together — the loading shell no
+  longer built the subtree that dismisses it, and the client provider
+  changed type, failing every page that reads it. Both are reverted to
+  their 22.9.3 behavior; the android system proxy support from 240
+  stays, now resolved during app initialization instead. A boot
+  regression test now fails on the broken variant
+
 ## [22.9.5+240] - 2026-11-24
 ### Added
 - the handedness settings gain a mirror switch: the whole layout flips
@@ -2235,3 +2247,4 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 [22.9.3+238]: https://github.com/purrfecto114-lgtm/e1547_plus/compare/22.9.2+237...22.9.3+238
 [22.9.4+239]: https://github.com/purrfecto114-lgtm/e1547_plus/compare/22.9.3+238...22.9.4+239
 [22.9.5+240]: https://github.com/purrfecto114-lgtm/e1547_plus/compare/22.9.4+239...22.9.5+240
+[22.9.5+241]: https://github.com/purrfecto114-lgtm/e1547_plus/compare/22.9.5+240...22.9.5+241
