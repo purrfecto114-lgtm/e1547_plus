@@ -245,15 +245,21 @@ void defaultPushPostDetail(BuildContext context, Post post) {
 }
 
 class PostTile extends StatelessWidget {
-  const PostTile({super.key, required this.post, this.onTap});
+  const PostTile({super.key, required this.post, this.size, this.onTap});
 
   final Post post;
+
+  /// The image size the tile decodes; defaults to the sample, with the
+  /// grid deciding the tier through it.
+  final PostImageSize? size;
+
   final VoidCallback? onTap;
 
   @override
   Widget build(BuildContext context) {
     return PostImageTile(
       post: post,
+      size: size,
       onTap: onTap ?? () => defaultPushPostDetail(context, post),
       bottomBar: ValueListenableBuilder<bool>(
         valueListenable: context.watch<Settings>().showPostInfo,

@@ -177,7 +177,17 @@ class PostGridSliver extends StatelessWidget {
           (layout.tileSize * layout.qualityFactor * dpr).round(),
           layout.qualityCap,
         ),
-        child: PostTile(post: item),
+        child: PostTile(
+          post: item,
+          // The low tier reads as "low quality" only if it actually
+          // fetches less: its tiles decode the preview instead of the
+          // sample, which cuts both traffic and memory on top of the
+          // smaller decode cap. A post without a sample keeps the
+          // preview either way.
+          size: layout.qualityFactor <= 1
+              ? PostImageSize.preview
+              : PostImageSize.sample,
+        ),
       );
     }
 

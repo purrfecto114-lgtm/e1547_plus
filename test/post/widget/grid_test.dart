@@ -60,4 +60,57 @@ void main() {
       expect(skeletons(find.byType(PostImageTile)), findsNothing);
     },
   );
+
+  displayTest('a grid on the low quality tier decodes previews', (
+    tester,
+  ) async {
+    // The low tier is the one users can tell from the others: it swaps
+    // the tile source from the sample down to the preview, which saves
+    // the most traffic and memory of the three tiers.
+    env.settings.thumbnailQuality.value = ThumbnailQuality.low;
+    await show(
+      tester,
+      PagingState<int, Post>(
+        pages: [
+          [
+            samplePost(id: 7, file: '/file/7', preview: '/preview/7').copyWith(
+              sample: '/sample/7',
+            ),
+          ],
+        ],
+        keys: const [1],
+        hasNextPage: false,
+      ),
+    );
+
+    final image = tester.widget<PostImageWidget>(
+      find.byType(PostImageWidget),
+    );
+    expect(image.size, PostImageSize.preview);
+  });
+
+  displayTest('a grid on the medium quality tier decodes samples', (
+    tester,
+  ) async {
+    env.settings.thumbnailQuality.value = ThumbnailQuality.medium;
+    await show(
+      tester,
+      PagingState<int, Post>(
+        pages: [
+          [
+            samplePost(id: 7, file: '/file/7', preview: '/preview/7').copyWith(
+              sample: '/sample/7',
+            ),
+          ],
+        ],
+        keys: const [1],
+        hasNextPage: false,
+      ),
+    );
+
+    final image = tester.widget<PostImageWidget>(
+      find.byType(PostImageWidget),
+    );
+    expect(image.size, PostImageSize.sample);
+  });
 }
