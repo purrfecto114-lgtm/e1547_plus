@@ -80,10 +80,17 @@ class _QueryFilterState<T, K> extends State<QueryFilter<T, K>> {
     // the pages once, testing each item against the filtered set.
     final filtered = controller.track(_key, flat);
     final filteredIds = filtered.map(controller.idOf).toSet();
+    // Cursor pagination can hand the search two pages that share a post
+    // (a refresh racing a page turn); handing the overlap downstream
+    // counts it twice in every tag counter. An id already seen in an
+    // earlier page is dropped from the later one, which keeps the
+    // pages' own order and length budget intact.
+    final seenIds = <Object>{};
     final rechunked = pages
         .map(
           (page) => page
               .where((item) => filteredIds.contains(controller.idOf(item)))
+              .where((item) => seenIds.add(controller.idOf(item)))
               .toList(),
         )
         .toList();
