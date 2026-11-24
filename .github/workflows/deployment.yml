@@ -40,11 +40,16 @@ on:
         description: "Skip the forum post"
         type: boolean
         default: false
+      test_release:
+        description: "Publish only a pre-release that update checks cannot reach (manual testing builds; no rc or stable promotion)"
+        type: boolean
+        default: false
 
 env:
   VERSION_BUMP: ${{ github.event.inputs.version }}
   RELEASE_TITLE: ${{ github.event.inputs.release_title }}
   DRY_RUN: ${{ github.event.inputs.dry_run }}
+  TEST_RELEASE: ${{ github.event.inputs.test_release }}
 
 jobs:
   validate:
@@ -79,7 +84,7 @@ jobs:
         run: flutter pub get --enforce-lockfile
 
       - name: bump version
-        if: ${{ github.event.inputs.version != 'none' }}
+        if: ${{ github.event.inputs.version != 'none' && github.event.inputs.test_release != 'true' }}
         run: |
           dart pub global activate cider 0.2.10
           dart pub global run cider bump ${{ env.VERSION_BUMP }} --bump-build
@@ -163,7 +168,7 @@ jobs:
         run: flutter pub get --enforce-lockfile
 
       - name: bump version
-        if: ${{ github.event.inputs.version != 'none' }}
+        if: ${{ github.event.inputs.version != 'none' && github.event.inputs.test_release != 'true' }}
         run: |
           dart pub global activate cider 0.2.10
           dart pub global run cider bump ${{ env.VERSION_BUMP }} --bump-build
@@ -207,7 +212,7 @@ jobs:
         run: flutter pub get --enforce-lockfile
 
       - name: bump version
-        if: ${{ github.event.inputs.version != 'none' }}
+        if: ${{ github.event.inputs.version != 'none' && github.event.inputs.test_release != 'true' }}
         shell: bash
         run: |
           dart pub global activate cider 0.2.10
@@ -262,7 +267,7 @@ jobs:
         run: flutter pub get --enforce-lockfile
 
       - name: bump version
-        if: ${{ github.event.inputs.version != 'none' }}
+        if: ${{ github.event.inputs.version != 'none' && github.event.inputs.test_release != 'true' }}
         run: |
           dart pub global activate cider 0.2.10
           dart pub global run cider bump ${{ env.VERSION_BUMP }} --bump-build
@@ -345,7 +350,7 @@ jobs:
         run: dart pub global activate cider 0.2.10
 
       - name: bump and release version
-        if: ${{ github.event.inputs.version != 'none' }}
+        if: ${{ github.event.inputs.version != 'none' && github.event.inputs.test_release != 'true' }}
         run: |
           cider bump ${{ env.VERSION_BUMP }} --bump-build
           cider release
@@ -360,9 +365,11 @@ jobs:
           echo "BUILD_NUMBER=$BUILD_NUMBER" >> $GITHUB_ENV
 
       - name: write playstore changelogs
+        if: ${{ github.event.inputs.test_release != 'true' }}
         run: bundle exec fastlane android changelog
 
       - name: verify changelog body is non-empty
+        if: ${{ github.event.inputs.test_release != 'true' }}
         run: |
           file="./fastlane/metadata/android/en-US/changelogs/${{ env.BUILD_NUMBER }}.txt"
           if [ ! -s "$file" ] || ! grep -q '[^[:space:]]' "$file"; then
@@ -371,7 +378,7 @@ jobs:
           fi
 
       - name: commit version increase
-        if: ${{ github.event.inputs.version != 'none' && github.event.inputs.dry_run != 'true' }}
+        if: ${{ github.event.inputs.version != 'none' && github.event.inputs.dry_run != 'true' && github.event.inputs.test_release != 'true' }}
         uses: EndBug/add-and-commit@cc9c08ba6c8df3b93a8f2db63e89b98368ae2ae8 # v11
         with:
           message: increased version
@@ -439,11 +446,36 @@ jobs:
           echo "$KEYSTORE" > android/keys/playstore.json
 
       - name: publish to Play Store
-        if: ${{ github.event.inputs.skip_playstore != 'true' }}
+        if: ${{ github.event.inputs.skip_playstore != 'true' && github.event.inputs.test_release != 'true' }}
         run: bundle exec fastlane android upload validate_only:${{ github.event.inputs.dry_run }}
 
+      - name: compute test tag
+        # A test release must stay unpromotable on every client, beta
+        # users included: the run number goes into the prerelease segment,
+        # so the tag's version never outranks the version it was cut
+        # from, and no rc or stable is minted along the way.
+        if: ${{ github.event.inputs.test_release == 'true' }}
+        run: |
+          VERSION=${{ env.VERSION }}
+          MAIN=${VERSION%+*}
+          BUILD=${VERSION#*+}
+          echo "TEST_TAG=${MAIN}-test.${{ github.run_number }}+${BUILD}" >> $GITHUB_ENV
+
+      - name: write test release notes
+        if: ${{ github.event.inputs.test_release == 'true' }}
+        run: |
+          cat > test-release-notes.md <<'EOF'
+          Manual test build — update checks cannot reach it.
+
+          This pre-release was built for testing and is not an rc or stable
+          release. The app's update check ignores it: it never carries the
+          latest flag, and its version stays below every released rc and
+          stable, so beta installs are not offered it either. Install the
+          APK by hand; obtainium must not track this tag.
+          EOF
+
       - name: create release
-        if: ${{ github.event.inputs.dry_run != 'true' && github.event.inputs.skip_github_release != 'true' }}
+        if: ${{ github.event.inputs.dry_run != 'true' && github.event.inputs.skip_github_release != 'true' && github.event.inputs.test_release != 'true' }}
         uses: softprops/action-gh-release@8a0cd651e5b2365bd640854a3fa5dfc70e4875f3 # v3
         with:
           token: ${{ steps.publisher.outputs.token || secrets.GITHUB_TOKEN }}
@@ -461,12 +493,31 @@ jobs:
             e1547.deb
             e1547.tar.gz
 
+      - name: create test release
+        if: ${{ github.event.inputs.dry_run != 'true' && github.event.inputs.skip_github_release != 'true' && github.event.inputs.test_release == 'true' }}
+        uses: softprops/action-gh-release@8a0cd651e5b2365bd640854a3fa5dfc70e4875f3 # v3
+        with:
+          token: ${{ steps.publisher.outputs.token || secrets.GITHUB_TOKEN }}
+          tag_name: ${{ env.TEST_TAG }}
+          name: ${{ env.RELEASE_TITLE || format('Test build {0} (run {1})', env.VERSION, github.run_number) }}
+          body_path: ./test-release-notes.md
+          prerelease: true
+          make_latest: false
+          files: |
+            e1547-universal.apk
+            e1547-arm64.apk
+            e1547-armv7.apk
+            e1547.ipa
+            e1547-setup.exe
+            e1547.deb
+            e1547.tar.gz
+
   forum-prepare:
     # The credential-free half of the forum post: extracts release
     # metadata and converts the changelog. Only the publish half below
     # holds the forum secrets.
     needs: [release]
-    if: ${{ github.ref == 'refs/heads/master' && github.event.inputs.skip_forum != 'true' && github.event.inputs.dry_run != 'true' }}
+    if: ${{ github.ref == 'refs/heads/master' && github.event.inputs.skip_forum != 'true' && github.event.inputs.dry_run != 'true' && github.event.inputs.test_release != 'true' }}
     runs-on: ubuntu-latest
     env:
       DMARK_VERSION: '2.0.0'
@@ -585,7 +636,7 @@ jobs:
     # The secret-holding half: nothing but the forum credentials and the
     # prepared artifact from the credential-free job above.
     needs: [forum-prepare]
-    if: ${{ github.ref == 'refs/heads/master' && github.event.inputs.skip_forum != 'true' && github.event.inputs.dry_run != 'true' }}
+    if: ${{ github.ref == 'refs/heads/master' && github.event.inputs.skip_forum != 'true' && github.event.inputs.dry_run != 'true' && github.event.inputs.test_release != 'true' }}
     runs-on: ubuntu-latest
     env:
       # Secrets cannot be referenced directly in step if-conditions.
