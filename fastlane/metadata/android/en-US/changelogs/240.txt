@@ -3,3 +3,7 @@ The thumbnail quality setting now reaches the subscription grid, and its low tie
 The handedness settings gain a mirror switch that flips the whole layout to your preferred hand while text keeps reading naturally.
 A grid density preference joins the card size: auto, dense or loose.
 The database export and import icons point the right way, export passwords need four characters or more, and encryption runs under a timeout with a bounded decrypt retry.
+Tag counters no longer double-count a post that two pages share, which inflated every tag number after a filter pick.
+On Android, the app now routes through the system proxy when one is set, so hosts behind a regional filter reach you like every other app.
+The loading overlay no longer stacks on a page's own spinner during an account switch.
+

@@ -1,7 +1,7 @@
 import 'package:e1547/query/query.dart';
-import 'package:provider/provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:provider/provider.dart';
 
 void main() {
   testWidgets('a filtered list counts overlapping page posts once', (

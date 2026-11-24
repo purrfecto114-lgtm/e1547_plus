@@ -22,6 +22,16 @@
   import down, instead of the reversed pair
 - the decrypt prompt for an encrypted import stops after five wrong
   passwords instead of looping forever
+- tag counters no longer count a post twice when cursor pagination
+  hands the search two pages that share it: every tag in the drawer
+  read one post too many after a filter pick
+- android clients route through the system proxy when one is set: the
+  cronet engine ignored it, so hosts that only resolve through the
+  proxy (e621 behind a regional filter, with e926 reachable) failed
+  as if the device were offline, even with the proxy up
+- the loading shell no longer stacks its icon overlay on a page's own
+  first-page spinner during an account switch; the covered page is
+  not built while the overlay shows
 
 
 ## [22.9.4+239] - 2026-11-24
