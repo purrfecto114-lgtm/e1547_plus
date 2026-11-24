@@ -94,7 +94,19 @@ class _LoadingShellState extends State<LoadingShell> {
         builder: (context, state, _) => Stack(
           fit: StackFit.passthrough,
           children: [
-            widget.child,
+            // The overlay covers the child with an opaque scaffold, but
+            // the child kept building below it: a page that runs its own
+            // first-page animation while the shell loads (an account
+            // switch refetching its search) drew both animations at
+            // once, the new icon overlay stacked on the old spinner.
+            // Building nothing under the overlay removes the second
+            // animation and the wasted work of the covered subtree.
+            if (!state.loading)
+              widget.child
+            else
+              Positioned.fill(
+                child: Container(color: Theme.of(context).colorScheme.surface),
+              ),
             if (state.loading)
               Positioned.fill(
                 child: Scaffold(
