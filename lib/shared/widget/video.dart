@@ -408,4 +408,25 @@ enum VideoResolution {
     VideoResolution.medium => 1280 * 720,
     VideoResolution.high => 4096 * 2160,
   };
+
+  /// The resolution whose pixel budget is closest to a "WIDTHxHEIGHT"
+  /// variant key, the form the server spells its video variants in.
+  ///
+  /// A malformed key has no size to compare and reads as the best tier:
+  /// callers serving the pick then hand out the best variant available
+  /// instead of failing on a server quirk.
+  static VideoResolution fromVariantKey(String key) {
+    final List<int?> parts = key.split('x').map(int.tryParse).toList();
+    if (parts.length != 2 || parts[0] == null || parts[1] == null) {
+      return VideoResolution.high;
+    }
+    final int pixels = parts[0]! * parts[1]!;
+    return VideoResolution.values.fold(
+      VideoResolution.values.first,
+      (best, resolution) =>
+          (pixels - resolution.pixels).abs() < (pixels - best.pixels).abs()
+          ? resolution
+          : best,
+    );
+  }
 }

@@ -82,4 +82,29 @@ void main() {
       expect(videoPost().hasVideoQualities, isFalse);
     });
   });
+
+  group('VideoResolution.fromVariantKey', () {
+    test('matches the tier a key belongs to', () {
+      expect(
+        VideoResolution.fromVariantKey('1280x720'),
+        VideoResolution.medium,
+      );
+      expect(VideoResolution.fromVariantKey('640x480'), VideoResolution.low);
+      expect(VideoResolution.fromVariantKey('4000x3000'), VideoResolution.high);
+    });
+
+    test('picks the nearest tier for sizes between tiers', () {
+      // 960x540 sits closer to the low budget than to the medium one.
+      expect(VideoResolution.fromVariantKey('960x540'), VideoResolution.low);
+    });
+
+    test('a malformed key reads as the best tier', () {
+      // Server quirks must degrade to the best variant, not fail.
+      expect(
+        VideoResolution.fromVariantKey('not-a-size'),
+        VideoResolution.high,
+      );
+      expect(VideoResolution.fromVariantKey('1280xp'), VideoResolution.high);
+    });
+  });
 }
