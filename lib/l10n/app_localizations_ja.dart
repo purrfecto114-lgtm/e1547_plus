@@ -2495,4 +2495,11 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get tileLarge => 'Large';
+
+  @override
+  String get settingsLayoutMirror => 'レイアウトのミラー';
+
+  @override
+  String get settingsLayoutMirrorHint =>
+      'レイアウト全体を利き手側に反転します。文字はそれぞれの方向で読み続けられます。';
 }

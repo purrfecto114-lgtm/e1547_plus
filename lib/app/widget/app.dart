@@ -103,7 +103,16 @@ class App extends StatelessWidget {
                                                     child: AppBubbleOverlay(
                                                       navigatorKey:
                                                           navigatorKey,
-                                                      child: child!,
+                                                      // Mirrors the layout
+                                                      // below the MaterialApp,
+                                                      // whose own
+                                                      // Directionality from
+                                                      // the locale would
+                                                      // override a mirror
+                                                      // above it.
+                                                      child: LayoutMirrorScope(
+                                                        child: child!,
+                                                      ),
                                                     ),
                                                   ),
                                                 ),

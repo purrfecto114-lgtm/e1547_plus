@@ -44,15 +44,48 @@ class HandednessScope extends StatelessWidget {
   );
 }
 
+/// Mirrors the layout below it when the user turned the mirror switch on.
+///
+/// Flutter's rtl direction mirrors every start/end alignment in the
+/// subtree — drawers, list paddings, app bar leading actions — while the
+/// bidi algorithm keeps latin and chinese text reading naturally inside
+/// it, which is exactly what a "mirror the layout" switch promises.
+class LayoutMirrorScope extends StatelessWidget {
+  const LayoutMirrorScope({super.key, required this.child});
+
+  final Widget child;
+
+  @override
+  Widget build(BuildContext context) => ValueListenableBuilder<bool>(
+    valueListenable: context.watch<Settings>().layoutMirror,
+    builder: (context, mirror, child) => Directionality(
+      textDirection: mirror ? TextDirection.rtl : TextDirection.ltr,
+      child: child!,
+    ),
+    child: child,
+  );
+}
+
 class _HandednessProvider extends InheritedNotifier<ValueNotifier<Handedness>> {
   const _HandednessProvider({required super.notifier, required super.child});
 }
 
 class HandednessSettingsTile extends StatelessWidget {
-  const HandednessSettingsTile({super.key, required this.state, this.onChange});
+  const HandednessSettingsTile({
+    super.key,
+    required this.state,
+    this.onChange,
+    this.mirror,
+    this.onMirrorChange,
+  });
 
   final Handedness state;
   final void Function(Handedness state)? onChange;
+
+  /// The layout mirror state shown inside the dialog; null keeps the
+  /// dialog without the switch.
+  final bool? mirror;
+  final void Function(bool mirror)? onMirrorChange;
 
   @override
   Widget build(BuildContext context) {
@@ -63,8 +96,12 @@ class HandednessSettingsTile extends StatelessWidget {
       leading: const Icon(Icons.front_hand),
       onTap: () => showDialog(
         context: context,
-        builder: (context) =>
-            HandednessDialog(state: state, onChange: onChange),
+        builder: (context) => HandednessDialog(
+          state: state,
+          onChange: onChange,
+          mirror: mirror,
+          onMirrorChange: onMirrorChange,
+        ),
       ),
     );
   }
@@ -75,10 +112,21 @@ class HandednessSettingsTile extends StatelessWidget {
 /// Each option previews where buttons land for that choice, so the
 /// effect of the setting is visible without trying it out.
 class HandednessDialog extends StatelessWidget {
-  const HandednessDialog({super.key, required this.state, this.onChange});
+  const HandednessDialog({
+    super.key,
+    required this.state,
+    this.onChange,
+    this.mirror,
+    this.onMirrorChange,
+  });
 
   final Handedness state;
   final void Function(Handedness state)? onChange;
+
+  /// The current layout mirror state, and its setter. Both null hides
+  /// the switch, for callers without the setting at hand.
+  final bool? mirror;
+  final void Function(bool mirror)? onMirrorChange;
 
   @override
   Widget build(BuildContext context) {
@@ -115,6 +163,14 @@ class HandednessDialog extends StatelessWidget {
                 .toList(),
           ),
         ),
+        if (mirror != null && onMirrorChange != null)
+          SwitchListTile(
+            title: Text(l10n.settingsLayoutMirror),
+            subtitle: Text(l10n.settingsLayoutMirrorHint),
+            secondary: const Icon(Icons.flip),
+            value: mirror!,
+            onChanged: onMirrorChange,
+          ),
       ],
     );
   }

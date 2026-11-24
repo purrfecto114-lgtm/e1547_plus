@@ -2482,6 +2482,12 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get tileLarge => '大';
+
+  @override
+  String get settingsLayoutMirror => '镜像布局';
+
+  @override
+  String get settingsLayoutMirrorHint => '将整个布局翻转到惯用手一侧，文字仍按自身方向阅读。';
 }
 
 /// The translations for Chinese, using the Han script (`zh_Hant`).
@@ -4961,4 +4967,10 @@ class AppLocalizationsZhHant extends AppLocalizationsZh {
 
   @override
   String get tileLarge => '大';
+
+  @override
+  String get settingsLayoutMirror => '鏡像布局';
+
+  @override
+  String get settingsLayoutMirrorHint => '將整個布局翻轉到慣用手一側，文字仍按自身方向閱讀。';
 }

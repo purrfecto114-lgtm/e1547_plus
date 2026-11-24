@@ -4450,6 +4450,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Large'**
   String get tileLarge;
+
+  /// Switch label inside the handedness dialog
+  ///
+  /// In en, this message translates to:
+  /// **'Mirror layout'**
+  String get settingsLayoutMirror;
+
+  /// Helper under the mirror switch
+  ///
+  /// In en, this message translates to:
+  /// **'Flips the whole layout to the side of your preferred hand. Text keeps reading in its own direction.'**
+  String get settingsLayoutMirrorHint;
 }
 
 class _AppLocalizationsDelegate

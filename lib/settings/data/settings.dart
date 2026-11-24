@@ -120,6 +120,14 @@ class Settings extends NotifiedSettings {
     values: Handedness.values,
   );
 
+  /// Whether the whole layout mirrors, moving drawers and lists to the
+  /// side of the preferred hand. Text keeps reading in its own script
+  /// direction; only the layout start flips.
+  late final ValueNotifier<bool> layoutMirror = createSetting<bool>(
+    key: 'layoutMirror',
+    initialValue: false,
+  );
+
   /// The app language, stored as a locale string.
   ///
   /// A null value follows the system language.

@@ -2670,5 +2670,13 @@
   "thumbnailSize": "Card size",
   "tileSmall": "Small",
   "tileMedium": "Medium",
-  "tileLarge": "Large"
+  "tileLarge": "Large",
+  "settingsLayoutMirror": "Mirror layout",
+  "settingsLayoutMirrorHint": "Flips the whole layout to the side of your preferred hand. Text keeps reading in its own direction.",
+  "@settingsLayoutMirror": {
+    "description": "Switch label inside the handedness dialog"
+  },
+  "@settingsLayoutMirrorHint": {
+    "description": "Helper under the mirror switch"
+  }
 }

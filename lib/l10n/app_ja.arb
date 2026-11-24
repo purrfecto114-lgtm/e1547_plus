@@ -726,5 +726,7 @@
   "thumbnailSize": "Card size",
   "tileSmall": "Small",
   "tileMedium": "Medium",
-  "tileLarge": "Large"
+  "tileLarge": "Large",
+  "settingsLayoutMirror": "レイアウトのミラー",
+  "settingsLayoutMirrorHint": "レイアウト全体を利き手側に反転します。文字はそれぞれの方向で読み続けられます。"
 }

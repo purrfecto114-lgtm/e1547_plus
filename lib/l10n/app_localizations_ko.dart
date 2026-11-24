@@ -2512,4 +2512,11 @@ class AppLocalizationsKo extends AppLocalizations {
 
   @override
   String get tileLarge => 'Large';
+
+  @override
+  String get settingsLayoutMirror => '레이아웃 미러';
+
+  @override
+  String get settingsLayoutMirrorHint =>
+      '전체 레이아웃을 선호하는 손 쪽으로 뒤집습니다. 텍스트는 여전히 자체 방향으로 읽힙니다.';
 }

@@ -2554,4 +2554,11 @@ class AppLocalizationsVi extends AppLocalizations {
 
   @override
   String get tileLarge => 'Large';
+
+  @override
+  String get settingsLayoutMirror => 'Đối xứng bố cục';
+
+  @override
+  String get settingsLayoutMirrorHint =>
+      'Lật toàn bộ bố cục sang phía tay ưu tiên. Chữ vẫn đọc theo hướng riêng của nó.';
 }

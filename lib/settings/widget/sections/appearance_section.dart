@@ -167,9 +167,14 @@ class SettingsAppearanceSection extends StatelessWidget {
         ),
         ValueListenableBuilder<Handedness>(
           valueListenable: settings.handedness,
-          builder: (context, value, child) => HandednessSettingsTile(
-            state: value,
-            onChange: (value) => settings.handedness.value = value,
+          builder: (context, value, child) => ValueListenableBuilder<bool>(
+            valueListenable: settings.layoutMirror,
+            builder: (context, mirror, child) => HandednessSettingsTile(
+              state: value,
+              onChange: (value) => settings.handedness.value = value,
+              mirror: mirror,
+              onMirrorChange: (value) => settings.layoutMirror.value = value,
+            ),
           ),
         ),
       ],

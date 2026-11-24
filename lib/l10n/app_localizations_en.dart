@@ -2552,4 +2552,11 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get tileLarge => 'Large';
+
+  @override
+  String get settingsLayoutMirror => 'Mirror layout';
+
+  @override
+  String get settingsLayoutMirrorHint =>
+      'Flips the whole layout to the side of your preferred hand. Text keeps reading in its own direction.';
 }

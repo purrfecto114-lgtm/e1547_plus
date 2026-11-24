@@ -2593,4 +2593,11 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get tileLarge => 'Large';
+
+  @override
+  String get settingsLayoutMirror => 'Зеркальная разметка';
+
+  @override
+  String get settingsLayoutMirrorHint =>
+      'Отражает всю разметку в сторону предпочтительной руки. Текст по-прежнему читается в своём направлении.';
 }

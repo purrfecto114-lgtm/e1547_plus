@@ -2605,4 +2605,11 @@ class AppLocalizationsPl extends AppLocalizations {
 
   @override
   String get tileLarge => 'Large';
+
+  @override
+  String get settingsLayoutMirror => 'Odbicie układu';
+
+  @override
+  String get settingsLayoutMirrorHint =>
+      'Odbija cały układ na stronę preferowanej ręki. Tekst nadal czyta się we własnym kierunku.';
 }

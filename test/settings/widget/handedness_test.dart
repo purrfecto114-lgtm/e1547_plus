@@ -14,7 +14,7 @@ void main() {
 
   Widget scoped(Widget child) => Provider<Settings>.value(
     value: settings,
-    child: HandednessScope(child: MaterialApp(home: child)),
+    child: LayoutMirrorScope(child: HandednessScope(child: MaterialApp(home: child))),
   );
 
   Future<double> fabLeft(WidgetTester tester) async {
@@ -77,6 +77,37 @@ void main() {
     expect(
       tester.getTopLeft(find.byKey(const Key('bubble'))).dx,
       lessThan(screenWidth / 2),
+    );
+  });
+
+  testWidgets('the layout mirror switch flips the app direction', (
+    tester,
+  ) async {
+    // The mirror scope sits inside the MaterialApp's builder in the app:
+    // the app widget installs its own Directionality from the locale,
+    // which would override a mirror above it.
+    Widget app() => Provider<Settings>.value(
+      value: settings,
+      child: MaterialApp(
+        builder: (context, child) => LayoutMirrorScope(child: child!),
+        home: const Text('probe', key: Key('probe')),
+      ),
+    );
+
+    await tester.pumpWidget(app());
+    await tester.pumpAndSettle();
+    // The switch defaults to off: the layout stays left-to-right.
+    expect(
+      Directionality.of(tester.element(find.byKey(const Key('probe')))),
+      TextDirection.ltr,
+    );
+
+    settings.layoutMirror.value = true;
+    await tester.pumpWidget(app());
+    await tester.pumpAndSettle();
+    expect(
+      Directionality.of(tester.element(find.byKey(const Key('probe')))),
+      TextDirection.rtl,
     );
   });
 }

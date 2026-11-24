@@ -726,5 +726,7 @@
   "thumbnailSize": "Card size",
   "tileSmall": "Small",
   "tileMedium": "Medium",
-  "tileLarge": "Large"
+  "tileLarge": "Large",
+  "settingsLayoutMirror": "Espejar la disposición",
+  "settingsLayoutMirrorHint": "Voltea toda la disposición hacia el lado de tu mano preferida. El texto sigue leyéndose en su propia dirección."
 }

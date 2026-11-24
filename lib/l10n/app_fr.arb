@@ -726,5 +726,7 @@
   "thumbnailSize": "Card size",
   "tileSmall": "Small",
   "tileMedium": "Medium",
-  "tileLarge": "Large"
+  "tileLarge": "Large",
+  "settingsLayoutMirror": "Miroir de la disposition",
+  "settingsLayoutMirrorHint": "Retourne toute la disposition vers le côté de ta main préférée. Le texte se lit toujours dans son propre sens."
 }

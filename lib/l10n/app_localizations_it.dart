@@ -2563,4 +2563,11 @@ class AppLocalizationsIt extends AppLocalizations {
 
   @override
   String get tileLarge => 'Large';
+
+  @override
+  String get settingsLayoutMirror => 'Specchia il layout';
+
+  @override
+  String get settingsLayoutMirrorHint =>
+      'Ribalta l\'intero layout verso il lato della tua mano preferita. Il testo continua a leggersi nella propria direzione.';
 }

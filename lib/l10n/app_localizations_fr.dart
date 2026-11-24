@@ -2579,4 +2579,11 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get tileLarge => 'Large';
+
+  @override
+  String get settingsLayoutMirror => 'Miroir de la disposition';
+
+  @override
+  String get settingsLayoutMirrorHint =>
+      'Retourne toute la disposition vers le côté de ta main préférée. Le texte se lit toujours dans son propre sens.';
 }

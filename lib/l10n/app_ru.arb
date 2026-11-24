@@ -726,5 +726,7 @@
   "thumbnailSize": "Card size",
   "tileSmall": "Small",
   "tileMedium": "Medium",
-  "tileLarge": "Large"
+  "tileLarge": "Large",
+  "settingsLayoutMirror": "Зеркальная разметка",
+  "settingsLayoutMirrorHint": "Отражает всю разметку в сторону предпочтительной руки. Текст по-прежнему читается в своём направлении."
 }

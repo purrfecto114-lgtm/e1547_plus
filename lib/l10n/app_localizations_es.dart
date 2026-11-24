@@ -2575,4 +2575,11 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get tileLarge => 'Large';
+
+  @override
+  String get settingsLayoutMirror => 'Espejar la disposición';
+
+  @override
+  String get settingsLayoutMirrorHint =>
+      'Voltea toda la disposición hacia el lado de tu mano preferida. El texto sigue leyéndose en su propia dirección.';
 }
