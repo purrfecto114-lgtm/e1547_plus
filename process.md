@@ -170,3 +170,25 @@
 5. 发版 22.9.5+241（四件套 6d55b878 齐备：pubspec/CHANGELOG 段/compare 链接行/fastlane 241.txt）：dispatch run **45365809000** 首跑 4 build + 2 validate 全绿，唯 **ios-build 平台性饥饿取消**（conclusion=cancelled、0 steps、日志 blob 404/BlobNotFound——Round 14 鉴别法三征全中）→ `rerun-failed-jobs`（其他平台产物保留，仅重跑 ios-build + release）→ **全绿**。
 6. 终态核对与发版后处理（按指令）：tag 22.9.5+241 = 6d55b878 = master HEAD ✓；**7 资产齐**（arm64/armv7/universal APK、setup.exe、deb、ipa、tar.gz）✓；正文=CHANGELOG 241 段 ✓；PATCH **prerelease=true + make_latest=false**（按 tag 名 PATCH 不生效，须按 release id PATCH）；**240 正文顶部加 ⚠️ BROKEN 警示横幅**（指向 241 修复版）；latest 指针保持 22.9.3+238。
 7. 坑备忘（新增）：**按 tag 名 PATCH release 属性可能静默不生效，按 release id PATCH 才可靠**；macOS 饥饿重试沿用交接包 retry_ios_until_green.py 的循环法（rerun-failed-jobs 至窗口开启）。
+
+### Round 18：架构诊断裁决 + 22.10.0+242 RC 提案（2026-11-24，待用户放行）
+
+用户输入=外部诊断会话产出的《e1547_plus 程序架构、性能与用户体验诊断》（+240=5b76c64e 为主，+239=8c252a89、+238=bb8fe241 复测；复现材料 zip 在 upload/）。指令：恢复环境、判断、提议推送 22.10.0 rc。本轮只裁决与提案，**未改代码、未发版**。
+
+1. 环境恢复（第 9 次）+ **三个新坑**（都进了 12 分钟内恢复的现实路径）：
+   - **后台进程活不过工具调用间隙**：nohup 的 git clone/fetch 会静默死掉（无报错、日志只有 Cloning 行）——SDK 克隆必须前台跑；git 端点对 flutter.git 这种大仓会周期性限速到 <1KB/s，重试即可过（本仓 88M 一次过）。
+   - **GCS 直连仅 ~120KB/s**（dart-sdk zip 250MB≈35 分钟）：`export FLUTTER_STORAGE_BASE_URL=https://storage.flutter-io.cn`（~1MB/s）4 分钟完成 bootstrap。TUNA 镜像布局不对（404）、SJTU 只镜像 flutter_infra 不含 release 子树。
+   - **pub.flutter-io.cn 会把 `pub get --enforce-lockfile` 解析带漂**（锁内版本在镜像上解析不到 → resolver 整图升级，"Would change 250 dependencies"、EXIT=65）：pub 必须直连 pub.dev（首次解析+下载超时一次属正常，缓存落盘后重跑即过）。**引擎工件镜像可用、pub 镜像不可用**，两者分开配。
+2. 诊断逐条裁决（判定环境 Flutter 3.47.4/Dart 3.13.3 与报告一致；lock SHA 72d77d60 在 +238/+239/+240/HEAD 四版一致）：**探针 7/7 在 HEAD=24143839 全过 = 四类缺陷全部仍在 master 存活**（Round 17 死锁热修未触及），且数值与证据包逐位吻合；+238→[2,2,2,2,2]、+239→[2,4,6,4,2] 独立复测成立"Round 15 引入"归因。仓库健康：诊断可见 6 文件 61/61 全绿（其 +93 是更大选集、日志为节选）；`flutter analyze lib` 无 issue（全仓 30 条 issue 全部来自临时探针文件本身，style 级）。
+   - **#1 缩略图按原图绘制（裁决成立，最高优先）**：机制三层闭环——OctoImage 把 memCache 封顶只作用于自己内部那条解析流；cni 3.4.1 的 `_octoImageBuilder` 把**原始未封顶 provider**传给应用回调；image.dart:296-302 用它重建 `Image(image:…)` → 最终位图全尺寸（1200×2400/11.65MB/双缓存条目/双次盘读，探针实测复现）。**后果升级：整套 cap 体系在"最终绘制"层全部失效**——Round 8 三档缩略图质量、Round 14 NaN 修复、移动端 fullscreen 2048/maxPixels 都只盖住监听流；桌面全屏本就不设 cap 属设计。报告中"加载完成上报先于可见位图"亦被探针钉住（readyBeforePaint=true）。
+   - **#2 分类补查（成立，高优先）**：client.dart `_parse` 对已分组响应仍无条件 `await tags.categories`；只要补查非空就从平铺名重组全部标签（groupTags 不传 grouped 参数）→ 服务器自带的 artist 分组被抹掉、101 标签全进 general（探针复现 partialArtist=null）。**这是 Round 12 语义的回归**——注释声称"保留服务器分组，lookup 只是 refine"，实现却只在 lookup 为空时保留。批参 100 名/批 × 并发 3 与报告一致；冷 4 请求/热 0、时延 ~349/~139ms 复现。artist/recommendations 展示依赖该分组（artist.dart / recommendations.dart）。
+   - **#3 跨路由计数（成立，中优先，Round 15 引入的回归）**：`query/data/filter.dart` blockedCount 按 key 累加（每路由一份 tracked）、`tracked` 视图按 id 去重、`post/data/filter.dart` undisplayable 扣除又走去重视图——三口径不一致（列表→详情→全屏 2/4/6；混合 undisplayable 1/3/5）。widget 层每重建新建 flat 列表绕过 Round 15 的 identical 缓存（每重建 filter 调用数=已加载帖数，p50 0.55~2.6ms@75~3750 帖，量级属实但亚帧）。
+   - **#4a 预取（成立，低优先）**：`preloadPostImages` 只查 context.mounted，不校验目标位置是否仍有效（跳转后旧任务继续下后续图、退出后已开始请求仍写盘，探针序列 [0,4,1,2,5,6,10] 复现）。**#4b 视频（成立，中低优先）**：`_update() = _failed || (_rendered && _hasParams)` 把错误并入 isInitialized → 失败时等待圈消失但 play 不重开（openBefore=openAfter=1 复现）；报告要求真机复核，本轮无设备数据。
+   - 报告自身的保留意见（本地 HTTP/测试引擎计时/无真机帧率内存）全部如实，证据可复现性满分。
+3. **22.10.0+242 RC 提案（待用户放行后执行）**：
+   - 版本：bug 修复→0.x.0；build **242**（239 从未分发过但已进 master 历史，240/241 已发，顺延 242 最稳）；tag `22.10.0+242`；发版后按 release id PATCH **prerelease=true + make_latest=false**，latest 保持 22.9.3+238。
+   - 内容：**#1+#2 必修**（按报告验收标准红→绿），**#3 计数三口径统一必含**（用户可见徽章错数），#4a 顺手可含，**#4b 缓到专门轮**（需真机验证）。cni 4.0.7 / R8 维持 Round 15 裁决不并入。
+   - 流程：探针断言翻转为回归测试（Round 17 反向探针手法）→ 门禁（analyze 0/format 0/全量）→ 四件套（compare 行 `[22.10.0+242]: …/compare/22.9.5+241…22.10.0+242`）→ dispatch 抄 241 轮成功 inputs（version=none + release_title + skip_playstore=true + skip_forum=true）→ poll_run → iOS 抢占按 17 轮法 rerun → 7 资产核对 → PATCH prerelease。
+   - #1 修法注意：imageBuilder 结构需重构（用 OctoImage 的 child 或自建封顶 provider 重建 Image），保住 load.report / retry epoch key / fallback 800 cap / 未知维度路径；验收覆盖有预览、缺预览、宽高 0、极端长图四态真绘制尺寸。
+   - 发版后跟进：报告跨平台表作真机验收清单（Android 32/64 位长图首帧与进程内存、iOS 连续翻图+视频峰值、桌面窗口帧时）。
+4. 本轮材料：探针与全部复测日志存 scripts/diag-round18/（probe-head.log、probe-239/238-mine.log、repotests-head.log、analyze-lib-head.log、pubget-head.log 漂移实录、探针 dart 原件）；证据原件在 upload/e1547_plus-架构诊断-复现材料.zip。
