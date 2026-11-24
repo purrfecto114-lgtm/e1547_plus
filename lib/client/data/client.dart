@@ -36,27 +36,6 @@ class Client with Disposable {
          proxy: proxy,
        );
 
-  /// Builds a client whose http traffic routes through the android
-  /// system proxy when one is set.
-  ///
-  /// The cronet engine the default adapter uses ignores the system
-  /// proxy; behind one, every host that only resolves through it fails
-  /// as if the device were offline. The io adapter this path swaps in
-  /// honors the proxy. Callers that already know the proxy pass it;
-  /// otherwise it is looked up once per client.
-  static Future<Client> create({
-    required Identity identity,
-    required ValueNotifier<Traits> traits,
-    required AppStorage storage,
-    bool ownsTraitsNotifier = false,
-  }) async => Client(
-    identity: identity,
-    traits: traits,
-    storage: storage,
-    ownsTraitsNotifier: ownsTraitsNotifier,
-    proxy: await systemHttpProxy(),
-  );
-
   final Dio dio;
   final AppStorage storage;
   final Identity identity;

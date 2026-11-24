@@ -1,11 +1,23 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 
-/// The resolved proxy shared by every client this session builds.
+/// The proxy the app resolved during boot, when one is set.
 ///
 /// The lookup crosses a platform channel; clients are built
-/// synchronously inside providers, so the first builder awaits this
-/// once and later builders reuse the memo.
-final Future<({String host, int port})?> systemProxyMemo = systemHttpProxy();
+/// synchronously inside providers, so AppInit primes this before the
+/// provider tree builds, and every client picks its http adapter from
+/// the same answer.
+final ValueNotifier<({String host, int port})?> systemProxy = ValueNotifier(
+  null,
+);
+
+/// Reads the android system proxy into [systemProxy].
+///
+/// Called once during app initialization, before the first client
+/// exists; failures leave the null (no proxy) default.
+Future<void> resolveSystemProxy() async {
+  systemProxy.value = await systemHttpProxy();
+}
 
 /// The Android system proxy, when one is set.
 ///

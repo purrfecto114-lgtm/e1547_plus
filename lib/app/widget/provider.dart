@@ -134,29 +134,30 @@ class ClientProvider
           IdentityClient,
           TraitsClient,
           ClientFactory,
-          Future<Client>
+          Client
         > {
   ClientProvider({super.child, super.builder})
     : super(
-        // The android system proxy needs one platform-channel round trip
-        // before the first client can pick its http adapter; the client
-        // arrives as a future the consumers below await through the
-        // loading shells they already have.
-        create: (context, storage, identities, traits, factory) async =>
+        // The provider stays synchronous: the whole app reads Client
+        // through watch/read, and a Future-typed provider broke every
+        // consumer at once after 22.9.5. The android system proxy this
+        // adapter choice needs is resolved during app initialization,
+        // before this tree ever builds.
+        create: (context, storage, identities, traits, factory) =>
             factory.create(
               ClientConfig(
                 identity: identities.identity,
                 traits: traits.notifier,
                 storage: storage,
               ),
-              proxy: await systemProxyMemo,
             ),
         keys: (context) => [
           context.watch<IdentityClient>().identity,
           context.watch<TraitsClient>(), // notifier is created per identity
           context.watch<AppStorage>().queryCache,
+          systemProxy,
         ],
-        dispose: (context, client) => client.then((client) => client.dispose()),
+        dispose: (context, client) => client.dispose(),
       );
 }
 

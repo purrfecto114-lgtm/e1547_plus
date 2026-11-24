@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:e1547/app/app.dart';
+import 'package:e1547/client/client.dart';
 import 'package:e1547/l10n/app_localizations.dart';
 import 'package:e1547/settings/settings.dart';
 import 'package:e1547/shared/shared.dart';
@@ -35,6 +36,9 @@ class AppInitState extends State<AppInit> {
     await DateFormatting.ensureInitialized();
     await initializeAppInfo();
     final logs = await initializeLogger();
+    // The first client picks its http adapter from the android system
+    // proxy, so it is resolved here, before the provider tree builds.
+    await resolveSystemProxy();
     final storage = await initializeAppStorage();
     await backfillOnboardingSeen(storage);
     // Re-applied on every launch, so a database imported or renamed
