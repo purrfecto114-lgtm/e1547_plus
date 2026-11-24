@@ -298,7 +298,23 @@ class RawPostImageWidget extends StatelessWidget {
           // must not keep rebuilding a tile that is healthy again.
           failedImageUrls.remove(url);
           load?.report(url, const ImageLoaded());
-          return Image(image: image, fit: fit);
+          // The provider handed to this callback is built without the
+          // memCache caps — cni feeds those only into its internal
+          // stream — so an Image rebuilt from it decodes at the file's
+          // full size, and every cap computed above (the thumbnail
+          // quality tiers, fullscreen budgets, the fell-back preview
+          // fallback) never reached the screen. Wrapping the same caps
+          // around the drawn provider is what makes them real.
+          return Image(
+            image: memCacheWidth == null && memCacheHeight == null
+                ? image
+                : ResizeImage(
+                    image,
+                    width: memCacheWidth,
+                    height: memCacheHeight,
+                  ),
+            fit: fit,
+          );
         },
         memCacheWidth: memCacheWidth,
         memCacheHeight: memCacheHeight,
