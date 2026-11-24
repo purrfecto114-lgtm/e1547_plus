@@ -120,6 +120,23 @@ artifact for the Play Store job). Pre-release marking is automatic.
   Store upload does not (see `skip_playstore` above) — pass the flags
   explicitly.
 
+## Marking a release as a pre-release after the fact
+
+Some rounds carry too many changes for a straight stable mark, and the
+decision lands only after the tag went out. Mark it manually:
+
+```bash
+# with a token that has repo access
+curl -X PATCH \
+  -H "Authorization: token $TOKEN" \
+  -H "Accept: application/vnd.github+json" \
+  https://api.github.com/repos/purrfecto114-lgtm/e1547_plus/releases/tags/22.9.5+240 \
+  -d '{"prerelease": true, "make_latest": "false"}'
+```
+
+Do this right after the release job turns green, before announcing: the
+latest pointer follows `make_latest`, not the tag order.
+
 ## Stable release after an rc cycle
 
 Same steps with `X.Y.0+<next build>`; the changelog section usually merges the

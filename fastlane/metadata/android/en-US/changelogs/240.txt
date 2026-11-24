@@ -1,0 +1,5 @@
+The follow timeline sorts globally newest-first again: its tag search was glued together from per-chunk orderings that looked like a broken newest sort.
+The thumbnail quality setting now reaches the subscription grid, and its low tier fetches the smaller preview instead of the sample.
+The handedness settings gain a mirror switch that flips the whole layout to your preferred hand while text keeps reading naturally.
+A grid density preference joins the card size: auto, dense or loose.
+The database export and import icons point the right way, export passwords need four characters or more, and encryption runs under a timeout with a bounded decrypt retry.

@@ -1,5 +1,29 @@
 # Changelog
 
+## [22.9.5+240] - 2026-11-24
+### Added
+- the handedness settings gain a mirror switch: the whole layout flips
+  to the side of the preferred hand while text keeps reading in its
+  own direction
+- a grid density preference joins the card size: auto keeps the
+  computed columns, dense packs one more and loose gives the cards
+  more room
+- the database export password prompt refuses passwords under four
+  characters, and encrypting or decrypting runs under a two minute
+  timeout instead of a possible endless spinner
+### Fixed
+- the follow timeline now sorts globally newest-first: its tag search
+  splits follows into chunks of 40 tags, and the chunk-local orderings
+  glued together read as a broken newest sort
+- the thumbnail quality setting finally reaches the subscription grid:
+  covers decoded at a fixed bound regardless of the tier, and the low
+  tier now fetches the smaller preview instead of the sample
+- the database management icons point the right way: export up,
+  import down, instead of the reversed pair
+- the decrypt prompt for an encrypted import stops after five wrong
+  passwords instead of looping forever
+
+
 ## [22.9.4+239] - 2026-11-24
 ### Changed
 - the denylist filter no longer re-runs its match rules over every
