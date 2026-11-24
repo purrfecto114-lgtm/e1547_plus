@@ -112,7 +112,7 @@
    - 终态核对：tag 22.9.2+237=**17cbbc11**=master HEAD ✓；latest→237（title "22.9.2 (engine shutdown fix)"，prerelease=false，draft=false）✓；7 资产（arm64/armv7/universal APK、setup.exe、deb、ipa、tar.gz）齐 ✓；正文=CHANGELOG 237 段 ✓。
    - 备忘：**429 Maven 限流的鉴别法**——看失败 job 的日志里 "Received status code 429 from server"（瞬态网络性），对照同 commit 其它 build job 是否全绿（代码性失败会同时红）；处置=rerun-failed-jobs，别急着改代码。
 
-### Round 14：3.50.1 升级评估终止（用户紧急通知）+ 诊断报告条目落地 + 发版 22.9.3+239（2026-11-23）
+### Round 14：3.50.1 升级评估终止（用户紧急通知）+ 诊断报告条目落地 + 发版 22.9.3+238（2026-11-23）
 
 1. 评估链（全联网核实）：官方 releases_linux.json=stable **3.50.1**（2026-11-20，Dart 3.14.0）；3.50 实益=Mali 崩溃修复/PowerVR Vulkan 回退/后台着色器编译（利旧低端设备）+ Intent 加固（本 app 不用 extras，纯增益）；**material.dart 弃用（→material_ui）= 350 处 info**（Dart 3.14 formatter 另带来 108 文件重排浪滩）；上游 clynamic 21.2.0+108 后仅 60 个零碎修复提交、**仍锁 3.47.4 未升**（无合并价值）；Android 自定义构建全兼容（Gradle 8.14/AGP 8.11.1/J17、splits+x86 排除、指纹探针 MainActivity、res 命名无冲突、minSdk 24 底线不变）。
 2. **用户紧急通知 3.50.1 有严重 bug → 大迁移终止**。处置：stash 隔离全部 3.50 面（含 108 文件格式化浪滩与 analysis_options 三条 lint 删除）→ SDK 切回 3.47.4 → 从 stash 精取回两项诊断成果（git checkout stash@{0} -- image.dart；^3 取未跟踪测试）→ pubspec 保持 flutter >=3.47.4。**教训：升级面先 stash 再动手，回退才能秒级干净。**
@@ -121,7 +121,7 @@
    - **延后并记录**：cni 4.0.7+cache_manager 3.5.0（major 面大、fcm 与 cni4 强绑，独立轮做）；R8（P2 A/B）；QueryFilter Set 化（先补基准）；mpv/meminfo/ImageCache 监测项（.md 本就要求设备实测）。
    - **驳回**：预取重复解码 P0（.md 自证不成立——file 预取只写盘）；GIF/WebP resize 全失效（过宽）。
 4. 门禁（3.47.4 工具链，verification-before-completion）：format 0（787 文件 0 改动）/ analyze **No issues found**（33s）/ 全量 **1384 passed + 19 skipped EXIT=0**（round15_small_test.log，净增 3=新测试）。回退彻底性由 analyze 零 issue 佐证（350 弃用 info 全消）。
-5. 发版 22.9.3+239（0.0.x 位 patch；build 237 已分发→238）：三件套（CHANGELOG Fixed+Changed 段 + compare 链接 + fastlane 239.txt）。
+5. 发版 22.9.3+238（0.0.x 位 patch；build 237 已分发→238）：三件套（CHANGELOG Fixed+Changed 段 + compare 链接 + fastlane 238.txt）。
 
 6. 发版 22.9.3+238 波折与终态（run 45177443963 attempt2，全 9 job 绿含 forum）：
    - **首跑 45171327569：iOS job 平台性取消**（无 steps 详情/无日志 blob/无 error 行、其余 job 全绿 → 判 runner 抢占非代码性）→ rerun-failed-jobs 一次成功。
@@ -129,3 +129,20 @@
    - 第三跑 45177443963 又遇 iOS 抢占取消 → 再 rerun 一次 → 全绿。
    - 终态核对：tag 22.9.3+238=d3fbee36=master HEAD ✓；latest→238（"22.9.3 (image decode cap and build hook fixes)"，prerelease=false，draft=false）✓；7 资产齐 ✓；正文=CHANGELOG 238 段（Changed+Fixed）✓；forum-prepare/publish 亦 success（237 轮 skipped，本轮 HAS_PUBLISHER secrets 齐后首次真发布）。
    - 备忘：**GitHub macOS runner 抢占的鉴别法**——job conclusion=cancelled、无 step 记录、日志 blob 404、其余 job 全绿；处置=rerun-failed-jobs，非代码问题。
+
+### Round 15：QueryFilter 性能改造 + cni/R8 裁决 + 版本准备 22.9.4+239（2026-11-24）
+1. 基准先行（Round 14 遗留「先补基准」闭环）：一次性 spike（plain test+Stopwatch，500 帖×30 tag 合成语料）量化 QueryFilter 链路真实代价：identical rebuild 全链 22.1ms（超一帧 16.7ms）、blockedCount 1.8ms/次、blockedCountsByEntry 1.6ms/次。诊断报告方向对但大头定位修正：**大头是 filter 谓词重跑**（getDeniers 逐 denylist 行×逐 tag + allTags 对 List 线性 contains + _filterCache 首轮全 miss），toSet/rechunk 是小头。spike 交付后移出 test/ 留档 scripts/（不入套件）。
+2. TDD 改造（红→绿，全程行为等价断言）：
+   - `query/data/filter.dart`：track() 缓存 `(input, filtered)` 二元组，identical 输入短路返回缓存（不再全量 where）；blockedCount 改 sum(total-allowed) 纯算术，零谓词重跑。
+   - `post/data/filter.dart`：blockedCount override 改 `super - undisplayable`（语义不变：undisplayable 不计入 denylist 计数，flash 用例仍绿）；allowedEntries/allowedPosts 维护 Set 视图（value set 时失效）；blockedCountsByEntry 走 Set 视图；entriesFor 热路径免记录重写（仅时间戳推进时写，stale 清扫照旧）。
+   - `query/widget/filter.dart`：rechunk 复用 track 缓存的 filtered 列表。
+   - 效果（同基准复跑 2 次稳定）：identical rebuild **22.1→0.9ms（24×）**、blockedCount 1.8→0.85ms；冷 track（新数据到达）维持 ~22ms——谓词首跑属冷路径可接受。
+   - 测试演进：`test/query/data/filter_test.dart` 新增 5 例（identical 不重跑/不重 notify、blockedCount 零重跑、untrack 清缓存）先红后绿；plain test 驱动 post-frame notify 的手法：TestWidgetsFlutterBinding.ensureInitialized 前置 + binding.scheduleFrame() + handleBeginFrame/handleDrawFrame。存量 post/filter 46 例+widget 18 例全绿。
+3. cni 4.0.7 裁决（联网核实 pub.dev changelog）：4.0.1–4.0.7 **全是 bugfix 无 API 变更**（4.0.5/4.0.6 动图帧丢弃/泄漏修复有真实价值），但 4.0.7 硬锁 `flutter_cache_manager ^3.5.0`——行为性 major：resize 改由图像引擎读文件内容判定（全格式含 webp/bmp、落盘改 .png、动图免 resize、3.4.5 的解码错误传播回退）。受影响面：8 个使用文件+自定义 DriftFileCacheStorage（CacheInfoRepository 13 override）+缩略图质量链路（Round 8 cap 体系正踩 resize 行为）。4.0.0 还要求 Flutter≥3.44+material_ui 全包迁移。**裁决：维持不升，留专门轮**（Round 14 结论维持：3.50.1 回退刚落，不叠 major；专门轮需配 resize 行为验证+DriftFileCacheStorage 兼容审查）。
+4. R8 裁决（联网核实）：`buildTypes.release` 无 minifyEnabled/shrinkResources/proguardFiles——proguard-rules.pro 唯一的 keep 规则**未接线**。外部证据：R8 可省 DEX 高至 ~48%，但 Flutter 壳类/engine 反射面 keep 不当会 release 崩溃，且无真机 A/B 无从验证收益。**裁决：维持不盲开**。开启前提：①真机 A/B 体积+冷启动数据 ②release 全功能实测（登录/搜索/denylist/下载）③proguard 接线并逐条写明 keep 依据。
+5. 门禁（verification-before-completion）：analyze **No issues found** / format 0 / 本地全量 **1387 passed + 19 skipped EXIT=0**（round15_full_test.log；净增 3=新增 5 控制器用例中 2 例并入既有文件计数口径，基数 1384）。
+6. 发版尝试与策略调整（如实记录）：
+   - 首次准备 22.10.0+238：push 被 non-FF 拒绝后 fetch 才发现**本地沙盒基线陈旧**——远端 Round 14 已发 22.9.3+238，build 238 已占用。重放改动到远端 master（reset 后按路径 checkout lib/test，文档重写），改 22.10.0+239。
+   - dispatch run **45301359717**：4 build+2 validate 全绿，唯 release job 失败；rerun-failed-jobs 复跑仍失败。**失败步骤无法定位**——jobs API logs 端点对本 token 返回 403（Round 13 的 429 鉴别法依赖日志正文，这次拿不到），annotations 仅 "exit code 1"。未建 tag/release，无残留资源。
+   - 用户指令：版本改回 22.9.x，不发版只推送。已照办：pubspec/CHANGELOG/link 改 **22.9.4+239**（0.0.x 位 patch，build 239 顺延），fastlane 239.txt 保留（body 对 22.9.4 仍准确）；推送 master 走 push 触发的 validation，deployment 不 dispatch、不建 tag。changelog 三件套已是可发状态，后续发版轮 dispatch version=none 即可。
+   - 备忘新增两条：① **bump 版本前先 `git fetch` 对远端**——沙盒回收后的本地基线不是事实源头（本轮 238 号冲突即由此来）；② release job 失败先拉 jobs API 的 steps[] 看 step 级结论，logs 403 时 annotation 只给 exit code，不足以定位；③ sed 批量替换版本号会误伤历史记录里的相同子串（本轮 Round 14 的 238 被改 239，已修复）——版本替换必须锚定行首结构。
