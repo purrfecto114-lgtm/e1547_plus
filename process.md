@@ -160,3 +160,13 @@
    - run 45347595212：**全绿**。tag 22.9.5+240 = 7af0c8c8，7 资产齐（arm64/armv7/universal APK、setup.exe、deb、ipa、tar.gz），正文=CHANGELOG 240 段。
    - 按用户指令手动 PATCH prerelease=true + make_latest=false；latest 指针回落 22.9.3+238（改动过大先观察）。
 6. 坑备忘（新增两条）：**dispatch 前 checklist = analyze 0 + dart format 0 + 全量测试 + compare 链接行**；**cider 版本解析失败先查 CHANGELOG 底部链接行**。
+
+### Round 17：22.9.5+240 线上 boot 死锁热修 + 反向探针 + 发版 22.9.5+241（2026-11-24）
+
+1. 线上故障（用户报修：22.9.3 升级后卡加载界面）：**22.9.5+240 发布即引入 boot 死锁**，是 Round 16 两处修复叠加互锁——①报修③的"overlay 期间不构建 child"砍断了清除 loading 状态的组件（它恰在 child 子树内）→ 覆盖层永不可关；②报修②的 ClientProvider 为 await 代理查找改成 async → `Future<Client>` 类型变化一次性破坏全 app 的 watch/read\<Client\>。修复（ef7514f7）：child 在 overlay 下照常构建；provider 恢复同步；代理在 AppInit 阶段一次性解析（keys 条目变更时重建 clients）。
+2. 回归测试（test/app/widget/boot_test.dart，2 例）+ **反向探针**：把工作树内容 checkout 到 tag 22.9.5+240（boot_test.dart 不在该树中故保留）跑新测试 → **+0 -2 双红**（shell 清除例 + loading layer 例均失败），HEAD 上全绿——证明测试真抓死锁，不是绿灯空转。探针后 `git checkout HEAD -- .` 还原。
+3. 沙盒回收实录（重要）：恢复会话时本地 repo 快照回退到 Round 11（pubspec 22.9.2+237，reflog 仅 clone+1，dangling objects 均为 10 月上游历史）——Round 12–17 的本地提交"消失"。**远端才是事实源头**：restore-credentials.sh 后 `git fetch` 即见 Round 17 工作其实已推送（ef7514f7 + 6d55b878），本地 `git config core.fileMode false` 吸收快照的 1250 个 mode 噪声后 reset 对齐，零损失恢复。Round 15 备忘"bump 前先 git fetch"升级为**恢复会话第一步先 fetch 对远端**。
+4. 门禁（verification-before-completion）：analyze **No issues found** / format 0（791 文件 0 改动）/ 本地全量 **1399 passed + 19 skipped EXIT=0**（round17_final_full_test.log，净增 2=boot 2 例）。
+5. 发版 22.9.5+241（四件套 6d55b878 齐备：pubspec/CHANGELOG 段/compare 链接行/fastlane 241.txt）：dispatch run **45365809000** 首跑 4 build + 2 validate 全绿，唯 **ios-build 平台性饥饿取消**（conclusion=cancelled、0 steps、日志 blob 404/BlobNotFound——Round 14 鉴别法三征全中）→ `rerun-failed-jobs`（其他平台产物保留，仅重跑 ios-build + release）→ **全绿**。
+6. 终态核对与发版后处理（按指令）：tag 22.9.5+241 = 6d55b878 = master HEAD ✓；**7 资产齐**（arm64/armv7/universal APK、setup.exe、deb、ipa、tar.gz）✓；正文=CHANGELOG 241 段 ✓；PATCH **prerelease=true + make_latest=false**（按 tag 名 PATCH 不生效，须按 release id PATCH）；**240 正文顶部加 ⚠️ BROKEN 警示横幅**（指向 241 修复版）；latest 指针保持 22.9.3+238。
+7. 坑备忘（新增）：**按 tag 名 PATCH release 属性可能静默不生效，按 release id PATCH 才可靠**；macOS 饥饿重试沿用交接包 retry_ios_until_green.py 的循环法（rerun-failed-jobs 至窗口开启）。
