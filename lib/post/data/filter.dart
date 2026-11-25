@@ -24,8 +24,13 @@ class PostFilter extends FilterController<Post>
   DateTime _evictedAt = DateTime.now();
 
   void _updateDenyList() {
+    // ignore: avoid_print
+    print('UDL denylist=${client.traits.value.denylist}');
     _filterCache.clear();
-    notifyListeners();
+    // The verdicts the tracked posts hold were computed against the old
+    // denylist: mark them stale, so the next track over any route
+    // re-judges them. The scheduled notify rides along.
+    invalidate();
   }
 
   @override
@@ -65,7 +70,10 @@ class PostFilter extends FilterController<Post>
     _value = value;
     _allowedEntriesView = null;
     _allowedPostsView = null;
-    notifyListeners();
+    // allowedEntries, allowedPosts and the denying switch all ride
+    // through here; every tracked verdict was computed against the old
+    // value and must re-run.
+    invalidate();
   }
 
   bool get denying => value.denying;
