@@ -5,7 +5,6 @@ import 'package:dio/dio.dart';
 import 'package:e1547/identity/identity.dart';
 import 'package:e1547/settings/settings.dart';
 import 'package:e1547/shared/shared.dart';
-import 'package:native_dio_adapter/native_dio_adapter.dart';
 
 String encodeBasicAuth(String username, String password) =>
     'Basic ${base64Encode(utf8.encode('$username:$password'))}';
@@ -143,7 +142,10 @@ Future<CredentialCheckResult> checkCredentials({
                 receiveTimeout: const Duration(seconds: 15),
               ),
             )
-        ..httpClientAdapter = NativeAdapter()
+        // Hosts behind a region block answer only through the proxy;
+        // verifying credentials outside it would reject working keys
+        // as unreachable.
+        ..httpClientAdapter = proxyAwareAdapter(systemProxy.value)
         ..interceptors.add(ClientExceptionInterceptor());
   try {
     final Response<void> response = await client.head(

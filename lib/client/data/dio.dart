@@ -1,14 +1,12 @@
 import 'dart:io';
 
 import 'package:dio/dio.dart';
-import 'package:dio/io.dart';
 import 'package:e1547/client/client.dart';
 import 'package:e1547/identity/identity.dart';
 import 'package:e1547/logs/logs.dart';
 import 'package:e1547/query/query.dart';
 import 'package:e1547/settings/settings.dart';
 import 'package:e1547/shared/shared.dart';
-import 'package:native_dio_adapter/native_dio_adapter.dart';
 
 /// Tracks every request a [Dio] has in flight, so its owner can stop
 /// them before tearing the network stack down.
@@ -94,13 +92,7 @@ Dio createDefaultDio(
   // The cronet engine ignores the android system proxy; behind one, hosts
   // that only resolve through it fail as if the device were offline. When
   // a proxy is known, the io adapter routes through it instead.
-  dio.httpClientAdapter = proxy == null
-      ? NativeAdapter()
-      : IOHttpClientAdapter(
-          createHttpClient: () =>
-              HttpClient()
-                ..findProxy = (uri) => 'PROXY ${proxy.host}:${proxy.port}',
-        );
+  dio.httpClientAdapter = proxyAwareAdapter(proxy);
   dio.interceptors.add(InFlightInterceptor());
   dio.interceptors.add(NewlineReplaceInterceptor());
   dio.interceptors.add(LoggingDioInterceptor());
@@ -126,7 +118,9 @@ Dio createMediaDio() {
       receiveTimeout: const Duration(seconds: 30),
     ),
   );
-  dio.httpClientAdapter = NativeAdapter();
+  // Media hosts sit behind the same region blocks as the api, so the
+  // transfer honours the resolved proxy like every other client.
+  dio.httpClientAdapter = proxyAwareAdapter(systemProxy.value);
   dio.interceptors.add(InFlightInterceptor());
   dio.interceptors.add(LoggingDioInterceptor());
   dio.interceptors.add(ClientExceptionInterceptor());

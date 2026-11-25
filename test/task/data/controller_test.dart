@@ -834,4 +834,24 @@ void main() {
 
     instance.dispose();
   });
+
+  test('rebuilds the transfer pool when the resolved proxy changes', () {
+    final ({String host, int port})? saved = systemProxy.value;
+    addTearDown(() => systemProxy.value = saved);
+    systemProxy.value = null;
+
+    final instance = controller();
+    addTearDown(instance.dispose);
+
+    final Dio first = instance.transferClient;
+    expect(identical(instance.transferClient, first), isTrue);
+
+    systemProxy.value = (host: '127.0.0.1', port: 7890);
+    final Dio second = instance.transferClient;
+    expect(identical(second, first), isFalse);
+    expect(identical(instance.transferClient, second), isTrue);
+
+    systemProxy.value = null;
+    expect(identical(instance.transferClient, second), isFalse);
+  });
 }

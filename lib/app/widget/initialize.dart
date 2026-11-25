@@ -1,7 +1,6 @@
 import 'dart:async';
 
 import 'package:e1547/app/app.dart';
-import 'package:e1547/client/client.dart';
 import 'package:e1547/l10n/app_localizations.dart';
 import 'package:e1547/settings/settings.dart';
 import 'package:e1547/shared/shared.dart';

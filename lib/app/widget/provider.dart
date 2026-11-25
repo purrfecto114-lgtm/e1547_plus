@@ -129,33 +129,33 @@ class BiometricsWatcherProvider
 
 class ClientProvider
     extends
-        SubProvider4<
+        SubProvider5<
           AppStorage,
           IdentityClient,
           TraitsClient,
           ClientFactory,
+          ProxyConfig?,
           Client
         > {
   ClientProvider({super.child, super.builder})
     : super(
-        // The provider stays synchronous: the whole app reads Client
-        // through watch/read, and a Future-typed provider broke every
-        // consumer at once after 22.9.5. The android system proxy this
-        // adapter choice needs is resolved during app initialization,
-        // before this tree ever builds.
-        create: (context, storage, identities, traits, factory) =>
+        create: (context, storage, identities, traits, factory, proxy) =>
             factory.create(
               ClientConfig(
                 identity: identities.identity,
                 traits: traits.notifier,
                 storage: storage,
               ),
+              // The android system proxy decides the http adapter. It
+              // arrives as a provider dependency, so a proxy switched on
+              // after boot rebuilds every client onto it instead of
+              // needing a restart.
+              proxy: proxy,
             ),
         keys: (context) => [
           context.watch<IdentityClient>().identity,
           context.watch<TraitsClient>(), // notifier is created per identity
           context.watch<AppStorage>().queryCache,
-          systemProxy,
         ],
         dispose: (context, client) => client.dispose(),
       );

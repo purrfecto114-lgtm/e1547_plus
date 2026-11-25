@@ -8,6 +8,7 @@ import 'package:e1547/identity/identity.dart';
 import 'package:e1547/logs/logs.dart';
 import 'package:e1547/query/query.dart';
 import 'package:e1547/settings/settings.dart';
+import 'package:e1547/shared/shared.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
@@ -161,7 +162,36 @@ Future<AppStorage> initializeAppStorage() async {
           // are often behind, leaving failed queries un-retried until a
           // manual pull.
         ),
-        connectionStream: apiHostConnectionStream(),
+        connectionStream: apiHostConnectionStream(
+          // The proxy is re-read every cycle: a proxy switched on after
+          // boot was previously unreachable without a restart, and the
+          // probe must cross it to see the hosts the way requests do.
+          resolveProxy: () async {
+            await resolveSystemProxy();
+            return systemProxy.value;
+          },
+          // Connectivity answers for the host the active identity
+          // browses. The old probe accepted any family host's DNS
+          // answer, which reported "connected" forever to an e621
+          // account behind a region block — e926 answered even as every
+          // e621 request failed, so the offline banner never showed and
+          // failed queries were never retried.
+          activeHost: () async {
+            final IdentityRepository identities = IdentityRepository(sqlite);
+            final int id = preferences.getInt('identity') ?? 1;
+            final Identity? identity = await (identities.select(
+              identities.identitiesTable,
+            )..where((tbl) => tbl.id.equals(id))).getSingleOrNull();
+            if (identity != null) {
+              return normalizeHostUrl(identity.host);
+            }
+            final Identity? fallback = (await identities.page(
+              page: 1,
+              limit: 1,
+            )).singleOrNull;
+            return fallback == null ? null : normalizeHostUrl(fallback.host);
+          },
+        ),
       ),
     sqlite: sqlite,
   );

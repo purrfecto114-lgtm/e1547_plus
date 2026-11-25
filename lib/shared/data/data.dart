@@ -13,6 +13,7 @@ export 'hosts.dart';
 export 'listenable.dart';
 export 'map.dart';
 export 'provider.dart';
+export 'proxy.dart';
 export 'rails.dart';
 export 'share.dart';
 export 'sql.dart';

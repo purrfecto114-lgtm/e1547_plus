@@ -87,6 +87,13 @@ class App extends StatelessWidget {
                                         providers: [
                                           IdentityClientProvider(),
                                           TraitsClientProvider(),
+                                          // The resolved android system
+                                          // proxy as a dependency: clients
+                                          // below rebuild onto it when a
+                                          // proxy is switched on mid-session.
+                                          ValueListenableProvider<
+                                            ProxyConfig?
+                                          >.value(value: systemProxy),
                                           ClientProvider(),
                                           FileCacheProvider(),
                                           TasksControllerProvider(),

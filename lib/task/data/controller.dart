@@ -105,7 +105,28 @@ class TasksController extends ChangeNotifier {
   /// files of a whole batch instead of being rebuilt per file.
   Dio? _transferClient;
 
-  Dio get transferClient => _transferClient ??= createTransferClient();
+  /// The proxy the current transfer client was built for; a proxy that
+  /// appears mid-session swaps the pool for the next download instead
+  /// of leaving the batch on a stack that cannot reach the host.
+  ProxyConfig? _transferProxy;
+
+  /// Retired transfer clients. Their pools keep serving transfers that
+  /// were in flight when the proxy changed; closing them here would
+  /// tear those down mid-flight, so they end with the controller.
+  final List<Dio> _retiredTransferClients = [];
+
+  Dio get transferClient {
+    final ProxyConfig? proxy = systemProxy.value;
+    if (_transferClient == null || _transferProxy != proxy) {
+      final Dio? previous = _transferClient;
+      if (previous != null) {
+        _retiredTransferClients.add(previous);
+      }
+      _transferClient = createTransferClient();
+      _transferProxy = proxy;
+    }
+    return _transferClient!;
+  }
 
   /// Fetches download files over the network; canceling its token aborts
   /// the transfer itself, not just the listening side. Defaults to a
@@ -926,8 +947,12 @@ class TasksController extends ChangeNotifier {
     }
     _progress.clear();
     // the shared transfer client ends with the controller; its transfers
-    // were just aborted above
+    // were just aborted above. Retired pools from proxy swaps end here
+    // too — their own transfers were aborted through the same tokens.
     _transferClient?.close(force: true);
+    for (final Dio retired in _retiredTransferClients) {
+      retired.close(force: true);
+    }
     currentProgress.dispose();
     suppressBubble.dispose();
     super.dispose();

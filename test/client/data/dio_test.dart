@@ -1,11 +1,14 @@
 import 'dart:async';
 
 import 'package:dio/dio.dart';
+import 'package:dio/io.dart';
 import 'package:drift/native.dart';
 import 'package:e1547/app/app.dart';
 import 'package:e1547/client/client.dart';
 import 'package:e1547/identity/identity.dart';
+import 'package:e1547/shared/shared.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:native_dio_adapter/native_dio_adapter.dart';
 
 import '../../_support/environment.dart';
 import '../../_support/harness.dart';
@@ -94,5 +97,40 @@ void main() {
     expect(error, isA<DioException>());
     expect(CancelToken.isCancel(error! as DioException), isTrue);
     expect(env.client.inFlight.count, 0);
+  });
+
+  group('the resolved proxy decides the http adapter', () {
+    ({String host, int port})? saved;
+
+    setUp(() {
+      saved = systemProxy.value;
+      addTearDown(() => systemProxy.value = saved);
+    });
+
+    test('the api client honours the proxy it is given', () async {
+      final db = AppDatabase(NativeDatabase.memory());
+      addTearDown(db.close);
+      final identity = await IdentityRepository(
+        db,
+      ).add(const IdentityRequest(host: 'e621.net'));
+      expect(
+        createDefaultDio(
+          identity,
+          proxy: (host: '127.0.0.1', port: 7890),
+        ).httpClientAdapter,
+        isA<IOHttpClientAdapter>(),
+      );
+      expect(
+        createDefaultDio(identity).httpClientAdapter,
+        isA<NativeAdapter>(),
+      );
+    });
+
+    test('the media client honours the proxy known at creation', () {
+      systemProxy.value = (host: '127.0.0.1', port: 7890);
+      expect(createMediaDio().httpClientAdapter, isA<IOHttpClientAdapter>());
+      systemProxy.value = null;
+      expect(createMediaDio().httpClientAdapter, isA<NativeAdapter>());
+    });
   });
 }

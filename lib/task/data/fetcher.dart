@@ -3,7 +3,6 @@ import 'dart:io';
 import 'package:dio/dio.dart';
 import 'package:e1547/settings/settings.dart';
 import 'package:e1547/shared/shared.dart';
-import 'package:native_dio_adapter/native_dio_adapter.dart';
 import 'package:path/path.dart' as p;
 import 'package:path_provider/path_provider.dart';
 
@@ -37,7 +36,9 @@ Dio createTransferClient() {
       receiveTimeout: const Duration(seconds: 60),
     ),
   );
-  dio.httpClientAdapter = NativeAdapter();
+  // Download hosts sit behind the same region blocks as the api, so
+  // the transfer honours the resolved proxy like every other client.
+  dio.httpClientAdapter = proxyAwareAdapter(systemProxy.value);
   dio.interceptors.add(ClientExceptionInterceptor());
   return dio;
 }

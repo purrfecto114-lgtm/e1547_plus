@@ -14,6 +14,20 @@ export 'package:media_kit_video/media_kit_video.dart';
 
 class VideoPlayer extends Player {
   VideoPlayer({super.platformPlayer}) {
+    // mpv's network stack ignores the android system proxy; behind one,
+    // hosts only reachable through it fail to open while every other
+    // client in the app routes through it. Players are pooled and
+    // created on demand, so each one picks up the proxy known at its
+    // creation; the next video opened after a proxy change rebuilds it.
+    final Object? platformPlayer = platform;
+    final ProxyConfig? proxy = systemProxy.value;
+    if (platformPlayer is NativePlayer && proxy != null) {
+      unawaited(
+        platformPlayer
+            .setProperty('http-proxy', '${proxy.host}:${proxy.port}')
+            .catchError((Object _) {}),
+      );
+    }
     _subscriptions.addAll([
       stream.videoParams.listen((event) {
         _hasParams = event.w != null && event.h != null;
