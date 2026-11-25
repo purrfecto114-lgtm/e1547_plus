@@ -215,6 +215,17 @@ void main() {
     // With the denylist gone, the button dims again.
     traits.value = traits.value.copyWith(denylist: []);
     await tester.pump();
+    final PostFilter filterProbe = tester
+        .element(find.byType(PostsPageFab))
+        .read<PostFilter>();
+    // ignore: avoid_print
+    print(
+      'PROBE2 denylist=${client.traits.value.denylist} '
+      'blocked=${filterProbe.blockedCount} '
+      'tracked=${filterProbe.tracked.length} '
+      'deny=${filterProbe.denying} '
+      'firstDeniers=${filterProbe.tracked.isEmpty ? "-" : filterProbe.tracked.first.getDeniers(client.traits.value.denylist).toList()}',
+    );
     tune = tester.widget<Icon>(find.byIcon(Icons.tune));
     expect(tune.color, isNull);
     expect(find.byKey(const Key('ContextDrawerButton/Badge')), findsNothing);
