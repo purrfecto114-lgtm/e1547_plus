@@ -49,7 +49,11 @@ jobs:
         run: flutter analyze
 
       - name: run tests
-        run: flutter test
+        # The github reporter turns a failing test into a check
+        # annotation naming the suite and case; the default reporter
+        # on a runner only surfaces the process exit code, which
+        # leaves a red job unlocalizable.
+        run: flutter test --reporter github
 
       # Scans the locked Ruby and Pub dependencies against OSV; advisories
       # outside tool/osv_baseline.txt (known-unfixable under the current
