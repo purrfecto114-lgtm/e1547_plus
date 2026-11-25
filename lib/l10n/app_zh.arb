@@ -733,5 +733,22 @@
   "gridDensity": "网格密度",
   "gridDensityAuto": "自动",
   "gridDensityDense": "紧凑",
-  "gridDensityLoose": "宽松"
+  "gridDensityLoose": "宽松",
+  "duplicateDownloadTitle": "已下载过",
+  "@duplicateDownloadTitle": {
+    "description": "Title of the dialog that asks before downloading a work again."
+  },
+  "duplicateDownloadBody": "选中的 {count} 个作品以前下载过，要再次下载吗？",
+  "@duplicateDownloadBody": {
+    "description": "Body of the duplicate download dialog. {count} is how many of the selected works were downloaded before.",
+    "placeholders": {
+      "count": {
+        "type": "num"
+      }
+    }
+  },
+  "duplicateDownloadDontAsk": "不再提醒",
+  "@duplicateDownloadDontAsk": {
+    "description": "The bottom-left option that silences the duplicate download dialog for good."
+  }
 }

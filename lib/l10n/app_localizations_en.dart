@@ -2574,4 +2574,21 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get gridDensityLoose => 'Loose';
+
+  @override
+  String get duplicateDownloadTitle => 'Already downloaded';
+
+  @override
+  String duplicateDownloadBody(num count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'them',
+      one: 'it',
+    );
+    return '$count of the selected works have been downloaded before. Download $_temp0 again?';
+  }
+
+  @override
+  String get duplicateDownloadDontAsk => 'Don\'t ask again';
 }

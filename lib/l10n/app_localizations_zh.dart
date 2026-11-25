@@ -2503,6 +2503,17 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get gridDensityLoose => '宽松';
+
+  @override
+  String get duplicateDownloadTitle => '已下载过';
+
+  @override
+  String duplicateDownloadBody(num count) {
+    return '选中的 $count 个作品以前下载过，要再次下载吗？';
+  }
+
+  @override
+  String get duplicateDownloadDontAsk => '不再提醒';
 }
 
 /// The translations for Chinese, using the Han script (`zh_Hant`).
@@ -5003,4 +5014,15 @@ class AppLocalizationsZhHant extends AppLocalizationsZh {
 
   @override
   String get gridDensityLoose => '寬鬆';
+
+  @override
+  String get duplicateDownloadTitle => '已下載過';
+
+  @override
+  String duplicateDownloadBody(num count) {
+    return '選中的 $count 個作品以前下載過，要再次下載嗎？';
+  }
+
+  @override
+  String get duplicateDownloadDontAsk => '不再提醒';
 }

@@ -2601,4 +2601,21 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get gridDensityLoose => 'Dégagée';
+
+  @override
+  String get duplicateDownloadTitle => 'Déjà téléchargé';
+
+  @override
+  String duplicateDownloadBody(num count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Les',
+      one: 'Le',
+    );
+    return '$count des œuvres sélectionnées ont déjà été téléchargées. $_temp0 télécharger à nouveau ?';
+  }
+
+  @override
+  String get duplicateDownloadDontAsk => 'Ne plus demander';
 }

@@ -2585,4 +2585,21 @@ class AppLocalizationsIt extends AppLocalizations {
 
   @override
   String get gridDensityLoose => 'Ampia';
+
+  @override
+  String get duplicateDownloadTitle => 'Già scaricato';
+
+  @override
+  String duplicateDownloadBody(num count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'le',
+      one: 'la',
+    );
+    return '$count delle opere selezionate sono già state scaricate. Scaricar$_temp0 di nuovo?';
+  }
+
+  @override
+  String get duplicateDownloadDontAsk => 'Non chiedere più';
 }

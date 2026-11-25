@@ -733,5 +733,22 @@
   "gridDensity": "Плотность сетки",
   "gridDensityAuto": "Авто",
   "gridDensityDense": "Плотно",
-  "gridDensityLoose": "Свободно"
+  "gridDensityLoose": "Свободно",
+  "duplicateDownloadTitle": "Уже загружено",
+  "@duplicateDownloadTitle": {
+    "description": "Title of the dialog that asks before downloading a work again."
+  },
+  "duplicateDownloadBody": "{count} из выбранных работ уже загружались. Загрузить {count, plural, =1{её} other{их}} снова?",
+  "@duplicateDownloadBody": {
+    "description": "Body of the duplicate download dialog. {count} is how many of the selected works were downloaded before.",
+    "placeholders": {
+      "count": {
+        "type": "num"
+      }
+    }
+  },
+  "duplicateDownloadDontAsk": "Больше не спрашивать",
+  "@duplicateDownloadDontAsk": {
+    "description": "The bottom-left option that silences the duplicate download dialog for good."
+  }
 }

@@ -2517,4 +2517,15 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get gridDensityLoose => 'ゆったり';
+
+  @override
+  String get duplicateDownloadTitle => 'すでにダウンロード済み';
+
+  @override
+  String duplicateDownloadBody(num count) {
+    return '選択した作品のうち $count 件は以前にダウンロードされています。もう一度ダウンロードしますか？';
+  }
+
+  @override
+  String get duplicateDownloadDontAsk => '今後表示しない';
 }

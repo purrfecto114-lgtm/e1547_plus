@@ -2589,4 +2589,21 @@ class AppLocalizationsPt extends AppLocalizations {
 
   @override
   String get gridDensityLoose => 'Ampla';
+
+  @override
+  String get duplicateDownloadTitle => 'Já baixado';
+
+  @override
+  String duplicateDownloadBody(num count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'novamente',
+      one: 'novamente',
+    );
+    return '$count das obras selecionadas já foram baixadas antes. Baixar $_temp0?';
+  }
+
+  @override
+  String get duplicateDownloadDontAsk => 'Não perguntar novamente';
 }

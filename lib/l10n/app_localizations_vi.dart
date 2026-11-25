@@ -2576,4 +2576,21 @@ class AppLocalizationsVi extends AppLocalizations {
 
   @override
   String get gridDensityLoose => 'Thoáng';
+
+  @override
+  String get duplicateDownloadTitle => 'Đã tải xuống rồi';
+
+  @override
+  String duplicateDownloadBody(num count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'lại',
+      one: 'lại',
+    );
+    return '$count tác phẩm đã chọn từng được tải xuống trước đây. Tải $_temp0 một lần nữa?';
+  }
+
+  @override
+  String get duplicateDownloadDontAsk => 'Không hỏi lại lần nữa';
 }

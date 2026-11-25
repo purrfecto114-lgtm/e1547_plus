@@ -2615,4 +2615,21 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get gridDensityLoose => 'Свободно';
+
+  @override
+  String get duplicateDownloadTitle => 'Уже загружено';
+
+  @override
+  String duplicateDownloadBody(num count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'их',
+      one: 'её',
+    );
+    return '$count из выбранных работ уже загружались. Загрузить $_temp0 снова?';
+  }
+
+  @override
+  String get duplicateDownloadDontAsk => 'Больше не спрашивать';
 }

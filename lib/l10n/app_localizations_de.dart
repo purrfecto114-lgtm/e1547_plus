@@ -2603,4 +2603,21 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get gridDensityLoose => 'Locker';
+
+  @override
+  String get duplicateDownloadTitle => 'Bereits heruntergeladen';
+
+  @override
+  String duplicateDownloadBody(num count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Sie',
+      one: 'Es',
+    );
+    return '$count der ausgewählten Werke wurden bereits heruntergeladen. $_temp0 erneut herunterladen?';
+  }
+
+  @override
+  String get duplicateDownloadDontAsk => 'Nicht mehr fragen';
 }

@@ -733,5 +733,22 @@
   "gridDensity": "Densité de la grille",
   "gridDensityAuto": "Automatique",
   "gridDensityDense": "Dense",
-  "gridDensityLoose": "Dégagée"
+  "gridDensityLoose": "Dégagée",
+  "duplicateDownloadTitle": "Déjà téléchargé",
+  "@duplicateDownloadTitle": {
+    "description": "Title of the dialog that asks before downloading a work again."
+  },
+  "duplicateDownloadBody": "{count} des œuvres sélectionnées ont déjà été téléchargées. {count, plural, =1{Le} other{Les}} télécharger à nouveau ?",
+  "@duplicateDownloadBody": {
+    "description": "Body of the duplicate download dialog. {count} is how many of the selected works were downloaded before.",
+    "placeholders": {
+      "count": {
+        "type": "num"
+      }
+    }
+  },
+  "duplicateDownloadDontAsk": "Ne plus demander",
+  "@duplicateDownloadDontAsk": {
+    "description": "The bottom-left option that silences the duplicate download dialog for good."
+  }
 }

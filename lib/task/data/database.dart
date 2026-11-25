@@ -142,6 +142,25 @@ class TaskRepository extends DatabaseAccessor<GeneratedDatabase>
     return selectable.map((row) => row.read(count)!).watchSingle().future;
   }
 
+  /// Returns the posts among [postIds] a completed download already
+  /// served, regardless of the account that downloaded them: the file
+  /// lands in the same shared directory either way.
+  ///
+  /// A download counts as done once its task reached [TaskStatus.completed];
+  /// failed, canceled and still queued ones do not make the second click
+  /// a duplicate.
+  Future<Set<int>> findDownloadedPostIds(Iterable<int> postIds) async {
+    final ids = postIds.toSet();
+    if (ids.isEmpty) return const {};
+    final rows =
+        await (select(tasksTable)
+              ..where((tbl) => tbl.postId.isIn(ids))
+              ..where((tbl) => tbl.action.equals(TaskAction.download.name))
+              ..where((tbl) => tbl.status.equals(TaskStatus.completed.name)))
+            .get();
+    return {for (final row in rows) row.postId};
+  }
+
   /// Returns the tasks with the given ids.
   Future<List<Task>> getAll(List<int> ids) =>
       (select(tasksTable)..where((tbl) => tbl.id.isIn(ids))).get();

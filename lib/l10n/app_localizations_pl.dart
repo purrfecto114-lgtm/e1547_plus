@@ -2627,4 +2627,21 @@ class AppLocalizationsPl extends AppLocalizations {
 
   @override
   String get gridDensityLoose => 'Luźno';
+
+  @override
+  String get duplicateDownloadTitle => 'Już pobrano';
+
+  @override
+  String duplicateDownloadBody(num count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'je',
+      one: 'je',
+    );
+    return '$count z wybranych dzieł zostało już pobranych. Pobrać $_temp0 ponownie?';
+  }
+
+  @override
+  String get duplicateDownloadDontAsk => 'Nie pytaj ponownie';
 }

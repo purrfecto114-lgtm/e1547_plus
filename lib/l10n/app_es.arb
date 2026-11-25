@@ -733,5 +733,22 @@
   "gridDensity": "Densidad de la cuadrícula",
   "gridDensityAuto": "Automática",
   "gridDensityDense": "Densa",
-  "gridDensityLoose": "Holgada"
+  "gridDensityLoose": "Holgada",
+  "duplicateDownloadTitle": "Ya descargado",
+  "@duplicateDownloadTitle": {
+    "description": "Title of the dialog that asks before downloading a work again."
+  },
+  "duplicateDownloadBody": "{count} de las obras seleccionadas ya se han descargado antes. ¿Volver a descargar{count, plural, =1{l} other{s}}?",
+  "@duplicateDownloadBody": {
+    "description": "Body of the duplicate download dialog. {count} is how many of the selected works were downloaded before.",
+    "placeholders": {
+      "count": {
+        "type": "num"
+      }
+    }
+  },
+  "duplicateDownloadDontAsk": "No volver a preguntar",
+  "@duplicateDownloadDontAsk": {
+    "description": "The bottom-left option that silences the duplicate download dialog for good."
+  }
 }

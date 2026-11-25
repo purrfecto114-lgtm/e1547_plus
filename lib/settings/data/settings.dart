@@ -279,6 +279,14 @@ class Settings extends NotifiedSettings {
     key: 'showDev',
     initialValue: false,
   );
+
+  /// Whether downloading a work again asks first. The duplicate dialog
+  /// names the count of already downloaded posts in the batch; turning
+  /// it off through its bottom-left option stores false here.
+  late final ValueNotifier<bool> askOnDuplicateDownload = createSetting<bool>(
+    key: 'askOnDuplicateDownload',
+    initialValue: true,
+  );
 }
 
 // Decoding high tier videos can push low end Android devices, especially

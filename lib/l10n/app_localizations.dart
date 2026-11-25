@@ -4492,6 +4492,24 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Loose'**
   String get gridDensityLoose;
+
+  /// Title of the dialog that asks before downloading a work again.
+  ///
+  /// In en, this message translates to:
+  /// **'Already downloaded'**
+  String get duplicateDownloadTitle;
+
+  /// Body of the duplicate download dialog. {count} is how many of the selected works were downloaded before.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} of the selected works have been downloaded before. Download {count, plural, =1{it} other{them}} again?'**
+  String duplicateDownloadBody(num count);
+
+  /// The bottom-left option that silences the duplicate download dialog for good.
+  ///
+  /// In en, this message translates to:
+  /// **'Don\'t ask again'**
+  String get duplicateDownloadDontAsk;
 }
 
 class _AppLocalizationsDelegate

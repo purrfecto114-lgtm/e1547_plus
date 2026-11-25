@@ -733,5 +733,22 @@
   "gridDensity": "Densidade da grade",
   "gridDensityAuto": "Automática",
   "gridDensityDense": "Densa",
-  "gridDensityLoose": "Ampla"
+  "gridDensityLoose": "Ampla",
+  "duplicateDownloadTitle": "Já baixado",
+  "@duplicateDownloadTitle": {
+    "description": "Title of the dialog that asks before downloading a work again."
+  },
+  "duplicateDownloadBody": "{count} das obras selecionadas já foram baixadas antes. Baixar {count, plural, =1{novamente} other{novamente}}?",
+  "@duplicateDownloadBody": {
+    "description": "Body of the duplicate download dialog. {count} is how many of the selected works were downloaded before.",
+    "placeholders": {
+      "count": {
+        "type": "num"
+      }
+    }
+  },
+  "duplicateDownloadDontAsk": "Não perguntar novamente",
+  "@duplicateDownloadDontAsk": {
+    "description": "The bottom-left option that silences the duplicate download dialog for good."
+  }
 }

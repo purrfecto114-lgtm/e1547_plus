@@ -1,5 +1,6 @@
 import 'package:e1547/l10n/app_localizations.dart';
 import 'package:e1547/post/post.dart';
+import 'package:e1547/settings/settings.dart';
 import 'package:e1547/shared/shared.dart';
 import 'package:e1547/tag/tag.dart';
 import 'package:e1547/task/task.dart';
@@ -32,6 +33,7 @@ Future<List<Task>?> postDownloadingNotification(
   if (items.isEmpty) return const [];
   // Resolved before the awaits below: contexts must not cross async gaps.
   final TasksController controller = context.read<TasksController>();
+  final Settings settings = context.read<Settings>();
   String? pickedKey;
   final Post? multiQualityVideo = items
       .where((post) => post.type == PostType.video && post.hasVideoQualities)
@@ -43,6 +45,29 @@ Future<List<Task>?> postDownloadingNotification(
     );
     if (pickedKey == null) return null;
   }
+
+  // A work whose download already completed is already on disk: ask
+  // before fetching it again. Queued, running, failed and canceled
+  // downloads do not count as served, and a silenced dialog goes
+  // through without asking ever again.
+  final Set<int> downloaded = await controller.repository.findDownloadedPostIds(
+    items.map((post) => post.id),
+  );
+  if (!context.mounted) return null;
+  if (downloaded.isNotEmpty && settings.askOnDuplicateDownload.value) {
+    final bool? answer = await showDuplicateDownloadDialog(
+      context,
+      downloaded.length,
+    );
+    if (answer == null) {
+      // The bottom-left option: confirm this batch and silence the
+      // dialog for good.
+      settings.askOnDuplicateDownload.value = false;
+    } else if (!answer) {
+      return null;
+    }
+  }
+
   final List<Task> queued = await controller.enqueueAll(
     items.map((post) {
       final String? url = post.type == PostType.video && pickedKey != null
@@ -112,6 +137,46 @@ Future<String?> showDownloadVideoQualityDialog(
     ),
   );
 }
+
+/// Asks before downloading works that have been downloaded before.
+///
+/// Pops with true (download again), false (cancel), or null (the
+/// bottom-left "don't ask again" option — the caller stores that in the
+/// settings and proceeds with the batch).
+Future<bool?> showDuplicateDownloadDialog(BuildContext context, int count) =>
+    showDialog<bool>(
+      context: context,
+      builder: (dialogContext) => AlertDialog(
+        title: Text(AppLocalizations.of(dialogContext).duplicateDownloadTitle),
+        content: Text(
+          AppLocalizations.of(dialogContext).duplicateDownloadBody(count),
+        ),
+        // The silence option sits in the bottom-left corner, away from the
+        // confirm/cancel pair on the right.
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.of(dialogContext).pop(),
+            child: Text(
+              AppLocalizations.of(dialogContext).duplicateDownloadDontAsk,
+            ),
+          ),
+          Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              TextButton(
+                onPressed: () => Navigator.of(dialogContext).pop(false),
+                child: Text(AppLocalizations.of(dialogContext).actionCancel),
+              ),
+              const SizedBox(width: 8),
+              FilledButton(
+                onPressed: () => Navigator.of(dialogContext).pop(true),
+                child: Text(AppLocalizations.of(dialogContext).actionDownload),
+              ),
+            ],
+          ),
+        ],
+      ),
+    );
 
 /// Enqueues favorite or unfavorite tasks for [items], skipping ones already in
 /// the target state.

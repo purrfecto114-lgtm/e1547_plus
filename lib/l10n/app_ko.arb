@@ -2547,5 +2547,22 @@
   "gridDensity": "그리드 밀도",
   "gridDensityAuto": "자동",
   "gridDensityDense": "촘촘하게",
-  "gridDensityLoose": "여유 있게"
+  "gridDensityLoose": "여유 있게",
+  "duplicateDownloadTitle": "이미 다운로드됨",
+  "@duplicateDownloadTitle": {
+    "description": "Title of the dialog that asks before downloading a work again."
+  },
+  "duplicateDownloadBody": "선택한 작품 중 {count}개는 이전에 다운로드한 적이 있습니다. 다시 다운로드할까요?",
+  "@duplicateDownloadBody": {
+    "description": "Body of the duplicate download dialog. {count} is how many of the selected works were downloaded before.",
+    "placeholders": {
+      "count": {
+        "type": "num"
+      }
+    }
+  },
+  "duplicateDownloadDontAsk": "다시 묻지 않기",
+  "@duplicateDownloadDontAsk": {
+    "description": "The bottom-left option that silences the duplicate download dialog for good."
+  }
 }

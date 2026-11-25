@@ -2547,5 +2547,22 @@
   "gridDensity": "Mật độ lưới",
   "gridDensityAuto": "Tự động",
   "gridDensityDense": "Dày",
-  "gridDensityLoose": "Thoáng"
+  "gridDensityLoose": "Thoáng",
+  "duplicateDownloadTitle": "Đã tải xuống rồi",
+  "@duplicateDownloadTitle": {
+    "description": "Title of the dialog that asks before downloading a work again."
+  },
+  "duplicateDownloadBody": "{count} tác phẩm đã chọn từng được tải xuống trước đây. Tải {count, plural, =1{lại} other{lại}} một lần nữa?",
+  "@duplicateDownloadBody": {
+    "description": "Body of the duplicate download dialog. {count} is how many of the selected works were downloaded before.",
+    "placeholders": {
+      "count": {
+        "type": "num"
+      }
+    }
+  },
+  "duplicateDownloadDontAsk": "Không hỏi lại lần nữa",
+  "@duplicateDownloadDontAsk": {
+    "description": "The bottom-left option that silences the duplicate download dialog for good."
+  }
 }

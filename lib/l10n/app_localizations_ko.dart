@@ -2534,4 +2534,15 @@ class AppLocalizationsKo extends AppLocalizations {
 
   @override
   String get gridDensityLoose => '여유 있게';
+
+  @override
+  String get duplicateDownloadTitle => '이미 다운로드됨';
+
+  @override
+  String duplicateDownloadBody(num count) {
+    return '선택한 작품 중 $count개는 이전에 다운로드한 적이 있습니다. 다시 다운로드할까요?';
+  }
+
+  @override
+  String get duplicateDownloadDontAsk => '다시 묻지 않기';
 }
