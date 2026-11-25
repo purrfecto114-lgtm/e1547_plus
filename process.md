@@ -260,3 +260,26 @@
 门禁与复查：analyze 0 / format 0 / 全量 **1437+19 EXIT=0**（+3）；子代理全量 diff 复查 verdict=ship（两条 nit 已吸收：_params helper 复用、文档引用具体化；其余 8 项 info 确认语义/无干扰/确定性）。
 
 发版：dispatch test_release（version=none + title "Test build 22.9.5+241 (run 80)" + skip_playstore/forum）→ run 80（45575930718）六 job + release 一次全绿（本轮 android-smoke 未撞 Maven 429，无需 rerun）；tag 22.9.5-test.80+241 指向 master HEAD 87c45ded，verify 脚本 9 项全过（prerelease=True 非 draft / 7 资产齐 / 标题 / 正文含 obtainium / latest 仍 22.9.3+238 / 无意外 22.9 标签 / pubspec 未动 / master 只多测试提交）。脚本存 my-project/scripts/verify_test_release_80.py。
+
+
+### Round 23：用户四反馈修复 + test 81（2026-11-25）
+
+用户输入：test.80 实测反馈四项——①账户切换/换梯子后"当前离线"只修了一半，反复切换仍出现，要求查明设计意图、移除是否可行、影响面、综合判断；②点赞/收藏按钮"还是有问题，api残留？"；③旧版转圈圈动画堆叠仍存在（附截图：详情页播放按钮下压着橙色圆弧转圈）；④筛选界面重复筛选计数（全量，可重写）。
+
+仓库对比结论（远端 master=f28b3aa2，test.80+241 已发布、run 80 全绿）：
+- **问题④根因实锤**：FilterController.blockedCount 按 track 键求和且不去重（d1267cc5 为省一次 idOf 遍历删掉了去重），而 pushPostLoadingPage 经 PostRouteScope 让详情页与列表页**共享同一个 PostFilter 实例**——同一帖被两条路由各 track 一次就计两次，抽屉总数随推栈 2→4→6 漂移。规则分项 blockedCountsByEntry 走 tracked（已去重）原本就对。
+- **问题①机制闭环**：cached_query 只在探针流 disconnected→connected **翻转**时 refetch 监听中的 query；切换账户会把全部 identity 域 query 换键立即重发、换梯子会打断在途请求——两类扰动常短于 30s 探针周期，翻转从未发生，失败态粘死到手拉为止。R21 修的是探针本身的假离线，恢复通道仍缺"无翻转也能自愈"。
+- **问题②排查**：POST /posts/{id}/votes.json、POST/DELETE /favorites 与 e621ng 源码逐字节比对（VoteManager.vote!/FavoritesController）**无旧端点残留**；真实 API 实测 stats.is_favorited/fav_count 即现行结构。唯一实缺陷：votes 响应的权威 score 与 favorites 响应的 authoritative favorite_count 全部被丢弃，并发投票/计数漂移永不回正。
+- **问题③根因实锤**：PostVideoWidget 占位层的旧版 `CircularProgressIndicator`（c52fb53a 换六边形时漏网）+ VideoButton 播放箭头，在"player 存在但未出首帧+未播放"时同点叠放；详情页嵌栈（PostDetailVideo）同样命中。
+
+本轮修复：
+1. `FilterController.blockedCount` 重写为跨键按 id 去重（双指针配对 allowed 子序列 + seen 集合，首见裁决与 tracked 去重同序，总数与分项一个口径）；filter_test +4 例（跨键共享、列表内重复 id、先允许后拒绝裁决、untrack 回落）。
+2. `ConnectionErrorSweeper`（query/data/connection.dart）：探针每次 connected 报告就扫描"监听中 + refetchOnConnection + 连接类错误"的 query 逐个 invalidate；initialize 里与 configFlutter 共用同一条 broadcast 流挂载。另给 GlobalQueryConfig 补 `RetryConfig(maxRetries: 3, whenError=retryConnectionErrors)`——传输类失败 200/400/800ms 自愈，4xx/5xx 不重试。connection_recovery_test 6 例（翻转报告自扫、无翻转直扫、服务端拒绝不扫、无监听不扫、opt-out 不扫、disconnected 不扫）。
+3. `PostVideoWidget` 占位层：旧圆圈换六边形、且只在**无 player**（池拒收/无文件）时才画——有 player 的等待态由 VideoButton 承载；并 `withLowRes:false` 关掉低清桥的自带进度六边形（stacked:true 会顶穿 showProgress:false）。`VideoButton`：`showPlayButton = !loading || isDeferred`——加载中/缓冲一律显示六边形，deferred（未 open 任何媒体）保留播放箭头。video_test +7 例（首帧前六边形、deferred 保箭头、缓冲回六边形、嵌入栈恰好一个指示器、deferred 零指示器、无 player 保占位六边形、既有尺寸测试改固定 pump）。
+4. `PostClient.vote/addFavorite/removeFavorite` 返回响应权威值（score/favorite_count，缺失为 null 不动缓存）；`useVote/useAddFavorite/useRemoveFavorite` 成功后 postCache.update 回写总数（投票值不采纳响应——no_unvote 保票时服务器 our_score 恒报 0 会误清箭头）。fake_e621 的 favorites/vote 改为**回写帖子自身计数**（对照 FavoriteManager/@post.fav_count，旧实现回收藏集合长度是假忠实）；likes_test +3 例（并发投票漂移 5→41、收藏 3→31、取消 3→29）。
+
+坑备忘新增：①VideoService 的 _videos/_idle 是**进程级 static**，"池拒收"用例受全文件测试顺序污染，须用无 file 帖子这类确定性路径触发 getVideo 返回 null；②PostImageWidget 的 sample 分支 `stacked: withLowRes` 会让自带进度指示器顶穿 `showProgress:false`——要彻底静默必须连 withLowRes 一起关；③HexagonalLoadingIndicator 永久 repeat，凡装载它的测试禁用 pumpAndSettle，一律固定 pump；④fake vote 响应回写计数后，同文件多次投票断言必须各自重开 TestEnvironment（setUp 已然）。
+
+门禁：analyze 0 / format 0 / 全量 **1455+19 EXIT=0**（+18）。
+
+发版：dispatch test_release（version=none + title "Test build 22.9.5+241 (run 81)" + skip_playstore/forum）→ run 81；tag 22.9.5-test.81+241；CI 全 job 核对见下。
