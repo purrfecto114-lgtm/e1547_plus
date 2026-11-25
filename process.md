@@ -218,3 +218,24 @@
 2. 发布形态核对（scripts/verify_test_release.py 全过）：tag `22.9.5-test.78+241`（prerelease 段）；"Test build 22.9.5+241 (run 78)"；prerelease=True 非 draft；latest 指针未动（仍 22.9.3+238）；7 资产齐；无新 rc/stable；master 无版本提交、tag 指 4ab3587b8；正文含 obtainium 勿跟踪。
 3. 三重保险实测落地：不 bump + prerelease 段 compareTo<1（拦所有用户含 beta）+ make_latest=false。
 4. 坑备忘：Maven Central 429 → 直接 rerun-failed-jobs，勿改代码。
+
+
+### Round 21：e926/e621 修复一致性复查 + 全网络路径代理化 + test 79（2026-11-25）
+
+用户质疑：修复只在 e926 上成立、e621 上不成立，要求复查全部历史 issue 并推新 test。复查结论（issue 清单逐个过）：R16①计数+1/R16③动画堆叠/R19②订阅排序/R19③视频变体/R19缩略图cap 全站点无关成立；**不成立的全在网络层**——三处实锤：
+
+1. **连接探针假阳性（R19①残留）**：`apiHostConnectionStream` 用 DNS 探 e926/e621 任一成功=在线；用户网络 e926 直连可达 → e621 模式永远"在线"，离线横幅/自动重试永不触发；且 DNS 不走代理、污染 DNS 也假阳。
+2. **代理只在 AppInit 读一次（R16②残留）**：开机后开代理永远不生效（需重启）。
+3. **ClientProvider 丢 proxy 参数（R17 回归）**：Round 17 把 provider 改回同步时 `factory.create(config)` 没传 proxy——API dio 一直是裸 Cronet，代理从未生效过；keys 里的 systemProxy 是常量对象，ValueNotifier 变更也不触发重建。
+4. 另有 4 条网络路径从未走代理：createMediaDio（缩略图）、createTransferClient（下载）、checkCredentials（e621 登录校验）、media_kit/mpv（播放）。
+
+修复（6a3a8d70，全部 TDD）：
+- `apiHostConnectionStream` 重写：HTTP HEAD 探针（any status=可达，复用 R12 语义）+ 按当前 identity host 探测（initialize 里查 sqlite+prefs，随切号 30s 内跟随）+ 每周期重读代理；探针/host/周期可注入。
+- `shared/data/proxy.dart`：systemProxy notifier + ProxyConfig + proxyAwareAdapter 迁入 shared；10 处调用面统一；client/data/proxy.dart 删除。
+- ClientProvider → SubProvider5，第 5 依赖 = ValueListenableProvider(systemProxy) 的值 → 代理变更重建全部 clients；FileCache 经 Client 级联重建；TaskController transferClient getter 按代理值换池（旧池退役至 dispose，防 R13 崩溃类）；checkCredentials/mpv http-proxy 走代理。
+- 新测试 13 例（connection_stream 10 + dio adapter 2 + task 池重建 1），含"e926 通 e621 断→disconnected"回归。
+- 门禁：analyze 0 / format 0 / 全量 1434+19 EXIT=0（首跑 1 失败=既有 concurrency 测试负载 flake，复跑全绿确认）。
+
+发版：run 79（45539537495）首跑 android-smoke 又撞 Maven 429 → rerun-failed-jobs → 全绿；tag 22.9.5-test.79+241，verify_test_release.py 全过（prerelease 段/latest 未动/7 资产/无 rc-stable）。
+
+坑备忘：①ValueNotifier 放 SubProvider keys 不触发重建（常量对象），必须经 ValueListenableProvider 把值变成依赖；②Maven 429 连续两轮出现，run 结束即 rerun-failed-jobs；③全量并发下 concurrency 时序测试偶发 flake，复跑为准。
