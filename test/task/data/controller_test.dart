@@ -671,6 +671,22 @@ void main() {
     await pumpEventQueue();
     await pumpEventQueue();
 
+    // A completion lands in the database through a few hops (fetcher
+    // return, worker bookkeeping, the repository write); a loaded
+    // machine stretches them past a fixed pump budget, so wait the
+    // states out instead of counting pumps.
+    DateTime deadline = DateTime.now().add(const Duration(seconds: 10));
+    var statuses = [
+      for (final task in tasks) await repository.readStatus(task.id),
+    ];
+    while (statuses.any((status) => status != TaskStatus.completed) &&
+        DateTime.now().isBefore(deadline)) {
+      await pumpEventQueue();
+      statuses = [
+        for (final task in tasks) await repository.readStatus(task.id),
+      ];
+    }
+
     for (final task in tasks) {
       expect(await repository.readStatus(task.id), TaskStatus.completed);
     }
