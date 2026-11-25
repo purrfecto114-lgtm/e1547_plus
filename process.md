@@ -283,3 +283,4 @@
 门禁：analyze 0 / format 0 / 全量 **1455+19 EXIT=0**（+18）。
 
 发版：dispatch test_release（version=none + title "Test build 22.9.5+241 (run 81)" + skip_playstore/forum）→ run 81；tag 22.9.5-test.81+241；CI 全 job 核对见下。
+CI 复核：run 81（45597390302）六 job（android/ios/windows/linux build + android-smoke + validate）+ release 一次全绿，forum 按 skip 要求跳过，无 Maven 429；tag 22.9.5-test.81+241 → 012e7869，prerelease=True 非 draft，7 资产齐（arm64/armv7/universal APK+IPA+EXE+DEB+tar.gz），标题 "Test build 22.9.5+241 (run 81)"，正文含 obtainium 提示，latest 仍 22.9.3+238。发版坑：沙盒对 github 的 HTTP/2 TLS 瞬断（GnuTLS -110），推送须 `-c http.version=HTTP/1.1`。
