@@ -43,4 +43,28 @@ void main() {
 
     expect(alias, recorded['consequent_name']);
   });
+
+  test('previews the tags an edit would apply', () async {
+    final recorded = loadFixtureList('tags.json').first;
+    final known = recorded['name']! as String;
+    const unknown = 'made_up_tag';
+
+    final previews = await client.preview(tags: '$known $unknown');
+
+    // Every posted name is answered, in the posted order.
+    expect(previews.map((e) => e.name), [known, unknown]);
+
+    final preview = previews.first;
+    expect(preview.id, recorded['id']);
+    expect(preview.category, recorded['category']);
+    expect(preview.postCount, recorded['post_count']);
+
+    // A name the server has no record of comes back bare — no id —
+    // which the tag editor renders as a new tag instead of failing
+    // the whole preview.
+    final bare = previews.last;
+    expect(bare.id, isNull);
+    expect(bare.category, isNull);
+    expect(bare.postCount, isNull);
+  });
 }

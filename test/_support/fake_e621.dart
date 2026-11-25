@@ -94,6 +94,7 @@ class FakeE621 {
       (Request request, String id) => _json(_find(state.pools, id)),
     )
     ..get('/tags.json', _listTags)
+    ..post('/tags/preview.json', _previewTags)
     ..get('/tags/autocomplete.json', _autocompleteTags)
     ..get(
       '/tag_aliases.json',
@@ -133,6 +134,32 @@ class FakeE621 {
           .take(10)
           .toList(),
     );
+  }
+
+  /// The tag editor's preview endpoint: one preview per name in the
+  /// posted `tags` string. A name the fake has no record of is answered
+  /// bare — no id — exactly the way the real api reports a tag that does
+  /// not exist yet, which the editor renders as a new tag instead of
+  /// failing the whole preview.
+  Response _previewTags(Request request) {
+    final params = _params(request);
+    final names = (params['tags'] ?? '')
+        .split(RegExp(r'\s+'))
+        .where((name) => name.isNotEmpty)
+        .toList();
+    final known = {for (final tag in state.tags) tag['name']! as String: tag};
+    return _json([
+      for (final name in names)
+        if (known.containsKey(name))
+          {
+            'id': known[name]!['id'],
+            'name': name,
+            'category': known[name]!['category'],
+            'post_count': known[name]!['post_count'],
+          }
+        else
+          {'name': name},
+    ]);
   }
 
   Map<String, Object?> _find(List<Map<String, Object?>> items, String id) =>
