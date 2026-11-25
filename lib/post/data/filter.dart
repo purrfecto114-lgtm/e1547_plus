@@ -24,8 +24,6 @@ class PostFilter extends FilterController<Post>
   DateTime _evictedAt = DateTime.now();
 
   void _updateDenyList() {
-    // ignore: avoid_print
-    print('UDL denylist=${client.traits.value.denylist}');
     _filterCache.clear();
     // The verdicts the tracked posts hold were computed against the old
     // denylist: mark them stale, so the next track over any route
