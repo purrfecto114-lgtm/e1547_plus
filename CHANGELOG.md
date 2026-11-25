@@ -1,5 +1,91 @@
 # Changelog
 
+## [22.10.0+242] - 2026-11-26
+
+### Fixed
+- the follow timeline sorts globally newest-first and no longer loses
+  unseen counts: the tag search splits follows into chunks of 40 tags
+  and the chunk-local orderings glued together read as a broken sort;
+  out-of-order batches dropped new posts from the unseen tally
+- follow lookups are case sensitive no more, renamed follows no longer
+  duplicate themselves, and renaming or unfollowing on one account
+  cancels the sync tasks another account queued for the old tag
+- android clients route every network path through the resolved
+  system proxy — the api client, thumbnails, downloads, login checks
+  and the video player all ignored it before, so hosts that only
+  resolve through the proxy failed as if the device were offline —
+  and the connection probe targets the browsed host (previously it
+  probed example.com, whose failure or pollution answered for every
+  site)
+- the thumbnail quality caps finally reach the screen: the decode
+  limits were only fed to the listening stream while the drawn image
+  still decoded at the file's full size — a 1200x2400 piece spent 11
+  MB of bitmap memory where 0.13 MB suffice, double the cache entries
+  and double the disk reads. The drawn provider now carries the same
+  caps, so the three-tier thumbnail quality, the mobile fullscreen
+  pixel budget and extreme aspect ratios all actually behave, and the
+  loaded-report can no longer fire before the visible bitmap exists
+- tags from the server's grouped (extended) response keep their
+  grouping and skip the category lookup entirely: every page load used
+  to pay four extra requests and several hundred ms of cold-start
+  latency to re-derive what the payload already carried, and a failed
+  lookup could flatten every tag into the general group. An empty
+  category the server still lists is dropped, so both grouping paths
+  agree on shape
+- the filter drawer's total no longer drifts 2/4/6 while pushing into
+  routes: the shared filter instance counted one post per route that
+  tracked it instead of once per post, and the rule breakdowns already
+  agreed with themselves and not the total
+- votes and favorites read back the server's authoritative counts:
+  the vote response's score and the favorite response's count were
+  discarded, so a concurrent vote on the same post drifted the cached
+  numbers until the next refresh. The vote value itself still comes
+  from the optimistic update, which the server's no-unvote reporting
+  would otherwise clear
+- the fullscreen gallery prefetches only the next post: the current
+  one raced its own visible download for the same file, and the
+  already-seen previous one re-read a cached file for no effect
+- switching accounts or proxies self-heals a stuck offline verdict:
+  the connection probe only re-fetched queries on an exact
+  disconnected→connected flip, which rapid account switches and proxy
+  hops never produced, so error states stayed latched until a manual
+  refresh. Probe reports now sweep latched connection errors directly,
+  and transport failures retry on their own (3 attempts, 200/400/800ms)
+  while server rejections still fail fast
+- the video overlay no longer stacks two spinners: the placeholder's
+  leftover circular indicator sat under the play button whenever a
+  player existed but had not produced its first frame, in fullscreen
+  and in the embedded detail stack alike; the player itself shows the
+  hexagon while loading or buffering, and keeps the play arrow only
+  while nothing is open yet
+
+### Changed
+- video downloads pick a resolution: a multi-quality video asks once
+  which tier to serve the whole batch, re-encodes sorted by size with
+  the source file as its own row, and the file name tracks the picked
+  variant's extension
+- the video variant list labels same-size re-encodes with their file
+  type (960x540 · mp4), so the duplicate-looking rows tell themselves
+  apart
+- the about page links the fork's issue tracker directly
+- downloading a work that was already downloaded asks first: the
+  dialog names how many of the selected works were served before,
+  and its bottom-left "don't ask again" silences it for good
+- the about page's icon column reads as one straight line: every
+  glyph sits centered in the same fixed slot, with the brand icons
+  stepped down a notch so the title text starts at the same x per row
+- 26 short snackbars share one duration constant instead of 26 copies
+  of the literal
+- copied-id confirmations go through one helper instead of seven
+  inline copies; one of them used to answer in untranslated English
+- deleting a denylist entry now reports failures the way add and edit
+  do instead of failing silently, and its undo lives in a method
+  rather than a sixty-line closure pyramid
+- the post tile subscribes to its info-bar setting directly instead
+  of watching the whole settings object: flipping any unrelated
+  setting no longer rebuilds every visible tile
+- the developer-option counter cancels its reset timer on dispose
+
 ## [22.9.5+241] - 2026-11-24
 
 ### Fixed
@@ -2248,3 +2334,4 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 [22.9.4+239]: https://github.com/purrfecto114-lgtm/e1547_plus/compare/22.9.3+238...22.9.4+239
 [22.9.5+240]: https://github.com/purrfecto114-lgtm/e1547_plus/compare/22.9.4+239...22.9.5+240
 [22.9.5+241]: https://github.com/purrfecto114-lgtm/e1547_plus/compare/22.9.5+240...22.9.5+241
+[22.10.0+242]: https://github.com/purrfecto114-lgtm/e1547_plus/compare/22.9.3+238...22.10.0+242

@@ -1,0 +1,1 @@
+Fixes the reported regressions: thumbnails decode at their capped size again, tag groupings survive, filter totals stop drifting across routes, votes and favorites reconcile against the server, the stuck offline banner self-heals, and the video overlay no longer stacks two spinners. Downloads of already downloaded works now ask first (with a don't-ask-again option).
