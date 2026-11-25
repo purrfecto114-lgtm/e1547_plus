@@ -2,7 +2,6 @@ import 'package:e1547/l10n/app_localizations.dart';
 import 'package:e1547/shared/shared.dart';
 import 'package:e1547/wiki/wiki.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 
 class WikiInfo extends StatelessWidget {
   const WikiInfo({super.key, required this.wiki});
@@ -32,17 +31,13 @@ class WikiInfo extends StatelessWidget {
               InkWell(
                 child: Text('#${wiki.id}'),
                 onLongPress: () async {
-                  ScaffoldMessengerState messenger = ScaffoldMessenger.of(
+                  final NavigatorState navigator = Navigator.of(context);
+                  await Share.clipboard(
                     context,
+                    wiki.id.toString(),
+                    message: l10n.wikiCopiedId(wiki.id),
                   );
-                  Clipboard.setData(ClipboardData(text: wiki.id.toString()));
-                  await Navigator.of(context).maybePop();
-                  messenger.showSnackBar(
-                    SnackBar(
-                      duration: const Duration(seconds: 1),
-                      content: Text(l10n.wikiCopiedId(wiki.id)),
-                    ),
-                  );
+                  navigator.maybePop();
                 },
               ),
             ],

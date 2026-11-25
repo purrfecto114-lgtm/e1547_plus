@@ -133,7 +133,7 @@ class _PostReportScreenState extends State<PostReportScreen> {
         }
         messenger.showSnackBar(
           SnackBar(
-            duration: const Duration(seconds: 1),
+            duration: shortSnackBarDuration,
             content: Text(l10n.reportPostSuccess(widget.post.id)),
             behavior: SnackBarBehavior.floating,
           ),
@@ -141,7 +141,7 @@ class _PostReportScreenState extends State<PostReportScreen> {
       } on ClientException {
         messenger.showSnackBar(
           SnackBar(
-            duration: const Duration(seconds: 1),
+            duration: shortSnackBarDuration,
             content: Text(l10n.reportPostFailed(widget.post.id)),
           ),
         );

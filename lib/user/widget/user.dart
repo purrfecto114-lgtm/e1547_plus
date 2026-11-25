@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:e1547/app/app.dart';
 import 'package:e1547/client/client.dart';
+import 'package:e1547/l10n/app_localizations.dart';
 import 'package:e1547/markup/markup.dart';
 import 'package:e1547/post/post.dart';
 import 'package:e1547/query/query.dart';
@@ -9,7 +10,6 @@ import 'package:e1547/ticket/ticket.dart';
 import 'package:e1547/traits/traits.dart';
 import 'package:e1547/user/user.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 
 class UserPage extends StatelessWidget {
   const UserPage({super.key, required this.user, this.summary});
@@ -323,6 +323,7 @@ class UserInfo extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
     Widget info(
       IconData icon,
       String title,
@@ -398,14 +399,10 @@ class UserInfo extends StatelessWidget {
                         'id',
                         user.id.toString(),
                         onLongPress: () {
-                          Clipboard.setData(
-                            ClipboardData(text: user.id.toString()),
-                          );
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(
-                              duration: const Duration(seconds: 1),
-                              content: Text('Copied user id #${user.id}'),
-                            ),
+                          Share.clipboard(
+                            context,
+                            user.id.toString(),
+                            message: l10n.userCopiedId(user.id),
                           );
                         },
                       ),

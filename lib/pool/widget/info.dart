@@ -43,7 +43,7 @@ class PoolInfo extends StatelessWidget {
                   await Navigator.of(context).maybePop();
                   messenger.showSnackBar(
                     SnackBar(
-                      duration: const Duration(seconds: 1),
+                      duration: shortSnackBarDuration,
                       content: Text(l10n.poolCopiedId(pool.id)),
                     ),
                   );

@@ -201,66 +201,12 @@ class _DenyListPageState extends State<DenyListPage> {
                                             ),
                                           );
                                         },
-                                        onDelete: () {
-                                          final l10n = AppLocalizations.of(
-                                            context,
-                                          );
-                                          final messenger =
-                                              ScaffoldMessenger.of(context);
-                                          final tag = visible[index].$2;
-                                          final position = visible[index].$1;
-                                          final remaining = List.of(denylist)
-                                            ..removeAt(position);
-                                          client.accounts
-                                              .push(
-                                                traits: traits.copyWith(
-                                                  denylist: remaining,
-                                                ),
-                                              )
-                                              .then((_) {
-                                                messenger.showSnackBar(
-                                                  SnackBar(
-                                                    content: Text(
-                                                      l10n.denylistEntryDeleted,
-                                                    ),
-                                                    action: SnackBarAction(
-                                                      label: l10n.actionUndo,
-                                                      onPressed: () {
-                                                        // Read the current
-                                                        // traits: other
-                                                        // deletions since
-                                                        // this snackbar was
-                                                        // shown must not be
-                                                        // rolled back.
-                                                        final current =
-                                                            client.traits.value;
-                                                        if (current.denylist
-                                                            .contains(tag)) {
-                                                          return;
-                                                        }
-                                                        client.accounts.push(
-                                                          traits: current.copyWith(
-                                                            denylist:
-                                                                List.of(
-                                                                  current
-                                                                      .denylist,
-                                                                )..insert(
-                                                                  position.clamp(
-                                                                    0,
-                                                                    current
-                                                                        .denylist
-                                                                        .length,
-                                                                  ),
-                                                                  tag,
-                                                                ),
-                                                          ),
-                                                        );
-                                                      },
-                                                    ),
-                                                  ),
-                                                );
-                                              });
-                                        },
+                                        onDelete: () => _deleteDenylistEntry(
+                                          client,
+                                          traits,
+                                          visible[index].$1,
+                                          visible[index].$2,
+                                        ),
                                       ),
                                     ),
                                   ),
@@ -273,6 +219,66 @@ class _DenyListPageState extends State<DenyListPage> {
         ),
       ),
     );
+  }
+
+  /// Deletes the denylist entry at [position]. Every other change the
+  /// push could need is already in [traits]; a failed push answers with
+  /// the same snackbar the add and edit paths use.
+  Future<void> _deleteDenylistEntry(
+    Client client,
+    Traits traits,
+    int position,
+    String tag,
+  ) async {
+    final l10n = AppLocalizations.of(context);
+    final messenger = ScaffoldMessenger.of(context);
+    try {
+      await client.accounts.push(
+        traits: traits.copyWith(
+          denylist: List.of(traits.denylist)..removeAt(position),
+        ),
+      );
+    } on ClientException {
+      messenger.showSnackBar(
+        SnackBar(content: Text(l10n.blacklistUpdateFailed)),
+      );
+      return;
+    }
+    messenger.showSnackBar(
+      SnackBar(
+        content: Text(l10n.denylistEntryDeleted),
+        action: SnackBarAction(
+          label: l10n.actionUndo,
+          onPressed: () => _restoreDenylistEntry(client, tag, position),
+        ),
+      ),
+    );
+  }
+
+  /// Puts [tag] back where a deletion removed it. Reads the current
+  /// traits: other deletions since the snackbar was shown must not be
+  /// rolled back.
+  Future<void> _restoreDenylistEntry(
+    Client client,
+    String tag,
+    int position,
+  ) async {
+    final l10n = AppLocalizations.of(context);
+    final messenger = ScaffoldMessenger.of(context);
+    final current = client.traits.value;
+    if (current.denylist.contains(tag)) return;
+    try {
+      await client.accounts.push(
+        traits: current.copyWith(
+          denylist: List.of(current.denylist)
+            ..insert(position.clamp(0, current.denylist.length), tag),
+        ),
+      );
+    } on ClientException {
+      messenger.showSnackBar(
+        SnackBar(content: Text(l10n.blacklistUpdateFailed)),
+      );
+    }
   }
 
   Widget buildEditTextField(

@@ -15,8 +15,6 @@ class LikeDisplay extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final client = context.watch<Client>();
-    final messenger = ScaffoldMessenger.of(context);
-    final l10n = AppLocalizations.of(context);
 
     return Column(
       children: [
@@ -27,6 +25,7 @@ class LikeDisplay extends StatelessWidget {
               mutation: client.posts.useVote(id: post.id),
               builder: (context, state, mutate) {
                 final bool enabled = client.hasLogin && !state.isLoading;
+                final failure = voteFailure(context);
                 return VoteDisplay(
                   vote: post.vote,
                   score: post.score,
@@ -36,12 +35,7 @@ class LikeDisplay extends StatelessWidget {
                             upvote: true,
                             replace: !isLiked,
                           ))).isError) {
-                            messenger.showSnackBar(
-                              SnackBar(
-                                duration: const Duration(seconds: 1),
-                                content: Text(l10n.postUpvoteFailed(post.id)),
-                              ),
-                            );
+                            showVoteFailed(failure, post.id, upvote: true);
                             return isLiked;
                           }
                           return !isLiked;
@@ -53,12 +47,7 @@ class LikeDisplay extends StatelessWidget {
                             upvote: false,
                             replace: !isLiked,
                           ))).isError) {
-                            messenger.showSnackBar(
-                              SnackBar(
-                                duration: const Duration(seconds: 1),
-                                content: Text(l10n.postDownvoteFailed(post.id)),
-                              ),
-                            );
+                            showVoteFailed(failure, post.id, upvote: false);
                             return isLiked;
                           }
                           return !isLiked;
@@ -140,7 +129,7 @@ class FavoriteButton extends StatelessWidget {
                 if (state.isError) {
                   messenger.showSnackBar(
                     SnackBar(
-                      duration: const Duration(seconds: 1),
+                      duration: shortSnackBarDuration,
                       content: Text(
                         isLiked
                             ? l10n.postRemoveFavoriteFailed(post.id)

@@ -109,7 +109,7 @@ class _ReasonReportScreenState extends State<ReasonReportScreen> {
                         )) {
                           messenger.showSnackBar(
                             SnackBar(
-                              duration: const Duration(seconds: 1),
+                              duration: shortSnackBarDuration,
                               content: Text(
                                 widget.onSuccess ?? l10n.reportSubmitted,
                               ),
@@ -120,7 +120,7 @@ class _ReasonReportScreenState extends State<ReasonReportScreen> {
                         } else {
                           messenger.showSnackBar(
                             SnackBar(
-                              duration: const Duration(seconds: 1),
+                              duration: shortSnackBarDuration,
                               content: Text(
                                 widget.onFailure ?? l10n.reportSubmitFailed,
                               ),

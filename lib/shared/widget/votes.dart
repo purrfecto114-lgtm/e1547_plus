@@ -1,7 +1,40 @@
+import 'package:e1547/l10n/app_localizations.dart';
+import 'package:e1547/shared/widget/animation.dart';
 import 'package:flutter/material.dart';
 import 'package:like_button/like_button.dart';
 
 typedef VoteRequest = ({bool upvote, bool replace});
+
+/// The resolved dependencies of a vote failure snackbar, captured
+/// before the mutation awaits: the vote callbacks resolve these from
+/// their build context up front, because the failure itself only
+/// happens after an async gap.
+class VoteFailure {
+  const VoteFailure(this.messenger, this.l10n);
+
+  final ScaffoldMessengerState messenger;
+  final AppLocalizations l10n;
+}
+
+VoteFailure voteFailure(BuildContext context) =>
+    VoteFailure(ScaffoldMessenger.of(context), AppLocalizations.of(context));
+
+/// The snackbar a failed vote pops, localized per direction. Every
+/// surface that renders [VoteDisplay] (the detail bar and the search
+/// tiles) fails through this one spot, so the two cannot drift apart
+/// again — one used to answer in untranslated English.
+void showVoteFailed(VoteFailure failure, int postId, {required bool upvote}) {
+  failure.messenger.showSnackBar(
+    SnackBar(
+      duration: shortSnackBarDuration,
+      content: Text(
+        upvote
+            ? failure.l10n.postUpvoteFailed(postId)
+            : failure.l10n.postDownvoteFailed(postId),
+      ),
+    ),
+  );
+}
 
 ({int score, int? vote}) applyVote({
   required int score,

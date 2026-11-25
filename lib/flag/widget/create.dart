@@ -91,7 +91,7 @@ class _PostFlagScreenState extends State<PostFlagScreen> {
         }
         messenger.showSnackBar(
           SnackBar(
-            duration: const Duration(seconds: 1),
+            duration: shortSnackBarDuration,
             content: Text(l10n.flagPostSuccess(widget.post.id)),
             behavior: SnackBarBehavior.floating,
           ),
@@ -99,7 +99,7 @@ class _PostFlagScreenState extends State<PostFlagScreen> {
       } on ClientException {
         messenger.showSnackBar(
           SnackBar(
-            duration: const Duration(seconds: 1),
+            duration: shortSnackBarDuration,
             content: Text(l10n.flagPostFailed(widget.post.id)),
           ),
         );

@@ -58,7 +58,7 @@ Future<bool> writeComment({
             sent = true;
             messenger.showSnackBar(
               SnackBar(
-                duration: const Duration(seconds: 1),
+                duration: shortSnackBarDuration,
                 content: Text(l10n.commentSent),
               ),
             );

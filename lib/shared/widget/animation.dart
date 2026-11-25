@@ -2,6 +2,11 @@ import 'package:flutter/material.dart';
 
 const Duration defaultAnimationDuration = Duration(milliseconds: 200);
 
+/// How long the short confirmation snackbars (a copied id, a failed
+/// vote, a saved setting) stay up. One constant, so an accessibility
+/// pass can stretch them in one place.
+const Duration shortSnackBarDuration = Duration(seconds: 1);
+
 enum FadeAnimationStyle { adjacent, stacked }
 
 class CrossFade extends StatelessWidget {

@@ -1,9 +1,9 @@
 import 'package:e1547/l10n/app_localizations.dart';
 import 'package:e1547/post/post.dart';
+import 'package:e1547/shared/shared.dart';
 import 'package:e1547/tag/tag.dart';
 import 'package:e1547/user/user.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 
 class ArtistDisplay extends StatelessWidget {
   const ArtistDisplay({super.key, required this.post});
@@ -29,14 +29,12 @@ class ArtistDisplay extends StatelessWidget {
                     child: Text('#${post.id}'),
                   ),
                   onLongPress: () {
-                    Clipboard.setData(ClipboardData(text: post.id.toString()));
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(
-                        duration: const Duration(seconds: 1),
-                        content: Text(
-                          AppLocalizations.of(context).postCopiedId(post.id),
-                        ),
-                      ),
+                    Share.clipboard(
+                      context,
+                      post.id.toString(),
+                      message: AppLocalizations.of(
+                        context,
+                      ).postCopiedId(post.id),
                     );
                   },
                 ),

@@ -1,7 +1,7 @@
 import 'dart:io';
-
 import 'package:e1547/l10n/app_localizations.dart';
 import 'package:e1547/settings/settings.dart' show AppInfo;
+import 'package:e1547/shared/widget/animation.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -47,7 +47,7 @@ abstract final class Share {
       await File(outputFile).writeAsString(text);
       messenger.showSnackBar(
         SnackBar(
-          duration: const Duration(seconds: 1),
+          duration: shortSnackBarDuration,
           content: Text(localizations.fileSavedAs(basename(outputFile))),
         ),
       );
@@ -73,21 +73,29 @@ abstract final class Share {
       await File(outputFile).writeAsString(content);
       messenger.showSnackBar(
         SnackBar(
-          duration: const Duration(seconds: 1),
+          duration: shortSnackBarDuration,
           content: Text(localizations.fileSavedAs(basename(outputFile))),
         ),
       );
     }
   }
 
-  static Future<void> clipboard(BuildContext context, String text) async {
+  /// Copies [text] to the clipboard and confirms with a snackbar. A
+  /// [message] overrides the generic confirmation, for surfaces that
+  /// name what they copied ("Reply #123 copied"); the default suits
+  /// every other spot.
+  static Future<void> clipboard(
+    BuildContext context,
+    String text, {
+    String? message,
+  }) async {
     ScaffoldMessengerState messenger = ScaffoldMessenger.of(context);
     final AppLocalizations localizations = AppLocalizations.of(context);
     await Clipboard.setData(ClipboardData(text: text));
     messenger.showSnackBar(
       SnackBar(
-        duration: const Duration(seconds: 1),
-        content: Text(localizations.copiedToClipboard),
+        duration: shortSnackBarDuration,
+        content: Text(message ?? localizations.copiedToClipboard),
       ),
     );
   }

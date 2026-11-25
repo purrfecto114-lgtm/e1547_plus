@@ -10,6 +10,18 @@ import 'package:e1547/topic/topic.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
+/// The leading icon of an about row.
+///
+/// Brand glyphs (GitHub, Discord, Google Play) and solid ones (the
+/// envelope) visually outweigh the regular set and fill their box
+/// unevenly, so every icon sits centered in the same fixed column and
+/// the brands step down a notch — the icon column then reads as one
+/// straight line, and every row's title starts at the same x.
+Widget aboutIcon(FaIconData icon, {bool compact = false}) => SizedBox(
+  width: 24,
+  child: Center(child: FaIcon(icon, size: compact ? 20 : 22)),
+);
+
 class AboutPage extends StatelessWidget {
   const AboutPage({super.key});
 
@@ -84,6 +96,12 @@ class DevOptionEnabler extends StatefulWidget {
 class _DevOptionEnablerState extends State<DevOptionEnabler> {
   int taps = 0;
   Timer? reset;
+
+  @override
+  void dispose() {
+    reset?.cancel();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -234,14 +252,14 @@ class AboutVersion extends StatelessWidget {
       VoidCallback? onTap;
       if (data == null && (state?.isLoading ?? true)) {
         message = AppLocalizations.of(context).updaterFetching;
-        icon = const FaIcon(FontAwesomeIcons.clockRotateLeft);
+        icon = aboutIcon(FontAwesomeIcons.clockRotateLeft);
       } else if (data == null) {
         message = AppLocalizations.of(context).updaterCheckFailed;
         onTap = openGithub;
-        icon = const FaIcon(FontAwesomeIcons.circleExclamation);
+        icon = aboutIcon(FontAwesomeIcons.circleExclamation);
       } else if (data.isEmpty) {
         message = AppLocalizations.of(context).updaterNewest;
-        icon = const FaIcon(FontAwesomeIcons.clockRotateLeft);
+        icon = aboutIcon(FontAwesomeIcons.clockRotateLeft);
       } else {
         message = AppLocalizations.of(
           context,
@@ -250,7 +268,7 @@ class AboutVersion extends StatelessWidget {
           context: context,
           builder: (dialogContext) => changesDialog(dialogContext, data),
         );
-        icon = const FaIcon(FontAwesomeIcons.download);
+        icon = aboutIcon(FontAwesomeIcons.download);
       }
 
       return Column(
@@ -315,33 +333,33 @@ class AboutLinks extends StatelessWidget {
     return Column(
       children: [
         linkListTile(
-          leading: const FaIcon(FontAwesomeIcons.github),
+          leading: aboutIcon(FontAwesomeIcons.github, compact: true),
           title: Text(AppLocalizations.of(context).aboutGitHub),
           link: 'https://github.com/',
           extra: appInfo.github,
         ),
         linkListTile(
-          leading: const FaIcon(FontAwesomeIcons.bug),
+          leading: aboutIcon(FontAwesomeIcons.bug),
           title: Text(AppLocalizations.of(context).aboutIssues),
           link: 'https://github.com/',
           extra: '${appInfo.github}/issues',
         ),
         linkListTile(
-          leading: const FaIcon(FontAwesomeIcons.codeFork),
+          leading: aboutIcon(FontAwesomeIcons.codeFork),
           title: Text(AppLocalizations.of(context).aboutUpstream),
           subtitle: Text(AppLocalizations.of(context).aboutUpstreamBody),
           link: 'https://github.com/',
           extra: 'clragon/e1547',
         ),
         linkListTile(
-          leading: const FaIcon(FontAwesomeIcons.discord),
+          leading: aboutIcon(FontAwesomeIcons.discord, compact: true),
           title: Text(AppLocalizations.of(context).aboutDiscord),
           link: 'https://discord.gg/',
           extra: appInfo.discord,
         ),
         if (appInfo.forumTopicId != null)
           ListTile(
-            leading: const FaIcon(FontAwesomeIcons.comments),
+            leading: aboutIcon(FontAwesomeIcons.comments),
             title: Text(AppLocalizations.of(context).aboutForum),
             subtitle: Text(
               AppLocalizations.of(
@@ -356,7 +374,7 @@ class AboutLinks extends StatelessWidget {
           ),
         if (appInfo.website != null)
           linkListTile(
-            leading: const FaIcon(FontAwesomeIcons.house),
+            leading: aboutIcon(FontAwesomeIcons.house),
             title: Text(AppLocalizations.of(context).aboutWebsite),
             link: 'https://',
             extra: appInfo.website,
@@ -367,21 +385,21 @@ class AboutLinks extends StatelessWidget {
               Source.IS_INSTALLED_FROM_APP_STORE,
             ].contains(appInfo.source))
           linkListTile(
-            leading: const FaIcon(FontAwesomeIcons.mugSaucer),
+            leading: aboutIcon(FontAwesomeIcons.mugSaucer),
             title: Text(AppLocalizations.of(context).aboutKofi),
             link: 'https://ko-fi.com/',
             extra: appInfo.kofi,
           ),
         if (appInfo.email != null)
           linkListTile(
-            leading: const FaIcon(FontAwesomeIcons.solidEnvelope),
+            leading: aboutIcon(FontAwesomeIcons.solidEnvelope, compact: true),
             title: Text(AppLocalizations.of(context).aboutEmail),
             link: 'mailto:',
             extra: appInfo.email,
           ),
         const Divider(),
         linkListTile(
-          leading: const FaIcon(FontAwesomeIcons.googlePlay),
+          leading: aboutIcon(FontAwesomeIcons.googlePlay, compact: true),
           title: Text(AppLocalizations.of(context).aboutPlaystore),
           link: Platform.isAndroid
               ? 'https://play.google.com/store/apps/details?id='
@@ -423,7 +441,7 @@ class AboutDonations extends StatelessWidget {
         children: [
           ListTile(
             title: Text(AppLocalizations.of(context).aboutDonors),
-            leading: const FaIcon(FontAwesomeIcons.handHoldingHeart),
+            leading: aboutIcon(FontAwesomeIcons.handHoldingHeart),
             subtitle: Text(AppLocalizations.of(context).aboutDonorsThanks),
           ),
           const Divider(),
@@ -439,7 +457,7 @@ class AboutDonations extends StatelessWidget {
             // I dont like whining about no donors
             ListTile(
               title: Text(AppLocalizations.of(context).aboutNoDonors),
-              leading: const FaIcon(FontAwesomeIcons.heartCrack),
+              leading: aboutIcon(FontAwesomeIcons.heartCrack),
             )
           else
             Donors(donors: donors),

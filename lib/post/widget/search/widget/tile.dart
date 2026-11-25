@@ -262,7 +262,10 @@ class PostTile extends StatelessWidget {
       size: size,
       onTap: onTap ?? () => defaultPushPostDetail(context, post),
       bottomBar: ValueListenableBuilder<bool>(
-        valueListenable: context.watch<Settings>().showPostInfo,
+        // A ValueNotifier reference, not a watch: watching the whole
+        // Settings object would rebuild every tile on screen for any
+        // setting that flips anywhere.
+        valueListenable: context.read<Settings>().showPostInfo,
         builder: (context, value, child) =>
             value ? PostInfoBar(post: post) : const SizedBox(),
       ),
@@ -324,8 +327,8 @@ class PostFeedTile extends StatelessWidget {
               mutation: context.watch<Client>().posts.useVote(id: post.id),
               builder: (context, state, mutate) {
                 final client = context.watch<Client>();
-                final messenger = ScaffoldMessenger.of(context);
                 final enabled = client.hasLogin && !state.isLoading;
+                final failure = voteFailure(context);
 
                 return VoteDisplay(
                   vote: post.vote,
@@ -336,14 +339,7 @@ class PostFeedTile extends StatelessWidget {
                             upvote: true,
                             replace: !isLiked,
                           ))).isError) {
-                            messenger.showSnackBar(
-                              SnackBar(
-                                duration: const Duration(seconds: 1),
-                                content: Text(
-                                  'Failed to upvote Post #${post.id}',
-                                ),
-                              ),
-                            );
+                            showVoteFailed(failure, post.id, upvote: true);
                             return isLiked;
                           }
                           return !isLiked;
@@ -355,14 +351,7 @@ class PostFeedTile extends StatelessWidget {
                             upvote: false,
                             replace: !isLiked,
                           ))).isError) {
-                            messenger.showSnackBar(
-                              SnackBar(
-                                duration: const Duration(seconds: 1),
-                                content: Text(
-                                  'Failed to downvote Post #${post.id}',
-                                ),
-                              ),
-                            );
+                            showVoteFailed(failure, post.id, upvote: false);
                             return isLiked;
                           }
                           return !isLiked;

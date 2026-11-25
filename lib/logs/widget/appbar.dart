@@ -2,7 +2,6 @@ import 'package:e1547/l10n/app_localizations.dart';
 import 'package:e1547/logs/logs.dart';
 import 'package:e1547/shared/shared.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 
 class LogSelectionAppBar extends StatelessWidget with AppBarBuilderWidget {
   const LogSelectionAppBar({super.key, required this.child});
@@ -23,16 +22,10 @@ class LogSelectionAppBar extends StatelessWidget with AppBarBuilderWidget {
           tooltip: l10n.actionCopy,
           icon: const Icon(Icons.copy),
           onPressed: () {
-            Clipboard.setData(
-              ClipboardData(
-                text: data.selections.map(formatLogEntry).join('\n'),
-              ),
-            );
-            ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(
-                duration: const Duration(seconds: 1),
-                content: Text(l10n.copiedToClipboard),
-              ),
+            Share.clipboard(
+              context,
+              data.selections.map(formatLogEntry).join('\n'),
+              message: l10n.copiedToClipboard,
             );
             data.onChanged({});
           },

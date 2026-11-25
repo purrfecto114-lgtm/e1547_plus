@@ -7,7 +7,6 @@ import 'package:e1547/shared/shared.dart';
 import 'package:e1547/ticket/ticket.dart';
 import 'package:e1547/user/user.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 
 class CommentTile extends StatelessWidget {
   const CommentTile({super.key, required this.comment, this.hasActions = true});
@@ -159,7 +158,7 @@ class CommentVotes extends StatelessWidget {
                     if (state.isError) {
                       messenger.showSnackBar(
                         SnackBar(
-                          duration: const Duration(seconds: 1),
+                          duration: shortSnackBarDuration,
                           content: Text(l10n.commentUpvoteFailed(comment.id)),
                         ),
                       );
@@ -177,7 +176,7 @@ class CommentVotes extends StatelessWidget {
                     if (state.isError) {
                       messenger.showSnackBar(
                         SnackBar(
-                          duration: const Duration(seconds: 1),
+                          duration: shortSnackBarDuration,
                           content: Text(l10n.commentDownvoteFailed(comment.id)),
                         ),
                       );
@@ -248,12 +247,10 @@ class CommentMenu extends StatelessWidget {
           title: l10n.menuCopyId,
           icon: Icons.tag,
           value: () async {
-            Clipboard.setData(ClipboardData(text: comment.id.toString()));
-            ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(
-                duration: const Duration(seconds: 1),
-                content: Text(l10n.commentCopiedId(comment.id)),
-              ),
+            Share.clipboard(
+              context,
+              comment.id.toString(),
+              message: l10n.commentCopiedId(comment.id),
             );
           },
         ),

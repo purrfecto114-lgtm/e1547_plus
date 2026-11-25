@@ -7,7 +7,6 @@ import 'package:e1547/shared/shared.dart';
 import 'package:e1547/ticket/ticket.dart';
 import 'package:e1547/user/user.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 
 class ReplyTile extends StatelessWidget {
   const ReplyTile({super.key, required this.reply, this.hasActions = true});
@@ -195,12 +194,10 @@ class ReplyMenu extends StatelessWidget {
           title: l10n.menuCopyId,
           icon: Icons.tag,
           value: () async {
-            Clipboard.setData(ClipboardData(text: reply.id.toString()));
-            ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(
-                duration: const Duration(seconds: 1),
-                content: Text(l10n.replyCopiedId(reply.id)),
-              ),
+            Share.clipboard(
+              context,
+              reply.id.toString(),
+              message: l10n.replyCopiedId(reply.id),
             );
           },
         ),

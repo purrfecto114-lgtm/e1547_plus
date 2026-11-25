@@ -4,7 +4,6 @@ import 'package:e1547/shared/shared.dart';
 import 'package:e1547/tag/tag.dart';
 import 'package:e1547/topic/topic.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 
 Future<void> showTopicPrompt({
   required BuildContext context,
@@ -76,18 +75,14 @@ class TopicInfo extends StatelessWidget {
               InkWell(
                 child: Text('#${topic.id}'),
                 onLongPress: () async {
-                  ScaffoldMessengerState messenger = ScaffoldMessenger.of(
-                    context,
-                  );
                   final l10n = AppLocalizations.of(context);
-                  Clipboard.setData(ClipboardData(text: topic.id.toString()));
-                  await Navigator.of(context).maybePop();
-                  messenger.showSnackBar(
-                    SnackBar(
-                      duration: const Duration(seconds: 1),
-                      content: Text(l10n.topicCopiedId(topic.id)),
-                    ),
+                  final NavigatorState navigator = Navigator.of(context);
+                  await Share.clipboard(
+                    context,
+                    topic.id.toString(),
+                    message: l10n.topicCopiedId(topic.id),
                   );
+                  navigator.maybePop();
                 },
               ),
             ],
