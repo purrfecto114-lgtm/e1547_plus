@@ -109,12 +109,16 @@ extension PostDenying on PostSummary {
       getDeniers(denylist).iterator.moveNext();
 
   Iterable<String> getDeniers(List<String> denylist) sync* {
+    // The denylist is user-edited free text and accumulates duplicate
+    // lines over the years; a post matching a duplicated line must not
+    // count twice against it in the per-entry counters.
+    final seenLines = <String>{};
     for (String line in denylist) {
       line = line.trim().toLowerCase();
       if (line.isEmpty || line.startsWith('#')) continue;
 
       line = line.replaceFirst(RegExp(r' #.*$'), '').trim();
-      if (line.isEmpty) continue;
+      if (line.isEmpty || !seenLines.add(line)) continue;
 
       bool pass = true;
       bool isOptional = false;

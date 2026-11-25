@@ -54,6 +54,15 @@ class _QueryFilterState<T, K> extends State<QueryFilter<T, K>> {
   final Object _key = Object();
   FilterController<T>? _controller;
 
+  // The flat list built from the state's pages, cached against the
+  // state instance: a rebuild that hands over the same state (the
+  // common one — the query stream did not fire) must not re-expand and
+  // re-filter hundreds of posts just to produce a fresh identical list.
+  InfiniteQueryData<List<T>, K>? _flattenedFrom;
+  late List<T> _flattened;
+  // The rechunked pages, cached the same way.
+  late List<List<T>> _rechunked;
+
   @override
   void dispose() {
     _controller?.untrack(_key);
@@ -73,27 +82,36 @@ class _QueryFilterState<T, K> extends State<QueryFilter<T, K>> {
       return widget.builder(context, widget.state);
     }
 
-    final pages = data.pages;
-    final flat = pages.expand((p) => p).toList();
-    // track() runs the filter predicate once over the flat list and
-    // caches the result for identical re-tracks; re-chunking then walks
-    // the pages once, testing each item against the filtered set.
-    final filtered = controller.track(_key, flat);
-    final filteredIds = filtered.map(controller.idOf).toSet();
-    // Cursor pagination can hand the search two pages that share a post
-    // (a refresh racing a page turn); handing the overlap downstream
-    // counts it twice in every tag counter. An id already seen in an
-    // earlier page is dropped from the later one, which keeps the
-    // pages' own order and length budget intact.
-    final seenIds = <Object>{};
-    final rechunked = pages
-        .map(
-          (page) => page
-              .where((item) => filteredIds.contains(controller.idOf(item)))
-              .where((item) => seenIds.add(controller.idOf(item)))
-              .toList(),
-        )
-        .toList();
+    List<T> flat;
+    List<List<T>> rechunked;
+    if (identical(_flattenedFrom, data)) {
+      flat = _flattened;
+      rechunked = _rechunked;
+    } else {
+      flat = data.pages.expand((p) => p).toList();
+      // track() runs the filter predicate once over the flat list and
+      // caches the result for identical re-tracks; re-chunking then walks
+      // the pages once, testing each item against the filtered set.
+      final filtered = controller.track(_key, flat);
+      final filteredIds = filtered.map(controller.idOf).toSet();
+      // Cursor pagination can hand the search two pages that share a post
+      // (a refresh racing a page turn); handing the overlap downstream
+      // counts it twice in every tag counter. An id already seen in an
+      // earlier page is dropped from the later one, which keeps the
+      // pages' own order and length budget intact.
+      final seenIds = <Object>{};
+      rechunked = data.pages
+          .map(
+            (page) => page
+                .where((item) => filteredIds.contains(controller.idOf(item)))
+                .where((item) => seenIds.add(controller.idOf(item)))
+                .toList(),
+          )
+          .toList();
+      _flattenedFrom = data;
+      _flattened = flat;
+      _rechunked = rechunked;
+    }
 
     return widget.builder(
       context,

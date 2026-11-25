@@ -170,14 +170,39 @@ void main() {
       expect(controller.blockedCount, 1);
     });
 
-    test('blockedCount keeps allowed and denied verdicts apart', () {
-      // An id allowed in the first-tracking key must stay uncounted even
-      // when a later key tracks a denied instance of it: the first
-      // occurrence decides, matching the tracked getter's dedup order.
+    test('blockedCount keeps the freshest verdict for a shared id', () {
+      // The same id tracked through two keys, as distinct instances:
+      // whichever key wrote the id last owns the verdict, so a detail
+      // query that re-fetched the post the list still cached decides
+      // what the drawer counts. A list re-track with fresh items takes
+      // the verdict back.
       final controller = _Filter();
       addTearDown(controller.dispose);
       controller.track('list', [const _Item(2)]);
-      controller.track('other', [const _Item(2, denied: true)]);
+      expect(controller.blockedCount, 0);
+      controller.track('detail', [const _Item(2, denied: true)]);
+      expect(controller.blockedCount, 1);
+      // The list rebuilds with data refreshed through its own query:
+      // its write wins again.
+      controller.track('list', [const _Item(2, denied: true)]);
+      expect(controller.blockedCount, 1);
+      controller.track('list', [const _Item(2)]);
+      expect(controller.blockedCount, 0);
+    });
+
+    test('untracking a route returns to the remaining keys', () {
+      final controller = _Filter();
+      addTearDown(controller.dispose);
+      controller.track('list', [const _Item(2, denied: true)]);
+      expect(controller.blockedCount, 1);
+      controller.track('detail', [const _Item(2, denied: true)]);
+      expect(controller.blockedCount, 1);
+      // Popping the detail leaves the list's tracking in place: the
+      // total must not drop below what the visible list actually holds.
+      controller.untrack('detail');
+      expect(controller.blockedCount, 1);
+      // Popping the list forgets the id entirely.
+      controller.untrack('list');
       expect(controller.blockedCount, 0);
     });
   });
