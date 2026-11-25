@@ -125,6 +125,61 @@ void main() {
       expect(controller.blockedCount, 0);
       expect(controller.tracked, isEmpty);
     });
+
+    test('blockedCount counts a shared id once across tracked keys', () {
+      // Routes share one controller: the list keeps tracking beneath the
+      // detail page pushed over it. The same denied post tracked by both
+      // routes must not double the drawer's total.
+      final controller = _Filter();
+      addTearDown(controller.dispose);
+
+      controller.track('list', [
+        const _Item(1),
+        const _Item(2, denied: true),
+        const _Item(3),
+      ]);
+      expect(controller.blockedCount, 1);
+
+      // The detail page tracks a list holding the same denied post.
+      controller.track('detail', [
+        const _Item(2, denied: true),
+        const _Item(4, denied: true),
+      ]);
+      // Post 2 is now tracked twice; 2 and 4 are the distinct denied ids.
+      expect(controller.blockedCount, 2);
+
+      // A different instance of the same id in the second list must not
+      // change the verdict either.
+      controller.track('detail', [
+        const _Item(2, denied: true),
+        const _Item(4, denied: true),
+      ]);
+      expect(controller.blockedCount, 2);
+
+      controller.untrack('detail');
+      expect(controller.blockedCount, 1);
+    });
+
+    test('blockedCount dedups duplicate ids inside one tracked list', () {
+      // Cursor pagination can hand a search two pages that share a post;
+      // the flat list QueryFilter tracks still holds both occurrences.
+      final controller = _Filter();
+      addTearDown(controller.dispose);
+      const shared = _Item(2, denied: true);
+      controller.track('k', [const _Item(1), shared, shared]);
+      expect(controller.blockedCount, 1);
+    });
+
+    test('blockedCount keeps allowed and denied verdicts apart', () {
+      // An id allowed in the first-tracking key must stay uncounted even
+      // when a later key tracks a denied instance of it: the first
+      // occurrence decides, matching the tracked getter's dedup order.
+      final controller = _Filter();
+      addTearDown(controller.dispose);
+      controller.track('list', [const _Item(2)]);
+      controller.track('other', [const _Item(2, denied: true)]);
+      expect(controller.blockedCount, 0);
+    });
   });
 }
 

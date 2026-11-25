@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
+import 'dart:math' as math;
 import 'dart:typed_data';
 
 import 'package:mime/mime.dart';
@@ -521,20 +522,26 @@ class FakeE621 {
 
   Response _addFavorite(Request request) {
     final int id = int.parse(request.url.queryParameters['post_id']!);
-    _find(state.posts, '$id');
+    final post = _find(state.posts, '$id');
     state.favorites.add(id);
-    return _json({'post_id': id, 'favorite_count': state.favorites.length});
+    // The real api answers with the post's own live favourite count
+    // (FavoriteManager.add! then @post.fav_count), not the size of the
+    // account's favourites set.
+    final Map stats = post['stats']! as Map;
+    final int count = (stats['fav_count']! as int) + 1;
+    stats['fav_count'] = count;
+    return _json({'post_id': id, 'favorite_count': count});
   }
 
   Response _removeFavorite(Request request, String id) {
     final int postId = int.parse(id);
-    _find(state.posts, id);
+    final post = _find(state.posts, '$postId');
     state.favorites.remove(postId);
     // The real api answers the delete with the post's live favourite
     // count, not a bare no-content.
-    final int count = state.posts
-        .where((e) => state.favorites.contains(e['id']))
-        .length;
+    final Map stats = post['stats']! as Map;
+    final int count = math.max((stats['fav_count']! as int) - 1, 0);
+    stats['fav_count'] = count;
     return _json({'post_id': postId, 'favorite_count': count});
   }
 
@@ -622,11 +629,18 @@ class FakeE621 {
     final up = (scores['score']! as Map)['up']! as int;
     final down = (scores['score']! as Map)['down']! as int;
     // The real api answers with the post's live totals and the voter's
-    // own score; the app ignores the body, the fake keeps it faithful.
+    // own score, and the totals stick (VoteManager updates the row);
+    // the fake mutates them too, so repeated votes stay faithful.
+    final int newTotal = total + score!;
+    final int newUp = up + (score == 1 ? 1 : 0);
+    final int newDown = down + (score == -1 ? 1 : 0);
+    (scores['score'] as Map)['total'] = newTotal;
+    (scores['score'] as Map)['up'] = newUp;
+    (scores['score'] as Map)['down'] = newDown;
     return _json({
-      'score': total + score!,
-      'up': up + (score == 1 ? 1 : 0),
-      'down': down + (score == -1 ? 1 : 0),
+      'score': newTotal,
+      'up': newUp,
+      'down': newDown,
       'our_score': score,
     });
   }

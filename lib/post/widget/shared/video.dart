@@ -41,7 +41,11 @@ class VideoButton extends StatelessWidget {
             bool loading = !initialized || buffering;
             bool alwaysVisible = !playing || loading;
             bool shown = alwaysVisible || (frameController?.visible ?? false);
-            bool showPlayButton = !playing || !loading;
+            // A player that is actively loading (media opened, first frame
+            // not rendered) or buffering shows the loading hexagon instead
+            // of the play arrow. A deferred player has opened nothing and
+            // loads nothing: it stays a play button until it is pressed.
+            bool showPlayButton = !loading || player.isDeferred;
 
             return ScaffoldFrameChild(
               shown: shown,
@@ -719,8 +723,14 @@ class PostVideoWidget extends StatelessWidget {
 
     Widget placeholder({bool waiting = false}) {
       // A missing player means the pool refused the request until a lease
-      // frees up (or the video has not initialized yet). Surface that as
-      // a spinner on the sample image instead of a frozen-looking tile.
+      // frees up. Surface that as a spinner on the sample image instead of
+      // a frozen-looking tile. When a player exists but has not rendered
+      // its first frame yet, no spinner is drawn here: the VideoButton
+      // these embeds stack on top already shows the loading hexagon, and
+      // drawing both reads as two stacked indicators fighting over the
+      // same spot (the old circular spinner layered under the play
+      // arrow). The low-res bridge stays off with it: its own progress
+      // hexagon would stack under the button's while the sample loads.
       return Stack(
         alignment: Alignment.center,
         children: [
@@ -729,13 +739,13 @@ class PostVideoWidget extends StatelessWidget {
             size: PostImageSize.sample,
             fit: BoxFit.cover,
             showProgress: false,
+            withLowRes: false,
             lowResCacheSize: context.watch<ImageCacheSize?>()?.size,
           ),
           if (waiting)
-            const SizedBox(
-              width: 28,
-              height: 28,
-              child: CircularProgressIndicator(strokeWidth: 2.5),
+            const Padding(
+              padding: EdgeInsets.all(8),
+              child: HexagonalLoadingIndicator(size: 28),
             ),
         ],
       );
@@ -748,7 +758,7 @@ class PostVideoWidget extends StatelessWidget {
       keys: [player],
       builder: (context, snapshot) {
         bool initialized = snapshot.data ?? player.isInitialized;
-        if (!initialized) return placeholder(waiting: true);
+        if (!initialized) return placeholder();
         return AspectRatio(
           aspectRatio: post.width / post.height,
           child: Video(

@@ -188,14 +188,25 @@ class PostClient {
   Future<void> update({required int id, required Map<String, String?> data}) =>
       dio.put('/posts/$id.json', data: FormData.fromMap(data));
 
-  Future<void> vote({
+  /// Votes on the post and returns the authoritative total score the
+  /// server answered with, or null when the response carried none.
+  ///
+  /// The optimistic update rides ahead of this call; the returned score
+  /// reconciles the cached post against concurrent votes the local
+  /// arithmetic could not know about.
+  Future<int?> vote({
     required int id,
     required bool upvote,
     required bool replace,
-  }) => dio.post(
-    '/posts/$id/votes.json',
-    queryParameters: {'score': upvote ? 1 : -1, 'no_unvote': replace},
-  );
+  }) async {
+    final response = await dio.post(
+      '/posts/$id/votes.json',
+      queryParameters: {'score': upvote ? 1 : -1, 'no_unvote': replace},
+    );
+    return response.data is Map
+        ? (response.data['score'] as num?)?.toInt()
+        : null;
+  }
 
   /// Returns the server's favorite posts as-is.
   ///
@@ -231,12 +242,30 @@ class PostClient {
     );
   }
 
-  Future<void> addFavorite(int postId, {CancelToken? cancelToken}) => dio.post(
-    '/favorites.json',
-    queryParameters: {'post_id': postId},
-    cancelToken: cancelToken,
-  );
+  /// Adds the post to the account's favorites and returns the
+  /// authoritative favorite count the server answered with, or null
+  /// when the response carried none.
+  Future<int?> addFavorite(int postId, {CancelToken? cancelToken}) async {
+    final response = await dio.post(
+      '/favorites.json',
+      queryParameters: {'post_id': postId},
+      cancelToken: cancelToken,
+    );
+    return response.data is Map
+        ? (response.data['favorite_count'] as num?)?.toInt()
+        : null;
+  }
 
-  Future<void> removeFavorite(int postId, {CancelToken? cancelToken}) =>
-      dio.delete('/favorites/$postId.json', cancelToken: cancelToken);
+  /// Removes the post from the account's favorites and returns the
+  /// authoritative favorite count the server answered with, or null
+  /// when the response carried none.
+  Future<int?> removeFavorite(int postId, {CancelToken? cancelToken}) async {
+    final response = await dio.delete(
+      '/favorites/$postId.json',
+      cancelToken: cancelToken,
+    );
+    return response.data is Map
+        ? (response.data['favorite_count'] as num?)?.toInt()
+        : null;
+  }
 }

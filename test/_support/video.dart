@@ -35,6 +35,12 @@ class FakePlatformPlayer extends PlatformPlayer {
     bufferController.add(value);
   }
 
+  /// Simulates the native player toggling its buffering flag.
+  void setBuffering(bool value) {
+    state = state.copyWith(buffering: value);
+    bufferingController.add(value);
+  }
+
   /// Simulates the native player reaching the end of the stream.
   void complete() {
     state = state.copyWith(completed: true);

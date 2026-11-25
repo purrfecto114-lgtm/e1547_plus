@@ -155,4 +155,55 @@ void main() {
     expect(find.text('Failed to upvote Post #999999'), findsOneWidget);
     expect(colorOf(tester, Icons.arrow_upward), isNull);
   });
+
+  test('a vote lands on the score the server answered with', () async {
+    // Concurrent votes make the optimistic arithmetic stale: the copy the
+    // UI holds says 5, the server's stored copy says 40. The cached post
+    // must end on the server's authoritative total, not the optimistic 6.
+    final Map<String, Object?> stored = env.fake.state.posts.firstWhere(
+      (post) => post['id'] == 1000,
+    );
+    final Map stats = stored['stats']! as Map;
+    (stats['score']! as Map)['total'] = 40;
+
+    env.client.posts.postCache.set(samplePost(id: 1000, score: 5));
+
+    await env.client.posts.useVote(id: 1000).mutate((
+      upvote: true,
+      replace: true,
+    ));
+
+    expect(env.client.posts.postCache.get(1000)!.score, 41);
+    expect(env.client.posts.postCache.get(1000)!.vote, 1);
+  });
+
+  test('a favorite lands on the count the server answered with', () async {
+    final Map<String, Object?> stored = env.fake.state.posts.firstWhere(
+      (post) => post['id'] == 1000,
+    );
+    (stored['stats']! as Map)['fav_count'] = 30;
+
+    env.client.posts.postCache.set(samplePost(id: 1000, favCount: 3));
+
+    await env.client.posts.useAddFavorite().mutate(1000);
+
+    expect(env.client.posts.postCache.get(1000)!.favCount, 31);
+    expect(env.client.posts.postCache.get(1000)!.isFavorited, isTrue);
+  });
+
+  test('an unfavorite lands on the count the server answered with', () async {
+    final Map<String, Object?> stored = env.fake.state.posts.firstWhere(
+      (post) => post['id'] == 1000,
+    );
+    (stored['stats']! as Map)['fav_count'] = 30;
+
+    env.client.posts.postCache.set(
+      samplePost(id: 1000, favCount: 3, isFavorited: true),
+    );
+
+    await env.client.posts.useRemoveFavorite().mutate(1000);
+
+    expect(env.client.posts.postCache.get(1000)!.favCount, 29);
+    expect(env.client.posts.postCache.get(1000)!.isFavorited, isFalse);
+  });
 }

@@ -3,9 +3,12 @@ import 'package:e1547/post/post.dart';
 import 'package:e1547/settings/settings.dart';
 import 'package:e1547/shared/shared.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:media_kit/media_kit.dart';
 import 'package:notified_preferences/notified_preferences.dart';
 
+import '../../_support/images.dart';
 import '../../_support/posts.dart';
 import '../../_support/video.dart';
 
@@ -108,7 +111,11 @@ void main() {
           ),
         ),
       );
-      await tester.pumpAndSettle(const Duration(milliseconds: 16));
+      // Fixed pumps instead of pumpAndSettle: the player above is a
+      // placeholder (media never opened), which now shows the repeating
+      // loading hexagon, and a repeating animation never settles.
+      await tester.pump();
+      await tester.pump(const Duration(milliseconds: 300));
 
       final RenderBox button = tester.renderObject(find.byType(IconButton));
       // The test surface is 800x600; the button must stay near its
@@ -117,6 +124,58 @@ void main() {
       expect(button.size.height, lessThan(120));
       expect(button.size.width, greaterThan(48));
       expect(button.size.height, greaterThan(48));
+    });
+
+    testWidgets('shows the loading hexagon while the first frame is out', (
+      tester,
+    ) async {
+      // A player whose media is opening must not advertise itself as
+      // ready: the play arrow over the not-yet-started video read as a
+      // stalled player. The hexagon is the button's own loading state.
+      final platform = FakePlatformPlayer()..setDuration(duration);
+      await tester.pumpWidget(
+        wrap(
+          Center(
+            child: VideoButton(player: VideoPlayer(platformPlayer: platform)),
+          ),
+        ),
+      );
+      await tester.pump(const Duration(milliseconds: 300));
+
+      expect(find.byType(HexagonalLoadingIndicator), findsOneWidget);
+      expect(find.byType(AnimatedIcon), findsNothing);
+    });
+
+    testWidgets('keeps the play arrow on a deferred player', (tester) async {
+      // A deferred player has opened nothing and loads nothing: showing
+      // a spinner would promise progress that is not happening.
+      final platform = FakePlatformPlayer()..setDuration(duration);
+      final player = VideoPlayer(platformPlayer: platform)..defer = 'url';
+      await tester.pumpWidget(wrap(Center(child: VideoButton(player: player))));
+      await tester.pump(const Duration(milliseconds: 300));
+
+      expect(find.byType(AnimatedIcon), findsOneWidget);
+      expect(find.byType(HexagonalLoadingIndicator), findsNothing);
+    });
+
+    testWidgets('shows the hexagon again while playback buffers', (
+      tester,
+    ) async {
+      final platform = FakePlatformPlayer()
+        ..setDuration(duration)
+        ..setBuffering(true)
+        ..open(Media('https://example.com/buffering.webm'));
+      await tester.pumpWidget(
+        wrap(
+          Center(
+            child: VideoButton(player: VideoPlayer(platformPlayer: platform)),
+          ),
+        ),
+      );
+      await tester.pump(const Duration(milliseconds: 300));
+
+      expect(find.byType(HexagonalLoadingIndicator), findsOneWidget);
+      expect(find.byType(AnimatedIcon), findsNothing);
     });
   });
 
@@ -370,6 +429,99 @@ void main() {
       expect(previous.isLeased, isFalse);
       expect(state.player, isNot(same(previous)));
       expect(tester.takeException(), isNull);
+    });
+  });
+
+  group('PostVideoWidget', () {
+    late Settings settings;
+
+    setUp(() async {
+      SharedPreferences.setMockInitialValues({});
+      settings = Settings(await SharedPreferences.getInstance());
+      videos = fakeVideoService();
+    });
+
+    Widget wrapEmbed(Widget child) => MultiProvider(
+      providers: [
+        ChangeNotifierProvider<VideoService>.value(value: videos),
+        Provider<Settings>.value(value: settings),
+        Provider<BaseCacheManager>.value(value: const NoImageCacheManager()),
+      ],
+      child: MaterialApp(
+        localizationsDelegates: AppLocalizations.localizationsDelegates,
+        supportedLocales: AppLocalizations.supportedLocales,
+        home: Scaffold(body: Center(child: child)),
+      ),
+    );
+
+    testWidgets('draws one loading indicator while the video opens', (
+      tester,
+    ) async {
+      // The fullscreen embed is the placeholder sample with the VideoButton
+      // stacked over it. While the player exists but has not rendered its
+      // first frame, exactly the button shows the loading hexagon: the
+      // placeholder's own circular spinner used to layer under the play
+      // arrow, and two indicators fighting over one spot read as the
+      // stacked-spinners bug this replaces.
+      final post = samplePost(
+        id: 11,
+        ext: 'webm',
+        file: 'https://example.com/embed-loading.webm',
+      );
+      final player = videos.getVideo('https://example.com/embed-loading.webm')!;
+      videos.acquire(player);
+      addTearDown(() => videos.release(player));
+
+      await tester.pumpWidget(
+        wrapEmbed(
+          Stack(
+            alignment: Alignment.center,
+            children: [
+              PostVideoWidget(post: post),
+              VideoButton(player: player),
+            ],
+          ),
+        ),
+      );
+      await tester.pump(const Duration(milliseconds: 300));
+
+      expect(find.byType(HexagonalLoadingIndicator), findsExactly(1));
+      expect(find.byType(CircularProgressIndicator), findsNothing);
+    });
+
+    testWidgets('a deferred embed draws no spinner at all', (tester) async {
+      // The detail embed holds a deferred player under the play button.
+      // Nothing is loading, so neither layer may draw a spinner: the
+      // placeholder's circular spinner used to sit under the arrow here
+      // as well, stacked on every detail page of a video post.
+      final post = samplePost(
+        id: 12,
+        ext: 'webm',
+        file: 'https://example.com/embed-deferred.webm',
+      );
+      await tester.pumpWidget(wrapEmbed(PostVideoWidget(post: post)));
+      await tester.pump(const Duration(milliseconds: 300));
+
+      expect(find.byType(HexagonalLoadingIndicator), findsNothing);
+      expect(find.byType(CircularProgressIndicator), findsNothing);
+    });
+
+    testWidgets('an embed without a player keeps the placeholder hexagon', (
+      tester,
+    ) async {
+      // When the embed gets no player at all (a video post whose file is
+      // gone, or a pool that refused the request), the placeholder is the
+      // only surface left to show the wait on, and the old circular
+      // spinner there is the one leftover of the spinners the hexagon
+      // replaced. A post without a file is the deterministic way to hold
+      // no player: the process-global pool makes a refusal
+      // order-dependent.
+      final post = samplePost(id: 13, ext: 'webm');
+      await tester.pumpWidget(wrapEmbed(PostVideoWidget(post: post)));
+      await tester.pump(const Duration(milliseconds: 300));
+
+      expect(find.byType(HexagonalLoadingIndicator), findsOneWidget);
+      expect(find.byType(CircularProgressIndicator), findsNothing);
     });
   });
 }

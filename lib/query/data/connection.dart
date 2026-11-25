@@ -2,6 +2,8 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:cached_query_flutter/cached_query_flutter.dart';
+import 'package:e1547/shared/shared.dart';
+import 'package:flutter/foundation.dart';
 
 /// A single connectivity probe against one host.
 ///
@@ -124,4 +126,60 @@ Stream<ConnectionStatus> apiHostConnectionStream({
   controller.onListen = check;
 
   return controller.stream;
+}
+
+/// Refetches listener queries that latched a connection error whenever
+/// the host probe reports connectivity.
+///
+/// cached_query refetches `refetchOnConnection` queries when the probe
+/// stream flips from disconnected to connected. A network disturbance
+/// shorter than the probe's period never produces that flip — switching
+/// accounts re-keys every identity-scoped query and refetches at once,
+/// and hopping VPNs tears the tunnel mid-flight — so the queries that
+/// failed during the switch would hold their "offline" verdict until a
+/// manual pull. Sweeping them on every successful probe closes that
+/// gap: within one cycle after the network settles, the errors clear
+/// themselves the same way a transition would.
+class ConnectionErrorSweeper {
+  ConnectionErrorSweeper({required CachedQuery cache}) : _cache = cache;
+
+  final CachedQuery _cache;
+
+  StreamSubscription<ConnectionStatus>? _subscription;
+
+  /// Whether [query] should be retried by [sweep].
+  @visibleForTesting
+  bool shouldRetry(Cacheable<dynamic> query) {
+    if (!query.hasListener) return false;
+    final config = switch (query) {
+      Query() => query.config,
+      InfiniteQuery() => query.config,
+    };
+    // The same switch the transition refetch applies; a query opted out
+    // of it wants no automatic traffic either way.
+    if (!config.refetchOnConnection) return false;
+    return isConnectionError(query.state.error);
+  }
+
+  /// Retries every listener query whose error reads as a connection
+  /// failure. Queries already fetching coalesce into their in-flight
+  /// fetch; the rest refetch from their next page or first page.
+  void sweep() {
+    for (final Cacheable<dynamic> query in _cache.whereQuery(shouldRetry)) {
+      unawaited(query.invalidate());
+    }
+  }
+
+  /// Subscribes [stream] and sweeps on every connected report.
+  void attach(Stream<ConnectionStatus> stream) {
+    _subscription?.cancel();
+    _subscription = stream.listen((status) {
+      if (status.isConnected) sweep();
+    });
+  }
+
+  Future<void> dispose() async {
+    await _subscription?.cancel();
+    _subscription = null;
+  }
 }

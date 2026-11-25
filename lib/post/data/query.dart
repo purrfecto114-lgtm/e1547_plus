@@ -261,7 +261,21 @@ extension PostQuerying on PostClient {
       return postCache.optimistic(
         id,
         (post) => post.withVote(upvote: upvote, replace: replace),
-        () => vote(id: id, upvote: upvote, replace: replace),
+        () async {
+          final int? score = await vote(
+            id: id,
+            upvote: upvote,
+            replace: replace,
+          );
+          // The server's total is authoritative: concurrent votes make
+          // the optimistic arithmetic drift, and the answer closes the
+          // gap. The vote value stays as computed — the response's own
+          // vote reports 0 for a kept same-score vote (no_unvote), which
+          // would wrongly clear the arrow.
+          if (score != null) {
+            postCache.update(id, (post) => post.copyWith(score: score));
+          }
+        },
       );
     },
   );
@@ -270,7 +284,14 @@ extension PostQuerying on PostClient {
     mutationFn: (postId) => postCache.optimistic(
       postId,
       (post) => post.copyWith(isFavorited: true, favCount: post.favCount + 1),
-      () => addFavorite(postId),
+      () async {
+        final int? favCount = await addFavorite(postId);
+        // The server's count is authoritative for the same reason the
+        // vote score is; the favorited flag itself stays as computed.
+        if (favCount != null) {
+          postCache.update(postId, (post) => post.copyWith(favCount: favCount));
+        }
+      },
     ),
   );
 
@@ -278,7 +299,12 @@ extension PostQuerying on PostClient {
     mutationFn: (postId) => postCache.optimistic(
       postId,
       (post) => post.copyWith(isFavorited: false, favCount: post.favCount - 1),
-      () => removeFavorite(postId),
+      () async {
+        final int? favCount = await removeFavorite(postId);
+        if (favCount != null) {
+          postCache.update(postId, (post) => post.copyWith(favCount: favCount));
+        }
+      },
     ),
   );
 }

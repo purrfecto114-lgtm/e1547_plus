@@ -43,12 +43,31 @@ abstract class FilterController<T> extends ChangeNotifier {
   }
 
   int get blockedCount {
-    // Every tracked key's stored filtered list is exact, so counting the
-    // blocked items is a sum over per-key (total, allowed) pairs — no
-    // per-item filtering, no idOf dedup pass over the corpus.
+    // Distinct ids decide the count, not the per-key sums. Routes share
+    // one controller (a list keeps tracking beneath the detail page and
+    // the gallery pushed over it), so the same post can sit in several
+    // tracked lists; summing each key's blocked total counts it once
+    // per route and the drawer's total climbs with every pushed page
+    // while the visible content stays the same. An id blocked by the
+    // occurrence the dedup pass below first saw counts once.
+    final seen = <Object>{};
     var blocked = 0;
     for (final entry in _tracked.values) {
-      blocked += entry.$1.length - entry.$2.length;
+      final (List<T> items, List<T> allowed) = entry;
+      // track() built the filtered list with a plain where over items,
+      // so allowed is a subsequence of items in order holding the same
+      // instances: a two-pointer walk pairs every item with its verdict
+      // without touching the map caches again.
+      int cursor = 0;
+      for (final item in items) {
+        final bool isBlocked =
+            !(cursor < allowed.length && identical(allowed[cursor], item));
+        if (!isBlocked) cursor++;
+        // The first occurrence of an id decides its verdict, in the
+        // same map order the tracked getter dedups by, so this total
+        // and the per-entry counts below it stay one consistent scope.
+        if (seen.add(idOf(item)) && isBlocked) blocked++;
+      }
     }
     return blocked;
   }

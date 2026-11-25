@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:io';
 
 import 'package:drift_flutter/drift_flutter.dart';
@@ -146,56 +147,82 @@ Future<AppStorage> initializeAppStorage() async {
   // stored preference migrations; they run here, where the singleton is
   // created, so every reader sees migrated values.
   await Settings.migratePreferences(preferences);
+  final Stream<ConnectionStatus> connections = apiHostConnectionStream(
+    // The proxy is re-read every cycle: a proxy switched on after
+    // boot was previously unreachable without a restart, and the
+    // probe must cross it to see the hosts the way requests do.
+    resolveProxy: () async {
+      await resolveSystemProxy();
+      return systemProxy.value;
+    },
+    // Connectivity answers for the host the active identity
+    // browses. The old probe accepted any family host's DNS
+    // answer, which reported "connected" forever to an e621
+    // account behind a region block — e926 answered even as every
+    // e621 request failed, so the offline banner never showed and
+    // failed queries were never retried.
+    activeHost: () async {
+      final IdentityRepository identities = IdentityRepository(sqlite);
+      final int id = preferences.getInt('identity') ?? 1;
+      final Identity? identity = await (identities.select(
+        identities.identitiesTable,
+      )..where((tbl) => tbl.id.equals(id))).getSingleOrNull();
+      if (identity != null) {
+        return normalizeHostUrl(identity.host);
+      }
+      final Identity? fallback = (await identities.page(
+        page: 1,
+        limit: 1,
+      )).singleOrNull;
+      return fallback == null ? null : normalizeHostUrl(fallback.host);
+    },
+  );
+  final CachedQuery queryCache = CachedQuery.asNewInstance()
+    ..configFlutter(
+      config: const GlobalQueryConfig(
+        staleDuration: Duration(minutes: 5),
+        refetchOnResume: false,
+        // Transport failures retry briefly on their own: the disturbances
+        // that read as offline are short (a proxy or VPN hop, the client
+        // rebuild an identity switch triggers), and a refetch a few
+        // hundred milliseconds later lands after the tunnel is back.
+        // Server answers (4xx, 5xx) mean the request reached its host
+        // and retrying would only repeat it.
+        retryConfig: RetryConfig(
+          maxRetries: 3,
+          whenError: retryConnectionErrors,
+        ),
+        // Leaving refetchOnConnection at its default (true), so queries
+        // with active listeners refetch when the network returns. The
+        // stream below replaces the default example.com probe, which
+        // reads as offline on the restricted networks this app's users
+        // are often behind, leaving failed queries un-retried until a
+        // manual pull.
+      ),
+      connectionStream: connections,
+    );
+  // The transition refetch above only fires when the probe stream flips
+  // from disconnected to connected. A disturbance shorter than the
+  // probe's period — switching accounts re-keys every identity-scoped
+  // query and refetches at once, hopping VPNs tears the tunnel
+  // mid-flight — never flips it, and the failed queries would hold
+  // their offline verdict until a manual pull. The sweeper retries
+  // them on every successful probe, so the next cycle after the
+  // network settles clears the errors by itself.
+  ConnectionErrorSweeper(cache: queryCache).attach(connections);
   return AppStorage(
     preferences: preferences,
     temporaryFiles: temporaryFiles,
     // TODO: query storage is disabled because a page of writes costs a frame
-    queryCache: CachedQuery.asNewInstance()
-      ..configFlutter(
-        config: const GlobalQueryConfig(
-          staleDuration: Duration(minutes: 5),
-          refetchOnResume: false,
-          // Leaving refetchOnConnection at its default (true), so queries
-          // with active listeners refetch when the network returns. The
-          // stream below replaces the default example.com probe, which
-          // reads as offline on the restricted networks this app's users
-          // are often behind, leaving failed queries un-retried until a
-          // manual pull.
-        ),
-        connectionStream: apiHostConnectionStream(
-          // The proxy is re-read every cycle: a proxy switched on after
-          // boot was previously unreachable without a restart, and the
-          // probe must cross it to see the hosts the way requests do.
-          resolveProxy: () async {
-            await resolveSystemProxy();
-            return systemProxy.value;
-          },
-          // Connectivity answers for the host the active identity
-          // browses. The old probe accepted any family host's DNS
-          // answer, which reported "connected" forever to an e621
-          // account behind a region block — e926 answered even as every
-          // e621 request failed, so the offline banner never showed and
-          // failed queries were never retried.
-          activeHost: () async {
-            final IdentityRepository identities = IdentityRepository(sqlite);
-            final int id = preferences.getInt('identity') ?? 1;
-            final Identity? identity = await (identities.select(
-              identities.identitiesTable,
-            )..where((tbl) => tbl.id.equals(id))).getSingleOrNull();
-            if (identity != null) {
-              return normalizeHostUrl(identity.host);
-            }
-            final Identity? fallback = (await identities.page(
-              page: 1,
-              limit: 1,
-            )).singleOrNull;
-            return fallback == null ? null : normalizeHostUrl(fallback.host);
-          },
-        ),
-      ),
+    queryCache: queryCache,
     sqlite: sqlite,
   );
 }
+
+/// The [RetryConfig.whenError] predicate of the global query config:
+/// only transport failures retry, server answers do not.
+FutureOr<bool> retryConnectionErrors(Object error, int attempt) =>
+    isConnectionError(error);
 
 Future<void> backfillOnboardingSeen(AppStorage storage) async {
   if (storage.preferences.getBool(onboardingSeenKey) ?? false) return;
