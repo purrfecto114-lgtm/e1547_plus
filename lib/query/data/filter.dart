@@ -62,10 +62,6 @@ abstract class FilterController<T> extends ChangeNotifier {
   /// posts, per user action, which is what the old per-track pass
   /// paid on every rebuild instead.
   void invalidate() {
-    // ignore: avoid_print
-    print(
-      'INVALIDATE gen=$_generation disposed=$_disposed verdicts=${_verdicts.length}',
-    );
     _generation++;
     if (_disposed) return;
     for (final id in _verdicts.keys) {
@@ -113,10 +109,6 @@ abstract class FilterController<T> extends ChangeNotifier {
     _sources[key] = items;
     _results[key] = result;
     _trackedGeneration[key] = _generation;
-    // ignore: avoid_print
-    print(
-      'TRACK key=$key gen=$_generation blocked=${_verdicts.values.where((v) => !v).length}',
-    );
 
     // Content changes notify as before. A re-run forced by invalidate()
     // notifies too: the verdicts were silently rewritten against the
