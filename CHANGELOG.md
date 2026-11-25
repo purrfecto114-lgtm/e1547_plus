@@ -32,10 +32,16 @@
   lookup could flatten every tag into the general group. An empty
   category the server still lists is dropped, so both grouping paths
   agree on shape
-- the filter drawer's total no longer drifts 2/4/6 while pushing into
+- the filter drawer's counts no longer drift while pushing into
   routes: the shared filter instance counted one post per route that
-  tracked it instead of once per post, and the rule breakdowns already
-  agreed with themselves and not the total
+  tracked it instead of once per post, and the total could disagree
+  with the per-rule breakdowns. The filter now keeps a single verdict
+  per post id — whichever route wrote the post last owns its verdict,
+  the total reads exactly that map, and popping a route drops only the
+  ids nothing visible still holds. Duplicate denylist lines, which
+  years of edits accumulate, no longer double the per-rule counts
+  either: a post matching a line counts once against it no matter how
+  many times the line is listed
 - votes and favorites read back the server's authoritative counts:
   the vote response's score and the favorite response's count were
   discarded, so a concurrent vote on the same post drifted the cached

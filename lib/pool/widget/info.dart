@@ -2,7 +2,6 @@ import 'package:e1547/l10n/app_localizations.dart';
 import 'package:e1547/pool/pool.dart';
 import 'package:e1547/shared/shared.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 
 class PoolInfo extends StatelessWidget {
   const PoolInfo({super.key, required this.pool});
@@ -35,18 +34,14 @@ class PoolInfo extends StatelessWidget {
               InkWell(
                 child: Text('#${pool.id}'),
                 onLongPress: () async {
-                  ScaffoldMessengerState messenger = ScaffoldMessenger.of(
-                    context,
-                  );
                   final l10n = AppLocalizations.of(context);
-                  Clipboard.setData(ClipboardData(text: pool.id.toString()));
-                  await Navigator.of(context).maybePop();
-                  messenger.showSnackBar(
-                    SnackBar(
-                      duration: shortSnackBarDuration,
-                      content: Text(l10n.poolCopiedId(pool.id)),
-                    ),
+                  final NavigatorState navigator = Navigator.of(context);
+                  await Share.clipboard(
+                    context,
+                    pool.id.toString(),
+                    message: l10n.poolCopiedId(pool.id),
                   );
+                  navigator.maybePop();
                 },
               ),
             ],
