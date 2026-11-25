@@ -208,3 +208,13 @@
 8. workflow test_release：test tag `22.9.5-test.<run>+<build>`——**run number 必须放 prerelease 段**（build 段参与 pub_semver 比较会高于原版，beta 用户会被推）；prerelease 段 → compareTo<1 → filterNewVersions 第一道拦住所有用户（含 beta）+ make_latest=false；bump/commit/changelog/playstore/forum 全跳过；semver 推导有测试锁定（test/settings/data/update_tag_test.dart）。
 9. 门禁：analyze No issues（清 6 项：**上游 prompt_test 依赖 21.7+ 的 prompt follow UI，本仓 21.2.0 基线没有 → 删，语义由 database_test 覆盖**——上游测试不能盲 cherry-pick；5 style）；format 796 文件 0 改动；全量 **1421 passed + 19 skipped EXIT=0**（round18_full_test.log，净增 22 例）。
 10. 坑备忘新增：cni 回调 provider 无 cap（修 cap 必须包绘制层）；RawImage.image 在 3.47 是 ui.Image 非 provider；行为断言 > 结构断言；`dart format lib/` 会动 l10n 生成文件，提交前全仓 format 消噪。
+
+
+### Round 20：test pre-release 实际发布（2026-11-25）
+
+用户指出 Round 19 只写了 test_release 路径未实际发布。本轮：恢复环境（第 11 次，本地又回 Round 11 快照）→ dispatch `version=none, test_release=true`（curl+token 模式）→ run 78（45525049903）。
+
+1. 首跑 6 job 全绿唯 android-smoke 红：**Maven Central 429 限流**（托管 runner 共享 IP，与代码无关）→ `rerun-failed-jobs`（HTTP 201，只重跑失败 job + 释放 needs 链）→ 全绿；release success、forum 正确 skip。
+2. 发布形态核对（scripts/verify_test_release.py 全过）：tag `22.9.5-test.78+241`（prerelease 段）；"Test build 22.9.5+241 (run 78)"；prerelease=True 非 draft；latest 指针未动（仍 22.9.3+238）；7 资产齐；无新 rc/stable；master 无版本提交、tag 指 4ab3587b8；正文含 obtainium 勿跟踪。
+3. 三重保险实测落地：不 bump + prerelease 段 compareTo<1（拦所有用户含 beta）+ make_latest=false。
+4. 坑备忘：Maven Central 429 → 直接 rerun-failed-jobs，勿改代码。
