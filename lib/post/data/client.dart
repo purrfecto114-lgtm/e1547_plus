@@ -71,23 +71,33 @@ class PostClient {
   /// tag client classifies them in bulk. Names it cannot resolve (a failed
   /// lookup, unknown tags) stay general: loading posts must not hinge on
   /// the category lookup. Payloads the server already grouped keep that
-  /// grouping, and the bulk lookup only refines it by category id.
+  /// grouping untouched — the server's own grouping is the authoritative
+  /// one, and re-asking for categories the payload already carries is a
+  /// pure round-trip tax on every page load.
   Future<List<Post>> _parse(
     List<dynamic> raw, {
     CancelToken? cancelToken,
   }) async {
     final posts = raw.map<Post>((post) => E621Post.fromJson(post)).toList();
     if (posts.isEmpty) return posts;
-    final names =
-        posts.expand((post) => post.tags.values).expand((tags) => tags).toList()
-          ..sort();
+    // The extended shape carries a tags dict the parser already grouped
+    // by; a flat list is the only shape that still needs the lookup.
+    final flat = {
+      for (var i = 0; i < posts.length; i++)
+        if ((raw[i] as Map)['tags'] is! Map) i,
+    };
+    if (flat.isEmpty) return posts;
+    final names = [for (final i in flat) ...posts[i].allTags]..sort();
     final categories = await tags.categories(names, cancelToken: cancelToken);
     if (categories.isEmpty) return posts;
     return [
-      for (final post in posts)
-        post.copyWith(
-          tags: E621Post.groupTags(post.allTags.toList(), categories),
-        ),
+      for (final (i, post) in posts.indexed)
+        if (flat.contains(i))
+          post.copyWith(
+            tags: E621Post.groupTags(post.allTags.toList(), categories),
+          )
+        else
+          post,
     ];
   }
 

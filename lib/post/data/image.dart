@@ -41,6 +41,13 @@ Future<void> preloadPostImage({
   );
 }
 
+/// Warms the cache for the [reach] posts after [index].
+///
+/// Only positions ahead are touched: the post at [index] is already
+/// being loaded by the widget that displays it, and the ones behind it
+/// the user has already seen — re-fetching those either races the
+/// visible download for the same file or re-reads cached ones for no
+/// effect.
 Future<void> preloadPostImages({
   required BuildContext context,
   required int index,
@@ -48,8 +55,7 @@ Future<void> preloadPostImages({
   required PostImageSize size,
   int reach = 1,
 }) async {
-  for (int i = -(reach + 1); i < reach; i++) {
-    int target = index + 1 + i;
+  for (int target = index + 1; target <= index + reach; target++) {
     if (0 <= target && target < posts.length) {
       Post post = posts[target];
       if (post.type == PostType.image && post.file != null) {

@@ -149,7 +149,10 @@ abstract final class E621Post {
   /// Groups tag names by their category name. Unknown category ids
   /// count as general, and names missing from [tagCategories] too.
   /// A payload the server already grouped (mode=extended) keeps its
-  /// own grouping unless a lookup regroups it by id.
+  /// own grouping unless a lookup regroups it by id. Empty groups are
+  /// dropped either way — the server lists every category it knows,
+  /// and a lookup only builds the ones names fell into, so keeping
+  /// the empty ones would make the two paths disagree on shape.
   static Map<String, List<String>> groupTags(
     List<String> tags,
     Map<String, int> tagCategories, {
@@ -157,8 +160,9 @@ abstract final class E621Post {
   }) {
     if (grouped != null && tagCategories.isEmpty) {
       return {
-        for (final entry in grouped.entries)
-          entry.key: [...?(entry.value as List?)?.whereType<String>()],
+        for (final MapEntry(:key, :value) in grouped.entries)
+          if (value case final List names when names.isNotEmpty)
+            key: [...names.whereType<String>()],
       };
     }
     final result = <String, List<String>>{};

@@ -17,6 +17,7 @@ import '../../_support/harness.dart';
 void main() {
   late FakeE621 fake;
   late PostClient client;
+  late Dio dio;
 
   setUpAll(initializeTestApp);
 
@@ -28,7 +29,7 @@ void main() {
       username: 'tester',
       headers: null,
     );
-    final dio = createDefaultDio(identity);
+    dio = createDefaultDio(identity);
     client = PostClient(
       dio: dio,
       pools: PoolClient(dio: dio),
@@ -145,6 +146,60 @@ void main() {
     // that grouping.
     expect(post.tags.keys, isNotEmpty);
     expect(post.tags.values.expand((tags) => tags), isNotEmpty);
+  });
+
+  test('skips the category lookup when the server already grouped', () async {
+    final before = fake.requests.where((e) => e.path == '/tags.json').length;
+    await client.page();
+
+    // The extended response carries grouped tags: classifying them
+    // again is a pure round-trip tax on every page load (four requests
+    // and a few hundred ms of cold-start latency). A flat response is
+    // the only shape that still pays for the lookup.
+    final after = fake.requests.where((e) => e.path == '/tags.json').length;
+    expect(after, before);
+  });
+
+  test('classifies flat tag lists through the bulk lookup', () async {
+    // The recorded basic payload carries its tags as a flat list: the
+    // shape the api answers with when a payload skips extended mode.
+    final flat = (loadFixtureList('posts.json').first['tags']! as List)
+        .cast<String>()
+        .toList();
+    dio.interceptors.add(
+      InterceptorsWrapper(
+        onResponse: (response, handler) {
+          final data = response.data;
+          if (response.requestOptions.path.endsWith('/posts.json') &&
+              data is List) {
+            response.data = [
+              for (final post in data) {...post, 'tags': flat},
+            ];
+          }
+          handler.next(response);
+        },
+      ),
+    );
+    fake.state.tags.addAll([
+      for (final name in flat)
+        {
+          'id': 77,
+          'name': name,
+          'post_count': 1,
+          'related_tags': '',
+          'category': 1,
+          'is_locked': false,
+          'created_at': '2020-03-05T05:49:37.994-05:00',
+          'updated_at': '2026-11-01T00:00:00.001-05:00',
+        },
+    ]);
+
+    final posts = await client.page();
+
+    // A flat payload has no grouping of its own: the bulk lookup is
+    // what classifies its tags, here as artists.
+    expect(posts.first.tags['artist'], isNotEmpty);
+    expect(fake.requests.where((e) => e.path == '/tags.json'), isNotEmpty);
   });
 
   test('folds sample alternates into variants', () async {

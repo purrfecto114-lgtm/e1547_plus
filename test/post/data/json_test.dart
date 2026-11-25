@@ -107,11 +107,15 @@ void main() {
       final raw = loadFixtureList('posts_extended.json').first;
       final grouped = (raw['tags']! as Map<String, dynamic>);
       // Without a category lookup, the parser copies the server's own
-      // grouping: every entry stays in its group.
-      expect(post.tags.keys, containsAll(grouped.keys));
+      // grouping: every category carrying names stays under its key.
+      // The server also lists categories this post has none of — the
+      // parser drops those, so a lookup regrouping the same names
+      // produces the exact same shape.
       for (final entry in grouped.entries) {
+        if ((entry.value as List).isEmpty) continue;
         expect(post.tags[entry.key], entry.value);
       }
+      expect(post.tags.values, everyElement(isNotEmpty));
     });
 
     test('groups a flat list through the category lookup', () {
