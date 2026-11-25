@@ -239,3 +239,24 @@
 发版：run 79（45539537495）首跑 android-smoke 又撞 Maven 429 → rerun-failed-jobs → 全绿；tag 22.9.5-test.79+241，verify_test_release.py 全过（prerelease 段/latest 未动/7 资产/无 rc-stable）。
 
 坑备忘：①ValueNotifier 放 SubProvider keys 不触发重建（常量对象），必须经 ValueListenableProvider 把值变成依赖；②Maven 429 连续两轮出现，run 结束即 rerun-failed-jobs；③全量并发下 concurrency 时序测试偶发 flake，复跑为准。
+
+
+### Round 22：上轮 todo 收尾 + 补测2/补测3 落地 + test 80（2026-11-25）
+
+用户输入：上一会话的 todo 截图（4/8 完成：八项 issue 复查、实锤 1/2/3、补测1、补测2 已勾；剩补测-3 待核、门禁、子代理复查、process.md+推 master+dispatch test）。要求对仓库、继续收尾、推 test build、盯 CI。
+
+仓库对比结论（远端 master=38824a28 未动）：
+- 已在 master：八项 issue 复查与三处实锤修复（6a3a8d70）、activeHost 接线（initialize 里查 sqlite+prefs）+ 4 个 active-host 测试（补测1 的"4 例"即此）；r21.md 全部声明逐条复核成立（标签/发布/run 79 均在）。
+- **未推送缺口**：补测2 声称完成但 master 里没有任何 ClientProvider 测试；补测-3 的"fake 已有 /tags/preview 路由"不成立——fake_e621 无该路由，而 TagClient.preview()（tags 编辑器预览模式）真实 POST 该端点。上会话沙盒回收，两项只能重做。
+
+本轮新增（87c45ded，纯测试 + fake 路由，零生产代码改动）：
+1. fake_e621 补 POST /tags/preview.json：按提交顺序逐名应答，已知名带 id/category/post_count，未知名应答裸 {name}（id 空 = 编辑器显示 new 的语义来源）。
+2. TagClient.preview client 级测试：已知/未知/顺序三断言（test/tag/data/client_test.dart）。
+3. TagsEditDisplay 预览 widget 回归（test/post/widget/edit/widget/tags_test.dart，新目录）：TagInput→2×TagPreviewCard、'4.4m'（4400560 compact）、未知卡显示 'new'。
+4. ClientProvider 代理重建 widget 回归（test/app/widget/provider_test.dart）：null→(127.0.0.1:7890)→null 三段，断言实例换新、adapter Native↔IO 翻转、旧实例 disposed、identity 不变、**同值重赋不重建**（ValueNotifier 相等短路，proxy.dart:17 的文档承诺）。
+
+坑备忘新增：①**drift watch 流只在与真实时间中 resolve**——flutter_sub 时代的 widget 测试 pump 链（IdentityClientProvider/TraitsClientProvider 的 activate FutureBuilder）在纯 fake async 下永不完成，必须 runAsync(200ms 真实等待) 与 pump 交替推进 loading 层（loading_test.dart 模式）；②TextField 的文本不在 find.text 可见范围（EditableText），断言控件类型而非文本；③typeahead 的 flutter_keyboard_visibility EventChannel 在测试里要 setMockMethodCallHandler 消音；④NumberFormat.compact() 在测试环境恒走 Intl 'en_US' 兜底，'4.4m' 稳定；⑤pubspec.lock 会因镜像 url 漂移（版本/哈希不变），提交前必须 checkout 还原。
+
+门禁与复查：analyze 0 / format 0 / 全量 **1437+19 EXIT=0**（+3）；子代理全量 diff 复查 verdict=ship（两条 nit 已吸收：_params helper 复用、文档引用具体化；其余 8 项 info 确认语义/无干扰/确定性）。
+
+发版：dispatch test_release（version=none + title "Test build 22.9.5+241 (run 80)" + skip_playstore/forum）→ run 80（45575930718）六 job + release 一次全绿（本轮 android-smoke 未撞 Maven 429，无需 rerun）；tag 22.9.5-test.80+241 指向 master HEAD 87c45ded，verify 脚本 9 项全过（prerelease=True 非 draft / 7 资产齐 / 标题 / 正文含 obtainium / latest 仍 22.9.3+238 / 无意外 22.9 标签 / pubspec 未动 / master 只多测试提交）。脚本存 my-project/scripts/verify_test_release_80.py。
