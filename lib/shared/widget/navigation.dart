@@ -16,8 +16,12 @@ class RouterDrawerDestination {
   final bool unique;
 
   /// A section that behaves like a tab: switching to it swaps the whole
-  /// navigation stack in place, without an enter animation and without a
-  /// back button — the drawer button stays.
+  /// navigation stack in place, without a back button — the drawer button
+  /// stays. The swap still enters the new section with the app's standard
+  /// page transition: the replaced stack is removed only once the enter
+  /// animation has covered it, so switching sections reads as a
+  /// transition while a duplicate entry of the section on screen does
+  /// nothing at all.
   ///
   /// Set [unique] alongside it so the drawer highlights the section while
   /// it is on screen.
@@ -158,17 +162,18 @@ class _RouterDrawerState extends State<RouterDrawer> {
               return;
             }
             if (destination.tab) {
-              Navigator.of(context).pushAndRemoveUntil(
-                PageRouteBuilder<void>(
-                  settings: RouteSettings(name: destination.path),
-                  pageBuilder: (context, animation, secondaryAnimation) =>
-                      destination.builder(context),
-                  // A tab switch swaps roots: animating it would read as
-                  // a navigation into a subpage and pair with a back
-                  // button instead of the drawer button.
-                  transitionDuration: Duration.zero,
-                  reverseTransitionDuration: Duration.zero,
-                ),
+              Scaffold.maybeOf(context)?.closeDrawer();
+              // The swap must not cut the switch to a hard splice: push the
+              // section like any other page and let the navigator handle the
+              // transition. Everything below is removed without an exit
+              // animation, but the navigator defers that removal until the
+              // enter animation has covered the old stack — the replaced
+              // section stays on screen for the duration of the transition.
+              Navigator.of(context).pushNamedAndRemoveUntil(
+                destination.path,
+                // A tab is the first route: system back on it exits the
+                // app, and the appbar keeps the drawer button instead of
+                // a back arrow.
                 (route) => false,
               );
             } else if (destination.unique) {

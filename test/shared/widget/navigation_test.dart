@@ -46,6 +46,21 @@ class _SearchStub extends StatelessWidget {
   }
 }
 
+class _TimelineStub extends StatelessWidget {
+  const _TimelineStub();
+
+  @override
+  Widget build(BuildContext context) {
+    return const RouterDrawerEntry<_TimelineStub>(
+      child: Scaffold(
+        appBar: DefaultAppBar(title: Text('timeline-title')),
+        drawer: RouterDrawer(),
+        body: Text('timeline-body'),
+      ),
+    );
+  }
+}
+
 class _DetailStub extends StatelessWidget {
   const _DetailStub();
 
@@ -108,6 +123,14 @@ void main() {
             icon: const Icon(Icons.search),
             path: '/search',
             builder: (_) => const _SearchStub(),
+            unique: true,
+            tab: true,
+          ),
+          NamedRouterDrawerDestination(
+            name: 'Timeline',
+            icon: const Icon(Icons.feed),
+            path: '/timeline',
+            builder: (_) => const _TimelineStub(),
             unique: true,
             tab: true,
           ),
@@ -179,6 +202,39 @@ void main() {
     expect(find.byType(BackButton), findsNothing);
     expect(find.byIcon(Icons.menu), findsOneWidget);
   });
+
+  testWidgets(
+    'a tab switch plays the enter animation over the replaced section',
+    (tester) async {
+      await pumpApp(tester);
+
+      await openDestination(tester, 'Search');
+      expect(find.text('search-body'), findsOneWidget);
+
+      // The swap exists to stop the duplicate entry of the section that is
+      // already on screen — not to cut the animation between the sections.
+      // Switching to another section must enter it like any other page: the
+      // replaced stack stays on screen until the enter animation has covered
+      // it, so the switch reads as a transition instead of a hard cut.
+      tester.state<ScaffoldState>(find.byType(Scaffold).last).openDrawer();
+      await tester.pumpAndSettle();
+      await tester.tap(find.text('Timeline'));
+      await tester.pump();
+      await tester.pump(const Duration(milliseconds: 120));
+
+      expect(find.text('timeline-body'), findsOneWidget);
+      expect(find.text('search-body'), findsOneWidget);
+
+      await tester.pumpAndSettle();
+      expect(find.text('timeline-body'), findsOneWidget);
+      expect(find.text('search-body'), findsNothing);
+      // The swap still makes the section the first route: drawer button
+      // stays, nothing to pop back to.
+      expect(navigatorOf(tester).canPop(), isFalse);
+      expect(find.byType(BackButton), findsNothing);
+      expect(find.byIcon(Icons.menu), findsOneWidget);
+    },
+  );
 
   testWidgets('re-tapping a tab section does not replay the swap', (
     tester,
