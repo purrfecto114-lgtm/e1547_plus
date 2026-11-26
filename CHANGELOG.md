@@ -1,5 +1,20 @@
 # Changelog
 
+## [22.10.1-rc.1+243] - 2026-11-26
+
+### Fixed
+- the drawer's home, hot and search sections swap in place: re-entering one
+  of them pushed yet another copy of the page, so the enter animation
+  replayed on every tap, the copies stacked above the root, and the appbar
+  traded the drawer button for a back arrow. No copy stacks now, no
+  animation replays, and tapping the section already on screen just closes
+  the drawer
+- the page already on screen re-filters when the deny filter changes: the
+  rechunk cache keyed on the query's data alone, so toggling the deny switch
+  or editing the denylist kept the visible pages serving verdicts computed
+  against the old rules until the next refetch — both the rule counts and
+  the filtered posts lagged the edit
+
 ## [22.10.0+242] - 2026-11-26
 
 ### Fixed
@@ -2341,3 +2356,4 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 [22.9.5+240]: https://github.com/purrfecto114-lgtm/e1547_plus/compare/22.9.4+239...22.9.5+240
 [22.9.5+241]: https://github.com/purrfecto114-lgtm/e1547_plus/compare/22.9.5+240...22.9.5+241
 [22.10.0+242]: https://github.com/purrfecto114-lgtm/e1547_plus/compare/22.9.3+238...22.10.0+242
+[22.10.1-rc.1+243]: https://github.com/purrfecto114-lgtm/e1547_plus/compare/22.10.0+242...22.10.1-rc.1+243
