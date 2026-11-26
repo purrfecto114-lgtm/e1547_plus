@@ -97,8 +97,10 @@ class FollowsSubscriptionsPage extends StatelessWidget {
                             addAutomaticKeepAlives: false,
                             builderDelegate: defaultPagedChildBuilderDelegate(
                               onRetry: query.getNextPage,
-                              itemBuilder: (context, item, index) =>
-                                  FollowTile(follow: item),
+                              itemBuilder: (context, item, index) => FollowTile(
+                                key: ValueKey('follow-${item.id}'),
+                                follow: item,
+                              ),
                               onEmpty: Text(
                                 AppLocalizations.of(
                                   context,

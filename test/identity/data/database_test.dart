@@ -42,6 +42,9 @@ void main() {
       expect(changed, 1);
       final identity = (await repository.all()).single;
       expect(identity.headers, {'user-agent': 'e1547/1.0'});
+      // The username goes with the credentials: keeping it would show
+      // a logged-in account whose every write the server bounces.
+      expect(identity.username, isNull);
     });
 
     test('writes an empty map instead of null', () async {

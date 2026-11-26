@@ -75,18 +75,33 @@ class FollowServer with Disposable {
     final latest = allowed.isEmpty
         ? null
         : allowed.reduce((a, b) => a.id > b.id ? a : b);
+    final Follow? current = await (repository.select(
+      repository.followsTable,
+    )..where((tbl) => tbl.id.equals(id))).getSingleOrNull();
+    // The visit writes what the visitor actually saw. `latest` never
+    // regresses — a stale cached page must not drag it back — and the
+    // unseen tally only clears when the visit really saw the follow.
+    // The previous `seen ?? true ? a : b` parsed as
+    // `(seen ?? true) ? a : b`, so an explicit `seen: false` cleared
+    // the tally exactly like true did.
+    final bool clearUnseen = seen ?? true;
+    final bool latestAdvances =
+        latest != null &&
+        (current == null ||
+            current.latest == null ||
+            latest.id > current.latest!);
     await ((repository.update(
       repository.followsTable,
     ))..where((tbl) => tbl.id.equals(id))).write(
       FollowCompanion(
-        latest: latest != null ? Value(latest.id) : const Value.absent(),
+        latest: latestAdvances ? Value(latest.id) : const Value.absent(),
         thumbnail: latest != null
             ? Value(latest.sample ?? latest.preview)
             : const Value.absent(),
         title: pool != null
             ? Value(tagToName(pool.name))
             : const Value.absent(),
-        unseen: seen ?? true ? const Value(0) : const Value.absent(),
+        unseen: clearUnseen ? const Value(0) : const Value.absent(),
       ),
     );
   }

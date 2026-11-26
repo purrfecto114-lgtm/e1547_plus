@@ -27,7 +27,9 @@ class FakeE621 {
       // keepalive connection would sit on its idle timer past the end of
       // the fake clock. Closing every response keeps clients from
       // pooling connections at all.
-      _closeConnections(_stall(fake._route, () => fake.stallFor)),
+      _closeConnections(
+        _stall(_failing(fake._route, () => fake.failing), () => fake.stallFor),
+      ),
       InternetAddress.loopbackIPv4,
       0,
     );
@@ -38,6 +40,19 @@ class FakeE621 {
   /// default) answers at once. Tests that need a request to be truly
   /// in flight while its owner tears down set this.
   Duration? stallFor;
+
+  /// When set, every request is answered with a 503, regardless of
+  /// route: tests use it to observe client behavior on failure states.
+  bool failing = false;
+
+  /// Answers every request with a 503 when [FakeE621.failing] is set.
+  static Handler _failing(Handler inner, bool Function() failing) =>
+      (request) async {
+        if (failing()) {
+          return Response(503);
+        }
+        return inner(request);
+      };
 
   /// Holds a request back for [stallFor] before delegating it.
   static Handler _stall(Handler inner, Duration? Function() stall) =>

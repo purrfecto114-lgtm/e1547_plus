@@ -1,0 +1,9 @@
+- the subscriptions page no longer reports phantom new posts after
+  every restart: only a successful page load marks a follow seen, not
+  an error state serving the previous session's cached pages
+- the subscriptions grid no longer stutters while it scrolls: the
+  follow sync no longer feeds itself through its own writes, and the
+  tiles keep their image state across refreshes
+- importing a sanitized database no longer leaves behind a phantom
+  logged-in account whose every vote, favorite and comment the server
+  silently rejected

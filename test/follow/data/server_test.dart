@@ -187,6 +187,25 @@ void main() {
       );
       expect((await repository.get(follow.id)).unseen, 7);
     });
+
+    test('never regresses latest on a stale cached page', () async {
+      final follow = await seedFollow();
+      await repository.replace(
+        follow.copyWith(latest: 1000, thumbnail: '/preview/1000'),
+      );
+
+      // A cached page from before the follow saw post 1000 still holds
+      // the older posts; the visit must not drag latest back.
+      await server.syncWith(
+        id: follow.id,
+        posts: [samplePost(id: 2, preview: '/preview/2')],
+      );
+
+      final updated = await repository.get(follow.id);
+      expect(updated.latest, 1000, reason: 'latest must not regress');
+      // The thumbnail still shows what the visitor saw.
+      expect(updated.thumbnail, '/preview/2');
+    });
   });
 
   group('FollowServer.sync', () {

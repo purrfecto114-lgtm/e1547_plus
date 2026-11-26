@@ -1,5 +1,31 @@
 # Changelog
 
+## [22.10.1-rc.4+245] - 2026-11-27
+
+### Fixed
+- the subscriptions page no longer reports phantom new posts after
+  every restart: the page-visit connector fired its "mark seen" write
+  on error states too, and an offline start served the previous
+  session's cached pages through it, writing stale previews and
+  tallies as if they were fresh visits. Only a successful load marks
+  a follow seen now
+- `syncWith` never regresses a follow's `latest` marker on a stale
+  cached page, and an explicit `seen: false` no longer clears the
+  unseen tally (the old `seen ?? true ? a : b` parsed as
+  `(seen ?? true) ? a : b`, making false behave like true)
+- the subscriptions grid no longer stutters while it scrolls: every
+  follow-table emission — including the ones the sync itself wrote —
+  re-triggered a full sync, which re-decoded every cover thumbnail in
+  a self-sustaining loop. A sync is now only kicked when the set of
+  followed tags itself changed, and the tiles carry stable keys so a
+  refresh reuses their image state
+- importing a sanitized database no longer leaves behind a phantom
+  logged-in account: stripped credentials used to keep the username,
+  showing an account whose every vote, favorite and comment the server
+  silently bounced with 403 InvalidAuthenticityToken. The identity is
+  now honestly signed out (or dropped when an anonymous row for the
+  same host already exists, since the pair would collide)
+
 ## [22.10.1-rc.2+244] - 2026-11-26
 
 ### Fixed
@@ -2379,3 +2405,4 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 [22.10.0+242]: https://github.com/purrfecto114-lgtm/e1547_plus/compare/22.9.3+238...22.10.0+242
 [22.10.1-rc.1+243]: https://github.com/purrfecto114-lgtm/e1547_plus/compare/22.10.0+242...22.10.1-rc.1+243
 [22.10.1-rc.2+244]: https://github.com/purrfecto114-lgtm/e1547_plus/compare/22.10.1-rc.1+243...22.10.1-rc.2+244
+[22.10.1-rc.4+245]: https://github.com/purrfecto114-lgtm/e1547_plus/compare/22.10.1-rc.2+244...22.10.1-rc.4+245

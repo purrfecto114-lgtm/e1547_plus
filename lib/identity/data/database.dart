@@ -130,7 +130,19 @@ class IdentityRepository extends DatabaseAccessor<GeneratedDatabase>
   /// travel through database files.
   Future<int> removeCredentials() async {
     final rows = await select(identitiesTable).get();
+    // Hosts that already have an anonymous row: sanitizing a credential
+    // row on the same host turns it anonymous too, and the pair would
+    // collide on the host+username unique key. The existing anonymous
+    // row wins — the account's follows and history are reachable
+    // through it — and the credential row is deleted instead.
+    final Set<String> anonymousHosts = {
+      for (final row in rows)
+        if (row.username == null) normalizeHostUrl(row.host),
+    };
     var updated = 0;
+    // Rows whose sanitization would collide with an existing anonymous
+    // row on the same host; they are deleted after the batch settles.
+    final List<int> dropped = [];
     await batch((batch) {
       for (final row in rows) {
         final headers = row.headers;
@@ -139,18 +151,33 @@ class IdentityRepository extends DatabaseAccessor<GeneratedDatabase>
           ..removeWhere((name, _) => !isExportableHeader(name));
         if (sanitized.length == headers.length) continue;
         // write '{}' rather than null: avoids the nullable-map-converter edge
-        batch.update(
-          identitiesTable,
-          IdentityCompanion(
-            headers: Value(
-              sanitized.isEmpty ? const <String, String>{} : sanitized,
+        //
+        // Keeping the username would show a logged-in account whose
+        // every write the server bounces with 403 InvalidAuthenticity-
+        // Token — the CSRF guard skips itself only for credentialed
+        // requests. Clearing it shows the account as signed out, the
+        // honest state after the credentials were stripped.
+        if (row.username != null &&
+            anonymousHosts.contains(normalizeHostUrl(row.host))) {
+          dropped.add(row.id);
+        } else {
+          batch.update(
+            identitiesTable,
+            IdentityCompanion(
+              headers: Value(
+                sanitized.isEmpty ? const <String, String>{} : sanitized,
+              ),
+              username: const Value(null),
             ),
-          ),
-          where: (tbl) => tbl.id.equals(row.id),
-        );
+            where: (tbl) => tbl.id.equals(row.id),
+          );
+        }
         updated++;
       }
     });
+    for (final id in dropped) {
+      await (delete(identitiesTable)..where((tbl) => tbl.id.equals(id))).go();
+    }
     return updated;
   }
 

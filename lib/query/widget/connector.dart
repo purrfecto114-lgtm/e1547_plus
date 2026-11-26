@@ -55,6 +55,12 @@ class _QueryOnceConnectorState<S, R> extends State<QueryOnceConnector<S, R>> {
 
   void _try(S state) {
     if (_sent || !mounted) return;
+    // Only a success state proves the pages the request is built from
+    // are real. An error state still carries the previous pages — the
+    // cache keeps them — and firing on it would, on an offline start,
+    // mark follows seen for data the network never confirmed, which
+    // reads as phantom new posts after every restart.
+    if (state is QueryError) return;
     final request = widget.getRequest(context, state);
     if (request == null) return;
     _sent = true;

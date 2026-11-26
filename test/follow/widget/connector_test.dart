@@ -157,6 +157,28 @@ void main() {
     expect(updated.thumbnail, client.posts.postCache.get(1021)!.sample);
   });
 
+  displayTest('a failed page load does not mark follows seen', (tester) async {
+    final follow = await seedFollow(tester, 'tag_1');
+
+    // The fake rejects every request: the page query ends in an
+    // error state whose cached pages still hold the old ids. The
+    // connector must not fire the seen marker on it — that was the
+    // phantom-new-posts bug after every offline restart.
+    fake.failing = true;
+    addTearDown(() => fake.failing = false);
+
+    await visit(tester, 'tag_1');
+
+    await tester.runAsync(() async {
+      await Future<void>.delayed(const Duration(milliseconds: 200));
+    });
+    final updated = await tester.runAsync(
+      () => client.follows.get(id: follow.id),
+    );
+    expect(updated!.unseen, 3, reason: 'an error state must not clear');
+    expect(updated.latest, 1000);
+  });
+
   displayTest('visiting a search leaves other follows alone', (tester) async {
     final follow = await seedFollow(tester, 'tag_2');
 

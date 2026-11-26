@@ -1,3 +1,4 @@
+import 'package:collection/collection.dart';
 import 'package:e1547/client/client.dart';
 import 'package:e1547/follow/follow.dart';
 import 'package:e1547/pool/pool.dart';
@@ -24,10 +25,35 @@ class FollowConnector extends StatelessWidget {
       child: SubStream<List<Follow>>(
         create: () => client.follows.all().streamed,
         keys: [client],
-        listener: (event) => client.followServer.sync(),
+        listener: (event) => FollowSyncKick.maybeKick(client, event),
         builder: (context, _) => child,
       ),
     );
+  }
+}
+
+/// Decides whether a follows-table emission deserves a sync.
+///
+/// The sync itself writes follows (timestamps, tallies, thumbnails),
+/// and every write re-emits this stream: a listener that syncs on
+/// every emission feeds itself — sync, write, emission, sync — for as
+/// long as the subscriptions page is open, and each pass re-decodes
+/// every cover thumbnail, which reads as the grid stuttering while it
+/// scrolls. A sync only has news when the set of followed tags itself
+/// changed (something followed, unfollowed or renamed), so that is the
+/// only emission that kicks one; the sync's own bookkeeping writes
+/// carry the same tag set and do not.
+class FollowSyncKick {
+  static final Expando<Set<String>> _lastTags = Expando();
+
+  static void maybeKick(Client client, List<Follow> follows) {
+    final Set<String> tags = follows.map((e) => e.tags).toSet();
+    final Set<String>? previous = _lastTags[client];
+    _lastTags[client] = tags;
+    // The initial emission is the table's current state, not news.
+    if (previous == null) return;
+    if (const SetEquality().equals(previous, tags)) return;
+    client.followServer.sync();
   }
 }
 
