@@ -504,8 +504,9 @@ class UserInfoTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final titleStyle = Theme.of(context).textTheme.bodyMedium!
-        .copyWith(color: Theme.of(context).textTheme.bodySmall!.color);
+    final titleStyle = Theme.of(context).textTheme.bodyMedium!.copyWith(
+      color: Theme.of(context).textTheme.bodySmall!.color,
+    );
     final valueStyle = Theme.of(context).textTheme.titleMedium;
 
     return InkWell(

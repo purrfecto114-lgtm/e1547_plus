@@ -91,8 +91,9 @@ class AppInfoClient {
             // Unparseable entries are skipped one by one, like the atom
             // fallback below does, instead of failing the whole check.
             final List<AppVersion> versions = [];
-            final List<dynamic> releases = pick(response.data)
-                .asListOrEmpty((e) => e.value);
+            final List<dynamic> releases = pick(
+              response.data,
+            ).asListOrEmpty((e) => e.value);
             for (final entry in releases) {
               try {
                 versions.add(

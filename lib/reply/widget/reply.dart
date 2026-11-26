@@ -248,8 +248,9 @@ class ReplyWarning extends StatelessWidget {
             ).warningUserRecorded,
             WarningType.ban => AppLocalizations.of(context).warningUserBanned,
           },
-          style: Theme.of(context).textTheme.bodyMedium!
-              .copyWith(color: Theme.of(context).colorScheme.error),
+          style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+            color: Theme.of(context).colorScheme.error,
+          ),
         ),
       ],
     );

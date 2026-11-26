@@ -51,8 +51,9 @@ class HistorySelectionAppBar extends StatelessWidget with AppBarBuilderWidget {
       titleBuilder: (context, data) => data.selections.length == 1
           ? Text(data.selections.first.getName(context))
           : Text(
-              AppLocalizations.of(context)
-                  .historySelectionCount(data.selections.length),
+              AppLocalizations.of(
+                context,
+              ).historySelectionCount(data.selections.length),
             ),
       actionBuilder: (context, data) => [
         IconButton(

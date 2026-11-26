@@ -122,8 +122,9 @@ class DrawerTagCounterBody extends StatelessWidget {
                             Padding(
                               padding: const EdgeInsets.all(8),
                               child: Text(
-                                AppLocalizations.of(context)
-                                    .tagFailedToLoadTags,
+                                AppLocalizations.of(
+                                  context,
+                                ).tagFailedToLoadTags,
                                 style: const TextStyle(
                                   fontStyle: FontStyle.italic,
                                 ),

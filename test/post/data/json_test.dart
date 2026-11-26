@@ -8,9 +8,9 @@ void main() {
   group('E621Post.fromJson live schema', () {
     // Recorded straight from e621.net after its 2026-11 schema change, so
     // the parser cannot drift away from the real payload shape.
-    final posts = loadFixtureList('posts_live.json')
-        .map(E621Post.fromJson)
-        .toList();
+    final posts = loadFixtureList(
+      'posts_live.json',
+    ).map(E621Post.fromJson).toList();
 
     test('parses a recorded video post', () {
       final post = posts[0];
@@ -98,9 +98,9 @@ void main() {
     // Recorded from e621.net with the `mode=extended` query the client
     // sends: the server answers with tags grouped by category instead
     // of the flat list, and the parser must read both shapes.
-    final posts = loadFixtureList('posts_extended.json')
-        .map(E621Post.fromJson)
-        .toList();
+    final posts = loadFixtureList(
+      'posts_extended.json',
+    ).map(E621Post.fromJson).toList();
 
     test('parses tags grouped by the server itself', () {
       final post = posts[0];

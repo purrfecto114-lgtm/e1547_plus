@@ -6,10 +6,8 @@ import 'package:e1547/shared/shared.dart';
 import 'package:flutter/material.dart';
 
 typedef TextEditorSubmit = FutureOr<String?> Function(String value);
-typedef TextEditorBuilder = Widget Function(
-  BuildContext context,
-  TextEditingController controller,
-);
+typedef TextEditorBuilder =
+    Widget Function(BuildContext context, TextEditingController controller);
 
 /// Asks the user to confirm discarding unsaved editor changes.
 ///
@@ -84,13 +82,13 @@ class TextEditorContent {
   final String? value;
 }
 
-typedef MultiTextEditorSubmit = FutureOr<String?> Function(
-  List<TextEditorContent> values,
-);
-typedef MultiTextEditorBuilder = Widget Function(
-  BuildContext context,
-  Map<String, TextEditingController> controllers,
-);
+typedef MultiTextEditorSubmit =
+    FutureOr<String?> Function(List<TextEditorContent> values);
+typedef MultiTextEditorBuilder =
+    Widget Function(
+      BuildContext context,
+      Map<String, TextEditingController> controllers,
+    );
 
 /// An editor page for one or more texts.
 ///
@@ -265,8 +263,9 @@ class _MultiTextEditorState extends State<MultiTextEditor> {
                           keyboardType: TextInputType.multiline,
                           decoration: InputDecoration(
                             border: InputBorder.none,
-                            hintText: AppLocalizations.of(context)
-                                .editorTypeHere,
+                            hintText: AppLocalizations.of(
+                              context,
+                            ).editorTypeHere,
                           ),
                           maxLines: null,
                           enabled: !actionController.isLoading,
@@ -318,8 +317,9 @@ class _MultiTextEditorState extends State<MultiTextEditor> {
                 return ListenableBuilder(
                   listenable: tabController,
                   builder: (context, child) => Scaffold(
-                    floatingActionButtonLocation: Handedness.of(context)
-                        .floatingActionButtonLocation,
+                    floatingActionButtonLocation: Handedness.of(
+                      context,
+                    ).floatingActionButtonLocation,
                     floatingActionButton: fab(),
                     bottomSheet: tabController.index == 0
                         ? widget.toolbar?.call(context, textControllerMap)
@@ -341,12 +341,12 @@ class _MultiTextEditorState extends State<MultiTextEditor> {
                             bottom: tabs.length > 1
                                 ? TabBar(
                                     tabs: tabs.keys.toList(),
-                                    labelColor: Theme.of(context)
-                                        .iconTheme
-                                        .color,
-                                    indicatorColor: Theme.of(context)
-                                        .iconTheme
-                                        .color,
+                                    labelColor: Theme.of(
+                                      context,
+                                    ).iconTheme.color,
+                                    indicatorColor: Theme.of(
+                                      context,
+                                    ).iconTheme.color,
                                   )
                                 : null,
                           ),

@@ -8,10 +8,9 @@ final List<String> wikiMetaTags = List.unmodifiable([
 ]);
 
 /// Removes prefixes from tags.
-String tagToRaw(String tags) =>
-    TagMap(tags).tags
-        .map((e) => e.replaceFirst(RegExp(r'^[-~]'), ''))
-        .join(' ');
+String tagToRaw(String tags) => TagMap(
+  tags,
+).tags.map((e) => e.replaceFirst(RegExp(r'^[-~]'), '')).join(' ');
 
 /// Removes underscored from tags, adds commas.
 String tagToName(String tags) =>

@@ -142,8 +142,9 @@ class FollowForceSyncTile extends StatelessWidget {
                     ? Text(AppLocalizations.of(context).followSyncAllFollows)
                     : Text(
                         AppLocalizations.of(context).followSyncingFollows(
-                          NumberFormat('0.#%')
-                              .format(progressSnapshot.data ?? 0),
+                          NumberFormat(
+                            '0.#%',
+                          ).format(progressSnapshot.data ?? 0),
                         ),
                       ),
                 enabled: enabled,

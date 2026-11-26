@@ -290,9 +290,9 @@ typedef $$FileCacheTableTableProcessedTableManager =
     >;
 
 mixin $FileCacheRepositoryMixin on i0.DatabaseAccessor<i1.GeneratedDatabase> {
-  i2.$FileCacheTableTable get fileCacheTable =>
-      i3.ReadDatabaseContainer(attachedDatabase)
-          .resultSet<i2.$FileCacheTableTable>('file_cache_table');
+  i2.$FileCacheTableTable get fileCacheTable => i3.ReadDatabaseContainer(
+    attachedDatabase,
+  ).resultSet<i2.$FileCacheTableTable>('file_cache_table');
   FileCacheRepositoryManager get managers => FileCacheRepositoryManager(this);
 }
 

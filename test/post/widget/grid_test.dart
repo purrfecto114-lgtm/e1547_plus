@@ -31,7 +31,8 @@ void main() {
 
   displayTest(
     'a grid loading its first page shows ghost tiles',
-    skip: 'upstream 21.2.0 detail-family and decode-hold assertions, not aligned with this fork yet; see process.md',
+    skip:
+        'upstream 21.2.0 detail-family and decode-hold assertions, not aligned with this fork yet; see process.md',
     (tester) async {
       await show(tester, PagingState<int, Post>(isLoading: true));
 
@@ -41,7 +42,8 @@ void main() {
 
   displayTest(
     'a loaded grid shows its posts and no ghosts',
-    skip: 'upstream 21.2.0 detail-family and decode-hold assertions, not aligned with this fork yet; see process.md',
+    skip:
+        'upstream 21.2.0 detail-family and decode-hold assertions, not aligned with this fork yet; see process.md',
     (tester) async {
       await show(
         tester,

@@ -4,11 +4,9 @@ import 'package:petitparser/petitparser.dart';
 
 class TagMapParserDefinition extends GrammarDefinition<List<TagNode>> {
   @override
-  Parser<List<TagNode>> start() =>
-      ref0(node)
-          .starSeparated(whitespace().plus())
-          .map((e) => e.elements)
-          .trim();
+  Parser<List<TagNode>> start() => ref0(
+    node,
+  ).starSeparated(whitespace().plus()).map((e) => e.elements).trim();
 
   Parser<TagNode> node() => [
     ref0(comment),

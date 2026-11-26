@@ -96,8 +96,9 @@ class PostDetail extends StatelessWidget {
               backgroundColor: Colors.transparent,
               extendBodyBehindAppBar: true,
               appBar: PostDetailAppBar(post: post),
-              floatingActionButtonLocation: Handedness.of(context)
-                  .floatingActionButtonLocation,
+              floatingActionButtonLocation: Handedness.of(
+                context,
+              ).floatingActionButtonLocation,
               floatingActionButton: context.read<Client>().hasLogin
                   ? DismissFade(child: PostDetailFab(post: post))
                   : null,

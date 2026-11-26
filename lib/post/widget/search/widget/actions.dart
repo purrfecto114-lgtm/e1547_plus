@@ -148,8 +148,9 @@ class _TagListActionsState extends State<TagListActions> {
                                 : const Icon(Icons.bookmark_border),
                             label: bookmarked
                                 ? Text(
-                                    AppLocalizations.of(context)
-                                        .actionUnbookmark,
+                                    AppLocalizations.of(
+                                      context,
+                                    ).actionUnbookmark,
                                   )
                                 : Text(
                                     AppLocalizations.of(context).actionBookmark,

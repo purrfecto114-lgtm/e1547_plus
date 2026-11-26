@@ -166,8 +166,9 @@ class _PostReportScreenState extends State<PostReportScreen> {
             ),
             leading: const CloseButton(),
           ),
-          floatingActionButtonLocation: Handedness.of(context)
-              .floatingActionButtonLocation,
+          floatingActionButtonLocation: Handedness.of(
+            context,
+          ).floatingActionButtonLocation,
           floatingActionButton: Builder(
             builder: (context) => FloatingActionButton(
               onPressed: isLoading ? null : () => _sendReport(context),
@@ -178,8 +179,9 @@ class _PostReportScreenState extends State<PostReportScreen> {
             child: LayoutBuilder(
               builder: (context, constraints) => ListView(
                 controller: scrollController,
-                padding: LimitedWidthLayout.of(context).padding
-                    .add(defaultFormScreenPadding),
+                padding: LimitedWidthLayout.of(
+                  context,
+                ).padding.add(defaultFormScreenPadding),
                 children: [
                   PostReportImage(
                     post: widget.post,

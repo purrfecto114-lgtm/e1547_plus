@@ -9,7 +9,8 @@ void main() {
   setUpAll(() => initializeTestApp());
 
   final Map<TaskErrorCategory, String> enHints = {
-    TaskErrorCategory.directory: 'The save folder is missing or read-only. Pick the download folder again.',
+    TaskErrorCategory.directory:
+        'The save folder is missing or read-only. Pick the download folder again.',
     TaskErrorCategory.auth:
         'The server rejected this account. Check your login, then retry.',
     TaskErrorCategory.network:
@@ -62,7 +63,8 @@ void main() {
                     action: TaskAction.download,
                     postId: 4992046,
                     status: TaskStatus.failed,
-                    error: "Invalid argument(s): Uri https://static1.e621.net/data/sample.jpg must have scheme 'file:'.",
+                    error:
+                        "Invalid argument(s): Uri https://static1.e621.net/data/sample.jpg must have scheme 'file:'.",
                     createdAt: DateTime(2026, 11, 20),
                     completedAt: DateTime(2026, 11, 20),
                     metadata: null,

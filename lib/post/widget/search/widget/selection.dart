@@ -47,12 +47,14 @@ class _PostSelectionAppBarState extends State<PostSelectionAppBar> {
       child: widget.child,
       titleBuilder: (context, data) => data.selections.length == 1
           ? Text(
-              AppLocalizations.of(context)
-                  .selectionPost(data.selections.first.id),
+              AppLocalizations.of(
+                context,
+              ).selectionPost(data.selections.first.id),
             )
           : Text(
-              AppLocalizations.of(context)
-                  .selectionPostsCount(data.selections.length),
+              AppLocalizations.of(
+                context,
+              ).selectionPostsCount(data.selections.length),
             ),
       actionBuilder: (context, data) {
         return [

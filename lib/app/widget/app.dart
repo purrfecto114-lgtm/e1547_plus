@@ -65,10 +65,9 @@ class App extends StatelessWidget {
                               // fall back to their hardcoded English strings.
                               RefreshLocalizations.delegate,
                             ],
-                            localeListResolutionCallback: (
-                              locales,
-                              supported,
-                            ) => resolveAppLocale(locales),
+                            localeListResolutionCallback:
+                                (locales, supported) =>
+                                    resolveAppLocale(locales),
                             navigatorKey: navigatorKey,
                             navigatorObservers: [
                               context.watch<AnyRouteObserver>(),

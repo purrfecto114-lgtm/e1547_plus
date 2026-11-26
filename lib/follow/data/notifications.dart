@@ -27,8 +27,9 @@ Future<void> runFollowUpdates({
   FollowRepository allFollows = FollowRepository(database: storage.sqlite);
   registerFollowBackgroundTask(allFollows);
 
-  List<Identity> identities = await IdentityClient(database: storage.sqlite)
-      .all();
+  List<Identity> identities = await IdentityClient(
+    database: storage.sqlite,
+  ).all();
 
   final clientFactory = ClientFactory();
 

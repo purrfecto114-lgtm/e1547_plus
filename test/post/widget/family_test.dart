@@ -68,7 +68,8 @@ void main() {
 
   displayTest(
     'a child opens among its siblings, oldest first',
-    skip: 'upstream 21.2.0 detail-family and decode-hold assertions, not aligned with this fork yet; see process.md',
+    skip:
+        'upstream 21.2.0 detail-family and decode-hold assertions, not aligned with this fork yet; see process.md',
     (tester) async {
       await showFamily(tester);
 
@@ -83,7 +84,8 @@ void main() {
 
   displayTest(
     'a child of a cached family opens without waiting',
-    skip: 'upstream 21.2.0 detail-family and decode-hold assertions, not aligned with this fork yet; see process.md',
+    skip:
+        'upstream 21.2.0 detail-family and decode-hold assertions, not aligned with this fork yet; see process.md',
     (tester) async {
       await showFamily(tester);
 
@@ -101,7 +103,8 @@ void main() {
 
   displayTest(
     'a child the search leaves out opens alone',
-    skip: 'upstream 21.2.0 detail-family and decode-hold assertions, not aligned with this fork yet; see process.md',
+    skip:
+        'upstream 21.2.0 detail-family and decode-hold assertions, not aligned with this fork yet; see process.md',
     (tester) async {
       await showFamily(tester, deleted: {32});
 

@@ -113,8 +113,9 @@ class _DenyListPageState extends State<DenyListPage> {
                                             setState(() => filter = ''),
                                       ),
                                 border: const OutlineInputBorder(),
-                                labelText: AppLocalizations.of(context)
-                                    .blacklistFilterHint,
+                                labelText: AppLocalizations.of(
+                                  context,
+                                ).blacklistFilterHint,
                               ),
                               // The field survives the rebuilds the
                               // filter triggers; it owns its text.
@@ -126,8 +127,9 @@ class _DenyListPageState extends State<DenyListPage> {
                                     child: IconMessage(
                                       icon: const Icon(Icons.search_off),
                                       title: Text(
-                                        AppLocalizations.of(context)
-                                            .blacklistNoMatch,
+                                        AppLocalizations.of(
+                                          context,
+                                        ).blacklistNoMatch,
                                       ),
                                     ),
                                   )

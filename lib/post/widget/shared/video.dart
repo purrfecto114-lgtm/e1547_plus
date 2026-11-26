@@ -247,8 +247,9 @@ class _VideoBarState extends State<VideoBar> {
                           .clamp(0.0, duration.inMilliseconds.toDouble()),
                       onChangeStart: (e) {
                         seeking = true;
-                        ScaffoldFrame.maybeOf(context)
-                            ?.toggleFrame(shown: true);
+                        ScaffoldFrame.maybeOf(
+                          context,
+                        )?.toggleFrame(shown: true);
                       },
                       // A loaded video can be seeked before its first
                       // step: gate on the known duration instead of the
@@ -263,8 +264,9 @@ class _VideoBarState extends State<VideoBar> {
                       onChangeEnd: (e) {
                         seeking = false;
                         widget.player.seek(Duration(milliseconds: e ~/ 1));
-                        ScaffoldFrame.maybeOf(context)
-                            ?.toggleFrame(shown: false);
+                        ScaffoldFrame.maybeOf(
+                          context,
+                        )?.toggleFrame(shown: false);
                       },
                     ),
                   ),
@@ -504,8 +506,9 @@ class _VideoGestureState extends State<VideoGesture>
                 color: Colors.white,
               ),
               title: Text(
-                AppLocalizations.of(context)
-                    .videoSeekSeconds(videoSeekStep.inSeconds * combo),
+                AppLocalizations.of(
+                  context,
+                ).videoSeekSeconds(videoSeekStep.inSeconds * combo),
                 style: const TextStyle(color: Colors.white),
               ),
             ),

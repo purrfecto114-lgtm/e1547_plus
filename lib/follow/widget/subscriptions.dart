@@ -73,8 +73,9 @@ class FollowsSubscriptionsPage extends StatelessWidget {
                       ],
                     ),
                     floatingActionButton: AddTagFab(
-                      title: AppLocalizations.of(context)
-                          .followAddToSubscriptions,
+                      title: AppLocalizations.of(
+                        context,
+                      ).followAddToSubscriptions,
                       onSubmit: (value) async {
                         value = value.trim();
                         if (value.isEmpty) return;
@@ -99,16 +100,19 @@ class FollowsSubscriptionsPage extends StatelessWidget {
                               itemBuilder: (context, item, index) =>
                                   FollowTile(follow: item),
                               onEmpty: Text(
-                                AppLocalizations.of(context)
-                                    .followNoSubscriptions,
+                                AppLocalizations.of(
+                                  context,
+                                ).followNoSubscriptions,
                               ),
                               onError: Text(
-                                AppLocalizations.of(context)
-                                    .followFailedToLoadSubscriptions,
+                                AppLocalizations.of(
+                                  context,
+                                ).followFailedToLoadSubscriptions,
                               ),
                             ),
-                            crossAxisCount: TileLayout.of(context)
-                                .crossAxisCount,
+                            crossAxisCount: TileLayout.of(
+                              context,
+                            ).crossAxisCount,
                           ),
                         ),
                       ),

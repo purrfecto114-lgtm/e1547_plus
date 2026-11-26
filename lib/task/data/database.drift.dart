@@ -9,26 +9,28 @@ import 'package:e1547/task/data/task.dart' as i5;
 import 'package:e1547/task/data/database.dart' as i6;
 import 'package:e1547/shared/data/sql.dart' as i7;
 
-typedef $$TasksTableTableCreateCompanionBuilder = i2.TaskCompanion Function({
-  i0.Value<int> id,
-  required i5.TaskAction action,
-  required int postId,
-  required i5.TaskStatus status,
-  i0.Value<String?> error,
-  required DateTime createdAt,
-  i0.Value<DateTime?> completedAt,
-  i0.Value<i5.TaskMetadata?> metadata,
-});
-typedef $$TasksTableTableUpdateCompanionBuilder = i2.TaskCompanion Function({
-  i0.Value<int> id,
-  i0.Value<i5.TaskAction> action,
-  i0.Value<int> postId,
-  i0.Value<i5.TaskStatus> status,
-  i0.Value<String?> error,
-  i0.Value<DateTime> createdAt,
-  i0.Value<DateTime?> completedAt,
-  i0.Value<i5.TaskMetadata?> metadata,
-});
+typedef $$TasksTableTableCreateCompanionBuilder =
+    i2.TaskCompanion Function({
+      i0.Value<int> id,
+      required i5.TaskAction action,
+      required int postId,
+      required i5.TaskStatus status,
+      i0.Value<String?> error,
+      required DateTime createdAt,
+      i0.Value<DateTime?> completedAt,
+      i0.Value<i5.TaskMetadata?> metadata,
+    });
+typedef $$TasksTableTableUpdateCompanionBuilder =
+    i2.TaskCompanion Function({
+      i0.Value<int> id,
+      i0.Value<i5.TaskAction> action,
+      i0.Value<int> postId,
+      i0.Value<i5.TaskStatus> status,
+      i0.Value<String?> error,
+      i0.Value<DateTime> createdAt,
+      i0.Value<DateTime?> completedAt,
+      i0.Value<i5.TaskMetadata?> metadata,
+    });
 
 final class $$TasksTableTableReferences
     extends
@@ -41,12 +43,13 @@ final class $$TasksTableTableReferences
   >
   _tasksIdentitiesTableRefsTable(i0.GeneratedDatabase db) =>
       i0.MultiTypedResultKey.fromTable(
-        i3.ReadDatabaseContainer(db)
-            .resultSet<i2.$TasksIdentitiesTableTable>('tasks_identities_table'),
+        i3.ReadDatabaseContainer(
+          db,
+        ).resultSet<i2.$TasksIdentitiesTableTable>('tasks_identities_table'),
         aliasName: i0.$_aliasNameGenerator(
-          i3.ReadDatabaseContainer(db)
-              .resultSet<i2.$TasksTableTable>('tasks_table')
-              .id,
+          i3.ReadDatabaseContainer(
+            db,
+          ).resultSet<i2.$TasksTableTable>('tasks_table').id,
           i3.ReadDatabaseContainer(db)
               .resultSet<i2.$TasksIdentitiesTableTable>(
                 'tasks_identities_table',
@@ -361,10 +364,11 @@ class $$TasksTableTableTableManager
               db: db,
               explicitlyWatchedTables: [
                 if (tasksIdentitiesTableRefs)
-                  i3.ReadDatabaseContainer(db)
-                      .resultSet<i2.$TasksIdentitiesTableTable>(
-                        'tasks_identities_table',
-                      ),
+                  i3.ReadDatabaseContainer(
+                    db,
+                  ).resultSet<i2.$TasksIdentitiesTableTable>(
+                    'tasks_identities_table',
+                  ),
               ],
               addJoins: null,
               getPrefetchedDataCallback: (items) async {
@@ -443,9 +447,9 @@ final class $$TasksIdentitiesTableTableReferences
                     'tasks_identities_table',
                   )
                   .identity,
-              i3.ReadDatabaseContainer(db)
-                  .resultSet<i4.$IdentitiesTableTable>('identities_table')
-                  .id,
+              i3.ReadDatabaseContainer(
+                db,
+              ).resultSet<i4.$IdentitiesTableTable>('identities_table').id,
             ),
           );
 
@@ -455,8 +459,9 @@ final class $$TasksIdentitiesTableTableReferences
     final manager = i4
         .$$IdentitiesTableTableTableManager(
           $_db,
-          i3.ReadDatabaseContainer($_db)
-              .resultSet<i4.$IdentitiesTableTable>('identities_table'),
+          i3.ReadDatabaseContainer(
+            $_db,
+          ).resultSet<i4.$IdentitiesTableTable>('identities_table'),
         )
         .filter((f) => f.id.sqlEquals($_column));
     final item = $_typedResult.readTableOrNull(_identityTable($_db));
@@ -476,9 +481,9 @@ final class $$TasksIdentitiesTableTableReferences
                     'tasks_identities_table',
                   )
                   .task,
-              i3.ReadDatabaseContainer(db)
-                  .resultSet<i2.$TasksTableTable>('tasks_table')
-                  .id,
+              i3.ReadDatabaseContainer(
+                db,
+              ).resultSet<i2.$TasksTableTable>('tasks_table').id,
             ),
           );
 
@@ -488,8 +493,9 @@ final class $$TasksIdentitiesTableTableReferences
     final manager = i2
         .$$TasksTableTableTableManager(
           $_db,
-          i3.ReadDatabaseContainer($_db)
-              .resultSet<i2.$TasksTableTable>('tasks_table'),
+          i3.ReadDatabaseContainer(
+            $_db,
+          ).resultSet<i2.$TasksTableTable>('tasks_table'),
         )
         .filter((f) => f.id.sqlEquals($_column));
     final item = $_typedResult.readTableOrNull(_taskTable($_db));
@@ -513,8 +519,9 @@ class $$TasksIdentitiesTableTableFilterComposer
     final i4.$$IdentitiesTableTableFilterComposer composer = $composerBuilder(
       composer: this,
       getCurrentColumn: (t) => t.identity,
-      referencedTable: i3.ReadDatabaseContainer($db)
-          .resultSet<i4.$IdentitiesTableTable>('identities_table'),
+      referencedTable: i3.ReadDatabaseContainer(
+        $db,
+      ).resultSet<i4.$IdentitiesTableTable>('identities_table'),
       getReferencedColumn: (t) => t.id,
       builder:
           (
@@ -523,8 +530,9 @@ class $$TasksIdentitiesTableTableFilterComposer
             $removeJoinBuilderFromRootComposer,
           }) => i4.$$IdentitiesTableTableFilterComposer(
             $db: $db,
-            $table: i3.ReadDatabaseContainer($db)
-                .resultSet<i4.$IdentitiesTableTable>('identities_table'),
+            $table: i3.ReadDatabaseContainer(
+              $db,
+            ).resultSet<i4.$IdentitiesTableTable>('identities_table'),
             $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
             joinBuilder: joinBuilder,
             $removeJoinBuilderFromRootComposer:
@@ -538,8 +546,9 @@ class $$TasksIdentitiesTableTableFilterComposer
     final i2.$$TasksTableTableFilterComposer composer = $composerBuilder(
       composer: this,
       getCurrentColumn: (t) => t.task,
-      referencedTable: i3.ReadDatabaseContainer($db)
-          .resultSet<i2.$TasksTableTable>('tasks_table'),
+      referencedTable: i3.ReadDatabaseContainer(
+        $db,
+      ).resultSet<i2.$TasksTableTable>('tasks_table'),
       getReferencedColumn: (t) => t.id,
       builder:
           (
@@ -548,8 +557,9 @@ class $$TasksIdentitiesTableTableFilterComposer
             $removeJoinBuilderFromRootComposer,
           }) => i2.$$TasksTableTableFilterComposer(
             $db: $db,
-            $table: i3.ReadDatabaseContainer($db)
-                .resultSet<i2.$TasksTableTable>('tasks_table'),
+            $table: i3.ReadDatabaseContainer(
+              $db,
+            ).resultSet<i2.$TasksTableTable>('tasks_table'),
             $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
             joinBuilder: joinBuilder,
             $removeJoinBuilderFromRootComposer:
@@ -573,8 +583,9 @@ class $$TasksIdentitiesTableTableOrderingComposer
     final i4.$$IdentitiesTableTableOrderingComposer composer = $composerBuilder(
       composer: this,
       getCurrentColumn: (t) => t.identity,
-      referencedTable: i3.ReadDatabaseContainer($db)
-          .resultSet<i4.$IdentitiesTableTable>('identities_table'),
+      referencedTable: i3.ReadDatabaseContainer(
+        $db,
+      ).resultSet<i4.$IdentitiesTableTable>('identities_table'),
       getReferencedColumn: (t) => t.id,
       builder:
           (
@@ -583,8 +594,9 @@ class $$TasksIdentitiesTableTableOrderingComposer
             $removeJoinBuilderFromRootComposer,
           }) => i4.$$IdentitiesTableTableOrderingComposer(
             $db: $db,
-            $table: i3.ReadDatabaseContainer($db)
-                .resultSet<i4.$IdentitiesTableTable>('identities_table'),
+            $table: i3.ReadDatabaseContainer(
+              $db,
+            ).resultSet<i4.$IdentitiesTableTable>('identities_table'),
             $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
             joinBuilder: joinBuilder,
             $removeJoinBuilderFromRootComposer:
@@ -598,8 +610,9 @@ class $$TasksIdentitiesTableTableOrderingComposer
     final i2.$$TasksTableTableOrderingComposer composer = $composerBuilder(
       composer: this,
       getCurrentColumn: (t) => t.task,
-      referencedTable: i3.ReadDatabaseContainer($db)
-          .resultSet<i2.$TasksTableTable>('tasks_table'),
+      referencedTable: i3.ReadDatabaseContainer(
+        $db,
+      ).resultSet<i2.$TasksTableTable>('tasks_table'),
       getReferencedColumn: (t) => t.id,
       builder:
           (
@@ -608,8 +621,9 @@ class $$TasksIdentitiesTableTableOrderingComposer
             $removeJoinBuilderFromRootComposer,
           }) => i2.$$TasksTableTableOrderingComposer(
             $db: $db,
-            $table: i3.ReadDatabaseContainer($db)
-                .resultSet<i2.$TasksTableTable>('tasks_table'),
+            $table: i3.ReadDatabaseContainer(
+              $db,
+            ).resultSet<i2.$TasksTableTable>('tasks_table'),
             $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
             joinBuilder: joinBuilder,
             $removeJoinBuilderFromRootComposer:
@@ -634,8 +648,9 @@ class $$TasksIdentitiesTableTableAnnotationComposer
         $composerBuilder(
           composer: this,
           getCurrentColumn: (t) => t.identity,
-          referencedTable: i3.ReadDatabaseContainer($db)
-              .resultSet<i4.$IdentitiesTableTable>('identities_table'),
+          referencedTable: i3.ReadDatabaseContainer(
+            $db,
+          ).resultSet<i4.$IdentitiesTableTable>('identities_table'),
           getReferencedColumn: (t) => t.id,
           builder:
               (
@@ -644,8 +659,9 @@ class $$TasksIdentitiesTableTableAnnotationComposer
                 $removeJoinBuilderFromRootComposer,
               }) => i4.$$IdentitiesTableTableAnnotationComposer(
                 $db: $db,
-                $table: i3.ReadDatabaseContainer($db)
-                    .resultSet<i4.$IdentitiesTableTable>('identities_table'),
+                $table: i3.ReadDatabaseContainer(
+                  $db,
+                ).resultSet<i4.$IdentitiesTableTable>('identities_table'),
                 $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
                 joinBuilder: joinBuilder,
                 $removeJoinBuilderFromRootComposer:
@@ -659,8 +675,9 @@ class $$TasksIdentitiesTableTableAnnotationComposer
     final i2.$$TasksTableTableAnnotationComposer composer = $composerBuilder(
       composer: this,
       getCurrentColumn: (t) => t.task,
-      referencedTable: i3.ReadDatabaseContainer($db)
-          .resultSet<i2.$TasksTableTable>('tasks_table'),
+      referencedTable: i3.ReadDatabaseContainer(
+        $db,
+      ).resultSet<i2.$TasksTableTable>('tasks_table'),
       getReferencedColumn: (t) => t.id,
       builder:
           (
@@ -669,8 +686,9 @@ class $$TasksIdentitiesTableTableAnnotationComposer
             $removeJoinBuilderFromRootComposer,
           }) => i2.$$TasksTableTableAnnotationComposer(
             $db: $db,
-            $table: i3.ReadDatabaseContainer($db)
-                .resultSet<i2.$TasksTableTable>('tasks_table'),
+            $table: i3.ReadDatabaseContainer(
+              $db,
+            ).resultSet<i2.$TasksTableTable>('tasks_table'),
             $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
             joinBuilder: joinBuilder,
             $removeJoinBuilderFromRootComposer:
@@ -767,30 +785,34 @@ class $$TasksIdentitiesTableTableTableManager
                     >
                   >(state) {
                     if (identity) {
-                      state = state.withJoin(
-                        currentTable: table,
-                        currentColumn: table.identity,
-                        referencedTable: i2
-                            .$$TasksIdentitiesTableTableReferences
-                            ._identityTable(db),
-                        referencedColumn: i2
-                            .$$TasksIdentitiesTableTableReferences
-                            ._identityTable(db)
-                            .id,
-                      ) as T;
+                      state =
+                          state.withJoin(
+                                currentTable: table,
+                                currentColumn: table.identity,
+                                referencedTable: i2
+                                    .$$TasksIdentitiesTableTableReferences
+                                    ._identityTable(db),
+                                referencedColumn: i2
+                                    .$$TasksIdentitiesTableTableReferences
+                                    ._identityTable(db)
+                                    .id,
+                              )
+                              as T;
                     }
                     if (task) {
-                      state = state.withJoin(
-                        currentTable: table,
-                        currentColumn: table.task,
-                        referencedTable: i2
-                            .$$TasksIdentitiesTableTableReferences
-                            ._taskTable(db),
-                        referencedColumn: i2
-                            .$$TasksIdentitiesTableTableReferences
-                            ._taskTable(db)
-                            .id,
-                      ) as T;
+                      state =
+                          state.withJoin(
+                                currentTable: table,
+                                currentColumn: table.task,
+                                referencedTable: i2
+                                    .$$TasksIdentitiesTableTableReferences
+                                    ._taskTable(db),
+                                referencedColumn: i2
+                                    .$$TasksIdentitiesTableTableReferences
+                                    ._taskTable(db)
+                                    .id,
+                              )
+                              as T;
                     }
 
                     return state;
@@ -820,15 +842,16 @@ typedef $$TasksIdentitiesTableTableProcessedTableManager =
     >;
 
 mixin $TaskRepositoryMixin on i0.DatabaseAccessor<i1.GeneratedDatabase> {
-  i2.$TasksTableTable get tasksTable =>
-      i3.ReadDatabaseContainer(attachedDatabase)
-          .resultSet<i2.$TasksTableTable>('tasks_table');
-  i4.$IdentitiesTableTable get identitiesTable =>
-      i3.ReadDatabaseContainer(attachedDatabase)
-          .resultSet<i4.$IdentitiesTableTable>('identities_table');
+  i2.$TasksTableTable get tasksTable => i3.ReadDatabaseContainer(
+    attachedDatabase,
+  ).resultSet<i2.$TasksTableTable>('tasks_table');
+  i4.$IdentitiesTableTable get identitiesTable => i3.ReadDatabaseContainer(
+    attachedDatabase,
+  ).resultSet<i4.$IdentitiesTableTable>('identities_table');
   i2.$TasksIdentitiesTableTable get tasksIdentitiesTable =>
-      i3.ReadDatabaseContainer(attachedDatabase)
-          .resultSet<i2.$TasksIdentitiesTableTable>('tasks_identities_table');
+      i3.ReadDatabaseContainer(
+        attachedDatabase,
+      ).resultSet<i2.$TasksIdentitiesTableTable>('tasks_identities_table');
   TaskRepositoryManager get managers => TaskRepositoryManager(this);
 }
 

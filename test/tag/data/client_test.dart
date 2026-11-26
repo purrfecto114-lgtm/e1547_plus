@@ -31,8 +31,9 @@ void main() {
   });
 
   test('resolves an alias to its consequent', () async {
-    final recorded = loadFixtureList('tag_aliases.json')
-        .firstWhere((e) => e['status'] != 'deleted');
+    final recorded = loadFixtureList(
+      'tag_aliases.json',
+    ).firstWhere((e) => e['status'] != 'deleted');
 
     final alias = await client.aliases(
       query: {

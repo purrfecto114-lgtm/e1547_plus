@@ -45,8 +45,9 @@ class LogErrorBubble extends StatelessWidget {
                   child: Center(
                     child: Text(
                       errors.length > 99 ? '99+' : '${errors.length}',
-                      style: Theme.of(context).textTheme.titleMedium
-                          ?.copyWith(color: scheme.error),
+                      style: Theme.of(
+                        context,
+                      ).textTheme.titleMedium?.copyWith(color: scheme.error),
                     ),
                   ),
                 ),

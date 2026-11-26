@@ -86,8 +86,9 @@ void main() {
     });
 
     test('serves an empty page before the oldest post', () async {
-      final oldest = idsOf(postsOf(await posts({'page': 1, 'limit': 200})))
-          .last;
+      final oldest = idsOf(
+        postsOf(await posts({'page': 1, 'limit': 200})),
+      ).last;
       expect(postsOf(await posts({'page': 'b$oldest'})), isEmpty);
     });
 

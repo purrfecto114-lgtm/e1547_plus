@@ -43,8 +43,9 @@ void main() {
     sqlite = AppDatabase(NativeDatabase.memory());
     // The prompt records the wiki lookup in the history, whose entries
     // reference the identity that made them.
-    await IdentityRepository(sqlite)
-        .add(const IdentityRequest(host: 'e621.net', username: 'tester'));
+    await IdentityRepository(
+      sqlite,
+    ).add(const IdentityRequest(host: 'e621.net', username: 'tester'));
   });
 
   tearDownAll(() => sqlite.close());

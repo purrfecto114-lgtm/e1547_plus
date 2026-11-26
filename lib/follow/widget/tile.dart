@@ -223,8 +223,9 @@ class FollowTile extends StatelessWidget {
             ],
           ),
           Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 8)
-                .copyWith(bottom: 4, right: 0),
+            padding: const EdgeInsets.symmetric(
+              horizontal: 8,
+            ).copyWith(bottom: 4, right: 0),
             child: Row(
               children: [
                 Expanded(
@@ -243,8 +244,9 @@ class FollowTile extends StatelessWidget {
                         showChild: follow.alias != null,
                         child: Dimmed(
                           child: Text(
-                            AppLocalizations.of(context)
-                                .followAlias(follow.alias),
+                            AppLocalizations.of(
+                              context,
+                            ).followAlias(follow.alias),
                             overflow: TextOverflow.ellipsis,
                             maxLines: 1,
                           ),

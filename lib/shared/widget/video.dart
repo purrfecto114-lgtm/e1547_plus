@@ -187,8 +187,9 @@ class VideoService extends ChangeNotifier {
   static int get _defaultMaxLoaded {
     if (!Platform.isAndroid) return 3;
     try {
-      final match = RegExp(r'MemTotal:\s+(\d+)\s+kB')
-          .firstMatch(File('/proc/meminfo').readAsStringSync());
+      final match = RegExp(
+        r'MemTotal:\s+(\d+)\s+kB',
+      ).firstMatch(File('/proc/meminfo').readAsStringSync());
       final int? totalKb = match == null ? null : int.parse(match.group(1)!);
       if (totalKb == null) return 3;
       if (totalKb < 2 * 1024 * 1024) return 1; // below 2 GiB

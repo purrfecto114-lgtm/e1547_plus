@@ -52,9 +52,9 @@ final class $$FollowsTableTableReferences
           'follows_identities_table',
         ),
         aliasName: i0.$_aliasNameGenerator(
-          i3.ReadDatabaseContainer(db)
-              .resultSet<i2.$FollowsTableTable>('follows_table')
-              .id,
+          i3.ReadDatabaseContainer(
+            db,
+          ).resultSet<i2.$FollowsTableTable>('follows_table').id,
           i3.ReadDatabaseContainer(db)
               .resultSet<i2.$FollowsIdentitiesTableTable>(
                 'follows_identities_table',
@@ -68,10 +68,11 @@ final class $$FollowsTableTableReferences
     final manager = i2
         .$$FollowsIdentitiesTableTableTableManager(
           $_db,
-          i3.ReadDatabaseContainer($_db)
-              .resultSet<i2.$FollowsIdentitiesTableTable>(
-                'follows_identities_table',
-              ),
+          i3.ReadDatabaseContainer(
+            $_db,
+          ).resultSet<i2.$FollowsIdentitiesTableTable>(
+            'follows_identities_table',
+          ),
         )
         .filter((f) => f.follow.id.sqlEquals($_itemColumn<int>('id')!));
 
@@ -387,10 +388,11 @@ class $$FollowsTableTableTableManager
               db: db,
               explicitlyWatchedTables: [
                 if (followsIdentitiesTableRefs)
-                  i3.ReadDatabaseContainer(db)
-                      .resultSet<i2.$FollowsIdentitiesTableTable>(
-                        'follows_identities_table',
-                      ),
+                  i3.ReadDatabaseContainer(
+                    db,
+                  ).resultSet<i2.$FollowsIdentitiesTableTable>(
+                    'follows_identities_table',
+                  ),
               ],
               addJoins: null,
               getPrefetchedDataCallback: (items) async {
@@ -469,9 +471,9 @@ final class $$FollowsIdentitiesTableTableReferences
                     'follows_identities_table',
                   )
                   .identity,
-              i3.ReadDatabaseContainer(db)
-                  .resultSet<i4.$IdentitiesTableTable>('identities_table')
-                  .id,
+              i3.ReadDatabaseContainer(
+                db,
+              ).resultSet<i4.$IdentitiesTableTable>('identities_table').id,
             ),
           );
 
@@ -481,8 +483,9 @@ final class $$FollowsIdentitiesTableTableReferences
     final manager = i4
         .$$IdentitiesTableTableTableManager(
           $_db,
-          i3.ReadDatabaseContainer($_db)
-              .resultSet<i4.$IdentitiesTableTable>('identities_table'),
+          i3.ReadDatabaseContainer(
+            $_db,
+          ).resultSet<i4.$IdentitiesTableTable>('identities_table'),
         )
         .filter((f) => f.id.sqlEquals($_column));
     final item = $_typedResult.readTableOrNull(_identityTable($_db));
@@ -502,9 +505,9 @@ final class $$FollowsIdentitiesTableTableReferences
                     'follows_identities_table',
                   )
                   .follow,
-              i3.ReadDatabaseContainer(db)
-                  .resultSet<i2.$FollowsTableTable>('follows_table')
-                  .id,
+              i3.ReadDatabaseContainer(
+                db,
+              ).resultSet<i2.$FollowsTableTable>('follows_table').id,
             ),
           );
 
@@ -514,8 +517,9 @@ final class $$FollowsIdentitiesTableTableReferences
     final manager = i2
         .$$FollowsTableTableTableManager(
           $_db,
-          i3.ReadDatabaseContainer($_db)
-              .resultSet<i2.$FollowsTableTable>('follows_table'),
+          i3.ReadDatabaseContainer(
+            $_db,
+          ).resultSet<i2.$FollowsTableTable>('follows_table'),
         )
         .filter((f) => f.id.sqlEquals($_column));
     final item = $_typedResult.readTableOrNull(_followTable($_db));
@@ -539,8 +543,9 @@ class $$FollowsIdentitiesTableTableFilterComposer
     final i4.$$IdentitiesTableTableFilterComposer composer = $composerBuilder(
       composer: this,
       getCurrentColumn: (t) => t.identity,
-      referencedTable: i3.ReadDatabaseContainer($db)
-          .resultSet<i4.$IdentitiesTableTable>('identities_table'),
+      referencedTable: i3.ReadDatabaseContainer(
+        $db,
+      ).resultSet<i4.$IdentitiesTableTable>('identities_table'),
       getReferencedColumn: (t) => t.id,
       builder:
           (
@@ -549,8 +554,9 @@ class $$FollowsIdentitiesTableTableFilterComposer
             $removeJoinBuilderFromRootComposer,
           }) => i4.$$IdentitiesTableTableFilterComposer(
             $db: $db,
-            $table: i3.ReadDatabaseContainer($db)
-                .resultSet<i4.$IdentitiesTableTable>('identities_table'),
+            $table: i3.ReadDatabaseContainer(
+              $db,
+            ).resultSet<i4.$IdentitiesTableTable>('identities_table'),
             $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
             joinBuilder: joinBuilder,
             $removeJoinBuilderFromRootComposer:
@@ -564,8 +570,9 @@ class $$FollowsIdentitiesTableTableFilterComposer
     final i2.$$FollowsTableTableFilterComposer composer = $composerBuilder(
       composer: this,
       getCurrentColumn: (t) => t.follow,
-      referencedTable: i3.ReadDatabaseContainer($db)
-          .resultSet<i2.$FollowsTableTable>('follows_table'),
+      referencedTable: i3.ReadDatabaseContainer(
+        $db,
+      ).resultSet<i2.$FollowsTableTable>('follows_table'),
       getReferencedColumn: (t) => t.id,
       builder:
           (
@@ -574,8 +581,9 @@ class $$FollowsIdentitiesTableTableFilterComposer
             $removeJoinBuilderFromRootComposer,
           }) => i2.$$FollowsTableTableFilterComposer(
             $db: $db,
-            $table: i3.ReadDatabaseContainer($db)
-                .resultSet<i2.$FollowsTableTable>('follows_table'),
+            $table: i3.ReadDatabaseContainer(
+              $db,
+            ).resultSet<i2.$FollowsTableTable>('follows_table'),
             $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
             joinBuilder: joinBuilder,
             $removeJoinBuilderFromRootComposer:
@@ -599,8 +607,9 @@ class $$FollowsIdentitiesTableTableOrderingComposer
     final i4.$$IdentitiesTableTableOrderingComposer composer = $composerBuilder(
       composer: this,
       getCurrentColumn: (t) => t.identity,
-      referencedTable: i3.ReadDatabaseContainer($db)
-          .resultSet<i4.$IdentitiesTableTable>('identities_table'),
+      referencedTable: i3.ReadDatabaseContainer(
+        $db,
+      ).resultSet<i4.$IdentitiesTableTable>('identities_table'),
       getReferencedColumn: (t) => t.id,
       builder:
           (
@@ -609,8 +618,9 @@ class $$FollowsIdentitiesTableTableOrderingComposer
             $removeJoinBuilderFromRootComposer,
           }) => i4.$$IdentitiesTableTableOrderingComposer(
             $db: $db,
-            $table: i3.ReadDatabaseContainer($db)
-                .resultSet<i4.$IdentitiesTableTable>('identities_table'),
+            $table: i3.ReadDatabaseContainer(
+              $db,
+            ).resultSet<i4.$IdentitiesTableTable>('identities_table'),
             $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
             joinBuilder: joinBuilder,
             $removeJoinBuilderFromRootComposer:
@@ -624,8 +634,9 @@ class $$FollowsIdentitiesTableTableOrderingComposer
     final i2.$$FollowsTableTableOrderingComposer composer = $composerBuilder(
       composer: this,
       getCurrentColumn: (t) => t.follow,
-      referencedTable: i3.ReadDatabaseContainer($db)
-          .resultSet<i2.$FollowsTableTable>('follows_table'),
+      referencedTable: i3.ReadDatabaseContainer(
+        $db,
+      ).resultSet<i2.$FollowsTableTable>('follows_table'),
       getReferencedColumn: (t) => t.id,
       builder:
           (
@@ -634,8 +645,9 @@ class $$FollowsIdentitiesTableTableOrderingComposer
             $removeJoinBuilderFromRootComposer,
           }) => i2.$$FollowsTableTableOrderingComposer(
             $db: $db,
-            $table: i3.ReadDatabaseContainer($db)
-                .resultSet<i2.$FollowsTableTable>('follows_table'),
+            $table: i3.ReadDatabaseContainer(
+              $db,
+            ).resultSet<i2.$FollowsTableTable>('follows_table'),
             $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
             joinBuilder: joinBuilder,
             $removeJoinBuilderFromRootComposer:
@@ -660,8 +672,9 @@ class $$FollowsIdentitiesTableTableAnnotationComposer
         $composerBuilder(
           composer: this,
           getCurrentColumn: (t) => t.identity,
-          referencedTable: i3.ReadDatabaseContainer($db)
-              .resultSet<i4.$IdentitiesTableTable>('identities_table'),
+          referencedTable: i3.ReadDatabaseContainer(
+            $db,
+          ).resultSet<i4.$IdentitiesTableTable>('identities_table'),
           getReferencedColumn: (t) => t.id,
           builder:
               (
@@ -670,8 +683,9 @@ class $$FollowsIdentitiesTableTableAnnotationComposer
                 $removeJoinBuilderFromRootComposer,
               }) => i4.$$IdentitiesTableTableAnnotationComposer(
                 $db: $db,
-                $table: i3.ReadDatabaseContainer($db)
-                    .resultSet<i4.$IdentitiesTableTable>('identities_table'),
+                $table: i3.ReadDatabaseContainer(
+                  $db,
+                ).resultSet<i4.$IdentitiesTableTable>('identities_table'),
                 $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
                 joinBuilder: joinBuilder,
                 $removeJoinBuilderFromRootComposer:
@@ -685,8 +699,9 @@ class $$FollowsIdentitiesTableTableAnnotationComposer
     final i2.$$FollowsTableTableAnnotationComposer composer = $composerBuilder(
       composer: this,
       getCurrentColumn: (t) => t.follow,
-      referencedTable: i3.ReadDatabaseContainer($db)
-          .resultSet<i2.$FollowsTableTable>('follows_table'),
+      referencedTable: i3.ReadDatabaseContainer(
+        $db,
+      ).resultSet<i2.$FollowsTableTable>('follows_table'),
       getReferencedColumn: (t) => t.id,
       builder:
           (
@@ -695,8 +710,9 @@ class $$FollowsIdentitiesTableTableAnnotationComposer
             $removeJoinBuilderFromRootComposer,
           }) => i2.$$FollowsTableTableAnnotationComposer(
             $db: $db,
-            $table: i3.ReadDatabaseContainer($db)
-                .resultSet<i2.$FollowsTableTable>('follows_table'),
+            $table: i3.ReadDatabaseContainer(
+              $db,
+            ).resultSet<i2.$FollowsTableTable>('follows_table'),
             $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
             joinBuilder: joinBuilder,
             $removeJoinBuilderFromRootComposer:
@@ -793,30 +809,34 @@ class $$FollowsIdentitiesTableTableTableManager
                     >
                   >(state) {
                     if (identity) {
-                      state = state.withJoin(
-                        currentTable: table,
-                        currentColumn: table.identity,
-                        referencedTable: i2
-                            .$$FollowsIdentitiesTableTableReferences
-                            ._identityTable(db),
-                        referencedColumn: i2
-                            .$$FollowsIdentitiesTableTableReferences
-                            ._identityTable(db)
-                            .id,
-                      ) as T;
+                      state =
+                          state.withJoin(
+                                currentTable: table,
+                                currentColumn: table.identity,
+                                referencedTable: i2
+                                    .$$FollowsIdentitiesTableTableReferences
+                                    ._identityTable(db),
+                                referencedColumn: i2
+                                    .$$FollowsIdentitiesTableTableReferences
+                                    ._identityTable(db)
+                                    .id,
+                              )
+                              as T;
                     }
                     if (follow) {
-                      state = state.withJoin(
-                        currentTable: table,
-                        currentColumn: table.follow,
-                        referencedTable: i2
-                            .$$FollowsIdentitiesTableTableReferences
-                            ._followTable(db),
-                        referencedColumn: i2
-                            .$$FollowsIdentitiesTableTableReferences
-                            ._followTable(db)
-                            .id,
-                      ) as T;
+                      state =
+                          state.withJoin(
+                                currentTable: table,
+                                currentColumn: table.follow,
+                                referencedTable: i2
+                                    .$$FollowsIdentitiesTableTableReferences
+                                    ._followTable(db),
+                                referencedColumn: i2
+                                    .$$FollowsIdentitiesTableTableReferences
+                                    ._followTable(db)
+                                    .id,
+                              )
+                              as T;
                     }
 
                     return state;
@@ -846,12 +866,12 @@ typedef $$FollowsIdentitiesTableTableProcessedTableManager =
     >;
 
 mixin $FollowRepositoryMixin on i0.DatabaseAccessor<i1.GeneratedDatabase> {
-  i2.$FollowsTableTable get followsTable =>
-      i3.ReadDatabaseContainer(attachedDatabase)
-          .resultSet<i2.$FollowsTableTable>('follows_table');
-  i4.$IdentitiesTableTable get identitiesTable =>
-      i3.ReadDatabaseContainer(attachedDatabase)
-          .resultSet<i4.$IdentitiesTableTable>('identities_table');
+  i2.$FollowsTableTable get followsTable => i3.ReadDatabaseContainer(
+    attachedDatabase,
+  ).resultSet<i2.$FollowsTableTable>('follows_table');
+  i4.$IdentitiesTableTable get identitiesTable => i3.ReadDatabaseContainer(
+    attachedDatabase,
+  ).resultSet<i4.$IdentitiesTableTable>('identities_table');
   i2.$FollowsIdentitiesTableTable get followsIdentitiesTable =>
       i3.ReadDatabaseContainer(
         attachedDatabase,

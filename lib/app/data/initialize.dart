@@ -359,8 +359,9 @@ Future<void> excludeFileFromBackup(String path) async {
   try {
     await _storageChannel.invokeMethod('excludeFromBackup', {'path': path});
   } on PlatformException catch (e, s) {
-    Logger('Storage')
-        .warn('Failed to exclude file from backup', {'path': path}, e, s);
+    Logger(
+      'Storage',
+    ).warn('Failed to exclude file from backup', {'path': path}, e, s);
   } on MissingPluginException {
     // platform without the handler; nothing to do
   }
@@ -375,8 +376,9 @@ Future<void> excludePreferencesFromBackup() async {
   try {
     await _storageChannel.invokeMethod('excludePreferencesFromBackup');
   } on PlatformException catch (e, s) {
-    Logger('Storage')
-        .warn('Failed to exclude preferences from backup', {}, e, s);
+    Logger(
+      'Storage',
+    ).warn('Failed to exclude preferences from backup', {}, e, s);
   } on MissingPluginException {
     // platform without the handler; nothing to do
   }

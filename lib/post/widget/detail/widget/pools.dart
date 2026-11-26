@@ -39,9 +39,9 @@ class PoolRelationTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final Client client = context.watch<Client>();
-    void open() =>
-        Navigator.of(context)
-            .push(MaterialPageRoute(builder: (context) => PoolLoadingPage(id)));
+    void open() => Navigator.of(
+      context,
+    ).push(MaterialPageRoute(builder: (context) => PoolLoadingPage(id)));
 
     return QueryBuilder(
       query: client.pools.useGet(id: id),
@@ -81,8 +81,9 @@ class PoolRelationTile extends StatelessWidget {
                       child: pool == null
                           ? const SizedBox.shrink()
                           : Text(
-                              AppLocalizations.of(context)
-                                  .detailPoolPosts(pool.postCount),
+                              AppLocalizations.of(
+                                context,
+                              ).detailPoolPosts(pool.postCount),
                               style: TextStyle(color: dimTextColor(context)),
                             ),
                     ),

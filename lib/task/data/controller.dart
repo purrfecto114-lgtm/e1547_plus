@@ -56,13 +56,14 @@ class TaskDownloadProgress {
 ///
 /// Returns the location the export actually wrote, when it can be addressed
 /// for a later rollback; see [FileDownloader.downloadFile].
-typedef FileExporter = Future<String?> Function({
-  required File file,
-  required String? directory,
-  String? folderName,
-  String? fileName,
-  void Function(String dir)? onDirectoryChanged,
-});
+typedef FileExporter =
+    Future<String?> Function({
+      required File file,
+      required String? directory,
+      String? folderName,
+      String? fileName,
+      void Function(String dir)? onDirectoryChanged,
+    });
 
 Future<String?> exportDownloadFile({
   required File file,
@@ -856,9 +857,9 @@ class TasksController extends ChangeNotifier {
   /// and no transfer that finishes behind a waiting picker. Returns null
   /// when the task was not retryable or the user canceled the
   /// directory prompt, in which case the task stays in place.
-  Future<Task?> retry(int taskId) =>
-      retryTasks([taskId])
-          .then((queued) => queued.isEmpty ? null : queued.first);
+  Future<Task?> retry(int taskId) => retryTasks([
+    taskId,
+  ]).then((queued) => queued.isEmpty ? null : queued.first);
 
   /// Cancels the given tasks in one database write, aborting the transfers
   /// of those that are already running.

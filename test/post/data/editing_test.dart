@@ -22,8 +22,9 @@ void main() {
     });
 
     test('files added tags under general', () {
-      final edit = PostEdit.fromPost(post)
-          .copyWith(tags: const ['solo', 'tester', 'canine']);
+      final edit = PostEdit.fromPost(
+        post,
+      ).copyWith(tags: const ['solo', 'tester', 'canine']);
 
       expect(edit.applyTo(post).tags['general'], ['solo', 'canine']);
     });

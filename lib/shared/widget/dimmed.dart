@@ -16,8 +16,9 @@ const double dimmedOpacity = 0.35;
 const double interactiveDimmedOpacity = 0.55;
 
 Color dimTextColor(BuildContext context, [double opacity = dimmedOpacity]) =>
-    Theme.of(context).textTheme.bodyMedium!.color!
-        .withAlpha((opacity * 255).ceil());
+    Theme.of(
+      context,
+    ).textTheme.bodyMedium!.color!.withAlpha((opacity * 255).ceil());
 
 class Dimmed extends StatelessWidget {
   const Dimmed({super.key, required this.child, this.opacity = dimmedOpacity});

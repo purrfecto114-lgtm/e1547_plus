@@ -303,8 +303,9 @@ class DismissPointers extends StatelessWidget {
     if (controller == null) return child;
     return Listener(
       onPointerDown: (event) {
-        final Rect free = MediaQuery.systemGestureInsetsOf(context)
-            .deflateRect(Offset.zero & MediaQuery.sizeOf(context));
+        final Rect free = MediaQuery.systemGestureInsetsOf(
+          context,
+        ).deflateRect(Offset.zero & MediaQuery.sizeOf(context));
         controller.route.blocked = !free.contains(event.position);
       },
       onPointerCancel: (event) => controller.settle(),
@@ -412,8 +413,9 @@ class _ScrollToDismissState extends State<ScrollToDismiss> {
     }
     final ScrollBehavior behavior = ScrollConfiguration.of(context);
     _behavior = behavior.copyWith(
-      physics: DismissScrollPhysics(controller: controller)
-          .applyTo(behavior.getScrollPhysics(context)),
+      physics: DismissScrollPhysics(
+        controller: controller,
+      ).applyTo(behavior.getScrollPhysics(context)),
     );
   }
 

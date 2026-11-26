@@ -204,9 +204,9 @@ typedef $$IdentitiesTableTableProcessedTableManager =
     >;
 
 mixin $IdentityRepositoryMixin on i0.DatabaseAccessor<i1.GeneratedDatabase> {
-  i2.$IdentitiesTableTable get identitiesTable =>
-      i3.ReadDatabaseContainer(attachedDatabase)
-          .resultSet<i2.$IdentitiesTableTable>('identities_table');
+  i2.$IdentitiesTableTable get identitiesTable => i3.ReadDatabaseContainer(
+    attachedDatabase,
+  ).resultSet<i2.$IdentitiesTableTable>('identities_table');
   IdentityRepositoryManager get managers => IdentityRepositoryManager(this);
 }
 

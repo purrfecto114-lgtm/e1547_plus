@@ -335,8 +335,10 @@ class PostFeedTile extends StatelessWidget {
                   score: post.score,
                   onUpvote: enabled
                       ? (isLiked) async {
-                          if ((await mutate((upvote: true, replace: !isLiked)))
-                              .isError) {
+                          if ((await mutate((
+                            upvote: true,
+                            replace: !isLiked,
+                          ))).isError) {
                             showVoteFailed(failure, post.id, upvote: true);
                             return isLiked;
                           }
@@ -345,8 +347,10 @@ class PostFeedTile extends StatelessWidget {
                       : null,
                   onDownvote: enabled
                       ? (isLiked) async {
-                          if ((await mutate((upvote: false, replace: !isLiked)))
-                              .isError) {
+                          if ((await mutate((
+                            upvote: false,
+                            replace: !isLiked,
+                          ))).isError) {
                             showVoteFailed(failure, post.id, upvote: false);
                             return isLiked;
                           }

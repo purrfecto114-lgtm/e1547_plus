@@ -262,8 +262,9 @@ class _PostEditPageState extends State<PostEditPage> {
             appBar: TransparentAppBar(
               child: AppBar(leading: CloseButton(onPressed: _close)),
             ),
-            floatingActionButtonLocation: Handedness.of(context)
-                .floatingActionButtonLocation,
+            floatingActionButtonLocation: Handedness.of(
+              context,
+            ).floatingActionButtonLocation,
             floatingActionButton: FloatingActionButton(
               onPressed: _isLoading ? null : _saveChanges,
               child: const Icon(Icons.check),

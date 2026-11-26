@@ -181,8 +181,9 @@ class PromptActionController extends ActionController {
         },
       ).then((_) => close());
     } else {
-      final sheetController = Scaffold.of(context)
-          .showBottomSheet((context) => build(context, child));
+      final sheetController = Scaffold.of(
+        context,
+      ).showBottomSheet((context) => build(context, child));
       _route = _PromptActionSheet(sheetController);
       return sheetController.closed.then((_) => close());
     }

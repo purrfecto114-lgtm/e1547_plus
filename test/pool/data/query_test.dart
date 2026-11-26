@@ -16,10 +16,9 @@ void main() {
   tearDown(() => env.dispose());
 
   test('pools asked for at once come in one request', () async {
-    final List<int> ids = loadFixtureList('pools.json')
-        .map((e) => e['id']! as int)
-        .take(2)
-        .toList();
+    final List<int> ids = loadFixtureList(
+      'pools.json',
+    ).map((e) => e['id']! as int).take(2).toList();
     env.fake.requests.clear();
 
     final List<Pool> pools = await Future.wait([

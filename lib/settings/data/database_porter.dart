@@ -82,8 +82,9 @@ Future<void> confirmStagedImport(
   String candidatePath,
   String confirmPath,
 ) async {
-  await File(confirmPath)
-      .writeAsString(await fileHash(candidatePath), flush: true);
+  await File(
+    confirmPath,
+  ).writeAsString(await fileHash(candidatePath), flush: true);
 }
 
 /// Whether the staged candidate at [candidatePath] is the validated one
@@ -145,8 +146,9 @@ Future<bool> isEncryptedExport(String path) async {
 /// Stamps the staged candidate at [candidatePath] as validated by writing
 /// its hash into the marker at [markerPath].
 Future<void> stampStagedImport(String candidatePath, String markerPath) async {
-  await File(markerPath)
-      .writeAsString(await fileHash(candidatePath), flush: true);
+  await File(
+    markerPath,
+  ).writeAsString(await fileHash(candidatePath), flush: true);
 }
 
 /// Whether the staged candidate at [candidatePath] is the one validation

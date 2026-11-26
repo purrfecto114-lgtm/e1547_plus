@@ -50,7 +50,8 @@ void main() {
     test('scrubs credentials out of urls', () {
       final LogEntry result = redactor.apply(
         entryWith({
-          'url': 'https://e621.net/posts.json?login=tester&api_key=hunter2&tags=cat',
+          'url':
+              'https://e621.net/posts.json?login=tester&api_key=hunter2&tags=cat',
         }),
       );
       final String url = result.attributes['url']! as String;

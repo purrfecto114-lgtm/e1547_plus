@@ -259,8 +259,9 @@ class SelectionAppBar<T> extends StatelessWidget with AppBarBuilderWidget {
         title:
             titleBuilder?.call(context, layoutData!) ??
             Text(
-              AppLocalizations.of(context)
-                  .selectionItemCount(layoutData!.selections.length),
+              AppLocalizations.of(
+                context,
+              ).selectionItemCount(layoutData!.selections.length),
             ),
         leading: IconButton(
           icon: const Icon(Icons.clear),

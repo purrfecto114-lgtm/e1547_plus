@@ -225,11 +225,9 @@ void main() {
   });
 
   test('asks for ids as a tag filter', () async {
-    final ids = loadFixtureList('posts.json')
-        .map((e) => e['id']! as int)
-        .toList()
-        .reversed
-        .toList();
+    final ids = loadFixtureList(
+      'posts.json',
+    ).map((e) => e['id']! as int).toList().reversed.toList();
 
     await client.byIds(ids: ids);
 
@@ -251,11 +249,9 @@ void main() {
   });
 
   test('restores the requested id order', () async {
-    final ids = loadFixtureList('posts.json')
-        .map((e) => e['id']! as int)
-        .toList()
-        .reversed
-        .toList();
+    final ids = loadFixtureList(
+      'posts.json',
+    ).map((e) => e['id']! as int).toList().reversed.toList();
 
     final posts = await client.byIds(ids: ids);
 

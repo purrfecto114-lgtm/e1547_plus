@@ -185,8 +185,9 @@ void main() {
       final temp = await Directory.systemTemp.createTemp('e1547-logs');
       // The list only offers its live entry once a log file exists, and a
       // file only parses with a full timestamp in its name.
-      await File('${temp.path}/2026-10-01-12-00-00-000.jsonl')
-          .writeAsString('');
+      await File(
+        '${temp.path}/2026-10-01-12-00-00-000.jsonl',
+      ).writeAsString('');
       final preferences = await SharedPreferences.getInstance();
       storage = AppStorage(
         preferences: preferences,

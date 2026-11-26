@@ -8,5 +8,6 @@ const EdgeInsets defaultFormPadding = EdgeInsets.symmetric(
 
 const double defaultFormTargetHeight = 300;
 
-final EdgeInsets defaultFormScreenPadding = const EdgeInsets.all(16)
-    .copyWith(bottom: defaultActionListBottomHeight);
+final EdgeInsets defaultFormScreenPadding = const EdgeInsets.all(
+  16,
+).copyWith(bottom: defaultActionListBottomHeight);

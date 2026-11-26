@@ -13,8 +13,9 @@ class CodeWrap extends StatelessWidget {
       color: dimTextColor(context),
       padding: const EdgeInsets.only(left: ColoredCard.stripeWidth),
       child: DefaultTextStyle(
-        style: DefaultTextStyle.of(context).style
-            .copyWith(fontFamily: 'JetBrains Mono'),
+        style: DefaultTextStyle.of(
+          context,
+        ).style.copyWith(fontFamily: 'JetBrains Mono'),
         child: Padding(
           padding: const EdgeInsets.all(8),
           child: Column(

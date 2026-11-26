@@ -4,10 +4,8 @@ import 'package:e1547/query/query.dart';
 import 'package:e1547/shared/shared.dart';
 import 'package:flutter/material.dart';
 
-typedef HistoryConnector<T> = HistoryRequest Function(
-  BuildContext context,
-  T data,
-);
+typedef HistoryConnector<T> =
+    HistoryRequest Function(BuildContext context, T data);
 
 class ItemHistoryConnector<T> extends StatefulWidget {
   const ItemHistoryConnector({
