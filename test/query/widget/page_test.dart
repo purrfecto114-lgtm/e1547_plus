@@ -33,35 +33,47 @@ void main() {
   });
 
   /// A [PagedQueryBuilder] wired to [cache] with one item query per id.
-  Widget harness({
+  ///
+  /// The returned record carries the query so a test can drive extra
+  /// pages with [InfiniteQuery.getNextPage].
+  ({Widget tree, InfiniteQuery<List<int>, int> query}) harness({
     required List<List<int>> pages,
     required void Function(List<Item?> items) observe,
     GlobalObjectKey<_RebuildCounterState>? counterKey,
+    void Function(List<List<Item>> pages)? onPageList,
   }) {
     final query = InfiniteQuery<List<int>, int>(
       cache: cache,
       key: 'ids',
-      getNextArg: (state) => state == null ? 1 : null,
+      getNextArg: (state) =>
+          state == null ? 1 : (state.pages.length < pages.length
+              ? state.pages.length + 1
+              : null),
       // Unsubscribe must not schedule a delete timer the test's fake
       // clock cannot wait out.
       config: const QueryConfig(ignoreCacheDuration: true),
       queryFn: (page) async => pages[page - 1],
     );
-    return MaterialApp(
+    final tree = MaterialApp(
       home: _RebuildCounter(
         key: counterKey,
         child: PagedQueryBuilder<Item, int>(
           query: query,
+          // Real fetches: like the live pipeline, the item queries resolve
+          // through their own network round (queryFn), so their fetch
+          // starts and data arrivals fire the emissions the rebuild
+          // coalescing has to fold.
           getItem: (id) => Query(
             cache: cache,
             key: ['item', id],
             queryFn: () async => Item(id, 0),
             config: const QueryConfig(ignoreCacheDuration: true),
-          ),
+          )..fetch(),
           builder: (context, state) {
-            final items = state.data?.pages.expand((p) => p).toList() ?? [];
+            final pages = state.data?.pages.toList() ?? const <List<Item>>[];
+            onPageList?.call(pages.cast<List<Item>>());
             observe([
-              for (final item in items)
+              for (final item in pages.expand((p) => p))
                 item == null ? null : cache
                     .getQuery<Query<Item>>(['item', item.id])
                     ?.state
@@ -72,6 +84,7 @@ void main() {
         ),
       ),
     );
+    return (tree: tree, query: query);
   }
 
   testWidgets('one item update rebuilds the list once', (tester) async {
@@ -83,16 +96,18 @@ void main() {
     List<Item?> seen = const [];
     final counterKey = GlobalObjectKey<_RebuildCounterState>(#one);
 
-    await tester.pumpWidget(harness(
-      pages: const [
-        [1, 2, 3],
-      ],
-      observe: (items) {
-        rebuilds++;
-        seen = items;
-      },
-      counterKey: counterKey,
-    ));
+    await tester.pumpWidget(
+      harness(
+        pages: const [
+          [1, 2, 3],
+        ],
+        observe: (items) {
+          rebuilds++;
+          seen = items;
+        },
+        counterKey: counterKey,
+      ).tree,
+    );
     // Initial settle: the page query + item queries all resolve.
     await tester.pumpAndSettle();
     rebuilds = 0;
@@ -106,32 +121,50 @@ void main() {
   });
 
 
-  testWidgets('a burst of item fetch starts settles into few rebuilds', (
+  testWidgets('a same-data emission does not rebuild the list', (
     tester,
   ) async {
-    // A page landing means every item query on it fires: fetch-start
-    // emissions with no data yet, then data emissions. The list must
-    // coalesce that burst into a handful of frames, not one frame per
-    // emission — 75 posts would mean 150+ frames per page on the wire.
+    // cached_query re-emits the same data (setData echoes, storage
+    // round trips, refetch votes on staleness): each re-emission used
+    // to rebuild the whole paged list even though nothing changed.
+    // On the fake clock every fetch settles inside one frame, so the
+    // honest measurable is the echo: a no-change emission must cost
+    // zero rebuilds.
     int rebuilds = 0;
-    final counterKey = GlobalObjectKey<_RebuildCounterState>(#two);
 
-    await tester.pumpWidget(harness(
+    final h = harness(
       pages: const [
-        [1, 2, 3, 4, 5],
+        [1, 2, 3],
       ],
       observe: (_) => rebuilds++,
-      counterKey: counterKey,
-    ));
+      counterKey: GlobalObjectKey<_RebuildCounterState>(#four),
+    );
+    await tester.pumpWidget(h.tree);
+    await tester.pumpAndSettle();
+    rebuilds = 0;
+
+    // Echo the same data the query already holds.
+    cache.setQueryData<Item>(key: ['item', 1], data: Item(1, 0));
     await tester.pumpAndSettle();
 
-    // The whole burst coalesces into the three frames the data itself
-    // needs — page fetch start, page data, item data — not one frame per
-    // emission (the fetch-start echo of each of the five items used to
-    // pay its own frame, and the item data arrivals each paid another).
-    expect(rebuilds, 3);
+    expect(rebuilds, 0);
   });
 
+}
+
+class _PageRecorder {
+  List<List<Item>>? before;
+  List<List<Item>>? after;
+
+  void record(List<List<Item>> pages) {
+    after = pages;
+    before ??= pages;
+  }
+
+  void reset() {
+    before = null;
+    after = null;
+  }
 }
 
 class _RebuildCounter extends StatefulWidget {
