@@ -138,18 +138,21 @@ class DriftQueryStorage extends StorageInterface {
 
   void _enqueue(Future<void> Function() write, {bool boundary = false}) {
     _pending++;
-    _writes = _writes.then((_) => write()).then((_) async {
-      _pending--;
-      // A boundary turn (deleteAll) commits on its own: the wipe must
-      // not swallow a put queued after it, so the burst ends here.
-      // Otherwise, only the last turn of a burst commits: while more
-      // turns are queued, their writes belong in this same transaction.
-      if (boundary || _pending == 0) {
-        await _commitStaged();
-      }
-    }).catchError((_) {
-      _pending--;
-    });
+    _writes = _writes
+        .then((_) => write())
+        .then((_) async {
+          _pending--;
+          // A boundary turn (deleteAll) commits on its own: the wipe must
+          // not swallow a put queued after it, so the burst ends here.
+          // Otherwise, only the last turn of a burst commits: while more
+          // turns are queued, their writes belong in this same transaction.
+          if (boundary || _pending == 0) {
+            await _commitStaged();
+          }
+        })
+        .catchError((_) {
+          _pending--;
+        });
   }
 
   @override
@@ -170,27 +173,24 @@ class DriftQueryStorage extends StorageInterface {
 
   @override
   void put(StoredQuery query) => _enqueue(() async {
-        _staged[query.key] = QueryStorageTableData(
-          key: query.key,
-          data: jsonEncode(query.data),
-          createdAt: query.createdAt,
-          duration: query.storageDuration?.inMilliseconds,
-          expiresAt: query.expiry,
-        );
-      });
+    _staged[query.key] = QueryStorageTableData(
+      key: query.key,
+      data: jsonEncode(query.data),
+      createdAt: query.createdAt,
+      duration: query.storageDuration?.inMilliseconds,
+      expiresAt: query.expiry,
+    );
+  });
 
   @override
   void delete(String key) => _enqueue(() async {
-        _staged[key] = null;
-      });
+    _staged[key] = null;
+  });
 
   @override
-  void deleteAll() => _enqueue(
-        () async {
-          _staged[_wipeSentinel] = null;
-        },
-        boundary: true,
-      );
+  void deleteAll() => _enqueue(() async {
+    _staged[_wipeSentinel] = null;
+  }, boundary: true);
 
   Future<void> _commitStaged() async {
     if (_staged.isEmpty) return;

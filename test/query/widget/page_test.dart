@@ -45,10 +45,9 @@ void main() {
     final query = InfiniteQuery<List<int>, int>(
       cache: cache,
       key: 'ids',
-      getNextArg: (state) =>
-          state == null ? 1 : (state.pages.length < pages.length
-              ? state.pages.length + 1
-              : null),
+      getNextArg: (state) => state == null
+          ? 1
+          : (state.pages.length < pages.length ? state.pages.length + 1 : null),
       // Unsubscribe must not schedule a delete timer the test's fake
       // clock cannot wait out.
       config: const QueryConfig(ignoreCacheDuration: true),
@@ -74,10 +73,12 @@ void main() {
             onPageList?.call(pages.cast<List<Item>>());
             observe([
               for (final item in pages.expand((p) => p))
-                item == null ? null : cache
-                    .getQuery<Query<Item>>(['item', item.id])
-                    ?.state
-                    .data,
+                item == null
+                    ? null
+                    : cache
+                          .getQuery<Query<Item>>(['item', item.id])
+                          ?.state
+                          .data,
             ]);
             return const SizedBox();
           },
@@ -120,10 +121,7 @@ void main() {
     expect(rebuilds, 1);
   });
 
-
-  testWidgets('a same-data emission does not rebuild the list', (
-    tester,
-  ) async {
+  testWidgets('a same-data emission does not rebuild the list', (tester) async {
     // cached_query re-emits the same data (setData echoes, storage
     // round trips, refetch votes on staleness): each re-emission used
     // to rebuild the whole paged list even though nothing changed.
@@ -149,7 +147,6 @@ void main() {
 
     expect(rebuilds, 0);
   });
-
 }
 
 class _PageRecorder {
