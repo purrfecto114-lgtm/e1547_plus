@@ -138,19 +138,30 @@ class DriftQueryStorage extends StorageInterface {
 
   void _enqueue(Future<void> Function() write, {bool boundary = false}) {
     _pending++;
+    // The pending slot is released exactly once per turn — write and
+    // commit outcomes alike — through whenComplete. A counter that
+    // double-decrements on a failure would drift negative and every
+    // later burst would stage forever without committing; one that
+    // never decrements on failure stalls the queue the other way.
     _writes = _writes
         .then((_) => write())
         .then((_) async {
-          _pending--;
           // A boundary turn (deleteAll) commits on its own: the wipe must
           // not swallow a put queued after it, so the burst ends here.
           // Otherwise, only the last turn of a burst commits: while more
           // turns are queued, their writes belong in this same transaction.
-          if (boundary || _pending == 0) {
+          if (boundary || _pending == 1) {
             await _commitStaged();
           }
         })
         .catchError((_) {
+          // A database error in this turn's write or commit is
+          // swallowed — fire and forget like the writes themselves —
+          // and the queue stays alive for later bursts. A failed commit
+          // drops its staged writes; the next burst re-stages what it
+          // still holds, and a fetch re-stores whatever the app needs.
+        })
+        .whenComplete(() {
           _pending--;
         });
   }
@@ -212,7 +223,10 @@ class DriftQueryStorage extends StorageInterface {
     if (wipe) {
       _estimatedEntries = 0;
     } else if (puts.isNotEmpty) {
-      _estimatedEntries = (_estimatedEntries ?? await repository.count()) + 1;
+      // One flush upserts many rows: the estimate tracks them all, or
+      // the eviction trigger lags by (rows-per-flush - 1) per flush.
+      _estimatedEntries =
+          (_estimatedEntries ?? await repository.count()) + puts.length;
       await _evict();
     }
   }

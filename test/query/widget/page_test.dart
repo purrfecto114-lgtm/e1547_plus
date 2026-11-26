@@ -112,6 +112,63 @@ void main() {
     expect(rebuilds, 1);
   });
 
+  testWidgets('two item updates in one window rebuild once', (tester) async {
+    // Two votes land in the same synchronous window (a batch task, a
+    // stream replay): the second setState is already scheduled when the
+    // second emission arrives, so both fold into one rebuild.
+    int rebuilds = 0;
+    final h = harness(
+      pages: const [
+        [1, 2, 3],
+      ],
+      observe: (_) => rebuilds++,
+      counterKey: const GlobalObjectKey<_RebuildCounterState>(#five),
+    );
+    await tester.pumpWidget(h.tree);
+    await tester.pumpAndSettle();
+    rebuilds = 0;
+
+    cache.setQueryData<Item>(key: ['item', 1], data: const Item(1, 5));
+    cache.setQueryData<Item>(key: ['item', 2], data: const Item(2, 6));
+    await tester.pumpAndSettle();
+
+    expect(rebuilds, 1);
+  });
+
+  testWidgets('a changed item rebuilds only its own page', (tester) async {
+    // The resolved page lists of untouched pages keep their instance:
+    // the timeline hands the same sublists to the grid, so only the
+    // tiles of the changed post's page re-layout.
+    List<List<Item>>? firstPages;
+    List<List<Item>>? lastPages;
+
+    final h = harness(
+      pages: const [
+        [1, 2, 3],
+        [4, 5, 6],
+      ],
+      observe: (_) {},
+      counterKey: const GlobalObjectKey<_RebuildCounterState>(#six),
+      onPageList: (pages) {
+        firstPages ??= pages;
+        lastPages = pages;
+      },
+    );
+    await tester.pumpWidget(h.tree);
+    await h.query.getNextPage();
+    await tester.pumpAndSettle();
+    final baseline = List.of(lastPages!);
+
+    cache.setQueryData<Item>(key: ['item', 5], data: const Item(5, 9));
+    await tester.pumpAndSettle();
+
+    // The page holding item 5 is a fresh list; the untouched page keeps
+    // its instance.
+    expect(identical(baseline[0], lastPages![0]), isTrue);
+    expect(identical(baseline[1], lastPages![1]), isFalse);
+    expect(lastPages![1].where((i) => i.id == 5).single.votes, 9);
+  });
+
   testWidgets('a same-data emission does not rebuild the list', (tester) async {
     // cached_query re-emits the same data (setData echoes, storage
     // round trips, refetch votes on staleness): each re-emission used

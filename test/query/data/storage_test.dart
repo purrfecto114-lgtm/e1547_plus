@@ -1,5 +1,7 @@
 import 'package:drift/native.dart';
 import 'package:e1547/app/app.dart';
+// ignore: always_use_package_imports
+import 'package:e1547/query/data/storage.drift.dart';
 import 'package:e1547/query/query.dart';
 import 'package:flutter_test/flutter_test.dart';
 
@@ -181,6 +183,26 @@ void main() {
       expect((await storage.get('["ident",1,"posts",6]'))!.data, {'id': 6});
     });
 
+    test('keeps committing after a failed flush', () async {
+      // One failed write or commit must not kill the queue: the pending
+      // slot is released exactly once per turn, so later bursts keep
+      // committing (the failed burst's writes are dropped fire-and-forget
+      // like the old per-write queue dropped them).
+      final sqlite = AppDatabase(NativeDatabase.memory());
+      final flaky = _FlakyRepository(database: sqlite);
+      final storage = DriftQueryStorage(repository: flaky);
+      addTearDown(() => sqlite.close());
+
+      storage.put(entry('["ident",1,"posts",1]', {'id': 1}));
+      await storage.get('drain'); // the flush fails; the burst is dropped
+
+      storage.put(entry('["ident",1,"posts",2]', {'id': 2}));
+      await storage.get('drain');
+
+      expect((await storage.get('["ident",1,"posts",2]'))?.data, {'id': 2});
+      expect(storage.flushes, 2);
+    });
+
     test('commits separately again once a flush has landed', () async {
       final storage = wide();
       storage.put(entry('["ident",1,"posts",5]', {'id': 5}));
@@ -192,4 +214,25 @@ void main() {
       expect(storage.flushes, 2);
     });
   });
+}
+
+class _FlakyRepository extends QueryStorageRepository {
+  _FlakyRepository({required super.database});
+
+  /// How many leading writeAll calls fail; a transient sqlite error.
+  int failures = 1;
+
+  int _failed = 0;
+
+  @override
+  Future<void> writeAll(
+    List<QueryStorageTableData> entries, {
+    List<String>? removeKeys,
+  }) async {
+    if (_failed < failures) {
+      _failed++;
+      throw Exception('simulated transient sqlite failure');
+    }
+    return super.writeAll(entries, removeKeys: removeKeys);
+  }
 }

@@ -39,12 +39,12 @@ class _PagedQueryBuilderState<T, Arg> extends State<PagedQueryBuilder<T, Arg>> {
   InfiniteQueryStatus<List<int>, Arg>? lastState;
   InfiniteQueryStatus<List<T>, Arg>? cachedState;
 
-  /// Resolved page cache: a page's ids → the resolved list handed to the
-  /// builder. A page whose ids and their items have not changed hands
-  /// back the same list instance, so one item's update rebuilds only
-  /// its own page (and the tiles that depend on it) instead of every
-  /// page of the timeline.
-  final Map<List<int>, List<T>> _resolvedPages = {};
+  /// Resolved page cache: a page's fingerprint (ids + revisions) →
+  /// the resolved list handed to the builder. A page whose ids and
+  /// their items have not changed hands back the same list instance,
+  /// so one item's update rebuilds only its own page (and the tiles
+  /// that depend on it) instead of every page of the timeline.
+  final Map<String, List<T>> _resolvedPages = {};
 
   /// Revisions of the items: bumped on every item change so a page's
   /// cache key reflects the data its items hold, not just the ids.
@@ -90,13 +90,7 @@ class _PagedQueryBuilderState<T, Arg> extends State<PagedQueryBuilder<T, Arg>> {
       // An emission that lands the same data as the last one leaves the
       // resolved list unchanged: re-resolving it would rebuild every
       // tile for nothing.
-      if (items[id] == state.data) {
-        if (state.data == null && items[id] != null) {
-          // fall through: a lost item must update the list
-        } else {
-          return;
-        }
-      }
+      if (items[id] == state.data) return;
       items[id] = state.data;
       _itemRevisions[id] = (_itemRevisions[id] ?? 0) + 1;
       cachedState = null;
@@ -149,40 +143,43 @@ class _PagedQueryBuilderState<T, Arg> extends State<PagedQueryBuilder<T, Arg>> {
     final seenIds = <int>{};
 
     for (final page in pages) {
-      // Cache key: the page's ids with each id's revision, so a page
-      // where nothing changed resolves to the same list instance as the
-      // last build — only the page holding the changed item pays a new
-      // list. Ids an earlier page already served (overlaps) contribute
-      // as duplicates of that page's key and reuse its verdict.
-      final key = [
-        for (final id in page) id,
-        for (final id in page) _itemRevisions[id] ?? 0,
+      // A page resolves through the ids its earlier pages have not
+      // already served (overlapping pages keep their dedupe). The
+      // fingerprint of those ids and their revisions keys the cache:
+      // a page where nothing changed resolves to the very same list
+      // instance as the last build — only the page holding the changed
+      // item pays a new list.
+      final outstanding = [
+        for (final id in page)
+          if (!seenIds.contains(id)) id,
       ];
-      final cached = _resolvedPages[key];
+      final fingerprint = [
+        for (final id in outstanding) id,
+        for (final id in outstanding) _itemRevisions[id] ?? 0,
+      ].join(' ');
+
+      final cached = _resolvedPages[fingerprint];
       if (cached != null) {
         resolvedPages.add(cached);
-        for (final id in page) {
-          seenIds.add(id);
-        }
+        seenIds.addAll(outstanding);
         continue;
       }
 
       final resolvedPage = <T>[];
-      for (final id in page) {
-        if (seenIds.contains(id)) continue;
+      for (final id in outstanding) {
         final item = items[id];
         if (item != null) {
           resolvedPage.add(item);
           seenIds.add(id);
         }
       }
-      _resolvedPages[key] = resolvedPage;
       // The cache grows one entry per (page, revision): revisions of
       // pages long gone never collide with a key again, so a cheap cap
       // keeps it bounded — dropping entries only costs a rebuild.
       if (_resolvedPages.length > 512) {
         _resolvedPages.clear();
       }
+      _resolvedPages[fingerprint] = resolvedPage;
       resolvedPages.add(resolvedPage);
     }
 
