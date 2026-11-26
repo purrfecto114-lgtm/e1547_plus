@@ -19,19 +19,16 @@ fi
 # Advisories accepted until the constraints around them change.
 KNOWN="$(cat "$BASELINE" 2>/dev/null || true)"
 
-query() {
-  # $1: ecosystem (RubyGems or Pub), $2: package, $3: version
-  jq -n --arg eco "$1" --arg pkg "$2" --arg ver "$3" \
-    '{package: {ecosystem: $eco, name: $pkg}, version: $ver}' \
-    | curl -fsS --max-time 30 -X POST 'https://api.osv.dev/v1/query' \
-      -d @- \
-    | jq -r '.vulns[]?.id // empty'
-}
+# Packages sent to OSV per batched request. The batch endpoint collapses
+# ~350 per-package queries (each one HTTP round trip, about a minute in
+# CI) into a handful of requests.
+BATCH_SIZE=100
 
 fail=0
 hits=0
 
-scan_file() {
+collect_file() {
+  # $1: lockfile, $2: ecosystem (RubyGems or Pub)
   local file="$1" eco="$2"
   [ -f "$file" ] || return 0
   # RubyGems: "    gem (1.2.3)" lines inside the GEM specs block
@@ -45,13 +42,62 @@ scan_file() {
       /^    version: "/ {gsub(/"|version: | /,"",$0); if (pkg!="") {print pkg" "$0; pkg=""}}
     ' "$file"
   fi | while read -r pkg ver; do
-    for advisory in $(query "$eco" "$pkg" "$ver"); do
-      echo "$eco $pkg@$ver: $advisory"
-    done
+    echo "$eco $pkg $ver"
   done
 }
 
-RESULTS="$( { scan_file Gemfile.lock RubyGems; scan_file pubspec.lock Pub; } | sort )"
+scan_batches() {
+  # $1: file with "ecosystem package version" lines; prints one
+  # "ecosystem pkg@ver: advisory" line per hit. Every failure aborts the
+  # scan: a query that never ran must not count as a clean pass.
+  local lines="$1" start total line eco pkg ver rest response
+  local -a chunk
+  local chunk_json advisory idx results
+  response="$(mktemp)"
+  total=$(wc -l < "$lines")
+  for ((start = 0; start < total; start += BATCH_SIZE)); do
+    mapfile -t chunk < <(sed -n "$((start + 1)),$((start + BATCH_SIZE))p" "$lines")
+    chunk_json=$(
+      printf '%s\n' "${chunk[@]}" | jq -R '
+        split(" ") | {package: {ecosystem: .[0], name: .[1]}, version: .[2]}
+      ' | jq -s '{queries: .}'
+    )
+    if ! curl -fsS --max-time 30 -X POST 'https://api.osv.dev/v1/querybatch' \
+      -H 'Content-Type: application/json' \
+      -d "$chunk_json" -o "$response"; then
+      echo "::error::OSV batch query failed (packages $((start + 1))-$((start + ${#chunk[@]})))"
+      exit 1
+    fi
+    # The batch answers with one result per query, in order; anything
+    # else means the payload was malformed and some packages went
+    # unscanned.
+    results="$(jq -c '.results' "$response")"
+    if [ "$(jq 'length' <<<"$results")" -ne "${#chunk[@]}" ]; then
+      echo "::error::OSV batch answered ${#chunk[@]} queries with $(jq 'length' <<<"$results") results"
+      exit 1
+    fi
+    for idx in "${!chunk[@]}"; do
+      line="${chunk[$idx]}"
+      eco="${line%% *}"
+      rest="${line#* }"
+      pkg="${rest%% *}"
+      ver="${rest#* }"
+      # $results is already the per-query result array; a jq failure
+      # here must abort, or an advisory would pass unnoticed.
+      while IFS= read -r advisory; do
+        [ -n "$advisory" ] && echo "$eco $pkg@$ver: $advisory"
+      done < <(jq -r --argjson idx "$idx" \
+        '.[$idx].vulns[]?.id // empty' <<<"$results") || exit 1
+    done
+  done
+  rm -f "$response"
+}
+
+PACKAGES="$(mktemp)"
+trap 'rm -f "$PACKAGES"' EXIT
+{ collect_file Gemfile.lock RubyGems; collect_file pubspec.lock Pub; } \
+  > "$PACKAGES"
+RESULTS="$(scan_batches "$PACKAGES" | sort)"
 
 if [ -n "$RESULTS" ]; then
   while IFS= read -r line; do

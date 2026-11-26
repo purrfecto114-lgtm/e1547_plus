@@ -11,7 +11,7 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  validate:
+  static:
     runs-on: ubuntu-latest
     steps:
       - name: setup actions
@@ -48,18 +48,50 @@ jobs:
       - name: analyze sources
         run: flutter analyze
 
-      - name: run tests
-        # The github reporter turns a failing test into a check
-        # annotation naming the suite and case; the default reporter
-        # on a runner only surfaces the process exit code, which
-        # leaves a red job unlocalizable.
-        run: flutter test --reporter github
-
       # Scans the locked Ruby and Pub dependencies against OSV; advisories
       # outside tool/osv_baseline.txt (known-unfixable under the current
-      # fastlane constraints) fail the validation.
+      # fastlane constraints) fail the validation. The scan batched its
+      # queries: a per-package round trip cost about a minute, the batch
+      # endpoint answers all ~350 locked packages in a few requests.
       - name: scan locked dependencies against OSV
         run: ./tool/osv_scan.sh
+
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      # Let every shard finish: each one reports its own failing suites
+      # as check annotations, and cutting the others loose would hide
+      # whether the same regression broke them too.
+      fail-fast: false
+      matrix:
+        shard: [0, 1, 2]
+    steps:
+      - name: setup actions
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+
+      - name: parse flutter version
+        run: |
+          export FLUTTER_VERSION=$(./.github/workflows/get_flutter_version.sh)
+          echo "FLUTTER_VERSION=$FLUTTER_VERSION" >> $GITHUB_ENV
+
+      - name: setup flutter
+        uses: subosito/flutter-action@1a449444c387b1966244ae4d4f8c696479add0b2 # v2
+        with:
+          flutter-version: ${{ env.FLUTTER_VERSION }}
+          cache: true
+
+      - name: get flutter dependencies
+        run: flutter pub get --enforce-lockfile
+
+      - name: run tests
+        # Sharded over the sorted test files: every job compiles and runs
+        # only its own third of the suite. The runner's built-in
+        # --total-shards was measured worse than no sharding at all — it
+        # filters tests only after loading, so every shard still compiles
+        # all ~176 files before dropping two thirds of them.
+        run: |
+          files=$(find test -name "*_test.dart" | LC_ALL=C sort | awk -v shard=${{ matrix.shard }} 'NR % 3 == shard')
+          flutter test $files --reporter github
 
   android-smoke:
     # Catches gradle level breakage that the dart level jobs cannot see,
@@ -74,6 +106,14 @@ jobs:
         with:
           distribution: "temurin"
           java-version: "17"
+
+      - name: setup gradle cache
+        # The gradle wrapper, plugin and dependency caches live outside
+        # the flutter SDK cache; without this step every run redownloads
+        # them and the smoke build spends most of its five minutes there.
+        uses: gradle/actions/setup-gradle@ed408507eac070d1f99cc633dbcf757c94c7933a # v4
+        with:
+          dependency-graph: disable
 
       - name: parse flutter version
         run: |
