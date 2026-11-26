@@ -21,6 +21,7 @@ final List<RouterDrawerDestination> rootDestintations = [
     icon: const Icon(Icons.home),
     builder: (context) => const HomePage(),
     unique: true,
+    tab: true,
     group: _drawerSearchGroup,
   ),
   NamedRouterDrawerDestination(
@@ -29,6 +30,7 @@ final List<RouterDrawerDestination> rootDestintations = [
     icon: const Icon(Icons.whatshot),
     builder: (context) => const HotPage(),
     unique: true,
+    tab: true,
     group: _drawerSearchGroup,
   ),
   NamedRouterDrawerDestination(
@@ -36,6 +38,8 @@ final List<RouterDrawerDestination> rootDestintations = [
     name: 'Search',
     icon: const Icon(Icons.search),
     builder: (context) => const PostsPage(),
+    unique: true,
+    tab: true,
     group: _drawerSearchGroup,
   ),
   NamedRouterDrawerDestination(

@@ -43,6 +43,14 @@ abstract class FilterController<T> extends ChangeNotifier {
   int _generation = 0;
   final Map<Object, int> _trackedGeneration = {};
 
+  /// The current [invalidate] generation.
+  ///
+  /// Consumers that cache filter-derived views against the query's data
+  /// instance key their cache with this too: [invalidate] changes what
+  /// the same data filters into, so an unchanged data instance no longer
+  /// proves a cached view current.
+  int get generation => _generation;
+
   bool _notifyScheduled = false;
   bool _disposed = false;
 

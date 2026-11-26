@@ -8,11 +8,20 @@ class RouterDrawerDestination {
     required this.path,
     required this.builder,
     this.unique = false,
+    this.tab = false,
   });
 
   final String path;
   final WidgetBuilder builder;
   final bool unique;
+
+  /// A section that behaves like a tab: switching to it swaps the whole
+  /// navigation stack in place, without an enter animation and without a
+  /// back button — the drawer button stays.
+  ///
+  /// Set [unique] alongside it so the drawer highlights the section while
+  /// it is on screen.
+  final bool tab;
 }
 
 typedef RouterDrawerSettingCallback = bool Function(BuildContext context);
@@ -28,6 +37,7 @@ class NamedRouterDrawerDestination<T extends Widget>
     required super.path,
     required T Function(BuildContext context) builder,
     super.unique,
+    super.tab,
   }) : super(builder: builder);
 
   final String name;
@@ -51,11 +61,15 @@ class RouterDrawerController extends ChangeNotifier {
 
   String? get drawerSelection => _drawerSelection;
 
-  void setDrawerSelection<T extends Widget>() {
+  void setDrawerSelection<T extends Widget>({required String? routeName}) {
     NamedRouterDrawerDestination? target = destinations
         .whereType<NamedRouterDrawerDestination<T>>()
         .firstWhereOrNull((e) => e.unique);
-    if (target != null && _drawerSelection != target.path) {
+    // A section claims the highlight only from its own route: Hot embeds
+    // a PostsPage of its own, and that inner page's entry must not flip
+    // the highlight to Search from underneath the Hot tab.
+    if (target == null || routeName != target.path) return;
+    if (_drawerSelection != target.path) {
       _drawerSelection = target.path;
       WidgetsBinding.instance.addPostFrameCallback((_) => notifyListeners());
     }
@@ -135,15 +149,38 @@ class _RouterDrawerState extends State<RouterDrawer> {
               destination.path == controller.drawerSelection,
           title: Text(localizedDestinationName(context, destination.name)),
           leading: destination.icon,
-          onTap: destination.unique
-              ? () => Navigator.of(context).pushNamedAndRemoveUntil(
-                  destination.path,
-                  (route) => route.isFirst,
-                )
-              : () {
-                  Scaffold.maybeOf(context)?.closeDrawer();
-                  Navigator.of(context).pushNamed(destination.path);
-                },
+          onTap: () {
+            // The section that is already on screen must not be entered
+            // again: a duplicate push replayed the enter animation and
+            // stacked a second copy of the page on every tap.
+            if (ModalRoute.of(context)?.settings.name == destination.path) {
+              Scaffold.maybeOf(context)?.closeDrawer();
+              return;
+            }
+            if (destination.tab) {
+              Navigator.of(context).pushAndRemoveUntil(
+                PageRouteBuilder<void>(
+                  settings: RouteSettings(name: destination.path),
+                  pageBuilder: (context, animation, secondaryAnimation) =>
+                      destination.builder(context),
+                  // A tab switch swaps roots: animating it would read as
+                  // a navigation into a subpage and pair with a back
+                  // button instead of the drawer button.
+                  transitionDuration: Duration.zero,
+                  reverseTransitionDuration: Duration.zero,
+                ),
+                (route) => false,
+              );
+            } else if (destination.unique) {
+              Navigator.of(context).pushNamedAndRemoveUntil(
+                destination.path,
+                (route) => route.isFirst,
+              );
+            } else {
+              Scaffold.maybeOf(context)?.closeDrawer();
+              Navigator.of(context).pushNamed(destination.path);
+            }
+          },
         ),
       );
     }
@@ -162,7 +199,9 @@ mixin RouterDrawerEntryWidget<T extends StatefulWidget> on State<T> {
   void didChangeDependencies() {
     super.didChangeDependencies();
     if (ModalRoute.of(context)!.isCurrent) {
-      context.watch<RouterDrawerController?>()?.setDrawerSelection<T>();
+      context.watch<RouterDrawerController?>()?.setDrawerSelection<T>(
+        routeName: ModalRoute.of(context)?.settings.name,
+      );
     }
   }
 }
@@ -182,7 +221,9 @@ class _RouterDrawerEntryState<T extends Widget>
   void didChangeDependencies() {
     super.didChangeDependencies();
     if (ModalRoute.of(context)!.isCurrent) {
-      context.watch<RouterDrawerController?>()?.setDrawerSelection<T>();
+      context.watch<RouterDrawerController?>()?.setDrawerSelection<T>(
+        routeName: ModalRoute.of(context)?.settings.name,
+      );
     }
   }
 
