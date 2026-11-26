@@ -1,10 +1,9 @@
-import 'dart:async';
-
 import 'package:e1547/query/query.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 /// A minimal cache item: equal values so no-op updates can be skipped.
+@immutable
 class Item {
   const Item(this.id, this.votes);
 
@@ -71,15 +70,7 @@ void main() {
           builder: (context, state) {
             final pages = state.data?.pages.toList() ?? const <List<Item>>[];
             onPageList?.call(pages.cast<List<Item>>());
-            observe([
-              for (final item in pages.expand((p) => p))
-                item == null
-                    ? null
-                    : cache
-                          .getQuery<Query<Item>>(['item', item.id])
-                          ?.state
-                          .data,
-            ]);
+            observe([for (final item in pages.expand((p) => p)) item]);
             return const SizedBox();
           },
         ),
@@ -94,8 +85,8 @@ void main() {
     // (fetch starts, unchanged data echoes), which storm the framework
     // with layout work during every page load.
     int rebuilds = 0;
-    List<Item?> seen = const [];
-    final counterKey = GlobalObjectKey<_RebuildCounterState>(#one);
+    List<Item?> seen = [];
+    const counterKey = GlobalObjectKey<_RebuildCounterState>(#one);
 
     await tester.pumpWidget(
       harness(
@@ -117,7 +108,7 @@ void main() {
     cache.setQueryData<Item>(key: ['item', 1], data: const Item(1, 5));
     await tester.pumpAndSettle();
 
-    expect(seen[0]!.votes, 5);
+    expect(seen.firstWhere((i) => i!.id == 1)!.votes, 5);
     expect(rebuilds, 1);
   });
 
@@ -135,33 +126,18 @@ void main() {
         [1, 2, 3],
       ],
       observe: (_) => rebuilds++,
-      counterKey: GlobalObjectKey<_RebuildCounterState>(#four),
+      counterKey: const GlobalObjectKey<_RebuildCounterState>(#four),
     );
     await tester.pumpWidget(h.tree);
     await tester.pumpAndSettle();
     rebuilds = 0;
 
     // Echo the same data the query already holds.
-    cache.setQueryData<Item>(key: ['item', 1], data: Item(1, 0));
+    cache.setQueryData<Item>(key: ['item', 1], data: const Item(1, 0));
     await tester.pumpAndSettle();
 
     expect(rebuilds, 0);
   });
-}
-
-class _PageRecorder {
-  List<List<Item>>? before;
-  List<List<Item>>? after;
-
-  void record(List<List<Item>> pages) {
-    after = pages;
-    before ??= pages;
-  }
-
-  void reset() {
-    before = null;
-    after = null;
-  }
 }
 
 class _RebuildCounter extends StatefulWidget {

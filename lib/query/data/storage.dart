@@ -198,7 +198,7 @@ class DriftQueryStorage extends StorageInterface {
     final wipe = _staged.containsKey(_wipeSentinel);
     final puts = [
       for (final MapEntry(:key, :value) in _staged.entries)
-        if (value != null && key != _wipeSentinel) value!,
+        if (value != null && key != _wipeSentinel) value,
     ];
     final removes = [
       for (final MapEntry(:key, :value) in _staged.entries)
