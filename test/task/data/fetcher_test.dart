@@ -13,8 +13,9 @@ class _TempPathProvider extends PathProviderPlatform {
   String? _path;
 
   @override
-  Future<String?> getTemporaryPath() async => _path ??=
-      (await Directory.systemTemp.createTemp('e1547-fetcher-test')).path;
+  Future<String?> getTemporaryPath() async =>
+      _path ??= (await Directory.systemTemp.createTemp('e1547-fetcher-test'))
+          .path;
 }
 
 /// Serves a fixed body for every request, as a cdn would.

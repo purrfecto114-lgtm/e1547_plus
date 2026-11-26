@@ -28,9 +28,8 @@ class TasksPage extends StatelessWidget {
               child: AdaptiveScaffold(
                 appBar: SelectionAppBar<Task>(
                   titleBuilder: (context, layoutData) => Text(
-                    AppLocalizations.of(
-                      context,
-                    ).taskSelectionCount(layoutData.selections.length),
+                    AppLocalizations.of(context)
+                        .taskSelectionCount(layoutData.selections.length),
                   ),
                   actionBuilder: (context, layoutData) =>
                       taskBulkActions(context, controller, layoutData),

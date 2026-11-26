@@ -16,8 +16,9 @@ class ReplyLoadingPage extends StatelessWidget {
   Widget build(BuildContext context) {
     final client = context.watch<Client>();
     final l10n = AppLocalizations.of(context);
+    final query = client.replies.useGet(id: id);
     return QueryBuilder(
-      query: client.replies.useGet(id: id),
+      query: query,
       builder: (context, state) => LoadingPage(
         isLoading: state.isLoading,
         isError: state.isError,
@@ -30,6 +31,7 @@ class ReplyLoadingPage extends StatelessWidget {
           body: child(context),
         ),
         onError: Text(l10n.failedToLoadReply),
+        onRetry: query.invalidate,
         onEmpty: Text(l10n.replyNotFound),
         child: (context) =>
             TopicLoadingPage(state.data!.topicId, orderByOldest: orderByOldest),

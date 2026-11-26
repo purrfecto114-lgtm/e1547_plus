@@ -108,8 +108,10 @@ class _PromptFilterListState extends State<PromptFilterList> {
   }
 }
 
-typedef SubTextValueShouldUpdate =
-    bool Function(String fromController, String fromValue);
+typedef SubTextValueShouldUpdate = bool Function(
+  String fromController,
+  String fromValue,
+);
 
 class SubTextValue extends StatefulWidget {
   const SubTextValue({

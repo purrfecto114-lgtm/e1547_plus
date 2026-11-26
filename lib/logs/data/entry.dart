@@ -68,9 +68,11 @@ class LogEntry {
       error: record.error != null ? LogError.from(record.error!) : null,
       stackTrace: record.stackTrace == null
           ? null
-          : FlutterError.demangleStackTrace(
-              record.stackTrace!,
-            ).toString().split('\n').where((e) => e.trim().isNotEmpty).toList(),
+          : FlutterError.demangleStackTrace(record.stackTrace!)
+                .toString()
+                .split('\n')
+                .where((e) => e.trim().isNotEmpty)
+                .toList(),
     );
   }
 
@@ -175,9 +177,8 @@ LogEntry? parseLogLine(String line, int id) {
   try {
     final Object? json = jsonDecode(line);
     if (json is! Map) return null;
-    return LogEntry.fromJson(
-      json.map((k, v) => MapEntry(k.toString(), v)),
-    ).copyWith(id: id);
+    return LogEntry.fromJson(json.map((k, v) => MapEntry(k.toString(), v)))
+        .copyWith(id: id);
   } on Object {
     return null;
   }

@@ -22,8 +22,10 @@ class FilterConfigState {
   final Widget? submitIcon;
 }
 
-typedef BuilderFilterConfigBuilder =
-    Widget Function(BuildContext context, FilterConfigState state);
+typedef BuilderFilterConfigBuilder = Widget Function(
+  BuildContext context,
+  FilterConfigState state,
+);
 
 class BuilderFilterConfig extends FilterConfig {
   const BuilderFilterConfig({required this.builder});
@@ -329,11 +331,10 @@ class FilterTagState<T extends FilterTag> {
   int get hashCode => Object.hash(filter, value);
 }
 
-typedef BuilderFilterTagBuilder =
-    Widget Function(
-      BuildContext context,
-      FilterTagState<BuilderFilterTag> state,
-    );
+typedef BuilderFilterTagBuilder = Widget Function(
+  BuildContext context,
+  FilterTagState<BuilderFilterTag> state,
+);
 
 class BuilderFilterTag extends FilterTag {
   const BuilderFilterTag({

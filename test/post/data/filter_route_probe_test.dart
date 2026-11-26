@@ -26,9 +26,8 @@ void main() {
   setUp(() async {
     SharedPreferences.setMockInitialValues({});
     sqlite = AppDatabase(NativeDatabase.memory());
-    final identity = (await IdentityRepository(
-      sqlite,
-    ).add(const IdentityRequest(host: 'e621.net', username: 'tester')));
+    final identity = (await IdentityRepository(sqlite)
+        .add(const IdentityRequest(host: 'e621.net', username: 'tester')));
     traits = Traits(
       id: identity.id,
       userId: null,

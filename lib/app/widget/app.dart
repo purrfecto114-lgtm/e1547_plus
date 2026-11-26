@@ -25,7 +25,6 @@ class App extends StatelessWidget {
       child: MultiProvider(
         providers: [
           const WindowProvider(),
-          AppInfoClientProvider(),
           ClientFactoryProvider(),
           SettingsProvider(),
           BiometricsWatcherProvider(),
@@ -66,9 +65,10 @@ class App extends StatelessWidget {
                               // fall back to their hardcoded English strings.
                               RefreshLocalizations.delegate,
                             ],
-                            localeListResolutionCallback:
-                                (locales, supported) =>
-                                    resolveAppLocale(locales),
+                            localeListResolutionCallback: (
+                              locales,
+                              supported,
+                            ) => resolveAppLocale(locales),
                             navigatorKey: navigatorKey,
                             navigatorObservers: [
                               context.watch<AnyRouteObserver>(),
@@ -97,6 +97,10 @@ class App extends StatelessWidget {
                                           ClientProvider(),
                                           FileCacheProvider(),
                                           TasksControllerProvider(),
+                                          // Below the proxy provider, so
+                                          // the updater rebuilds onto a
+                                          // mid-session proxy switch too.
+                                          AppInfoClientProvider(),
                                         ],
                                         child: LoadingCore(
                                           child: OnboardingGate(

@@ -110,9 +110,8 @@ void main() {
     test('the api client honours the proxy it is given', () async {
       final db = AppDatabase(NativeDatabase.memory());
       addTearDown(db.close);
-      final identity = await IdentityRepository(
-        db,
-      ).add(const IdentityRequest(host: 'e621.net'));
+      final identity = await IdentityRepository(db)
+          .add(const IdentityRequest(host: 'e621.net'));
       expect(
         createDefaultDio(
           identity,

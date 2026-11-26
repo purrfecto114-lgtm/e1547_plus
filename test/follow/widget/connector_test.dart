@@ -43,9 +43,8 @@ void main() {
         perPage: null,
       ),
     );
-    final identity = await IdentityRepository(
-      sqlite,
-    ).add(IdentityRequest(host: fake.url, username: 'tester'));
+    final identity = await IdentityRepository(sqlite)
+        .add(IdentityRequest(host: fake.url, username: 'tester'));
     client = Client(
       identity: identity,
       traits: traits,

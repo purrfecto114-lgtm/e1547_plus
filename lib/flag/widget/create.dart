@@ -122,9 +122,8 @@ class _PostFlagScreenState extends State<PostFlagScreen> {
             ),
             leading: const CloseButton(),
           ),
-          floatingActionButtonLocation: Handedness.of(
-            context,
-          ).floatingActionButtonLocation,
+          floatingActionButtonLocation: Handedness.of(context)
+              .floatingActionButtonLocation,
           floatingActionButton: Builder(
             builder: (context) => FloatingActionButton(
               onPressed: isLoading ? null : () => _sendFlag(context),
@@ -135,9 +134,8 @@ class _PostFlagScreenState extends State<PostFlagScreen> {
             child: LayoutBuilder(
               builder: (context, constraints) => ListView(
                 controller: scrollController,
-                padding: LimitedWidthLayout.of(
-                  context,
-                ).padding.add(defaultFormScreenPadding),
+                padding: LimitedWidthLayout.of(context).padding
+                    .add(defaultFormScreenPadding),
                 children: [
                   PostReportImage(
                     post: widget.post,

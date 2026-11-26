@@ -29,9 +29,8 @@ void main() {
     // follow cases independent; the identity row has to exist for the
     // follow join table to accept writes.
     sqlite = AppDatabase(NativeDatabase.memory());
-    await IdentityRepository(
-      sqlite,
-    ).add(const IdentityRequest(host: 'e621.net'));
+    await IdentityRepository(sqlite)
+        .add(const IdentityRequest(host: 'e621.net'));
     traits = ValueNotifier(
       const Traits(
         id: 1,

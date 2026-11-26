@@ -9,28 +9,26 @@ import 'package:e1547/traits/data/traits.dart' as i5;
 import 'package:e1547/traits/data/database.dart' as i6;
 import 'package:e1547/shared/data/sql.dart' as i7;
 
-typedef $$TraitsTableTableCreateCompanionBuilder =
-    i4.TraitsCompanion Function({
-      i0.Value<int> id,
-      i0.Value<int?> userId,
-      required List<String> denylist,
-      required String homeTags,
-      i0.Value<String?> avatar,
-      i0.Value<int?> perPage,
-      i0.Value<bool?> writeHistory,
-      i0.Value<bool?> trimHistory,
-    });
-typedef $$TraitsTableTableUpdateCompanionBuilder =
-    i4.TraitsCompanion Function({
-      i0.Value<int> id,
-      i0.Value<int?> userId,
-      i0.Value<List<String>> denylist,
-      i0.Value<String> homeTags,
-      i0.Value<String?> avatar,
-      i0.Value<int?> perPage,
-      i0.Value<bool?> writeHistory,
-      i0.Value<bool?> trimHistory,
-    });
+typedef $$TraitsTableTableCreateCompanionBuilder = i4.TraitsCompanion Function({
+  i0.Value<int> id,
+  i0.Value<int?> userId,
+  required List<String> denylist,
+  required String homeTags,
+  i0.Value<String?> avatar,
+  i0.Value<int?> perPage,
+  i0.Value<bool?> writeHistory,
+  i0.Value<bool?> trimHistory,
+});
+typedef $$TraitsTableTableUpdateCompanionBuilder = i4.TraitsCompanion Function({
+  i0.Value<int> id,
+  i0.Value<int?> userId,
+  i0.Value<List<String>> denylist,
+  i0.Value<String> homeTags,
+  i0.Value<String?> avatar,
+  i0.Value<int?> perPage,
+  i0.Value<bool?> writeHistory,
+  i0.Value<bool?> trimHistory,
+});
 
 final class $$TraitsTableTableReferences
     extends
@@ -46,12 +44,12 @@ final class $$TraitsTableTableReferences
           .resultSet<i2.$IdentitiesTableTable>('identities_table')
           .createAlias(
             i0.$_aliasNameGenerator(
-              i3.ReadDatabaseContainer(
-                db,
-              ).resultSet<i4.$TraitsTableTable>('traits_table').id,
-              i3.ReadDatabaseContainer(
-                db,
-              ).resultSet<i2.$IdentitiesTableTable>('identities_table').id,
+              i3.ReadDatabaseContainer(db)
+                  .resultSet<i4.$TraitsTableTable>('traits_table')
+                  .id,
+              i3.ReadDatabaseContainer(db)
+                  .resultSet<i2.$IdentitiesTableTable>('identities_table')
+                  .id,
             ),
           );
 
@@ -61,9 +59,8 @@ final class $$TraitsTableTableReferences
     final manager = i2
         .$$IdentitiesTableTableTableManager(
           $_db,
-          i3.ReadDatabaseContainer(
-            $_db,
-          ).resultSet<i2.$IdentitiesTableTable>('identities_table'),
+          i3.ReadDatabaseContainer($_db)
+              .resultSet<i2.$IdentitiesTableTable>('identities_table'),
         )
         .filter((f) => f.id.sqlEquals($_column));
     final item = $_typedResult.readTableOrNull(_idTable($_db));
@@ -123,9 +120,8 @@ class $$TraitsTableTableFilterComposer
     final i2.$$IdentitiesTableTableFilterComposer composer = $composerBuilder(
       composer: this,
       getCurrentColumn: (t) => t.id,
-      referencedTable: i3.ReadDatabaseContainer(
-        $db,
-      ).resultSet<i2.$IdentitiesTableTable>('identities_table'),
+      referencedTable: i3.ReadDatabaseContainer($db)
+          .resultSet<i2.$IdentitiesTableTable>('identities_table'),
       getReferencedColumn: (t) => t.id,
       builder:
           (
@@ -134,9 +130,8 @@ class $$TraitsTableTableFilterComposer
             $removeJoinBuilderFromRootComposer,
           }) => i2.$$IdentitiesTableTableFilterComposer(
             $db: $db,
-            $table: i3.ReadDatabaseContainer(
-              $db,
-            ).resultSet<i2.$IdentitiesTableTable>('identities_table'),
+            $table: i3.ReadDatabaseContainer($db)
+                .resultSet<i2.$IdentitiesTableTable>('identities_table'),
             $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
             joinBuilder: joinBuilder,
             $removeJoinBuilderFromRootComposer:
@@ -195,9 +190,8 @@ class $$TraitsTableTableOrderingComposer
     final i2.$$IdentitiesTableTableOrderingComposer composer = $composerBuilder(
       composer: this,
       getCurrentColumn: (t) => t.id,
-      referencedTable: i3.ReadDatabaseContainer(
-        $db,
-      ).resultSet<i2.$IdentitiesTableTable>('identities_table'),
+      referencedTable: i3.ReadDatabaseContainer($db)
+          .resultSet<i2.$IdentitiesTableTable>('identities_table'),
       getReferencedColumn: (t) => t.id,
       builder:
           (
@@ -206,9 +200,8 @@ class $$TraitsTableTableOrderingComposer
             $removeJoinBuilderFromRootComposer,
           }) => i2.$$IdentitiesTableTableOrderingComposer(
             $db: $db,
-            $table: i3.ReadDatabaseContainer(
-              $db,
-            ).resultSet<i2.$IdentitiesTableTable>('identities_table'),
+            $table: i3.ReadDatabaseContainer($db)
+                .resultSet<i2.$IdentitiesTableTable>('identities_table'),
             $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
             joinBuilder: joinBuilder,
             $removeJoinBuilderFromRootComposer:
@@ -258,9 +251,8 @@ class $$TraitsTableTableAnnotationComposer
         $composerBuilder(
           composer: this,
           getCurrentColumn: (t) => t.id,
-          referencedTable: i3.ReadDatabaseContainer(
-            $db,
-          ).resultSet<i2.$IdentitiesTableTable>('identities_table'),
+          referencedTable: i3.ReadDatabaseContainer($db)
+              .resultSet<i2.$IdentitiesTableTable>('identities_table'),
           getReferencedColumn: (t) => t.id,
           builder:
               (
@@ -269,9 +261,8 @@ class $$TraitsTableTableAnnotationComposer
                 $removeJoinBuilderFromRootComposer,
               }) => i2.$$IdentitiesTableTableAnnotationComposer(
                 $db: $db,
-                $table: i3.ReadDatabaseContainer(
-                  $db,
-                ).resultSet<i2.$IdentitiesTableTable>('identities_table'),
+                $table: i3.ReadDatabaseContainer($db)
+                    .resultSet<i2.$IdentitiesTableTable>('identities_table'),
                 $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
                 joinBuilder: joinBuilder,
                 $removeJoinBuilderFromRootComposer:
@@ -379,18 +370,15 @@ class $$TraitsTableTableTableManager
                     >
                   >(state) {
                     if (id) {
-                      state =
-                          state.withJoin(
-                                currentTable: table,
-                                currentColumn: table.id,
-                                referencedTable: i4.$$TraitsTableTableReferences
-                                    ._idTable(db),
-                                referencedColumn: i4
-                                    .$$TraitsTableTableReferences
-                                    ._idTable(db)
-                                    .id,
-                              )
-                              as T;
+                      state = state.withJoin(
+                        currentTable: table,
+                        currentColumn: table.id,
+                        referencedTable: i4.$$TraitsTableTableReferences
+                            ._idTable(db),
+                        referencedColumn: i4.$$TraitsTableTableReferences
+                            ._idTable(db)
+                            .id,
+                      ) as T;
                     }
 
                     return state;
@@ -418,13 +406,14 @@ typedef $$TraitsTableTableProcessedTableManager =
       i5.Traits,
       i0.PrefetchHooks Function({bool id})
     >;
+
 mixin $TraitsRepositoryMixin on i0.DatabaseAccessor<i1.GeneratedDatabase> {
-  i2.$IdentitiesTableTable get identitiesTable => i3.ReadDatabaseContainer(
-    attachedDatabase,
-  ).resultSet<i2.$IdentitiesTableTable>('identities_table');
-  i4.$TraitsTableTable get traitsTable => i3.ReadDatabaseContainer(
-    attachedDatabase,
-  ).resultSet<i4.$TraitsTableTable>('traits_table');
+  i2.$IdentitiesTableTable get identitiesTable =>
+      i3.ReadDatabaseContainer(attachedDatabase)
+          .resultSet<i2.$IdentitiesTableTable>('identities_table');
+  i4.$TraitsTableTable get traitsTable =>
+      i3.ReadDatabaseContainer(attachedDatabase)
+          .resultSet<i4.$TraitsTableTable>('traits_table');
   TraitsRepositoryManager get managers => TraitsRepositoryManager(this);
 }
 

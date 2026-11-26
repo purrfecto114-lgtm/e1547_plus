@@ -58,10 +58,8 @@ class _HistoryTileHeader extends StatelessWidget {
           child: TimedText(
             created: entry.visitedAt,
             child: DefaultTextStyle(
-              style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                fontWeight: FontWeight.bold,
-                fontSize: 16,
-              ),
+              style: Theme.of(context).textTheme.bodyMedium!
+                  .copyWith(fontWeight: FontWeight.bold, fontSize: 16),
               maxLines: 1,
               overflow: TextOverflow.ellipsis,
               child: Padding(

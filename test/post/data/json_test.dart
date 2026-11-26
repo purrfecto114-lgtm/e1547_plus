@@ -8,9 +8,9 @@ void main() {
   group('E621Post.fromJson live schema', () {
     // Recorded straight from e621.net after its 2026-11 schema change, so
     // the parser cannot drift away from the real payload shape.
-    final posts = loadFixtureList(
-      'posts_live.json',
-    ).map(E621Post.fromJson).toList();
+    final posts = loadFixtureList('posts_live.json')
+        .map(E621Post.fromJson)
+        .toList();
 
     test('parses a recorded video post', () {
       final post = posts[0];
@@ -98,9 +98,9 @@ void main() {
     // Recorded from e621.net with the `mode=extended` query the client
     // sends: the server answers with tags grouped by category instead
     // of the flat list, and the parser must read both shapes.
-    final posts = loadFixtureList(
-      'posts_extended.json',
-    ).map(E621Post.fromJson).toList();
+    final posts = loadFixtureList('posts_extended.json')
+        .map(E621Post.fromJson)
+        .toList();
 
     test('parses tags grouped by the server itself', () {
       final post = posts[0];
@@ -143,6 +143,79 @@ void main() {
           .toList();
       expect(partial.allTags, containsAll(flat));
       expect(partial.allTags.length, flat.length);
+    });
+  });
+
+  group('E621Post.partialFromJson artist recommendations', () {
+    // Recorded straight from the live similar/artist endpoint: unlike
+    // every other posts endpoint, its post_data summaries still carry
+    // the legacy flat layout (file_url and friends, space-separated
+    // tags and flag words), and the parser must read that shape too.
+    final recs =
+        loadFixture('artist_recommendations_live.json')!
+            as Map<String, Object?>;
+    final List<Map<String, Object?>> postData = [
+      for (final post in recs['post_data']! as List)
+        post! as Map<String, Object?>,
+    ];
+    final List<Map<String, Object?>> results = [
+      for (final result in recs['results']! as List)
+        result! as Map<String, Object?>,
+    ];
+    final partials = [
+      for (final Map<String, Object?> post in postData)
+        E621Post.partialFromJson(post),
+    ];
+
+    test('parses every recorded summary', () {
+      // The live endpoint answers with the legacy shape; one throwing
+      // entry would empty the whole recommendations row in production.
+      expect(partials, hasLength(6));
+      expect(partials.map((e) => e.id), [
+        for (final Map<String, Object?> post in postData) post['id']! as int,
+      ]);
+      // post_data arrives sorted by id, results carries the actual
+      // recommendation order — which is why the client reorders.
+      expect([
+        for (final Map<String, Object?> result in results)
+          result['post_id']! as int,
+      ], isNot(partials.map((e) => e.id).toList()));
+    });
+
+    test('reads the flat file fields', () {
+      final partial = partials[0];
+      final raw = postData.first;
+      expect(partial.file, raw['file_url']);
+      expect(partial.sample, raw['sample_url']);
+      expect(partial.preview, raw['preview_url']);
+      expect(partial.width, raw['width']);
+      expect(partial.height, raw['height']);
+      expect(partial.ext, raw['file_ext']);
+      expect(partial.size, raw['size']);
+      expect(partial.rating, Rating.e);
+      expect(partial.isDeleted, isFalse);
+    });
+
+    test('splits the space-separated tags and flag words', () {
+      final partial = partials[0];
+      final raw = postData.first;
+      expect(partial.allTags.toList(), (raw['tags']! as String).split(' '));
+      expect(partial.pools, isEmpty);
+      // The recorded posts carry no deleted flag word.
+      expect(partial.isDeleted, isFalse);
+    });
+
+    test('reads the flat counts and uploader', () {
+      final partial = partials[0];
+      final raw = postData.first;
+      expect(partial.score, raw['score']);
+      expect(partial.favCount, raw['fav_count']);
+      expect(partial.uploaderName, raw['uploader']);
+      expect(partial.uploaderId, raw['uploader_id']);
+      expect(partial.vote, raw['vote']);
+      expect(partial.commentCount, raw['comment_count']);
+      expect(partial.isFavorited, raw['is_favorited']);
+      expect(partial.createdAt.toIso8601String(), isNotEmpty);
     });
   });
 

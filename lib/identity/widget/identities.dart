@@ -126,9 +126,8 @@ class IdentitiesPage extends StatelessWidget {
             padding: const EdgeInsets.fromLTRB(16, 16, 16, 6),
             child: Text(
               linkToDisplay(host),
-              style: Theme.of(context).textTheme.titleSmall?.copyWith(
-                color: Theme.of(context).colorScheme.primary,
-              ),
+              style: Theme.of(context).textTheme.titleSmall
+                  ?.copyWith(color: Theme.of(context).colorScheme.primary),
             ),
           ),
           for (final identity in group) tile(context, identity),
@@ -148,9 +147,8 @@ class IdentitiesPage extends StatelessWidget {
             appBar: const TransparentAppBar(
               child: DefaultAppBar(leading: CloseButton()),
             ),
-            floatingActionButtonLocation: Handedness.of(
-              context,
-            ).floatingActionButtonLocation,
+            floatingActionButtonLocation: Handedness.of(context)
+                .floatingActionButtonLocation,
             floatingActionButton: identities != null
                 ? FloatingActionButton(
                     child: const Icon(Icons.add),
@@ -165,9 +163,8 @@ class IdentitiesPage extends StatelessWidget {
               maxWidth: 520,
               builder: (context) => Center(
                 child: ListView(
-                  padding: LimitedWidthLayout.of(
-                    context,
-                  ).padding.add(defaultActionListPadding),
+                  padding: LimitedWidthLayout.of(context).padding
+                      .add(defaultActionListPadding),
                   shrinkWrap: true,
                   children: [
                     // Check the error first: with no data yet, a stream

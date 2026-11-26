@@ -6,8 +6,10 @@ import 'package:flutter/material.dart';
 
 typedef QueryRequestBuilder<S, R> = R? Function(BuildContext context, S state);
 
-typedef QueryRequestCallback<R> =
-    void Function(BuildContext context, R request);
+typedef QueryRequestCallback<R> = void Function(
+  BuildContext context,
+  R request,
+);
 
 class QueryOnceConnector<S, R> extends StatefulWidget {
   const QueryOnceConnector({

@@ -95,9 +95,9 @@ void main() {
       app(
         Builder(
           builder: (context) => TextButton(
-            onPressed: () => Navigator.of(
-              context,
-            ).push(MaterialPageRoute(builder: (_) => fullscreen(first))),
+            onPressed: () =>
+                Navigator.of(context)
+                    .push(MaterialPageRoute(builder: (_) => fullscreen(first))),
             child: const Text('open'),
           ),
         ),
@@ -127,9 +127,8 @@ void main() {
             builder: (context) => TextButton(
               onPressed: () {
                 PostVideoRoute.of(context).keepPlaying();
-                Navigator.of(
-                  context,
-                ).push(MaterialPageRoute(builder: (_) => fullscreen(first)));
+                Navigator.of(context)
+                    .push(MaterialPageRoute(builder: (_) => fullscreen(first)));
               },
               child: const Text('open'),
             ),

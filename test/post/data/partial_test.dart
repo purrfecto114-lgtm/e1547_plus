@@ -13,6 +13,10 @@ void main() {
 
   tearDown(() => env.dispose());
 
+  /// Adds a copy of [recorded] that shares its artist tag, so the fake
+  /// recommends it for the original. The endpoint answers with the
+  /// legacy flat summaries, which the client's partial parser must
+  /// read just like the live server's.
   Future<PartialPost> recommendedCopyOf(
     Map<String, Object?> recorded, {
     Map<String, Object?> changes = const {},
@@ -25,8 +29,6 @@ void main() {
 
   test(
     'posts by the same artist read the files, flags and tags of a post',
-    skip:
-        'upstream assertions assume the legacy fixture tag shape; realign with artist-tagged fixture data later, see process.md',
     () async {
       final Map<String, Object?> recorded = env.fake.state.posts.first;
 
@@ -43,15 +45,13 @@ void main() {
       expect(post.isDeleted, isTrue);
       expect(
         post.allTags,
-        containsAll((recorded['tags']! as Map).values.first as List),
+        containsAll((recorded['tags']! as List).cast<String>()),
       );
     },
   );
 
   test(
     'a post by the same artist is denied by its uploader and file size',
-    skip:
-        'upstream assertions assume the legacy fixture tag shape; realign with artist-tagged fixture data later, see process.md',
     () async {
       final Map<String, Object?> recorded = env.fake.state.posts.first;
       final String uploader = recorded['uploader_name']! as String;

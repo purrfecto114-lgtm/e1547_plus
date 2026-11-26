@@ -1,4 +1,5 @@
 import 'dart:io';
+
 import 'package:e1547/l10n/app_localizations.dart';
 import 'package:e1547/settings/settings.dart' show AppInfo;
 import 'package:e1547/shared/widget/animation.dart';

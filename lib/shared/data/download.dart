@@ -283,9 +283,9 @@ abstract final class FileDownloader {
   /// holds the post's true format.
   @visibleForTesting
   static IosGalleryKind iosGalleryKindFor(String path, {String? name}) {
-    final String ext = extension(
-      name ?? path,
-    ).toLowerCase().replaceFirst('.', '');
+    final String ext = extension(name ?? path)
+        .toLowerCase()
+        .replaceFirst('.', '');
     const Set<String> images = {
       'jpg',
       'jpeg',
@@ -324,9 +324,8 @@ abstract final class FileDownloader {
           // still where the user downloaded an animation. The app's own
           // creation request carries the GIF's type identifier, so the
           // photo library stores and plays the whole animation.
-          final dynamic result = await const MethodChannel(
-            'e1547/gallery',
-          ).invokeMethod('saveGif', path);
+          final dynamic result = await const MethodChannel('e1547/gallery')
+              .invokeMethod('saveGif', path);
           checkGallerySaveResult(result);
         case IosGalleryKind.image:
         case IosGalleryKind.video:

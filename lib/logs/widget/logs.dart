@@ -158,9 +158,9 @@ class _LogFileListState extends State<LogFileList> {
                                     l10n.logsLive,
                                     maxLines: 2,
                                     overflow: TextOverflow.ellipsis,
-                                    style: Theme.of(
-                                      context,
-                                    ).textTheme.titleMedium,
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .titleMedium,
                                   ),
                                 ),
                               ],
@@ -341,9 +341,8 @@ class _LogPageState extends State<LogPage> {
               child: DefaultAppBar(
                 title: Text(
                   date != null
-                      ? AppLocalizations.of(
-                          context,
-                        ).logsTitleDate(DateFormatting.date(date))
+                      ? AppLocalizations.of(context)
+                            .logsTitleDate(DateFormatting.date(date))
                       : AppLocalizations.of(context).logsTitle,
                 ),
                 actions: [
@@ -363,9 +362,8 @@ class _LogPageState extends State<LogPage> {
                 reverse: true,
                 slivers: [
                   SliverPadding(
-                    padding: LimitedWidthLayout.of(
-                      context,
-                    ).padding.add(defaultActionListPadding),
+                    padding: LimitedWidthLayout.of(context).padding
+                        .add(defaultActionListPadding),
                     sliver: PagedSliverList<int, LogEntry>(
                       state: PagingState(
                         pages: items.isEmpty ? null : [items],
@@ -394,9 +392,8 @@ class _LogPageState extends State<LogPage> {
                 ],
               ),
             ),
-            floatingActionButtonLocation: Handedness.of(
-              context,
-            ).floatingActionButtonLocation,
+            floatingActionButtonLocation: Handedness.of(context)
+                .floatingActionButtonLocation,
             floatingActionButton: items.isEmpty
                 ? null
                 : FloatingActionButton(

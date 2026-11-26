@@ -220,9 +220,8 @@ String _downloadFileName(Post post, String? url) {
   }
   // The extension tracks the downloaded variant: a re-encoded mp4 or
   // webm variant carries its own extension, not the source's.
-  final String safeExt = _extOf(
-    url ?? post.file ?? '',
-  ).replaceAll(RegExp(r'[^\w]'), '');
+  final String safeExt = _extOf(url ?? post.file ?? '')
+      .replaceAll(RegExp(r'[^\w]'), '');
   return filename += '${post.id}.$safeExt';
 }
 

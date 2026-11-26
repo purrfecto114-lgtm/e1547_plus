@@ -36,27 +36,21 @@ class PostRelationPreview extends StatelessWidget {
         final Post? post = state.data;
         final bool denied =
             post != null && filter != null && !filter.filter(post);
+        final VoidCallback open =
+            onTap ?? () => pushPostLoadingPage(context, id);
+        if (post != null && !denied) {
+          return PostRowTile(post: post, size: size, onTap: open);
+        }
         return RelationPreviewCard(
           size: size,
-          onTap: onTap ?? () => pushPostLoadingPage(context, id),
-          child: post != null && !denied
-              ? PostTileOverlay(
-                  post: post,
-                  child: PostImageWidget(
-                    post: post,
-                    size: PostImageSize.preview,
-                    fit: BoxFit.cover,
-                    showProgress: false,
-                    withLowRes: false,
-                  ),
-                )
-              : RelationPreviewIcon(
-                  icon: denied
-                      ? Icons.block
-                      : state.error != null
-                      ? Icons.warning_amber_outlined
-                      : null,
-                ),
+          onTap: open,
+          child: RelationPreviewIcon(
+            icon: denied
+                ? Icons.block
+                : state.error != null
+                ? Icons.warning_amber_outlined
+                : null,
+          ),
         );
       },
     );
@@ -175,7 +169,16 @@ class RelationHeader extends StatelessWidget {
     padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 2),
     child: Row(
       children: [
-        Text(title, style: const TextStyle(fontSize: 16)),
+        // A long title must ellipsize instead of pushing the count
+        // out of the row on narrow screens.
+        Flexible(
+          child: Text(
+            title,
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
+            style: const TextStyle(fontSize: 16),
+          ),
+        ),
         if (count != null) ...[
           const SizedBox(width: 8),
           Text(

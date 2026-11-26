@@ -261,9 +261,8 @@ class AboutVersion extends StatelessWidget {
         message = AppLocalizations.of(context).updaterNewest;
         icon = aboutIcon(FontAwesomeIcons.clockRotateLeft);
       } else {
-        message = AppLocalizations.of(
-          context,
-        ).updaterNewer(data.first.version.toString());
+        message = AppLocalizations.of(context)
+            .updaterNewer(data.first.version.toString());
         onTap = () => showDialog(
           context: context,
           builder: (dialogContext) => changesDialog(dialogContext, data),
@@ -362,9 +361,8 @@ class AboutLinks extends StatelessWidget {
             leading: aboutIcon(FontAwesomeIcons.comments),
             title: Text(AppLocalizations.of(context).aboutForum),
             subtitle: Text(
-              AppLocalizations.of(
-                context,
-              ).aboutForumTopic(appInfo.forumTopicId!),
+              AppLocalizations.of(context)
+                  .aboutForumTopic(appInfo.forumTopicId!),
             ),
             onTap: () => Navigator.of(context).push(
               MaterialPageRoute(

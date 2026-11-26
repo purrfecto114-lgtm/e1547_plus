@@ -15,8 +15,9 @@ class TopicLoadingPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final client = context.watch<Client>();
+    final query = client.topics.useGet(id: id);
     return QueryBuilder(
-      query: client.topics.useGet(id: id),
+      query: query,
       builder: (context, state) => LoadingPage(
         // A query with no outcome yet is still loading, not ready.
         isLoading: state.isLoading || state.isInitial,
@@ -34,6 +35,7 @@ class TopicLoadingPage extends StatelessWidget {
           orderByOldest: orderByOldest,
         ),
         onError: Text(AppLocalizations.of(context).topicFailedToLoadTopic),
+        onRetry: query.invalidate,
         onEmpty: Text(AppLocalizations.of(context).topicNotFound),
         child: (context) =>
             TopicRepliesPage(topic: state.data!, orderByOldest: orderByOldest),

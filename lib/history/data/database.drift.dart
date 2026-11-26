@@ -51,15 +51,14 @@ final class $$HistoriesTableTableReferences
   >
   _historiesIdentitiesTableRefsTable(i0.GeneratedDatabase db) =>
       i0.MultiTypedResultKey.fromTable(
-        i3.ReadDatabaseContainer(
-          db,
-        ).resultSet<i2.$HistoriesIdentitiesTableTable>(
-          'histories_identities_table',
-        ),
+        i3.ReadDatabaseContainer(db)
+            .resultSet<i2.$HistoriesIdentitiesTableTable>(
+              'histories_identities_table',
+            ),
         aliasName: i0.$_aliasNameGenerator(
-          i3.ReadDatabaseContainer(
-            db,
-          ).resultSet<i2.$HistoriesTableTable>('histories_table').id,
+          i3.ReadDatabaseContainer(db)
+              .resultSet<i2.$HistoriesTableTable>('histories_table')
+              .id,
           i3.ReadDatabaseContainer(db)
               .resultSet<i2.$HistoriesIdentitiesTableTable>(
                 'histories_identities_table',
@@ -73,11 +72,10 @@ final class $$HistoriesTableTableReferences
     final manager = i2
         .$$HistoriesIdentitiesTableTableTableManager(
           $_db,
-          i3.ReadDatabaseContainer(
-            $_db,
-          ).resultSet<i2.$HistoriesIdentitiesTableTable>(
-            'histories_identities_table',
-          ),
+          i3.ReadDatabaseContainer($_db)
+              .resultSet<i2.$HistoriesIdentitiesTableTable>(
+                'histories_identities_table',
+              ),
         )
         .filter((f) => f.history.id.sqlEquals($_itemColumn<int>('id')!));
 
@@ -386,11 +384,10 @@ class $$HistoriesTableTableTableManager
               db: db,
               explicitlyWatchedTables: [
                 if (historiesIdentitiesTableRefs)
-                  i3.ReadDatabaseContainer(
-                    db,
-                  ).resultSet<i2.$HistoriesIdentitiesTableTable>(
-                    'histories_identities_table',
-                  ),
+                  i3.ReadDatabaseContainer(db)
+                      .resultSet<i2.$HistoriesIdentitiesTableTable>(
+                        'histories_identities_table',
+                      ),
               ],
               addJoins: null,
               getPrefetchedDataCallback: (items) async {
@@ -469,9 +466,9 @@ final class $$HistoriesIdentitiesTableTableReferences
                     'histories_identities_table',
                   )
                   .identity,
-              i3.ReadDatabaseContainer(
-                db,
-              ).resultSet<i4.$IdentitiesTableTable>('identities_table').id,
+              i3.ReadDatabaseContainer(db)
+                  .resultSet<i4.$IdentitiesTableTable>('identities_table')
+                  .id,
             ),
           );
 
@@ -481,9 +478,8 @@ final class $$HistoriesIdentitiesTableTableReferences
     final manager = i4
         .$$IdentitiesTableTableTableManager(
           $_db,
-          i3.ReadDatabaseContainer(
-            $_db,
-          ).resultSet<i4.$IdentitiesTableTable>('identities_table'),
+          i3.ReadDatabaseContainer($_db)
+              .resultSet<i4.$IdentitiesTableTable>('identities_table'),
         )
         .filter((f) => f.id.sqlEquals($_column));
     final item = $_typedResult.readTableOrNull(_identityTable($_db));
@@ -503,9 +499,9 @@ final class $$HistoriesIdentitiesTableTableReferences
                     'histories_identities_table',
                   )
                   .history,
-              i3.ReadDatabaseContainer(
-                db,
-              ).resultSet<i2.$HistoriesTableTable>('histories_table').id,
+              i3.ReadDatabaseContainer(db)
+                  .resultSet<i2.$HistoriesTableTable>('histories_table')
+                  .id,
             ),
           );
 
@@ -515,9 +511,8 @@ final class $$HistoriesIdentitiesTableTableReferences
     final manager = i2
         .$$HistoriesTableTableTableManager(
           $_db,
-          i3.ReadDatabaseContainer(
-            $_db,
-          ).resultSet<i2.$HistoriesTableTable>('histories_table'),
+          i3.ReadDatabaseContainer($_db)
+              .resultSet<i2.$HistoriesTableTable>('histories_table'),
         )
         .filter((f) => f.id.sqlEquals($_column));
     final item = $_typedResult.readTableOrNull(_historyTable($_db));
@@ -542,9 +537,8 @@ class $$HistoriesIdentitiesTableTableFilterComposer
     final i4.$$IdentitiesTableTableFilterComposer composer = $composerBuilder(
       composer: this,
       getCurrentColumn: (t) => t.identity,
-      referencedTable: i3.ReadDatabaseContainer(
-        $db,
-      ).resultSet<i4.$IdentitiesTableTable>('identities_table'),
+      referencedTable: i3.ReadDatabaseContainer($db)
+          .resultSet<i4.$IdentitiesTableTable>('identities_table'),
       getReferencedColumn: (t) => t.id,
       builder:
           (
@@ -553,9 +547,8 @@ class $$HistoriesIdentitiesTableTableFilterComposer
             $removeJoinBuilderFromRootComposer,
           }) => i4.$$IdentitiesTableTableFilterComposer(
             $db: $db,
-            $table: i3.ReadDatabaseContainer(
-              $db,
-            ).resultSet<i4.$IdentitiesTableTable>('identities_table'),
+            $table: i3.ReadDatabaseContainer($db)
+                .resultSet<i4.$IdentitiesTableTable>('identities_table'),
             $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
             joinBuilder: joinBuilder,
             $removeJoinBuilderFromRootComposer:
@@ -569,9 +562,8 @@ class $$HistoriesIdentitiesTableTableFilterComposer
     final i2.$$HistoriesTableTableFilterComposer composer = $composerBuilder(
       composer: this,
       getCurrentColumn: (t) => t.history,
-      referencedTable: i3.ReadDatabaseContainer(
-        $db,
-      ).resultSet<i2.$HistoriesTableTable>('histories_table'),
+      referencedTable: i3.ReadDatabaseContainer($db)
+          .resultSet<i2.$HistoriesTableTable>('histories_table'),
       getReferencedColumn: (t) => t.id,
       builder:
           (
@@ -580,9 +572,8 @@ class $$HistoriesIdentitiesTableTableFilterComposer
             $removeJoinBuilderFromRootComposer,
           }) => i2.$$HistoriesTableTableFilterComposer(
             $db: $db,
-            $table: i3.ReadDatabaseContainer(
-              $db,
-            ).resultSet<i2.$HistoriesTableTable>('histories_table'),
+            $table: i3.ReadDatabaseContainer($db)
+                .resultSet<i2.$HistoriesTableTable>('histories_table'),
             $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
             joinBuilder: joinBuilder,
             $removeJoinBuilderFromRootComposer:
@@ -607,9 +598,8 @@ class $$HistoriesIdentitiesTableTableOrderingComposer
     final i4.$$IdentitiesTableTableOrderingComposer composer = $composerBuilder(
       composer: this,
       getCurrentColumn: (t) => t.identity,
-      referencedTable: i3.ReadDatabaseContainer(
-        $db,
-      ).resultSet<i4.$IdentitiesTableTable>('identities_table'),
+      referencedTable: i3.ReadDatabaseContainer($db)
+          .resultSet<i4.$IdentitiesTableTable>('identities_table'),
       getReferencedColumn: (t) => t.id,
       builder:
           (
@@ -618,9 +608,8 @@ class $$HistoriesIdentitiesTableTableOrderingComposer
             $removeJoinBuilderFromRootComposer,
           }) => i4.$$IdentitiesTableTableOrderingComposer(
             $db: $db,
-            $table: i3.ReadDatabaseContainer(
-              $db,
-            ).resultSet<i4.$IdentitiesTableTable>('identities_table'),
+            $table: i3.ReadDatabaseContainer($db)
+                .resultSet<i4.$IdentitiesTableTable>('identities_table'),
             $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
             joinBuilder: joinBuilder,
             $removeJoinBuilderFromRootComposer:
@@ -634,9 +623,8 @@ class $$HistoriesIdentitiesTableTableOrderingComposer
     final i2.$$HistoriesTableTableOrderingComposer composer = $composerBuilder(
       composer: this,
       getCurrentColumn: (t) => t.history,
-      referencedTable: i3.ReadDatabaseContainer(
-        $db,
-      ).resultSet<i2.$HistoriesTableTable>('histories_table'),
+      referencedTable: i3.ReadDatabaseContainer($db)
+          .resultSet<i2.$HistoriesTableTable>('histories_table'),
       getReferencedColumn: (t) => t.id,
       builder:
           (
@@ -645,9 +633,8 @@ class $$HistoriesIdentitiesTableTableOrderingComposer
             $removeJoinBuilderFromRootComposer,
           }) => i2.$$HistoriesTableTableOrderingComposer(
             $db: $db,
-            $table: i3.ReadDatabaseContainer(
-              $db,
-            ).resultSet<i2.$HistoriesTableTable>('histories_table'),
+            $table: i3.ReadDatabaseContainer($db)
+                .resultSet<i2.$HistoriesTableTable>('histories_table'),
             $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
             joinBuilder: joinBuilder,
             $removeJoinBuilderFromRootComposer:
@@ -673,9 +660,8 @@ class $$HistoriesIdentitiesTableTableAnnotationComposer
         $composerBuilder(
           composer: this,
           getCurrentColumn: (t) => t.identity,
-          referencedTable: i3.ReadDatabaseContainer(
-            $db,
-          ).resultSet<i4.$IdentitiesTableTable>('identities_table'),
+          referencedTable: i3.ReadDatabaseContainer($db)
+              .resultSet<i4.$IdentitiesTableTable>('identities_table'),
           getReferencedColumn: (t) => t.id,
           builder:
               (
@@ -684,9 +670,8 @@ class $$HistoriesIdentitiesTableTableAnnotationComposer
                 $removeJoinBuilderFromRootComposer,
               }) => i4.$$IdentitiesTableTableAnnotationComposer(
                 $db: $db,
-                $table: i3.ReadDatabaseContainer(
-                  $db,
-                ).resultSet<i4.$IdentitiesTableTable>('identities_table'),
+                $table: i3.ReadDatabaseContainer($db)
+                    .resultSet<i4.$IdentitiesTableTable>('identities_table'),
                 $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
                 joinBuilder: joinBuilder,
                 $removeJoinBuilderFromRootComposer:
@@ -701,9 +686,8 @@ class $$HistoriesIdentitiesTableTableAnnotationComposer
         $composerBuilder(
           composer: this,
           getCurrentColumn: (t) => t.history,
-          referencedTable: i3.ReadDatabaseContainer(
-            $db,
-          ).resultSet<i2.$HistoriesTableTable>('histories_table'),
+          referencedTable: i3.ReadDatabaseContainer($db)
+              .resultSet<i2.$HistoriesTableTable>('histories_table'),
           getReferencedColumn: (t) => t.id,
           builder:
               (
@@ -712,9 +696,8 @@ class $$HistoriesIdentitiesTableTableAnnotationComposer
                 $removeJoinBuilderFromRootComposer,
               }) => i2.$$HistoriesTableTableAnnotationComposer(
                 $db: $db,
-                $table: i3.ReadDatabaseContainer(
-                  $db,
-                ).resultSet<i2.$HistoriesTableTable>('histories_table'),
+                $table: i3.ReadDatabaseContainer($db)
+                    .resultSet<i2.$HistoriesTableTable>('histories_table'),
                 $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
                 joinBuilder: joinBuilder,
                 $removeJoinBuilderFromRootComposer:
@@ -811,34 +794,30 @@ class $$HistoriesIdentitiesTableTableTableManager
                     >
                   >(state) {
                     if (identity) {
-                      state =
-                          state.withJoin(
-                                currentTable: table,
-                                currentColumn: table.identity,
-                                referencedTable: i2
-                                    .$$HistoriesIdentitiesTableTableReferences
-                                    ._identityTable(db),
-                                referencedColumn: i2
-                                    .$$HistoriesIdentitiesTableTableReferences
-                                    ._identityTable(db)
-                                    .id,
-                              )
-                              as T;
+                      state = state.withJoin(
+                        currentTable: table,
+                        currentColumn: table.identity,
+                        referencedTable: i2
+                            .$$HistoriesIdentitiesTableTableReferences
+                            ._identityTable(db),
+                        referencedColumn: i2
+                            .$$HistoriesIdentitiesTableTableReferences
+                            ._identityTable(db)
+                            .id,
+                      ) as T;
                     }
                     if (history) {
-                      state =
-                          state.withJoin(
-                                currentTable: table,
-                                currentColumn: table.history,
-                                referencedTable: i2
-                                    .$$HistoriesIdentitiesTableTableReferences
-                                    ._historyTable(db),
-                                referencedColumn: i2
-                                    .$$HistoriesIdentitiesTableTableReferences
-                                    ._historyTable(db)
-                                    .id,
-                              )
-                              as T;
+                      state = state.withJoin(
+                        currentTable: table,
+                        currentColumn: table.history,
+                        referencedTable: i2
+                            .$$HistoriesIdentitiesTableTableReferences
+                            ._historyTable(db),
+                        referencedColumn: i2
+                            .$$HistoriesIdentitiesTableTableReferences
+                            ._historyTable(db)
+                            .id,
+                      ) as T;
                     }
 
                     return state;
@@ -866,19 +845,19 @@ typedef $$HistoriesIdentitiesTableTableProcessedTableManager =
       i2.HistoryIdentity,
       i0.PrefetchHooks Function({bool identity, bool history})
     >;
+
 mixin $HistoryRepositoryMixin on i0.DatabaseAccessor<i1.GeneratedDatabase> {
-  i2.$HistoriesTableTable get historiesTable => i3.ReadDatabaseContainer(
-    attachedDatabase,
-  ).resultSet<i2.$HistoriesTableTable>('histories_table');
-  i4.$IdentitiesTableTable get identitiesTable => i3.ReadDatabaseContainer(
-    attachedDatabase,
-  ).resultSet<i4.$IdentitiesTableTable>('identities_table');
+  i2.$HistoriesTableTable get historiesTable =>
+      i3.ReadDatabaseContainer(attachedDatabase)
+          .resultSet<i2.$HistoriesTableTable>('histories_table');
+  i4.$IdentitiesTableTable get identitiesTable =>
+      i3.ReadDatabaseContainer(attachedDatabase)
+          .resultSet<i4.$IdentitiesTableTable>('identities_table');
   i2.$HistoriesIdentitiesTableTable get historiesIdentitiesTable =>
-      i3.ReadDatabaseContainer(
-        attachedDatabase,
-      ).resultSet<i2.$HistoriesIdentitiesTableTable>(
-        'histories_identities_table',
-      );
+      i3.ReadDatabaseContainer(attachedDatabase)
+          .resultSet<i2.$HistoriesIdentitiesTableTable>(
+            'histories_identities_table',
+          );
   HistoryRepositoryManager get managers => HistoryRepositoryManager(this);
 }
 

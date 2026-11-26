@@ -1,5 +1,26 @@
 # Changelog
 
+## [22.10.1-rc.2+244] - 2026-11-26
+
+### Fixed
+- artist recommendations load again on both hosts: the similar/artist
+  endpoint answers with the legacy flat summaries (file_url, top-level
+  dimensions, space-separated tags), which the parser rejected whole — the
+  recommendation row went empty or errored on every post. The parser now
+  reads both layouts, and the server's own tag grouping survives a
+  disagreeing category lookup on grouped payloads
+- the recommendation and relation rows lay out on narrow screens: the row
+  header ellipsizes long titles instead of overflowing the row, and loaded
+  previews render through the same tile the gallery uses
+- failed post, reply and topic detail pages offer a retry button like the
+  other loading pages
+- the query storage eviction estimate no longer double-counts the rows a
+  first write flush just inserted, which evicted entries too early
+- the update checker honours the system proxy like every other client, and
+  rebuilds onto a proxy switched on mid-session
+- video playback passes the system proxy to mpv as a full url; some
+  backends silently ignore a bare host:port
+
 ## [22.10.1-rc.1+243] - 2026-11-26
 
 ### Fixed
@@ -2357,3 +2378,4 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 [22.9.5+241]: https://github.com/purrfecto114-lgtm/e1547_plus/compare/22.9.5+240...22.9.5+241
 [22.10.0+242]: https://github.com/purrfecto114-lgtm/e1547_plus/compare/22.9.3+238...22.10.0+242
 [22.10.1-rc.1+243]: https://github.com/purrfecto114-lgtm/e1547_plus/compare/22.10.0+242...22.10.1-rc.1+243
+[22.10.1-rc.2+244]: https://github.com/purrfecto114-lgtm/e1547_plus/compare/22.10.1-rc.1+243...22.10.1-rc.2+244

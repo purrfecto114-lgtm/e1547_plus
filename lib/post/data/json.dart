@@ -18,9 +18,11 @@ const Map<int, String> e621TagCategoryNames = {
 
 abstract final class E621Post {
   /// Reads the tag names of a post payload, whichever shape the server
-  /// answers with: the default response lists flat names, while the
-  /// `mode=extended` query groups them by category. Both must parse,
-  /// or a whole page of posts fails on one shape.
+  /// answers with: the default response lists flat names, the
+  /// `mode=extended` query groups them by category, and the legacy
+  /// summaries (similar/artist) join them into one space-separated
+  /// string. All must parse, or a whole page of posts fails on one
+  /// shape.
   static List<String> tagNames(Pick post) {
     final grouped = post('tags').asMapOrNull<String, dynamic>();
     if (grouped != null) {
@@ -28,6 +30,12 @@ abstract final class E621Post {
         for (final entry in grouped.values)
           ...?entry.whereType<String>().cast<String>().toList(),
       ];
+    }
+    // deep_pick stringifies any non-null non-string; only a real
+    // string is the legacy space-joined shape, a list must stay a list.
+    final raw = post('tags').value;
+    if (raw is String) {
+      return raw.split(' ').where((word) => word.isNotEmpty).toList();
     }
     return post('tags').asListOrThrow((pick) => pick.asStringOrThrow());
   }
@@ -38,46 +46,84 @@ abstract final class E621Post {
   /// against the denylist or track counts do not need the full
   /// payload, and skipping it keeps big searches cheap.
   ///
-  /// The field layout matches [fromJson] (the current e621 api); a
-  /// post whose original tier is gone falls back to the tiers it can
-  /// still display.
+  /// The server answers in two layouts. The current api nests the file
+  /// tiers under `files` and the counters under `stats`; the legacy
+  /// summaries of the similar/artist endpoint stay flat (`file_url`,
+  /// `width`, `score`, …, space-separated tags). A post whose original
+  /// tier is gone falls back to the tiers it can still display.
   static PartialPost partialFromJson(
     dynamic json, {
     Map<String, int> tagCategories = const {},
   }) => pick(json).letOrThrow(
     (post) => PartialPost(
       id: post('id').asIntOrThrow(),
-      file: post('files', 'original', 'url').asStringOrNull(),
-      sample: post('files', 'sample', 'jpg').asStringOrNull(),
-      preview: post('files', 'preview', 'jpg').asStringOrNull(),
+      file:
+          post('files', 'original', 'url').asStringOrNull() ??
+          post('file_url').asStringOrNull(),
+      sample:
+          post('files', 'sample', 'jpg').asStringOrNull() ??
+          post('sample_url').asStringOrNull(),
+      preview:
+          post('files', 'preview', 'jpg').asStringOrNull() ??
+          post('preview_url').asStringOrNull(),
       width:
           post('files', 'original', 'width').asIntOrNull() ??
           post('files', 'sample', 'width').asIntOrNull() ??
           post('files', 'preview', 'width').asIntOrNull() ??
+          post('width').asIntOrNull() ??
           0,
       height:
           post('files', 'original', 'height').asIntOrNull() ??
           post('files', 'sample', 'height').asIntOrNull() ??
           post('files', 'preview', 'height').asIntOrNull() ??
+          post('height').asIntOrNull() ??
           0,
-      ext: post('files', 'meta', 'ext').asStringOrThrow(),
-      size: post('files', 'meta', 'size').asIntOrThrow(),
+      ext:
+          post('files', 'meta', 'ext').asStringOrNull() ??
+          post('file_ext').asStringOrThrow(),
+      size:
+          post('files', 'meta', 'size').asIntOrNull() ??
+          post('size').asIntOrThrow(),
       tags: tagNames(post),
       uploaderId: post('uploader_id').asIntOrNull() ?? 0,
-      uploaderName: post('uploader_name').asStringOrNull(),
+      uploaderName:
+          post('uploader_name').asStringOrNull() ??
+          post('uploader').asStringOrNull(),
       createdAt: post('created_at').asDateTimeOrThrow(),
-      score: post('stats', 'score', 'total').asIntOrThrow(),
-      vote: post('stats', 'vote').asIntOrNull(),
-      isDeleted: post('flags', 'deleted').asBoolOrThrow(),
+      score:
+          post('stats', 'score', 'total').asIntOrNull() ??
+          post('score').asIntOrThrow(),
+      vote: post('stats', 'vote').asIntOrNull() ?? post('vote').asIntOrNull(),
+      // The legacy summaries carry the flag words as a space-separated
+      // string ("pending flagged deleted"); an unknown word is not an
+      // error, it is just not the one we track.
+      isDeleted:
+          post('flags', 'deleted').asBoolOrNull() ??
+          (post('flags').asStringOrNull()?.split(' ') ?? const []).contains(
+            'deleted',
+          ),
       // An unknown rating must not fail the whole post; unparseable
       // or missing values fall back to the server's upload default.
       rating:
           Rating.values.asNameMap()[post('rating').asStringOrNull()] ??
           Rating.q,
-      favCount: post('stats', 'fav_count').asIntOrThrow(),
-      isFavorited: post('stats', 'is_favorited').asBoolOrThrow(),
-      commentCount: post('stats', 'comment_count').asIntOrThrow(),
-      pools: post('pools').asListOrThrow((pick) => pick.asIntOrThrow()),
+      favCount:
+          post('stats', 'fav_count').asIntOrNull() ??
+          post('fav_count').asIntOrThrow(),
+      isFavorited:
+          post('stats', 'is_favorited').asBoolOrNull() ??
+          post('is_favorited').asBoolOrThrow(),
+      commentCount:
+          post('stats', 'comment_count').asIntOrNull() ??
+          post('comment_count').asIntOrThrow(),
+      // The legacy summaries list pool ids as one space-separated
+      // string, same as the tags.
+      pools:
+          post('pools').asListOrNull((pick) => pick.asIntOrThrow()) ??
+          (post('pools').asStringOrNull()?.split(' ') ?? const [])
+              .where((word) => word.isNotEmpty)
+              .map(int.parse)
+              .toList(),
     ),
   );
 

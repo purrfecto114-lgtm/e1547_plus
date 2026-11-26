@@ -34,9 +34,8 @@ class CommentDisplay extends StatelessWidget {
                   ),
                 ),
                 child: Text(
-                  AppLocalizations.of(
-                    context,
-                  ).detailCommentsButton(post.commentCount),
+                  AppLocalizations.of(context)
+                      .detailCommentsButton(post.commentCount),
                 ),
               ),
             ),
@@ -97,9 +96,8 @@ class SliverPostCommentSection extends StatelessWidget {
               ),
             ),
             SliverPadding(
-              padding: const EdgeInsets.symmetric(
-                horizontal: 12,
-              ).add(const EdgeInsets.only(bottom: 30)),
+              padding: const EdgeInsets.symmetric(horizontal: 12)
+                  .add(const EdgeInsets.only(bottom: 30)),
               sliver: const SliverCommentList(),
             ),
           ],

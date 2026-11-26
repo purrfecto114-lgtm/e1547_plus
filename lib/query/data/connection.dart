@@ -10,8 +10,10 @@ import 'package:flutter/foundation.dart';
 /// Returns true when the host answered over HTTP at all — any status
 /// counts, because a Cloudflare challenge or a 401 proves the transport
 /// path works, which is the only thing connectivity means here.
-typedef HostProbe =
-    Future<bool> Function(Uri url, ({String host, int port})? proxy);
+typedef HostProbe = Future<bool> Function(
+  Uri url,
+  ({String host, int port})? proxy,
+);
 
 /// The default [HostProbe].
 ///

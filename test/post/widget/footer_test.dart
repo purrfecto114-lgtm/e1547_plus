@@ -228,9 +228,9 @@ void main() {
     expect(pageQuery('order:score').state.data?.args, [3]);
     // The list was returned to the top of that page.
     expect(
-      PrimaryScrollController.of(
-        tester.element(find.byType(PostList)),
-      ).position.pixels,
+      PrimaryScrollController.of(tester.element(find.byType(PostList)))
+          .position
+          .pixels,
       0,
     );
     // The footer reports the page it now shows.
@@ -318,9 +318,9 @@ void main() {
       expect(query.state.data?.args, [3]);
       // The list was returned to the top of that page.
       expect(
-        PrimaryScrollController.of(
-          tester.element(find.byType(PostList)),
-        ).position.pixels,
+        PrimaryScrollController.of(tester.element(find.byType(PostList)))
+            .position
+            .pixels,
         0,
       );
       // The footer, once reached, and the drawer both report the new page.

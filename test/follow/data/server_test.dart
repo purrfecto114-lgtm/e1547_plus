@@ -23,9 +23,8 @@ void main() {
 
   setUp(() async {
     sqlite = AppDatabase(NativeDatabase.memory());
-    identity = await IdentityRepository(
-      sqlite,
-    ).add(const IdentityRequest(host: 'e621.net', username: 'tester'));
+    identity = await IdentityRepository(sqlite)
+        .add(const IdentityRequest(host: 'e621.net', username: 'tester'));
     repository = FollowRepository(database: sqlite);
     traits = ValueNotifier(
       const Traits(

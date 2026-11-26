@@ -13,12 +13,11 @@ import 'package:path_provider/path_provider.dart';
 /// the response does not announce one. Canceling [cancelToken] aborts the
 /// underlying network transfer, so no further bytes are received, and the
 /// partial file is removed.
-typedef DownloadFileFetcher =
-    Future<File> Function(
-      String url,
-      CancelToken cancelToken,
-      void Function(int count, int? total)? onProgress,
-    );
+typedef DownloadFileFetcher = Future<File> Function(
+  String url,
+  CancelToken cancelToken,
+  void Function(int count, int? total)? onProgress,
+);
 
 /// Creates the credential-free transfer client the task controller keeps
 /// for the lifetime of all its downloads.

@@ -73,9 +73,8 @@ void main() {
               await subscription.cancel();
               final relisten = query.stream.listen((_) {});
               backgroundOps.add(
-                Future<void>.delayed(
-                  Duration(milliseconds: random.nextInt(3)),
-                ).then((_) => relisten.cancel()),
+                Future<void>.delayed(Duration(milliseconds: random.nextInt(3)))
+                    .then((_) => relisten.cancel()),
               );
               backgroundOps.add(relisten.cancel());
             case 3:

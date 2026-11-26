@@ -75,9 +75,8 @@ class TaskTile extends StatelessWidget {
                       mainAxisSize: MainAxisSize.min,
                       children: [
                         Text(
-                          RelativeTime.locale(
-                            Localizations.localeOf(context),
-                          ).format(task.completedAt ?? task.createdAt),
+                          RelativeTime.locale(Localizations.localeOf(context))
+                              .format(task.completedAt ?? task.createdAt),
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,
                         ),

@@ -348,6 +348,8 @@ class FakeE621 {
   /// real server the grouping is internal knowledge a failing lookup
   /// cannot ungroup, and tests clear the lookup state on purpose.
   static const Map<String, int> _fixtureTagCategories = {
+    'some_artist': 1,
+    'other_artist': 1,
     'tag_1': 0,
     'tag_10': 0,
     'tag_100': 5,
@@ -568,18 +570,57 @@ class FakeE621 {
   }
 
   /// Posts sharing an artist tag with the referenced one, in the
-  /// shape the recommendation endpoint answers with. The fixture posts
-  /// already carry the current api layout, so they double as the
-  /// post_data summaries the client's partial parser reads.
+  /// shape the recommendation endpoint answers with: unlike every
+  /// other posts route, its post_data summaries carry the legacy flat
+  /// layout (file_url and friends, space-separated tags), so the fake
+  /// projects the v2 post state down into it. Artist names come from
+  /// the fixture category table, the same knowledge the real server
+  /// has internally.
   Response _artistRecommendations(Request request, String id) {
     final Map<String, Object?> post = _find(state.posts, id);
-    // The current api carries tags as a flat list; artist names are the
-    // entries prefixed by the artist category marker in the fixture.
     List<Object?> artists(Map<String, Object?> post) =>
         ((post['tags'] as List?) ?? const [])
             .whereType<String>()
-            .where((tag) => tag.startsWith('artist:'))
+            .where((tag) => _fixtureTagCategories[tag] == 1)
             .toList();
+    // The legacy summary layout, straight from the live endpoint.
+    Map<String, Object?> summary(Map<String, Object?> e) {
+      final Map files = e['files'] as Map? ?? const {};
+      final Map meta = files['meta'] as Map? ?? const {};
+      final Map stats = e['stats'] as Map? ?? const {};
+      final Map original = files['original'] as Map? ?? const {};
+      final Map sample = files['sample'] as Map? ?? const {};
+      final Map preview = files['preview'] as Map? ?? const {};
+      final Map score = stats['score'] as Map? ?? const {};
+      return {
+        'id': e['id'],
+        'created_at': e['created_at'],
+        'uploader': e['uploader_name'],
+        'uploader_id': e['uploader_id'],
+        'file_url': original['url'],
+        'sample_url': sample['jpg'],
+        'preview_url': preview['jpg'],
+        'width': original['width'],
+        'height': original['height'],
+        'file_ext': meta['ext'],
+        'size': meta['size'],
+        'score': score['total'],
+        'fav_count': stats['fav_count'],
+        'is_favorited': stats['is_favorited'],
+        'vote': stats['vote'],
+        'comment_count': stats['comment_count'],
+        'rating': e['rating'],
+        // The server joins flat tags and flag words with spaces.
+        'tags': ((e['tags'] as List?) ?? const []).whereType<String>().join(
+          ' ',
+        ),
+        'pools': ((e['pools'] as List?) ?? const [])
+            .map((pool) => '$pool')
+            .join(' '),
+        'flags': (e['flags']! as Map)['deleted'] == true ? 'deleted' : '',
+      };
+    }
+
     final int limit = int.parse(request.url.queryParameters['limit'] ?? '6');
     final List<Map<String, Object?>> similar = state.posts
         .where((e) => e['id'] != post['id'])
@@ -593,7 +634,11 @@ class FakeE621 {
         for (final Map<String, Object?> e in similar)
           {'post_id': e['id'], 'score': 1, 'explanation': null},
       ],
-      'post_data': [for (final Map<String, Object?> e in similar.reversed) e],
+      'post_data': [
+        // post_data arrives sorted by id, like the live endpoint;
+        // results carries the recommendation order.
+        for (final Map<String, Object?> e in similar.reversed) summary(e),
+      ],
     });
   }
 

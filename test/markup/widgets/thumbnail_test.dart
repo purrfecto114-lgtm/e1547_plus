@@ -42,9 +42,10 @@ void main() {
   displayTest('thumbs of one text load their posts in one request', (
     tester,
   ) async {
-    final List<int> ids = loadFixtureList(
-      'posts.json',
-    ).map((e) => e['id']! as int).take(3).toList();
+    final List<int> ids = loadFixtureList('posts.json')
+        .map((e) => e['id']! as int)
+        .take(3)
+        .toList();
     env.fake.requests.clear();
 
     await tester.runAsync(

@@ -50,9 +50,8 @@ class SettingsUserSection extends StatelessWidget {
               title: Text(AppLocalizations.of(context).settingsFollows),
               subtitle: snapshot.data != null && snapshot.data != 0
                   ? Text(
-                      AppLocalizations.of(
-                        context,
-                      ).searchesFollowed(snapshot.data!),
+                      AppLocalizations.of(context)
+                          .searchesFollowed(snapshot.data!),
                     )
                   : null,
               leading: const Icon(Icons.person_add),

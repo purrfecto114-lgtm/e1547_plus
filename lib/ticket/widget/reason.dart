@@ -81,9 +81,8 @@ class _ReasonReportScreenState extends State<ReasonReportScreen> {
             title: widget.title,
             leading: const CloseButton(),
           ),
-          floatingActionButtonLocation: Handedness.of(
-            context,
-          ).floatingActionButtonLocation,
+          floatingActionButtonLocation: Handedness.of(context)
+              .floatingActionButtonLocation,
           floatingActionButton: Builder(
             builder: (context) => FloatingActionButton(
               onPressed: isLoading
@@ -139,9 +138,8 @@ class _ReasonReportScreenState extends State<ReasonReportScreen> {
             child: LayoutBuilder(
               builder: (context, constraints) => ListView(
                 controller: scrollController,
-                padding: LimitedWidthLayout.of(
-                  context,
-                ).padding.add(defaultFormScreenPadding),
+                padding: LimitedWidthLayout.of(context).padding
+                    .add(defaultFormScreenPadding),
                 children: [
                   ConstrainedBox(
                     constraints: const BoxConstraints(

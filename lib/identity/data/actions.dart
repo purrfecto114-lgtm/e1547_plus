@@ -11,9 +11,8 @@ String encodeBasicAuth(String username, String password) =>
 
 (String username, String password)? parseBasicAuth(String? auth) {
   if (auth == null) return null;
-  RegExpMatch? fullBasicMatch = RegExp(
-    r'Basic (?<encoded>[A-Za-z\d/=]+)',
-  ).firstMatch(auth);
+  RegExpMatch? fullBasicMatch = RegExp(r'Basic (?<encoded>[A-Za-z\d/=]+)')
+      .firstMatch(auth);
   if (fullBasicMatch == null) return null;
   RegExpMatch? credentialMatch = RegExp(r'(?<username>.+):(?<password>.+)')
       .firstMatch(

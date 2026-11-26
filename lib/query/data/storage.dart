@@ -225,8 +225,13 @@ class DriftQueryStorage extends StorageInterface {
     } else if (puts.isNotEmpty) {
       // One flush upserts many rows: the estimate tracks them all, or
       // the eviction trigger lags by (rows-per-flush - 1) per flush.
-      _estimatedEntries =
-          (_estimatedEntries ?? await repository.count()) + puts.length;
+      // A known estimate needs the addition; a fresh count already
+      // includes the rows this flush just wrote, and adding them again
+      // would evict puts.length entries too early.
+      _estimatedEntries = switch (_estimatedEntries) {
+        final int entries => entries + puts.length,
+        null => await repository.count(),
+      };
       await _evict();
     }
   }

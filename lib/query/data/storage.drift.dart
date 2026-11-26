@@ -219,11 +219,12 @@ typedef $$QueryStorageTableTableProcessedTableManager =
       i2.QueryStorageTableData,
       i0.PrefetchHooks Function()
     >;
+
 mixin $QueryStorageRepositoryMixin
     on i0.DatabaseAccessor<i1.GeneratedDatabase> {
-  i2.$QueryStorageTableTable get queryStorageTable => i3.ReadDatabaseContainer(
-    attachedDatabase,
-  ).resultSet<i2.$QueryStorageTableTable>('query_storage_table');
+  i2.$QueryStorageTableTable get queryStorageTable =>
+      i3.ReadDatabaseContainer(attachedDatabase)
+          .resultSet<i2.$QueryStorageTableTable>('query_storage_table');
   QueryStorageRepositoryManager get managers =>
       QueryStorageRepositoryManager(this);
 }

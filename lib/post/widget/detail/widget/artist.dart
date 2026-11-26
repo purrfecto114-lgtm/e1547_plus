@@ -32,9 +32,8 @@ class ArtistDisplay extends StatelessWidget {
                     Share.clipboard(
                       context,
                       post.id.toString(),
-                      message: AppLocalizations.of(
-                        context,
-                      ).postCopiedId(post.id),
+                      message: AppLocalizations.of(context)
+                          .postCopiedId(post.id),
                     );
                   },
                 ),

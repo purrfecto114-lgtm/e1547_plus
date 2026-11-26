@@ -43,9 +43,8 @@ class DeletionDisplay extends StatelessWidget {
               children: [
                 Expanded(
                   child: Card(
-                    color: Theme.of(
-                      context,
-                    ).colorScheme.errorContainer.withAlpha(150),
+                    color: Theme.of(context).colorScheme.errorContainer
+                        .withAlpha(150),
                     child: Padding(
                       padding: const EdgeInsets.all(16),
                       child: DText(value.data?.reason ?? ''),

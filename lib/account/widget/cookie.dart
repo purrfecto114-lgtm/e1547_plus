@@ -85,9 +85,8 @@ class _CookieCapturePageState extends State<CookieCapturePage> {
     return Scaffold(
       appBar: AppBar(leading: const CloseButton(), title: widget.title),
       body: WebViewWidget(controller: controller),
-      floatingActionButtonLocation: Handedness.of(
-        context,
-      ).floatingActionButtonLocation,
+      floatingActionButtonLocation: Handedness.of(context)
+          .floatingActionButtonLocation,
       floatingActionButton: FloatingActionButton(
         child: const Icon(Icons.check),
         onPressed: () async {

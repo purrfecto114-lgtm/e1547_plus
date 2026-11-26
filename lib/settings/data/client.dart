@@ -9,13 +9,14 @@ import 'package:e1547/settings/settings.dart';
 import 'package:e1547/shared/shared.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
-import 'package:native_dio_adapter/native_dio_adapter.dart';
 import 'package:pub_semver/pub_semver.dart';
 import 'package:xml/xml.dart';
 
 class AppInfoClient {
-  AppInfoClient({required this.queryCache, Dio? dio}) : _externalDio = dio {
-    _dio.httpClientAdapter = NativeAdapter();
+  AppInfoClient({required this.queryCache, Dio? dio, ProxyConfig? proxy})
+    : _externalDio = dio,
+      _proxy = proxy {
+    _dio.httpClientAdapter = proxyAwareAdapter(_proxy);
     _dio.interceptors.add(LoggingDioInterceptor());
     _dio.interceptors.add(ClientExceptionInterceptor());
   }
@@ -24,6 +25,15 @@ class AppInfoClient {
   ///
   /// Exists so tests can provide a mock transport.
   final Dio? _externalDio;
+
+  /// The proxy the http adapter honours, resolved by the provider.
+  final ProxyConfig? _proxy;
+
+  /// Closes the app-owned transport. An externally supplied dio stays
+  /// open: its owner decides its lifetime.
+  void dispose() {
+    if (_externalDio == null) _dio.close();
+  }
 
   final AppInfo info = AppInfo.instance;
   final CachedQuery queryCache;
@@ -36,6 +46,10 @@ class AppInfoClient {
           receiveTimeout: const Duration(seconds: 15),
         ),
       );
+
+  /// The transport the updater talks through; exposed for tests to
+  /// assert the proxy wiring.
+  Dio get transport => _dio;
 
   /// Returns all versions released on GitHub.
   ///
@@ -77,9 +91,8 @@ class AppInfoClient {
             // Unparseable entries are skipped one by one, like the atom
             // fallback below does, instead of failing the whole check.
             final List<AppVersion> versions = [];
-            final List<dynamic> releases = pick(
-              response.data,
-            ).asListOrEmpty((e) => e.value);
+            final List<dynamic> releases = pick(response.data)
+                .asListOrEmpty((e) => e.value);
             for (final entry in releases) {
               try {
                 versions.add(

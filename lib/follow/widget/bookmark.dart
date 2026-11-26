@@ -65,9 +65,8 @@ class FollowsBookmarkPage extends StatelessWidget {
                               AppLocalizations.of(context).followNoBookmarks,
                             ),
                             onError: Text(
-                              AppLocalizations.of(
-                                context,
-                              ).followFailedToLoadBookmarks,
+                              AppLocalizations.of(context)
+                                  .followFailedToLoadBookmarks,
                             ),
                           ),
                           crossAxisCount: TileLayout.of(context).crossAxisCount,

@@ -22,9 +22,8 @@ class IdentityPage extends StatelessWidget {
           maxWidth: 520,
           builder: (context) => Center(
             child: ListView(
-              padding: LimitedWidthLayout.of(
-                context,
-              ).padding.add(defaultActionListPadding),
+              padding: LimitedWidthLayout.of(context).padding
+                  .add(defaultActionListPadding),
               shrinkWrap: true,
               children: [
                 Padding(

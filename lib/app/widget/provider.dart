@@ -171,10 +171,17 @@ class FileCacheProvider
       );
 }
 
-class AppInfoClientProvider extends SubProvider0<AppInfoClient?> {
+class AppInfoClientProvider extends SubProvider<ProxyConfig?, AppInfoClient?> {
   AppInfoClientProvider({super.child, super.builder})
     : super(
-        create: (context) =>
-            AppInfoClient(queryCache: context.read<AppStorage>().queryCache),
+        create: (context, proxy) => AppInfoClient(
+          queryCache: context.read<AppStorage>().queryCache,
+          // The updater talks to github, which some networks only
+          // reach through the system proxy; the proxy arrives as a
+          // provider dependency so a proxy switched on mid-session
+          // rebuilds the updater onto it, like every other client.
+          proxy: proxy,
+        ),
+        dispose: (context, client) => client?.dispose(),
       );
 }

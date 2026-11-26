@@ -1,7 +1,9 @@
 import 'package:cached_query/cached_query.dart';
 import 'package:dio/dio.dart';
+import 'package:dio/io.dart';
 import 'package:e1547/settings/settings.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:native_dio_adapter/native_dio_adapter.dart';
 import 'package:pub_semver/pub_semver.dart';
 
 import '../../_support/harness.dart';
@@ -246,6 +248,30 @@ void main() {
         '21.3.1+122',
         '21.3.2+123',
       ]);
+    });
+  });
+
+  group('proxying the updater transport', () {
+    test('a known proxy switches the adapter onto the dart http stack', () {
+      // GitHub is exactly the kind of host a filtered network only
+      // reaches through a proxy; the updater must honour it like
+      // every other client.
+      AppInfoClient client = AppInfoClient(
+        queryCache: CachedQuery.asNewInstance(),
+        proxy: (host: '127.0.0.1', port: 8888),
+      );
+
+      expect(client.transport.httpClientAdapter, isA<IOHttpClientAdapter>());
+      client.dispose();
+    });
+
+    test('without a proxy the native adapter stays', () {
+      AppInfoClient client = AppInfoClient(
+        queryCache: CachedQuery.asNewInstance(),
+      );
+
+      expect(client.transport.httpClientAdapter, isA<NativeAdapter>());
+      client.dispose();
     });
   });
 }
