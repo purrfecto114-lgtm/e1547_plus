@@ -55,10 +55,15 @@ class _QueryFilterState<T, K> extends State<QueryFilter<T, K>> {
   FilterController<T>? _controller;
 
   // The flat list built from the state's pages, cached against the
-  // state instance: a rebuild that hands over the same state (the
-  // common one — the query stream did not fire) must not re-expand and
-  // re-filter hundreds of posts just to produce a fresh identical list.
+  // state instance and the filter's invalidation generation: a rebuild
+  // that hands over the same state (the common one — the query stream
+  // did not fire) on the same generation must not re-expand and
+  // re-filter hundreds of posts just to produce a fresh identical
+  // list. An invalidate() flips the generation — the same data now
+  // filters into a different set (a denylist edit, the denying
+  // switch), and the stale rechunk must go.
   InfiniteQueryData<List<T>, K>? _flattenedFrom;
+  int? _flattenedGeneration;
   late List<T> _flattened;
   // The rechunked pages, cached the same way.
   late List<List<T>> _rechunked;
@@ -75,6 +80,11 @@ class _QueryFilterState<T, K> extends State<QueryFilter<T, K>> {
     if (!identical(_controller, controller)) {
       _controller?.untrack(_key);
       _controller = controller;
+      // A different controller judges differently and owns its own
+      // generation; the rechunk cached against the old one must not
+      // survive the swap.
+      _flattenedFrom = null;
+      _flattenedGeneration = null;
     }
 
     final data = widget.state.data;
@@ -84,7 +94,8 @@ class _QueryFilterState<T, K> extends State<QueryFilter<T, K>> {
 
     List<T> flat;
     List<List<T>> rechunked;
-    if (identical(_flattenedFrom, data)) {
+    final generation = controller.generation;
+    if (identical(_flattenedFrom, data) && _flattenedGeneration == generation) {
       flat = _flattened;
       rechunked = _rechunked;
     } else {
@@ -109,6 +120,7 @@ class _QueryFilterState<T, K> extends State<QueryFilter<T, K>> {
           )
           .toList();
       _flattenedFrom = data;
+      _flattenedGeneration = generation;
       _flattened = flat;
       _rechunked = rechunked;
     }
