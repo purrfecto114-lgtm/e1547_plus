@@ -39,6 +39,15 @@ class _PagedQueryBuilderState<T, Arg> extends State<PagedQueryBuilder<T, Arg>> {
   InfiniteQueryStatus<List<int>, Arg>? lastState;
   InfiniteQueryStatus<List<T>, Arg>? cachedState;
 
+  /// A setState scheduled but not yet run.
+  ///
+  /// Emissions from the item queries arrive in bursts — a page landing
+  /// fires every item query on it, each with a fetch-start and a data
+  /// emission — and each one used to pay its own rebuild. Scheduling one
+  /// setState per microtask window folds a whole burst into a single
+  /// rebuild instead of one per emission.
+  bool _setStateScheduled = false;
+
   @override
   void dispose() {
     for (final subscription in subscriptions.values) {
@@ -49,15 +58,35 @@ class _PagedQueryBuilderState<T, Arg> extends State<PagedQueryBuilder<T, Arg>> {
     super.dispose();
   }
 
+  void _scheduleSetState() {
+    if (_setStateScheduled) return;
+    _setStateScheduled = true;
+    scheduleMicrotask(() {
+      if (!mounted) return;
+      _setStateScheduled = false;
+      // ignore: no_op_in_public_api
+      setState(() {});
+    });
+  }
+
   void subscribeToItem(int id) {
     if (subscriptions.containsKey(id)) return;
 
     final itemQuery = widget.getItem(id);
     subscriptions[id] = itemQuery.stream.listen((state) {
-      setState(() {
-        items[id] = state.data;
-        cachedState = null;
-      });
+      // An emission that lands the same data as the last one leaves the
+      // resolved list unchanged: re-resolving it would rebuild every
+      // tile for nothing.
+      if (items[id] == state.data) {
+        if (state.data == null && items[id] != null) {
+          // fall through: a lost item must update the list
+        } else {
+          return;
+        }
+      }
+      items[id] = state.data;
+      cachedState = null;
+      _scheduleSetState();
     });
 
     items[id] = itemQuery.state.data;
