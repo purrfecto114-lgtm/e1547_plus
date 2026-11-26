@@ -4,6 +4,8 @@ import 'package:drift/drift.dart';
 import 'package:e1547/query/query.dart';
 import 'package:e1547/shared/shared.dart';
 
+import 'package:flutter/foundation.dart';
+
 // ignore: always_use_package_imports
 import 'storage.drift.dart';
 
@@ -30,6 +32,33 @@ class QueryStorageRepository extends DatabaseAccessor<GeneratedDatabase>
 
   Future<void> put(QueryStorageTableData entry) =>
       into(queryStorageTable).insertOnConflictUpdate(entry);
+
+  /// Commits [entries] and removes [removeKeys] in one transaction, or
+  /// empties the whole table when [removeKeys] is null.
+  ///
+  /// A saved page of posts writes one row per post; batching those into a
+  /// single drift [Batch] commits the whole burst as one transaction
+  /// instead of one per row.
+  Future<void> writeAll(
+    List<QueryStorageTableData> entries, {
+    List<String>? removeKeys,
+  }) async {
+    await batch((batch) {
+      if (removeKeys == null) {
+        batch.deleteAll(queryStorageTable);
+      }
+      for (final entry in entries) {
+        batch.insert(
+          queryStorageTable,
+          entry,
+          onConflict: DoUpdate((old) => entry),
+        );
+      }
+      for (final key in removeKeys ?? const <String>[]) {
+        batch.deleteWhere(queryStorageTable, (tbl) => tbl.key.equals(key));
+      }
+    });
+  }
 
   Future<void> remove(String key) =>
       (delete(queryStorageTable)..where((tbl) => tbl.key.equals(key))).go();
@@ -76,11 +105,28 @@ class DriftQueryStorage extends StorageInterface {
 
   int? _estimatedEntries;
 
+  /// Writes staged for the next commit, keyed by row: a later write of the
+  /// same key replaces an earlier one, and a delete stages null.
+  final Map<String, QueryStorageTableData?> _staged = {};
+
+  /// The single queue of write turns, in call order. Every write — put,
+  /// delete, deleteAll — is a turn that first stages its change; the
+  /// commit runs after the last queued turn of a burst, so a page of puts
+  /// lands as one transaction. A deleteAll turn is its own burst boundary:
+  /// it commits immediately at its turn's end, so puts queued after it
+  /// commit after the wipe, never inside it.
   Future<void> _writes = Future.value();
 
-  void _enqueue(Future<void> Function() write) {
-    _writes = _writes.then((_) => write()).catchError((_) {});
-  }
+  /// Turns queued but not yet staged.
+  int _pending = 0;
+
+  /// Number of committed write batches, visible for testing.
+  @visibleForTesting
+  int flushes = 0;
+
+  /// A deleteAll marker: it wipes the database and everything staged
+  /// before its turn.
+  static const String _wipeSentinel = '\u0000wipe';
 
   Future<void> _evict() async {
     _estimatedEntries ??= await repository.count();
@@ -88,6 +134,22 @@ class DriftQueryStorage extends StorageInterface {
     await repository.removeExpired(DateTime.now());
     await repository.trim(maxAmount: maxEntries);
     _estimatedEntries = await repository.count();
+  }
+
+  void _enqueue(Future<void> Function() write, {bool boundary = false}) {
+    _pending++;
+    _writes = _writes.then((_) => write()).then((_) async {
+      _pending--;
+      // A boundary turn (deleteAll) commits on its own: the wipe must
+      // not swallow a put queued after it, so the burst ends here.
+      // Otherwise, only the last turn of a burst commits: while more
+      // turns are queued, their writes belong in this same transaction.
+      if (boundary || _pending == 0) {
+        await _commitStaged();
+      }
+    }).catchError((_) {
+      _pending--;
+    });
   }
 
   @override
@@ -108,30 +170,52 @@ class DriftQueryStorage extends StorageInterface {
 
   @override
   void put(StoredQuery query) => _enqueue(() async {
-    await repository.put(
-      QueryStorageTableData(
-        key: query.key,
-        data: jsonEncode(query.data),
-        createdAt: query.createdAt,
-        duration: query.storageDuration?.inMilliseconds,
-        expiresAt: query.expiry,
-      ),
-    );
-    _estimatedEntries = (_estimatedEntries ?? await repository.count()) + 1;
-    await _evict();
-  });
+        _staged[query.key] = QueryStorageTableData(
+          key: query.key,
+          data: jsonEncode(query.data),
+          createdAt: query.createdAt,
+          duration: query.storageDuration?.inMilliseconds,
+          expiresAt: query.expiry,
+        );
+      });
 
   @override
   void delete(String key) => _enqueue(() async {
-    await repository.remove(key);
-    if (_estimatedEntries case int entries) _estimatedEntries = entries - 1;
-  });
+        _staged[key] = null;
+      });
 
   @override
-  void deleteAll() => _enqueue(() async {
-    await repository.removeAll();
-    _estimatedEntries = 0;
-  });
+  void deleteAll() => _enqueue(
+        () async {
+          _staged[_wipeSentinel] = null;
+        },
+        boundary: true,
+      );
+
+  Future<void> _commitStaged() async {
+    if (_staged.isEmpty) return;
+    flushes++;
+    final wipe = _staged.containsKey(_wipeSentinel);
+    final puts = [
+      for (final MapEntry(:key, :value) in _staged.entries)
+        if (value != null && key != _wipeSentinel) value!,
+    ];
+    final removes = [
+      for (final MapEntry(:key, :value) in _staged.entries)
+        if (value == null && key != _wipeSentinel) key,
+    ];
+    _staged.clear();
+    await repository.writeAll(
+      wipe ? const [] : puts,
+      removeKeys: wipe ? null : removes,
+    );
+    if (wipe) {
+      _estimatedEntries = 0;
+    } else if (puts.isNotEmpty) {
+      _estimatedEntries = (_estimatedEntries ?? await repository.count()) + 1;
+      await _evict();
+    }
+  }
 
   @override
   void close() {}

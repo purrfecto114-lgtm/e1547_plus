@@ -131,4 +131,65 @@ void main() {
       expect(await repository.count(), 0);
     });
   });
+
+  group('DriftQueryStorage write coalescing', () {
+    DriftQueryStorage wide() =>
+        DriftQueryStorage(repository: repository, maxEntries: 100);
+
+    test('commits a whole burst of puts as one flush', () async {
+      final storage = wide();
+      for (int i = 0; i < 5; i++) {
+        storage.put(entry('["ident",1,"posts",$i]', {'id': i}));
+      }
+      await storage.get('drain');
+
+      for (int i = 0; i < 5; i++) {
+        expect(await storage.get('["ident",1,"posts",$i]'), isNotNull);
+      }
+      expect(storage.flushes, 1);
+    });
+
+    test('collapses rewrites of one key into one commit', () async {
+      final storage = wide();
+      storage.put(entry('["ident",1,"posts",5]', {'score': 1}));
+      storage.put(entry('["ident",1,"posts",5]', {'score': 2}));
+      await storage.get('drain');
+
+      expect((await storage.get('["ident",1,"posts",5]'))!.data, {'score': 2});
+      expect(storage.flushes, 1);
+    });
+
+    test('a delete staged after its put wins the flush', () async {
+      final storage = wide();
+      storage.put(entry('["ident",1,"posts",5]', {'id': 5}));
+      storage.delete('["ident",1,"posts",5]');
+      await storage.get('drain');
+
+      expect(await storage.get('["ident",1,"posts",5]'), isNull);
+    });
+
+    test('a put staged after deleteAll survives it', () async {
+      final storage = wide();
+      storage.put(entry('["ident",1,"posts",5]', {'id': 5}));
+      await storage.get('drain');
+
+      storage.deleteAll();
+      storage.put(entry('["ident",1,"posts",6]', {'id': 6}));
+      await storage.get('drain');
+
+      expect(await storage.get('["ident",1,"posts",5]'), isNull);
+      expect((await storage.get('["ident",1,"posts",6]'))!.data, {'id': 6});
+    });
+
+    test('commits separately again once a flush has landed', () async {
+      final storage = wide();
+      storage.put(entry('["ident",1,"posts",5]', {'id': 5}));
+      await storage.get('drain');
+      storage.put(entry('["ident",1,"posts",6]', {'id': 6}));
+      await storage.get('drain');
+
+      expect(await storage.get('["ident",1,"posts",6]'), isNotNull);
+      expect(storage.flushes, 2);
+    });
+  });
 }
