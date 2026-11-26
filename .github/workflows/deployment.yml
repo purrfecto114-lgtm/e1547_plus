@@ -70,7 +70,7 @@ jobs:
         # pays minutes for nothing.
         uses: gradle/actions/setup-gradle@ed408507eac070d1f99cc633dbcf757c94c7933a # v4
         with:
-          dependency-graph: disable
+          dependency-graph: disabled
 
       - name: Setup Java
         uses: actions/setup-java@b6effb05e454b25005698d916606bdc6ffcbf961 # v5

@@ -113,7 +113,7 @@ jobs:
         # them and the smoke build spends most of its five minutes there.
         uses: gradle/actions/setup-gradle@ed408507eac070d1f99cc633dbcf757c94c7933a # v4
         with:
-          dependency-graph: disable
+          dependency-graph: disabled
 
       - name: parse flutter version
         run: |
