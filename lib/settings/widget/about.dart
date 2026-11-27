@@ -224,7 +224,7 @@ class AboutVersion extends StatelessWidget {
                             style: Theme.of(dialogContext).textTheme.titleLarge,
                           ),
                         ),
-                        Text(release.description ?? ''),
+                        ..._changelogEntries(dialogContext, release),
                       ],
                     )
                     .reduce((a, b) => [...a, ...b]),
@@ -514,4 +514,25 @@ class DrawerUpdateIcon extends StatelessWidget {
       },
     );
   }
+}
+
+/// The changelog entries a release shows in the update dialog.
+///
+/// Long release bodies stop at [changelogPreviewLimit]; the trailing
+/// ellipsis opens the release page, which carries the full text.
+List<Widget> _changelogEntries(BuildContext context, AppVersion release) {
+  final (String preview, bool truncated) = changelogPreview(
+    release.description,
+  );
+  return [
+    Text(preview),
+    if (truncated)
+      GestureDetector(
+        onTap: () => launch(release.releaseUrl()),
+        child: Text(
+          '…',
+          style: TextStyle(color: Theme.of(context).colorScheme.primary),
+        ),
+      ),
+  ];
 }

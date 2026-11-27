@@ -1,3 +1,4 @@
+import 'package:e1547/settings/settings.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:pub_semver/pub_semver.dart';
 
@@ -18,5 +19,31 @@ void main() {
     // still works as designed.
     final Version rc = Version.parse('22.10.0+242-rc.1');
     expect(rc.compareTo(current) > 0, isTrue);
+  });
+
+  group('changelogPreview', () {
+    test('keeps a short changelog whole', () {
+      final (String text, bool truncated) = changelogPreview('fixed a bug');
+      expect(text, 'fixed a bug');
+      expect(truncated, isFalse);
+    });
+
+    test('cuts a long changelog back to a word boundary', () {
+      final String long = 'word ' * 400;
+      final (String text, bool truncated) = changelogPreview(long);
+      expect(truncated, isTrue);
+      expect(text.length, lessThanOrEqualTo(changelogPreviewLimit));
+      expect(
+        text.endsWith('word'),
+        isTrue,
+        reason: 'the cut recovers to the last space, not mid-word',
+      );
+    });
+
+    test('treats a missing changelog as empty', () {
+      final (String text, bool truncated) = changelogPreview(null);
+      expect(text, isEmpty);
+      expect(truncated, isFalse);
+    });
   });
 }

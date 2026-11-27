@@ -1,6 +1,39 @@
 # Changelog
 
+## [22.10.1] - 2026-11-27
+
+### Fixed
+- importing a sanitized database no longer leaves behind a phantom
+  logged-in account: stripped credentials used to keep the username,
+  showing an account whose every vote, favorite and comment the server
+  silently bounced with 403 InvalidAuthenticityToken. The identity is
+  now honestly signed out when an anonymous row for its host does not
+  exist yet
+- importing a sanitized database no longer drops the account's data
+  when a host carries both an anonymous identity and a logged-in one:
+  the follow, history and task rows hang off the identity that gets
+  removed, and were left dangling for the orphan sweep to take. The
+  account's data now moves onto the surviving anonymous identity
+  before the credential row goes, and two accounts on one host merge
+  into the first slot the same way
+- the subscriptions page no longer reports phantom new posts after
+  every restart, and its grid no longer stutters while it scrolls
+  (a page-visit connector wrote stale previews as fresh visits, and
+  every follow-table emission re-triggered a full sync that re-decoded
+  every cover thumbnail)
+- closing the media cache or the update checker while a download was
+  still running crashed the app with an uncaught IllegalStateException:
+  the cronet engine behind the android network stack refuses to shut
+  down with running requests. Every dio now cancels its in-flight
+  requests before its engine closes
+
+### Changed
+- the update dialog truncates a release's changelog past 1000
+  characters at a word boundary; the trailing ellipsis opens the
+  release page, which carries the full text
+
 ## [22.10.1-rc.5+246] - 2026-11-27
+
 
 ### Fixed
 - importing a sanitized database kept the account's data reachable:
@@ -2419,3 +2452,4 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 [22.10.1-rc.2+244]: https://github.com/purrfecto114-lgtm/e1547_plus/compare/22.10.1-rc.1+243...22.10.1-rc.2+244
 [22.10.1-rc.4+245]: https://github.com/purrfecto114-lgtm/e1547_plus/compare/22.10.1-rc.2+244...22.10.1-rc.4+245
 [22.10.1-rc.5+246]: https://github.com/purrfecto114-lgtm/e1547_plus/compare/22.10.1-rc.4+245...22.10.1-rc.5+246
+[22.10.1]: https://github.com/purrfecto114-lgtm/e1547_plus/compare/22.10.1-rc.5+246...22.10.1+247

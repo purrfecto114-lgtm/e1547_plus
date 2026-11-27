@@ -99,6 +99,35 @@ void main() {
     expect(env.client.inFlight.count, 0);
   });
 
+  test('shutting a dio down cancels its in-flight requests', () async {
+    final env = await TestEnvironment.start();
+    addTearDown(env.dispose);
+    env.fake.stallFor = const Duration(seconds: 30);
+
+    // The media dio owns the engine the file cache closes on identity
+    // switches: a held-back download must go through its cancellation
+    // path before the engine's shutdown, or cronet throws.
+    final dio = createMediaDio();
+    final Completer<Object?> outcome = Completer<Object?>();
+    unawaited(
+      dio
+          .get('${env.fake.url}/posts.json')
+          .then(outcome.complete, onError: (Object e) => outcome.complete(e)),
+    );
+    await Future<void>.delayed(const Duration(milliseconds: 100));
+    expect(
+      dio.interceptors.whereType<InFlightInterceptor>().first.count,
+      greaterThan(0),
+    );
+
+    dio.shutdown();
+
+    final Object? error = await outcome.future;
+    expect(error, isA<DioException>());
+    expect(CancelToken.isCancel(error! as DioException), isTrue);
+    expect(dio.interceptors.whereType<InFlightInterceptor>().first.count, 0);
+  });
+
   group('the resolved proxy decides the http adapter', () {
     ({String host, int port})? saved;
 

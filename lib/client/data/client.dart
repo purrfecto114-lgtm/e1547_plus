@@ -142,8 +142,7 @@ class Client with Disposable {
     ]) {
       Disposable.tryDispose(client);
     }
-    inFlight.cancelAll();
-    dio.close();
+    dio.shutdown();
     // The streamed notifier's subscription only ends with its dispose;
     // owning it means every identity switch frees the previous one.
     if (_ownsTraitsNotifier) traits.dispose();

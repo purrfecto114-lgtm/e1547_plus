@@ -1,0 +1,6 @@
+- importing a sanitized database keeps the account's data reachable
+  instead of orphaning its follows, histories and tasks
+- closing the media cache or the update checker while a download was
+  still running no longer crashes the app
+- the update dialog truncates long changelogs behind a link to the
+  release page

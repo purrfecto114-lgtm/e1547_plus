@@ -3,6 +3,7 @@ import 'dart:io';
 
 import 'package:deep_pick/deep_pick.dart';
 import 'package:dio/dio.dart';
+import 'package:e1547/client/client.dart';
 import 'package:e1547/logs/logs.dart';
 import 'package:e1547/query/query.dart';
 import 'package:e1547/settings/settings.dart';
@@ -32,7 +33,9 @@ class AppInfoClient {
   /// Closes the app-owned transport. An externally supplied dio stays
   /// open: its owner decides its lifetime.
   void dispose() {
-    if (_externalDio == null) _dio.close();
+    // the update check runs through the cronet-backed adapter too;
+    // shutdown cancels a still-running check before the engine closes
+    if (_externalDio == null) _dio.shutdown();
   }
 
   final AppInfo info = AppInfo.instance;
@@ -281,6 +284,31 @@ class AppInfoClient {
   }
 }
 
+/// The character count at which an update dialog truncates a release's
+/// changelog and hands the rest to a link on the release page.
+const int changelogPreviewLimit = 1000;
+
+/// The changelog text the update dialog shows for a release.
+///
+/// Cumulative release bodies scroll the dialog through hundreds of
+/// lines; past [changelogPreviewLimit] the text cuts back to a word
+/// boundary and the caller shows a trailing ellipsis that opens the
+/// release page, which carries the full text. Returns the preview text
+/// and whether it was cut.
+(String, bool) changelogPreview(String? description) {
+  if (description == null || description.length <= changelogPreviewLimit) {
+    return (description ?? '', false);
+  }
+  var preview = description.substring(0, changelogPreviewLimit);
+  // do not cut a word in half; keep the hard cut when the tail has no
+  // space to recover to
+  final int space = preview.lastIndexOf(' ');
+  if (space > changelogPreviewLimit * 3 ~/ 4) {
+    preview = preview.substring(0, space);
+  }
+  return (preview, true);
+}
+
 class AppVersion {
   /// Represents an App version with name, description and version number.
   AppVersion({
@@ -290,6 +318,14 @@ class AppVersion {
     this.date,
     this.binaries,
   });
+
+  /// The GitHub release page for this version.
+  ///
+  /// The tag is the parsed version itself: pub_semver keeps the
+  /// prerelease and build segments, so the string round-trips to the
+  /// original tag.
+  String releaseUrl() =>
+      'https://github.com/${AppInfo.instance.github!}/releases/tag/$version';
 
   /// Name of this version.
   final String? name;

@@ -71,6 +71,23 @@ class InFlightInterceptor extends Interceptor {
   }
 }
 
+extension DioShutdown on Dio {
+  /// Cancels every tracked request, then closes the dio.
+  ///
+  /// Every owner closing a dio goes through this: the platform engine
+  /// behind the native adapter — Cronet on Android — refuses to shut
+  /// down while requests are still running, and closing without
+  /// cancelling turned identity switches and background cache
+  /// disposals into uncaught IllegalStateExceptions.
+  void shutdown() {
+    for (final InFlightInterceptor inFlight
+        in interceptors.whereType<InFlightInterceptor>()) {
+      inFlight.cancelAll();
+    }
+    close();
+  }
+}
+
 /// Create a default [Dio] instance for the given [Identity].
 Dio createDefaultDio(
   Identity identity, {
