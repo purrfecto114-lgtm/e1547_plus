@@ -9,8 +9,36 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:media_kit/media_kit.dart';
 import 'package:rxdart/rxdart.dart';
+import 'package:wakelock_plus/wakelock_plus.dart';
 
 export 'package:media_kit_video/media_kit_video.dart';
+
+/// Keeps the screen awake while a video plays.
+///
+/// media_kit's own wakelock wiring swallows every failure silently, so
+/// a device with aggressive power management loses the screen flag
+/// without a trace. This path does the same job itself and logs what
+/// the platform answered, so a phone that dims mid-playback has
+/// something to show for it.
+class VideoWakelock {
+  static final Logger _logger = Logger('VideoWakelock');
+
+  static Future<void> enable() async {
+    try {
+      await WakelockPlus.enable();
+    } on Object catch (e) {
+      _logger.warn('the screen lock could not be kept on', {'error': '$e'});
+    }
+  }
+
+  static Future<void> disable() async {
+    try {
+      await WakelockPlus.disable();
+    } on Object catch (e) {
+      _logger.warn('the screen lock could not be released', {'error': '$e'});
+    }
+  }
+}
 
 class VideoPlayer extends Player {
   VideoPlayer({super.platformPlayer}) {

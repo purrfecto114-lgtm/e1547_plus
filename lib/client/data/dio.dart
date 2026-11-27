@@ -72,19 +72,40 @@ class InFlightInterceptor extends Interceptor {
 }
 
 extension DioShutdown on Dio {
-  /// Cancels every tracked request, then closes the dio.
+  /// Cancels every tracked request, waits for the cancellations to
+  /// land, then closes the dio.
   ///
   /// Every owner closing a dio goes through this: the platform engine
   /// behind the native adapter — Cronet on Android — refuses to shut
-  /// down while requests are still running, and closing without
-  /// cancelling turned identity switches and background cache
-  /// disposals into uncaught IllegalStateExceptions.
-  void shutdown() {
+  /// down while requests are still running. Cancelling alone is not
+  /// enough: the cancellation unwinds asynchronously on the platform's
+  /// network thread, and a shutdown issued right after it still finds
+  /// the requests retiring (a connection-reset storm widens that
+  /// window). Draining first — bounded, so a wedged request cannot
+  /// hold the engine open forever — and swallowing a shutdown race
+  /// that survives the drain keeps disposal a cleanup step instead of
+  /// an uncaught exception.
+  Future<void> shutdown() async {
     for (final InFlightInterceptor inFlight
         in interceptors.whereType<InFlightInterceptor>()) {
       inFlight.cancelAll();
     }
-    close();
+    const drain = Duration(seconds: 3);
+    final deadline = DateTime.now().add(drain);
+    while (interceptors.whereType<InFlightInterceptor>().any(
+      (inFlight) => inFlight.count > 0,
+    )) {
+      if (DateTime.now().isAfter(deadline)) break;
+      await Future<void>.delayed(const Duration(milliseconds: 25));
+    }
+    try {
+      close();
+    } on Object {
+      // a request that slipped past the drain is still finishing its
+      // teardown on the platform thread; the engine frees with it, and
+      // swallowing here keeps a disposal race from surfacing as an
+      // uncaught exception — the dio is going away either way
+    }
   }
 }
 

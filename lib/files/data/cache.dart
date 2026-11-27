@@ -21,10 +21,11 @@ class MediaCacheManager extends CacheManager {
   final Dio _dio;
 
   @override
-  Future<void> dispose() {
+  Future<void> dispose() async {
     // closing without cancelling hit the cronet engine's shutdown while
-    // downloads were still running, which threw out of the dispose
-    _dio.shutdown();
+    // downloads were still running, which threw out of the dispose;
+    // the shutdown also drains, so the engine closes behind them
+    await _dio.shutdown();
     return super.dispose();
   }
 }

@@ -225,6 +225,65 @@ void main() {
       },
     );
 
+    test('sanitizeDatabase keeps only what the export selection chose', () async {
+      final db = AppDatabase(NativeDatabase.memory());
+      addTearDown(db.close);
+      // A credential identity with its api key, one history and one
+      // follow, each tied to that identity.
+      await db.customStatement(
+        'INSERT INTO identities_table (host, username, headers) VALUES '
+        "('e621.net', 'tester', '{\"authorization\": \"Basic dXNlcjprZXk=\"}')",
+      );
+      await db.customStatement(
+        'INSERT INTO histories_table (visited_at, link, category, type, '
+        "thumbnails) VALUES (0, 'https://e621.net/posts/1', 'post', 'post', '[]')",
+      );
+      await db.customStatement(
+        'INSERT INTO histories_identities_table (identity, history) VALUES (1, 1)',
+      );
+      await db.customStatement(
+        "INSERT INTO follows_table (tags, type) VALUES ('artist:test', 'notify')",
+      );
+      await db.customStatement(
+        'INSERT INTO follows_identities_table (identity, follow) VALUES (1, 1)',
+      );
+
+      // The full selection: everything the migration promised survives,
+      // the api key included — the ghost account is kept away because
+      // the key travels with the login.
+      await sanitizeDatabase(
+        db,
+        keep: const ExportSelection(logins: true, history: true, follows: true),
+      );
+      Future<int> count(String table) async => db
+          .customSelect('SELECT COUNT(*) AS n FROM $table')
+          .getSingle()
+          .then((row) => row.read<int>('n'));
+      expect(await count('histories_table'), 1);
+      expect(await count('follows_table'), 1);
+      final headers = await db
+          .customSelect('SELECT headers FROM identities_table')
+          .getSingle();
+      expect(headers.read<String>('headers'), contains('authorization'));
+
+      // Nothing selected: the old sanitization. The credentials go
+      // through the host merge (no ghost username left behind), and the
+      // history and follow tables empty together with their links.
+      await sanitizeDatabase(db);
+      expect(await count('histories_table'), 0);
+      expect(await count('histories_identities_table'), 0);
+      expect(await count('follows_table'), 0);
+      expect(await count('follows_identities_table'), 0);
+      final stripped = await db
+          .customSelect('SELECT username, headers FROM identities_table')
+          .getSingle();
+      expect(stripped.read<String>('username'), isEmpty);
+      expect(
+        stripped.read<String?>('headers') ?? '{}',
+        isNot(contains('authorization')),
+      );
+    });
+
     test('sanitizeDatabase empties the imported cache index', () async {
       final db = AppDatabase(NativeDatabase.memory());
       addTearDown(db.close);

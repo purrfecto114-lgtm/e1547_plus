@@ -108,18 +108,105 @@ class DatabaseInfoDisplay extends StatelessWidget {
 class DatabaseExportTile extends StatelessWidget {
   const DatabaseExportTile({super.key});
 
-  /// Shows the export confirmation with an optional encryption password.
+  /// Shows the export options with an optional encryption password.
   ///
-  /// Returns null when the export was cancelled, an empty string for a
-  /// plain unencrypted file, and the password otherwise.
-  Future<String?> _showExportDialog(BuildContext context) => showPasswordPrompt(
-    context,
-    title: AppLocalizations.of(context).databaseExportTitle,
-    body: AppLocalizations.of(context).databaseExportSanitizedBody,
-    label: AppLocalizations.of(context).databaseExportPasswordLabel,
-    helper: AppLocalizations.of(context).databaseExportPasswordHint,
-    confirm: AppLocalizations.of(context).actionExport,
-  );
+  /// Returns null when the export was cancelled, and the chosen
+  /// selection with the password otherwise — empty for a plain file.
+  /// Logins (api keys) need the password: the dialog keeps the export
+  /// button locked until one is set, so credentials can never land in
+  /// a plain file where any reader becomes their ghost account's
+  /// owner.
+  Future<(ExportSelection, String)?> _showExportDialog(BuildContext context) =>
+      showDialog<(ExportSelection, String)>(
+        context: context,
+        barrierDismissible: false,
+        builder: (context) {
+          final l10n = AppLocalizations.of(context);
+          bool logins = false;
+          bool history = true;
+          bool follows = true;
+          String password = '';
+          return StatefulBuilder(
+            builder: (context, setState) {
+              void onChanged(VoidCallback change) {
+                setState(change);
+              }
+
+              final bool needsPassword = logins && password.isEmpty;
+              return AlertDialog(
+                title: Text(l10n.databaseExportTitle),
+                content: ConstrainedBox(
+                  constraints: const BoxConstraints(maxWidth: 600),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(l10n.databaseExportBody),
+                      CheckboxListTile(
+                        title: Text(l10n.databaseExportKeepLogins),
+                        subtitle: Text(l10n.databaseExportKeepLoginsHint),
+                        value: logins,
+                        onChanged: (value) =>
+                            onChanged(() => logins = value ?? false),
+                      ),
+                      CheckboxListTile(
+                        title: Text(l10n.databaseExportKeepHistory),
+                        value: history,
+                        onChanged: (value) =>
+                            onChanged(() => history = value ?? false),
+                      ),
+                      CheckboxListTile(
+                        title: Text(l10n.databaseExportKeepFollows),
+                        value: follows,
+                        onChanged: (value) =>
+                            onChanged(() => follows = value ?? false),
+                      ),
+                      TextField(
+                        obscureText: true,
+                        enabled: true,
+                        decoration: InputDecoration(
+                          labelText: l10n.databaseExportPasswordLabel,
+                          helperText: l10n.databaseExportPasswordHint,
+                        ),
+                        onChanged: (value) => onChanged(() => password = value),
+                      ),
+                      if (needsPassword)
+                        Padding(
+                          padding: const EdgeInsets.only(top: 8),
+                          child: Text(
+                            l10n.databaseExportLoginsNeedPassword,
+                            style: TextStyle(
+                              color: Theme.of(context).colorScheme.error,
+                            ),
+                          ),
+                        ),
+                    ],
+                  ),
+                ),
+                actions: [
+                  TextButton(
+                    onPressed: () => Navigator.of(context).pop(),
+                    child: Text(AppLocalizations.of(context).actionCancel),
+                  ),
+                  TextButton(
+                    onPressed: needsPassword
+                        ? null
+                        : () => Navigator.of(context).pop((
+                            ExportSelection(
+                              logins: logins,
+                              history: history,
+                              follows: follows,
+                            ),
+                            password,
+                          )),
+                    child: Text(AppLocalizations.of(context).actionExport),
+                  ),
+                ],
+              );
+            },
+          );
+        },
+      );
 
   Future<void> _exportDatabase(BuildContext context) async {
     final navigator = Navigator.of(context);
@@ -127,8 +214,9 @@ class DatabaseExportTile extends StatelessWidget {
     final l10n = AppLocalizations.of(context);
     final sqlite = context.read<AppStorage>().sqlite;
 
-    final String? password = await _showExportDialog(context);
-    if (password == null) return;
+    final choice = await _showExportDialog(context);
+    if (choice == null) return;
+    final (ExportSelection selection, String password) = choice;
     if (!context.mounted) return;
 
     File? tempFile;
@@ -143,7 +231,7 @@ class DatabaseExportTile extends StatelessWidget {
       await snapshotDatabase(sqlite, dbPath, tempPath);
       tempFile = File(tempPath);
       await withIsolatedDatabase('export-sanitize', tempPath, (db) async {
-        await sanitizeDatabase(db);
+        await sanitizeDatabase(db, keep: selection);
       });
 
       // Desktop pickers only choose a path, so an unencrypted export can

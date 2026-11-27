@@ -2514,6 +2514,24 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get duplicateDownloadDontAsk => '不再提醒';
+
+  @override
+  String get databaseExportBody => '选择备份携带的内容。登录信息只随加密文件携带。';
+
+  @override
+  String get databaseExportKeepLogins => '登录信息与 API 密钥';
+
+  @override
+  String get databaseExportKeepLoginsHint => '仅随加密文件携带';
+
+  @override
+  String get databaseExportKeepHistory => '浏览历史';
+
+  @override
+  String get databaseExportKeepFollows => '订阅';
+
+  @override
+  String get databaseExportLoginsNeedPassword => '包含登录信息需要设置加密密码';
 }
 
 /// The translations for Chinese, using the Han script (`zh_Hant`).
@@ -5025,4 +5043,22 @@ class AppLocalizationsZhHant extends AppLocalizationsZh {
 
   @override
   String get duplicateDownloadDontAsk => '不再提醒';
+
+  @override
+  String get databaseExportBody => '選擇備份攜帶的內容。登入資訊只隨加密檔案攜帶。';
+
+  @override
+  String get databaseExportKeepLogins => '登入資訊與 API 金鑰';
+
+  @override
+  String get databaseExportKeepLoginsHint => '僅隨加密檔案攜帶';
+
+  @override
+  String get databaseExportKeepHistory => '瀏覽歷史';
+
+  @override
+  String get databaseExportKeepFollows => '訂閱';
+
+  @override
+  String get databaseExportLoginsNeedPassword => '包含登入資訊需要設定加密密碼';
 }

@@ -1,6 +1,34 @@
 # Changelog
 
+## [22.11.0] - 2026-11-27
+
+### Fixed
+- repeatedly switching accounts or hosts froze the app on a loading
+  ring: every switch disposed a client and a media cache whose engine
+  shutdown raced the requests it was still retiring — an uncaught
+  IllegalStateException that broke the provider tree mid-build, and
+  the cache provider, hanging off the client, blew up with a
+  ProviderNotFoundException behind it. The shutdown now drains its
+  cancellations before closing the engine, a surviving race is
+  swallowed by the disposal, and the cache hangs off the storage so a
+  switch no longer rebuilds it at all
+- playing a video no longer lets the device sleep: the player's
+  built-in wakelock failed silently on aggressive power management
+  (MIUI), so the screen flag was never set. Playback now keeps the
+  screen awake explicitly, and a platform refusal logs itself
+- the fullscreen video bar no longer squeezes its timestamps, slider
+  and buttons into slivers in portrait: below the width they need,
+  the slider takes its own row and the controls keep one
+
+### Added
+- database exports choose what they carry — logins (api keys),
+  browsing history and subscriptions — instead of always stripping
+  the logins. Logins travel only inside an encrypted file: the export
+  stays locked until a password is set, so an exported key can never
+  become a ghost account on the importing device
+
 ## [22.10.1] - 2026-11-27
+
 
 ### Fixed
 - importing a sanitized database no longer leaves behind a phantom
@@ -2453,3 +2481,4 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 [22.10.1-rc.4+245]: https://github.com/purrfecto114-lgtm/e1547_plus/compare/22.10.1-rc.2+244...22.10.1-rc.4+245
 [22.10.1-rc.5+246]: https://github.com/purrfecto114-lgtm/e1547_plus/compare/22.10.1-rc.4+245...22.10.1-rc.5+246
 [22.10.1]: https://github.com/purrfecto114-lgtm/e1547_plus/compare/22.10.1-rc.5+246...22.10.1+247
+[22.11.0]: https://github.com/purrfecto114-lgtm/e1547_plus/compare/22.10.1+247...22.11.0+248

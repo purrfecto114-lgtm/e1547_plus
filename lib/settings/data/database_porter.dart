@@ -199,6 +199,28 @@ Future<T> withIsolatedDatabase<T>(
   }
 }
 
+/// What an export keeps beyond the always-included accounts and hosts.
+///
+/// Logins ride along only inside an encrypted file: credentials in a
+/// plain export are a ghost account's invitation, because the api key
+/// lands anywhere while the server it belongs to never saw it move.
+class ExportSelection {
+  const ExportSelection({
+    this.logins = false,
+    this.history = false,
+    this.follows = false,
+  });
+
+  /// Keep identity credentials (api keys) — requires an encrypted file.
+  final bool logins;
+
+  /// Keep browsing histories and their identity associations.
+  final bool history;
+
+  /// Keep follows and their identity associations.
+  final bool follows;
+}
+
 /// Strips the credentials from [db] and rebuilds the file so the removed
 /// rows cannot be recovered from free pages left behind by the UPDATE.
 ///
@@ -211,7 +233,14 @@ Future<T> withIsolatedDatabase<T>(
 /// The imported file cache index is emptied as well: its rows are
 /// rebuildable cache metadata, and a crafted one could point the cleaner
 /// outside the cache root through a relativePath like `../..`.
-Future<void> sanitizeDatabase(AppDatabase db) async {
+///
+/// What [keep] selects stays: logins only ride along when the caller
+/// encrypts the file, and dropped selections lose their association
+/// rows first so no identity id dangles without its table.
+Future<void> sanitizeDatabase(
+  AppDatabase db, {
+  ExportSelection keep = const ExportSelection(),
+}) async {
   final triggers = await db
       .customSelect("SELECT name FROM sqlite_master WHERE type = 'trigger'")
       .get();
@@ -222,7 +251,20 @@ Future<void> sanitizeDatabase(AppDatabase db) async {
     final quoted = '"${name.replaceAll('"', '""')}"';
     await db.customStatement('DROP TRIGGER IF EXISTS $quoted');
   }
-  await IdentityRepository(db).removeCredentials();
+  // The host merge inside removeCredentials moves follow, history and
+  // task rows onto a surviving anonymous identity before a credential
+  // row goes; dropping the logins without it orphans or fails the rows.
+  if (!keep.logins) {
+    await IdentityRepository(db).removeCredentials();
+  }
+  if (!keep.history) {
+    await db.customStatement('DELETE FROM histories_identities_table');
+    await db.customStatement('DELETE FROM histories_table');
+  }
+  if (!keep.follows) {
+    await db.customStatement('DELETE FROM follows_identities_table');
+    await db.customStatement('DELETE FROM follows_table');
+  }
   await db.customStatement(identityCascadeTriggers);
   await db.customStatement('DELETE FROM file_cache_table');
   // Imported pending/running tasks are executable todos from another

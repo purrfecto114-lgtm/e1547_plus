@@ -2620,4 +2620,25 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get duplicateDownloadDontAsk => 'Nicht mehr fragen';
+
+  @override
+  String get databaseExportBody =>
+      'Choose what the backup carries. Logins travel only inside an encrypted file.';
+
+  @override
+  String get databaseExportKeepLogins => 'Logins and API keys';
+
+  @override
+  String get databaseExportKeepLoginsHint =>
+      'Only carried inside an encrypted file';
+
+  @override
+  String get databaseExportKeepHistory => 'Browsing history';
+
+  @override
+  String get databaseExportKeepFollows => 'Subscriptions';
+
+  @override
+  String get databaseExportLoginsNeedPassword =>
+      'Logins need an encryption password';
 }

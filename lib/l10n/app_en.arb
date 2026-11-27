@@ -2712,5 +2712,11 @@
   "duplicateDownloadDontAsk": "Don't ask again",
   "@duplicateDownloadDontAsk": {
     "description": "The bottom-left option that silences the duplicate download dialog for good."
-  }
+  },
+  "databaseExportBody": "Choose what the backup carries. Logins travel only inside an encrypted file.",
+  "databaseExportKeepLogins": "Logins and API keys",
+  "databaseExportKeepLoginsHint": "Only carried inside an encrypted file",
+  "databaseExportKeepHistory": "Browsing history",
+  "databaseExportKeepFollows": "Subscriptions",
+  "databaseExportLoginsNeedPassword": "Logins need an encryption password"
 }

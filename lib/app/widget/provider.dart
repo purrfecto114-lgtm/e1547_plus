@@ -161,12 +161,17 @@ class ClientProvider
       );
 }
 
-class FileCacheProvider
-    extends SubProvider2<Client, AppStorage, BaseCacheManager> {
+class FileCacheProvider extends SubProvider<AppStorage, BaseCacheManager> {
   FileCacheProvider({super.child, super.builder})
     : super(
-        create: (context, client, storage) =>
-            createFileCache(database: storage.sqlite),
+        // The cache hangs off the storage, not the client: it downloads
+        // without credentials, so an identity switch has no reason to
+        // rebuild it. Under the client it used to be torn down and
+        // recreated on every switch — a fresh cronet engine each time —
+        // and a switch that disposed the client while the cache's
+        // provider was still updating blew up with a
+        // ProviderNotFoundException.
+        create: (context, storage) => createFileCache(database: storage.sqlite),
         dispose: (context, manager) => manager.dispose(),
       );
 }

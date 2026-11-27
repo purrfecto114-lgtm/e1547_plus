@@ -216,93 +216,140 @@ class _VideoBarState extends State<VideoBar> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: ScaffoldFrameChild(
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16),
-              child: Row(
-                mainAxisSize: MainAxisSize.min,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  const VideoServiceVolumeControl(),
-                  const SizedBox(width: 4),
-                  // Long durations and large text scales overflow a
-                  // phone wide bar: the timestamps shrink instead.
-                  Flexible(
-                    child: FittedBox(
-                      fit: BoxFit.scaleDown,
-                      child: Text(formatVideoDuration(position)),
-                    ),
-                  ),
-                  Flexible(
-                    child: Slider(
-                      max: duration.inMilliseconds.toDouble(),
-                      value: position.inMilliseconds.toDouble().clamp(
-                        0.0,
-                        duration.inMilliseconds.toDouble(),
-                      ),
-                      secondaryTrackValue: buffer.inMilliseconds
-                          .toDouble()
-                          .clamp(0.0, duration.inMilliseconds.toDouble()),
-                      onChangeStart: (e) {
-                        seeking = true;
-                        ScaffoldFrame.maybeOf(
-                          context,
-                        )?.toggleFrame(shown: true);
-                      },
-                      // A loaded video can be seeked before its first
-                      // step: gate on the known duration instead of the
-                      // playhead, which starts at zero.
-                      onChanged: duration.inMilliseconds > 0
-                          ? (e) {
-                              setState(() {
-                                position = Duration(milliseconds: e ~/ 1);
-                              });
-                            }
-                          : null,
-                      onChangeEnd: (e) {
-                        seeking = false;
-                        widget.player.seek(Duration(milliseconds: e ~/ 1));
-                        ScaffoldFrame.maybeOf(
-                          context,
-                        )?.toggleFrame(shown: false);
-                      },
-                    ),
-                  ),
-                  Flexible(
-                    child: FittedBox(
-                      fit: BoxFit.scaleDown,
-                      child: Text(formatVideoDuration(duration)),
-                    ),
-                  ),
-                  const SizedBox(width: 4),
-                  // The quality picker sits at the end of the bar, next to
-                  // the fullscreen button, where players conventionally
-                  // keep their quality and view controls.
-                  if (widget.post case Post post
-                      when post.hasVideoQualities) ...[
-                    VideoQualityButton(post: post),
-                    const SizedBox(width: 4),
-                  ],
-                  InkWell(
-                    onTap: () => popDialog(context),
-                    child: Padding(
-                      padding: const EdgeInsets.all(4),
-                      child: Icon(
-                        Icons.fullscreen_exit,
-                        size: 24,
-                        color: Theme.of(context).iconTheme.color,
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ],
+        child: LayoutBuilder(
+          builder: (context, constraints) {
+            // An upright phone is too narrow for the single-row bar: the
+            // timestamps and the slider squeeze each other into slivers.
+            // Below the width both need, the slider takes its own row and
+            // the controls get one of their own; landscape keeps the row.
+            if (constraints.maxWidth < 600) return _compactBar(context);
+            return _wideBar(context);
+          },
         ),
       ),
     );
+  }
+
+  Widget _wideBar(BuildContext context) {
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16),
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              const VideoServiceVolumeControl(),
+              const SizedBox(width: 4),
+              // Long durations and large text scales overflow a
+              // phone wide bar: the timestamps shrink instead.
+              Flexible(
+                child: FittedBox(
+                  fit: BoxFit.scaleDown,
+                  child: Text(formatVideoDuration(position)),
+                ),
+              ),
+              Flexible(child: _slider(context)),
+              Flexible(
+                child: FittedBox(
+                  fit: BoxFit.scaleDown,
+                  child: Text(formatVideoDuration(duration)),
+                ),
+              ),
+              const SizedBox(width: 4),
+              ..._trailing(context),
+            ],
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _compactBar(BuildContext context) {
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 8),
+          child: _slider(context),
+        ),
+        Padding(
+          padding: const EdgeInsets.fromLTRB(16, 0, 16, 4),
+          child: Row(
+            children: [
+              Flexible(
+                child: FittedBox(
+                  fit: BoxFit.scaleDown,
+                  child: Text(
+                    '${formatVideoDuration(position)} / '
+                    '${formatVideoDuration(duration)}',
+                  ),
+                ),
+              ),
+              const Spacer(),
+              const VideoServiceVolumeControl(),
+              ..._trailing(context),
+            ],
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _slider(BuildContext context) {
+    return Slider(
+      max: duration.inMilliseconds.toDouble(),
+      value: position.inMilliseconds.toDouble().clamp(
+        0.0,
+        duration.inMilliseconds.toDouble(),
+      ),
+      secondaryTrackValue: buffer.inMilliseconds.toDouble().clamp(
+        0.0,
+        duration.inMilliseconds.toDouble(),
+      ),
+      onChangeStart: (e) {
+        seeking = true;
+        ScaffoldFrame.maybeOf(context)?.toggleFrame(shown: true);
+      },
+      // A loaded video can be seeked before its first step: gate on the
+      // known duration instead of the playhead, which starts at zero.
+      onChanged: duration.inMilliseconds > 0
+          ? (e) {
+              setState(() {
+                position = Duration(milliseconds: e ~/ 1);
+              });
+            }
+          : null,
+      onChangeEnd: (e) {
+        seeking = false;
+        widget.player.seek(Duration(milliseconds: e ~/ 1));
+        ScaffoldFrame.maybeOf(context)?.toggleFrame(shown: false);
+      },
+    );
+  }
+
+  // The quality picker sits at the end of the bar, next to the
+  // fullscreen button, where players conventionally keep their quality
+  // and view controls.
+  List<Widget> _trailing(BuildContext context) {
+    return [
+      if (widget.post case Post post when post.hasVideoQualities) ...[
+        VideoQualityButton(post: post),
+        const SizedBox(width: 4),
+      ],
+      InkWell(
+        onTap: () => popDialog(context),
+        child: Padding(
+          padding: const EdgeInsets.all(4),
+          child: Icon(
+            Icons.fullscreen_exit,
+            size: 24,
+            color: Theme.of(context).iconTheme.color,
+          ),
+        ),
+      ),
+    ];
   }
 }
 
@@ -614,6 +661,7 @@ class PostVideoRoute extends StatefulWidget {
 
 class PostVideoRouteState extends State<PostVideoRoute> {
   VideoPlayer? player;
+  StreamSubscription<bool>? _wakelock;
   VideoService? _videos;
   bool _wasPlaying = false;
   bool _keepPlaying = false;
@@ -671,6 +719,24 @@ class PostVideoRouteState extends State<PostVideoRoute> {
       _carriedPosition = null;
       _carriedResume = false;
     }
+    _bindWakelock(next);
+  }
+
+  /// Keeps the screen awake while this route's video plays.
+  ///
+  /// media_kit's built-in wakelock failed silently on devices with
+  /// aggressive power management; doing it here makes the flag follow
+  /// the playback state of the player this route actually owns.
+  void _bindWakelock(VideoPlayer? player) {
+    _wakelock?.cancel();
+    _wakelock = null;
+    if (player == null) return;
+    if (player.state.playing) {
+      unawaited(VideoWakelock.enable());
+    }
+    _wakelock = player.stream.playing.listen((playing) {
+      playing ? VideoWakelock.enable() : VideoWakelock.disable();
+    });
   }
 
   @override
@@ -705,6 +771,9 @@ class PostVideoRouteState extends State<PostVideoRoute> {
         if (stop || !held.isLeased) held.pause();
       });
     }
+    _wakelock?.cancel();
+    _wakelock = null;
+    unawaited(VideoWakelock.disable());
     super.dispose();
   }
 

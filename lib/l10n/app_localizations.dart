@@ -4510,6 +4510,42 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Don\'t ask again'**
   String get duplicateDownloadDontAsk;
+
+  /// No description provided for @databaseExportBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose what the backup carries. Logins travel only inside an encrypted file.'**
+  String get databaseExportBody;
+
+  /// No description provided for @databaseExportKeepLogins.
+  ///
+  /// In en, this message translates to:
+  /// **'Logins and API keys'**
+  String get databaseExportKeepLogins;
+
+  /// No description provided for @databaseExportKeepLoginsHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Only carried inside an encrypted file'**
+  String get databaseExportKeepLoginsHint;
+
+  /// No description provided for @databaseExportKeepHistory.
+  ///
+  /// In en, this message translates to:
+  /// **'Browsing history'**
+  String get databaseExportKeepHistory;
+
+  /// No description provided for @databaseExportKeepFollows.
+  ///
+  /// In en, this message translates to:
+  /// **'Subscriptions'**
+  String get databaseExportKeepFollows;
+
+  /// No description provided for @databaseExportLoginsNeedPassword.
+  ///
+  /// In en, this message translates to:
+  /// **'Logins need an encryption password'**
+  String get databaseExportLoginsNeedPassword;
 }
 
 class _AppLocalizationsDelegate

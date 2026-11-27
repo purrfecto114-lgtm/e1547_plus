@@ -750,5 +750,11 @@
   "duplicateDownloadDontAsk": "不再提醒",
   "@duplicateDownloadDontAsk": {
     "description": "The bottom-left option that silences the duplicate download dialog for good."
-  }
+  },
+  "databaseExportBody": "选择备份携带的内容。登录信息只随加密文件携带。",
+  "databaseExportKeepLogins": "登录信息与 API 密钥",
+  "databaseExportKeepLoginsHint": "仅随加密文件携带",
+  "databaseExportKeepHistory": "浏览历史",
+  "databaseExportKeepFollows": "订阅",
+  "databaseExportLoginsNeedPassword": "包含登录信息需要设置加密密码"
 }
