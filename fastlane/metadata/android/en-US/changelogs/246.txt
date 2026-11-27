@@ -1,0 +1,4 @@
+- importing a sanitized database kept the account's data reachable:
+  rc.4 dropped a credential identity without moving its follows,
+  histories and tasks onto the anonymous identity that survives, so
+  the data was left dangling. The data now moves before the row goes

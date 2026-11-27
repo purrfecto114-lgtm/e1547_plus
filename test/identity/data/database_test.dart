@@ -3,7 +3,11 @@ import 'dart:io';
 
 import 'package:drift/native.dart';
 import 'package:e1547/app/app.dart';
+import 'package:e1547/follow/follow.dart';
+import 'package:e1547/history/history.dart';
 import 'package:e1547/identity/identity.dart';
+import 'package:e1547/task/task.dart';
+import 'package:e1547/traits/traits.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 /// Decodes file bytes 1:1 so byte substrings become string substrings.
@@ -67,6 +71,89 @@ void main() {
       final changed = await repository.removeCredentials();
 
       expect(changed, 1);
+    });
+
+    test(
+      "moves an account's data to the anonymous sibling instead of failing",
+      () async {
+        await addIdentity('e621.net', 'tester', {'authorization': 'Basic a'});
+        await addIdentity('e621.net', null, null);
+        final seeded = await repository.all();
+        final credential = seeded.firstWhere((e) => e.username != null);
+        final anonymous = seeded.firstWhere((e) => e.username == null);
+
+        // A real backup hangs the account's data off the credential row:
+        // a follow, a history entry, a download task and the traits.
+        await FollowRepository(
+          database: sqlite,
+        ).add(const FollowRequest(tags: 'canine'), credential.id);
+        await HistoryRepository(database: sqlite).add(
+          HistoryRequest(
+            visitedAt: DateTime(2026),
+            link: 'https://e621.net/posts?tags=canine',
+            category: HistoryCategory.searches,
+            type: HistoryType.posts,
+          ),
+          credential.id,
+        );
+        await TaskRepository(database: sqlite).add(
+          const TaskRequest(action: TaskAction.download, postId: 42),
+          credential.id,
+        );
+        await sqlite.customStatement(
+          'INSERT INTO traits_table (id, denylist, home_tags) '
+          "VALUES (${credential.id}, '[\"young\"]', '')",
+        );
+
+        final changed = await repository.removeCredentials();
+
+        expect(changed, 1);
+        final identities = await repository.all();
+        expect(identities.map((e) => e.id), [
+          anonymous.id,
+        ], reason: 'the credential row is gone, the anonymous one remains');
+        // The account's data is reachable through the anonymous row.
+        final follows = await FollowRepository(
+          database: sqlite,
+        ).all(identity: anonymous.id);
+        expect(follows.single.tags, 'canine');
+        final histories = await HistoryRepository(
+          database: sqlite,
+        ).page(identity: anonymous.id);
+        expect(histories.single.link, 'https://e621.net/posts?tags=canine');
+        final tasks = await TaskRepository(
+          database: sqlite,
+        ).all(identity: anonymous.id);
+        expect(tasks.single.postId, 42);
+        final traits = await TraitsRepository(sqlite).get(anonymous.id);
+        expect(traits.denylist, ['young']);
+      },
+    );
+
+    test('merges two accounts on one host into the first slot', () async {
+      await addIdentity('e621.net', 'alice', {'authorization': 'Basic a'});
+      await addIdentity('e621.net', 'bob', {'authorization': 'Basic b'});
+      final seeded = await repository.all();
+      final alice = seeded.firstWhere((e) => e.username == 'alice');
+      final bob = seeded.firstWhere((e) => e.username == 'bob');
+      await FollowRepository(
+        database: sqlite,
+      ).add(const FollowRequest(tags: 'canine'), alice.id);
+      await FollowRepository(
+        database: sqlite,
+      ).add(const FollowRequest(tags: 'feline'), bob.id);
+
+      final changed = await repository.removeCredentials();
+
+      expect(changed, 2);
+      final identities = await repository.all();
+      expect(identities.length, 1);
+      expect(identities.single.username, isNull);
+      // both accounts' follows live on the surviving row
+      final follows = await FollowRepository(
+        database: sqlite,
+      ).all(identity: identities.single.id);
+      expect(follows.map((e) => e.tags), containsAll(['canine', 'feline']));
     });
 
     test('leaves null headers alone', () async {

@@ -1,5 +1,17 @@
 # Changelog
 
+## [22.10.1-rc.5+246] - 2026-11-27
+
+### Fixed
+- importing a sanitized database kept the account's data reachable:
+  rc.4 deleted a credential identity that shared its host with an
+  anonymous one, but the follow, history and task rows hang off the
+  deleted id — they were left dangling for the orphan sweep to take
+  (or, with foreign keys enforced, the import failed outright). The
+  account's data now moves onto the surviving anonymous identity
+  before the credential row goes, and two accounts on one host merge
+  into the first slot the same way
+
 ## [22.10.1-rc.4+245] - 2026-11-27
 
 ### Fixed
@@ -2406,3 +2418,4 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 [22.10.1-rc.1+243]: https://github.com/purrfecto114-lgtm/e1547_plus/compare/22.10.0+242...22.10.1-rc.1+243
 [22.10.1-rc.2+244]: https://github.com/purrfecto114-lgtm/e1547_plus/compare/22.10.1-rc.1+243...22.10.1-rc.2+244
 [22.10.1-rc.4+245]: https://github.com/purrfecto114-lgtm/e1547_plus/compare/22.10.1-rc.2+244...22.10.1-rc.4+245
+[22.10.1-rc.5+246]: https://github.com/purrfecto114-lgtm/e1547_plus/compare/22.10.1-rc.4+245...22.10.1-rc.5+246
