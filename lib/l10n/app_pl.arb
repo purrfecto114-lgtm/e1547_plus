@@ -1477,7 +1477,7 @@
   "@historySearches": {
     "description": "Category filter showing visited searches."
   },
-  "historyWikis": "Wikis",
+  "historyWikis": "Wiki",
   "@historyWikis": {
     "description": "Type filter showing wiki history entries."
   },
@@ -2523,25 +2523,25 @@
   "taskErrorHintSaving": "Zapis do galerii nie powiódł się. Sprawdź wolne miejsce i spróbuj ponownie.",
   "taskErrorHintUnknown": "To zadanie nie powiodło się. Spróbuj ponownie lub otwórz szczegóły.",
   "adultGateDeniedBody": "Ta aplikacja otwiera się tylko dla dorosłych. Bez potwierdzenia pełnoletności nic dalej nie pójdzie.",
-  "refreshCompleted": "Completed",
-  "refreshFailed": "Refresh failed",
-  "settingsSwipeToClose": "Swipe to close",
-  "swipeToCloseOn": "drag down to close",
-  "swipeToCloseOff": "buttons and back gesture",
-  "postDeleted": "Post was deleted",
-  "postUnavailable": "Post is unavailable",
-  "postBlacklisted": "Post is blacklisted",
-  "postUnsupportedFiles": "{ext} files are not supported",
+  "refreshCompleted": "Zakończono",
+  "refreshFailed": "Odświeżanie nie powiodło się",
+  "settingsSwipeToClose": "Przesuń, aby zamknąć",
+  "swipeToCloseOn": "przeciągnij w dół, aby zamknąć",
+  "swipeToCloseOff": "przyciski i gest powrotu",
+  "postDeleted": "Post został usunięty",
+  "postUnavailable": "Post jest niedostępny",
+  "postBlacklisted": "Post jest na czarnej liście",
+  "postUnsupportedFiles": "Pliki {ext} nie są obsługiwane",
   "@postUnsupportedFiles": {
     "placeholders": {
       "ext": {}
     }
   },
-  "postUnsupportedOpen": "Open",
-  "thumbnailSize": "Card size",
-  "tileSmall": "Small",
-  "tileMedium": "Medium",
-  "tileLarge": "Large",
+  "postUnsupportedOpen": "Otwórz",
+  "thumbnailSize": "Rozmiar karty",
+  "tileSmall": "Mała",
+  "tileMedium": "Średnia",
+  "tileLarge": "Duża",
   "settingsLayoutMirror": "Odbicie układu",
   "settingsLayoutMirrorHint": "Odbija cały układ na stronę preferowanej ręki. Tekst nadal czyta się we własnym kierunku.",
   "gridDensity": "Gęstość siatki",
@@ -2565,10 +2565,10 @@
   "@duplicateDownloadDontAsk": {
     "description": "The bottom-left option that silences the duplicate download dialog for good."
   },
-  "databaseExportBody": "Choose what the backup carries. Logins travel only inside an encrypted file.",
-  "databaseExportKeepLogins": "Logins and API keys",
-  "databaseExportKeepLoginsHint": "Only carried inside an encrypted file",
-  "databaseExportKeepHistory": "Browsing history",
-  "databaseExportKeepFollows": "Subscriptions",
-  "databaseExportLoginsNeedPassword": "Logins need an encryption password"
+  "databaseExportBody": "Wybierz, co zawiera kopia zapasowa. Dane logowania podróżują tylko w zaszyfrowanym pliku.",
+  "databaseExportKeepLogins": "Dane logowania i klucze API",
+  "databaseExportKeepLoginsHint": "Tylko w zaszyfrowanym pliku",
+  "databaseExportKeepHistory": "Historia",
+  "databaseExportKeepFollows": "Subskrypcje",
+  "databaseExportLoginsNeedPassword": "Dane logowania wymagają hasła szyfrowania"
 }

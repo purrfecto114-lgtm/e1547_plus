@@ -2523,25 +2523,25 @@
   "taskErrorHintSaving": "Lưu vào thư viện thất bại. Kiểm tra dung lượng trống rồi thử lại.",
   "taskErrorHintUnknown": "Tác vụ này thất bại. Thử lại hoặc mở chi tiết.",
   "adultGateDeniedBody": "Ứng dụng này chỉ mở cho người trưởng thành. Không gì tiếp tục được nếu chưa xác nhận độ tuổi hợp pháp.",
-  "refreshCompleted": "Completed",
-  "refreshFailed": "Refresh failed",
-  "settingsSwipeToClose": "Swipe to close",
-  "swipeToCloseOn": "drag down to close",
-  "swipeToCloseOff": "buttons and back gesture",
-  "postDeleted": "Post was deleted",
-  "postUnavailable": "Post is unavailable",
-  "postBlacklisted": "Post is blacklisted",
-  "postUnsupportedFiles": "{ext} files are not supported",
+  "refreshCompleted": "Hoàn tất",
+  "refreshFailed": "Làm mới thất bại",
+  "settingsSwipeToClose": "Vuốt để đóng",
+  "swipeToCloseOn": "kéo xuống để đóng",
+  "swipeToCloseOff": "nút và cử chỉ quay lại",
+  "postDeleted": "Bài đăng đã bị xóa",
+  "postUnavailable": "Bài đăng không khả dụng",
+  "postBlacklisted": "Bài đăng nằm trong danh sách đen",
+  "postUnsupportedFiles": "Tệp {ext} không được hỗ trợ",
   "@postUnsupportedFiles": {
     "placeholders": {
       "ext": {}
     }
   },
-  "postUnsupportedOpen": "Open",
-  "thumbnailSize": "Card size",
-  "tileSmall": "Small",
-  "tileMedium": "Medium",
-  "tileLarge": "Large",
+  "postUnsupportedOpen": "Mở",
+  "thumbnailSize": "Kích thước thẻ",
+  "tileSmall": "Nhỏ",
+  "tileMedium": "Vừa",
+  "tileLarge": "Lớn",
   "settingsLayoutMirror": "Đối xứng bố cục",
   "settingsLayoutMirrorHint": "Lật toàn bộ bố cục sang phía tay ưu tiên. Chữ vẫn đọc theo hướng riêng của nó.",
   "gridDensity": "Mật độ lưới",
@@ -2565,10 +2565,10 @@
   "@duplicateDownloadDontAsk": {
     "description": "The bottom-left option that silences the duplicate download dialog for good."
   },
-  "databaseExportBody": "Choose what the backup carries. Logins travel only inside an encrypted file.",
-  "databaseExportKeepLogins": "Logins and API keys",
-  "databaseExportKeepLoginsHint": "Only carried inside an encrypted file",
-  "databaseExportKeepHistory": "Browsing history",
-  "databaseExportKeepFollows": "Subscriptions",
-  "databaseExportLoginsNeedPassword": "Logins need an encryption password"
+  "databaseExportBody": "Chọn những gì bản sao lưu chứa. Thông tin đăng nhập chỉ được lưu trong tệp được mã hóa.",
+  "databaseExportKeepLogins": "Thông tin đăng nhập và khóa API",
+  "databaseExportKeepLoginsHint": "Chỉ được lưu trong tệp được mã hóa",
+  "databaseExportKeepHistory": "Lịch sử",
+  "databaseExportKeepFollows": "Theo dõi",
+  "databaseExportLoginsNeedPassword": "Thông tin đăng nhập cần mật khẩu mã hóa"
 }

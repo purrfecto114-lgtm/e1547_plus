@@ -709,25 +709,25 @@
   "taskErrorHintSaving": "ギャラリーへの保存に失敗しました。空き容量を確認してから再試行してください。",
   "taskErrorHintUnknown": "このタスクは失敗しました。再試行するか、詳細を開いてください。",
   "adultGateDeniedBody": "このアプリは成人向けです。成年であることを確認しないと、ここから先へは進めません。",
-  "refreshCompleted": "Completed",
-  "refreshFailed": "Refresh failed",
-  "settingsSwipeToClose": "Swipe to close",
-  "swipeToCloseOn": "drag down to close",
-  "swipeToCloseOff": "buttons and back gesture",
-  "postDeleted": "Post was deleted",
-  "postUnavailable": "Post is unavailable",
-  "postBlacklisted": "Post is blacklisted",
-  "postUnsupportedFiles": "{ext} files are not supported",
+  "refreshCompleted": "完了",
+  "refreshFailed": "更新に失敗しました",
+  "settingsSwipeToClose": "スワイプで閉じる",
+  "swipeToCloseOn": "下にスワイプで閉じる",
+  "swipeToCloseOff": "ボタンと戻るジェスチャー",
+  "postDeleted": "投稿は削除されました",
+  "postUnavailable": "投稿は利用できません",
+  "postBlacklisted": "投稿はブラックリストに登録されています",
+  "postUnsupportedFiles": "{ext} ファイルはサポートされていません",
   "@postUnsupportedFiles": {
     "placeholders": {
       "ext": {}
     }
   },
-  "postUnsupportedOpen": "Open",
-  "thumbnailSize": "Card size",
-  "tileSmall": "Small",
-  "tileMedium": "Medium",
-  "tileLarge": "Large",
+  "postUnsupportedOpen": "開く",
+  "thumbnailSize": "カードサイズ",
+  "tileSmall": "小",
+  "tileMedium": "中",
+  "tileLarge": "大",
   "settingsLayoutMirror": "レイアウトのミラー",
   "settingsLayoutMirrorHint": "レイアウト全体を利き手側に反転します。文字はそれぞれの方向で読み続けられます。",
   "gridDensity": "グリッドの密度",
@@ -751,10 +751,10 @@
   "@duplicateDownloadDontAsk": {
     "description": "The bottom-left option that silences the duplicate download dialog for good."
   },
-  "databaseExportBody": "Choose what the backup carries. Logins travel only inside an encrypted file.",
-  "databaseExportKeepLogins": "Logins and API keys",
-  "databaseExportKeepLoginsHint": "Only carried inside an encrypted file",
-  "databaseExportKeepHistory": "Browsing history",
-  "databaseExportKeepFollows": "Subscriptions",
-  "databaseExportLoginsNeedPassword": "Logins need an encryption password"
+  "databaseExportBody": "バックアップに含める内容を選択できます。ログイン情報は暗号化されたファイルにのみ保存されます。",
+  "databaseExportKeepLogins": "ログイン情報と API キー",
+  "databaseExportKeepLoginsHint": "暗号化されたファイルにのみ保存されます",
+  "databaseExportKeepHistory": "閲覧履歴",
+  "databaseExportKeepFollows": "フォロー",
+  "databaseExportLoginsNeedPassword": "ログイン情報には暗号化パスワードが必要です"
 }

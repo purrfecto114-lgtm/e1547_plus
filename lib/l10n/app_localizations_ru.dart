@@ -2554,48 +2554,48 @@ class AppLocalizationsRu extends AppLocalizations {
       'Это приложение открывается только для взрослых. Ничего не продолжится без подтверждения совершеннолетия.';
 
   @override
-  String get refreshCompleted => 'Completed';
+  String get refreshCompleted => 'Завершено';
 
   @override
-  String get refreshFailed => 'Refresh failed';
+  String get refreshFailed => 'Не удалось обновить';
 
   @override
-  String get settingsSwipeToClose => 'Swipe to close';
+  String get settingsSwipeToClose => 'Смахните, чтобы закрыть';
 
   @override
-  String get swipeToCloseOn => 'drag down to close';
+  String get swipeToCloseOn => 'потяните вниз, чтобы закрыть';
 
   @override
-  String get swipeToCloseOff => 'buttons and back gesture';
+  String get swipeToCloseOff => 'кнопки и жест назад';
 
   @override
-  String get postDeleted => 'Post was deleted';
+  String get postDeleted => 'Пост был удалён';
 
   @override
-  String get postUnavailable => 'Post is unavailable';
+  String get postUnavailable => 'Пост недоступен';
 
   @override
-  String get postBlacklisted => 'Post is blacklisted';
+  String get postBlacklisted => 'Пост в чёрном списке';
 
   @override
   String postUnsupportedFiles(Object ext) {
-    return '$ext files are not supported';
+    return 'Файлы $ext не поддерживаются';
   }
 
   @override
-  String get postUnsupportedOpen => 'Open';
+  String get postUnsupportedOpen => 'Открыть';
 
   @override
-  String get thumbnailSize => 'Card size';
+  String get thumbnailSize => 'Размер карточки';
 
   @override
-  String get tileSmall => 'Small';
+  String get tileSmall => 'Маленький';
 
   @override
-  String get tileMedium => 'Medium';
+  String get tileMedium => 'Средний';
 
   @override
-  String get tileLarge => 'Large';
+  String get tileLarge => 'Большой';
 
   @override
   String get settingsLayoutMirror => 'Зеркальная разметка';
@@ -2635,22 +2635,22 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get databaseExportBody =>
-      'Choose what the backup carries. Logins travel only inside an encrypted file.';
+      'Выберите, что включить в резервную копию. Данные входа передаются только в зашифрованном файле.';
 
   @override
-  String get databaseExportKeepLogins => 'Logins and API keys';
+  String get databaseExportKeepLogins => 'Данные входа и API-ключи';
 
   @override
   String get databaseExportKeepLoginsHint =>
-      'Only carried inside an encrypted file';
+      'Только внутри зашифрованного файла';
 
   @override
-  String get databaseExportKeepHistory => 'Browsing history';
+  String get databaseExportKeepHistory => 'История';
 
   @override
-  String get databaseExportKeepFollows => 'Subscriptions';
+  String get databaseExportKeepFollows => 'Подписки';
 
   @override
   String get databaseExportLoginsNeedPassword =>
-      'Logins need an encryption password';
+      'Для данных входа нужен пароль шифрования';
 }

@@ -709,25 +709,25 @@
   "taskErrorHintSaving": "Falha ao salvar na galeria. Verifique o espaço livre e tente novamente.",
   "taskErrorHintUnknown": "Esta tarefa falhou. Tente novamente ou abra os detalhes.",
   "adultGateDeniedBody": "Este aplicativo abre apenas para adultos. Nada continua sem confirmar que você tem a idade legal.",
-  "refreshCompleted": "Completed",
-  "refreshFailed": "Refresh failed",
-  "settingsSwipeToClose": "Swipe to close",
-  "swipeToCloseOn": "drag down to close",
-  "swipeToCloseOff": "buttons and back gesture",
-  "postDeleted": "Post was deleted",
-  "postUnavailable": "Post is unavailable",
-  "postBlacklisted": "Post is blacklisted",
-  "postUnsupportedFiles": "{ext} files are not supported",
+  "refreshCompleted": "Concluído",
+  "refreshFailed": "Falha ao atualizar",
+  "settingsSwipeToClose": "Deslize para fechar",
+  "swipeToCloseOn": "arraste para baixo para fechar",
+  "swipeToCloseOff": "botões e gesto de voltar",
+  "postDeleted": "A publicação foi excluída",
+  "postUnavailable": "A publicação não está disponível",
+  "postBlacklisted": "A publicação está na lista negra",
+  "postUnsupportedFiles": "Arquivos {ext} não são compatíveis",
   "@postUnsupportedFiles": {
     "placeholders": {
       "ext": {}
     }
   },
-  "postUnsupportedOpen": "Open",
-  "thumbnailSize": "Card size",
-  "tileSmall": "Small",
-  "tileMedium": "Medium",
-  "tileLarge": "Large",
+  "postUnsupportedOpen": "Abrir",
+  "thumbnailSize": "Tamanho do cartão",
+  "tileSmall": "Pequeno",
+  "tileMedium": "Médio",
+  "tileLarge": "Grande",
   "settingsLayoutMirror": "Espelhar layout",
   "settingsLayoutMirrorHint": "Espelha todo o layout para o lado da sua mão preferida. O texto continua lendo na própria direção.",
   "gridDensity": "Densidade da grade",
@@ -751,10 +751,10 @@
   "@duplicateDownloadDontAsk": {
     "description": "The bottom-left option that silences the duplicate download dialog for good."
   },
-  "databaseExportBody": "Choose what the backup carries. Logins travel only inside an encrypted file.",
-  "databaseExportKeepLogins": "Logins and API keys",
-  "databaseExportKeepLoginsHint": "Only carried inside an encrypted file",
-  "databaseExportKeepHistory": "Browsing history",
-  "databaseExportKeepFollows": "Subscriptions",
-  "databaseExportLoginsNeedPassword": "Logins need an encryption password"
+  "databaseExportBody": "Escolha o que o backup contém. Os dados de login viajam apenas em um arquivo criptografado.",
+  "databaseExportKeepLogins": "Logins e chaves de API",
+  "databaseExportKeepLoginsHint": "Apenas em um arquivo criptografado",
+  "databaseExportKeepHistory": "Histórico",
+  "databaseExportKeepFollows": "Inscrições",
+  "databaseExportLoginsNeedPassword": "Os logins precisam de uma senha de criptografia"
 }

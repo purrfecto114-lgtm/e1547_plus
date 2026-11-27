@@ -26,6 +26,11 @@
   the logins. Logins travel only inside an encrypted file: the export
   stays locked until a password is set, so an exported key can never
   become a ghost account on the importing device
+- every interface string now ships translated in all thirteen app
+  languages; the ten locales that carried english placeholders are
+  filled in, with terms aligned to each locale's existing wording
+- dropped the redundant cupertino_http dependency: the native dio
+  adapter pulls it in transitively, exactly like its cronet twin
 
 ## [22.10.1] - 2026-11-27
 

@@ -2540,48 +2540,48 @@ class AppLocalizationsFr extends AppLocalizations {
       'Cette application ne s\'ouvre qu\'aux adultes. Rien ne continue sans confirmer que vous avez l\'âge légal.';
 
   @override
-  String get refreshCompleted => 'Completed';
+  String get refreshCompleted => 'Terminé';
 
   @override
-  String get refreshFailed => 'Refresh failed';
+  String get refreshFailed => 'Échec de l\'actualisation';
 
   @override
-  String get settingsSwipeToClose => 'Swipe to close';
+  String get settingsSwipeToClose => 'Balayer pour fermer';
 
   @override
-  String get swipeToCloseOn => 'drag down to close';
+  String get swipeToCloseOn => 'balayer vers le bas pour fermer';
 
   @override
-  String get swipeToCloseOff => 'buttons and back gesture';
+  String get swipeToCloseOff => 'boutons et geste retour';
 
   @override
-  String get postDeleted => 'Post was deleted';
+  String get postDeleted => 'La publication a été supprimée';
 
   @override
-  String get postUnavailable => 'Post is unavailable';
+  String get postUnavailable => 'La publication n\'est pas disponible';
 
   @override
-  String get postBlacklisted => 'Post is blacklisted';
+  String get postBlacklisted => 'La publication est sur la liste noire';
 
   @override
   String postUnsupportedFiles(Object ext) {
-    return '$ext files are not supported';
+    return 'Les fichiers $ext ne sont pas pris en charge';
   }
 
   @override
-  String get postUnsupportedOpen => 'Open';
+  String get postUnsupportedOpen => 'Ouvrir';
 
   @override
-  String get thumbnailSize => 'Card size';
+  String get thumbnailSize => 'Taille des cartes';
 
   @override
-  String get tileSmall => 'Small';
+  String get tileSmall => 'Petit';
 
   @override
-  String get tileMedium => 'Medium';
+  String get tileMedium => 'Moyen';
 
   @override
-  String get tileLarge => 'Large';
+  String get tileLarge => 'Grand';
 
   @override
   String get settingsLayoutMirror => 'Miroir de la disposition';
@@ -2621,22 +2621,22 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get databaseExportBody =>
-      'Choose what the backup carries. Logins travel only inside an encrypted file.';
+      'Choisis ce que contient la sauvegarde. Les identifiants de connexion ne voyagent que dans un fichier chiffré.';
 
   @override
-  String get databaseExportKeepLogins => 'Logins and API keys';
+  String get databaseExportKeepLogins => 'Connexions et clés API';
 
   @override
   String get databaseExportKeepLoginsHint =>
-      'Only carried inside an encrypted file';
+      'Uniquement dans un fichier chiffré';
 
   @override
-  String get databaseExportKeepHistory => 'Browsing history';
+  String get databaseExportKeepHistory => 'Historique';
 
   @override
-  String get databaseExportKeepFollows => 'Subscriptions';
+  String get databaseExportKeepFollows => 'Abonnements';
 
   @override
   String get databaseExportLoginsNeedPassword =>
-      'Logins need an encryption password';
+      'Les connexions nécessitent un mot de passe de chiffrement';
 }

@@ -2515,48 +2515,48 @@ class AppLocalizationsVi extends AppLocalizations {
       'Ứng dụng này chỉ mở cho người trưởng thành. Không gì tiếp tục được nếu chưa xác nhận độ tuổi hợp pháp.';
 
   @override
-  String get refreshCompleted => 'Completed';
+  String get refreshCompleted => 'Hoàn tất';
 
   @override
-  String get refreshFailed => 'Refresh failed';
+  String get refreshFailed => 'Làm mới thất bại';
 
   @override
-  String get settingsSwipeToClose => 'Swipe to close';
+  String get settingsSwipeToClose => 'Vuốt để đóng';
 
   @override
-  String get swipeToCloseOn => 'drag down to close';
+  String get swipeToCloseOn => 'kéo xuống để đóng';
 
   @override
-  String get swipeToCloseOff => 'buttons and back gesture';
+  String get swipeToCloseOff => 'nút và cử chỉ quay lại';
 
   @override
-  String get postDeleted => 'Post was deleted';
+  String get postDeleted => 'Bài đăng đã bị xóa';
 
   @override
-  String get postUnavailable => 'Post is unavailable';
+  String get postUnavailable => 'Bài đăng không khả dụng';
 
   @override
-  String get postBlacklisted => 'Post is blacklisted';
+  String get postBlacklisted => 'Bài đăng nằm trong danh sách đen';
 
   @override
   String postUnsupportedFiles(Object ext) {
-    return '$ext files are not supported';
+    return 'Tệp $ext không được hỗ trợ';
   }
 
   @override
-  String get postUnsupportedOpen => 'Open';
+  String get postUnsupportedOpen => 'Mở';
 
   @override
-  String get thumbnailSize => 'Card size';
+  String get thumbnailSize => 'Kích thước thẻ';
 
   @override
-  String get tileSmall => 'Small';
+  String get tileSmall => 'Nhỏ';
 
   @override
-  String get tileMedium => 'Medium';
+  String get tileMedium => 'Vừa';
 
   @override
-  String get tileLarge => 'Large';
+  String get tileLarge => 'Lớn';
 
   @override
   String get settingsLayoutMirror => 'Đối xứng bố cục';
@@ -2596,22 +2596,22 @@ class AppLocalizationsVi extends AppLocalizations {
 
   @override
   String get databaseExportBody =>
-      'Choose what the backup carries. Logins travel only inside an encrypted file.';
+      'Chọn những gì bản sao lưu chứa. Thông tin đăng nhập chỉ được lưu trong tệp được mã hóa.';
 
   @override
-  String get databaseExportKeepLogins => 'Logins and API keys';
+  String get databaseExportKeepLogins => 'Thông tin đăng nhập và khóa API';
 
   @override
   String get databaseExportKeepLoginsHint =>
-      'Only carried inside an encrypted file';
+      'Chỉ được lưu trong tệp được mã hóa';
 
   @override
-  String get databaseExportKeepHistory => 'Browsing history';
+  String get databaseExportKeepHistory => 'Lịch sử';
 
   @override
-  String get databaseExportKeepFollows => 'Subscriptions';
+  String get databaseExportKeepFollows => 'Theo dõi';
 
   @override
   String get databaseExportLoginsNeedPassword =>
-      'Logins need an encryption password';
+      'Thông tin đăng nhập cần mật khẩu mã hóa';
 }

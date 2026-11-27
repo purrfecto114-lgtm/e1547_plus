@@ -709,25 +709,25 @@
   "taskErrorHintSaving": "Не удалось сохранить в галерею. Проверьте свободное место и повторите попытку.",
   "taskErrorHintUnknown": "Эта задача не удалась. Повторите попытку или откройте подробности.",
   "adultGateDeniedBody": "Это приложение открывается только для взрослых. Ничего не продолжится без подтверждения совершеннолетия.",
-  "refreshCompleted": "Completed",
-  "refreshFailed": "Refresh failed",
-  "settingsSwipeToClose": "Swipe to close",
-  "swipeToCloseOn": "drag down to close",
-  "swipeToCloseOff": "buttons and back gesture",
-  "postDeleted": "Post was deleted",
-  "postUnavailable": "Post is unavailable",
-  "postBlacklisted": "Post is blacklisted",
-  "postUnsupportedFiles": "{ext} files are not supported",
+  "refreshCompleted": "Завершено",
+  "refreshFailed": "Не удалось обновить",
+  "settingsSwipeToClose": "Смахните, чтобы закрыть",
+  "swipeToCloseOn": "потяните вниз, чтобы закрыть",
+  "swipeToCloseOff": "кнопки и жест назад",
+  "postDeleted": "Пост был удалён",
+  "postUnavailable": "Пост недоступен",
+  "postBlacklisted": "Пост в чёрном списке",
+  "postUnsupportedFiles": "Файлы {ext} не поддерживаются",
   "@postUnsupportedFiles": {
     "placeholders": {
       "ext": {}
     }
   },
-  "postUnsupportedOpen": "Open",
-  "thumbnailSize": "Card size",
-  "tileSmall": "Small",
-  "tileMedium": "Medium",
-  "tileLarge": "Large",
+  "postUnsupportedOpen": "Открыть",
+  "thumbnailSize": "Размер карточки",
+  "tileSmall": "Маленький",
+  "tileMedium": "Средний",
+  "tileLarge": "Большой",
   "settingsLayoutMirror": "Зеркальная разметка",
   "settingsLayoutMirrorHint": "Отражает всю разметку в сторону предпочтительной руки. Текст по-прежнему читается в своём направлении.",
   "gridDensity": "Плотность сетки",
@@ -751,10 +751,10 @@
   "@duplicateDownloadDontAsk": {
     "description": "The bottom-left option that silences the duplicate download dialog for good."
   },
-  "databaseExportBody": "Choose what the backup carries. Logins travel only inside an encrypted file.",
-  "databaseExportKeepLogins": "Logins and API keys",
-  "databaseExportKeepLoginsHint": "Only carried inside an encrypted file",
-  "databaseExportKeepHistory": "Browsing history",
-  "databaseExportKeepFollows": "Subscriptions",
-  "databaseExportLoginsNeedPassword": "Logins need an encryption password"
+  "databaseExportBody": "Выберите, что включить в резервную копию. Данные входа передаются только в зашифрованном файле.",
+  "databaseExportKeepLogins": "Данные входа и API-ключи",
+  "databaseExportKeepLoginsHint": "Только внутри зашифрованного файла",
+  "databaseExportKeepHistory": "История",
+  "databaseExportKeepFollows": "Подписки",
+  "databaseExportLoginsNeedPassword": "Для данных входа нужен пароль шифрования"
 }

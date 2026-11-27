@@ -1,8 +1,14 @@
-- switching accounts or hosts no longer freezes the app on a loading
-  ring
-- playing a video keeps the screen awake instead of letting the
-  device sleep
-- the portrait fullscreen video bar spreads over two rows instead of
-  squeezing everything into one
-- database exports can include logins (encrypted), browsing history
-  and subscriptions
+A note on the release pace: the last few days brought a lot of updates,
+and one of them — 22.10.1 — announced a fix that did not hold: the
+loading-ring freeze it claimed to stop was still there. Sorry for the
+churn, and for calling that one fixed before it was. This build takes
+its place under the same number, and the freeze is now fixed for real:
+the client's shutdown drains its in-flight requests before the engine
+closes, verified against the crash log you sent and guarded by tests.
+Updates should settle down from here.
+
+- switching accounts or hosts no longer freezes the app on a loading ring
+- playing a video keeps the screen awake instead of letting the device sleep
+- the portrait fullscreen video bar spreads over two rows instead of squeezing everything into one
+- database exports can include logins (encrypted), browsing history and subscriptions
+- every interface string is now translated in all 13 app languages, and a redundant http dependency was dropped

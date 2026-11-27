@@ -2523,25 +2523,25 @@
   "taskErrorHintSaving": "갤러리에 저장하지 못했습니다. 여유 공간을 확인한 후 다시 시도하세요.",
   "taskErrorHintUnknown": "이 작업이 실패했습니다. 다시 시도하거나 세부 정보를 여세요.",
   "adultGateDeniedBody": "이 앱은 성인만 이용할 수 있습니다. 법적 연령을 확인하지 않으면 더 이상 진행할 수 없습니다.",
-  "refreshCompleted": "Completed",
-  "refreshFailed": "Refresh failed",
-  "settingsSwipeToClose": "Swipe to close",
-  "swipeToCloseOn": "drag down to close",
-  "swipeToCloseOff": "buttons and back gesture",
-  "postDeleted": "Post was deleted",
-  "postUnavailable": "Post is unavailable",
-  "postBlacklisted": "Post is blacklisted",
-  "postUnsupportedFiles": "{ext} files are not supported",
+  "refreshCompleted": "완료됨",
+  "refreshFailed": "새로고침 실패",
+  "settingsSwipeToClose": "스와이프하여 닫기",
+  "swipeToCloseOn": "아래로 스와이프하여 닫기",
+  "swipeToCloseOff": "버튼 및 뒤로 가기 제스처",
+  "postDeleted": "게시물이 삭제되었습니다",
+  "postUnavailable": "게시물을 사용할 수 없습니다",
+  "postBlacklisted": "게시물이 블랙리스트에 등록되어 있습니다",
+  "postUnsupportedFiles": "{ext} 파일은 지원되지 않습니다",
   "@postUnsupportedFiles": {
     "placeholders": {
       "ext": {}
     }
   },
-  "postUnsupportedOpen": "Open",
-  "thumbnailSize": "Card size",
-  "tileSmall": "Small",
-  "tileMedium": "Medium",
-  "tileLarge": "Large",
+  "postUnsupportedOpen": "열기",
+  "thumbnailSize": "카드 크기",
+  "tileSmall": "작게",
+  "tileMedium": "보통",
+  "tileLarge": "크게",
   "settingsLayoutMirror": "레이아웃 미러",
   "settingsLayoutMirrorHint": "전체 레이아웃을 선호하는 손 쪽으로 뒤집습니다. 텍스트는 여전히 자체 방향으로 읽힙니다.",
   "gridDensity": "그리드 밀도",
@@ -2565,10 +2565,10 @@
   "@duplicateDownloadDontAsk": {
     "description": "The bottom-left option that silences the duplicate download dialog for good."
   },
-  "databaseExportBody": "Choose what the backup carries. Logins travel only inside an encrypted file.",
-  "databaseExportKeepLogins": "Logins and API keys",
-  "databaseExportKeepLoginsHint": "Only carried inside an encrypted file",
-  "databaseExportKeepHistory": "Browsing history",
-  "databaseExportKeepFollows": "Subscriptions",
-  "databaseExportLoginsNeedPassword": "Logins need an encryption password"
+  "databaseExportBody": "백업에 포함할 항목을 선택하세요. 로그인 정보는 암호화된 파일에만 저장됩니다.",
+  "databaseExportKeepLogins": "로그인 정보 및 API 키",
+  "databaseExportKeepLoginsHint": "암호화된 파일에만 포함됩니다",
+  "databaseExportKeepHistory": "기록",
+  "databaseExportKeepFollows": "구독",
+  "databaseExportLoginsNeedPassword": "로그인 정보에는 암호화 비밀번호가 필요합니다"
 }

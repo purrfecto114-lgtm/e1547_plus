@@ -1708,7 +1708,7 @@ class AppLocalizationsPl extends AppLocalizations {
   String get historySearches => 'Wyszukiwania';
 
   @override
-  String get historyWikis => 'Wikis';
+  String get historyWikis => 'Wiki';
 
   @override
   String get historyUsers => 'Użytkownicy';
@@ -2566,48 +2566,48 @@ class AppLocalizationsPl extends AppLocalizations {
       'Ta aplikacja otwiera się tylko dla dorosłych. Bez potwierdzenia pełnoletności nic dalej nie pójdzie.';
 
   @override
-  String get refreshCompleted => 'Completed';
+  String get refreshCompleted => 'Zakończono';
 
   @override
-  String get refreshFailed => 'Refresh failed';
+  String get refreshFailed => 'Odświeżanie nie powiodło się';
 
   @override
-  String get settingsSwipeToClose => 'Swipe to close';
+  String get settingsSwipeToClose => 'Przesuń, aby zamknąć';
 
   @override
-  String get swipeToCloseOn => 'drag down to close';
+  String get swipeToCloseOn => 'przeciągnij w dół, aby zamknąć';
 
   @override
-  String get swipeToCloseOff => 'buttons and back gesture';
+  String get swipeToCloseOff => 'przyciski i gest powrotu';
 
   @override
-  String get postDeleted => 'Post was deleted';
+  String get postDeleted => 'Post został usunięty';
 
   @override
-  String get postUnavailable => 'Post is unavailable';
+  String get postUnavailable => 'Post jest niedostępny';
 
   @override
-  String get postBlacklisted => 'Post is blacklisted';
+  String get postBlacklisted => 'Post jest na czarnej liście';
 
   @override
   String postUnsupportedFiles(Object ext) {
-    return '$ext files are not supported';
+    return 'Pliki $ext nie są obsługiwane';
   }
 
   @override
-  String get postUnsupportedOpen => 'Open';
+  String get postUnsupportedOpen => 'Otwórz';
 
   @override
-  String get thumbnailSize => 'Card size';
+  String get thumbnailSize => 'Rozmiar karty';
 
   @override
-  String get tileSmall => 'Small';
+  String get tileSmall => 'Mała';
 
   @override
-  String get tileMedium => 'Medium';
+  String get tileMedium => 'Średnia';
 
   @override
-  String get tileLarge => 'Large';
+  String get tileLarge => 'Duża';
 
   @override
   String get settingsLayoutMirror => 'Odbicie układu';
@@ -2647,22 +2647,21 @@ class AppLocalizationsPl extends AppLocalizations {
 
   @override
   String get databaseExportBody =>
-      'Choose what the backup carries. Logins travel only inside an encrypted file.';
+      'Wybierz, co zawiera kopia zapasowa. Dane logowania podróżują tylko w zaszyfrowanym pliku.';
 
   @override
-  String get databaseExportKeepLogins => 'Logins and API keys';
+  String get databaseExportKeepLogins => 'Dane logowania i klucze API';
 
   @override
-  String get databaseExportKeepLoginsHint =>
-      'Only carried inside an encrypted file';
+  String get databaseExportKeepLoginsHint => 'Tylko w zaszyfrowanym pliku';
 
   @override
-  String get databaseExportKeepHistory => 'Browsing history';
+  String get databaseExportKeepHistory => 'Historia';
 
   @override
-  String get databaseExportKeepFollows => 'Subscriptions';
+  String get databaseExportKeepFollows => 'Subskrypcje';
 
   @override
   String get databaseExportLoginsNeedPassword =>
-      'Logins need an encryption password';
+      'Dane logowania wymagają hasła szyfrowania';
 }

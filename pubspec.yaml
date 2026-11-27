@@ -60,7 +60,6 @@ dependencies:
   dio: ^5.9.0
   native_dio_adapter: ^1.8.0
   # Pinned below 3.0.0: its native-assets hook fails to cross-compile for Android.
-  cupertino_http: ^2.3.0
   drift: ^2.28.1
   filesize: ^2.0.1
   file_picker: ^10.2.4

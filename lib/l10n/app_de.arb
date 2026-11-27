@@ -709,25 +709,25 @@
   "taskErrorHintSaving": "Das Speichern in die Galerie ist fehlgeschlagen. Prüfe den freien Speicher und versuche es erneut.",
   "taskErrorHintUnknown": "Diese Aufgabe ist fehlgeschlagen. Versuche es erneut oder öffne die Details.",
   "adultGateDeniedBody": "Diese App öffnet sich nur für Erwachsene. Ohne die Bestätigung der Volljährigkeit geht es nicht weiter.",
-  "refreshCompleted": "Completed",
-  "refreshFailed": "Refresh failed",
-  "settingsSwipeToClose": "Swipe to close",
-  "swipeToCloseOn": "drag down to close",
-  "swipeToCloseOff": "buttons and back gesture",
-  "postDeleted": "Post was deleted",
-  "postUnavailable": "Post is unavailable",
-  "postBlacklisted": "Post is blacklisted",
-  "postUnsupportedFiles": "{ext} files are not supported",
+  "refreshCompleted": "Abgeschlossen",
+  "refreshFailed": "Aktualisierung fehlgeschlagen",
+  "settingsSwipeToClose": "Wischen zum Schließen",
+  "swipeToCloseOn": "zum Schließen nach unten ziehen",
+  "swipeToCloseOff": "Schaltflächen und Zurück-Geste",
+  "postDeleted": "Beitrag wurde gelöscht",
+  "postUnavailable": "Beitrag ist nicht verfügbar",
+  "postBlacklisted": "Beitrag ist auf der Blacklist",
+  "postUnsupportedFiles": "{ext}-Dateien werden nicht unterstützt",
   "@postUnsupportedFiles": {
     "placeholders": {
       "ext": {}
     }
   },
-  "postUnsupportedOpen": "Open",
-  "thumbnailSize": "Card size",
-  "tileSmall": "Small",
-  "tileMedium": "Medium",
-  "tileLarge": "Large",
+  "postUnsupportedOpen": "Öffnen",
+  "thumbnailSize": "Kartengröße",
+  "tileSmall": "Klein",
+  "tileMedium": "Mittel",
+  "tileLarge": "Groß",
   "settingsLayoutMirror": "Layout spiegeln",
   "settingsLayoutMirrorHint": "Spiegelt das gesamte Layout auf die Seite deiner bevorzugten Hand. Texte lesen sich weiter in ihrer eigenen Richtung.",
   "gridDensity": "Rasterdichte",
@@ -751,10 +751,10 @@
   "@duplicateDownloadDontAsk": {
     "description": "The bottom-left option that silences the duplicate download dialog for good."
   },
-  "databaseExportBody": "Choose what the backup carries. Logins travel only inside an encrypted file.",
-  "databaseExportKeepLogins": "Logins and API keys",
-  "databaseExportKeepLoginsHint": "Only carried inside an encrypted file",
-  "databaseExportKeepHistory": "Browsing history",
-  "databaseExportKeepFollows": "Subscriptions",
-  "databaseExportLoginsNeedPassword": "Logins need an encryption password"
+  "databaseExportBody": "Wähle aus, was das Backup enthält. Anmeldedaten werden nur in einer verschlüsselten Datei übertragen.",
+  "databaseExportKeepLogins": "Anmeldungen und API-Schlüssel",
+  "databaseExportKeepLoginsHint": "Nur in einer verschlüsselten Datei enthalten",
+  "databaseExportKeepHistory": "Verlauf",
+  "databaseExportKeepFollows": "Abos",
+  "databaseExportLoginsNeedPassword": "Anmeldungen benötigen ein Verschlüsselungspasswort"
 }

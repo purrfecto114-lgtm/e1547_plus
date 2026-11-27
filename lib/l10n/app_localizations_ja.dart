@@ -2456,48 +2456,48 @@ class AppLocalizationsJa extends AppLocalizations {
   String get adultGateDeniedBody => 'このアプリは成人向けです。成年であることを確認しないと、ここから先へは進めません。';
 
   @override
-  String get refreshCompleted => 'Completed';
+  String get refreshCompleted => '完了';
 
   @override
-  String get refreshFailed => 'Refresh failed';
+  String get refreshFailed => '更新に失敗しました';
 
   @override
-  String get settingsSwipeToClose => 'Swipe to close';
+  String get settingsSwipeToClose => 'スワイプで閉じる';
 
   @override
-  String get swipeToCloseOn => 'drag down to close';
+  String get swipeToCloseOn => '下にスワイプで閉じる';
 
   @override
-  String get swipeToCloseOff => 'buttons and back gesture';
+  String get swipeToCloseOff => 'ボタンと戻るジェスチャー';
 
   @override
-  String get postDeleted => 'Post was deleted';
+  String get postDeleted => '投稿は削除されました';
 
   @override
-  String get postUnavailable => 'Post is unavailable';
+  String get postUnavailable => '投稿は利用できません';
 
   @override
-  String get postBlacklisted => 'Post is blacklisted';
+  String get postBlacklisted => '投稿はブラックリストに登録されています';
 
   @override
   String postUnsupportedFiles(Object ext) {
-    return '$ext files are not supported';
+    return '$ext ファイルはサポートされていません';
   }
 
   @override
-  String get postUnsupportedOpen => 'Open';
+  String get postUnsupportedOpen => '開く';
 
   @override
-  String get thumbnailSize => 'Card size';
+  String get thumbnailSize => 'カードサイズ';
 
   @override
-  String get tileSmall => 'Small';
+  String get tileSmall => '小';
 
   @override
-  String get tileMedium => 'Medium';
+  String get tileMedium => '中';
 
   @override
-  String get tileLarge => 'Large';
+  String get tileLarge => '大';
 
   @override
   String get settingsLayoutMirror => 'レイアウトのミラー';
@@ -2531,22 +2531,20 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get databaseExportBody =>
-      'Choose what the backup carries. Logins travel only inside an encrypted file.';
+      'バックアップに含める内容を選択できます。ログイン情報は暗号化されたファイルにのみ保存されます。';
 
   @override
-  String get databaseExportKeepLogins => 'Logins and API keys';
+  String get databaseExportKeepLogins => 'ログイン情報と API キー';
 
   @override
-  String get databaseExportKeepLoginsHint =>
-      'Only carried inside an encrypted file';
+  String get databaseExportKeepLoginsHint => '暗号化されたファイルにのみ保存されます';
 
   @override
-  String get databaseExportKeepHistory => 'Browsing history';
+  String get databaseExportKeepHistory => '閲覧履歴';
 
   @override
-  String get databaseExportKeepFollows => 'Subscriptions';
+  String get databaseExportKeepFollows => 'フォロー';
 
   @override
-  String get databaseExportLoginsNeedPassword =>
-      'Logins need an encryption password';
+  String get databaseExportLoginsNeedPassword => 'ログイン情報には暗号化パスワードが必要です';
 }
