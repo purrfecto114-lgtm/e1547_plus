@@ -38,7 +38,11 @@ Dio createTransferClient() {
   );
   // Download hosts sit behind the same region blocks as the api, so
   // the transfer honours the resolved proxy like every other client.
-  dio.httpClientAdapter = proxyAwareAdapter(systemProxy.value);
+  // The transfer rides the dart http stack like the media client: the
+  // cdn hosts rotate their certificate authorities under the app, and
+  // the path validates against the bundled modern roots instead of the
+  // device's frozen system store (see mediaAdapter).
+  dio.httpClientAdapter = mediaAdapter(systemProxy.value);
   dio.interceptors.add(ClientExceptionInterceptor());
   return dio;
 }

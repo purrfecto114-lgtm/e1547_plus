@@ -158,8 +158,12 @@ void main() {
     test('the media client honours the proxy known at creation', () {
       systemProxy.value = (host: '127.0.0.1', port: 7890);
       expect(createMediaDio().httpClientAdapter, isA<IOHttpClientAdapter>());
+      // Without a proxy the media path stays on the dart stack too: it
+      // validates against the bundled modern roots, which the cdn hosts'
+      // authority rotations need on devices whose system store predates
+      // them (see mediaAdapter).
       systemProxy.value = null;
-      expect(createMediaDio().httpClientAdapter, isA<NativeAdapter>());
+      expect(createMediaDio().httpClientAdapter, isA<IOHttpClientAdapter>());
     });
   });
 }

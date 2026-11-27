@@ -1,0 +1,13 @@
+e621 thumbnails and full images stopped loading on android 7 — the
+broken-image placeholder everywhere, e926 fine, detail pages opening
+from cache. Root cause: cloudflare rotated the static1.e621.net
+certificate to a Let's Encrypt chain on november 18, and android 7's
+frozen system CA store predates ISRG Root X1, so the cronet engine
+rejected every media request with ERR_CERT_AUTHORITY_INVALID while the
+e926 and api hosts kept their Google Trust Services chains.
+
+The app now bundles the current set of public root certificates and
+validates media and download requests against it on the dart http
+stack, so this and future authority rotations cannot break media
+loading again. Nothing about validation is loosened — the trust store
+is simply current.

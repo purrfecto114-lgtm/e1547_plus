@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:dio/dio.dart';
 import 'package:dio/io.dart';
+import 'package:e1547/shared/data/roots.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:native_dio_adapter/native_dio_adapter.dart';
@@ -72,3 +73,25 @@ HttpClientAdapter proxyAwareAdapter(ProxyConfig? proxy) => proxy == null
             HttpClient()
               ..findProxy = (uri) => 'PROXY ${proxy.host}:${proxy.port}',
       );
+
+/// The http adapter the media stack uses for [proxy].
+///
+/// Same proxy reasoning as [proxyAwareAdapter] — the cronet engine
+/// ignores the system proxy — but this path always rides the dart http
+/// stack, because it also carries the certificate story: the media
+/// hosts rotate their certificate authorities under the app, and the
+/// cronet engine validates against the device's frozen system store,
+/// which predates some of those authorities (Android 7 has no ISRG
+/// Root X1, so a cdn host moving to a Let's Encrypt chain failed every
+/// media request on it with ERR_CERT_AUTHORITY_INVALID). The dart stack
+/// validates against the bundled modern roots through [trustedRoots],
+/// falling back to the system store until the bundle has loaded.
+HttpClientAdapter mediaAdapter(ProxyConfig? proxy) => IOHttpClientAdapter(
+  createHttpClient: () {
+    final HttpClient client = HttpClient(context: trustedRoots);
+    if (proxy != null) {
+      client.findProxy = (uri) => 'PROXY ${proxy.host}:${proxy.port}';
+    }
+    return client;
+  },
+);

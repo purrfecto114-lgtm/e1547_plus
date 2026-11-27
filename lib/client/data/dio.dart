@@ -157,8 +157,12 @@ Dio createMediaDio() {
     ),
   );
   // Media hosts sit behind the same region blocks as the api, so the
-  // transfer honours the resolved proxy like every other client.
-  dio.httpClientAdapter = proxyAwareAdapter(systemProxy.value);
+  // transfer honours the resolved proxy like every other client. Unlike
+  // the api client this rides the dart http stack: the media hosts
+  // rotate their certificate authorities under the app, and the media
+  // path validates against the bundled modern roots instead of the
+  // device's frozen system store (see mediaAdapter).
+  dio.httpClientAdapter = mediaAdapter(systemProxy.value);
   dio.interceptors.add(InFlightInterceptor());
   dio.interceptors.add(LoggingDioInterceptor());
   dio.interceptors.add(ClientExceptionInterceptor());

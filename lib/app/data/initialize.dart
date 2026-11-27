@@ -132,6 +132,11 @@ void registerFlutterErrorHandler(
 Future<AppStorage> initializeAppStorage() async {
   final String temporaryFiles = await getTemporaryAppDirectory();
   await completeDbImport();
+  // The bundled modern roots back every media and transfer request; load
+  // them before the first page can fetch a thumbnail, so a device whose
+  // system store predates the cdn hosts' current authority never falls
+  // back to it at all.
+  await loadTrustedRoots();
   final AppDatabase sqlite = AppDatabase(
     driftDatabase(
       name: 'app',

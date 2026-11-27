@@ -1,5 +1,23 @@
 # Changelog
 
+## [22.11.2] - 2026-11-27
+
+### Fixed
+- e621 thumbnails and full images stopped loading on android 7 with the
+  broken-image placeholder everywhere while e926 kept working: cloudflare
+  rotated the static1.e621.net certificate to a Let's Encrypt chain on
+  november 18, and android 7's system CA store predates ISRG Root X1 —
+  the root Let's Encrypt chains to — so the cronet engine rejected every
+  media request with ERR_CERT_AUTHORITY_INVALID (the api host still
+  serves a Google Trust Services chain, which is why only the media
+  hosts broke). The app now bundles the current set of public root
+  certificates and validates media and download requests against it on
+  the dart http stack, so this and future certificate-authority
+  rotations cannot break media loading again; nothing about validation
+  is loosened, the trust store is simply current
+- downloads hit the same frozen-store wall as thumbnails; they validate
+  against the bundled roots now too
+
 ## [22.11.1] - 2026-11-27
 
 ### Fixed
@@ -2557,3 +2575,4 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 [22.10.1]: https://github.com/purrfecto114-lgtm/e1547_plus/compare/22.10.1-rc.5+246...22.10.1+247
 [22.11.0]: https://github.com/purrfecto114-lgtm/e1547_plus/compare/22.10.1+247...22.11.0+248
 [22.11.1]: https://github.com/purrfecto114-lgtm/e1547_plus/compare/22.11.0+248...22.11.1+249
+[22.11.2]: https://github.com/purrfecto114-lgtm/e1547_plus/compare/22.11.1+249...22.11.2+250
