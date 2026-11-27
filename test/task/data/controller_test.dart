@@ -404,6 +404,11 @@ void main() {
     expect(oldFile.readAsBytesSync(), [1, 2, 3]);
 
     instance.dispose();
+    // the worker's cancellation chain writes the task name one tick after
+    // dispose; a CI runner slow enough to interleave that with the suite's
+    // teardown hits a closed database after the test already completed
+    await pumpEventQueue();
+    await pumpEventQueue();
   });
 
   test('gallery save results are checked for partial failures', () {
