@@ -124,7 +124,7 @@ class IdentityRepository extends DatabaseAccessor<GeneratedDatabase>
     identitiesTable,
   )..where((tbl) => tbl.id.equals(item.id))).write(item.toInsertable());
 
-  /// Strips credential-like headers from every identity row.
+  /// Strips credential-like headers and usernames from every identity row.
   ///
   /// Used by database export and import, so account credentials never
   /// travel through database files.
@@ -146,10 +146,18 @@ class IdentityRepository extends DatabaseAccessor<GeneratedDatabase>
     var updated = 0;
     for (final row in rows) {
       final headers = row.headers;
-      if (headers == null) continue;
-      final sanitized = Map.of(headers)
-        ..removeWhere((name, _) => !isExportableHeader(name));
-      if (sanitized.length == headers.length) continue;
+      final sanitized = headers == null
+          ? null
+          : (Map.of(headers)
+              ..removeWhere((name, _) => !isExportableHeader(name)));
+      final bool needsHeaderRewrite =
+          headers != null &&
+          sanitized != null &&
+          sanitized.length != headers.length;
+      // A row whose headers need no rewrite (or that has no headers at
+      // all) can still carry a username: skipping it would ship a
+      // phantom logged-in account through the sanitized database.
+      if (!needsHeaderRewrite && row.username == null) continue;
       // write '{}' rather than null: avoids the nullable-map-converter edge
       //
       // Keeping the username would show a logged-in account whose
@@ -169,9 +177,11 @@ class IdentityRepository extends DatabaseAccessor<GeneratedDatabase>
           identitiesTable,
         )..where((tbl) => tbl.id.equals(row.id))).write(
           IdentityCompanion(
-            headers: Value(
-              sanitized.isEmpty ? const <String, String>{} : sanitized,
-            ),
+            headers: needsHeaderRewrite
+                ? Value(
+                    sanitized.isEmpty ? const <String, String>{} : sanitized,
+                  )
+                : const Value.absent(),
             username: row.username != null
                 ? const Value(null)
                 : const Value.absent(),

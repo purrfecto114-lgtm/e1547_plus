@@ -74,7 +74,7 @@
   "navTimeline": "Dòng thời gian",
   "navSubscriptions": "Theo dõi",
   "navBookmarks": "Dấu trang",
-  "navPools": "Pool",
+  "navPools": "Bộ sưu tập",
   "navForum": "Diễn đàn",
   "navHistory": "Lịch sử",
   "navTasks": "Tác vụ",
@@ -278,7 +278,7 @@
     }
   },
   "databaseImportCancelled": "Đã hủy nhập",
-  "postsTitle": "Bài đăng",
+  "postsTitle": "Bài viết",
   "favoritesOf": "Sưu thích của {user}",
   "@favoritesOf": {
     "placeholders": {
@@ -582,11 +582,11 @@
   "@filterIsActive": {
     "description": "Description of the active pool filter."
   },
-  "filterSeries": "Series",
+  "filterSeries": "Chuỗi",
   "@filterSeries": {
     "description": "The series pool category."
   },
-  "filterCollection": "Bộ sưu tập",
+  "filterCollection": "Tập hợp",
   "@filterCollection": {
     "description": "The collection pool category."
   },
@@ -952,7 +952,7 @@
   "@userRank": {
     "description": "Label of the user rank info row."
   },
-  "userPosts": "bài đăng",
+  "userPosts": "bài viết",
   "@userPosts": {
     "description": "Label of the user post count info row."
   },
@@ -1279,7 +1279,7 @@
   "@followFailedToLoadBookmarks": {
     "description": "Error state of the bookmarks page."
   },
-  "followUnseenPosts": "bài đăng chưa xem",
+  "followUnseenPosts": "bài viết chưa xem",
   "@followUnseenPosts": {
     "description": "Title of the unseen posts tile in the subscriptions drawer."
   },
@@ -1574,7 +1574,7 @@
   "@poolTitle": {
     "description": "Label of the pool title search filter."
   },
-  "poolInfoPosts": "bài",
+  "poolInfoPosts": "bài viết",
   "@poolInfoPosts": {
     "description": "Info row label of the post count of a pool."
   },
@@ -2483,7 +2483,7 @@
   "@databaseExportPasswordLabel": {
     "description": "Label of the optional password field in the database export dialog."
   },
-  "databaseExportPasswordHint": "Mã hóa tệp xuất. Để trống để xuất tệp văn bản thuần túy, không mã hóa.",
+  "databaseExportPasswordHint": "Mã hóa tệp xuất. Để trống để xuất tệp không mã hóa.",
   "@databaseExportPasswordHint": {
     "description": "Helper text under the optional export password field."
   },
@@ -2552,7 +2552,7 @@
   "@duplicateDownloadTitle": {
     "description": "Title of the dialog that asks before downloading a work again."
   },
-  "duplicateDownloadBody": "{count} tác phẩm đã chọn từng được tải xuống trước đây. Tải {count, plural, =1{lại} other{lại}} một lần nữa?",
+  "duplicateDownloadBody": "{count} tác phẩm đã chọn từng được tải xuống trước đây. Tải lại?",
   "@duplicateDownloadBody": {
     "description": "Body of the duplicate download dialog. {count} is how many of the selected works were downloaded before.",
     "placeholders": {
@@ -2570,5 +2570,6 @@
   "databaseExportKeepLoginsHint": "Chỉ được lưu trong tệp được mã hóa",
   "databaseExportKeepHistory": "Lịch sử",
   "databaseExportKeepFollows": "Theo dõi",
-  "databaseExportLoginsNeedPassword": "Thông tin đăng nhập cần mật khẩu mã hóa"
+  "databaseExportLoginsNeedPassword": "Thông tin đăng nhập cần mật khẩu mã hóa",
+  "poolsTitle": "Bộ sưu tập"
 }

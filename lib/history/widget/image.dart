@@ -80,6 +80,16 @@ class HistoryImageGrid extends StatelessWidget {
                           imageUrl: urls[row * perRow + col],
                           errorWidget: defaultErrorBuilder,
                           fit: BoxFit.cover,
+                          // The entry's thumbnails share one row of slots;
+                          // decoding the sample tier at native size for a
+                          // slot this small spikes memory on every scroll.
+                          memCacheWidth:
+                              ((MediaQuery.sizeOf(context).width *
+                                          MediaQuery.devicePixelRatioOf(
+                                            context,
+                                          )) /
+                                      perRow)
+                                  .round(),
                           cacheManager: context.read<BaseCacheManager>(),
                         ),
                       ),

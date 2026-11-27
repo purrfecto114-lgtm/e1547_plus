@@ -150,6 +150,11 @@ class PoolCover extends StatelessWidget {
                   fit: BoxFit.cover,
                   showProgress: false,
                   withLowRes: false,
+                  // The pool grid caps cover decodes at tile size through
+                  // ImageCacheSizeProvider; this call site was the one
+                  // that dropped the cap and decoded samples at native
+                  // size while scrolling.
+                  cacheSize: context.watch<ImageCacheSize?>()?.size,
                 ),
               ),
             ],

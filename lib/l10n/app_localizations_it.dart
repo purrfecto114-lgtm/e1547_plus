@@ -1,5 +1,6 @@
 // ignore: unused_import
 import 'package:intl/intl.dart' as intl;
+
 import 'app_localizations.dart';
 
 // ignore_for_file: type=lint
@@ -130,7 +131,7 @@ class AppLocalizationsIt extends AppLocalizations {
   String get navBookmarks => 'Segnalibri';
 
   @override
-  String get navPools => 'Pool';
+  String get navPools => 'Collezioni';
 
   @override
   String get navForum => 'Forum';
@@ -298,7 +299,7 @@ class AppLocalizationsIt extends AppLocalizations {
   }
 
   @override
-  String get videoResSource => 'Sorgente';
+  String get videoResSource => 'Originale';
 
   @override
   String get videoResNote =>
@@ -850,7 +851,7 @@ class AppLocalizationsIt extends AppLocalizations {
   String get filterAll => 'Tutti';
 
   @override
-  String get filterPool => 'Pool';
+  String get filterPool => 'Collezione';
 
   @override
   String get filterHasPool => 'Ha pool';
@@ -948,10 +949,10 @@ class AppLocalizationsIt extends AppLocalizations {
       'Suggerimenti alias e implicazioni dei tag';
 
   @override
-  String get filterArtTalk => 'Art Talk';
+  String get filterArtTalk => 'Discussioni artistiche';
 
   @override
-  String get filterOffTopic => 'Off Topic';
+  String get filterOffTopic => 'Fuori tema';
 
   @override
   String get filterE621Tools => 'Strumenti e applicazioni e621';
@@ -987,7 +988,7 @@ class AppLocalizationsIt extends AppLocalizations {
   String get filterSeries => 'Serie';
 
   @override
-  String get filterCollection => 'Collezione';
+  String get filterCollection => 'Raccolta';
 
   @override
   String get filterName => 'Nome';
@@ -1407,7 +1408,7 @@ class AppLocalizationsIt extends AppLocalizations {
       'Il sito non può essere modificato. Aggiungi un nuovo account per usare uno diverso.';
 
   @override
-  String get identityUsernameLabel => 'Username';
+  String get identityUsernameLabel => 'Nome utente';
 
   @override
   String get identityUsernameRequired => 'Devi fornire un username.';
@@ -2031,7 +2032,7 @@ class AppLocalizationsIt extends AppLocalizations {
 
   @override
   String editTagPreviewFailed(String error) {
-    return 'Errore nel caricante l\'anteprima del tag: $error';
+    return 'Errore nel caricamento dell\'anteprima del tag: $error';
   }
 
   @override
@@ -2623,4 +2624,7 @@ class AppLocalizationsIt extends AppLocalizations {
   @override
   String get databaseExportLoginsNeedPassword =>
       'Gli accessi richiedono una password di crittografia';
+
+  @override
+  String get poolsTitle => 'Collezioni';
 }

@@ -4546,6 +4546,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Logins need an encryption password'**
   String get databaseExportLoginsNeedPassword;
+
+  /// No description provided for @poolsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Pools'**
+  String get poolsTitle;
 }
 
 class _AppLocalizationsDelegate

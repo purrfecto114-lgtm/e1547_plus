@@ -1,5 +1,6 @@
 // ignore: unused_import
 import 'package:intl/intl.dart' as intl;
+
 import 'app_localizations.dart';
 
 // ignore_for_file: type=lint
@@ -1240,7 +1241,7 @@ class AppLocalizationsEs extends AppLocalizations {
       '¡Necesitas iniciar sesión para reportar usuarios!';
 
   @override
-  String get userComission => 'Commission';
+  String get userComission => 'Comisiones';
 
   @override
   String get userId => 'ID';
@@ -2339,7 +2340,7 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get followNotificationHiddenBody =>
-      'Tus etiquetas seguidas tienen publicaciones nuevas.';
+      'Tus etiquetas seguidas tienen posts nuevos.';
 
   @override
   String get followHideNotificationContent =>
@@ -2551,13 +2552,13 @@ class AppLocalizationsEs extends AppLocalizations {
   String get swipeToCloseOff => 'botones y gesto atrás';
 
   @override
-  String get postDeleted => 'La publicación fue eliminada';
+  String get postDeleted => 'El post fue eliminado';
 
   @override
-  String get postUnavailable => 'La publicación no está disponible';
+  String get postUnavailable => 'El post no está disponible';
 
   @override
-  String get postBlacklisted => 'La publicación está en la lista negra';
+  String get postBlacklisted => 'El post está en la lista negra';
 
   @override
   String postUnsupportedFiles(Object ext) {
@@ -2606,8 +2607,8 @@ class AppLocalizationsEs extends AppLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: 's',
-      one: 'l',
+      other: 'las',
+      one: 'la',
     );
     return '$count de las obras seleccionadas ya se han descargado antes. ¿Volver a descargar$_temp0?';
   }
@@ -2635,4 +2636,7 @@ class AppLocalizationsEs extends AppLocalizations {
   @override
   String get databaseExportLoginsNeedPassword =>
       'Los inicios de sesión necesitan una contraseña de cifrado';
+
+  @override
+  String get poolsTitle => 'Pools';
 }

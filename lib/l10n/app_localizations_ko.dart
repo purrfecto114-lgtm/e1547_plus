@@ -1,5 +1,6 @@
 // ignore: unused_import
 import 'package:intl/intl.dart' as intl;
+
 import 'app_localizations.dart';
 
 // ignore_for_file: type=lint
@@ -685,7 +686,7 @@ class AppLocalizationsKo extends AppLocalizations {
 
   @override
   String selectionPost(num id) {
-    return '글 #$id';
+    return '게시물 #$id';
   }
 
   @override
@@ -693,16 +694,16 @@ class AppLocalizationsKo extends AppLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '$count개 글',
+      other: '$count개 게시물',
     );
     return '$_temp0';
   }
 
   @override
-  String get noPosts => '글 없음';
+  String get noPosts => '게시물 없음';
 
   @override
-  String get failedToLoadPosts => '글 불러오기 실패';
+  String get failedToLoadPosts => '게시물 불러오기 실패';
 
   @override
   String get offlineBanner => '오프라인 상태입니다. 캐시된 데이터를 표시합니다.';
@@ -715,8 +716,8 @@ class AppLocalizationsKo extends AppLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '$count개 글',
-      one: '$count개 글',
+      other: '$count개 게시물',
+      one: '$count개 게시물',
     );
     return '페이지 $page · $_temp0';
   }
@@ -736,7 +737,7 @@ class AppLocalizationsKo extends AppLocalizations {
   }
 
   @override
-  String get postDeletedOverlay => '글이 삭제되었습니다';
+  String get postDeletedOverlay => '게시물이 삭제되었습니다';
 
   @override
   String get postUnavailableOverlay => '글을 사용할 수 없습니다';
@@ -2390,7 +2391,7 @@ class AppLocalizationsKo extends AppLocalizations {
 
   @override
   String get databaseExportPasswordHint =>
-      '내보낸 파일을 암호화합니다. 비워두면 평문 암호화 파일로 저장됩니다.';
+      '내보낸 파일을 암호화합니다. 비워두면 암호화하지 않은 일반 파일로 저장됩니다.';
 
   @override
   String get databaseImportEncryptedTitle => '암호화된 데이터베이스';
@@ -2564,4 +2565,7 @@ class AppLocalizationsKo extends AppLocalizations {
 
   @override
   String get databaseExportLoginsNeedPassword => '로그인 정보에는 암호화 비밀번호가 필요합니다';
+
+  @override
+  String get poolsTitle => '풀';
 }

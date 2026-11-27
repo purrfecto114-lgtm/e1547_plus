@@ -1,5 +1,6 @@
 // ignore: unused_import
 import 'package:intl/intl.dart' as intl;
+
 import 'app_localizations.dart';
 
 // ignore_for_file: type=lint
@@ -2313,7 +2314,7 @@ class AppLocalizationsZh extends AppLocalizations {
   String get searchFilterQueryLabel => '当前查询：';
 
   @override
-  String get filterSectionSort => '排序与热度';
+  String get filterSectionSort => '排序';
 
   @override
   String get filterSectionContent => '内容属性';
@@ -2516,13 +2517,13 @@ class AppLocalizationsZh extends AppLocalizations {
   String get duplicateDownloadDontAsk => '不再提醒';
 
   @override
-  String get databaseExportBody => '选择备份携带的内容。登录信息只随加密文件携带。';
+  String get databaseExportBody => '选择备份要包含的内容。登录信息仅保存在加密文件中。';
 
   @override
   String get databaseExportKeepLogins => '登录信息与 API 密钥';
 
   @override
-  String get databaseExportKeepLoginsHint => '仅随加密文件携带';
+  String get databaseExportKeepLoginsHint => '仅包含在加密文件中';
 
   @override
   String get databaseExportKeepHistory => '浏览历史';
@@ -2532,6 +2533,9 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get databaseExportLoginsNeedPassword => '包含登录信息需要设置加密密码';
+
+  @override
+  String get poolsTitle => '图集';
 }
 
 /// The translations for Chinese, using the Han script (`zh_Hant`).
@@ -3863,10 +3867,10 @@ class AppLocalizationsZhHant extends AppLocalizationsZh {
   String get identityAnonymous => '匿名';
 
   @override
-  String get identityCredentialsRejected => '站點拒絕了這些憑證。請檢查使用者名稱和 API 金鑰。';
+  String get identityCredentialsRejected => '網站拒絕了這些憑證。請檢查使用者名稱和 API 金鑰。';
 
   @override
-  String get identityVerifyUnreachable => '無法連線站點以驗證這些憑證。';
+  String get identityVerifyUnreachable => '無法連線網站以驗證這些憑證。';
 
   @override
   String get identityDuplicate => '此網站和使用者名稱下已存在帳戶。';
@@ -4842,7 +4846,7 @@ class AppLocalizationsZhHant extends AppLocalizationsZh {
   String get searchFilterQueryLabel => '當前查詢：';
 
   @override
-  String get filterSectionSort => '排序與熱度';
+  String get filterSectionSort => '排序';
 
   @override
   String get filterSectionContent => '內容屬性';
@@ -5016,10 +5020,10 @@ class AppLocalizationsZhHant extends AppLocalizationsZh {
   String get tileLarge => '大';
 
   @override
-  String get settingsLayoutMirror => '鏡像布局';
+  String get settingsLayoutMirror => '鏡像佈局';
 
   @override
-  String get settingsLayoutMirrorHint => '將整個布局翻轉到慣用手一側，文字仍按自身方向閱讀。';
+  String get settingsLayoutMirrorHint => '將整個佈局翻轉到慣用手一側，文字仍按自身方向閱讀。';
 
   @override
   String get gridDensity => '網格密度';
@@ -5045,13 +5049,13 @@ class AppLocalizationsZhHant extends AppLocalizationsZh {
   String get duplicateDownloadDontAsk => '不再提醒';
 
   @override
-  String get databaseExportBody => '選擇備份攜帶的內容。登入資訊只隨加密檔案攜帶。';
+  String get databaseExportBody => '選擇備份要包含的內容。登入資訊僅保存於加密檔案中。';
 
   @override
   String get databaseExportKeepLogins => '登入資訊與 API 金鑰';
 
   @override
-  String get databaseExportKeepLoginsHint => '僅隨加密檔案攜帶';
+  String get databaseExportKeepLoginsHint => '僅包含於加密檔案中';
 
   @override
   String get databaseExportKeepHistory => '瀏覽歷史';
@@ -5061,4 +5065,7 @@ class AppLocalizationsZhHant extends AppLocalizationsZh {
 
   @override
   String get databaseExportLoginsNeedPassword => '包含登入資訊需要設定加密密碼';
+
+  @override
+  String get poolsTitle => '圖集';
 }

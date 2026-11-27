@@ -452,7 +452,7 @@
   "followDisableNotifications": "通知をオフにする",
   "followEnableNotifications": "通知をオンにする",
   "followRename": "名前を変更",
-  "followNewPosts": "{count, plural, other{{label} 件の新着投稿}}",
+  "followNewPosts": "{count, plural, other{{label} の新着投稿 {count} 件}}",
   "followSelectionCount": "{count, plural, other{{count} 件のフォロー}}",
   "followAlias": "別名 {alias}",
   "historySelectionCount": "{count, plural, other{{count} 件の項目}}",
@@ -728,7 +728,7 @@
   "tileSmall": "小",
   "tileMedium": "中",
   "tileLarge": "大",
-  "settingsLayoutMirror": "レイアウトのミラー",
+  "settingsLayoutMirror": "レイアウトを左右反転",
   "settingsLayoutMirrorHint": "レイアウト全体を利き手側に反転します。文字はそれぞれの方向で読み続けられます。",
   "gridDensity": "グリッドの密度",
   "gridDensityAuto": "自動",
@@ -756,5 +756,6 @@
   "databaseExportKeepLoginsHint": "暗号化されたファイルにのみ保存されます",
   "databaseExportKeepHistory": "閲覧履歴",
   "databaseExportKeepFollows": "フォロー",
-  "databaseExportLoginsNeedPassword": "ログイン情報には暗号化パスワードが必要です"
+  "databaseExportLoginsNeedPassword": "ログイン情報には暗号化パスワードが必要です",
+  "poolsTitle": "プール"
 }

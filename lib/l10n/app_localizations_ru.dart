@@ -1,5 +1,6 @@
 // ignore: unused_import
 import 'package:intl/intl.dart' as intl;
+
 import 'app_localizations.dart';
 
 // ignore_for_file: type=lint
@@ -1603,7 +1604,15 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String followNewPosts(num count, String label) {
-    return 'Новых постов: $label';
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$label: $count новых постов',
+      many: '$label: $count новых постов',
+      few: '$label: $count новых поста',
+      one: '$label: $count новый пост',
+    );
+    return '$_temp0';
   }
 
   @override
@@ -2359,7 +2368,7 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get followNotificationHiddenBody =>
-      'В ваших отслеживаемых тегах есть новые записи.';
+      'В ваших отслеживаемых тегах есть новые посты.';
 
   @override
   String get followHideNotificationContent => 'Скрывать содержимое уведомлений';
@@ -2551,7 +2560,7 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get adultGateDeniedBody =>
-      'Это приложение открывается только для взрослых. Ничего не продолжится без подтверждения совершеннолетия.';
+      'Это приложение открывается только для взрослых. Без подтверждения совершеннолетия дальше пройти нельзя.';
 
   @override
   String get refreshCompleted => 'Завершено';
@@ -2653,4 +2662,7 @@ class AppLocalizationsRu extends AppLocalizations {
   @override
   String get databaseExportLoginsNeedPassword =>
       'Для данных входа нужен пароль шифрования';
+
+  @override
+  String get poolsTitle => 'Пулы';
 }

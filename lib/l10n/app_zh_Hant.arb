@@ -394,8 +394,8 @@
   "identityRemoveTitle": "移除帳戶？",
   "identityRemoveBody": "其所有資料將被永久移除，包括歷史和追蹤。",
   "identityAnonymous": "匿名",
-  "identityCredentialsRejected": "站點拒絕了這些憑證。請檢查使用者名稱和 API 金鑰。",
-  "identityVerifyUnreachable": "無法連線站點以驗證這些憑證。",
+  "identityCredentialsRejected": "網站拒絕了這些憑證。請檢查使用者名稱和 API 金鑰。",
+  "identityVerifyUnreachable": "無法連線網站以驗證這些憑證。",
   "identityDuplicate": "此網站和使用者名稱下已存在帳戶。",
   "identityLoginFailed": "登入失敗。\n{reason}",
   "identityLoginCheckDetails": "請檢查網路連線和登入資訊",
@@ -668,7 +668,7 @@
   "downloadGalleryUnsupportedFormat": "相簿不支援 {format} 格式，無法儲存此檔案",
   "searchFilterTitle": "篩選",
   "searchFilterQueryLabel": "當前查詢：",
-  "filterSectionSort": "排序與熱度",
+  "filterSectionSort": "排序",
   "filterSectionContent": "內容屬性",
   "filterSectionTime": "時間與狀態",
   "filterSectionMedia": "媒體規格",
@@ -728,8 +728,8 @@
   "tileSmall": "小",
   "tileMedium": "中",
   "tileLarge": "大",
-  "settingsLayoutMirror": "鏡像布局",
-  "settingsLayoutMirrorHint": "將整個布局翻轉到慣用手一側，文字仍按自身方向閱讀。",
+  "settingsLayoutMirror": "鏡像佈局",
+  "settingsLayoutMirrorHint": "將整個佈局翻轉到慣用手一側，文字仍按自身方向閱讀。",
   "gridDensity": "網格密度",
   "gridDensityAuto": "自動",
   "gridDensityDense": "緊湊",
@@ -751,10 +751,11 @@
   "@duplicateDownloadDontAsk": {
     "description": "The bottom-left option that silences the duplicate download dialog for good."
   },
-  "databaseExportBody": "選擇備份攜帶的內容。登入資訊只隨加密檔案攜帶。",
+  "databaseExportBody": "選擇備份要包含的內容。登入資訊僅保存於加密檔案中。",
   "databaseExportKeepLogins": "登入資訊與 API 金鑰",
-  "databaseExportKeepLoginsHint": "僅隨加密檔案攜帶",
+  "databaseExportKeepLoginsHint": "僅包含於加密檔案中",
   "databaseExportKeepHistory": "瀏覽歷史",
   "databaseExportKeepFollows": "訂閱",
-  "databaseExportLoginsNeedPassword": "包含登入資訊需要設定加密密碼"
+  "databaseExportLoginsNeedPassword": "包含登入資訊需要設定加密密碼",
+  "poolsTitle": "圖集"
 }

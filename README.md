@@ -17,7 +17,7 @@
 
 ## About this fork
 
-This repository is a fork of [e1547](https://github.com/clragon/e1547) (GPL-3.0), maintained with a focus on stability on Android 7 and other low memory devices. It rebases on upstream 21.2.0 and carries its own `22.x` release line — every change is listed per release in the [changelog](CHANGELOG.md).
+This repository is a fork of [e1547](https://github.com/clragon/e1547) (GPL-3.0), maintained with a focus on stability on Android 7 and other low memory devices. It rebases on upstream 21.2.0 and carries its own release line — a `21.3`–`21.7` series followed by the current `22.x` series — every change is listed per release in the [changelog](CHANGELOG.md).
 
 On top of upstream, this fork ships:
 
@@ -32,11 +32,11 @@ The in-app updater checks this repository for new versions; since the fork is si
 ## Features
 
 - Crossplatform (Android, iOS, Windows, Linux)
-- Browse, edit and comment on posts, and browse pools
-- Download images with mid-transfer cancellation; favorite and vote posts
+- Browse, edit and comment on posts, browse pools, and read the forum: topics, replies, category filters and posting
+- Download images and videos through a task manager with mid-transfer cancellation and retryable failures; favorite and vote posts
 - Follow tags with notifications, and a local blacklist
 - DText parsing, and video support with a quality picker, on-demand loading, and optional prefetching of the videos next to the one you open
-- Multiple logins and app themes
+- Multiple identities with per-identity data and account switching, AMOLED among the app themes, and an in-app log viewer
 - Multilingual interface — thirteen languages, plus offline tag dictionaries (around 4000 simplified chinese descriptions with a traditional rendering, around 370 japanese)
 - Language and media quality selection during onboarding and in the settings
 - PIN and biometric device locks, with the system's screenshot blocker over the app switcher (off by default, in the settings)

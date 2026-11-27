@@ -191,6 +191,15 @@ class VideoService extends ChangeNotifier {
     }
   }
 
+  /// Whether any loaded player is still leased and playing.
+  ///
+  /// The wakelock flag is global, so a route dropping its claim must not
+  /// clear it while another route keeps a video running: the surviving
+  /// route's playing subscription only fires on state changes, and a
+  /// state that did not change never fires again.
+  static bool get hasActivePlayer =>
+      _videos.values.any((player) => player.isLeased && player.state.playing);
+
   // To prevent the app from crashing due to OutOfMemoryErrors,
   // the list of all loaded videos is global.
   static final Map<String, VideoPlayer> _videos = {};

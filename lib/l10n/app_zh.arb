@@ -668,7 +668,7 @@
   "downloadGalleryUnsupportedFormat": "相册不支持 {format} 格式，无法保存此文件",
   "searchFilterTitle": "筛选",
   "searchFilterQueryLabel": "当前查询：",
-  "filterSectionSort": "排序与热度",
+  "filterSectionSort": "排序",
   "filterSectionContent": "内容属性",
   "filterSectionTime": "时间与状态",
   "filterSectionMedia": "媒体规格",
@@ -751,10 +751,11 @@
   "@duplicateDownloadDontAsk": {
     "description": "The bottom-left option that silences the duplicate download dialog for good."
   },
-  "databaseExportBody": "选择备份携带的内容。登录信息只随加密文件携带。",
+  "databaseExportBody": "选择备份要包含的内容。登录信息仅保存在加密文件中。",
   "databaseExportKeepLogins": "登录信息与 API 密钥",
-  "databaseExportKeepLoginsHint": "仅随加密文件携带",
+  "databaseExportKeepLoginsHint": "仅包含在加密文件中",
   "databaseExportKeepHistory": "浏览历史",
   "databaseExportKeepFollows": "订阅",
-  "databaseExportLoginsNeedPassword": "包含登录信息需要设置加密密码"
+  "databaseExportLoginsNeedPassword": "包含登录信息需要设置加密密码",
+  "poolsTitle": "图集"
 }

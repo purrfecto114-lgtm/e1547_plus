@@ -1,5 +1,46 @@
 # Changelog
 
+## [22.11.1] - 2026-11-27
+
+### Fixed
+- the screen could still sleep mid-playback: closing the fullscreen
+  player released the global screen-wake flag while the detail page
+  underneath kept playing the same video, and that page's state
+  subscription never re-fires for a state that did not change. The
+  flag now re-arms while a surviving lease is still playing, the
+  recycled-route paths hand their claim over the same careful way,
+  and a route the pool refused no longer leaves the flag latched
+- completing a download could crash debug builds: the task's progress
+  notifier was disposed while its tile still held a subscription to
+  it; the disposal now waits for the frame that unsubscribes
+- disposing the download controller could die on the documented cronet
+  close race instead of finishing its teardown; the close is guarded
+  now, matching the shutdown path every other client uses
+- a sanitized database export could still ship a logged-in account:
+  a row whose headers were already fully exportable kept its username,
+  so the phantom account survived on that path too. The username clears
+  for every credential row now, whatever its headers look like
+- a crashed export or import left a decrypted, credential-bearing
+  database in the temporary directory with nothing to clean it up; the
+  boot sequence sweeps the leftover names before anything can read them
+
+### Changed
+- the pools and forum screens carry no hardcoded english anymore:
+  page titles, empty and error states are translated, and the pools
+  page gets its own title string
+- 73 translation fixes across the thirteen languages: italian gets its
+  pool terms unified on "collezione" and its forum categories
+  translated, the french interface settles on the vous-form everywhere,
+  korean unifies the post word, vietnamese aligns its pool and post
+  vocabulary with the words its own screens already use, the spanish
+  and portuguese download prompts regain their pronouns, and the
+  simplified/traditional chinese export texts read naturally again
+- avatars, history thumbnails, pool covers and task previews decode at
+  their display size instead of the full sample resolution — a
+  comment page's avatars alone drop from megabytes of bitmap cache to
+  a fraction — and the fullscreen video bar coalesces its buffering
+  updates so seeks keep their frame budget
+
 ## [22.11.0] - 2026-11-27
 
 ### Fixed
@@ -59,6 +100,34 @@
   the cronet engine behind the android network stack refuses to shut
   down with running requests. Every dio now cancels its in-flight
   requests before its engine closes
+- the drawer's home, hot and search sections swap in place: re-entering one
+  of them pushed yet another copy of the page, so the enter animation
+  replayed on every tap, the copies stacked above the root, and the appbar
+  traded the drawer button for a back arrow. No copy stacks now, no
+  animation replays, and tapping the section already on screen just closes
+  the drawer
+- the page already on screen re-filters when the deny filter changes: the
+  rechunk cache keyed on the query's data alone, so toggling the deny switch
+  or editing the denylist kept the visible pages serving verdicts computed
+  against the old rules until the next refetch — both the rule counts and
+  the filtered posts lagged the edit
+- artist recommendations load again on both hosts: the similar/artist
+  endpoint answers with the legacy flat summaries (file_url, top-level
+  dimensions, space-separated tags), which the parser rejected whole — the
+  recommendation row went empty or errored on every post. The parser now
+  reads both layouts, and the server's own tag grouping survives a
+  disagreeing category lookup on grouped payloads
+- the recommendation and relation rows lay out on narrow screens: the row
+  header ellipsizes long titles instead of overflowing the row, and loaded
+  previews render through the same tile the gallery uses
+- failed post, reply and topic detail pages offer a retry button like the
+  other loading pages
+- the query storage eviction estimate no longer double-counts the rows a
+  first write flush just inserted, which evicted entries too early
+- the update checker honours the system proxy like every other client, and
+  rebuilds onto a proxy switched on mid-session
+- video playback passes the system proxy to mpv as a full url; some
+  backends silently ignore a bare host:port
 
 ### Changed
 - the update dialog truncates a release's changelog past 1000
@@ -2487,3 +2556,4 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 [22.10.1-rc.5+246]: https://github.com/purrfecto114-lgtm/e1547_plus/compare/22.10.1-rc.4+245...22.10.1-rc.5+246
 [22.10.1]: https://github.com/purrfecto114-lgtm/e1547_plus/compare/22.10.1-rc.5+246...22.10.1+247
 [22.11.0]: https://github.com/purrfecto114-lgtm/e1547_plus/compare/22.10.1+247...22.11.0+248
+[22.11.1]: https://github.com/purrfecto114-lgtm/e1547_plus/compare/22.11.0+248...22.11.1+249

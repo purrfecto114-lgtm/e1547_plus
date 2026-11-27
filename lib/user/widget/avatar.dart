@@ -149,6 +149,11 @@ class Avatar extends StatelessWidget {
         child: CachedNetworkImage(
           imageUrl: url,
           fit: BoxFit.cover,
+          // An avatar renders at 2*radius logical pixels; decoding the
+          // sample tier (~850px) for every comment tile costs megabytes
+          // of image cache for a circle this small.
+          memCacheWidth: (radius * 2 * MediaQuery.devicePixelRatioOf(context))
+              .round(),
           cacheManager: context.read<BaseCacheManager>(),
           placeholder: (context, url) => EmptyAvatar(radius: radius),
           errorWidget: (context, url, error) => EmptyAvatar(radius: radius),

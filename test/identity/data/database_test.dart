@@ -66,11 +66,18 @@ void main() {
     test('counts only rows that change', () async {
       await addIdentity('e621.net', 'tester', {'authorization': 'Basic a'});
       await addIdentity('e621.net', null, null);
+      // Exportable headers alone do not make the row exportable: its
+      // username is a credential too, so clearing it counts as a change.
       await addIdentity('e926.net', 'other', {'user-agent': 'x'});
 
       final changed = await repository.removeCredentials();
 
-      expect(changed, 1);
+      expect(changed, 2);
+      final identities = await repository.all();
+      expect(
+        identities.where((e) => e.username != null),
+        isEmpty,
+      );
     });
 
     test(

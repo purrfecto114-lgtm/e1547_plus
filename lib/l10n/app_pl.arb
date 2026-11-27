@@ -74,7 +74,7 @@
   "navTimeline": "Ostatnie",
   "navSubscriptions": "Subskrypcje",
   "navBookmarks": "Zakładki",
-  "navPools": "Zbiory",
+  "navPools": "Pule",
   "navForum": "Forum",
   "navHistory": "Historia",
   "navTasks": "Zadania",
@@ -433,11 +433,11 @@
   "@filterAll": {
     "description": "Choice that does not restrict a filter."
   },
-  "filterPool": "Zbiór",
+  "filterPool": "Pula",
   "@filterPool": {
     "description": "Name of the pool filter."
   },
-  "filterHasPool": "Ma zbiór",
+  "filterHasPool": "Ma pulę",
   "@filterHasPool": {
     "description": "Description of the pool filter."
   },
@@ -2570,5 +2570,6 @@
   "databaseExportKeepLoginsHint": "Tylko w zaszyfrowanym pliku",
   "databaseExportKeepHistory": "Historia",
   "databaseExportKeepFollows": "Subskrypcje",
-  "databaseExportLoginsNeedPassword": "Dane logowania wymagają hasła szyfrowania"
+  "databaseExportLoginsNeedPassword": "Dane logowania wymagają hasła szyfrowania",
+  "poolsTitle": "Pule"
 }

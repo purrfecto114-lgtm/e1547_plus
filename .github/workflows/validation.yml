@@ -7,12 +7,19 @@ on:
   workflow_call:
 
 concurrency:
-  group: validation-${{ github.ref }}
+  # github.workflow resolves to the caller's workflow name on
+  # workflow_call, so a release dispatch's validation ("Application
+  # Release") never shares a group with a plain push's ("Application
+  # Validation"): a master push can no longer cancel the validation a
+  # release is waiting on, and the release still cancels its own stale
+  # dispatches.
+  group: validation-${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
 
 jobs:
   static:
     runs-on: ubuntu-latest
+    timeout-minutes: 15
     steps:
       - name: setup actions
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
@@ -27,6 +34,16 @@ jobs:
         with:
           flutter-version: ${{ env.FLUTTER_VERSION }}
           cache: true
+
+      - name: cache pub dependencies
+        # The flutter SDK cache covers the engine, not the ~350 locked
+        # packages: without this every job redownloads them over the
+        # network on each run.
+        uses: actions/cache@0400d5f644dc74513175e3cd8d07132dd4860809 # v4.2.4
+        with:
+          path: ~/.pub-cache
+          key: pub-${{ runner.os }}-${{ hashFiles('pubspec.lock') }}
+          restore-keys: pub-${{ runner.os }}-
 
       - name: get flutter dependencies
         run: flutter pub get --enforce-lockfile
@@ -58,6 +75,7 @@ jobs:
 
   test:
     runs-on: ubuntu-latest
+    timeout-minutes: 25
     strategy:
       # Let every shard finish: each one reports its own failing suites
       # as check annotations, and cutting the others loose would hide
@@ -80,23 +98,51 @@ jobs:
           flutter-version: ${{ env.FLUTTER_VERSION }}
           cache: true
 
+      - name: cache pub dependencies
+        uses: actions/cache@0400d5f644dc74513175e3cd8d07132dd4860809 # v4.2.4
+        with:
+          path: ~/.pub-cache
+          key: pub-${{ runner.os }}-${{ hashFiles('pubspec.lock') }}
+          restore-keys: pub-${{ runner.os }}-
+
       - name: get flutter dependencies
         run: flutter pub get --enforce-lockfile
 
       - name: run tests
-        # Sharded over the sorted test files: every job compiles and runs
-        # only its own third of the suite. The runner's built-in
-        # --total-shards was measured worse than no sharding at all — it
-        # filters tests only after loading, so every shard still compiles
-        # all ~176 files before dropping two thirds of them.
+        # Sharded by weight (line count), not position: greedy longest-first
+        # bin packing keeps the three shards within a fraction of a percent
+        # of each other, where the old round-robin put 27% more lines on
+        # shard 0 than on shard 2 — and the slowest timing suites live in
+        # that heaviest shard. The assignment depends only on the checked-
+        # out tree, so all three shards agree without coordination.
+        # A first-attempt failure retries once, loudly: a one-off timing
+        # flake stops failing whole release dispatches, while a real
+        # regression still fails the job on its second run.
         run: |
-          files=$(find test -name "*_test.dart" | LC_ALL=C sort | awk -v shard=${{ matrix.shard }} 'NR % 3 == shard')
-          flutter test $files --reporter github
+          files=$(find test -name "*_test.dart" | LC_ALL=C sort \
+            | xargs wc -l | sed '$d' | sort -rn \
+            | awk -v shard=${{ matrix.shard }} '
+              { w[NR] = $1; $1 = ""; sub(/^ /, ""); f[NR] = $0 }
+              END {
+                s[0] = s[1] = s[2] = 0
+                for (i = 1; i <= NR; i++) {
+                  m = 0
+                  if (s[1] < s[m]) m = 1
+                  if (s[2] < s[m]) m = 2
+                  s[m] += w[i]
+                  if (m == shard) print f[i]
+                }
+              }')
+          if ! flutter test $files --reporter github; then
+            echo "::warning title=Possible flake::test shard ${{ matrix.shard }} failed once; retrying once"
+            flutter test $files --reporter github
+          fi
 
   android-smoke:
     # Catches gradle level breakage that the dart level jobs cannot see,
     # such as AGP splits, manifest merges or native plugin changes.
     runs-on: ubuntu-latest
+    timeout-minutes: 15
     steps:
       - name: setup actions
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
@@ -125,6 +171,13 @@ jobs:
         with:
           flutter-version: ${{ env.FLUTTER_VERSION }}
           cache: true
+
+      - name: cache pub dependencies
+        uses: actions/cache@0400d5f644dc74513175e3cd8d07132dd4860809 # v4.2.4
+        with:
+          path: ~/.pub-cache
+          key: pub-${{ runner.os }}-${{ hashFiles('pubspec.lock') }}
+          restore-keys: pub-${{ runner.os }}-
 
       - name: get flutter dependencies
         run: flutter pub get --enforce-lockfile

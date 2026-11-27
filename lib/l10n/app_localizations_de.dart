@@ -1,5 +1,6 @@
 // ignore: unused_import
 import 'package:intl/intl.dart' as intl;
+
 import 'app_localizations.dart';
 
 // ignore_for_file: type=lint
@@ -1495,7 +1496,7 @@ class AppLocalizationsDe extends AppLocalizations {
       'Probiere es einfach aus. Du kannst es später jederzeit ändern.';
 
   @override
-  String get onboardingQualityTitle => 'Medien abstimmen';
+  String get onboardingQualityTitle => 'Medien anpassen';
 
   @override
   String get onboardingQualityBody =>
@@ -2641,4 +2642,7 @@ class AppLocalizationsDe extends AppLocalizations {
   @override
   String get databaseExportLoginsNeedPassword =>
       'Anmeldungen benötigen ein Verschlüsselungspasswort';
+
+  @override
+  String get poolsTitle => 'Pools';
 }

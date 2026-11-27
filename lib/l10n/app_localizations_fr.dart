@@ -1,5 +1,6 @@
 // ignore: unused_import
 import 'package:intl/intl.dart' as intl;
+
 import 'app_localizations.dart';
 
 // ignore_for_file: type=lint
@@ -380,7 +381,7 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get biometricsRequiresPin =>
-      'définis d\'abord un code PIN : le verrou biométrique y revient si le capteur échoue';
+      'définissez d\'abord un code PIN : le verrou biométrique y revient si le capteur échoue';
 
   @override
   String get settingsUpdaterBeta => 'Dernières mises à jour';
@@ -617,7 +618,7 @@ class AppLocalizationsFr extends AppLocalizations {
   String get databaseImportCancelled => 'Import annulé';
 
   @override
-  String get postsTitle => 'Publications';
+  String get postsTitle => 'Posts';
 
   @override
   String favoritesOf(String user) {
@@ -713,7 +714,7 @@ class AppLocalizationsFr extends AppLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '$count publications',
+      other: '$count posts',
     );
     return '$_temp0';
   }
@@ -736,8 +737,8 @@ class AppLocalizationsFr extends AppLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '$count publications',
-      one: '$count publication',
+      other: '$count posts',
+      one: '$count post',
     );
     return 'Page $page · $_temp0';
   }
@@ -754,7 +755,7 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String postListJumpPageRange(Object max) {
-    return 'Saisis un numéro de page entre 1 et $max';
+    return 'Saisissez un numéro de page entre 1 et $max';
   }
 
   @override
@@ -1383,7 +1384,7 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get identityCredentialsRejected =>
-      'Le site a refusé ces identifiants. Vérifie ton nom d\'utilisateur et ta clé d\'API.';
+      'Le site a refusé ces identifiants. Vérifiez votre nom d\'utilisateur et votre clé d\'API.';
 
   @override
   String get identityVerifyUnreachable =>
@@ -2343,7 +2344,7 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get followNotificationHiddenBody =>
-      'Vos étiquettes suivies ont de nouvelles publications.';
+      'Vos étiquettes suivies ont de nouveaux posts.';
 
   @override
   String get followHideNotificationContent =>
@@ -2437,20 +2438,20 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get adultGateBody =>
-      'Cette application t\'emmène directement sur e621 et son miroir tous publics e926, une communauté artistique strictement réservée aux adultes. Merci de confirmer que tu as l\'âge légal là où tu vis — on te fait confiance, nos avocats un peu moins.';
+      'Cette application vous emmène directement sur e621 et son miroir tous publics e926, une communauté artistique strictement réservée aux adultes. Merci de confirmer que vous avez l\'âge légal là où vous vivez — on vous fait confiance, nos avocats un peu moins.';
 
   @override
   String get adultGateConfirm => 'Bien sûr — j\'ai 18 ans ou plus';
 
   @override
-  String get adultGateDeny => 'Remène-moi en lieu sûr';
+  String get adultGateDeny => 'Ramenez-moi en lieu sûr';
 
   @override
   String get databaseExportPasswordLabel => 'Mot de passe (facultatif)';
 
   @override
   String get databaseExportPasswordHint =>
-      'Chiffre le fichier exporté. Laisse vide pour un fichier en clair, non chiffré.';
+      'Chiffrez le fichier exporté. Laissez vide pour un fichier en clair, non chiffré.';
 
   @override
   String get databaseImportEncryptedTitle => 'Base de données chiffrée';
@@ -2555,13 +2556,13 @@ class AppLocalizationsFr extends AppLocalizations {
   String get swipeToCloseOff => 'boutons et geste retour';
 
   @override
-  String get postDeleted => 'La publication a été supprimée';
+  String get postDeleted => 'Le post a été supprimé';
 
   @override
-  String get postUnavailable => 'La publication n\'est pas disponible';
+  String get postUnavailable => 'Le post n\'est pas disponible';
 
   @override
-  String get postBlacklisted => 'La publication est sur la liste noire';
+  String get postBlacklisted => 'Le post est sur la liste noire';
 
   @override
   String postUnsupportedFiles(Object ext) {
@@ -2588,7 +2589,7 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get settingsLayoutMirrorHint =>
-      'Retourne toute la disposition vers le côté de ta main préférée. Le texte se lit toujours dans son propre sens.';
+      'Retournez toute la disposition vers le côté de votre main préférée. Le texte se lit toujours dans son propre sens.';
 
   @override
   String get gridDensity => 'Densité de la grille';
@@ -2621,7 +2622,7 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get databaseExportBody =>
-      'Choisis ce que contient la sauvegarde. Les identifiants de connexion ne voyagent que dans un fichier chiffré.';
+      'Choisissez ce que contient la sauvegarde. Les identifiants de connexion ne voyagent que dans un fichier chiffré.';
 
   @override
   String get databaseExportKeepLogins => 'Connexions et clés API';
@@ -2639,4 +2640,7 @@ class AppLocalizationsFr extends AppLocalizations {
   @override
   String get databaseExportLoginsNeedPassword =>
       'Les connexions nécessitent un mot de passe de chiffrement';
+
+  @override
+  String get poolsTitle => 'Pools';
 }

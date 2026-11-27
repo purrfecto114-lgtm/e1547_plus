@@ -1,3 +1,4 @@
+import 'package:e1547/l10n/app_localizations.dart';
 import 'package:e1547/query/query.dart';
 import 'package:e1547/reply/reply.dart';
 import 'package:e1547/shared/shared.dart';
@@ -55,8 +56,10 @@ class SliverTopicList extends StatelessWidget {
                   onCountPressed: () =>
                       pushReplies(topic, orderByOldest: false),
                 ),
-                onEmpty: const Text('No topics'),
-                onError: const Text('Failed to load topics'),
+                onEmpty: Text(AppLocalizations.of(context).topicEmpty),
+                onError: Text(
+                  AppLocalizations.of(context).topicFailedToLoadTopics,
+                ),
               ),
             ),
       ),

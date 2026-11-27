@@ -192,9 +192,14 @@ class _VideoBarState extends State<VideoBar> {
         });
       }),
       player.stream.buffer.listen((event) {
-        setState(() {
-          buffer = event;
-        });
+        // Buffering chunks stream far more often than the bar redraws;
+        // coalesce them so playback and seeks keep their frame budget.
+        if ((event - buffer).abs() > const Duration(milliseconds: 500) ||
+            event == duration) {
+          setState(() {
+            buffer = event;
+          });
+        }
       }),
     ]);
   }
@@ -730,7 +735,12 @@ class PostVideoRouteState extends State<PostVideoRoute> {
   void _bindWakelock(VideoPlayer? player) {
     _wakelock?.cancel();
     _wakelock = null;
-    if (player == null) return;
+    if (player == null) {
+      // This route plays nothing anymore, but the flag is global: a route
+      // that still plays keeps the screen awake through its own claim.
+      if (!VideoService.hasActivePlayer) unawaited(VideoWakelock.disable());
+      return;
+    }
     if (player.state.playing) {
       unawaited(VideoWakelock.enable());
     }
@@ -756,6 +766,15 @@ class PostVideoRouteState extends State<PostVideoRoute> {
       _wasPlaying = false;
       _videos?.release(previous);
       player = null;
+      // This state gave up its player, so its wakelock claim goes with it.
+      // The flag is global: keep it up while a surviving lease plays the
+      // same video, because that route's subscription never re-fires for
+      // a state that did not change.
+      if (previous.isLeased && previous.state.playing) {
+        unawaited(VideoWakelock.enable());
+      } else if (!VideoService.hasActivePlayer) {
+        unawaited(VideoWakelock.disable());
+      }
     }
   }
 
@@ -769,6 +788,13 @@ class PostVideoRouteState extends State<PostVideoRoute> {
       WidgetsBinding.instance.addPostFrameCallback((_) {
         videos?.release(held);
         if (stop || !held.isLeased) held.pause();
+        // The wakelock flag is global: this route released its claim, but
+        // a route underneath (the detail page under the fullscreen player)
+        // may still be playing. That route's subscription never re-fires
+        // for a state that did not change, so re-arm the flag here.
+        if (held.isLeased && held.state.playing) {
+          unawaited(VideoWakelock.enable());
+        }
       });
     }
     _wakelock?.cancel();

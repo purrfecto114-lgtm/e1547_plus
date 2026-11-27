@@ -2718,5 +2718,6 @@
   "databaseExportKeepLoginsHint": "Only carried inside an encrypted file",
   "databaseExportKeepHistory": "Browsing history",
   "databaseExportKeepFollows": "Subscriptions",
-  "databaseExportLoginsNeedPassword": "Logins need an encryption password"
+  "databaseExportLoginsNeedPassword": "Logins need an encryption password",
+  "poolsTitle": "Pools"
 }

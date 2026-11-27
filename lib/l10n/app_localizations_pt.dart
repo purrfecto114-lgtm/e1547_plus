@@ -1,5 +1,6 @@
 // ignore: unused_import
 import 'package:intl/intl.dart' as intl;
+
 import 'app_localizations.dart';
 
 // ignore_for_file: type=lint
@@ -612,7 +613,7 @@ class AppLocalizationsPt extends AppLocalizations {
   String get databaseImportCancelled => 'Importação cancelada';
 
   @override
-  String get postsTitle => 'Publicações';
+  String get postsTitle => 'Posts';
 
   @override
   String favoritesOf(String user) {
@@ -708,7 +709,7 @@ class AppLocalizationsPt extends AppLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '$count publicações',
+      other: '$count posts',
     );
     return '$_temp0';
   }
@@ -730,8 +731,8 @@ class AppLocalizationsPt extends AppLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '$count publicações',
-      one: '$count publicação',
+      other: '$count posts',
+      one: '$count post',
     );
     return 'Página $page · $_temp0';
   }
@@ -953,7 +954,7 @@ class AppLocalizationsPt extends AppLocalizations {
   String get filterArtTalk => 'Conversa sobre arte';
 
   @override
-  String get filterOffTopic => 'Off topic';
+  String get filterOffTopic => 'Tema livre';
 
   @override
   String get filterE621Tools => 'Ferramentas e aplicativos do e621';
@@ -1229,7 +1230,7 @@ class AppLocalizationsPt extends AppLocalizations {
   String get userNotFound => 'Usuário não encontrado';
 
   @override
-  String get userUploads => 'Uploads';
+  String get userUploads => 'Envios';
 
   @override
   String get userLoginRequiredReport =>
@@ -2124,7 +2125,7 @@ class AppLocalizationsPt extends AppLocalizations {
 
   @override
   String get reportTypeRatingBody =>
-      'A classificação da publicação foi definida com um valor incorreto.';
+      'A classificação do post foi definida com um valor incorreto.';
 
   @override
   String get reportTypeFileBody =>
@@ -2543,13 +2544,13 @@ class AppLocalizationsPt extends AppLocalizations {
   String get swipeToCloseOff => 'botões e gesto de voltar';
 
   @override
-  String get postDeleted => 'A publicação foi excluída';
+  String get postDeleted => 'O post foi excluído';
 
   @override
-  String get postUnavailable => 'A publicação não está disponível';
+  String get postUnavailable => 'O post está indisponível';
 
   @override
-  String get postBlacklisted => 'A publicação está na lista negra';
+  String get postBlacklisted => 'O post está na blacklist';
 
   @override
   String postUnsupportedFiles(Object ext) {
@@ -2627,4 +2628,7 @@ class AppLocalizationsPt extends AppLocalizations {
   @override
   String get databaseExportLoginsNeedPassword =>
       'Os logins precisam de uma senha de criptografia';
+
+  @override
+  String get poolsTitle => 'Pools';
 }

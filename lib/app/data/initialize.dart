@@ -237,6 +237,22 @@ Future<void> backfillOnboardingSeen(AppStorage storage) async {
 }
 
 Future<void> completeDbImport() async {
+  // An encrypted export or import that died between writing the decrypted
+  // database and its finally-cleanup leaves credential-bearing plaintext
+  // in the temporary directory. Nothing else touches those names after
+  // the run ends, so the boot sequence sweeps them before anything can
+  // read them. The staged import candidate lives under a different name
+  // in the database directory and is handled below.
+  for (final String name in ['e1547_import.db', 'e1547_export.db']) {
+    final String path = join(await getTemporaryAppDirectory(), name);
+    for (final String suffix in ['', '-wal', '-shm', '-journal']) {
+      final File leftover = File('$path$suffix');
+      if (leftover.existsSync()) {
+        await leftover.delete();
+        Logger('Storage').warn('Swept a leftover temporary database');
+      }
+    }
+  }
   final dbPath = await getAppDatabasePath();
   final newDbPath = await pendingImportPath();
   final markerPath = await pendingImportMarkerPath();

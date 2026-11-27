@@ -425,7 +425,7 @@
   "onboardingWelcomeBody": "Ein ausgereifter Booru-Browser.",
   "onboardingThemeTitle": "Wähle dein Design",
   "onboardingThemeBody": "Probiere es einfach aus. Du kannst es später jederzeit ändern.",
-  "onboardingQualityTitle": "Medien abstimmen",
+  "onboardingQualityTitle": "Medien anpassen",
   "onboardingQualityBody": "Wähle, wie groß Videos und Vorschaubilder geladen werden. Später in den Einstellungen änderbar.",
   "onboardingLoginTitle": "Konto verbinden",
   "onboardingLanguageTitle": "Sprache wählen",
@@ -756,5 +756,6 @@
   "databaseExportKeepLoginsHint": "Nur in einer verschlüsselten Datei enthalten",
   "databaseExportKeepHistory": "Verlauf",
   "databaseExportKeepFollows": "Abos",
-  "databaseExportLoginsNeedPassword": "Anmeldungen benötigen ein Verschlüsselungspasswort"
+  "databaseExportLoginsNeedPassword": "Anmeldungen benötigen ein Verschlüsselungspasswort",
+  "poolsTitle": "Pools"
 }

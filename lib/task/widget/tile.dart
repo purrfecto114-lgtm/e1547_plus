@@ -265,6 +265,9 @@ class TaskThumbnail extends StatelessWidget {
       child: previewUrl != null
           ? CachedNetworkImage(
               imageUrl: previewUrl,
+              // A 48dp preview slot never needs the sample tier's pixels.
+              memCacheWidth: (48 * MediaQuery.devicePixelRatioOf(context))
+                  .round(),
               cacheManager: context.read<BaseCacheManager>(),
               fit: BoxFit.cover,
               placeholder: (context, url) => placeholder,

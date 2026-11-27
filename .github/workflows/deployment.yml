@@ -51,6 +51,14 @@ env:
   DRY_RUN: ${{ github.event.inputs.dry_run }}
   TEST_RELEASE: ${{ github.event.inputs.test_release }}
 
+concurrency:
+  # Serialize dispatches on the same ref: two releases running at once
+  # would both bump the version and race the commit back to master. An
+  # in-flight release must never be killed mid-publish, so this queues
+  # instead of cancelling.
+  group: release-${{ github.ref }}
+  cancel-in-progress: false
+
 jobs:
   validate:
     # A release must not ship a ref that never passed the checks: the
@@ -59,6 +67,7 @@ jobs:
 
   android-build:
     runs-on: ubuntu-latest
+    timeout-minutes: 30
     steps:
       - name: setup actions
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
@@ -88,6 +97,30 @@ jobs:
         with:
           flutter-version: ${{ env.FLUTTER_VERSION }}
           cache: true
+
+      - name: cache pub dependencies
+        uses: actions/cache@0400d5f644dc74513175e3cd8d07132dd4860809 # v4.2.4
+        with:
+          path: '~/.pub-cache'
+          key: pub-${{ runner.os }}-${{ hashFiles('pubspec.lock') }}
+          restore-keys: pub-${{ runner.os }}-
+
+
+      - name: cache pub dependencies
+        uses: actions/cache@0400d5f644dc74513175e3cd8d07132dd4860809 # v4.2.4
+        with:
+          path: '~/.pub-cache'
+          key: pub-${{ runner.os }}-${{ hashFiles('pubspec.lock') }}
+          restore-keys: pub-${{ runner.os }}-
+
+
+      - name: cache pub dependencies
+        uses: actions/cache@0400d5f644dc74513175e3cd8d07132dd4860809 # v4.2.4
+        with:
+          path: '~/.pub-cache'
+          key: pub-${{ runner.os }}-${{ hashFiles('pubspec.lock') }}
+          restore-keys: pub-${{ runner.os }}-
+
 
       - name: get flutter dependencies
         run: flutter pub get --enforce-lockfile
@@ -133,31 +166,36 @@ jobs:
         uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7
         with:
           name: release-apk-universal
+          retention-days: 1
           path: app-universal-release.apk
 
       - name: upload ARM64 APK to artifacts
         uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7
         with:
           name: release-apk-arm64
+          retention-days: 1
           path: app-arm64-v8a-release.apk
 
       - name: upload ARMv7 APK to artifacts
         uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7
         with:
           name: release-apk-armv7
+          retention-days: 1
           path: app-armeabi-v7a-release.apk
 
       - name: upload AAB to artifacts
         uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7
         with:
           name: release-aab
+          retention-days: 1
           path: app-release.aab
 
   ios-build:
     # Back on the rolling latest pool: the 2026-11-13 zero-step window is
     # over, and latest resolves to the same macos-15 image the outage pin
     # used, so the toolchain is unchanged.
-    runs-on: macos-latest
+    runs-on: s-latest
+    timeout-minutes: 45
     steps:
       - name: setup actions
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
@@ -197,10 +235,12 @@ jobs:
         uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7
         with:
           name: release-ios
+          retention-days: 1
           path: Runner.ipa
 
   windows-build:
-    runs-on: windows-latest
+    runs-on: ows-latest
+    timeout-minutes: 45
     steps:
       - name: setup actions
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
@@ -216,6 +256,14 @@ jobs:
         with:
           flutter-version: ${{ env.FLUTTER_VERSION }}
           cache: true
+
+      - name: cache pub dependencies
+        uses: actions/cache@0400d5f644dc74513175e3cd8d07132dd4860809 # v4.2.4
+        with:
+          path: '~\\AppData\\Local\\Pub\\Cache'
+          key: pub-${{ runner.os }}-${{ hashFiles('pubspec.lock') }}
+          restore-keys: pub-${{ runner.os }}-
+
 
       - name: get flutter dependencies
         run: flutter pub get --enforce-lockfile
@@ -247,10 +295,12 @@ jobs:
         uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7
         with:
           name: release-exe
+          retention-days: 1
           path: e1547-setup.exe
 
   linux-build:
     runs-on: ubuntu-latest
+    timeout-minutes: 30
     steps:
       - name: setup actions
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
@@ -307,18 +357,21 @@ jobs:
         uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7
         with:
           name: release-deb
+          retention-days: 1
           path: e1547.deb
 
       - name: upload tarball to artifacts
         uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7
         with:
           name: release-tar
+          retention-days: 1
           path: e1547.tar.gz
 
   release:
     needs: [validate, android-build, ios-build, windows-build, linux-build]
     if: ${{ github.ref == 'refs/heads/master' }}
     runs-on: ubuntu-latest
+    timeout-minutes: 20
     permissions:
       contents: write
     env:
@@ -344,16 +397,18 @@ jobs:
           ruby-version: "3.3"
           bundler-cache: true
 
-      - name: parse flutter version
-        run: |
-          export FLUTTER_VERSION=$(./.github/workflows/get_flutter_version.sh)
-          echo "FLUTTER_VERSION=$FLUTTER_VERSION" >> $GITHUB_ENV
+      - name: setup dart
+        # The release job only runs cider (version bump + changelog parse);
+        # pulling a full flutter SDK for that cost a minute or two every
+        # release. forum-prepare already proves dart-only suffices here.
+        uses: dart-lang/setup-dart@6afc89df92d6eb3834022f73cd65adc8cdfcb92d # v1
 
-      - name: setup flutter
-        uses: subosito/flutter-action@1a449444c387b1966244ae4d4f8c696479add0b2 # v2
+      - name: cache pub dependencies
+        uses: actions/cache@0400d5f644dc74513175e3cd8d07132dd4860809 # v4.2.4
         with:
-          flutter-version: ${{ env.FLUTTER_VERSION }}
-          cache: true
+          path: ~/.pub-cache
+          key: pub-${{ runner.os }}-${{ hashFiles('pubspec.lock') }}
+          restore-keys: pub-${{ runner.os }}-
 
       - name: setup cider
         run: dart pub global activate cider 0.2.10
@@ -528,6 +583,7 @@ jobs:
     needs: [release]
     if: ${{ github.ref == 'refs/heads/master' && github.event.inputs.skip_forum != 'true' && github.event.inputs.dry_run != 'true' && github.event.inputs.test_release != 'true' }}
     runs-on: ubuntu-latest
+    timeout-minutes: 10
     env:
       DMARK_VERSION: '2.0.0'
       DMARK_SHA256: '6276b73349e6c3ebaf7396b1364b6f5c94fc53f8a5e15ff4f2c267d6bb23d071'
@@ -637,6 +693,7 @@ jobs:
         uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7
         with:
           name: forum-post
+          retention-days: 1
           path: |
             body.dtext
             meta.env
@@ -647,6 +704,7 @@ jobs:
     needs: [forum-prepare]
     if: ${{ github.ref == 'refs/heads/master' && github.event.inputs.skip_forum != 'true' && github.event.inputs.dry_run != 'true' && github.event.inputs.test_release != 'true' }}
     runs-on: ubuntu-latest
+    timeout-minutes: 5
     env:
       # Secrets cannot be referenced directly in step if-conditions.
       HAS_FORUM_SECRETS: ${{ secrets.E621_FORUM_USER != '' && secrets.E621_FORUM_API_KEY != '' }}

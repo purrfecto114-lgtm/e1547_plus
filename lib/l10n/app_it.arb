@@ -74,7 +74,7 @@
   "navTimeline": "Timeline",
   "navSubscriptions": "Sottoscrizioni",
   "navBookmarks": "Segnalibri",
-  "navPools": "Pool",
+  "navPools": "Collezioni",
   "navForum": "Forum",
   "navHistory": "Cronologia",
   "navTasks": "Task",
@@ -142,7 +142,7 @@
   "videoMuted": "muto",
   "videoWithSound": "con suono",
   "videoSeekSeconds": "{seconds} secondi",
-  "videoResSource": "Sorgente",
+  "videoResSource": "Originale",
   "videoResNote": "I video non sono sempre disponibili nelle dimensioni standard; viene usata quella più vicina alla selezione.",
   "qualityLow": "Bassa",
   "qualityMedium": "Media",
@@ -433,7 +433,7 @@
   "@filterAll": {
     "description": "Choice that does not restrict a filter."
   },
-  "filterPool": "Pool",
+  "filterPool": "Collezione",
   "@filterPool": {
     "description": "Name of the pool filter."
   },
@@ -534,11 +534,11 @@
   "@filterTagAliasSuggestions": {
     "description": "A topic category."
   },
-  "filterArtTalk": "Art Talk",
+  "filterArtTalk": "Discussioni artistiche",
   "@filterArtTalk": {
     "description": "A topic category."
   },
-  "filterOffTopic": "Off Topic",
+  "filterOffTopic": "Fuori tema",
   "@filterOffTopic": {
     "description": "A topic category."
   },
@@ -586,7 +586,7 @@
   "@filterSeries": {
     "description": "The series pool category."
   },
-  "filterCollection": "Collezione",
+  "filterCollection": "Raccolta",
   "@filterCollection": {
     "description": "The collection pool category."
   },
@@ -1150,7 +1150,7 @@
   "@identityHostReadOnly": {
     "description": "Tooltip of the read-only host field."
   },
-  "identityUsernameLabel": "Username",
+  "identityUsernameLabel": "Nome utente",
   "@identityUsernameLabel": {
     "description": "Label of the account username input field."
   },
@@ -1979,7 +1979,7 @@
   "@editTagsHint": {
     "description": "Hint text of the tags input field of the post edit form."
   },
-  "editTagPreviewFailed": "Errore nel caricante l'anteprima del tag: {error}",
+  "editTagPreviewFailed": "Errore nel caricamento dell'anteprima del tag: {error}",
   "@editTagPreviewFailed": {
     "description": "Error shown when the tag preview failed to load.",
     "placeholders": {
@@ -2570,5 +2570,6 @@
   "databaseExportKeepLoginsHint": "Solo all'interno di un file crittografato",
   "databaseExportKeepHistory": "Cronologia",
   "databaseExportKeepFollows": "Sottoscrizioni",
-  "databaseExportLoginsNeedPassword": "Gli accessi richiedono una password di crittografia"
+  "databaseExportLoginsNeedPassword": "Gli accessi richiedono una password di crittografia",
+  "poolsTitle": "Collezioni"
 }

@@ -10,6 +10,7 @@ import 'package:e1547/settings/settings.dart';
 import 'package:e1547/shared/shared.dart';
 import 'package:e1547/task/task.dart';
 import 'package:flutter/foundation.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 
 enum TaskKind { none, download, favorite, unfavorite, mixed, done }
@@ -568,7 +569,16 @@ class TasksController extends ChangeNotifier {
       _runningDone++;
       _countOutcome(outcome);
       _runningIds.remove(task.id);
-      _progress.remove(task.id)?.dispose();
+      // The task tile keeps a ValueListenableBuilder subscribed to this
+      // notifier until the database stream drops the row; disposing it
+      // while that rebuild is still pending asserts after disposal in
+      // debug builds. Give the frame a chance to unsubscribe first.
+      final ValueNotifier<TaskDownloadProgress>? progress = _progress.remove(
+        task.id,
+      );
+      if (progress != null) {
+        WidgetsBinding.instance.addPostFrameCallback((_) => progress.dispose());
+      }
       if (!_disposed) {
         _recomputeProgress();
         notifyListeners();
@@ -949,9 +959,20 @@ class TasksController extends ChangeNotifier {
     // the shared transfer client ends with the controller; its transfers
     // were just aborted above. Retired pools from proxy swaps end here
     // too — their own transfers were aborted through the same tokens.
-    _transferClient?.close(force: true);
+    // close(force: true) can still find requests retiring on the cronet
+    // engine thread and throw (see DioShutdown.shutdown); dispose must
+    // not die on that documented race, so it swallows the close error.
+    try {
+      _transferClient?.close(force: true);
+    } on Object catch (_) {
+      // the documented close race; the client is going away either way
+    }
     for (final Dio retired in _retiredTransferClients) {
-      retired.close(force: true);
+      try {
+        retired.close(force: true);
+      } on Object catch (_) {
+        // same close race on a pool a proxy swap retired
+      }
     }
     currentProgress.dispose();
     suppressBubble.dispose();

@@ -358,7 +358,7 @@
   "userNotFound": "Usuario no encontrado",
   "userUploads": "Subidas",
   "userLoginRequiredReport": "¡Necesitas iniciar sesión para reportar usuarios!",
-  "userComission": "Commission",
+  "userComission": "Comisiones",
   "userId": "ID",
   "userJoined": "se unió",
   "userRank": "rango",
@@ -653,7 +653,7 @@
   "taskTileTitle": "Post #{id}: {label}",
   "followNotificationBody": "{count, plural, =1{¡1 post nuevo!} other{¡{count} posts nuevos!}}",
   "followNotificationSummary": "¡Posts nuevos!",
-  "followNotificationHiddenBody": "Tus etiquetas seguidas tienen publicaciones nuevas.",
+  "followNotificationHiddenBody": "Tus etiquetas seguidas tienen posts nuevos.",
   "followHideNotificationContent": "Ocultar contenido de notificaciones",
   "followHideNotificationContentHint": "Se ocultan títulos, vistas previas y miniaturas de las notificaciones",
   "notificationStaleIdentity": "Esta notificación pertenece a una cuenta que ya no está en este dispositivo.",
@@ -714,9 +714,9 @@
   "settingsSwipeToClose": "Deslizar para cerrar",
   "swipeToCloseOn": "desliza hacia abajo para cerrar",
   "swipeToCloseOff": "botones y gesto atrás",
-  "postDeleted": "La publicación fue eliminada",
-  "postUnavailable": "La publicación no está disponible",
-  "postBlacklisted": "La publicación está en la lista negra",
+  "postDeleted": "El post fue eliminado",
+  "postUnavailable": "El post no está disponible",
+  "postBlacklisted": "El post está en la lista negra",
   "postUnsupportedFiles": "Los archivos {ext} no son compatibles",
   "@postUnsupportedFiles": {
     "placeholders": {
@@ -738,7 +738,7 @@
   "@duplicateDownloadTitle": {
     "description": "Title of the dialog that asks before downloading a work again."
   },
-  "duplicateDownloadBody": "{count} de las obras seleccionadas ya se han descargado antes. ¿Volver a descargar{count, plural, =1{l} other{s}}?",
+  "duplicateDownloadBody": "{count} de las obras seleccionadas ya se han descargado antes. ¿Volver a descargar{count, plural, =1{la} other{las}}?",
   "@duplicateDownloadBody": {
     "description": "Body of the duplicate download dialog. {count} is how many of the selected works were downloaded before.",
     "placeholders": {
@@ -756,5 +756,6 @@
   "databaseExportKeepLoginsHint": "Solo se incluyen en un archivo cifrado",
   "databaseExportKeepHistory": "Historial",
   "databaseExportKeepFollows": "Suscripciones",
-  "databaseExportLoginsNeedPassword": "Los inicios de sesión necesitan una contraseña de cifrado"
+  "databaseExportLoginsNeedPassword": "Los inicios de sesión necesitan una contraseña de cifrado",
+  "poolsTitle": "Pools"
 }

@@ -452,7 +452,7 @@
   "followDisableNotifications": "Отключить уведомления",
   "followEnableNotifications": "Включить уведомления",
   "followRename": "Переименовать",
-  "followNewPosts": "Новых постов: {label}",
+  "followNewPosts": "{count, plural, one{{label}: {count} новый пост} few{{label}: {count} новых поста} many{{label}: {count} новых постов} other{{label}: {count} новых постов}}",
   "followSelectionCount": "{count, plural, one{{count} подписка} few{{count} подписки} many{{count} подписок} other{{count} подписки}}",
   "followAlias": "алиас {alias}",
   "historySelectionCount": "{count, plural, one{{count} запись} few{{count} записи} many{{count} записей} other{{count} записи}}",
@@ -653,7 +653,7 @@
   "taskTileTitle": "Пост #{id}: {label}",
   "followNotificationBody": "{count, plural, one{{count} новый пост!} few{{count} новых поста!} many{{count} новых постов!} other{{count} новых поста!}}",
   "followNotificationSummary": "Новые посты!",
-  "followNotificationHiddenBody": "В ваших отслеживаемых тегах есть новые записи.",
+  "followNotificationHiddenBody": "В ваших отслеживаемых тегах есть новые посты.",
   "followHideNotificationContent": "Скрывать содержимое уведомлений",
   "followHideNotificationContentHint": "Заголовки, превью и миниатюры уведомлений скрыты",
   "notificationStaleIdentity": "Это уведомление принадлежит аккаунту, которого больше нет на этом устройстве.",
@@ -708,7 +708,7 @@
   "taskErrorHintNetwork": "Передача не удалась. Повторите, когда сеть восстановится.",
   "taskErrorHintSaving": "Не удалось сохранить в галерею. Проверьте свободное место и повторите попытку.",
   "taskErrorHintUnknown": "Эта задача не удалась. Повторите попытку или откройте подробности.",
-  "adultGateDeniedBody": "Это приложение открывается только для взрослых. Ничего не продолжится без подтверждения совершеннолетия.",
+  "adultGateDeniedBody": "Это приложение открывается только для взрослых. Без подтверждения совершеннолетия дальше пройти нельзя.",
   "refreshCompleted": "Завершено",
   "refreshFailed": "Не удалось обновить",
   "settingsSwipeToClose": "Смахните, чтобы закрыть",
@@ -756,5 +756,6 @@
   "databaseExportKeepLoginsHint": "Только внутри зашифрованного файла",
   "databaseExportKeepHistory": "История",
   "databaseExportKeepFollows": "Подписки",
-  "databaseExportLoginsNeedPassword": "Для данных входа нужен пароль шифрования"
+  "databaseExportLoginsNeedPassword": "Для данных входа нужен пароль шифрования",
+  "poolsTitle": "Пулы"
 }

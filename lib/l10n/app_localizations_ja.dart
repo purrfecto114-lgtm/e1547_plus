@@ -1,5 +1,6 @@
 // ignore: unused_import
 import 'package:intl/intl.dart' as intl;
+
 import 'app_localizations.dart';
 
 // ignore_for_file: type=lint
@@ -1540,7 +1541,7 @@ class AppLocalizationsJa extends AppLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '$label 件の新着投稿',
+      other: '$label の新着投稿 $count 件',
     );
     return '$_temp0';
   }
@@ -2500,7 +2501,7 @@ class AppLocalizationsJa extends AppLocalizations {
   String get tileLarge => '大';
 
   @override
-  String get settingsLayoutMirror => 'レイアウトのミラー';
+  String get settingsLayoutMirror => 'レイアウトを左右反転';
 
   @override
   String get settingsLayoutMirrorHint =>
@@ -2547,4 +2548,7 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get databaseExportLoginsNeedPassword => 'ログイン情報には暗号化パスワードが必要です';
+
+  @override
+  String get poolsTitle => 'プール';
 }

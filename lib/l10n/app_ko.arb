@@ -313,7 +313,7 @@
   "actionRemove": "제거",
   "actionAdd": "추가",
   "actionSubtract": "제외",
-  "selectionPost": "글 #{id}",
+  "selectionPost": "게시물 #{id}",
   "@selectionPost": {
     "placeholders": {
       "id": {
@@ -321,7 +321,7 @@
       }
     }
   },
-  "selectionPostsCount": "{count, plural, other{{count}개 글}}",
+  "selectionPostsCount": "{count, plural, other{{count}개 게시물}}",
   "@selectionPostsCount": {
     "placeholders": {
       "count": {
@@ -329,16 +329,16 @@
       }
     }
   },
-  "noPosts": "글 없음",
-  "failedToLoadPosts": "글 불러오기 실패",
+  "noPosts": "게시물 없음",
+  "failedToLoadPosts": "게시물 불러오기 실패",
   "offlineBanner": "오프라인 상태입니다. 캐시된 데이터를 표시합니다.",
   "offlineNoData": "오프라인 상태입니다",
-  "postListPageSummary": "페이지 {page} · {count, plural, one{{count}개 글} other{{count}개 글}}",
+  "postListPageSummary": "페이지 {page} · {count, plural, one{{count}개 게시물} other{{count}개 게시물}}",
   "postListPageLimit": "서버 페이지 한도에 도달했습니다. 검색어를 좁혀주세요.",
   "postListJumpToPage": "페이지로 이동",
   "postListJumpPageLabel": "페이지 번호",
   "postListJumpPageRange": "1과 {max} 사이의 페이지 번호를 입력하세요",
-  "postDeletedOverlay": "글이 삭제되었습니다",
+  "postDeletedOverlay": "게시물이 삭제되었습니다",
   "postUnavailableOverlay": "글을 사용할 수 없습니다",
   "postBlacklistedOverlay": "글이 차단 목록에 있습니다",
   "unsupportedFileType": "{ext} 파일은 지원되지 않습니다",
@@ -2483,7 +2483,7 @@
   "@databaseExportPasswordLabel": {
     "description": "Label of the optional password field in the database export dialog."
   },
-  "databaseExportPasswordHint": "내보낸 파일을 암호화합니다. 비워두면 평문 암호화 파일로 저장됩니다.",
+  "databaseExportPasswordHint": "내보낸 파일을 암호화합니다. 비워두면 암호화하지 않은 일반 파일로 저장됩니다.",
   "@databaseExportPasswordHint": {
     "description": "Helper text under the optional export password field."
   },
@@ -2570,5 +2570,6 @@
   "databaseExportKeepLoginsHint": "암호화된 파일에만 포함됩니다",
   "databaseExportKeepHistory": "기록",
   "databaseExportKeepFollows": "구독",
-  "databaseExportLoginsNeedPassword": "로그인 정보에는 암호화 비밀번호가 필요합니다"
+  "databaseExportLoginsNeedPassword": "로그인 정보에는 암호화 비밀번호가 필요합니다",
+  "poolsTitle": "풀"
 }

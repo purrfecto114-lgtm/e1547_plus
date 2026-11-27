@@ -1,0 +1,18 @@
+A patch build on top of 22.11.0.
+
+- closing the fullscreen player no longer clears the screen-wake flag
+  while the page underneath keeps playing the same video
+- completing a download no longer crashes debug builds, and disposing
+  the download controller no longer trips the documented cronet close
+  race
+- a sanitized database export can no longer ship a logged-in account
+  whose headers were already exportable, and a crashed export or import
+  leaves no plaintext credential database behind — the boot sequence
+  sweeps the temporary files
+- the pools and forum screens carry no hardcoded english anymore, and
+  73 translation fixes landed across all thirteen languages (italian
+  pool terms, the french vous-forms, korean and vietnamese post wording
+  among them)
+- avatars, history thumbnails, pool covers and task previews decode at
+  their display size, and the fullscreen video bar coalesces its
+  buffering updates

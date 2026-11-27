@@ -1,5 +1,6 @@
 // ignore: unused_import
 import 'package:intl/intl.dart' as intl;
+
 import 'app_localizations.dart';
 
 // ignore_for_file: type=lint
@@ -130,7 +131,7 @@ class AppLocalizationsVi extends AppLocalizations {
   String get navBookmarks => 'Dấu trang';
 
   @override
-  String get navPools => 'Pool';
+  String get navPools => 'Bộ sưu tập';
 
   @override
   String get navForum => 'Diễn đàn';
@@ -611,7 +612,7 @@ class AppLocalizationsVi extends AppLocalizations {
   String get databaseImportCancelled => 'Đã hủy nhập';
 
   @override
-  String get postsTitle => 'Bài đăng';
+  String get postsTitle => 'Bài viết';
 
   @override
   String favoritesOf(String user) {
@@ -980,10 +981,10 @@ class AppLocalizationsVi extends AppLocalizations {
   String get filterIsActive => 'Đang hoạt động';
 
   @override
-  String get filterSeries => 'Series';
+  String get filterSeries => 'Chuỗi';
 
   @override
-  String get filterCollection => 'Bộ sưu tập';
+  String get filterCollection => 'Tập hợp';
 
   @override
   String get filterName => 'Tên';
@@ -1241,7 +1242,7 @@ class AppLocalizationsVi extends AppLocalizations {
   String get userRank => 'xếp hạng';
 
   @override
-  String get userPosts => 'bài đăng';
+  String get userPosts => 'bài viết';
 
   @override
   String get userEdits => 'chỉnh sửa';
@@ -1511,7 +1512,7 @@ class AppLocalizationsVi extends AppLocalizations {
   String get followFailedToLoadBookmarks => 'Không thể tải dấu trang';
 
   @override
-  String get followUnseenPosts => 'bài đăng chưa xem';
+  String get followUnseenPosts => 'bài viết chưa xem';
 
   @override
   String followMarkPostsSeen(num count) {
@@ -1728,7 +1729,7 @@ class AppLocalizationsVi extends AppLocalizations {
   String get poolTitle => 'Tên bộ sưu tập';
 
   @override
-  String get poolInfoPosts => 'bài';
+  String get poolInfoPosts => 'bài viết';
 
   @override
   String get poolInfoId => 'id';
@@ -2428,7 +2429,7 @@ class AppLocalizationsVi extends AppLocalizations {
 
   @override
   String get databaseExportPasswordHint =>
-      'Mã hóa tệp xuất. Để trống để xuất tệp văn bản thuần túy, không mã hóa.';
+      'Mã hóa tệp xuất. Để trống để xuất tệp không mã hóa.';
 
   @override
   String get databaseImportEncryptedTitle => 'Cơ sở dữ liệu mã hóa';
@@ -2582,13 +2583,7 @@ class AppLocalizationsVi extends AppLocalizations {
 
   @override
   String duplicateDownloadBody(num count) {
-    String _temp0 = intl.Intl.pluralLogic(
-      count,
-      locale: localeName,
-      other: 'lại',
-      one: 'lại',
-    );
-    return '$count tác phẩm đã chọn từng được tải xuống trước đây. Tải $_temp0 một lần nữa?';
+    return '$count tác phẩm đã chọn từng được tải xuống trước đây. Tải lại?';
   }
 
   @override
@@ -2614,4 +2609,7 @@ class AppLocalizationsVi extends AppLocalizations {
   @override
   String get databaseExportLoginsNeedPassword =>
       'Thông tin đăng nhập cần mật khẩu mã hóa';
+
+  @override
+  String get poolsTitle => 'Bộ sưu tập';
 }

@@ -1,5 +1,6 @@
 // ignore: unused_import
 import 'package:intl/intl.dart' as intl;
+
 import 'app_localizations.dart';
 
 // ignore_for_file: type=lint
@@ -132,7 +133,7 @@ class AppLocalizationsPl extends AppLocalizations {
   String get navBookmarks => 'Zakładki';
 
   @override
-  String get navPools => 'Zbiory';
+  String get navPools => 'Pule';
 
   @override
   String get navForum => 'Forum';
@@ -867,10 +868,10 @@ class AppLocalizationsPl extends AppLocalizations {
   String get filterAll => 'Wszystkie';
 
   @override
-  String get filterPool => 'Zbiór';
+  String get filterPool => 'Pula';
 
   @override
-  String get filterHasPool => 'Ma zbiór';
+  String get filterHasPool => 'Ma pulę';
 
   @override
   String get filterChild => 'Dziecko';
@@ -2664,4 +2665,7 @@ class AppLocalizationsPl extends AppLocalizations {
   @override
   String get databaseExportLoginsNeedPassword =>
       'Dane logowania wymagają hasła szyfrowania';
+
+  @override
+  String get poolsTitle => 'Pule';
 }
