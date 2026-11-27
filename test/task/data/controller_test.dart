@@ -399,8 +399,16 @@ void main() {
 
     expect(await repository.readStatus(task.id), TaskStatus.canceled);
     // The overwrite already replaced the old content; deleting the name
-    // would leave the user with no file at all, so it must stay.
-    expect(oldFile.existsSync(), isTrue);
+    // would leave the user with no file at all, so it must stay. The
+    // resumed export writes through real file IO, whose completion is
+    // not timed to the event loop — a slow CI runner lands the bytes
+    // after any fixed number of pumps — so poll for the overwrite.
+    bool overwritten() => oldFile.existsSync() && oldFile.lengthSync() == 3;
+    await Future.doWhile(() async {
+      if (overwritten()) return false;
+      await Future<void>.delayed(const Duration(milliseconds: 10));
+      return true;
+    }).timeout(const Duration(seconds: 5));
     expect(oldFile.readAsBytesSync(), [1, 2, 3]);
 
     instance.dispose();
