@@ -74,10 +74,7 @@ void main() {
 
       expect(changed, 2);
       final identities = await repository.all();
-      expect(
-        identities.where((e) => e.username != null),
-        isEmpty,
-      );
+      expect(identities.where((e) => e.username != null), isEmpty);
     });
 
     test(
