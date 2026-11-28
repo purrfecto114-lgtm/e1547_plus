@@ -17,16 +17,14 @@
 
 ## About this fork
 
-This repository is a fork of [e1547](https://github.com/clragon/e1547) (GPL-3.0), maintained with a focus on stability on Android 7 and other low memory devices. It rebases on upstream 21.2.0 and carries its own release line — a `21.3`–`21.7` series followed by the current `22.x` series — every change is listed per release in the [changelog](CHANGELOG.md).
+This repository is a fork of [e1547](https://github.com/clynamic/e1547) (GPL-3.0), maintained with a focus on stability on Android 7 and other low memory devices. It rebases on upstream 21.2.0 and carries its own `22.x` release line — every change is listed per release in the [changelog](CHANGELOG.md).
 
 On top of upstream, this fork ships:
 
 - a stability batch for Android 7 and low memory devices — sized image caches, a video player pool capped by device memory, guarded cache database access and memory-adaptive defaults
 - a security batch — database exports stripped of saved logins and optionally AES-256-GCM protected (with a password prompt on import), hardened imports, a locked-down cookie webview, database files excluded from OS backups, request timeouts, a salted PBKDF2 app pin with a persisted backoff against guessing, and a biometric lock that works on Android 7's fingerprint API
-- a correctness batch on top of 22.9.x — thumbnail decode caps that actually reach the drawn image, server tag groupings kept intact without extra lookups, filter totals that stop drifting across routes, votes and favorites reconciled against the server's counts, a self-healing offline banner, an unstacked video overlay, and a duplicate-download prompt with a don't-ask-again option
-- a feature batch — a language setting with complete interface translations across all thirteen locales (plural forms following each language's own rules), offline tag dictionaries in simplified chinese, traditional chinese and japanese served without wiki requests, more search filters (file type, uploader, dimensions, tag count, oldest-first order), a fullscreen video quality menu that keeps the playback position when switching, an automatic video loading switch, thumbnail quality and grid density preferences, a mirror switch that flips the whole layout to the other hand, system-proxy support across every network path (api, media, downloads, update checks, the video player) with a connection probe and self-healing refetch for filtered networks, database exports that choose what they carry (logins, history, subscriptions) with optional encryption, a context-drawer page jump and blacklist filter field, a system theme that follows the platform dark mode, and media and download requests validated against a bundled current root-certificate store so certificate-authority rotations cannot break media loading on devices with frozen system stores
 
-The fork's changes were offered back upstream as pull requests ([#190](https://github.com/clragon/e1547/pull/190)–[#193](https://github.com/clragon/e1547/pull/193)); they stayed unmerged there, and this fork ships them in its own release line instead.
+The fork's changes were offered back upstream as pull requests ([#190](https://github.com/clynamic/e1547/pull/190)–[#193](https://github.com/clynamic/e1547/pull/193)); they stayed unmerged there, and this fork ships them in its own release line instead.
 
 The in-app updater checks this repository for new versions; since the fork is signed with its own key, it cannot be installed over the official release — see [Upgrading](#upgrading) below.
 
@@ -75,7 +73,7 @@ To add another language, create an `app_<locale>.arb` file in `lib/l10n` with tr
 
 APK, IPA, Windows and Linux packages can be found over at the [releases](https://github.com/purrfecto114-lgtm/e1547_plus/releases) page. Stable releases are marked "latest"; `rc` pre-releases track work in progress and install over previous rc builds of the same cycle. Updates can be managed with [obtainium](https://github.com/ImranR98/Obtainium), with https://github.com/purrfecto114-lgtm/e1547_plus/releases/ as the app source.
 
-**Not on F-Droid:** F-Droid removed the app as part of its NSFW purge (upstream [issue #182](https://github.com/clragon/e1547/issues/182)), so there is no F-Droid package to install or update from — neither for upstream nor for this fork. Get the builds from the [releases](https://github.com/purrfecto114-lgtm/e1547_plus/releases) page or manage updates with [obtainium](https://github.com/ImranR98/Obtainium). Upstream is considering a re-submission; if the app returns to F-Droid it would carry the upstream build, while this fork's releases always land here first.
+**Not on F-Droid:** F-Droid removed the app as part of its NSFW purge (upstream [issue #182](https://github.com/clynamic/e1547/issues/182)), so there is no F-Droid package to install or update from — neither for upstream nor for this fork. Get the builds from the [releases](https://github.com/purrfecto114-lgtm/e1547_plus/releases) page or manage updates with [obtainium](https://github.com/ImranR98/Obtainium). Upstream is considering a re-submission; if the app returns to F-Droid it would carry the upstream build, while this fork's releases always land here first.
 
 ### Certificate Fingerprints
 
@@ -126,6 +124,6 @@ Bugs and feature requests for this fork belong in its [issue tracker](https://gi
 
 ## Credit
 
-Based on [e1547](https://github.com/clragon/e1547) by [clragon](https://github.com/clragon), originally written by [Perlatus](https://github.com/perlatus), with performance optimisations by [Miyoyo](https://github.com/miyoyo) and extensive bug hunting by aza0 — see the upstream credits for the full picture. The Chinese offline tag descriptions incorporate the community dictionary of the [e621 标签汉化&中文搜索](https://sleazyfork.org/en/scripts/554343) userscript by jcjyids (GPL-3.0-or-later).
+Based on [e1547](https://github.com/clynamic/e1547) by [clragon](https://github.com/clragon), originally written by [Perlatus](https://github.com/perlatus), with performance optimisations by [Miyoyo](https://github.com/miyoyo) and extensive bug hunting by aza0 — see the upstream credits for the full picture. The Chinese offline tag descriptions incorporate the community dictionary of the [e621 标签汉化&中文搜索](https://sleazyfork.org/en/scripts/554343) userscript by jcjyids (GPL-3.0-or-later).
 
 This fork is maintained for Android 7 and low memory stability.

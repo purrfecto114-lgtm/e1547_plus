@@ -17,16 +17,14 @@
 
 ## 关于此分支
 
-本仓库是 [e1547](https://github.com/clragon/e1547)（GPL-3.0）的分支，重点关注 Android 7 及其他低内存设备上的稳定性。基于上游 21.2.0 演进，维护自己的 `22.x` 发布线 —— 每项改动均按版本记录在 [变更日志](CHANGELOG.md)中。
+本仓库是 [e1547](https://github.com/clynamic/e1547)（GPL-3.0）的分支，重点关注 Android 7 及其他低内存设备上的稳定性。基于上游 21.2.0 演进，维护自己的 `22.x` 发布线 —— 每项改动均按版本记录在 [变更日志](CHANGELOG.md)中。
 
-在上游的基础上，本分支附带四项批次：
+在上游的基础上，本分支附带两项批次：
 
 - 面向 Android 7 与低内存设备的稳定性批次 —— 限制解码尺寸的图片缓存、按设备内存分级的视频播放器池、带异常防护的缓存数据库访问，以及按内存自适应的默认值
 - 安全批次 —— 导出数据库不含凭据并可选 AES-256-GCM 加密（导入时要求密码），导入校验加固、Cookie WebView 锁定本站、数据库文件排除在系统备份之外、请求超时、加盐 PBKDF2 应用锁与防暴力回退，以及兼容 Android 7 指纹 API 的生物识别锁
-- 基于 22.9.x 的正确性批次 —— 缩略图解码上限真正到达绘制层、服务器标签分组免额外查询保持原样、过滤计数跨路由不再漂移、投票与收藏按服务器权威计数回正、离线横幅自愈、视频浮层指示器不再叠放，以及带"不再询问"选项的重复下载提示
-- 功能拓展批次 —— 语言设置带全部 13 个语言区的完整界面翻译（复数形式遵循各语言自身规则）、简体中文/繁体中文/日文离线标签词典（免 wiki 请求）、更多搜索过滤条件（文件类型、上传者、宽高、标签数、从旧到新）、切换时保留播放进度的全屏视频画质菜单、自动加载视频开关、缩略图质量与网格密度偏好、把整体布局镜像到另一只手的开关、覆盖每条网络路径（API、媒体、下载、更新检查、视频播放器）的系统代理支持与连接探针自愈（面向被过滤的网络）、可自选携带内容（凭据/历史/订阅）并可选加密的数据库导出、上下文抽屉页码跳转与黑名单过滤框、跟随系统深色模式的主题，以及媒体与下载请求改用内置现行根证书库校验——证书颁发机构轮换不再破坏系统库陈旧设备上的媒体加载
 
-分支的改动曾以 Pull Request 的形式回馈上游（[#190](https://github.com/clragon/e1547/pull/190)–[#193](https://github.com/clragon/e1547/pull/193)），未在上游合并；这些改动由本分支自己的发布线提供。
+分支的改动曾以 Pull Request 的形式回馈上游（[#190](https://github.com/clynamic/e1547/pull/190)–[#193](https://github.com/clynamic/e1547/pull/193)），未在上游合并；这些改动由本分支自己的发布线提供。
 
 应用内更新器检查本仓库的新版本；由于本分支使用自己的签名密钥，无法直接覆盖安装官方版本 —— 见下方[升级](#升级)说明。
 
@@ -75,7 +73,7 @@
 
 APK、IPA、Windows 与 Linux 安装包可在 [releases](https://github.com/purrfecto114-lgtm/e1547_plus/releases) 页面获取。稳定版标记为“最新”；`rc` 预发布版跟踪开发进展，可在同一周期内覆盖安装。更新可用 [obtainium](https://github.com/ImranR98/Obtainium) 管理，应用源填 https://github.com/purrfecto114-lgtm/e1547_plus/releases/。
 
-**不在 F-Droid 上架：** F-Droid 已在 NSFW 清理中下架本应用（上游 [issue #182](https://github.com/clragon/e1547/issues/182)），因此无论上游还是本分支，都没有 F-Droid 包可安装或更新。请从 [releases](https://github.com/purrfecto114-lgtm/e1547_plus/releases) 页面获取安装包，或用 [obtainium](https://github.com/ImranR98/Obtainium) 管理更新。上游正在考虑重新提交 F-Droid；若重新上架，其携带的也是上游构建，而本分支的发布始终第一时间出现在这里。
+**不在 F-Droid 上架：** F-Droid 已在 NSFW 清理中下架本应用（上游 [issue #182](https://github.com/clynamic/e1547/issues/182)），因此无论上游还是本分支，都没有 F-Droid 包可安装或更新。请从 [releases](https://github.com/purrfecto114-lgtm/e1547_plus/releases) 页面获取安装包，或用 [obtainium](https://github.com/ImranR98/Obtainium) 管理更新。上游正在考虑重新提交 F-Droid；若重新上架，其携带的也是上游构建，而本分支的发布始终第一时间出现在这里。
 
 ### 证书指纹
 
@@ -126,6 +124,6 @@ APK、IPA、Windows 与 Linux 安装包可在 [releases](https://github.com/purr
 
 ## 致谢
 
-基于 [clragon](https://github.com/clragon) 的 [e1547](https://github.com/clragon/e1547)，最初由 [Perlatus](https://github.com/perlatus) 编写、[Miyoyo](https://github.com/miyoyo) 进行性能优化、aza0 深度测试——完整致谢见上游 credits。中文离线标签说明融合了 [e621 标签汉化&中文搜索](https://sleazyfork.org/en/scripts/554343) 用户脚本（jcjyids，GPL-3.0-or-later）的社区词典。
+基于 [clragon](https://github.com/clragon) 的 [e1547](https://github.com/clynamic/e1547)，最初由 [Perlatus](https://github.com/perlatus) 编写、[Miyoyo](https://github.com/miyoyo) 进行性能优化、aza0 深度测试——完整致谢见上游 credits。中文离线标签说明融合了 [e621 标签汉化&中文搜索](https://sleazyfork.org/en/scripts/554343) 用户脚本（jcjyids，GPL-3.0-or-later）的社区词典。
 
 本分支为 Android 7 与低内存稳定性而维护。
