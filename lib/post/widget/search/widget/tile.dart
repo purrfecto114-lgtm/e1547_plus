@@ -77,13 +77,22 @@ class PostImageTile extends StatelessWidget {
                         fit: fit ?? BoxFit.cover,
                         aspectRatio: post.width / post.height,
                       ),
-                      child: PostImageWidget(
-                        post: post,
-                        size: size ?? PostImageSize.sample,
-                        fit: fit ?? BoxFit.cover,
-                        showProgress: showProgress ?? false,
-                        withLowRes: withLowRes ?? false,
-                        cacheSize: context.watch<ImageCacheSize?>()?.size,
+                      child: ScrollSettleGate(
+                        // A fast fling sweeps past dozens of tiles; each
+                        // one that starts its download while flying by
+                        // delays the tiles the user actually lands on.
+                        // The gate holds the image until the fling ends,
+                        // and tiles the fling swept past never load at
+                        // all — the sliver destroys them as it goes.
+                        placeholder: const SizedBox.expand(),
+                        child: PostImageWidget(
+                          post: post,
+                          size: size ?? PostImageSize.sample,
+                          fit: fit ?? BoxFit.cover,
+                          showProgress: showProgress ?? false,
+                          withLowRes: withLowRes ?? false,
+                          cacheSize: context.watch<ImageCacheSize?>()?.size,
+                        ),
                       ),
                     ),
                   ),

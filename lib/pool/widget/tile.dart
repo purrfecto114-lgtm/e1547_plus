@@ -144,17 +144,23 @@ class PoolCover extends StatelessWidget {
               empty,
               PostTileOverlay(
                 post: post,
-                child: PostImageWidget(
-                  post: post,
-                  size: PostImageSize.sample,
-                  fit: BoxFit.cover,
-                  showProgress: false,
-                  withLowRes: false,
-                  // The pool grid caps cover decodes at tile size through
-                  // ImageCacheSizeProvider; this call site was the one
-                  // that dropped the cap and decoded samples at native
-                  // size while scrolling.
-                  cacheSize: context.watch<ImageCacheSize?>()?.size,
+                // The pool overview flings like the posts grid does: the
+                // same settle gate keeps covers the fling sweeps past
+                // from starting downloads nobody will see.
+                child: ScrollSettleGate(
+                  placeholder: const SizedBox.expand(),
+                  child: PostImageWidget(
+                    post: post,
+                    size: PostImageSize.sample,
+                    fit: BoxFit.cover,
+                    showProgress: false,
+                    withLowRes: false,
+                    // The pool grid caps cover decodes at tile size through
+                    // ImageCacheSizeProvider; this call site was the one
+                    // that dropped the cap and decoded samples at native
+                    // size while scrolling.
+                    cacheSize: context.watch<ImageCacheSize?>()?.size,
+                  ),
                 ),
               ),
             ],

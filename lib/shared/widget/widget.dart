@@ -35,6 +35,7 @@ export 'range.dart';
 export 'refreshing.dart';
 export 'scaffold.dart';
 export 'scroll.dart';
+export 'scroll_settle_gate.dart';
 export 'selection.dart';
 export 'skeletons.dart';
 export 'snackbar.dart';
