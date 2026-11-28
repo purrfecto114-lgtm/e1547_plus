@@ -238,6 +238,57 @@ jobs:
           retention-days: 1
           path: Runner.ipa
 
+  ios14-build:
+    # The iOS 14 support line (ios14-support branch) pins flutter below
+    # 3.47, whose engine raised its minimum OS to iOS 15 — the main IPA
+    # above can no longer launch on iOS 14 devices. Ship that branch's
+    # build as an extra release asset so the old floor stays installable.
+    # Only master releases need it: the branch's own test builds already
+    # are iOS 14 IPAs, and its pubspec keeps its own version (the asset
+    # name carries no version, matching every other asset).
+    if: ${{ github.ref == 'refs/heads/master' }}
+    runs-on: s-latest
+    timeout-minutes: 45
+    steps:
+      - name: setup actions
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          ref: ios14-support
+
+      - name: parse flutter version
+        # Reads the branch's own pubspec, so the checkout builds with the
+        # support line's pin (3.44.9) without hardcoding it here.
+        run: |
+          export FLUTTER_VERSION=$(./.github/workflows/get_flutter_version.sh)
+          echo "FLUTTER_VERSION=$FLUTTER_VERSION" >> $GITHUB_ENV
+
+      - name: setup flutter
+        uses: subosito/flutter-action@1a449444c387b1966244ae4d4f8c696479add0b2 # v2
+        with:
+          flutter-version: ${{ env.FLUTTER_VERSION }}
+          cache: true
+
+      - name: get flutter dependencies
+        run: flutter pub get --enforce-lockfile
+
+      - name: build IPA
+        run: flutter build ios --no-codesign
+
+      - name: package release
+        run: |
+          cd build/ios/iphoneos
+          mkdir Payload
+          mv Runner.app Payload/Runner.app
+          zip -9 -r Runner.zip Payload
+          mv Runner.zip ../../../Runner-ios14.ipa
+
+      - name: upload IPA to artifacts
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7
+        with:
+          name: release-ios14
+          retention-days: 1
+          path: Runner-ios14.ipa
+
   windows-build:
     runs-on: ows-latest
     timeout-minutes: 45
@@ -368,7 +419,7 @@ jobs:
           path: e1547.tar.gz
 
   release:
-    needs: [validate, android-build, ios-build, windows-build, linux-build]
+    needs: [validate, android-build, ios-build, ios14-build, windows-build, linux-build]
     if: ${{ github.ref == 'refs/heads/master' }}
     runs-on: ubuntu-latest
     timeout-minutes: 20
@@ -478,6 +529,11 @@ jobs:
         with:
           name: release-ios
 
+      - name: download iOS 14 IPA from artifacts
+        uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8
+        with:
+          name: release-ios14
+
       - name: download EXE from artifacts
         uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8
         with:
@@ -501,6 +557,7 @@ jobs:
           mv app-arm64-v8a-release.apk e1547-arm64.apk
           mv app-armeabi-v7a-release.apk e1547-armv7.apk
           mv Runner.ipa e1547.ipa
+          mv Runner-ios14.ipa e1547-ios14.ipa
 
       - name: configure playstore keys
         env:
@@ -553,6 +610,7 @@ jobs:
             e1547-arm64.apk
             e1547-armv7.apk
             e1547.ipa
+            e1547-ios14.ipa
             e1547-setup.exe
             e1547.deb
             e1547.tar.gz
@@ -572,6 +630,7 @@ jobs:
             e1547-arm64.apk
             e1547-armv7.apk
             e1547.ipa
+            e1547-ios14.ipa
             e1547-setup.exe
             e1547.deb
             e1547.tar.gz
