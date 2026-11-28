@@ -1,6 +1,5 @@
 package net.e1547
 
-import android.hardware.fingerprint.FingerprintManager
 import android.os.Build
 import androidx.biometric.BiometricManager
 import androidx.core.hardware.fingerprint.FingerprintManagerCompat
@@ -36,7 +35,8 @@ class MainActivity : FlutterFragmentActivity() {
         // into a no-op that always reports false (1.18), which silently
         // disabled every compat-based signal on the old releases that
         // still route through it. The framework fingerprint manager is
-        // asked directly on those releases, where it keeps working.
+        // reached through reflection on those releases, where it keeps
+        // working after the api 37 sdk removed the class.
         MethodChannel(flutterEngine.dartExecutor.binaryMessenger, "e1547/biometrics")
             .setMethodCallHandler { call, result ->
                 when (call.method) {
@@ -78,17 +78,20 @@ class MainActivity : FlutterFragmentActivity() {
                             } catch (e: Exception) {
                                 null
                             }
-                        // The framework manager is only asked on releases
-                        // whose biometric stack still routes through the
-                        // fingerprint service.
-                        val framework: FingerprintManager? =
-                            if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.P) {
-                                probe {
-                                    getSystemService(FingerprintManager::class.java)
-                                } as FingerprintManager?
-                            } else {
-                                null
-                            }
+                    // The framework manager is only asked on releases
+                    // whose biometric stack still routes through the
+                    // fingerprint service. The class is compiled out of
+                    // the api 37 sdk (the release removed the legacy
+                    // hardware surface), so the probe runs through
+                    // reflection — the class stays present on those
+                    // devices' runtime images, and any missing piece
+                    // reports null like every other failed probe.
+                    val framework: Any? =
+                        if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.P) {
+                            probe { getSystemService("fingerprint") }
+                        } else {
+                            null
+                        }
                         result.success(
                             mapOf(
                                 "hardware" to probe {
@@ -98,10 +101,18 @@ class MainActivity : FlutterFragmentActivity() {
                                     FingerprintManagerCompat.from(this@MainActivity).hasEnrolledFingerprints()
                                 },
                                 "frameworkHardware" to probe {
-                                    framework?.isHardwareDetected
+                                    framework?.let { manager ->
+                                        manager.javaClass
+                                            .getMethod("isHardwareDetected")
+                                            .invoke(manager) as? Boolean
+                                    }
                                 },
                                 "frameworkEnrolled" to probe {
-                                    framework?.hasEnrolledFingerprints()
+                                    framework?.let { manager ->
+                                        manager.javaClass
+                                            .getMethod("hasEnrolledFingerprints")
+                                            .invoke(manager) as? Boolean
+                                    }
                                 },
                                 "weak" to probe {
                                     BiometricManager.from(this@MainActivity).canAuthenticate(
