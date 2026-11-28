@@ -9,6 +9,10 @@ import io.flutter.embedding.engine.FlutterEngine
 import io.flutter.plugin.common.MethodChannel
 
 class MainActivity : FlutterFragmentActivity() {
+    // The pending result of a local network permission request, completed
+    // from onRequestPermissionsResult once the user answers the dialog.
+    private var localNetworkResult: MethodChannel.Result? = null
+
     // The framework fingerprint manager is deprecated on newer releases,
     // where it no longer routes to real hardware; the probe only asks it
     // on the old releases that still do.
@@ -112,6 +116,26 @@ class MainActivity : FlutterFragmentActivity() {
                             )
                         )
                     }
+                    // Android 17 (API level 37) makes ACCESS_LOCAL_NETWORK
+                    // a runtime permission for apps targeting it, and a
+                    // proxy can sit on the local network (a router, or a
+                    // local proxy app). The dart side calls this once it
+                    // resolved such a host; older releases have no such
+                    // permission, so they answer granted right away. The
+                    // sdk check uses the literal because the new release's
+                    // VERSION_CODES name is not worth guessing at.
+                    "requestLocalNetworkPermission" -> {
+                        val permission = "android.permission.ACCESS_LOCAL_NETWORK"
+                        if (Build.VERSION.SDK_INT < 37 ||
+                            checkSelfPermission(permission) ==
+                                android.content.pm.PackageManager.PERMISSION_GRANTED
+                        ) {
+                            result.success(true)
+                        } else {
+                            localNetworkResult = result
+                            requestPermissions(arrayOf(permission), LOCAL_NETWORK_REQUEST)
+                        }
+                    }
                     else -> result.notImplemented()
                 }
             }
@@ -120,5 +144,32 @@ class MainActivity : FlutterFragmentActivity() {
     // This is a hack to prevent media_kit from hard-crashing the app
     override fun finishAfterTransition() {
         moveTaskToBack(true)
+    }
+
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray,
+    ) {
+        if (requestCode == LOCAL_NETWORK_REQUEST) {
+            localNetworkResult?.let { pending ->
+                // A dead channel (the activity went away before the user
+                // answered) must not take the app down.
+                runCatching {
+                    pending.success(
+                        grantResults.firstOrNull() ==
+                            android.content.pm.PackageManager.PERMISSION_GRANTED,
+                    )
+                }
+            }
+            localNetworkResult = null
+        }
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+    }
+
+    private companion object {
+        // A distinctive request code, so plugins listening through the
+        // flutter registry never mistake this answer for theirs.
+        const val LOCAL_NETWORK_REQUEST = 41505
     }
 }

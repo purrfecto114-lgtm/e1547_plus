@@ -5,6 +5,13 @@
          deprecated USE_FINGERPRINT permission (Android 7 and below). -->
     <uses-permission android:name="android.permission.USE_BIOMETRIC"/>
     <uses-permission android:name="android.permission.USE_FINGERPRINT"/>
+    <!-- Android 17 (API 37) gates local network access behind a runtime
+         permission for apps targeting it. The proxy support can ride a
+         proxy on the local network (a router, or a local proxy app
+         publishing itself on the loopback), so the permission is declared
+         here and requested through the platform channel once such a host
+         is resolved; on older releases the declaration is ignored. -->
+    <uses-permission android:name="android.permission.ACCESS_LOCAL_NETWORK"/>
     <application
         android:label="e1547"
         android:name="${applicationName}"

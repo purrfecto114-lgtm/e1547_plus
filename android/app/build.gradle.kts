@@ -16,7 +16,12 @@ if (keystorePropertiesFile.exists()) {
 
 android {
     namespace = "net.e1547"
-    compileSdk = flutter.compileSdkVersion
+    // Android 17 (API level 37) groundwork: the flutter pin of this sdk
+    // version still sits at 36, so the levels are pinned here until the
+    // framework raises them. AGP 8.x is tested through 36 and only warns
+    // about 37; the flutter CI for API 37 rides AGP 9.3.1, a move that
+    // should follow the framework rather than lead it.
+    compileSdk = 37
     ndkVersion = flutter.ndkVersion
 
     compileOptions {
@@ -36,7 +41,13 @@ android {
         // The fork verifies its behavior against Android 7; pin the
         // floor instead of following the flutter default.
         minSdk = 24
-        targetSdk = flutter.targetSdkVersion
+        // Targeting API 37 opts the app into android 17's targeting
+        // behaviors: the local network runtime permission (declared in
+        // the manifest, requested from the proxy path), certificate
+        // transparency on by default for platform-stack connections, and
+        // the removal of the large-screen orientation opt-out, which the
+        // adaptive wide layout already covers by handling both.
+        targetSdk = 37
         versionCode = flutter.versionCode
         versionName = flutter.versionName
     }

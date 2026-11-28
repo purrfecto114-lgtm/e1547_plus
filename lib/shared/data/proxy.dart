@@ -24,9 +24,71 @@ final ValueNotifier<ProxyConfig?> systemProxy = ValueNotifier(null);
 ///
 /// Called once during app initialization, before the first client
 /// exists, and re-read by the connection probe's cycle; failures leave
-/// the null (no proxy) default.
+/// the null (no proxy) default. A resolved proxy whose host lives on the
+/// local network also triggers the local network permission request,
+/// because android 17 makes that access a runtime permission for apps
+/// targeting it.
 Future<void> resolveSystemProxy() async {
-  systemProxy.value = await systemHttpProxy();
+  final proxy = await systemHttpProxy();
+  systemProxy.value = proxy;
+  if (proxy != null) {
+    // The answer is intentionally not surfaced here: a denial shows up
+    // as connection failures through the proxy, which the existing
+    // error surfaces already render, and on releases before android 17
+    // the helper answers null and the proxy just works.
+    await requestLocalNetworkPermission(proxy.host);
+  }
+}
+
+/// Whether [host] names a host the app connects to on the local network.
+///
+/// Android 17 (API level 37) gates local network access behind the
+/// ACCESS_LOCAL_NETWORK runtime permission for apps targeting it, and a
+/// proxy resolved from the system settings can sit on that network: a
+/// router, or a local proxy app publishing itself on the loopback. The
+/// match covers the loopback and link-local ranges, the private ipv4
+/// ranges and the ipv6 unique-local range; hostnames are never matched,
+/// since reaching them goes through the resolver's unicast path.
+bool isLocalNetworkHost(String host) {
+  final address = InternetAddress.tryParse(host);
+  if (address == null) {
+    return false;
+  }
+  if (address.isLoopback || address.isLinkLocal) {
+    return true;
+  }
+  if (address.type == InternetAddressType.IPv4) {
+    final octets = address.rawAddress;
+    return octets[0] == 10 ||
+        (octets[0] == 172 && octets[1] >= 16 && octets[1] <= 31) ||
+        (octets[0] == 192 && octets[1] == 168);
+  }
+  // The ipv6 unique-local range (fc00::/7), where LAN services live
+  // alongside the link-local addresses already matched above.
+  return address.rawAddress[0] & 0xfe == 0xfc;
+}
+
+/// Asks android for the local network permission when [host] needs it.
+///
+/// Returns whether the permission is granted, or null when the platform
+/// has nothing to answer with: not android, a host off the local
+/// network, no such permission (releases before android 17), no plugin
+/// (tests), or the probe failed. A null must read as "not known", not
+/// as "denied" — before android 17 the local network is simply
+/// reachable.
+Future<bool?> requestLocalNetworkPermission(String host) async {
+  if (!Platform.isAndroid || !isLocalNetworkHost(host)) {
+    return null;
+  }
+  try {
+    return await const MethodChannel(
+      'e1547/biometrics',
+    ).invokeMethod<bool>('requestLocalNetworkPermission', host);
+  } on PlatformException {
+    return null;
+  } on MissingPluginException {
+    return null;
+  }
 }
 
 /// The Android system proxy, when one is set.
