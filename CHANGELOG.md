@@ -1,5 +1,22 @@
 # Changelog
 
+## [22.11.3] - 2026-11-28
+
+### Fixed
+- scrolling fast to the end of a long search loaded every thumbnail the
+  fling swept past instead of only the tiles it landed on: the lazy
+  viewport builds each tile it flies over, and every one of them started
+  its download and decode the moment it mounted, crowding the bandwidth
+  and the decoders with pixels nobody was looking at and delaying the
+  tiles under the resting finger. Tiles now mount behind a settle gate
+  that reads the framework's own deferred-loading heuristic — scroll
+  velocity above the screen's physical pixel length — and shows their
+  placeholder without starting an image stream; a tile the fling destroys
+  as it passes never loads at all, one the fling deposits in the resting
+  viewport loads the moment the velocity drops, and slow drags stay below
+  the threshold so browsing keeps rendering what it passes. The posts
+  grid, its comic and feed variants and the pool covers all ride the gate
+
 ## [22.11.2] - 2026-11-27
 
 ### Fixed
@@ -2576,3 +2593,4 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 [22.11.0]: https://github.com/purrfecto114-lgtm/e1547_plus/compare/22.10.1+247...22.11.0+248
 [22.11.1]: https://github.com/purrfecto114-lgtm/e1547_plus/compare/22.11.0+248...22.11.1+249
 [22.11.2]: https://github.com/purrfecto114-lgtm/e1547_plus/compare/22.11.1+249...22.11.2+250
+[22.11.3]: https://github.com/purrfecto114-lgtm/e1547_plus/compare/22.11.2+250...22.11.3+251

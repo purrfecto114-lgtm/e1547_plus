@@ -49,8 +49,7 @@ class _ScrollSettleGateState extends State<ScrollSettleGate> {
     // shot verdict taken at the velocity the tile mounted under: a tile
     // built under a resting scroll shows its content at once, one built
     // under a fast fling waits for the per frame checks below.
-    if (!settled &&
-        !Scrollable.recommendDeferredLoadingForContext(context)) {
+    if (!settled && !Scrollable.recommendDeferredLoadingForContext(context)) {
       settled = true;
     } else {
       _checkOnNextFrame();

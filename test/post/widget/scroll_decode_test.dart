@@ -102,14 +102,26 @@ void main() {
     // The ballistic swept the tiles between the two resting points; none
     // of them may have started a download. The tiles under the resting
     // viewport did, released once the ballistic came to rest.
-    expect(manager.contains('/file/35'), isFalse,
-        reason: 'a tile the fling swept past never renders its image');
-    expect(manager.contains('/file/60'), isTrue,
-        reason: 'the landing point loads its own tiles once settled');
-    expect(manager.requests.length, greaterThan(dragged),
-        reason: 'the landing point loads its own tiles once settled');
-    expect(manager.requests.length, lessThan(60),
-        reason: 'fast scrolling must not resolve every passed tile');
+    expect(
+      manager.contains('/file/35'),
+      isFalse,
+      reason: 'a tile the fling swept past never renders its image',
+    );
+    expect(
+      manager.contains('/file/60'),
+      isTrue,
+      reason: 'the landing point loads its own tiles once settled',
+    );
+    expect(
+      manager.requests.length,
+      greaterThan(dragged),
+      reason: 'the landing point loads its own tiles once settled',
+    );
+    expect(
+      manager.requests.length,
+      lessThan(60),
+      reason: 'fast scrolling must not resolve every passed tile',
+    );
   });
 
   testWidgets('a slow drag resolves the tiles it passes as it passes them', (
@@ -128,11 +140,20 @@ void main() {
     );
     await tester.pumpAndSettle(const Duration(seconds: 1));
 
-    expect(manager.contains('/file/35'), isTrue,
-        reason: 'browsing speed renders what it passes');
-    expect(manager.contains('/file/60'), isTrue,
-        reason: 'browsing speed renders what it passes');
-    expect(manager.requests.length, greaterThan(40),
-        reason: 'browsing speed renders what it passes');
+    expect(
+      manager.contains('/file/35'),
+      isTrue,
+      reason: 'browsing speed renders what it passes',
+    );
+    expect(
+      manager.contains('/file/60'),
+      isTrue,
+      reason: 'browsing speed renders what it passes',
+    );
+    expect(
+      manager.requests.length,
+      greaterThan(40),
+      reason: 'browsing speed renders what it passes',
+    );
   });
 }
