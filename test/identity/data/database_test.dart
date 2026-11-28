@@ -113,9 +113,11 @@ void main() {
 
         expect(changed, 1);
         final identities = await repository.all();
-        expect(identities.map((e) => e.id), [
-          anonymous.id,
-        ], reason: 'the credential row is gone, the anonymous one remains');
+        expect(
+          identities.map((e) => e.id),
+          [anonymous.id],
+          reason: 'the credential row is gone, the anonymous one remains',
+        );
         // The account's data is reachable through the anonymous row.
         final follows = await FollowRepository(
           database: sqlite,

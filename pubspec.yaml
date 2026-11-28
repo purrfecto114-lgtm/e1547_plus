@@ -5,7 +5,13 @@ publish_to: none
 
 environment:
   sdk: ">=3.11.0 <4.0.0"
-  flutter: ">=3.47.4 <4.0.0"
+  # The ios14-support line pins below 3.47: the 3.47 engine raised its
+  # minimum OS to iOS 15 (to ride Xcode 27), which silently dropped iOS 14
+  # while the xcode project still advertises 14.0 — an IPA that dies at
+  # launch on the release it claims to support. The 3.4x line is the last
+  # one whose engine still runs on iOS 14, and 3.44.9 is its final patch
+  # (Dart 3.12.2). master keeps the >=3.47.4 pin.
+  flutter: ">=3.44.9 <3.47.0"
 
 dependencies:
   flutter:

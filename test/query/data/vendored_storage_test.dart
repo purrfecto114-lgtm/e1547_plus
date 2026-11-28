@@ -108,9 +108,11 @@ void main() {
 
     final restored = pageFor(cache, offline: true);
     await restored.fetch();
-    expect(restored.state.data?.pages.first, [
-      5,
-    ], reason: 'the page must restore without the network');
+    expect(
+      restored.state.data?.pages.first,
+      [5],
+      reason: 'the page must restore without the network',
+    );
   });
 
   test('savePage persists the items it vendors', () async {

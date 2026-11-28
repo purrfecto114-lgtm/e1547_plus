@@ -82,9 +82,11 @@ void main() {
       final now = DateTime.now();
       for (int i = 0; i < 5; i++) {
         storage.put(
-          entry('["ident",1,"posts",$i]', {
-            'id': i,
-          }, createdAt: now.subtract(Duration(minutes: 5 - i))),
+          entry(
+            '["ident",1,"posts",$i]',
+            {'id': i},
+            createdAt: now.subtract(Duration(minutes: 5 - i)),
+          ),
         );
       }
       await settle();
